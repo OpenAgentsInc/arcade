@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "npx patch-package"
   },
   "jest": {
     "preset": "jest-expo"
@@ -17,16 +18,24 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "big-integer": "^1.6.51",
+    "bip-schnorr": "^0.6.6",
+    "bip32": "3.0.1",
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "5.1.1",
+    "buffer": "^6.0.3",
+    "create-hash": "1.2.0",
     "expo": "~47.0.9",
     "expo-asset": "~8.7.0",
     "expo-constants": "~14.0.2",
     "expo-font": "~11.0.1",
     "expo-linking": "~3.3.0",
+    "expo-random": "~13.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "expo-system-ui": "~2.0.1",
     "expo-web-browser": "~12.0.0",
-    "nostr-tools": "1.0.1",
+    "node-libs-react-native": "1.2.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -34,6 +43,9 @@
     "react-native-screens": "~3.18.0",
     "react-native-web": "~0.18.9",
     "text-encoding-polyfill": "0.6.7",
+    "tiny-secp256k1": "^2.1.2",
+    "tiny-secp256k1-v1": "npm:tiny-secp256k1@^1.1.6",
+    "uint8array-tools": "0.0.7",
     "zustand": "4.1.5"
   },
   "devDependencies": {
