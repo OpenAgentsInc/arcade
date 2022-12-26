@@ -13,6 +13,12 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "big-integer": "^1.6.51",
+    "bip-schnorr": "^0.6.6",
+    "bip32": "^3.0.1",
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "5.1.1",
+    "create-hash": "1.2.0",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
@@ -34,6 +40,9 @@
     "react-native-screens": "~3.18.0",
     "react-native-web": "~0.18.9",
     "text-encoding-polyfill": "0.6.7",
+    "tiny-secp256k1": "^2.1.2",
+    "tiny-secp256k1-v1": "npm:tiny-secp256k1@^1.1.6",
+    "uint8array-tools": "0.0.7",
     "zustand": "4.1.5"
   },
   "devDependencies": {
