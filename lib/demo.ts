@@ -1,4 +1,3 @@
-// import { Buffer } from 'buffer'
 import { createNewAccount } from './account'
 import { bip32 } from './bip32'
 import {
@@ -11,20 +10,35 @@ import {
 import { timeNowInSeconds } from './timeNowInSeconds'
 
 export const fromTheTop = async () => {
-  try {
-    console.log('ATTEMPTING')
-    const { privateKey, publicKey } = createNewAccount()
-    console.log('privateKey:', privateKey)
-    console.log('publicKey:', publicKey)
-  } catch (e) {
-    console.log('EEEEEE?E?E??E')
-    console.log(e)
-    return
+  const { privateKey, publicKey } = createNewAccount()
+  if (!privateKey || !publicKey) {
+    return false
   }
 
-  //   if (!privateKey || !publicKey) {
-  //     return false
-  //   }
-  console.log('here so far')
-  return
+  const event: NostrEventToSerialize = {
+    content: 'Hello world',
+    created_at: timeNowInSeconds(),
+    kind: NostrKind.text,
+    pubkey: publicKey,
+    tags: [],
+  }
+
+  const id = getEventHash(event)
+  console.log(id)
+
+  const eventToSign: NostrEventToSign = {
+    ...event,
+    id,
+  }
+
+  const signedEvent = await signEvent(eventToSign, privateKey)
+  console.log('SIGNED EVENT:', signedEvent)
+}
+
+export const tryIt = () => {
+  let seed = Buffer.alloc(32, 1)
+  const root = bip32.fromSeed(seed)
+  const key = root.derivePath(`m/44'/1237'/0'/0/0`)
+  console.log('publicKey:', key.publicKey.toString('hex'))
+  console.log('privatekey:', key.privateKey?.toString('hex'))
 }
