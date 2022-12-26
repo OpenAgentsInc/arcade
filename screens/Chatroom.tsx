@@ -25,13 +25,13 @@ const ChatRoomScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#222B45',
+    backgroundColor: '#20124D',
   },
   header: {
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1E2340',
+    backgroundColor: '#0B0C2E',
   },
   headerText: {
     fontSize: 20,
@@ -45,12 +45,14 @@ const styles = StyleSheet.create({
   message: {
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#1E2340',
+    backgroundColor: '#0B0C2E',
     borderRadius: 5,
   },
   messageText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#fff',
+    // Android monospace font
+    fontFamily: 'monospace',
   },
 })
 
