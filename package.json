@@ -1,5 +1,5 @@
 {
-  "name": "ark",
+  "name": "arc",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -26,12 +26,15 @@
     "expo-status-bar": "~1.4.2",
     "expo-system-ui": "~2.0.1",
     "expo-web-browser": "~12.0.0",
+    "nostr-tools": "1.0.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
-    "react-native-web": "~0.18.9"
+    "react-native-web": "~0.18.9",
+    "text-encoding-polyfill": "0.6.7",
+    "zustand": "4.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -42,5 +45,25 @@
     "react-test-renderer": "18.1.0",
     "typescript": "^4.6.3"
   },
-  "private": true
+  "private": true,
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "embeddedLanguageFormatting": "auto",
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "jsxBracketSameLine": false,
+    "jsxSingleQuote": true,
+    "printWidth": 100,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
+  }
 }
