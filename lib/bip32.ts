@@ -1,7 +1,7 @@
-import { Buffer } from 'buffer'
-if (!global.Buffer) {
-  global.Buffer = Buffer
-}
+// import { Buffer } from 'buffer'
+// if (!global.Buffer) {
+//   global.Buffer = Buffer
+// }
 
 // @ts-ignore
 import * as ecc from 'tiny-secp256k1-v1/js.js'

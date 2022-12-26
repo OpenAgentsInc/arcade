@@ -20,9 +20,10 @@
     "@react-navigation/native-stack": "^6.1.0",
     "big-integer": "^1.6.51",
     "bip-schnorr": "^0.6.6",
-    "bip32": "2.0.6",
+    "bip32": "3.0.1",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "5.1.1",
+    "buffer": "^6.0.3",
     "create-hash": "1.2.0",
     "expo": "~47.0.9",
     "expo-asset": "~8.7.0",
@@ -76,9 +77,5 @@
     "trailingComma": "es5",
     "useTabs": false,
     "vueIndentScriptAndStyle": false
-  },
-  "resolutions": {
-    "bip32": "2.0.6",
-    "buffer": "6.0.3"
   }
 }
