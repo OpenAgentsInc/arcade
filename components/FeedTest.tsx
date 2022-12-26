@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { ScrollView, Text } from 'react-native'
 import useChatStore, { ChatMessage } from './store'
 
-export const NostrTest = () => {
+export const FeedTest = () => {
   const { addMessage, messages } = useChatStore()
 
   const connect = async () => {

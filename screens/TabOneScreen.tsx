@@ -1,16 +1,11 @@
 import { StyleSheet } from 'react-native'
+import { FeedTest } from '../components/FeedTest'
 
-import EditScreenInfo from '../components/EditScreenInfo'
-import { NostrTest } from '../components/NostrTest'
-import { Text, View } from '../components/Themed'
+import { View } from '../components/Themed'
 import { RootTabScreenProps } from '../types'
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  return (
-    <View style={styles.container}>
-      <NostrTest />
-    </View>
-  )
+  return <View style={styles.container}>{/* <FeedTest /> */}</View>
 }
 
 const styles = StyleSheet.create({
