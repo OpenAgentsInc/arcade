@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { GradientButton } from '../components/GradientButton'
+import { palette } from '../lib/palette'
 
 const ChatRoomScreen = () => {
   return (
@@ -17,6 +19,8 @@ const ChatRoomScreen = () => {
         <View style={styles.message}>
           <Text style={styles.messageText}>What have you been up to lately?</Text>
         </View>
+
+        <GradientButton />
       </ScrollView>
     </View>
   )
@@ -25,7 +29,7 @@ const ChatRoomScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#20124D',
+    backgroundColor: palette.bg,
   },
   header: {
     height: 60,
