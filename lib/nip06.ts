@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { bip32 } from './bip32'
 import { generateMnemonic, mnemonicToSeedSync, validateMnemonic } from 'bip39'
 import * as Random from 'expo-random'
@@ -13,6 +14,7 @@ export function keypairFromSeed(seed: string) {
 }
 
 export function generateSeedWords() {
+  // @ts-ignore
   return generateMnemonic(128, Random.getRandomBytes)
 }
 

@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import schnorr from 'bip-schnorr'
 import createHash from 'create-hash/browser'
 

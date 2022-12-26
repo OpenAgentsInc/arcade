@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "npx patch-package"
   },
   "jest": {
     "preset": "jest-expo"
@@ -19,7 +20,7 @@
     "@react-navigation/native-stack": "^6.1.0",
     "big-integer": "^1.6.51",
     "bip-schnorr": "^0.6.6",
-    "bip32": "^3.0.1",
+    "bip32": "2.0.6",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "5.1.1",
     "create-hash": "1.2.0",
@@ -34,7 +35,6 @@
     "expo-system-ui": "~2.0.1",
     "expo-web-browser": "~12.0.0",
     "node-libs-react-native": "1.2.1",
-    "nostr-tools": "1.0.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -76,5 +76,9 @@
     "trailingComma": "es5",
     "useTabs": false,
     "vueIndentScriptAndStyle": false
+  },
+  "resolutions": {
+    "bip32": "2.0.6",
+    "buffer": "6.0.3"
   }
 }

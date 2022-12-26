@@ -1,45 +1,20 @@
-// import { bech32 } from 'bech32'
-// import { Buffer } from 'buffer'
-// import { getPublicKey } from './keys'
-import { generateSeedWords, keypairFromSeed, seedFromWords } from './nip06'
+// import { generateSeedWords } from './nip06'
+import { generateMnemonic } from 'bip39'
+import * as Random from 'expo-random'
 
 export const createNewAccount = () => {
+  console.log('Lets create a new account. Attempting to generate seed words for mnemonic...')
   const mnemonic = generateSeedWords()
-  const seed = seedFromWords(mnemonic)
-  const { privateKey, publicKey } = keypairFromSeed(seed)
+  console.log('DID?', mnemonic)
   return {
-    mnemonic,
-    privateKey,
-    publicKey,
+    mnemonic: mnemonic,
+    privateKey: '',
+    publicKey: '',
   }
 }
 
-// export const getKeysForMnemonic = (mnemonic: string) => {
-//   const seed = seedFromWords(mnemonic)
-//   const privateKey = privateKeyFromSeed(seed)
-//   const publicKey = getPublicKey(Buffer.from(privateKey, 'hex'))
-//   return {
-//     privateKey,
-//     publicKey,
-//   }
-// }
-
-// export const getKeysForNsec = (nsec: string) => {
-//   const decoded = bech32.decode(nsec)
-//   const privateKey = bech32.fromWords(decoded.words)
-//   if (privateKey.length !== 32) {
-//     throw new Error('Invalid private key')
-//   }
-//   const publicKey = getPublicKey(Buffer.from(privateKey))
-//   const hexKey = toHexString(privateKey)
-//   return {
-//     privateKey: hexKey,
-//     publicKey,
-//   }
-// }
-
-// function toHexString(byteArray) {
-//   return Array.from(byteArray, function (byte: any) {
-//     return ('0' + (byte & 0xff).toString(16)).slice(-2)
-//   }).join('')
-// }
+export function generateSeedWords() {
+  console.log('attempting')
+  // @ts-ignore
+  return generateMnemonic(128, Random.getRandomBytes)
+}
