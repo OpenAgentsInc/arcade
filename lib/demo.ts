@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import { createNewAccount } from './account'
 import { bip32 } from './bip32'
 import {
@@ -32,7 +33,7 @@ export const fromTheTop = async () => {
   }
 
   const signedEvent = await signEvent(eventToSign, privateKey)
-  console.log('SIGNED EVENT:', signedEvent)
+  Alert.alert('Demo signed event:', signedEvent)
 }
 
 export const tryIt = () => {
