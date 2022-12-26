@@ -1,27 +1,3 @@
-diff --git a/node_modules/tiny-secp256k1-v1/build/Makefile b/node_modules/tiny-secp256k1-v1/build/Makefile
-index db36b3d..10b273c 100644
---- a/node_modules/tiny-secp256k1-v1/build/Makefile
-+++ b/node_modules/tiny-secp256k1-v1/build/Makefile
-@@ -326,8 +326,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
- endif
- 
- quiet_cmd_regen_makefile = ACTION Regenerating $@
--cmd_regen_makefile = cd $(srcdir); /Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/christopherdavid/Library/Caches/node-gyp/14.19.3" "-Dnode_gyp_dir=/Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/Users/christopherdavid/Library/Caches/node-gyp/14.19.3/<(target_arch)/node.lib" "-Dmodule_root_dir=/private/var/folders/gt/n3g67prx47b54y6q0f4my6lr0000gn/T/tmp-12261oa8iKxYD0PBh/node_modules/tiny-secp256k1-v1" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/private/var/folders/gt/n3g67prx47b54y6q0f4my6lr0000gn/T/tmp-12261oa8iKxYD0PBh/node_modules/tiny-secp256k1-v1/build/config.gypi -I/Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/christopherdavid/Library/Caches/node-gyp/14.19.3/include/node/common.gypi "--toplevel-dir=." binding.gyp
--Makefile: $(srcdir)/../../../../../../../../../Users/christopherdavid/Library/Caches/node-gyp/14.19.3/include/node/common.gypi $(srcdir)/../../../../../../../../../Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp
-+cmd_regen_makefile = cd $(srcdir); /Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/christopherdavid/Library/Caches/node-gyp/14.19.3" "-Dnode_gyp_dir=/Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/Users/christopherdavid/Library/Caches/node-gyp/14.19.3/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/christopherdavid/code/arc/node_modules/tiny-secp256k1-v1" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/christopherdavid/code/arc/node_modules/tiny-secp256k1-v1/build/config.gypi -I/Users/christopherdavid/.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/Users/christopherdavid/Library/Caches/node-gyp/14.19.3/include/node/common.gypi "--toplevel-dir=." binding.gyp
-+Makefile: $(srcdir)/../../../../Library/Caches/node-gyp/14.19.3/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../.nvm/versions/node/v14.19.3/lib/node_modules/npm/node_modules/node-gyp/addon.gypi
- 	$(call do_cmd,regen_makefile)
- 
- # "all" is a concatenation of the "all" targets from all the included
-diff --git a/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/addon.o b/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/addon.o
-index 72111de..d85b9a3 100644
-Binary files a/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/addon.o and b/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/addon.o differ
-diff --git a/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/secp256k1/src/secp256k1.o b/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/secp256k1/src/secp256k1.o
-index 9dbfbfa..6202fc4 100644
-Binary files a/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/secp256k1/src/secp256k1.o and b/node_modules/tiny-secp256k1-v1/build/Release/obj.target/secp256k1/native/secp256k1/src/secp256k1.o differ
-diff --git a/node_modules/tiny-secp256k1-v1/build/Release/secp256k1.node b/node_modules/tiny-secp256k1-v1/build/Release/secp256k1.node
-index 039507f..9397bc9 100755
-Binary files a/node_modules/tiny-secp256k1-v1/build/Release/secp256k1.node and b/node_modules/tiny-secp256k1-v1/build/Release/secp256k1.node differ
 diff --git a/node_modules/tiny-secp256k1-v1/js.js b/node_modules/tiny-secp256k1-v1/js.js
 index 5e0fd45..0bf6664 100644
 --- a/node_modules/tiny-secp256k1-v1/js.js
@@ -31,12 +7,3 @@ index 5e0fd45..0bf6664 100644
  const BN = require('bn.js')
  const EC = require('elliptic').ec
  const secp256k1 = new EC('secp256k1')
-diff --git a/node_modules/tiny-secp256k1-v1/rfc6979.js b/node_modules/tiny-secp256k1-v1/rfc6979.js
-index 3d191a5..890f532 100644
---- a/node_modules/tiny-secp256k1-v1/rfc6979.js
-+++ b/node_modules/tiny-secp256k1-v1/rfc6979.js
-@@ -1,3 +1,4 @@
-+import { Buffer } from 'buffer'
- const createHmac = require('create-hmac')
- 
- const ONE1 = Buffer.alloc(1, 1)
