@@ -2,9 +2,12 @@ import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import FullScreenGradient from '../components/FullScreenGradient'
 import { GradientButton } from '../components/GradientButton'
+import useRelayConnection from '../hooks/useRelayConnection'
 import { palette } from '../lib/palette'
 
 const ChatRoomScreen = () => {
+  const { messages } = useRelayConnection()
+  console.log('MESSAGESLENGTH:', messages.length)
   return (
     <View style={styles.container}>
       <FullScreenGradient colors={[palette.bg, '#2C1837']} start={[0, 0.8]} end={[0, 1]} />
