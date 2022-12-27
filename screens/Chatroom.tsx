@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import FullScreenGradient from '../components/FullScreenGradient'
-import { GradientButton } from '../components/GradientButton'
 import useRelayConnection from '../hooks/useRelayConnection'
 import { palette } from '../lib/palette'
 
@@ -14,17 +13,26 @@ const ChatRoomScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Chat Room</Text>
       </View>
-      <ScrollView style={styles.messagesContainer}>
-        <View style={styles.message}>
-          <Text style={styles.messageText}>Hey, how's it going?</Text>
-        </View>
-        <View style={styles.message}>
-          <Text style={styles.messageText}>I'm doing well, thanks for asking.</Text>
-        </View>
-        <View style={styles.message}>
-          <Text style={styles.messageText}>What have you been up to lately?</Text>
-        </View>
-        <GradientButton />
+      <ScrollView
+        style={{
+          flex: 1,
+          padding: 10,
+        }}>
+        {messages
+          .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
+          .map((message) => (
+            <View
+              style={{
+                marginBottom: 10,
+                padding: 10,
+                backgroundColor: '#1C171D',
+                borderRadius: 5,
+              }}>
+              <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>
+                {message.text}
+              </Text>
+            </View>
+          ))}
       </ScrollView>
     </View>
   )
