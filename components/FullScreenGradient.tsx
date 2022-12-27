@@ -7,7 +7,7 @@ const FullScreenGradient = ({ colors, start, end }: any) => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={colors ?? [palette.bg, '#fff']}
+        colors={colors ?? [palette.bg, '#000']}
         start={start ?? [0, 0.8]}
         end={end ?? [0, 1]}
         style={styles.gradient}
