@@ -5,42 +5,6 @@ import FullScreenGradient from '../components/FullScreenGradient'
 import { palette } from '../lib/palette'
 
 export const ChatsScreen = () => {
-  const chatData = [
-    {
-      id: '3',
-      name: 'Nostr',
-      message: 'i have two NIPs to review',
-      avatar:
-        'https://cloudflare-ipfs.com/ipfs/QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP?.png',
-      time: '11:11',
-      unreadCount: '91',
-    },
-    {
-      id: '1',
-      name: 'Alice',
-      message: 'I am not a bot u mofo',
-      avatar: 'https://i.pravatar.cc/150?img=5',
-      time: '8:38',
-      unreadCount: 0,
-    },
-    {
-      id: '2',
-      name: 'Bob',
-      message: 'ill pay u 10000 sats?',
-      avatar: 'https://i.pravatar.cc/100',
-      time: 'Sun',
-      unreadCount: 1,
-    },
-    {
-      id: '4',
-      name: 'Grampa',
-      message: 'Let us have more wholesome conversation',
-      avatar: 'https://i.pravatar.cc/400?img=63',
-      time: 'Sat',
-      unreadCount: 4,
-    },
-  ]
-
   return (
     <>
       <FullScreenGradient colors={[palette.bg, '#060B26']} start={[0, 0.7]} />
@@ -124,3 +88,38 @@ const styles = StyleSheet.create({
     color: '#3B4557',
   },
 })
+
+const chatData = [
+  {
+    id: '3',
+    name: 'Nostr',
+    message: 'i have two NIPs to review',
+    avatar: 'https://cloudflare-ipfs.com/ipfs/QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP?.png',
+    time: '11:11',
+    unreadCount: '91',
+  },
+  {
+    id: '1',
+    name: 'Alice',
+    message: 'See you then!',
+    avatar: 'https://i.pravatar.cc/150?img=5',
+    time: '8:38',
+    unreadCount: 0,
+  },
+  {
+    id: '2',
+    name: 'Bob',
+    message: 'ill pay u 10000 sats',
+    avatar: 'https://i.pravatar.cc/100',
+    time: 'Sun',
+    unreadCount: 1,
+  },
+  {
+    id: '4',
+    name: 'Grampa',
+    message: 'Let us have more wholesome conversation',
+    avatar: 'https://i.pravatar.cc/400?img=63',
+    time: 'Sat',
+    unreadCount: 4,
+  },
+]

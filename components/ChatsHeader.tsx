@@ -1,16 +1,14 @@
 import { Entypo, EvilIcons, FontAwesome5, Foundation } from '@expo/vector-icons'
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 
 export const ChatsHeader = () => {
+  const [activeButton, setActiveButton] = useState('All chats')
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Chats</Text>
         <View style={styles.iconsContainer}>
-          {/* <TouchableOpacity>
-            <Foundation name='pencil' size={24} color='white' />
-          </TouchableOpacity> */}
           <TouchableOpacity>
             <Entypo name='dots-three-vertical' size={24} color='white' />
           </TouchableOpacity>
@@ -18,7 +16,6 @@ export const ChatsHeader = () => {
       </View>
       <View style={styles.searchContainer}>
         <EvilIcons name='search' size={24} color='#6F8298' style={styles.searchIcon} />
-        {/* <Image source={require('./search.png')} style={styles.searchIcon} /> */}
         <TextInput
           placeholder='Search messages or users'
           placeholderTextColor='#6F8298'
@@ -26,14 +23,41 @@ export const ChatsHeader = () => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>All chats</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={() => setActiveButton('All chats')}>
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === 'All chats' ? styles.activeButtonText : null,
+            ]}>
+            All chats
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Bitcoin</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={() => setActiveButton('Bitcoin')}>
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === 'Bitcoin' ? styles.activeButtonText : null,
+            ]}>
+            Bitcoin
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Personal</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={() => setActiveButton('Personal')}>
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === 'Personal' ? styles.activeButtonText : null,
+            ]}>
+            Personal
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.divider} />
@@ -88,18 +112,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    padding: 10,
   },
   button: {
     padding: 10,
+    paddingBottom: 0,
   },
   buttonText: {
     fontSize: 16,
     color: '#fff',
+    paddingVertical: 12,
+    borderBottomWidth: 3,
+    borderBottomColor: 'transparent',
   },
   divider: {
-    height: 1,
+    height: 2,
     backgroundColor: '#1E2340',
     marginBottom: 10,
+    marginTop: -2,
+    zIndex: -1,
+    elevation: 3,
+  },
+  activeButtonText: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#329FFD',
+    paddingVertical: 12,
+    zIndex: 10,
+    elevation: 100,
   },
 })
