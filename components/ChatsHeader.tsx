@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
   },
   titleText: {
     fontSize: 20,
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(37, 50, 68, 0.5)',
     borderRadius: 5,
     margin: 10,
+    marginBottom: 0,
   },
   searchIcon: {
     width: 20,

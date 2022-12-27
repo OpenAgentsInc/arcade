@@ -120,7 +120,7 @@ const chatData = [
   },
   {
     id: '4',
-    name: 'Grampa',
+    name: 'Grandpa',
     message: 'Let us have more wholesome conversation',
     avatar: 'https://i.pravatar.cc/400?img=63',
     time: 'Sat',
