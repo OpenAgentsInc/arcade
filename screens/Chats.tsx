@@ -127,3 +127,5 @@ const chatData = [
     unreadCount: 4,
   },
 ]
+
+export default ChatsScreen
