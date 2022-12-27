@@ -33,5 +33,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18,
+    fontFamily: 'monospace',
   },
 })

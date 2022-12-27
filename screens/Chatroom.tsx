@@ -1,11 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import FullScreenGradient from '../components/FullScreenGradient'
 import { GradientButton } from '../components/GradientButton'
 import { palette } from '../lib/palette'
 
 const ChatRoomScreen = () => {
   return (
     <View style={styles.container}>
+      <FullScreenGradient colors={[palette.bg, '#2C1837']} start={[0, 0.8]} end={[0, 1]} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Chat Room</Text>
       </View>
@@ -19,7 +21,6 @@ const ChatRoomScreen = () => {
         <View style={styles.message}>
           <Text style={styles.messageText}>What have you been up to lately?</Text>
         </View>
-
         <GradientButton />
       </ScrollView>
     </View>
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#0B0C2E',
+    backgroundColor: palette.bg,
   },
   headerText: {
     fontSize: 20,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   message: {
     marginBottom: 10,
     padding: 10,
-    backgroundColor: '#0B0C2E',
+    backgroundColor: '#1C171D',
     borderRadius: 5,
   },
   messageText: {
