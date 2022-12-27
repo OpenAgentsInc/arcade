@@ -12,6 +12,8 @@ import { ColorSchemeName, Pressable } from 'react-native'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
+import ChatRoomScreen from '../screens/Chatroom'
+import { ChatsScreen } from '../screens/Chats'
 import ModalScreen from '../screens/ModalScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import TabOneScreen from '../screens/TabOneScreen'
@@ -58,10 +60,28 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName='TabOne'
+      initialRouteName='Chats'
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
+      <BottomTab.Screen
+        name='Chats'
+        component={ChatsScreen}
+        options={{
+          title: '',
+          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name='Chatroom'
+        component={ChatRoomScreen}
+        options={{
+          title: '',
+          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          headerShown: false,
+        }}
+      />
       <BottomTab.Screen
         name='TabOne'
         component={TabTwoScreen}
