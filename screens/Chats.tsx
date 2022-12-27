@@ -16,7 +16,12 @@ export const ChatsScreen = () => {
             <Image source={{ uri: item.avatar }} style={styles.avatar} />
             <View style={styles.textContainer}>
               <Text style={styles.nameText}>{item.name}</Text>
-              <Text style={styles.messageText}>{item.message}</Text>
+              {/* If item.message contains the word sats, make this italic */}
+              {item.message.includes('sats') ? (
+                <Text style={[styles.messageText, { fontStyle: 'italic' }]}>{item.message}</Text>
+              ) : (
+                <Text style={styles.messageText}>{item.message}</Text>
+              )}
             </View>
             <View style={styles.timeContainer}>
               <Text style={styles.timeText}>{item.time}</Text>
@@ -43,7 +48,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    // borderBottomWidth: 1,
     borderColor: '#1E2340',
   },
   avatar: {
@@ -109,7 +113,7 @@ const chatData = [
   {
     id: '2',
     name: 'Bob',
-    message: 'ill pay u 10000 sats',
+    message: 'Paid you 10000 sats⚡',
     avatar: 'https://i.pravatar.cc/100',
     time: 'Sun',
     unreadCount: 1,
