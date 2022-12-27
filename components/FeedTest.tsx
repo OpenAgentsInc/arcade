@@ -1,6 +1,6 @@
-import { relayInit } from 'nostr-tools'
 import { useEffect } from 'react'
 import { ScrollView, Text } from 'react-native'
+import { relayInit } from '../lib/nostr-tools/relay'
 import useChatStore, { ChatMessage } from './store'
 
 export const FeedTest = () => {
@@ -24,7 +24,7 @@ export const FeedTest = () => {
       },
     ])
 
-    sub.on('event', (event) => {
+    sub.on('event', (event: any) => {
       console.log('got event:', event)
       const message: ChatMessage = {
         id: event.id,
