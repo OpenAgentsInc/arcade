@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
-import { ScrollView, Text } from 'react-native'
+import { useEffect, useState } from 'react'
+import { ChatMessage } from '../components/store'
 import { relayInit } from '../lib/nostr-tools/relay'
-import useChatStore, { ChatMessage } from './store'
+// import { ChatMessage } from './store';
 
-export const FeedTest = () => {
-  const { addMessage, messages } = useChatStore()
+const useRelayConnection = () => {
+  const [relay, setRelay] = useState<null | any>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const connect = async () => {
     const relay = relayInit('wss://relay.damus.io')
@@ -32,7 +33,7 @@ export const FeedTest = () => {
         text: event.content,
         timestamp: event.created_at.toString(),
       }
-      addMessage(message)
+      setMessages((prevMessages) => [...prevMessages, message])
     })
   }
 
@@ -41,12 +42,11 @@ export const FeedTest = () => {
     connect()
   }, [])
 
-  // Show text of all messages
-  return (
-    <ScrollView>
-      {messages.map((message) => (
-        <Text key={message.id}>{message.text}</Text>
-      ))}
-    </ScrollView>
-  )
+  return {
+    relay,
+    messages,
+    connect,
+  }
 }
+
+export default useRelayConnection

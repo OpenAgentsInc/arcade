@@ -29,8 +29,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='Auth' component={AuthNavigator} options={{ headerShown: false }} />
       <Stack.Screen name='Root' component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name='Auth' component={AuthNavigator} options={{ headerShown: false }} />
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name='Modal' component={ModalScreen} />
@@ -44,10 +44,12 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>()
 function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName='Chats'
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+      initialRouteName='Chatroom'
+      screenOptions={
+        {
+          // tabBarActiveTintColor: Colors[colorScheme].tint,
+        }
+      }>
       <BottomTab.Screen
         name='Chats'
         component={ChatsScreen}
