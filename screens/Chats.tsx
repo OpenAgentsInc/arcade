@@ -97,7 +97,7 @@ const chatData = [
   {
     id: '3',
     name: 'Nostr',
-    message: 'i have two NIPs to review',
+    message: 'i have two NIPs for you to review',
     avatar: 'https://cloudflare-ipfs.com/ipfs/QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP?.png',
     time: '11:11',
     unreadCount: '91',
@@ -121,7 +121,7 @@ const chatData = [
   {
     id: '4',
     name: 'Grandpa',
-    message: 'Let us have more wholesome conversation',
+    message: 'Let us continue our wholesome conversation',
     avatar: 'https://i.pravatar.cc/400?img=63',
     time: 'Sat',
     unreadCount: 4,
