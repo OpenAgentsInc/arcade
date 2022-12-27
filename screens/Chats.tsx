@@ -26,7 +26,7 @@ export const ChatsScreen = () => {
     {
       id: '2',
       name: 'Bob',
-      message: 'ill pay u 10 sats?',
+      message: 'ill pay u 10000 sats?',
       avatar: 'https://i.pravatar.cc/100',
       time: 'Sun',
       unreadCount: 1,
