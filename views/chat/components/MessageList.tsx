@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { FlatList } from 'react-native'
-import { messages } from '../../../lib/dummydata'
+import { useMessages } from '../../../hooks/useMessages'
 import { Message } from './Message'
 
 type Props = {}
 
 export const MessageList: React.FC<Props> = () => {
+  const messages = useMessages()
   return (
     <FlatList
       data={messages}

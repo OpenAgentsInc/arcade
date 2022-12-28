@@ -50,9 +50,9 @@ const useRelayConnection = () => {
     })
   }
 
-  useEffect(() => {
-    connect()
-  }, [])
+  //   useEffect(() => {
+  //     connect()
+  //   }, [])
 
   return {
     relay,
