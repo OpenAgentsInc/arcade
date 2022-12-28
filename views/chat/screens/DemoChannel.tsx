@@ -2,6 +2,7 @@ import { View } from 'react-native'
 import FullScreenGradient from '../../../components/FullScreenGradient'
 import { palette } from '../../../lib/palette'
 import { ChannelHeader } from '../components/ChannelHeader'
+import { MessageList } from '../components/MessageList'
 
 export const DemoChannel = () => {
   return (
@@ -11,6 +12,7 @@ export const DemoChannel = () => {
         channelName='Nostr'
         channelImageUrl='https://cloudflare-ipfs.com/ipfs/QmTN4Eas9atUULVbEAbUU8cowhtvK7g3t7jfKztY7wc8eP?.png'
       />
+      <MessageList />
     </View>
   )
 }
