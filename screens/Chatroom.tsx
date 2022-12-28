@@ -4,6 +4,7 @@ import FullScreenGradient from '../components/FullScreenGradient'
 import useRelayConnection from '../hooks/useRelayConnection'
 import { palette } from '../lib/palette'
 import { formatDistanceToNow } from 'date-fns'
+import Message from '../components/Message'
 
 const ChatRoomScreen = () => {
   const { messages } = useRelayConnection()
@@ -22,43 +23,11 @@ const ChatRoomScreen = () => {
         {messages
           .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
           .map((message) => (
-            <View key={message.id} style={{ marginBottom: 12 }}>
-              <View style={{ flex: 1, marginBottom: 2 }}>
-                <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>
-                  {message.text}
-                </Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 10, color: '#fff', fontFamily: 'monospace' }}>
-                    {truncateString(message.sender, 12)}
-                  </Text>
-                </View>
-                <View style={{ alignItems: 'flex-end' }}>
-                  <Text style={{ fontSize: 10, color: '#fff', fontFamily: 'monospace' }}>
-                    {formatTimestamp(message.timestamp)}
-                  </Text>
-                </View>
-              </View>
-            </View>
+            <Message key={message.id} message={message} alignment='left' />
           ))}
       </ScrollView>
     </View>
   )
-}
-
-const formatTimestamp = (timestamp: string) => {
-  const timestampNum = parseInt(timestamp)
-  const date = new Date(timestampNum * 1000)
-  const formattedTimestamp = formatDistanceToNow(date, { addSuffix: true })
-  return formattedTimestamp
-}
-
-const truncateString = (string: string, maxLength: number) => {
-  if (string.length <= maxLength) {
-    return string
-  }
-  return `${string.substring(0, maxLength)}...`
 }
 
 const styles = StyleSheet.create({
