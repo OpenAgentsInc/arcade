@@ -1,5 +1,5 @@
-import { View } from 'react-native'
-import { Button, TextInput } from 'react-native-paper'
+import { TouchableOpacity, View } from 'react-native'
+import { IconButton, TextInput } from 'react-native-paper'
 import { palette } from '../../../lib/palette'
 
 export const MessageInput = () => {
@@ -11,12 +11,14 @@ export const MessageInput = () => {
           placeholder='Message'
           placeholderTextColor={palette.blueBellFaded}
         />
-        <Button
-          labelStyle={{ color: palette.moonRaker }}
-          style={{ marginLeft: 10 }}
-          mode='contained'>
-          Send
-        </Button>
+        <TouchableOpacity activeOpacity={0.8}>
+          <IconButton
+            icon='send'
+            iconColor={palette.blueBell}
+            style={{ marginLeft: 10 }}
+            size={24}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   )
