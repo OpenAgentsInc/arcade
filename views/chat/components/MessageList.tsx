@@ -11,25 +11,25 @@ export const MessageList: React.FC<Props> = () => {
       id: '1',
       sender: 'Alice',
       text: 'Hello, how are you?',
-      timestamp: '2022-01-01T12:00:00Z',
+      timestamp: '1672246047',
     },
     {
       id: '2',
       sender: 'Bob',
       text: "I'm good, thanks for asking!",
-      timestamp: '2022-01-01T12:01:00Z',
+      timestamp: '1672246047',
     },
     {
       id: '3',
       sender: 'Alice',
       text: "That's great to hear! What have you been up to lately?",
-      timestamp: '2022-01-01T12:02:00Z',
+      timestamp: '1672117160',
     },
     {
       id: '4',
       sender: 'Bob',
       text: "I've been busy with work and spending time with my family. How about you?",
-      timestamp: '2022-01-01T12:03:00Z',
+      timestamp: '1672117160',
     },
   ]
 
