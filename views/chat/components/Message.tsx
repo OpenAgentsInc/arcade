@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, Text, Image } from 'react-native'
 import { ChatMessage } from '../../../components/store'
-import { formatTimestamp } from '../../../lib/utils'
+import { formatTimestamp, truncateString } from '../../../lib/utils'
 import { LinearGradient } from 'expo-linear-gradient'
 import { palette } from '../../../lib/palette'
 
@@ -45,7 +45,9 @@ export const Message: React.FC<Props> = ({ message }) => {
           borderBottomLeftRadius: isCurrentUser ? 10 : 0,
           alignSelf: align,
         }}>
-        <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>{message.sender}</Text>
+        <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
+          {truncateString(message.sender, 10)}
+        </Text>
         <Text style={{ color: '#fff', fontSize: 12 }}>{message.text}</Text>
         <Text style={{ fontSize: 10, color: metadataColor, textAlign: 'right' }}>
           {formatTimestamp(message.timestamp)}

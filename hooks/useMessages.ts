@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { messages as dummyMessages } from '../lib/dummydata'
 import useRelayConnection from './useRelayConnection'
 
-const USE_DUMMY_DATA = true
+const USE_DUMMY_DATA = false
 
 export const useMessages = () => {
   const { messages, connect } = useRelayConnection()
@@ -16,5 +16,5 @@ export const useMessages = () => {
     return dummyMessages
   }
 
-  return messages
+  return messages.sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
 }
