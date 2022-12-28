@@ -5,8 +5,8 @@ import { ChatMessage } from './store'
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'flex-end',
-    flexDirection: 'row',
+    // alignItems: 'flex-end',
+    // flexDirection: 'row',
   },
 })
 
@@ -26,7 +26,20 @@ const Message = (props: MessageProps) => {
         ]
       }>
       <View style={{ marginBottom: 12 }}>
-        <View style={{ flex: 1, marginBottom: 2 }}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            // justifyContent: 'flex-end',
+            // alignItems: 'flex-end',
+            padding: 8,
+            width: 272,
+            borderWidth: 1,
+            borderColor: '#1C1E22',
+            // height: 50,
+            backgroundColor: '#1C1E22',
+            borderRadius: 16,
+          }}>
           <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>
             {message.text}
           </Text>
