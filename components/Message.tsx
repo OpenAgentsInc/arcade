@@ -19,10 +19,12 @@ const Message = (props: MessageProps) => {
   const { message, alignment = 'left' } = props
   return (
     <View
-      style={[
-        styles.container,
-        { justifyContent: alignment === 'left' ? 'flex-start' : 'flex-end' },
-      ]}>
+      style={
+        [
+          // styles.container,
+          // { justifyContent: alignment === 'left' ? 'flex-start' : 'flex-end' },
+        ]
+      }>
       <View style={{ marginBottom: 12 }}>
         <View style={{ flex: 1, marginBottom: 2 }}>
           <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>

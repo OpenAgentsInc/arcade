@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { ChatMessage } from '../components/store'
+import useChatStore, { ChatMessage } from '../components/store'
 import { relayInit } from '../lib/nostr-tools/relay'
-// import { ChatMessage } from './store';
 
 const useRelayConnection = () => {
   const [relay, setRelay] = useState<null | any>(null)
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const messages = useChatStore((state) => state.messages)
+  const addMessage = useChatStore((state) => state.addMessage)
 
   const connect = async () => {
     const relay = relayInit('wss://relay.nostr.ch')
@@ -45,7 +45,8 @@ const useRelayConnection = () => {
         text: event.content,
         timestamp: event.created_at.toString(),
       }
-      setMessages((prevMessages) => [...prevMessages, message])
+      addMessage(message)
+      //   setMessages((prevMessages) => [...prevMessages, message])
     })
   }
 

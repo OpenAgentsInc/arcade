@@ -16,7 +16,7 @@ const ChatRoomScreen = () => {
       </View>
       <ScrollView
         style={{
-          //   flex: 1,
+          flex: 1,
           padding: 10,
           //   backgroundColor: '#1C171D',
         }}>
