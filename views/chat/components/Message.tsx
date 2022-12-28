@@ -30,8 +30,6 @@ export const Message: React.FC<Props> = ({ message }) => {
       )}
       <LinearGradient
         colors={gradientColors}
-        // start={{ x: 0, y: 0 }}
-        // end={{ x: 1, y: 1 }}
         style={{
           marginHorizontal: 8,
           flexGrow: 1,
