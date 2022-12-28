@@ -7,7 +7,6 @@ import { formatDistanceToNow } from 'date-fns'
 
 const ChatRoomScreen = () => {
   const { messages } = useRelayConnection()
-  console.log('MESSAGESLENGTH:', messages.length)
   return (
     <View style={styles.container}>
       <FullScreenGradient colors={[palette.bg, '#2C1837']} start={[0, 0.8]} end={[0, 1]} />
@@ -23,7 +22,7 @@ const ChatRoomScreen = () => {
         {messages
           .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
           .map((message) => (
-            <View style={{ marginBottom: 12 }}>
+            <View key={message.id} style={{ marginBottom: 12 }}>
               <View style={{ flex: 1, marginBottom: 2 }}>
                 <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>
                   {message.text}

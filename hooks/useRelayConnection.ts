@@ -50,7 +50,6 @@ const useRelayConnection = () => {
   }
 
   useEffect(() => {
-    console.log('NostrTest')
     connect()
   }, [])
 
