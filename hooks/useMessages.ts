@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { messages as dummyMessages } from '../lib/dummydata'
 import useRelayConnection from './useRelayConnection'
 
-const USE_DUMMY_DATA = false
+const USE_DUMMY_DATA = true
 
 export const useMessages = () => {
   const { messages, connect } = useRelayConnection()
