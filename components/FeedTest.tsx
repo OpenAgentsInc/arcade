@@ -37,7 +37,6 @@ export const FeedTest = () => {
   }
 
   useEffect(() => {
-    console.log('NostrTest')
     connect()
   }, [])
 

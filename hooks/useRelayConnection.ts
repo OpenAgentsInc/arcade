@@ -8,7 +8,8 @@ const useRelayConnection = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const connect = async () => {
-    const relay = relayInit('wss://relay.damus.io')
+    const relay = relayInit('wss://relay.nostr.ch')
+    // const relay = relayInit('wss://relay.damus.io')
 
     await relay.connect()
     relay.on('connect', () => {
@@ -18,10 +19,21 @@ const useRelayConnection = () => {
       console.log(`failed to connect to ${relay.url}`)
     })
 
+    // Channel creation event of Nostr channel
+    // let sub = relay.sub([
+    //   {
+    //     kinds: [40],
+    //     limit: 15,
+    //     ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
+    //   },
+    // ])
+
+    // Messages in Nostr channel
     let sub = relay.sub([
       {
-        kinds: [1],
-        limit: 5,
+        kinds: [42],
+        limit: 15,
+        '#e': ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
       },
     ])
 
@@ -38,7 +50,6 @@ const useRelayConnection = () => {
   }
 
   useEffect(() => {
-    console.log('NostrTest')
     connect()
   }, [])
 
