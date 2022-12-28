@@ -12,7 +12,7 @@ Explaining architecture choices on our wiki for transparency and feedback:
 
 ## Screenshots
 
-![nostrtg](https://user-images.githubusercontent.com/14167547/209598572-29484eaf-840f-48dd-bffa-52f3dbddbab5.png)
+![chats](https://user-images.githubusercontent.com/14167547/209855695-e8597eb9-7850-4904-9e92-1d9f42424a4a.png)
 
 ![nostrchannel2](https://user-images.githubusercontent.com/14167547/209855373-369cd926-6f92-468f-b2cd-ae9652529a91.png)
 
