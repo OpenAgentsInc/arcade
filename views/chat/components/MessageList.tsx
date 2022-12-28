@@ -12,6 +12,7 @@ export const MessageList: React.FC<Props> = () => {
       data={messages}
       renderItem={({ item }) => <Message message={item} />}
       keyExtractor={(item) => item.id}
+      style={{ paddingHorizontal: 10 }}
     />
   )
 }

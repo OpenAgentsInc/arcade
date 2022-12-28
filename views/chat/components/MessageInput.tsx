@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
+import { palette } from '../../../lib/palette'
 
 export const MessageInput = () => {
   return (
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   container: {
+    backgroundColor: palette.night,
     borderTopWidth: 1,
     padding: 10,
   },

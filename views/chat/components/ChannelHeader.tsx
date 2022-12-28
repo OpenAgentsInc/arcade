@@ -17,6 +17,7 @@ export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl })
         alignItems: 'center',
         justifyContent: 'space-between',
         height: 38,
+        paddingHorizontal: 10,
       }}>
       <TouchableOpacity activeOpacity={0.8}>
         <AntDesign name='left' size={24} color='#329FFD' />

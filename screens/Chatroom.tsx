@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import FullScreenGradient from '../components/FullScreenGradient'
 import useRelayConnection from '../hooks/useRelayConnection'
 import { palette } from '../lib/palette'
-import { formatDistanceToNow } from 'date-fns'
 import Message from '../components/Message'
 
 const ChatRoomScreen = () => {
@@ -14,12 +13,7 @@ const ChatRoomScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Chat Room</Text>
       </View>
-      <ScrollView
-        style={{
-          flex: 1,
-          padding: 10,
-          //   backgroundColor: '#1C171D',
-        }}>
+      <ScrollView style={{ flex: 1, padding: 10 }}>
         {messages
           .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
           .map((message) => (
@@ -59,8 +53,6 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 14,
     color: '#fff',
-    // Android monospace font
-    fontFamily: 'monospace',
   },
 })
 
