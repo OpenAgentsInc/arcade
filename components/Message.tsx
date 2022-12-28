@@ -40,9 +40,7 @@ const Message = (props: MessageProps) => {
             backgroundColor: '#1C1E22',
             borderRadius: 16,
           }}>
-          <Text style={{ fontSize: 14, color: '#fff', fontFamily: 'monospace' }}>
-            {message.text}
-          </Text>
+          <Text style={{ fontSize: 14, color: '#fff' }}>{message.text}</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
