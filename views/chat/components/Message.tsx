@@ -17,7 +17,7 @@ export const Message: React.FC<Props> = ({ message }) => {
   const gradientColors = isCurrentUser
     ? ['#7454FF', palette.indigo]
     : [palette.night, palette.night]
-  const metadataColor = isCurrentUser ? '#CAA4F5' : '#84808A'
+  const metadataColor = isCurrentUser ? palette.blueBell : palette.blueBellFaded
   return (
     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
       {isCurrentUser ? (
@@ -37,8 +37,8 @@ export const Message: React.FC<Props> = ({ message }) => {
           flexGrow: 1,
           flexShrink: 1,
           backgroundColor: '#222',
-          paddingHorizontal: 10,
-          paddingVertical: 6,
+          paddingHorizontal: 7,
+          paddingVertical: 3,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           borderBottomRightRadius: isCurrentUser ? 0 : 10,
