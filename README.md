@@ -17,3 +17,5 @@ Explaining architecture choices on our wiki for transparency and feedback:
 ![nostrchannel2](https://user-images.githubusercontent.com/14167547/209855373-369cd926-6f92-468f-b2cd-ae9652529a91.png)
 
 ![nostrchannel1](https://user-images.githubusercontent.com/14167547/209855320-bcdc2faa-9468-4ccb-958f-b9363deac610.png)
+
+![textinput](https://user-images.githubusercontent.com/14167547/209863990-54c869d7-9f2a-4db2-87fc-adc1f9156546.png)
