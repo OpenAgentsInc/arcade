@@ -1,37 +1,23 @@
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 import { palette } from '../../../lib/palette'
 
 export const MessageInput = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.composerContainer}>
-        <View style={styles.inputContainer}>
-          <TextInput />
-        </View>
-        <View style={styles.sendButtonContainer}>
-          <Button>Test</Button>
-        </View>
+    <View style={{ backgroundColor: palette.night, borderTopWidth: 1, padding: 6 }}>
+      <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+        <TextInput
+          style={{ backgroundColor: palette.night, flexGrow: 1 }}
+          placeholder='Message'
+          placeholderTextColor={palette.blueBellFaded}
+        />
+        <Button
+          labelStyle={{ color: palette.moonRaker }}
+          style={{ marginLeft: 10 }}
+          mode='contained'>
+          Send
+        </Button>
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  composerContainer: {
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-  },
-  container: {
-    backgroundColor: palette.night,
-    borderTopWidth: 1,
-    padding: 10,
-  },
-  inputContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  sendButtonContainer: { paddingBottom: 10, paddingLeft: 10 },
-})
