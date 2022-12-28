@@ -22,7 +22,9 @@ export const Message: React.FC<Props> = ({ message }) => {
           backgroundColor: '#222',
           paddingHorizontal: 10,
           paddingVertical: 6,
-          borderRadius: 10,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          borderBottomRightRadius: 10,
         }}>
         <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>{message.sender}</Text>
         <Text style={{ color: '#fff', fontSize: 12 }}>{message.text}</Text>
