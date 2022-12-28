@@ -13,7 +13,10 @@ export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = 'Bob'
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
-  const gradientColors = isCurrentUser ? ['#7454FF', '#964BEB'] : [palette.night, palette.night]
+  const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://i.pravatar.cc/150?img=5'
+  const gradientColors = isCurrentUser
+    ? ['#7454FF', palette.indigo]
+    : [palette.night, palette.night]
   const metadataColor = isCurrentUser ? '#CAA4F5' : '#84808A'
   return (
     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
@@ -22,7 +25,7 @@ export const Message: React.FC<Props> = ({ message }) => {
       ) : (
         <Image
           style={{ width: 30, height: 30, borderRadius: 25, alignSelf: 'flex-end' }}
-          source={{ uri: 'https://placekitten.com/200/200' }}
+          source={{ uri: pic }}
         />
       )}
       <LinearGradient
@@ -51,7 +54,7 @@ export const Message: React.FC<Props> = ({ message }) => {
       {isCurrentUser ? (
         <Image
           style={{ width: 30, height: 30, borderRadius: 25, alignSelf: align }}
-          source={{ uri: 'https://placekitten.com/200/200' }}
+          source={{ uri: pic }}
         />
       ) : (
         <></>
