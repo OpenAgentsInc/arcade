@@ -15,7 +15,7 @@ export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl })
       <TouchableOpacity activeOpacity={0.8}>
         <AntDesign name='left' size={24} color='#329FFD' />
       </TouchableOpacity>
-      <Text style={{ fontSize: 20, color: '#fff' }}>{channelName}</Text>
+      <Text style={{ fontSize: 16, color: '#fff' }}>{channelName}</Text>
       <Avatar.Image size={40} source={{ uri: channelImageUrl }} />
     </View>
   )
