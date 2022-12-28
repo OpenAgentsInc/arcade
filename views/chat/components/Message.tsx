@@ -13,7 +13,7 @@ export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = 'Bob'
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
-  const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://i.pravatar.cc/150?img=5'
+  const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://placekitten.com/200/200' //  'https://i.pravatar.cc/150?img=5'
   const gradientColors = isCurrentUser
     ? ['#7454FF', palette.indigo]
     : [palette.night, palette.night]
