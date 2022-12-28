@@ -48,7 +48,7 @@ export const Message: React.FC<Props> = ({ message }) => {
         <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
           {truncateString(message.sender, 10)}
         </Text>
-        <Text style={{ color: '#fff', fontSize: 12 }}>{message.text}</Text>
+        <Text style={{ color: palette.moonRaker, fontSize: 12 }}>{message.text}</Text>
         <Text style={{ fontSize: 10, color: metadataColor, textAlign: 'right' }}>
           {formatTimestamp(message.timestamp)}
         </Text>
