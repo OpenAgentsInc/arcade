@@ -19,7 +19,7 @@ export const Message: React.FC<Props> = ({ message }) => {
     : [palette.night, palette.night]
   const metadataColor = isCurrentUser ? palette.blueBell : palette.blueBellFaded
   return (
-    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+    <View style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
       {isCurrentUser ? (
         <View style={{ flexGrow: 1, flexShrink: 1 }} />
       ) : (
