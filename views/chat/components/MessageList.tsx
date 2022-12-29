@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useMessages } from '../../../hooks/useMessages'
 import { Message } from './Message'
 
@@ -13,6 +13,7 @@ export const MessageList: React.FC<Props> = () => {
       renderItem={({ item }) => <Message message={item} />}
       keyExtractor={(item) => item.id}
       style={{ paddingHorizontal: 10 }}
+      ListFooterComponent={<View style={{ margin: 5 }} />}
     />
   )
 }

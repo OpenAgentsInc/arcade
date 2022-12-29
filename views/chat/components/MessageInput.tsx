@@ -27,7 +27,9 @@ export const MessageInput = () => {
 
     console.log("Pretended to send: '" + text + "'")
     setText('')
-    sendChannelMessage(text, relay)
+    setTimeout(() => {
+      sendChannelMessage(text, relay)
+    }, 100)
   }
   return (
     <View style={{ backgroundColor: palette.night, borderTopWidth: 1, padding: 6 }}>

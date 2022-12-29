@@ -9,6 +9,7 @@
 //   }
 
 import { Alert } from 'react-native'
+import useChatStore from '../components/store'
 import { createNewAccount } from './account'
 import { getEventHash, NostrEventToSerialize, NostrEventToSign, signEvent } from './nip01'
 import { Event } from './nostr-tools/event'
@@ -25,7 +26,7 @@ export const sendChannelMessage = async (
     return
   }
 
-  const { privateKey, publicKey } = createNewAccount()
+  const { privkey: privateKey, pubkey: publicKey } = useChatStore.getState()
 
   if (!privateKey || !publicKey) {
     return false
@@ -39,7 +40,7 @@ export const sendChannelMessage = async (
     tags: [['e', channelId]],
   }
 
-  console.log('almost ready to publish event:', event)
+  console.log(`almost ready to publish event from pubkey: ${publicKey}:`, event)
 
   const id = getEventHash(event)
   console.log(id)
@@ -50,9 +51,9 @@ export const sendChannelMessage = async (
   }
 
   const signedEvent = await signEvent(eventToSign, privateKey)
-  Alert.alert('here ur signed event:', signedEvent)
+  //   Alert.alert('here ur signed event:', signedEvent)
 
-  //   relay.publish(event)
+  relay.publish(signedEvent)
 
   // relay.pub({
   //     kind: 42,

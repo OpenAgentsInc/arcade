@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View, Text, Image } from 'react-native'
-import { ChatMessage } from '../../../components/store'
+import useChatStore, { ChatMessage } from '../../../components/store'
 import { formatTimestamp, truncateString } from '../../../lib/utils'
 import { LinearGradient } from 'expo-linear-gradient'
 import { palette } from '../../../lib/palette'
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const Message: React.FC<Props> = ({ message }) => {
-  const currentUser = 'Bob'
+  const currentUser = useChatStore((state) => state.pubkey)
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://placekitten.com/200/200' //  'https://i.pravatar.cc/150?img=5'
