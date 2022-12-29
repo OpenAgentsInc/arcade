@@ -68,6 +68,7 @@ export function relayInit(url: string): Relay {
         resolve()
       }
       ws.onerror = () => {
+        console.log('error')
         listeners.error.forEach((cb) => cb())
         reject()
       }
@@ -77,10 +78,13 @@ export function relayInit(url: string): Relay {
       }
 
       ws.onmessage = async (e) => {
+        // console.log('a message')
         var data
         try {
           data = JSON.parse(e.data)
+          console.log('data:', data)
         } catch (err) {
+          console.log('some error')
           data = e.data
         }
 
@@ -201,12 +205,16 @@ export function relayInit(url: string): Relay {
       trySend(['EVENT', event])
         .then(() => {
           sent = true
+          console.log('sent?')
           if (mustMonitor) {
             startMonitoring()
             mustMonitor = false
           }
         })
-        .catch(() => {})
+        .catch((e) => {
+          console.log('something wrong:')
+          console.log(e)
+        })
 
       const startMonitoring = () => {
         let monitor = sub([{ ids: [id] }], {

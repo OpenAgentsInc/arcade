@@ -10,6 +10,9 @@ const useRelayConnection = () => {
   const generateKeys = async () => {
     console.log('Generating keys')
     const { privateKey, publicKey } = createNewAccount()
+
+    console.log('PUBKEY LENGTH: ', publicKey.length, publicKey)
+
     useChatStore.setState({ pubkey: publicKey, privkey: privateKey })
     console.log('We are now pubkey: ', publicKey)
   }

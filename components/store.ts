@@ -26,7 +26,7 @@ const useChatStore = create<ChatState>((set) => ({
       if (state.messages.some((m) => m.id === message.id)) {
         return state
       }
-      console.log('Saving message ID:', message.id)
+      //   console.log('Saving message ID:', message.id)
       return {
         messages: [...state.messages, message],
       }

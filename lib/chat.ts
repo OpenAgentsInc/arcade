@@ -12,7 +12,7 @@ import { Alert } from 'react-native'
 import useChatStore from '../components/store'
 import { createNewAccount } from './account'
 import { getEventHash, NostrEventToSerialize, NostrEventToSign, signEvent } from './nip01'
-import { Event } from './nostr-tools/event'
+import { Event, Kind } from './nostr-tools/event'
 import { timeNowInSeconds } from './utils'
 
 const NOSTR_CHANNEL_ID = '25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'
@@ -35,7 +35,7 @@ export const sendChannelMessage = async (
   const event: NostrEventToSerialize = {
     content: text,
     created_at: timeNowInSeconds(),
-    kind: 42,
+    kind: 42 as any,
     pubkey: publicKey,
     tags: [['e', channelId]],
   }
@@ -50,8 +50,15 @@ export const sendChannelMessage = async (
     id,
   }
 
-  const signedEvent = await signEvent(eventToSign, privateKey)
-  //   Alert.alert('here ur signed event:', signedEvent)
+  const signature = await signEvent(eventToSign, privateKey)
+  console.log('here ursignature:', signature)
+
+  const signedEvent: Event = {
+    ...(eventToSign as any),
+    sig: signature,
+  }
+
+  //   console.log(signedEvent)
 
   relay.publish(signedEvent)
 

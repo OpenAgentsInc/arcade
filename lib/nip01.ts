@@ -12,7 +12,9 @@ export const getEventHash = (event: NostrEventToSerialize) => {
   let eventHash = createHash('sha256')
     .update(Buffer.from(serializeEvent(event)))
     .digest()
-  return Buffer.from(eventHash).toString('hex')
+  const hexed = Buffer.from(eventHash).toString('hex')
+  console.log('event hash:', hexed)
+  return hexed
 }
 
 export const serializeEvent = (event: NostrEventToSerialize) => {
