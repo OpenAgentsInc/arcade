@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
 import useChatStore, { ChatMessage } from '../components/store'
 import { relayInit } from '../lib/nostr-tools/relay'
 
 const useRelayConnection = () => {
-  const [relay, setRelay] = useState<null | any>(null)
+  const relay = useChatStore((state) => state.relay)
   const messages = useChatStore((state) => state.messages)
   const addMessage = useChatStore((state) => state.addMessage)
 
   const connect = async () => {
     const relay = relayInit('wss://relay.nostr.ch')
-    // const relay = relayInit('wss://relay.damus.io')
+
+    useChatStore.setState({ relay })
 
     await relay.connect()
     relay.on('connect', () => {
@@ -53,6 +53,8 @@ const useRelayConnection = () => {
   //   useEffect(() => {
   //     connect()
   //   }, [])
+
+  console.log('returning relay?', relay)
 
   return {
     relay,
