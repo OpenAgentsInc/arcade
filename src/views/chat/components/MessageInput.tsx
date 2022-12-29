@@ -3,7 +3,7 @@ import { Alert, TouchableOpacity, TextInput, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import useChatStore from 'stores/chat'
 import { sendChannelMessage } from '../../../lib/chat'
-import { palette } from 'views/theme'
+import { palette, typography } from 'views/theme'
 
 export const MessageInput = () => {
   const relay = useChatStore((state) => state.relay)
@@ -41,6 +41,7 @@ export const MessageInput = () => {
           style={{
             backgroundColor: palette.night,
             color: palette.moonRaker,
+            fontFamily: typography.primary,
             flexGrow: 1,
             flexShrink: 1,
             fontSize: 14,
