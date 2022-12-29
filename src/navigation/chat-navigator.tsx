@@ -26,7 +26,33 @@ export const ChatNavigator = () => {
         // component={ChatHome}
         options={{ ...stackOptions, title: 'Channels', headerShown: false }}
       />
+
       <Stack.Screen
+        name='channel'
+        component={DemoChannel}
+        options={{
+          ...stackOptions,
+          title: 'Channel',
+          headerLeft: () => <NavButton onPress={navigation.goBack} />,
+          // headerRight: () => (
+          //   <Pressable
+          //     // onPress={demoUpdateMetadata}
+          //     onPress={() => navigation.navigate('Modal')}
+          //     style={({ pressed }) => ({
+          //       opacity: pressed ? 0.5 : 1,
+          //     })}>
+          //     <FontAwesome
+          //       name='info-circle'
+          //       size={25}
+          //       color={palette.moonRaker}
+          //       style={{ marginRight: 15 }}
+          //     />
+          //   </Pressable>
+          // ),
+        }}
+      />
+
+      {/* <Stack.Screen
         name='channel'
         component={ChannelScreen}
         options={{
@@ -49,7 +75,7 @@ export const ChatNavigator = () => {
           //   </Pressable>
           // ),
         }}
-      />
+      /> */}
       {/* <Stack.Screen name='profile' component={Profile} options={stackOptions} /> */}
     </Stack.Navigator>
   )
