@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavButton } from './nav-button'
 import { stackOptions } from './stackOptions'
 import { ChatStackParamList } from './types'
+import { DemoChannel } from 'views/chat/screens/DemoChannel'
 
 const Stack = createNativeStackNavigator<ChatStackParamList>()
 
@@ -19,8 +20,9 @@ export const ChatNavigator = () => {
     <Stack.Navigator initialRouteName='chathome'>
       <Stack.Screen
         name='chathome'
-        component={ChatHome}
-        options={{ ...stackOptions, title: 'Channels' }}
+        component={DemoChannel}
+        // component={ChatHome}
+        options={{ ...stackOptions, title: 'Channels', headerShown: false }}
       />
       <Stack.Screen
         name='channel'

@@ -1,10 +1,19 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import { useStores } from 'stores/root-store'
 import { GradientButton } from 'views/chat/old/GradientButton'
 import { FullScreenGradient } from 'views/shared'
 import { typography } from 'views/theme'
 
 export const LoginScreen = () => {
+  const { user } = useStores()
+  const getStarted = async () => {
+    await user.signup({
+      username: 'Arc Tester',
+      displayName: 'Arc Tester',
+      about: 'Running Arc',
+    })
+  }
   return (
     <View
       style={{
@@ -23,7 +32,7 @@ export const LoginScreen = () => {
         }}>
         Arc
       </Text>
-      <GradientButton onPress={() => console.log('nice')} />
+      <GradientButton onPress={getStarted} />
     </View>
   )
 }
