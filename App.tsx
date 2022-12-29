@@ -5,7 +5,7 @@ import { Provider as PaperProvider } from 'react-native-paper'
 
 // import Navigation from './navigation'
 import { DemoChannel } from 'views/chat/screens/DemoChannel'
-import useCachedResources from 'lib/hooks/useCachedResources'
+import { useCachedResources } from 'lib/hooks'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()

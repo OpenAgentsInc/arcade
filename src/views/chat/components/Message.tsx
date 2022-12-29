@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native'
 import useChatStore, { ChatMessage } from 'stores/chat'
 import { formatTimestamp, truncateString } from '../../../lib/utils'
 import { LinearGradient } from 'expo-linear-gradient'
-import { palette } from 'views/theme'
+import { palette, typography } from 'views/theme'
 
 type Props = {
   message: ChatMessage
@@ -45,11 +45,25 @@ export const Message: React.FC<Props> = ({ message }) => {
           borderBottomLeftRadius: isCurrentUser ? 10 : 0,
           alignSelf: align,
         }}>
-        <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 12 }}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: '#fff',
+            fontSize: 12,
+            fontFamily: typography.primary,
+          }}>
           {truncateString(message.sender, 10)}
         </Text>
-        <Text style={{ color: palette.moonRaker, fontSize: 12 }}>{message.text}</Text>
-        <Text style={{ fontSize: 10, color: metadataColor, textAlign: 'right' }}>
+        <Text style={{ color: palette.moonRaker, fontSize: 12, fontFamily: typography.primary }}>
+          {message.text}
+        </Text>
+        <Text
+          style={{
+            fontSize: 10,
+            color: metadataColor,
+            textAlign: 'right',
+            fontFamily: typography.primary,
+          }}>
           {formatTimestamp(message.timestamp)}
         </Text>
       </LinearGradient>
