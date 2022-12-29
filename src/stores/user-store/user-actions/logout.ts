@@ -7,8 +7,8 @@ export const logout = async (self: UserStore) => {
   self.env.nostr.unsubscribeAll()
   const storeAvailable = await SecureStore.isAvailableAsync()
   if (storeAvailable) {
-    await SecureStore.deleteItemAsync('ARCADE_NPUB')
-    await SecureStore.deleteItemAsync('ARCADE_NSEC')
-    await SecureStore.deleteItemAsync('ARCADE_MNEMONIC')
+    await SecureStore.deleteItemAsync('ARC_NPUB')
+    await SecureStore.deleteItemAsync('ARC_NSEC')
+    await SecureStore.deleteItemAsync('ARC_MNEMONIC')
   }
 }

@@ -14,9 +14,9 @@ export const login = async (self: UserStore, text: string) => {
     self.setPublicKey(publicKey)
     const storeAvailable = await SecureStore.isAvailableAsync()
     if (storeAvailable) {
-      await SecureStore.setItemAsync('ARCADE_NPUB', newAccountKeys.publicKey)
-      await SecureStore.setItemAsync('ARCADE_NSEC', newAccountKeys.privateKey)
-      await SecureStore.setItemAsync('ARCADE_MNEMONIC', newAccountKeys.mnemonic as string)
+      await SecureStore.setItemAsync('ARC_NPUB', newAccountKeys.publicKey)
+      await SecureStore.setItemAsync('ARC_NSEC', newAccountKeys.privateKey)
+      await SecureStore.setItemAsync('ARC_MNEMONIC', newAccountKeys.mnemonic as string)
       display({
         name: 'login',
         preview: 'Logged in and persisted to secure storage',
@@ -38,8 +38,8 @@ export const login = async (self: UserStore, text: string) => {
     self.setPublicKey(publicKey)
     const storeAvailable = await SecureStore.isAvailableAsync()
     if (storeAvailable) {
-      await SecureStore.setItemAsync('ARCADE_NPUB', newAccountKeys.publicKey)
-      await SecureStore.setItemAsync('ARCADE_NSEC', newAccountKeys.privateKey)
+      await SecureStore.setItemAsync('ARC_NPUB', newAccountKeys.publicKey)
+      await SecureStore.setItemAsync('ARC_NSEC', newAccountKeys.privateKey)
     }
   }
 
