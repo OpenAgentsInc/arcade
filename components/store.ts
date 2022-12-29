@@ -12,10 +12,14 @@ interface ChatState {
   addMessage: (message: ChatMessage) => void
   removeMessage: (id: string) => void
   relay: any
+  pubkey: string | null
+  privkey: string | null
 }
 
 const useChatStore = create<ChatState>((set) => ({
   relay: null,
+  pubkey: null,
+  privkey: null,
   messages: [],
   addMessage: (message: ChatMessage) =>
     set((state) => {

@@ -1,10 +1,18 @@
 import useChatStore, { ChatMessage } from '../components/store'
+import { createNewAccount } from '../lib/account'
 import { relayInit } from '../lib/nostr-tools/relay'
 
 const useRelayConnection = () => {
   const relay = useChatStore((state) => state.relay)
   const messages = useChatStore((state) => state.messages)
   const addMessage = useChatStore((state) => state.addMessage)
+
+  const generateKeys = async () => {
+    console.log('Generating keys')
+    const { privateKey, publicKey } = createNewAccount()
+    useChatStore.setState({ pubkey: publicKey, privkey: privateKey })
+    console.log('We are now pubkey: ', publicKey)
+  }
 
   const connect = async () => {
     const relay = relayInit('wss://relay.nostr.ch')
@@ -48,6 +56,10 @@ const useRelayConnection = () => {
       addMessage(message)
       //   setMessages((prevMessages) => [...prevMessages, message])
     })
+
+    setTimeout(() => {
+      generateKeys()
+    }, 500)
   }
 
   //   useEffect(() => {
