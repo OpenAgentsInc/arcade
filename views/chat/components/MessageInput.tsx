@@ -40,6 +40,7 @@ export const MessageInput = () => {
             backgroundColor: palette.night,
             color: palette.moonRaker,
             flexGrow: 1,
+            flexShrink: 1,
             fontSize: 14,
             height: 40,
             borderRadius: 10,
