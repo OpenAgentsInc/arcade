@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import FullScreenGradient from 'views/shared'
-import useRelayConnection from '../hooks/useRelayConnection'
-import { palette } from '../lib/palette'
-import Message from '../components/Message'
+import { FullScreenGradient } from 'views/shared'
+import useRelayConnection from 'lib/hooks/useRelayConnection'
+import { palette } from 'views/theme'
+import Message from './Message'
 
 const ChatRoomScreen = () => {
   const { messages } = useRelayConnection()

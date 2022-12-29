@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native'
-import { ChatsHeader } from '../components/ChatsHeader'
+import { ChatsHeader } from './ChatsHeader'
 import { FullScreenGradient } from 'views/shared'
 import { chats } from 'lib/dummydata'
 import { palette } from 'views/theme'

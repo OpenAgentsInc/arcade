@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
-import FullScreenGradient from '../components/FullScreenGradient'
+import { FullScreenGradient } from 'views/shared'
 
 const LoginScreen = () => {
   return (

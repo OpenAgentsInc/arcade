@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Chatroom: { chatId: string }
   Login: undefined
   Auth: undefined
+  channel: { id: string; name: string }
 }
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
