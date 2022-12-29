@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
-import { Alert, TouchableOpacity, View } from 'react-native'
-import { IconButton, TextInput } from 'react-native-paper'
+import { Alert, TouchableOpacity, TextInput, View } from 'react-native'
+import { IconButton } from 'react-native-paper'
 import { palette } from '../../../lib/palette'
 
 export const MessageInput = () => {
@@ -29,11 +29,11 @@ export const MessageInput = () => {
     <View style={{ backgroundColor: palette.night, borderTopWidth: 1, padding: 6 }}>
       <View style={{ alignItems: 'center', flexDirection: 'row' }}>
         <TextInput
-          textColor={palette.moonRaker}
           placeholder='Message'
           placeholderTextColor={palette.blueBellFaded}
           autoCorrect={false}
           onChangeText={(text: string) => setText(text)}
+          multiline={true}
           ref={inputBoxRef}
           spellCheck={false}
           style={{
@@ -42,7 +42,7 @@ export const MessageInput = () => {
             flexGrow: 1,
             flexShrink: 1,
             fontSize: 14,
-            height: 40,
+            minHeight: 40,
             borderRadius: 10,
             includeFontPadding: false,
             paddingHorizontal: 10,
