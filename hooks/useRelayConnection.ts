@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react'
 import useChatStore, { ChatMessage } from '../components/store'
+import { createNewAccount } from '../lib/account'
 import { relayInit } from '../lib/nostr-tools/relay'
 
 const useRelayConnection = () => {
-  const [relay, setRelay] = useState<null | any>(null)
+  const relay = useChatStore((state) => state.relay)
   const messages = useChatStore((state) => state.messages)
   const addMessage = useChatStore((state) => state.addMessage)
 
+  const generateKeys = async () => {
+    const { privateKey, publicKey } = createNewAccount()
+    useChatStore.setState({ pubkey: publicKey, privkey: privateKey })
+  }
+
   const connect = async () => {
     const relay = relayInit('wss://relay.nostr.ch')
-    // const relay = relayInit('wss://relay.damus.io')
+
+    useChatStore.setState({ relay })
 
     await relay.connect()
     relay.on('connect', () => {
@@ -38,7 +44,6 @@ const useRelayConnection = () => {
     ])
 
     sub.on('event', (event: any) => {
-      console.log('got event:', event)
       const message: ChatMessage = {
         id: event.id,
         sender: event.pubkey,
@@ -46,13 +51,12 @@ const useRelayConnection = () => {
         timestamp: event.created_at.toString(),
       }
       addMessage(message)
-      //   setMessages((prevMessages) => [...prevMessages, message])
     })
-  }
 
-  //   useEffect(() => {
-  //     connect()
-  //   }, [])
+    setTimeout(() => {
+      generateKeys()
+    }, 500)
+  }
 
   return {
     relay,

@@ -8,7 +8,7 @@ import {
   NostrKind,
   signEvent,
 } from './nip01'
-import { timeNowInSeconds } from './timeNowInSeconds'
+import { timeNowInSeconds } from './utils'
 
 export const fromTheTop = async () => {
   const { privateKey, publicKey } = createNewAccount()

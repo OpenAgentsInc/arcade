@@ -7,10 +7,18 @@ export function keypairFromSeed(seed: string) {
   const seedBuffer = Buffer.from(seed, 'hex')
   const root = bip32.fromSeed(seedBuffer)
   const key = root.derivePath(`m/44'/1237'/0'/0/0`)
+  const publicKey = key.publicKey.slice(1)
+  const publicKeyHex = publicKey.toString('hex')
   return {
     privateKey: key.privateKey?.toString('hex'),
-    publicKey: key.publicKey.toString('hex'),
+    publicKey: publicKeyHex,
   }
+}
+
+export function privateKeyFromSeed(seed: string) {
+  const root = bip32.fromSeed(Buffer.from(seed, 'hex'))
+  const key = root.derivePath(`m/44'/1237'/0'/0/0`)
+  return key.privateKey?.toString('hex')
 }
 
 export function generateSeedWords() {

@@ -11,17 +11,26 @@ interface ChatState {
   messages: ChatMessage[]
   addMessage: (message: ChatMessage) => void
   removeMessage: (id: string) => void
+  relay: any
+  pubkey: string | null
+  privkey: string | null
 }
 
 const useChatStore = create<ChatState>((set) => ({
+  relay: null,
+  pubkey: null,
+  privkey: null,
   messages: [],
   addMessage: (message: ChatMessage) =>
-    // Add message but only if a message with this ID doesn't already exist
-    set((state) => ({
-      messages: state.messages.some((m) => m.id === message.id)
-        ? state.messages
-        : [...state.messages, message],
-    })),
+    set((state) => {
+      if (state.messages.some((m) => m.id === message.id)) {
+        return state
+      }
+      //   console.log('Saving message ID:', message.id)
+      return {
+        messages: [...state.messages, message],
+      }
+    }),
   removeMessage: (id: string) =>
     set((state) => ({ messages: state.messages.filter((m) => m.id !== id) })),
 }))

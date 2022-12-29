@@ -68,6 +68,7 @@ export function relayInit(url: string): Relay {
         resolve()
       }
       ws.onerror = () => {
+        console.log('error')
         listeners.error.forEach((cb) => cb())
         reject()
       }
@@ -201,12 +202,16 @@ export function relayInit(url: string): Relay {
       trySend(['EVENT', event])
         .then(() => {
           sent = true
+          console.log('sent?')
           if (mustMonitor) {
             startMonitoring()
             mustMonitor = false
           }
         })
-        .catch(() => {})
+        .catch((e) => {
+          console.log('something wrong:')
+          console.log(e)
+        })
 
       const startMonitoring = () => {
         let monitor = sub([{ ids: [id] }], {
