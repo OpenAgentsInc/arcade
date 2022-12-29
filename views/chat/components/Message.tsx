@@ -10,6 +10,7 @@ type Props = {
 }
 
 export const Message: React.FC<Props> = ({ message }) => {
+  //   const currentUser = 'c4002090d38e3b76aa49312063b56de53437aebb49eb052926dbc25251c7b8e8'
   const currentUser = useChatStore((state) => state.pubkey)
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
