@@ -1,4 +1,4 @@
-import { ChatMessage } from '../components/store'
+import { ChatMessage } from 'stores/chat'
 
 export const messages: ChatMessage[] = [
   {

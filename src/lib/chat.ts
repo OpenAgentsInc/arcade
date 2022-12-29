@@ -1,4 +1,4 @@
-import useChatStore from '../components/store'
+import useChatStore from 'stores/chat'
 import { getEventHash, NostrEventToSerialize, NostrEventToSign, signEvent } from './nip01'
 import { Event } from './nostr-tools/event'
 import { timeNowInSeconds } from './utils'
