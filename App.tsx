@@ -3,9 +3,9 @@ import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider as PaperProvider } from 'react-native-paper'
 
-import useCachedResources from './hooks/useCachedResources'
-import Navigation from './navigation'
-import { DemoChannel } from './views/chat/screens/DemoChannel'
+// import Navigation from './navigation'
+import { DemoChannel } from 'views/chat/screens/DemoChannel'
+import useCachedResources from 'lib/hooks/useCachedResources'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
