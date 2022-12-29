@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { GradientButton } from 'views/chat/old/GradientButton'
 import { FullScreenGradient } from 'views/shared'
+import { typography } from 'views/theme'
 
 export const LoginScreen = () => {
   return (
@@ -12,7 +14,16 @@ export const LoginScreen = () => {
         backgroundColor: 'transparent',
       }}>
       <FullScreenGradient />
-      <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold', marginBottom: 10 }}>Arc</Text>
+      <Text
+        style={{
+          fontSize: 24,
+          color: '#fff',
+          fontWeight: 'bold',
+          marginBottom: 10,
+          fontFamily: typography.bold,
+        }}>
+        Arc
+      </Text>
       <TextInput
         style={{
           width: '80%',
@@ -26,7 +37,7 @@ export const LoginScreen = () => {
         placeholder='Pick a name'
         placeholderTextColor='#777'
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           width: '80%',
           height: 40,
@@ -36,7 +47,8 @@ export const LoginScreen = () => {
           justifyContent: 'center',
         }}>
         <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Sign In</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <GradientButton />
     </View>
   )
 }

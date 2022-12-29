@@ -1,5 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { typography } from 'views/theme'
 
 export const GradientButton = () => {
   const onPress = () => console.log('ok')
@@ -33,6 +34,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18,
-    fontFamily: 'monospace',
+    fontFamily: typography.primary,
   },
 })

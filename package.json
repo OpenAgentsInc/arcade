@@ -1,8 +1,8 @@
 {
   "name": "arc",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "AGPL-3.0-or-later",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
