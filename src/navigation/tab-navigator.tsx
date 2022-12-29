@@ -1,14 +1,13 @@
 import React from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
-import { AccountHome } from 'views/account/AccountHome'
-import { ChatHome } from 'views/chat/ChatHome'
+// import { AccountHome } from 'views/account/AccountHome'
 // import { MapHome } from 'views/map/MapHome'
-import { Placeholder } from 'views/dev'
-import { FeedHome } from 'views/feed/FeedHome'
+// import { Placeholder } from 'views/dev'
+// import { FeedHome } from 'views/feed/FeedHome'
 import { color, palette, typography } from 'views/theme'
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { AccountNavigator } from './account-navigator'
+// import { AccountNavigator } from './account-navigator'
 import { ChatNavigator } from './chat-navigator'
 import { RootTabParamList, RootTabScreenProps } from './types'
 
@@ -54,7 +53,7 @@ export function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name='FeedHome'
-        component={FeedHome}
+        component={ChatNavigator}
         options={({ navigation }: RootTabScreenProps<'FeedHome'>) => ({
           title: 'Feed',
           tabBarIcon: ({ color, focused }) => (
@@ -106,7 +105,7 @@ export function BottomTabNavigator() {
       /> */}
       <BottomTab.Screen
         name='AccountHome'
-        component={AccountNavigator}
+        component={ChatNavigator}
         options={{
           headerShown: false,
           // title: 'Account',

@@ -20,6 +20,10 @@ export type RootStackParamList = {
   Chatroom: { chatId: string }
   Login: undefined
   Auth: undefined
+}
+
+export type ChatStackParamList = {
+  chathome: undefined
   channel: { id: string; name: string }
 }
 
@@ -29,10 +33,9 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >
 
 export type RootTabParamList = {
-  Chats: undefined
-  Chatroom: { chatId: string }
-  TabOne: undefined
-  TabTwo: undefined
+  ChatHome: undefined
+  AccountHome: undefined
+  FeedHome: undefined
 }
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

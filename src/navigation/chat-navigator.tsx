@@ -8,8 +8,9 @@ import { useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavButton } from './nav-button'
 import { stackOptions } from './stackOptions'
+import { ChatStackParamList } from './types'
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator<ChatStackParamList>()
 
 export const ChatNavigator = () => {
   const navigation = useNavigation()
