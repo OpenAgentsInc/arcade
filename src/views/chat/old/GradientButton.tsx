@@ -2,8 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { ACTIVE_OPACITY, typography } from 'views/theme'
 
-export const GradientButton = () => {
-  const onPress = () => console.log('ok')
+export const GradientButton = ({ onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={ACTIVE_OPACITY}>
       <LinearGradient

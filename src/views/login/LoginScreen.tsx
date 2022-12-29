@@ -48,7 +48,7 @@ export const LoginScreen = () => {
         }}>
         <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Sign In</Text>
       </TouchableOpacity> */}
-      <GradientButton />
+      <GradientButton onPress={() => console.log('nice')} />
     </View>
   )
 }
