@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider as PaperProvider } from 'react-native-paper'
 
-// import Navigation from './navigation'
+import { Navigation } from 'navigation'
 import { DemoChannel } from 'views/chat/screens/DemoChannel'
 import { useCachedResources } from 'lib/hooks'
 
@@ -16,8 +16,8 @@ export default function App() {
     return (
       <PaperProvider>
         <SafeAreaProvider>
-          {/* <Navigation /> */}
-          <DemoChannel />
+          <Navigation />
+          {/* <DemoChannel /> */}
           <StatusBar style='light' />
         </SafeAreaProvider>
       </PaperProvider>
