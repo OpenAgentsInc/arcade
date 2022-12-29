@@ -41,6 +41,7 @@
     "mobx": "^6.6.1",
     "mobx-react-lite": "^3.4.0",
     "mobx-state-tree": "^5.1.6",
+    "moment": "^2.29.4",
     "node-libs-react-native": "1.2.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",

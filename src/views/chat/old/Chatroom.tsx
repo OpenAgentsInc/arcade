@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import FullScreenGradient from '../components/FullScreenGradient'
+import FullScreenGradient from 'views/shared'
 import useRelayConnection from '../hooks/useRelayConnection'
 import { palette } from '../lib/palette'
 import Message from '../components/Message'

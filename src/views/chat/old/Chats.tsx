@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import { ChatsHeader } from '../components/ChatsHeader'
-import FullScreenGradient from '../components/FullScreenGradient'
-import { chats } from '../lib/dummydata'
-import { palette } from '../lib/palette'
+import { FullScreenGradient } from 'views/shared'
+import { chats } from 'lib/dummydata'
+import { palette } from 'views/theme'
 
 export const ChatsScreen = () => {
   return (

@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { palette } from 'views/theme'
 
-const FullScreenGradient = ({ colors, start, end }: any) => {
+export const FullScreenGradient = ({ colors, start, end }: any) => {
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -28,5 +28,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
-
-export default FullScreenGradient

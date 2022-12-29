@@ -1,6 +1,6 @@
-import useChatStore, { ChatMessage } from '../components/store'
-import { createNewAccount } from '../lib/account'
-import { relayInit } from '../lib/nostr-tools/relay'
+import useChatStore, { ChatMessage } from 'stores/chat'
+import { createNewAccount } from 'lib/account'
+import { relayInit } from 'lib/nostr-tools/relay'
 
 const useRelayConnection = () => {
   const relay = useChatStore((state) => state.relay)
