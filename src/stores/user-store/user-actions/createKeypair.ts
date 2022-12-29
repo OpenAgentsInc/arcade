@@ -5,6 +5,9 @@ import { UserStore } from '../user-store'
 
 export const createKeypair = async (self: UserStore) => {
   const { mnemonic, publicKey, privateKey } = createNewAccount()
+  if (!mnemonic || !publicKey || !privateKey) {
+    throw new Error('Failed to create keypair+mnemonic')
+  }
   self.setMnemonic(mnemonic)
   self.setPrivateKey(privateKey)
   self.setPublicKey(publicKey)

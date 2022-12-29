@@ -51,7 +51,7 @@ export const login = async (self: UserStore, text: string) => {
     } else if (text.length > 12) {
       loginWithNsec(hexToNsec(text))
     } else {
-      return
+      return false
     }
 
     self.rootStore.relay.fetchUser(self.publicKey as string)
