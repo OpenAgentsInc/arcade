@@ -7,22 +7,8 @@ export function keypairFromSeed(seed: string) {
   const seedBuffer = Buffer.from(seed, 'hex')
   const root = bip32.fromSeed(seedBuffer)
   const key = root.derivePath(`m/44'/1237'/0'/0/0`)
-
-  //   console.log('base58:', key.toBase58())
-  //   console.log('WIF:', key.toWIF())
-
   const publicKey = key.publicKey.slice(1)
-  console.log('bytes:', publicKey.length)
-  console.log('bytes:', publicKey.byteLength)
   const publicKeyHex = publicKey.toString('hex')
-  console.log(publicKeyHex)
-
-  //   const publicKey = key.publicKey.toString('hex')
-  // const publicKey = key.getPublicKey().toString('hex')
-  //   const publicKey = key.publicKey.toString('hex')
-
-  //   console.log('PUBKEY LENGTH', publicKey.length)
-
   return {
     privateKey: key.privateKey?.toString('hex'),
     publicKey: publicKeyHex,
