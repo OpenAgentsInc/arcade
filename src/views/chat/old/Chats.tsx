@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react
 import { ChatsHeader } from './ChatsHeader'
 import { FullScreenGradient } from 'views/shared'
 import { chats } from 'lib/dummydata'
-import { palette } from 'views/theme'
+import { ACTIVE_OPACITY, palette } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
 
 export const ChatsScreen = () => {
@@ -19,7 +19,10 @@ export const ChatsScreen = () => {
       <FlatList
         data={chats}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.chatContainer} onPress={navtoit}>
+          <TouchableOpacity
+            style={styles.chatContainer}
+            onPress={navtoit}
+            activeOpacity={ACTIVE_OPACITY}>
             <Image source={{ uri: item.avatar }} style={styles.avatar} />
             <View style={styles.textContainer}>
               <Text style={styles.nameText}>{item.name}</Text>
