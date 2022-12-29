@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { RootStore, RootStoreProvider, setupRootStore } from 'stores/root-store'
 import { Loading as LoadSplash } from 'views/loading'
 import { Navigation } from './navigation'
+import { Provider as PaperProvider } from 'react-native-paper'
 
 export const App = () => {
   const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
@@ -32,11 +33,13 @@ export const App = () => {
     return !isLoadingComplete || !ready || !rootStore ? (
       <LoadSplash ready={false} />
     ) : (
-      <RootStoreProvider value={rootStore}>
-        <SafeAreaProvider>
-          <Navigation />
-        </SafeAreaProvider>
-      </RootStoreProvider>
+      <PaperProvider>
+        <RootStoreProvider value={rootStore}>
+          <SafeAreaProvider>
+            <Navigation />
+          </SafeAreaProvider>
+        </RootStoreProvider>
+      </PaperProvider>
     )
   }, [isLoadingComplete, ready, rootStore])
 

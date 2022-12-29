@@ -18,13 +18,13 @@ export const LoginScreen = () => {
         style={{
           fontSize: 24,
           color: '#fff',
-          fontWeight: 'bold',
+          //   fontWeight: 'bold',
           marginBottom: 10,
           fontFamily: typography.bold,
         }}>
         Arc
       </Text>
-      <TextInput
+      {/* <TextInput
         style={{
           width: '80%',
           height: 40,
@@ -36,7 +36,7 @@ export const LoginScreen = () => {
         }}
         placeholder='Pick a name'
         placeholderTextColor='#777'
-      />
+      /> */}
       {/* <TouchableOpacity
         style={{
           width: '80%',
