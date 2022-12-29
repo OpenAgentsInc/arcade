@@ -5,7 +5,7 @@ export const createNewAccount = () => {
   const mnemonic = generateSeedWords()
   const seed = seedFromWords(mnemonic)
   const { privateKey, publicKey } = keypairFromSeed(seed)
-  console.log('Public key: ', publicKey)
+  console.log('Created account with public key: ', publicKey)
   return {
     mnemonic,
     privateKey,

@@ -12,7 +12,7 @@ export class Nostr {
   }
 
   async unsubscribeAll() {
-    this.pool.removeRelay('wss://relay.damus.io')
+    this.pool.removeRelay('wss://arc1.arcadelabs.co')
     console.log('Unsubscribed from all relays')
   }
 
@@ -30,7 +30,7 @@ export class Nostr {
 
   async connect(publicKey: string, privateKey: string) {
     this.setKeys(publicKey, privateKey)
-    this.pool.addRelay('wss://relay.damus.io', { read: true, write: true })
+    this.pool.addRelay('wss://arc1.arcadelabs.co', { read: true, write: true })
     // this.createDummyChannels()
   }
 

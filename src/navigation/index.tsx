@@ -12,13 +12,13 @@ export const Navigation = observer(() => {
 
   // Whenever user's keys change in store, also update the Nostr service
   useEffect(() => {
-    if (!user.publicKey || !user.privateKey) return
+    if (!user?.publicKey || !user?.privateKey) return
     user.env.nostr.setKeys(user.publicKey, user.privateKey)
-  }, [user.privateKey, user.publicKey])
+  }, [user?.privateKey, user?.publicKey])
 
   return (
     <NavigationContainer linking={LinkingConfiguration} theme={navTheme}>
-      {user.isAuthed ? <RootNavigator /> : <UnauthedNavigator />}
+      {user?.isAuthed ? <RootNavigator /> : <UnauthedNavigator />}
     </NavigationContainer>
   )
 })

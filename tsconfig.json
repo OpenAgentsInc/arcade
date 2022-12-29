@@ -15,5 +15,5 @@
       "views/*": ["src/views/*"]
     }
   },
-  "include": ["App.tsx", "src/**/*"]
+  "include": ["src/**/*"]
 }

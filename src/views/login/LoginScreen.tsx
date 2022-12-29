@@ -1,8 +1,19 @@
 import React from 'react'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text } from 'react-native'
+import { useStores } from 'stores/root-store'
+import { GradientButton } from 'views/chat/old/GradientButton'
 import { FullScreenGradient } from 'views/shared'
+import { typography } from 'views/theme'
 
 export const LoginScreen = () => {
+  const { user } = useStores()
+  const getStarted = async () => {
+    await user.signup({
+      username: 'Arc Tester',
+      displayName: 'Arc Tester',
+      about: 'Running Arc',
+    })
+  }
   return (
     <View
       style={{
@@ -12,31 +23,16 @@ export const LoginScreen = () => {
         backgroundColor: 'transparent',
       }}>
       <FullScreenGradient />
-      <Text style={{ fontSize: 24, color: '#fff', fontWeight: 'bold', marginBottom: 10 }}>Arc</Text>
-      <TextInput
+      <Text
         style={{
-          width: '80%',
-          height: 40,
-          borderBottomWidth: 1,
-          borderBottomColor: '#fff',
+          fontSize: 24,
           color: '#fff',
-          fontSize: 16,
-          marginBottom: 20,
-        }}
-        placeholder='Pick a name'
-        placeholderTextColor='#777'
-      />
-      <TouchableOpacity
-        style={{
-          width: '80%',
-          height: 40,
-          backgroundColor: '#00F',
-          borderRadius: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
+          marginBottom: 10,
+          fontFamily: typography.bold,
         }}>
-        <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Sign In</Text>
-      </TouchableOpacity>
+        Arc
+      </Text>
+      <GradientButton onPress={getStarted} />
     </View>
   )
 }

@@ -7,8 +7,10 @@ const USE_DUMMY_DATA = false
 export const useMessages = () => {
   const { messages, connect } = useRelayConnection()
   useEffect(() => {
-    if (!USE_DUMMY_DATA) {
-      connect()
+    if (!USE_DUMMY_DATA && messages.length === 0) {
+      setTimeout(() => {
+        connect()
+      }, 1000)
     }
   }, [])
 

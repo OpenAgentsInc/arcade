@@ -49,6 +49,7 @@ export function BottomTabNavigator() {
             color: color.text,
             fontFamily: typography.secondary,
           },
+          //   tabBarStyle: { display: 'none' },
         }}
       />
       <BottomTab.Screen

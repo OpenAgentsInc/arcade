@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-// import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-paper'
 import { AntDesign } from '@expo/vector-icons'
 import { typography } from 'views/theme'
@@ -11,6 +11,7 @@ type Props = {
 }
 
 export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl }) => {
+  const { goBack } = useNavigation()
   return (
     <View
       style={{
@@ -20,7 +21,7 @@ export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl })
         height: 38,
         paddingHorizontal: 10,
       }}>
-      <TouchableOpacity activeOpacity={0.8}>
+      <TouchableOpacity activeOpacity={0.8} onPress={goBack}>
         <AntDesign name='left' size={24} color='#329FFD' />
       </TouchableOpacity>
       <Text style={{ fontSize: 16, color: '#fff', fontFamily: typography.bold }}>

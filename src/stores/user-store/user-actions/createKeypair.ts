@@ -13,9 +13,9 @@ export const createKeypair = async (self: UserStore) => {
   self.setPublicKey(publicKey)
   const storeAvailable = await SecureStore.isAvailableAsync()
   if (storeAvailable) {
-    await SecureStore.setItemAsync('ARCADE_NPUB', publicKey)
-    await SecureStore.setItemAsync('ARCADE_NSEC', privateKey)
-    await SecureStore.setItemAsync('ARCADE_MNEMONIC', mnemonic as string)
+    await SecureStore.setItemAsync('ARC_NPUB', publicKey)
+    await SecureStore.setItemAsync('ARC_NSEC', privateKey)
+    await SecureStore.setItemAsync('ARC_MNEMONIC', mnemonic as string)
     display({
       name: 'createKeypair',
       preview: 'Created keypair+mnemonic and persisted to secure storage',
