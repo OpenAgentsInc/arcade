@@ -19,7 +19,6 @@ export const ChatNavigator = () => {
         component={ChatsScreen}
         options={{ ...stackOptions, title: 'Channels', headerShown: false }}
       />
-
       <Stack.Screen
         name='channel'
         component={DemoChannel}
@@ -27,6 +26,8 @@ export const ChatNavigator = () => {
           ...stackOptions,
           title: 'Channel',
           headerLeft: () => <NavButton onPress={navigation.goBack} />,
+          headerShown: false,
+          animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>
