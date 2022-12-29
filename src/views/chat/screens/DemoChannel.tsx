@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import FullScreenGradient from 'views/shared/FullScreenGradient'
-import { palette } from '../../../lib/palette'
+import { palette } from 'views/theme'
 import { ChannelHeader } from '../components/ChannelHeader'
 import { MessageList } from '../components/MessageList'
 import { MessageInput } from '../components/MessageInput'

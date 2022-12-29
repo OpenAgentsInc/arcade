@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { View, Text, Image } from 'react-native'
-import useChatStore, { ChatMessage } from '../../../components/store'
+import useChatStore, { ChatMessage } from 'stores/chat'
 import { formatTimestamp, truncateString } from '../../../lib/utils'
 import { LinearGradient } from 'expo-linear-gradient'
-import { palette } from '../../../lib/palette'
+import { palette } from 'views/theme'
 
 type Props = {
   message: ChatMessage

@@ -1,15 +1,13 @@
 import { useRef, useState } from 'react'
 import { Alert, TouchableOpacity, TextInput, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
-import useChatStore from '../../../components/store'
-import useRelayConnection from '../../../hooks/useRelayConnection'
+import useChatStore from 'stores/chat'
 import { sendChannelMessage } from '../../../lib/chat'
-import { palette } from '../../../lib/palette'
+import { palette } from 'views/theme'
 
 export const MessageInput = () => {
   const relay = useChatStore((state) => state.relay)
   const [text, setText] = useState('')
-  // @ts-ignore
   const inputBoxRef = useRef<TextInput | null>(null)
   const submitInput = () => {
     if (text.length < 1) {
