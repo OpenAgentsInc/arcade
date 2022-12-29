@@ -38,7 +38,7 @@ const useRelayConnection = () => {
     ])
 
     sub.on('event', (event: any) => {
-      console.log('got event:', event)
+      //   console.log('got event:', event)
       const message: ChatMessage = {
         id: event.id,
         sender: event.pubkey,
@@ -53,8 +53,6 @@ const useRelayConnection = () => {
   //   useEffect(() => {
   //     connect()
   //   }, [])
-
-  console.log('returning relay?', relay)
 
   return {
     relay,

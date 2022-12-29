@@ -1,9 +1,13 @@
 import { useRef, useState } from 'react'
 import { Alert, TouchableOpacity, TextInput, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
+import useChatStore from '../../../components/store'
+import useRelayConnection from '../../../hooks/useRelayConnection'
+import { sendChannelMessage } from '../../../lib/chat'
 import { palette } from '../../../lib/palette'
 
 export const MessageInput = () => {
+  const relay = useChatStore((state) => state.relay)
   const [text, setText] = useState('')
   // @ts-ignore
   const inputBoxRef = useRef<TextInput | null>(null)
@@ -23,7 +27,7 @@ export const MessageInput = () => {
 
     console.log("Pretended to send: '" + text + "'")
     setText('')
-    // relay.sendChannelMessage(channelId, text)
+    sendChannelMessage(text, relay)
   }
   return (
     <View style={{ backgroundColor: palette.night, borderTopWidth: 1, padding: 6 }}>
