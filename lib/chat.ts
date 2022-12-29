@@ -1,18 +1,6 @@
-// export type Event = {
-//     id?: string
-//     sig?: string
-//     kind: Kind
-//     tags: string[][]
-//     pubkey: string
-//     content: string
-//     created_at: number
-//   }
-
-import { Alert } from 'react-native'
 import useChatStore from '../components/store'
-import { createNewAccount } from './account'
 import { getEventHash, NostrEventToSerialize, NostrEventToSign, signEvent } from './nip01'
-import { Event, Kind } from './nostr-tools/event'
+import { Event } from './nostr-tools/event'
 import { timeNowInSeconds } from './utils'
 
 const NOSTR_CHANNEL_ID = '25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'
@@ -40,10 +28,7 @@ export const sendChannelMessage = async (
     tags: [['e', channelId]],
   }
 
-  console.log(`almost ready to publish event from pubkey: ${publicKey}:`, event)
-
   const id = getEventHash(event)
-  console.log(id)
 
   const eventToSign: NostrEventToSign = {
     ...event,
@@ -51,20 +36,11 @@ export const sendChannelMessage = async (
   }
 
   const signature = await signEvent(eventToSign, privateKey)
-  console.log('here ursignature:', signature)
 
   const signedEvent: Event = {
     ...(eventToSign as any),
     sig: signature,
   }
 
-  //   console.log(signedEvent)
-
   relay.publish(signedEvent)
-
-  // relay.pub({
-  //     kind: 42,
-  //     content: text,
-  //     '#e': channelId,
-  // })
 }

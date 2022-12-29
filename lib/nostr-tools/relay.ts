@@ -78,13 +78,10 @@ export function relayInit(url: string): Relay {
       }
 
       ws.onmessage = async (e) => {
-        // console.log('a message')
         var data
         try {
           data = JSON.parse(e.data)
-          console.log('data:', data)
         } catch (err) {
-          console.log('some error')
           data = e.data
         }
 

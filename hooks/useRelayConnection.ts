@@ -8,13 +8,8 @@ const useRelayConnection = () => {
   const addMessage = useChatStore((state) => state.addMessage)
 
   const generateKeys = async () => {
-    console.log('Generating keys')
     const { privateKey, publicKey } = createNewAccount()
-
-    console.log('PUBKEY LENGTH: ', publicKey.length, publicKey)
-
     useChatStore.setState({ pubkey: publicKey, privkey: privateKey })
-    console.log('We are now pubkey: ', publicKey)
   }
 
   const connect = async () => {
@@ -49,7 +44,6 @@ const useRelayConnection = () => {
     ])
 
     sub.on('event', (event: any) => {
-      //   console.log('got event:', event)
       const message: ChatMessage = {
         id: event.id,
         sender: event.pubkey,
@@ -57,17 +51,12 @@ const useRelayConnection = () => {
         timestamp: event.created_at.toString(),
       }
       addMessage(message)
-      //   setMessages((prevMessages) => [...prevMessages, message])
     })
 
     setTimeout(() => {
       generateKeys()
     }, 500)
   }
-
-  //   useEffect(() => {
-  //     connect()
-  //   }, [])
 
   return {
     relay,
