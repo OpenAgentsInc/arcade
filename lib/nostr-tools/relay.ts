@@ -202,7 +202,6 @@ export function relayInit(url: string): Relay {
       trySend(['EVENT', event])
         .then(() => {
           sent = true
-          console.log('sent?')
           if (mustMonitor) {
             startMonitoring()
             mustMonitor = false

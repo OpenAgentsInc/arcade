@@ -24,8 +24,6 @@ export const MessageInput = () => {
 
     // And clear the focus on the input box
     inputBoxRef.current?.blur()
-
-    console.log("Pretended to send: '" + text + "'")
     setText('')
     setTimeout(() => {
       sendChannelMessage(text, relay)

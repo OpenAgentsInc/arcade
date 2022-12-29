@@ -13,7 +13,6 @@ export const getEventHash = (event: NostrEventToSerialize) => {
     .update(Buffer.from(serializeEvent(event)))
     .digest()
   const hexed = Buffer.from(eventHash).toString('hex')
-  console.log('event hash:', hexed)
   return hexed
 }
 
