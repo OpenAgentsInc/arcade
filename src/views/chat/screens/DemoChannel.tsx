@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native'
-import FullScreenGradient from '../../../components/FullScreenGradient'
+import FullScreenGradient from 'views/shared/FullScreenGradient'
 import { palette } from '../../../lib/palette'
 import { ChannelHeader } from '../components/ChannelHeader'
 import { MessageList } from '../components/MessageList'

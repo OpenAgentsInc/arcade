@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { palette } from '../lib/palette'
+import { palette } from 'lib/palette'
 
 const FullScreenGradient = ({ colors, start, end }: any) => {
   return (
