@@ -17,6 +17,7 @@ export const signup = async (self: UserStore, { username, displayName, about }: 
     website: null,
   }
 
+  await self.rootStore.user.createKeypair()
   await self.rootStore.relay.connect()
   await self.env.nostr.saveMetadata(metadata)
   self.setUsername(username)
