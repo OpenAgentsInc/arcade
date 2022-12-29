@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 // import { useNavigation } from '@react-navigation/native'
 import { Avatar } from 'react-native-paper'
 import { AntDesign } from '@expo/vector-icons'
+import { typography } from 'views/theme'
 
 type Props = {
   channelName: string
@@ -22,7 +23,9 @@ export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl })
       <TouchableOpacity activeOpacity={0.8}>
         <AntDesign name='left' size={24} color='#329FFD' />
       </TouchableOpacity>
-      <Text style={{ fontSize: 16, color: '#fff' }}>{channelName}</Text>
+      <Text style={{ fontSize: 16, color: '#fff', fontFamily: typography.bold }}>
+        {channelName}
+      </Text>
       <Avatar.Image size={30} source={{ uri: channelImageUrl }} />
     </View>
   )
