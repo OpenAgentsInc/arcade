@@ -9,7 +9,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "postinstall": "npx patch-package"
+    "postinstall": "npx patch-package",
+    "build:android": "eas build -p android",
+    "build:android:apk": "eas build -p android --profile apk"
   },
   "jest": {
     "preset": "jest-expo"
