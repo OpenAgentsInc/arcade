@@ -4,26 +4,26 @@ import { Button, H1, Paragraph, Separator, Sheet, Text, XStack, YStack } from '@
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 
-export function HomeScreen() {
+export function ChannelScreen() {
   const linkProps = useLink({
-    href: '/channels',
+    href: '/',
   })
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$haiti">
       <YStack space="$4" maw={600}>
         <H1 ta="center" color="$moonRaker">
-          Arc
+          Channels
         </H1>
         <Separator borderColor="$blueBellFaded" />
         <Paragraph ta="center" color="$blueBell">
-          The Worst Chat App
+          lol heres ur channels
         </Paragraph>
       </YStack>
 
       <XStack mt="$8">
         <Button size="$6" backgroundColor="$electricIndigo" {...linkProps}>
-          Get started
+          Log out
         </Button>
       </XStack>
     </YStack>
