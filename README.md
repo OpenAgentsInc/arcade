@@ -13,12 +13,14 @@ Explaining architecture choices on our wiki for transparency and feedback:
 
 ## Running locally
 
-This is pre-alpha and very little works. But if you want to run the app yourself, here are basic instructions. Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
+This is pre-alpha and very little works. But if you like bugs and pain, here are the basics:
 
 1. `git clone git@github.com:ArcadeLabsInc/arc.git`
 2. `cd arc`
 3. `yarn`
 4. `yarn start`
+
+Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
 
 ## Screenshots
 
