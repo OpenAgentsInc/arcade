@@ -9915,6 +9915,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"maath@npm:0.0.2":
+  version: 0.0.2
+  resolution: "maath@npm:0.0.2"
+  peerDependencies:
+    "@types/three": ^0.134.0
+    three: ^0.134.0
+  checksum: 9fa6b74a5c06f160472c05b29785b3d5c1ca872fc91d953c886743e02a4a93936ba5197e1c49e8c2027c13d07116b51a23015f41b3d585bd959435ad2301a650
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^2.0.0, make-dir@npm:^2.1.0":
   version: 2.1.0
   resolution: "make-dir@npm:2.1.0"
@@ -10748,6 +10758,7 @@ __metadata:
     app: "*"
     critters: ^0.0.16
     eslint-config-next: ^13.0.4
+    maath: 0.0.2
     next: ^13.0.6
     next-images: ^1.8.4
     raf: ^3.4.1

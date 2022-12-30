@@ -1,11 +1,11 @@
-// Create demo NextJS page
-
 import React from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
 import { Button, Stack, YStack } from '@my/ui'
 import { ChevronLeft } from '@tamagui/lucide-icons'
-import Blob from 'components/Blob'
+import dynamic from 'next/dynamic'
+
+const Stars = dynamic(() => import('components/Stars'), { ssr: false })
 
 export default function Three() {
   return (
@@ -21,10 +21,10 @@ export default function Three() {
           bottom: 0,
         }}
       >
-        <Canvas>
+        <Canvas camera={{ position: [0, 0, 1] }}>
           <directionalLight intensity={0.75} />
           <ambientLight intensity={0.75} />
-          <Blob />
+          <Stars />
           <Preload all />
           <OrbitControls />
         </Canvas>
