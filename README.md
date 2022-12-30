@@ -23,7 +23,7 @@ This is pre-alpha and very little works. But if you like bugs and pain, here are
 
 Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
 
-To learn the basics of React Native, see the [Lightning wallet workshop](https://arcadelabs.co/articles/intro-to-react-native) from this author.
+To learn the basics of React Native, see the [RN+Lightning wallet workshop](https://arcadelabs.co/articles/intro-to-react-native) from this author.
 
 ## Screenshots
 
