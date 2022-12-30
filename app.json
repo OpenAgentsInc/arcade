@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "arcade.labs.arc"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
