@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "arc",
+    "name": "Arc",
     "slug": "arc",
-    "version": "1.0.0",
+    "version": "0.0.1`",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -23,10 +23,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "arcade.labs.arc",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
+      }
     }
   }
 }

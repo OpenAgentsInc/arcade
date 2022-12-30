@@ -13,9 +13,9 @@ type Props = {
 export const Message: React.FC<Props> = ({ message }) => {
   //   const currentUser = 'c4002090d38e3b76aa49312063b56de53437aebb49eb052926dbc25251c7b8e8'
   //   const currentUser = '94de920f97558ea67aa0c2a1b496d03f208b36fc4c97c723a0a841d125b46aca'
-  //   const currentUser = useChatStore((state) => state.pubkey)
-  const { user } = useStores()
-  const currentUser = user.publicKey
+  const currentUser = useChatStore((state) => state.pubkey)
+  //   const { user } = useStores()
+  //   const currentUser = user.publicKey
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://placekitten.com/200/200' //  'https://i.pravatar.cc/150?img=5'
