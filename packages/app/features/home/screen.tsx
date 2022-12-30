@@ -1,6 +1,6 @@
 import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui'
 // import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-import { Entypo } from '@expo/vector-icons'
+// import { Entypo } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 
@@ -52,13 +52,13 @@ function SheetDemo() {
     <>
       <Button
         size="$6"
-        icon={
-          open ? (
-            <Entypo name="chevron-down" size={24} color="black" />
-          ) : (
-            <Entypo name="chevron-up" size={24} color="black" />
-          )
-        }
+        // icon={
+        //   open ? (
+        //     <Entypo name="chevron-down" size={24} color="black" />
+        //   ) : (
+        //     <Entypo name="chevron-up" size={24} color="black" />
+        //   )
+        // }
         circular
         onPress={() => setOpen((x) => !x)}
       />
@@ -77,7 +77,7 @@ function SheetDemo() {
           <Button
             size="$6"
             circular
-            icon={<Entypo name="chevron-down" size={24} color="black" />}
+            // icon={<Entypo name="chevron-down" size={24} color="black" />}
             onPress={() => {
               setOpen(false)
             }}
