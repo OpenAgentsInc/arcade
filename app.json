@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "arcade.labs.arc"
+      "package": "arcade.labs.arc",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
