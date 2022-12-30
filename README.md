@@ -11,6 +11,13 @@ Explaining architecture choices on our wiki for transparency and feedback:
 - [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
 - [App initialization flow](https://github.com/ArcadeLabsInc/arc/wiki/App-initialization-flow)
 
+## Running locally
+
+1. `git clone git@github.com:ArcadeLabsInc/arc.git`
+2. `cd arc`
+3. `yarn`
+4. `yarn start`
+
 ## Screenshots
 
 ![chats](https://user-images.githubusercontent.com/14167547/209855695-e8597eb9-7850-4904-9e92-1d9f42424a4a.png)
