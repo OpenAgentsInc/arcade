@@ -1,10 +1,35 @@
-import { createTamagui } from 'tamagui'
+import { createTamagui, createTokens } from 'tamagui'
 import { createInterFont } from '@tamagui/font-inter'
 import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/theme-base'
+import { themes, tokens as baseTokens } from '@tamagui/theme-base'
 import { createMedia } from '@tamagui/react-native-media-driver'
 
 import { animations } from './animations'
+
+const tokens = createTokens({
+  ...baseTokens,
+  color: {
+    // From Adobe Color palette generated from nostrich img, "Colorful"
+    indigo: '#3F04BF',
+    indigodark: '#21038C',
+    night: '#1A1726',
+    twilight: '#453A8C',
+    dusk: '#272559',
+
+    // Arcade City colors
+    haiti: '#120B29',
+    purple: '#1C133A',
+    portGore: '#2D2252',
+    blueBell: '#9D98CB',
+    blueBellFaded: 'rgba(157, 152, 203, 0.6)',
+    minsk: '#46367C',
+    moonRaker: '#EEECFB',
+    radicalRed: '#FC3A57',
+    pinkFlamingo: '#F459F4',
+    electricViolet: '#AE30FF',
+    electricIndigo: '#5B20F2',
+  },
+})
 
 const headingFont = createInterFont({
   size: {

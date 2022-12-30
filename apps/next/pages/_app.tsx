@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
       <Head>
-        <title>Tamagui Example App</title>
+        <title>Arc</title>
         <meta name="description" content="Tamagui, Solito, Expo & Next.js" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
