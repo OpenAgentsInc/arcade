@@ -30,7 +30,14 @@ export default function Three() {
         </Canvas>
       </Stack>
       <YStack f={1} jc="center" ai="center" space>
-        <Button icon={ChevronLeft}>Go Back</Button>
+        <Button
+          backgroundColor="$electricIndigo"
+          hoverStyle={{ backgroundColor: '$electricViolet', borderWidth: 0 }}
+          focusStyle={{ backgroundColor: '$indigo', borderWidth: 0 }}
+          icon={ChevronLeft}
+        >
+          Do nothing
+        </Button>
       </YStack>
     </>
   )
