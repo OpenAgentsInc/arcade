@@ -2,7 +2,9 @@
   "expo": {
     "name": "Arc",
     "slug": "arc",
-    "version": "0.0.1`",
+    "version": "0.0.1",
+    "sdkVersion": "47.0.0",
+    "platforms": ["ios", "android", "web"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
