@@ -15,28 +15,28 @@ const boolVals = {
 const disableExtraction =
   boolVals[process.env.DISABLE_EXTRACTION] ?? process.env.NODE_ENV === 'development'
 
-console.log(`
+// console.log(`
 
-Welcome to Tamagui!
+// Welcome to Tamagui!
 
-We've set up a few things for you. We set the "excludeReactNativeWebExports"
-setting in next.config.js, which omits these from the bundle:
+// We've set up a few things for you. We set the "excludeReactNativeWebExports"
+// setting in next.config.js, which omits these from the bundle:
 
-- Switch, ProgressBar, Picker, CheckBox, Touchable
+// - Switch, ProgressBar, Picker, CheckBox, Touchable
 
-To save more, you can add more that you may not need, like:
+// To save more, you can add more that you may not need, like:
 
-- AnimatedFlatList, FlatList, SectionList, VirtualizedList, VirtualizedSectionList
+// - AnimatedFlatList, FlatList, SectionList, VirtualizedList, VirtualizedSectionList
 
-Even better, enable "useReactNativeWebLite" and you can remove the
-excludeReactNativeWebExports setting altogether, and get tree-shaking and
-concurrent mode support.
+// Even better, enable "useReactNativeWebLite" and you can remove the
+// excludeReactNativeWebExports setting altogether, and get tree-shaking and
+// concurrent mode support.
 
-🐣
+// 🐣
 
-Remove this log in next.config.js.
+// Remove this log in next.config.js.
 
-`)
+// `)
 
 const plugins = [
   withImages,
