@@ -19,8 +19,9 @@ This is pre-alpha and very little works. But if you like bugs and pain, here are
 2. `cd arc`
 3. `yarn`
 4. `yarn start`
+5. Scan the QR code with Expo Go (on Android) or the Camera app (iOS) to open the app on your device in Expo Go. Or press a or i to open in an emulator if you have one set up.
 
-Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
+Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS. For React Native basics, see the [Lightning wallet workshop](https://arcadelabs.co/articles/intro-to-react-native) from this author.
 
 ## Screenshots
 
