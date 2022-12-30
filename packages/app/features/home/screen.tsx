@@ -10,7 +10,7 @@ export function HomeScreen() {
   })
 
   return (
-    <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$haiti">
+    <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$bg">
       <YStack space="$4" maw={600}>
         <H1 ta="center" color="$moonRaker">
           Arc

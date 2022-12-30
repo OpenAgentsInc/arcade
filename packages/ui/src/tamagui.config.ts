@@ -9,6 +9,8 @@ import { animations } from './animations'
 const tokens = createTokens({
   ...baseTokens,
   color: {
+    bg: 'rgb(0, 2, 18)',
+
     // From Adobe Color palette generated from nostrich img, "Colorful"
     indigo: '#3F04BF',
     indigodark: '#21038C',
