@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "postinstall": "npx patch-package",
+    "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
     "build:android:apk": "eas build -p android --profile apk"
   },
