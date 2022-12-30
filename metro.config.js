@@ -1,10 +1,4 @@
-const extraNodeModules = require('node-libs-react-native')
+// Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config')
-const projectRoot = __dirname
-const config = getDefaultConfig(projectRoot)
 
-config.resolver.sourceExts.push('cjs')
-config.resolver.assetExts.push('wasm')
-config.resolver.extraNodeModules = extraNodeModules
-
-module.exports = config
+module.exports = getDefaultConfig(__dirname)

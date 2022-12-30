@@ -1,0 +1,19 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": false,
+    "baseUrl": "./",
+    "paths": {
+      "lib": ["src/lib"],
+      "lib/*": ["src/lib/*"],
+      "navigation": ["src/navigation"],
+      "navigation/*": ["src/navigation/*"],
+      "services/*": ["src/services/*"],
+      "stores/*": ["src/stores/*"],
+      "stores": ["src/stores"],
+      "views/*": ["src/views/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

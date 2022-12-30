@@ -1,19 +1,11 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": false,
-    "baseUrl": "./",
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
-      "lib": ["src/lib"],
-      "lib/*": ["src/lib/*"],
-      "navigation": ["src/navigation"],
-      "navigation/*": ["src/navigation/*"],
-      "services/*": ["src/services/*"],
-      "stores/*": ["src/stores/*"],
-      "stores": ["src/stores"],
-      "views/*": ["src/views/*"]
+      "app/*": ["./packages/app/*"],
+      "@my/ui/*": ["./packages/ui/*"]
     }
   },
-  "include": ["src/**/*"]
+  "extends": "expo/tsconfig.base"
 }
