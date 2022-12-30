@@ -36,3 +36,5 @@ To learn the basics of React Native, see the [Lightning wallet workshop](https:/
 ![textinput](https://user-images.githubusercontent.com/14167547/209863990-54c869d7-9f2a-4db2-87fc-adc1f9156546.png)
 
 ![hellobig](https://user-images.githubusercontent.com/14167547/209897480-1265d097-aff5-490e-aaab-289be2c1999c.png)
+
+![device](https://user-images.githubusercontent.com/14167547/210024319-9af65899-9ec8-4b2c-add0-f4f6fbafb16c.png)
