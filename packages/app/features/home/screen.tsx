@@ -1,5 +1,5 @@
 import { Anchor, Button, H1, Input, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui'
-import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
+// import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 
@@ -51,7 +51,7 @@ function SheetDemo() {
     <>
       <Button
         size="$6"
-        icon={open ? ChevronDown : ChevronUp}
+        // icon={open ? ChevronDown : ChevronUp}
         circular
         onPress={() => setOpen((x) => !x)}
       />
@@ -70,7 +70,7 @@ function SheetDemo() {
           <Button
             size="$6"
             circular
-            icon={ChevronDown}
+            // icon={ChevronDown}
             onPress={() => {
               setOpen(false)
             }}
