@@ -1,3 +1,6 @@
+// https://github.com/facebook/react-native/issues/14796#issuecomment-373961108
+if (typeof Buffer === 'undefined') global.Buffer = require('buffer').Buffer
+
 import { registerRootComponent } from 'expo'
 
 import App from './App'
