@@ -1,15 +1,14 @@
-import { initialState } from './auth'
+import { AuthState, initialState } from './auth'
 
-export const login = (name: string, email: string) => (state: any) => {
+export const login = (name: string): AuthState => {
   return {
     isLoggedIn: true,
     user: {
       name,
-      email,
     },
   }
 }
 
-export const logout = () => (state: any) => {
+export const logout = (): AuthState => {
   return initialState
 }

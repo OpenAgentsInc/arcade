@@ -1,13 +1,11 @@
-import { Button, H1, Paragraph, Separator, Sheet, Text, XStack, YStack } from '@my/ui'
-// import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-// import { Entypo } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import { useLink } from 'solito/link'
+import React from 'react'
+import { Button, H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
+import { useStore } from 'app/stores'
 
 export function HomeScreen() {
-  const linkProps = useLink({
-    href: '/channels',
-  })
+  const isLoggedIn = useStore((s) => s.isLoggedIn)
+  const login = useStore((s) => s.login)
+  console.log('isLoggedIn', isLoggedIn)
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$bg">
@@ -22,7 +20,7 @@ export function HomeScreen() {
       </YStack>
 
       <XStack mt="$8">
-        <Button size="$6" backgroundColor="$electricIndigo" {...linkProps}>
+        <Button onPress={() => login('hohoho')} size="$6" backgroundColor="$electricIndigo">
           Get started
         </Button>
       </XStack>
