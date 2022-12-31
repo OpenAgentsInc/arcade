@@ -6,7 +6,8 @@ import { useFonts } from 'expo-font'
 
 import { LogBox } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-LogBox.ignoreLogs(['Constants.platform.ios.model'])
+
+LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle'])
 
 export default function App() {
   const [loaded] = useFonts({
