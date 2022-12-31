@@ -1,3 +1,5 @@
+if (typeof BigInt === 'undefined') global.BigInt = require('big-integer')
+import 'text-encoding-polyfill'
 import 'expo-dev-client'
 import React from 'react'
 import { NativeNavigation } from 'app/navigation/native'
