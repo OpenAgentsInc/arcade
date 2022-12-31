@@ -33,6 +33,7 @@
   "dependencies": {
     "@babel/runtime": "^7.18.9",
     "expo": "~47.0.9",
+    "expo-random": "~13.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",

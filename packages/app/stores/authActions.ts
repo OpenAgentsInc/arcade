@@ -1,8 +1,8 @@
 import { createMnemonic, keypairFromSeed, seedFromWords } from 'app/lib/nostr'
 import { AuthState, initialState } from './auth'
 
-export const login = (name: string): AuthState => {
-  const mnemonic = createMnemonic()
+export const login = async (name: string): Promise<AuthState> => {
+  const mnemonic = await createMnemonic()
   const seed = seedFromWords(mnemonic)
   console.log(mnemonic, seed)
   const { privateKey, publicKey } = keypairFromSeed(seed)
