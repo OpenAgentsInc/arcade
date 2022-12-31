@@ -16,7 +16,9 @@
     "@tamagui/lucide-icons": "^1.0.1",
     "@tamagui/shorthands": "^1.0.1",
     "@tamagui/theme-base": "^1.0.1",
+    "bip39": "^3.0.4",
     "expo-linking": "^3.2.3",
+    "expo-random": "~13.0.0",
     "solito": "2.0.0-canary.4"
   }
 }
