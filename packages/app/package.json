@@ -16,7 +16,13 @@
     "@tamagui/lucide-icons": "^1.0.1",
     "@tamagui/shorthands": "^1.0.1",
     "@tamagui/theme-base": "^1.0.1",
+    "bech32": "^2.0.0",
+    "bip-schnorr": "^0.6.6",
+    "bip32": "3.0.1",
+    "bip39": "^3.0.4",
     "expo-linking": "^3.2.3",
-    "solito": "2.0.0-canary.4"
+    "solito": "2.0.0-canary.4",
+    "tiny-secp256k1": "^2.1.2",
+    "tiny-secp256k1-v1": "npm:tiny-secp256k1@^1.1.6"
   }
 }
