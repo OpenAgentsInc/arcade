@@ -1,6 +1,8 @@
 # Arc
 
-An experimental Nostr chat client in React Native (Android & iOS).
+An experimental cross-platform Nostr chat client.
+
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS and web with one codebase.
 
 Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) for a Telegram-like experience.
 
