@@ -11,7 +11,6 @@ We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and 
 Explaining architecture choices on our wiki for transparency and feedback:
 
 - [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
-- [App initialization flow](https://github.com/ArcadeLabsInc/arc/wiki/App-initialization-flow)
 
 ## Running locally
 
