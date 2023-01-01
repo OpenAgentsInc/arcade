@@ -72,11 +72,13 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
+      'expo-secure-storage',
     ],
     experimental: {
       // optimizeCss: true,
       scrollRestoration: true,
       legacyBrowsers: false,
+      esmExternals: true,
     },
   }
 
