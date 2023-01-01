@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, H1, Paragraph, Separator, YStack } from '@my/ui'
 import { useStore } from 'app/stores'
-import { tooltest } from 'app/lib/nostr/tooltest'
 
 export function HomeScreen() {
   const login = useStore((s) => s.login)
@@ -21,14 +20,6 @@ export function HomeScreen() {
       <YStack mt="$8" space="$4">
         <Button onPress={() => login('hohoho')} size="$6" backgroundColor="$electricIndigo">
           Get started
-        </Button>
-        <Button
-          onPress={tooltest}
-          size="$6"
-          backgroundColor="$electricViolet"
-          focusStyle={{ backgroundColor: '$electricViolet' }}
-        >
-          Test nostr-tools keygen
         </Button>
       </YStack>
     </YStack>
