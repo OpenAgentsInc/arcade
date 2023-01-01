@@ -4,7 +4,7 @@ A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) chat client, c
 
 Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) for a Telegram-like experience.
 
-We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS and web with one codebase.
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS & web with one codebase.
 
 The `main` branch is automatically deployed to at https://arc-next-azure.vercel.app. It may or may not be usable.
 
