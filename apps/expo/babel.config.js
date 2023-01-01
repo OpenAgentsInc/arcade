@@ -1,7 +1,17 @@
 module.exports = function (api) {
   api.cache(true)
   return {
-    presets: [['babel-preset-expo', { jsxRuntime: 'automatic' }]],
+    presets: [
+      ['babel-preset-expo', { jsxRuntime: 'automatic' }],
+      // https://github.com/paulmillr/noble-secp256k1/issues/31#issuecomment-1237683860
+      // https://github.com/facebook/metro/issues/359#issuecomment-1237682140
+      [
+        'module:metro-react-native-babel-preset',
+        {
+          unstable_transformProfile: 'hermes-stable',
+        },
+      ],
+    ],
     plugins: [
       [
         require.resolve('babel-plugin-module-resolver'),

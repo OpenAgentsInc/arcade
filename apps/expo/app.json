@@ -2,6 +2,7 @@
   "expo": {
     "name": "myapp",
     "slug": "myapp",
+    "jsEngine": "hermes",
     "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,9 +16,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tamagui.myapp"
