@@ -1,13 +1,11 @@
-if (typeof BigInt === 'undefined') global.BigInt = require('big-integer')
 import 'text-encoding-polyfill'
 import 'expo-dev-client'
-import React from 'react'
 import { NativeNavigation } from 'app/navigation/native'
 import { Provider } from 'app/provider'
 import { useFonts } from 'expo-font'
-
-import { LogBox } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
+import React from 'react'
+import { LogBox } from 'react-native'
 
 LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle'])
 
