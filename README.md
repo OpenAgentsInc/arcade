@@ -6,6 +6,8 @@ Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/bl
 
 We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS and web with one codebase.
 
+Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
+
 ## Architecture
 
 Explaining architecture choices on our wiki for transparency and feedback:
