@@ -1,29 +1,15 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
-import ChannelScreen from '../../../../apps/next/pages/channels'
+import { ChannelScreen } from '../../features/channels/ChannelScreen'
 
 const Stack = createNativeStackNavigator<{
-  home: undefined
   channels: undefined
-  'user-detail': {
-    id: string
-  }
+  channel: undefined
 }>()
 
 export function AuthedNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="home"
-        component={HomeScreen}
-        options={{
-          title: 'Home',
-          headerShown: false,
-        }}
-      />
       <Stack.Screen
         name="channels"
         component={ChannelScreen}
@@ -34,11 +20,12 @@ export function AuthedNavigator() {
         }}
       />
       <Stack.Screen
-        name="user-detail"
-        component={UserDetailScreen}
+        name="channel"
+        component={ChannelScreen}
         options={{
-          title: 'User',
+          title: 'Channel',
           headerShown: false,
+          animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>
