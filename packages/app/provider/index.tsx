@@ -4,7 +4,7 @@ import { TamaguiProvider, TamaguiProviderProps } from '@my/ui'
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   return (
-    <TamaguiProvider config={config} disableInjectCSS defaultTheme="light" {...rest}>
+    <TamaguiProvider config={config} disableInjectCSS defaultTheme="dark" {...rest}>
       <NavigationProvider>{children}</NavigationProvider>
     </TamaguiProvider>
   )

@@ -1,11 +1,10 @@
 import React from 'react'
-import { Button, H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
+import { Button, H1, Paragraph, Separator, YStack } from '@my/ui'
 import { useStore } from 'app/stores'
+import { tooltest } from 'app/lib/nostr/tooltest'
 
 export function HomeScreen() {
-  const isLoggedIn = useStore((s) => s.isLoggedIn)
   const login = useStore((s) => s.login)
-  console.log('isLoggedIn', isLoggedIn)
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$bg">
@@ -19,11 +18,19 @@ export function HomeScreen() {
         </Paragraph>
       </YStack>
 
-      <XStack mt="$8">
+      <YStack mt="$8" space="$4">
         <Button onPress={() => login('hohoho')} size="$6" backgroundColor="$electricIndigo">
           Get started
         </Button>
-      </XStack>
+        <Button
+          onPress={tooltest}
+          size="$6"
+          backgroundColor="$electricViolet"
+          focusStyle={{ backgroundColor: '$electricViolet' }}
+        >
+          Test nostr-tools keygen
+        </Button>
+      </YStack>
     </YStack>
   )
 }
