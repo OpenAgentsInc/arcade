@@ -1,6 +1,6 @@
 # Arc
 
-An experimental cross-platform Nostr chat client.
+An experimental cross-platform [Nostr](https://github.com/nostr-protocol/nostr) chat client.
 
 Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) for a Telegram-like experience.
 
