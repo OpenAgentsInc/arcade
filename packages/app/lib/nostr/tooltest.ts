@@ -1,5 +1,4 @@
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
-import { Alert } from 'react-native'
 
 export const tooltest = () => {
   let sk = generatePrivateKey() // `sk` is a hex string
