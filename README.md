@@ -6,7 +6,7 @@ Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/bl
 
 We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS & web with one codebase.
 
-The `main` branch is automatically deployed to https://alpha.thearcapp.com. It may or may not be usable.
+The `main` branch is automatically deployed to [alpha.thearcapp.com](https://alpha.thearcapp.com). It may or may not be usable.
 
 Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
