@@ -67,13 +67,11 @@ module.exports = function () {
       disableStaticImages: true,
     },
     transpilePackages: [
-      'expo-secure-store',
       'solito',
       'react-native-web',
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
-      //   'expo-secure-store',
     ],
     experimental: {
       // optimizeCss: true,
