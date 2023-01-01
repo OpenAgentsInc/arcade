@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
 import { useStore } from 'app/stores'
+import { tooltest } from 'app/lib/nostr/tooltest'
 
 export function HomeScreen() {
   const isLoggedIn = useStore((s) => s.isLoggedIn)
@@ -18,11 +19,14 @@ export function HomeScreen() {
         </Paragraph>
       </YStack>
 
-      <XStack mt="$8">
+      <YStack mt="$8" space="$4">
         <Button onPress={() => login('hohoho')} size="$6" backgroundColor="$electricIndigo">
           Get started
         </Button>
-      </XStack>
+        <Button onPress={tooltest} size="$6" backgroundColor="$electricViolet">
+          Test noble keygen
+        </Button>
+      </YStack>
     </YStack>
   )
 }
