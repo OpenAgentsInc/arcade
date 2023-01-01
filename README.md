@@ -28,14 +28,7 @@ To learn the basics of React Native, see the [RN+Lightning wallet workshop](http
 
 ## Screenshots
 
-![chats](https://user-images.githubusercontent.com/14167547/209855695-e8597eb9-7850-4904-9e92-1d9f42424a4a.png)
-
-![nostrchannel2](https://user-images.githubusercontent.com/14167547/209855373-369cd926-6f92-468f-b2cd-ae9652529a91.png)
-
-![nostrchannel1](https://user-images.githubusercontent.com/14167547/209855320-bcdc2faa-9468-4ccb-958f-b9363deac610.png)
-
-![textinput](https://user-images.githubusercontent.com/14167547/209863990-54c869d7-9f2a-4db2-87fc-adc1f9156546.png)
-
-![hellobig](https://user-images.githubusercontent.com/14167547/209897480-1265d097-aff5-490e-aaab-289be2c1999c.png)
-
-![device](https://user-images.githubusercontent.com/14167547/210024319-9af65899-9ec8-4b2c-add0-f4f6fbafb16c.png)
+|                                                                                                                                               |                                                                                                                                                   |                                                                                                                                                   |
+| :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------: |
+|   <img width="700" alt="chats" src="https://user-images.githubusercontent.com/14167547/209855695-e8597eb9-7850-4904-9e92-1d9f42424a4a.png">   | <img width="700" alt="nostrchannel2" src="https://user-images.githubusercontent.com/14167547/209855373-369cd926-6f92-468f-b2cd-ae9652529a91.png"> | <img width="700" alt="nostrchannel1" src="https://user-images.githubusercontent.com/14167547/209855320-bcdc2faa-9468-4ccb-958f-b9363deac610.png"> |
+| <img width="700" alt="textinput" src="https://user-images.githubusercontent.com/14167547/209863990-54c869d7-9f2a-4db2-87fc-adc1f9156546.png"> |   <img width="700" alt="hellobig" src="https://user-images.githubusercontent.com/14167547/209897480-1265d097-aff5-490e-aaab-289be2c1999c.png">    |    <img width="700" alt="device" src="https://user-images.githubusercontent.com/14167547/210024319-9af65899-9ec8-4b2c-add0-f4f6fbafb16c.png">     |
