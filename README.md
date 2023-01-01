@@ -10,7 +10,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Architecture
 
-Explaining architecture choices on our wiki for transparency and feedback:
+Documenting on our wiki:
 
 - [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
 
