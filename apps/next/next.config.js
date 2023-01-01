@@ -58,7 +58,6 @@ const plugins = [
 ]
 
 module.exports = function () {
-  /** @type {import('next').NextConfig} */
   let config = {
     typescript: {
       ignoreBuildErrors: true,
@@ -72,6 +71,7 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
+      //   'expo-secure-store',
     ],
     experimental: {
       // optimizeCss: true,
