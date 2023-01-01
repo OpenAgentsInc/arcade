@@ -3,7 +3,6 @@ import { login, logout } from './authActions'
 export interface AuthState {
   isLoggedIn: boolean
   user: {
-    mnemonic: string
     name: string
     publicKey: string
     privateKey: string
@@ -13,7 +12,6 @@ export interface AuthState {
 export const initialState: AuthState = {
   isLoggedIn: false,
   user: {
-    mnemonic: '',
     name: '',
     publicKey: '',
     privateKey: '',

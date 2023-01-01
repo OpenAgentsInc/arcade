@@ -1,11 +1,10 @@
-import { createMnemonic, keypairFromSeed, seedFromWords } from 'app/lib/nostr'
+import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 import { AuthState, initialState } from './auth'
 
 export const login = async (name: string): Promise<AuthState> => {
-  // Create NIP-06 keypair (https://github.com/nostr-protocol/nips/blob/master/06.md)
-  const mnemonic = await createMnemonic()
-  const seed = seedFromWords(mnemonic)
-  const { privateKey, publicKey } = keypairFromSeed(seed)
+  let privateKey = generatePrivateKey() // `sk` is a hex string
+  let publicKey = getPublicKey(privateKey) // `pk` is a hex string
+
   console.log('Identified as ' + publicKey)
 
   if (!privateKey || !publicKey) {
@@ -16,7 +15,6 @@ export const login = async (name: string): Promise<AuthState> => {
     isLoggedIn: true,
     user: {
       name,
-      mnemonic,
       publicKey,
       privateKey,
     },
