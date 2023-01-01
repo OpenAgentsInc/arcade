@@ -1,46 +1,15 @@
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
-import ChannelScreen from '../../../../apps/next/pages/channels'
-
-const Stack = createNativeStackNavigator<{
-  home: undefined
-  channels: undefined
-  'user-detail': {
-    id: string
-  }
-}>()
+import { useStore } from 'app/stores'
+import { AuthedNavigator } from './authed-navigator'
+import { UnauthedNavigator } from './unauthed-navigator'
 
 export function NativeNavigation() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="home"
-        component={HomeScreen}
-        options={{
-          title: 'Home',
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="channels"
-        component={ChannelScreen}
-        options={{
-          title: 'Channels',
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      />
-      <Stack.Screen
-        name="user-detail"
-        component={UserDetailScreen}
-        options={{
-          title: 'User',
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  )
+  // Return AuthedNavigator or UnauthedNavigator depending on user.isAuthed
+
+  const user = useStore((s) => s.user)
+  const authed = user.privateKey.length > 10 && user.publicKey.length > 10
+
+  console.log('user', user)
+  console.log('authed:', authed)
+
+  return authed ? <AuthedNavigator /> : <UnauthedNavigator />
 }
