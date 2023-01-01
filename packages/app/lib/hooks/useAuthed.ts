@@ -18,11 +18,9 @@ export const useAuthed = () => {
   }
 
   useEffect(() => {
-    // Check expo secure storage for ARC_PRIVATE_KEY and ARC_PUBLIC_KEY
     checkForKeys()
   }, [])
 
   const authed = privateKey.length > 10 && publicKey.length > 10 // TODO: Sophisticate this
-  console.log('AUTHED:', authed)
   return authed
 }
