@@ -9,6 +9,7 @@ Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/bl
 Explaining architecture choices on our wiki for transparency and feedback:
 
 - [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
+- [Nostr tools](https://github.com/ArcadeLabsInc/arc/wiki/Nostr-tools)
 - [App initialization flow](https://github.com/ArcadeLabsInc/arc/wiki/App-initialization-flow)
 
 ## Running locally
