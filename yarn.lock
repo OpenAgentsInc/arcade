@@ -4610,6 +4610,7 @@ __metadata:
     "@tamagui/shorthands": ^1.0.1
     "@tamagui/theme-base": ^1.0.1
     expo-linking: ^3.2.3
+    expo-secure-store: ^12.0.0
     solito: 2.0.0-canary.4
   languageName: unknown
   linkType: soft
@@ -7589,6 +7590,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 7ede30533a8c492f82b58c3b8be110b6373ffcc2cbe273299d9f15d9aa943d678d8aaffb3d2565780b45d1d5a2a1ddea54d813fc84c06e30e3cfd59abbd8e30e
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "expo-secure-store@npm:12.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 47d72b0bdd9e900e4b2a4d348e79ec6fd0a1c7d1ae7933f7bb237341cea4dbe461a5ebd92f3682859769318b96c3244d776d4324af35e49d6f7d8f430e20d40c
   languageName: node
   linkType: hard
 
