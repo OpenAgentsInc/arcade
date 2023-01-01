@@ -1,13 +1,15 @@
 {
   "expo": {
-    "name": "myapp",
-    "slug": "myapp",
+    "name": "Arc",
+    "slug": "arc",
+    "version": "0.0.1",
+    "sdkVersion": "47.0.0",
     "jsEngine": "hermes",
+    "platforms": ["ios", "android", "web"],
     "scheme": "myapp",
-    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,21 +21,22 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tamagui.myapp"
+      "bundleIdentifier": "arcade.labs.arc"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.tamagui.myapp"
+      "package": "arcade.labs.arc",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "061b4470-78c7-4d6a-b850-8167fb0a3434"
+        "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
       }
     }
   }
