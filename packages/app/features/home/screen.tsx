@@ -5,7 +5,6 @@ import { useStore } from 'app/stores'
 export function HomeScreen() {
   const isLoggedIn = useStore((s) => s.isLoggedIn)
   const login = useStore((s) => s.login)
-  console.log('isLoggedIn', isLoggedIn)
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$bg">
