@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { FlatList, View } from 'react-native'
 import { Message } from './Message'
-import { useMessages } from './useMessages'
+import { useMessagesForChannel } from './useMessagesForChannel'
 
-type Props = {}
+type Props = {
+  channelId: string
+}
 
-export const MessageList: React.FC<Props> = () => {
-  const messages = useMessages()
+export const MessageList: React.FC<Props> = ({ channelId }) => {
+  const messages = useMessagesForChannel(channelId)
   return (
     <FlatList
       data={messages}

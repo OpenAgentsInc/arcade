@@ -15,6 +15,7 @@ export interface Channel {
 
 export interface ChatMessage {
   id: string
+  channelId: string
   sender: string
   text: string
   timestamp: string
