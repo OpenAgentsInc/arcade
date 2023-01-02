@@ -1,6 +1,6 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ChannelScreen } from '../../features/chat/ChannelScreen'
+import { ChannelsScreen } from '../../features/chat/ChannelsScreen'
 
 const Stack = createNativeStackNavigator<{
   channels: undefined
@@ -12,7 +12,7 @@ export function AuthedNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name="channels"
-        component={ChannelScreen}
+        component={ChannelsScreen}
         options={{
           title: 'Channels',
           headerShown: false,
@@ -21,7 +21,7 @@ export function AuthedNavigator() {
       />
       <Stack.Screen
         name="channel"
-        component={ChannelScreen}
+        component={ChannelsScreen}
         options={{
           title: 'Channel',
           headerShown: false,

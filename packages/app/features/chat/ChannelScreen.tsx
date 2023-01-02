@@ -5,7 +5,7 @@ import { LogoutButton } from '../user/logout-button'
 import { ChannelList } from './ChannelList'
 import { useChannels } from './useChannels'
 
-export function ChannelScreen() {
+export function ChannelsScreen() {
   const { relays, connect } = useNostr()
 
   useEffect(() => {
