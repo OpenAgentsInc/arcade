@@ -1,35 +1,28 @@
-import { Channel as ChannelType, useChat } from 'app/stores/chat'
-import React, { useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
-import { palette, spacing } from '@my/ui'
-import { ChatContext } from './context'
+import { useStore } from 'app/stores'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { palette, Text } from '@my/ui'
 
 interface ChannelProps {
-  channel: ChannelType
-  onPress: () => void
+  channel: Channel
 }
 
-export const Channel = ({ channel, onPress }: ChannelProps) => {
-  const { setCurrentChannel } = useContext(ChatContext)
-  const { messages } = useChat(channel)
+export const Channel = ({ channel }: ChannelProps) => {
+  const { addMessage } = useStore()
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={{ uri: channel.metadata.picture }}
-          style={styles.headerImage}
-          onError={() => setImg(generateRandomPlacekitten())}
-        />
-        <Text style={styles.headerTitle}>{channel.metadata.name}</Text>
+      <View style={styles.headerContainer}>
+        <Image source={{ uri: channel.metadata.picture }} style={styles.channelPicture} />
+        <Text style={styles.channelName}>{channel.metadata.name}</Text>
       </View>
-      <View style={styles.messages}>
-        {messages.map((message) => (
-          <Text key={message.id}>{message.text}</Text>
-        ))}
-      </View>
-      <View style={styles.footer}>
-        <TextInput style={styles.input} />
+      <Text style={styles.channelAbout}>{channel.metadata.about}</Text>
+      <View style={styles.footerContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => addMessage({ id: '123', sender: 'me', text: 'Hello', timestamp: '123' })}
+        >
+          <Text style={styles.buttonText}>Send Message</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
