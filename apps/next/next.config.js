@@ -79,7 +79,6 @@ module.exports = function () {
       // optimizeCss: true,
       scrollRestoration: true,
       legacyBrowsers: false,
-      esmExternals: true,
     },
   }
 
