@@ -34,24 +34,26 @@ const initialChatState: ChatState = {
 export const createChat = (set: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
-  addMessage: (message: ChatMessage) =>
-    set((state) => {
-      if (state.messages.some((m) => m.id === message.id)) {
-        return state
-      }
-      console.log('Saving message ID:', message.id)
-      return {
-        messages: [...state.messages, message],
-      }
-    }),
-  addChannel: (channel: Channel) =>
-    set((state) => {
-      if (state.channels.some((c) => c.id === channel.id)) {
-        return state
-      }
-      console.log('Saving channel ID:', channel.id)
-      return {
-        channels: [...state.channels, channel],
-      }
-    }),
+  actions: {
+    addMessage: (message: ChatMessage) =>
+      set((state) => {
+        if (state.messages.some((m) => m.id === message.id)) {
+          return state
+        }
+        console.log('Saving message ID:', message.id, message)
+        return {
+          messages: [...state.messages, message],
+        }
+      }),
+    addChannel: (channel: Channel) =>
+      set((state) => {
+        if (state.channels.some((c) => c.id === channel.id)) {
+          return state
+        }
+        console.log('Saving channel ID:', channel.id)
+        return {
+          channels: [...state.channels, channel],
+        }
+      }),
+  },
 })

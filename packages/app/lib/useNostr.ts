@@ -2,10 +2,12 @@ import { useStore } from 'app/stores'
 import { Channel, ChatMessage } from 'app/stores/chat'
 import { relayInit } from 'nostr-tools'
 import { useRef } from 'react'
+import { handleEvent } from './handleEvent'
 
 export const useNostr = () => {
-  const addChannel = useStore((s) => s.addChannel)
-  const addMessage = useStore((s) => s.addMessage)
+  const actions = useStore((s) => s.actions)
+  //   const addChannel = useStore((s) => s.addChannel)
+  //   const addMessage = useStore((s) => s.addMessage)
   const relaysRef = useRef<any[]>([])
   const connect = async (urls: string[]) => {
     if (relaysRef.current.length > 0) {
@@ -33,39 +35,15 @@ export const useNostr = () => {
           // ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
         },
       ])
+
+      let sub2 = relay.sub([{ kinds: [42], limit: 35 }])
+
       sub.on('event', (event: any) => {
-        // console.log(event)
+        handleEvent(event, actions)
+      })
 
-        switch (event.kind) {
-          case 40:
-            // Event is a channel
-            const channel: Channel = {
-              id: event.id,
-              kind: event.kind,
-              pubkey: event.pubkey,
-              sig: event.sig,
-              tags: event.tags,
-              metadata: JSON.parse(event.content),
-              timestamp: event.created_at.toString(),
-            }
-            addChannel(channel)
-
-            break
-
-          case 42:
-            // Event is a message
-            const message: ChatMessage = {
-              id: event.id,
-              sender: event.pubkey,
-              text: event.content,
-              timestamp: event.created_at.toString(),
-            }
-            addMessage(message)
-            break
-
-          default:
-            console.log(`Unhandled event kind: ${event.kind}`)
-        }
+      sub2.on('event', (event: any) => {
+        handleEvent(event, actions)
       })
 
       index += 1
