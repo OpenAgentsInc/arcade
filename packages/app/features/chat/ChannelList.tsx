@@ -1,6 +1,7 @@
 import { Channel } from 'app/stores/chat'
 import { useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { Text } from '@my/ui'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { useChannels } from './useChannels'
 
@@ -13,9 +14,9 @@ export const ChannelList = () => {
     if (!channel) return <></>
     return (
       <View style={styles.container}>
-        <Text>{channel.metadata.name}</Text>
-        <Text>{channel.metadata.about}</Text>
-        <Text>{channel.metadata.picture}</Text>
+        <Text color="$moonRaker">{channel.metadata.name}</Text>
+        <Text color="$moonRaker">{channel.metadata.about}</Text>
+        <Text color="$moonRaker">{channel.metadata.picture}</Text>
       </View>
     )
   }
