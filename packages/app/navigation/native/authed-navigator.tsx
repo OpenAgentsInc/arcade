@@ -1,6 +1,6 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ChannelScreen } from '../../features/channels/ChannelScreen'
+import { ChannelScreen } from '../../features/chat/ChannelScreen'
 
 const Stack = createNativeStackNavigator<{
   channels: undefined
