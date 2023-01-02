@@ -29,18 +29,18 @@ export function ChannelScreen() {
           Channels
         </H1>
         <Separator borderColor="$blueBellFaded" />
-        <Paragraph ta="center" color="$blueBell">
+        {/* <Paragraph ta="center" color="$blueBell">
           lol heres ur channels
-        </Paragraph>
+        </Paragraph> */}
       </YStack>
 
-      <YStack mt="$8" space="$4" f={1} w="100%">
+      <YStack f={1} w="100%">
         <ChannelList />
       </YStack>
 
-      <XStack mt="$8">
+      {/* <XStack mt="$8">
         <LogoutButton />
-      </XStack>
+      </XStack> */}
     </YStack>
   )
 }

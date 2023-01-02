@@ -1,3 +1,4 @@
+import { isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
 import * as React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -8,10 +9,13 @@ interface ChannelPreviewProps {
 }
 
 export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress }) => {
+  const imageUri = isValidImageUrl(channel.metadata.picture)
+    ? channel.metadata.picture
+    : 'https://placekitten.com/100/100'
   return (
     <TouchableOpacity style={styles.channelContainer} onPress={onPress} activeOpacity={0.8}>
       {channel.metadata.picture ? (
-        <Image source={{ uri: channel.metadata.picture }} style={styles.avatar} />
+        <Image source={{ uri: imageUri }} style={styles.avatar} />
       ) : (
         <View style={styles.defaultAvatar}>
           <Text style={styles.defaultAvatarText}>{channel.metadata.name[0]}</Text>
