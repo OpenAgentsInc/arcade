@@ -10,7 +10,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
           ...DarkTheme.colors,
           background: 'rgb(0, 2, 18)',
         },
-        // dark: true,
+        dark: true,
       }}
       linking={useMemo(
         () => ({
