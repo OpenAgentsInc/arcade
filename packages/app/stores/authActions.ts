@@ -31,6 +31,9 @@ export const login = async (name: string): Promise<AuthState> => {
   }
 }
 
-export const logout = (): AuthState => {
+export const logout = async (): Promise<AuthState> => {
+  await storage.removeItem(HEX_PUBKEY_STORAGE_KEY)
+  await storage.removeItem(HEX_PRIVKEY_STORAGE_KEY)
+  console.log('Removed keys from storage.')
   return initialState
 }
