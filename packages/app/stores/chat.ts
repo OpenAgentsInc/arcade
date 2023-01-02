@@ -1,3 +1,18 @@
+export interface Channel {
+  id: string
+  kind: number
+  pubkey: string
+  sig: string
+  tags: string[]
+  metadata: {
+    about: string
+    name: string
+    picture: string
+    [key: string]: any
+  }
+  timestamp: string
+}
+
 export interface ChatMessage {
   id: string
   sender: string
@@ -6,7 +21,7 @@ export interface ChatMessage {
 }
 
 export interface ChatState {
-  channels: any[]
+  channels: Channel[]
   messages: ChatMessage[]
 }
 
@@ -15,10 +30,9 @@ const initialChatState: ChatState = {
   messages: [],
 }
 
-const createChat = (set: any) => ({
+export const createChat = (set: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
-  setChannels: (channels: any[]) => set({ channels }),
   addMessage: (message: ChatMessage) =>
     set((state) => {
       if (state.messages.some((m) => m.id === message.id)) {
@@ -29,6 +43,14 @@ const createChat = (set: any) => ({
         messages: [...state.messages, message],
       }
     }),
+  addChannel: (channel: Channel) =>
+    set((state) => {
+      if (state.channels.some((c) => c.id === channel.id)) {
+        return state
+      }
+      console.log('Saving channel ID:', channel.id)
+      return {
+        channels: [...state.channels, channel],
+      }
+    }),
 })
-
-export default createChat
