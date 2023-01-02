@@ -1,13 +1,10 @@
 import { useStore } from 'app/stores'
-import { Channel, ChatMessage } from 'app/stores/chat'
 import { relayInit } from 'nostr-tools'
 import { useRef } from 'react'
 import { handleEvent } from './handleEvent'
 
 export const useNostr = () => {
   const actions = useStore((s) => s.actions)
-  //   const addChannel = useStore((s) => s.addChannel)
-  //   const addMessage = useStore((s) => s.addMessage)
   const relaysRef = useRef<any[]>([])
   const connect = async (urls: string[]) => {
     if (relaysRef.current.length > 0) {
@@ -29,12 +26,15 @@ export const useNostr = () => {
       })
 
       const subscriptions = [
+        // Subscribe to the Nostr channel
         {
           kinds: [40],
           limit: 1,
           ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
         },
+        // Subscribe to 10 other channels
         { kinds: [40], limit: 10 },
+        // Subscribe to messages and grab 35
         { kinds: [42], limit: 35 },
       ]
 
