@@ -40,7 +40,7 @@ export const createChat = (set: any) => ({
         if (state.messages.some((m) => m.id === message.id)) {
           return state
         }
-        console.log('Saving message ID:', message.id, message)
+        console.log('Saving message ID:', message.id, ' to channel: ', message.channelId)
         return {
           messages: [...state.messages, message],
         }

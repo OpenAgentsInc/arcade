@@ -21,10 +21,25 @@ export const handleEvent = (
       break
 
     case 42:
+      let channelId: string
+      const channelTag = event.tags.find(
+        (tag) => tag[0] === 'e' // && (tag[2] === 'root' || tag[2] === 'reply')
+      )
+      //   console.log('channelTag', channelTag)
+
+      if (channelTag) {
+        channelId = channelTag[1]
+        // console.log('channelId', channelId)
+        // Now you have the ID of the channel that this message belongs to
+      } else {
+        channelId = 'unknown'
+        console.error('Could not find channel ID in message tags')
+      }
+
       // Event is a message
       const message: ChatMessage = {
         id: event.id,
-        channelId: '25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb', // ?
+        channelId, // ?
         sender: event.pubkey,
         text: event.content,
         timestamp: event.created_at.toString(),
