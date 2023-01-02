@@ -1,8 +1,10 @@
 import { H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
 import { LogoutButton } from '../user/logout-button'
+import { useChannels } from './useChannels'
 
 export function ChannelScreen() {
   const channels = useChannels()
+  console.log('channels', channels)
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$haiti">
       <YStack space="$4" maw={600}>

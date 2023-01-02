@@ -1,4 +1,4 @@
-import { getChannelsFromServer } from 'app/lib/api'
+// import { getChannelsFromServer } from 'app/lib/api'
 import { useStore } from 'app/stores'
 import { useEffect, useState } from 'react'
 
@@ -9,7 +9,8 @@ export const useChannels = () => {
 
   const getChannels = async () => {
     setLoading(true)
-    const { channels } = await getChannelsFromServer()
+    // const { channels } = await getChannelsFromServer()
+    const channels = []
     setChannels(channels)
     setLoading(false)
   }
