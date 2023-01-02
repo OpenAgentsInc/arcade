@@ -17,7 +17,11 @@ export const ChannelList = () => {
     return (
       <ChannelPreview
         channel={channel}
-        onPress={() => console.log(`Clicked channel: ${channel.metadata.name}`)}
+        onPress={() =>
+          console.log(
+            `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}`
+          )
+        }
       />
     )
   }

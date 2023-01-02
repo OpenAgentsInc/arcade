@@ -1,6 +1,6 @@
 import { useNostr } from 'app/lib/useNostr'
 import { useEffect } from 'react'
-import { H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
+import { H1, Paragraph, Separator, XStack, YGroup, YStack } from '@my/ui'
 import { LogoutButton } from '../user/logout-button'
 import { ChannelList } from './ChannelList'
 import { useChannels } from './useChannels'
@@ -33,10 +33,9 @@ export function ChannelScreen() {
           lol heres ur channels
         </Paragraph> */}
       </YStack>
-
-      <YStack f={1} w="100%">
+      <YGroup als="center" bordered f={1} w="100%" size="$5" separator={<Separator />}>
         <ChannelList />
-      </YStack>
+      </YGroup>
 
       {/* <XStack mt="$8">
         <LogoutButton />
