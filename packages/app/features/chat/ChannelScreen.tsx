@@ -16,13 +16,14 @@ export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
   useEffect(() => {
     navigation.setOptions({ title })
   }, [title])
+  if (!channel) return <Screen />
   return (
     <Screen>
       <ChannelHeader
         channelName={channel?.metadata.name ?? 'Unnamed Channel'}
         channelImageUrl={channel?.metadata.picture ?? generateRandomPlacekitten()}
       />
-      <MessageList />
+      <MessageList channelId={channel.id} />
       <MessageInput />
       {/* channelId={route.params.id} */}
     </Screen>
