@@ -1,13 +1,7 @@
-import { Button, H1, Paragraph, Separator, Sheet, Text, XStack, YStack } from '@my/ui'
-import { useStore } from 'app/stores'
-// import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-// import { Entypo } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import { useLink } from 'solito/link'
+import { H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
+import { LogoutButton } from '../user/logout-button'
 
 export function ChannelScreen() {
-  const logout = useStore((s) => s.logout)
-
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$haiti">
       <YStack space="$4" maw={600}>
@@ -21,9 +15,7 @@ export function ChannelScreen() {
       </YStack>
 
       <XStack mt="$8">
-        <Button size="$6" backgroundColor="$electricIndigo" onPress={logout}>
-          Log out
-        </Button>
+        <LogoutButton />
       </XStack>
     </YStack>
   )
