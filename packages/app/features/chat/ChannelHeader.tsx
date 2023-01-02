@@ -20,6 +20,7 @@ export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl })
         justifyContent: 'space-between',
         height: 38,
         paddingHorizontal: 10,
+        marginTop: 40,
       }}
     >
       <TouchableOpacity activeOpacity={0.8} onPress={goBack}>
