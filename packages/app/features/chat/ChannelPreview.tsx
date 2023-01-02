@@ -22,55 +22,54 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
         <Text style={styles.aboutText}>{channel.metadata.about}</Text>
       </View>
       <View style={styles.timeContainer}>
-        <Text style={styles.timeText}>{new Date(channel.created_at * 1000).toDateString()}</Text>
+        <Text style={styles.timeText}>
+          {new Date(parseInt(channel.timestamp) * 1000).toDateString()}
+        </Text>
       </View>
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  chatContainer: {
+  channelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    padding: 15,
   },
   avatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
   },
+  defaultAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#ccc',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  defaultAvatarText: {
+    color: '#fff',
+    fontSize: 20,
+  },
   textContainer: {
+    marginLeft: 15,
     flex: 1,
-    marginLeft: 10,
   },
   nameText: {
-    fontWeight: 'bold',
     fontSize: 16,
+    fontWeight: 'bold',
   },
-  messageText: {
-    color: '#999',
+  aboutText: {
     fontSize: 14,
+    color: '#666',
   },
   timeContainer: {
-    marginLeft: 'auto',
     alignItems: 'center',
   },
   timeText: {
+    fontSize: 12,
     color: '#999',
-    fontSize: 12,
-  },
-  unreadCount: {
-    backgroundColor: '#6646ee',
-    padding: 4,
-    borderRadius: 10,
-  },
-  unreadCountText: {
-    color: 'white',
-    fontSize: 12,
   },
 })
