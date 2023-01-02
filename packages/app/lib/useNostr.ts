@@ -2,21 +2,29 @@ import { relayInit } from 'nostr-tools'
 import { useRef } from 'react'
 
 export const useNostr = () => {
-  const relayRef = useRef<any>()
-  const connect = async () => {
-    if (!relayRef.current) {
-      relayRef.current = relayInit('wss://relay.nostr.ch')
-      await relayRef.current.connect()
-      relayRef.current.on('connect', () => {
-        console.log(`connected to ${relayRef.current.url}`)
+  const relaysRef = useRef<any[]>([])
+  const connect = async (urls: string[]) => {
+    if (relaysRef.current.length > 0) {
+      console.warn('Already connected to some relays, ignoring new connections')
+      return
+    }
+    let index = 0
+    for (const url of urls) {
+      if (!relaysRef.current[index]) {
+        relaysRef.current[index] = relayInit(url)
+      }
+      await relaysRef.current[index].connect()
+      relaysRef.current[index].on('connect', () => {
+        console.log(`connected to ${relaysRef.current[index].url}`)
       })
-      relayRef.current.on('error', () => {
-        console.log(`failed to connect to ${relayRef.current.url}`)
+      relaysRef.current[index].on('error', () => {
+        console.log(`failed to connect to ${relaysRef.current[index].url}`)
       })
+      index += 1
     }
   }
   return {
-    relay: relayRef.current,
+    relays: relaysRef.current,
     connect,
   }
 }

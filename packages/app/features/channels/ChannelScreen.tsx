@@ -1,19 +1,23 @@
 import { useNostr } from 'app/lib/useNostr'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { H1, Paragraph, Separator, XStack, YStack } from '@my/ui'
 import { LogoutButton } from '../user/logout-button'
 import { useChannels } from './useChannels'
 
 export function ChannelScreen() {
-  const { relay, connect } = useNostr()
+  const { relays, connect } = useNostr()
 
   useEffect(() => {
-    connect()
-  }, [])
+    console.log('relays', relays)
+  }, [relays])
 
-  useMemo(() => {
-    console.log('relay', relay)
-  }, [relay])
+  const connectem = async () => {
+    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  }
+
+  useEffect(() => {
+    connectem()
+  }, [])
 
   const channels = useChannels()
   console.log('channels', channels)
