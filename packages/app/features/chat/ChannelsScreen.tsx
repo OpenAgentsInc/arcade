@@ -23,17 +23,17 @@ export function ChannelsScreen() {
   const channels = useChannels()
   console.log('channels', channels)
   return (
-    <YStack f={1} jc="center" ai="center" p="$4" space backgroundColor="$haiti">
-      <YStack space="$4" maw={600}>
+    <YStack f={1} jc="center" ai="center" space backgroundColor="$haiti">
+      {/* <YStack space="$4" maw={600}>
         <H1 ta="center" color="$moonRaker">
           Channels
         </H1>
         <Separator borderColor="$blueBellFaded" />
-        {/* <Paragraph ta="center" color="$blueBell">
+        <Paragraph ta="center" color="$blueBell">
           lol heres ur channels
-        </Paragraph> */}
-      </YStack>
-      <YGroup als="center" bordered f={1} w="100%" size="$5" separator={<Separator />}>
+        </Paragraph>
+      </YStack> */}
+      <YGroup als="center" f={1} w="100%" separator={<Separator />}>
         <ChannelList />
       </YGroup>
 

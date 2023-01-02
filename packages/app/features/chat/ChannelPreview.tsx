@@ -2,7 +2,9 @@ import { formatTimestamp, isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
 import { useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Button, ListItem, Stack } from '@my/ui'
+import { palette } from '@my/ui/src'
+
+// import { Button, ListItem, Stack } from '@my/ui'
 
 interface ChannelPreviewProps {
   channel: Channel
@@ -15,7 +17,7 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
       ? channel.metadata.picture
       : 'https://placekitten.com/100/100'
   )
-  const item = { ...channel, unreadCount: 4 }
+  const item = { ...channel, unreadCount: 0 }
   return (
     <TouchableOpacity style={styles.chatContainer} onPress={onPress} activeOpacity={0.8}>
       <Image
@@ -25,7 +27,6 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
       />
       <View style={styles.textContainer}>
         <Text style={styles.nameText}>{item.metadata.name}</Text>
-
         <Text style={styles.messageText}>{item.metadata.about}</Text>
       </View>
       <View style={styles.timeContainer}>
@@ -38,49 +39,6 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
       </View>
     </TouchableOpacity>
   )
-
-  //   return (
-  //     <ListItem
-  //       hoverTheme
-  //       pressTheme
-  //       title={channel.metadata.name}
-  //       subTitle={channel.metadata.about}
-  //       onPress={onPress}
-  //       icon={
-  //         <Image
-  //           source={{ uri: img }}
-  //           style={styles.avatar}
-  //           onError={() => setImg('https://placekitten.com/101/101')}
-  //         />
-  //       }
-  //       // iconAfter={ChevronRight}
-  //     />
-  //   )
-
-  //   return <Button onPress={onPress} />
-  //   const imageUri = isValidImageUrl(channel.metadata.picture)
-  //     ? channel.metadata.picture
-  //     : 'https://placekitten.com/100/100'
-  //   return (
-  //     <TouchableOpacity style={styles.channelContainer} onPress={onPress} activeOpacity={0.8}>
-  //       {/* {channel.metadata.picture ? (
-  //         <Image source={{ uri: imageUri }} style={styles.avatar} />
-  //       ) : (
-  //         <View style={styles.defaultAvatar}>
-  //           <Text style={styles.defaultAvatarText}>{channel.metadata.name[0]}</Text>
-  //         </View>
-  //       )} */}
-  //       {/* <Stack style={styles.textContainer}>
-  //         <Text style={styles.nameText}>{channel.metadata.name}</Text>
-  //         <Text style={styles.aboutText}>{channel.metadata.about}</Text>
-  //       </Stack> */}
-  //       {/* <View style={styles.timeContainer}>
-  //         <Text style={styles.timeText}>
-  //           {new Date(parseInt(channel.timestamp) * 1000).toDateString()}
-  //         </Text>
-  //       </View> */}
-  //     </TouchableOpacity>
-  //   )
 }
 
 const styles = StyleSheet.create({
@@ -92,6 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderColor: '#1E2340',
+    backgroundColor: palette.haiti,
   },
   avatar: {
     width: 50,
