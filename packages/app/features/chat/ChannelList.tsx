@@ -1,9 +1,21 @@
 import { Channel } from 'app/stores/chat'
 import { useRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { Text } from '@my/ui'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { useChannels } from './useChannels'
+
+function isValidImageUrl(url: string): boolean {
+  // TODO: this needs work
+  const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+  if (urlRegex.test(url)) {
+    console.log('VALID:', url)
+    return true
+  } else {
+    console.log('INVALID:', url)
+    return false
+  }
+}
 
 export const ChannelList = () => {
   const channels = useChannels()
@@ -12,11 +24,15 @@ export const ChannelList = () => {
   const renderItem = ({ index }: ListRenderItemInfo<Channel>) => {
     const channel = channels[index]
     if (!channel) return <></>
+    const imageUri = isValidImageUrl(channel.metadata.picture)
+      ? channel.metadata.picture
+      : 'https://placekitten.com/100/100'
     return (
       <View style={styles.container}>
         <Text color="$moonRaker">{channel.metadata.name}</Text>
         <Text color="$moonRaker">{channel.metadata.about}</Text>
-        <Text color="$moonRaker">{channel.metadata.picture}</Text>
+
+        <Image source={{ uri: imageUri }} style={styles.avatar} />
       </View>
     )
   }
