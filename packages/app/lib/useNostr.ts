@@ -10,49 +10,23 @@ const initialState = {
 type State = typeof initialState
 
 enum ActionType {
-  Connect,
+  CONNECT_RELAY,
 }
 
 type Action = {
-  type: ActionType.Connect
+  type: ActionType.CONNECT_RELAY
   payload: string[]
 }
 
-const reducer = async (state: State, action: Action): Promise<State> => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case ActionType.Connect: {
-      const { payload } = action
-      let index = 0
-      const newRelays = []
-      for (const url of payload) {
-        let relay = state.relays[index]
-        if (!relay || relay.url !== url) {
-          relay = relayInit(url)
-          newRelays.push(relay)
-        }
-        await relay.connect()
-        relay.on('connect', () => {
-          console.log(`connected to ${relay.url}`)
-        })
-        relay.on('error', () => {
-          console.log(`failed to connect to ${relay.url}`)
-        })
-
-        subscriptions.forEach((subscription) => {
-          const sub = relay.sub([subscription])
-          sub.on('event', (event: any) => {
-            handleEvent(event, actions)
-          })
-        })
-
-        index += 1
-      }
-
+    case ActionType.CONNECT_RELAY:
       return {
         ...state,
-        relays: newRelays,
+        relays: [...state.relays, action.payload],
       }
-    }
+    default:
+      return state
   }
 }
 
@@ -60,10 +34,30 @@ export const useNostr = () => {
   const actions = useStore((s) => s.actions)
   const [state, dispatch] = useReducer(reducer, initialState)
   const connect = async (urls: string[]) => {
-    dispatch({
-      type: ActionType.Connect,
-      payload: urls,
-    })
+    let index = 0
+    for (const url of urls) {
+      let relay = state.relays[index]
+      if (!relay || relay.url !== url) {
+        relay = relayInit(url)
+        dispatch({ type: ActionType.CONNECT_RELAY, payload: relay })
+      }
+      await relay.connect()
+      relay.on('connect', () => {
+        console.log(`connected to ${relay.url}`)
+      })
+      relay.on('error', () => {
+        console.log(`failed to connect to ${relay.url}`)
+      })
+
+      subscriptions.forEach((subscription) => {
+        const sub = relay.sub([subscription])
+        sub.on('event', (event: any) => {
+          handleEvent(event, actions)
+        })
+      })
+
+      index += 1
+    }
   }
 
   console.log('Relays:', state.relays)
