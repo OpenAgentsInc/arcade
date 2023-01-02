@@ -27,16 +27,29 @@ export const useNostr = () => {
       relay.on('error', () => {
         console.log(`failed to connect to ${relay.url}`)
       })
+
+      let nostrChannelSub = relay.sub([
+        {
+          kinds: [40],
+          limit: 1,
+          ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
+        },
+      ])
+
       // Grab 15 channels.
       let sub = relay.sub([
         {
           kinds: [40],
-          limit: 15,
+          limit: 10,
           // ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
         },
       ])
 
       let sub2 = relay.sub([{ kinds: [42], limit: 35 }])
+
+      nostrChannelSub.on('event', (event: any) => {
+        handleEvent(event, actions)
+      })
 
       sub.on('event', (event: any) => {
         handleEvent(event, actions)
