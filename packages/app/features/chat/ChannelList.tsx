@@ -19,7 +19,7 @@ export const ChannelList = () => {
         channel={channel}
         onPress={() =>
           console.log(
-            `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}`
+            `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}, ${channel.metadata.about}}`
           )
         }
       />
