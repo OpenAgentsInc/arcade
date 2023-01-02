@@ -22,7 +22,9 @@ export const useMessagesForChannel = (channelId: string) => {
   const subRef = useRef<{ [relayUrl: string]: any }>({})
   useEffect(() => {
     console.log('creating subscriptions for', channelId)
+    console.log('Relays:', relays)
     relays.forEach((relay) => {
+      console.log('Checking relay:', relay)
       if (!subRef.current[relay.url]) {
         console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
         const sub = relay.sub([{ kinds: [42], tags: [['p', channelId]] }])
@@ -40,6 +42,6 @@ export const useMessagesForChannel = (channelId: string) => {
         sub.close()
       })
     }
-  }, [channelId])
+  }, [channelId, relays])
   return messages.filter((message) => message.channelId === channelId)
 }
