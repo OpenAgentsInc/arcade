@@ -11,7 +11,7 @@ import { palette } from '@my/ui'
 
 const typography = {
   bold: 'bold',
-  primary: 'monospace',
+  primary: 'System',
 }
 
 type Props = {
