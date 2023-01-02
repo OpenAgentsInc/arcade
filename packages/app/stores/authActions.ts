@@ -7,8 +7,6 @@ export const login = async (name: string): Promise<AuthState> => {
   let privateKey = generatePrivateKey() // `sk` is a hex string
   let publicKey = getPublicKey(privateKey) // `pk` is a hex string
 
-  console.log('Identified as ' + publicKey)
-
   try {
     await storage.setItem(HEX_PUBKEY_STORAGE_KEY, publicKey)
     await storage.setItem(HEX_PRIVKEY_STORAGE_KEY, privateKey)
