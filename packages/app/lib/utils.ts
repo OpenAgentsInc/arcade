@@ -24,3 +24,10 @@ export function isValidImageUrl(url: string): boolean {
     return false
   }
 }
+
+export const truncateString = (string: string, maxLength: number) => {
+  if (string.length <= maxLength) {
+    return string
+  }
+  return `${string.substring(0, maxLength)}...`
+}
