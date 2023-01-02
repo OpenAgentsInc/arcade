@@ -1,7 +1,7 @@
 import { Channel } from 'app/stores/chat'
 import { useRef } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import { Text } from '@my/ui'
+import { Separator, Stack, Text } from '@my/ui'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { ChannelPreview } from './ChannelPreview'
 import { useChannels } from './useChannels'
@@ -32,7 +32,15 @@ export const ChannelList = () => {
       renderItem={renderItem}
       estimatedItemSize={150}
       data={channels}
-      ListHeaderComponent={<Text>Channels</Text>}
+      ListHeaderComponent={
+        <Stack backgroundColor="$bg" pt="$10">
+          <Text textAlign="center" color="$moonRaker" fontSize={24} mb="$5" fontWeight="bold">
+            Channels
+          </Text>
+          <Separator borderColor="$portGore" />
+        </Stack>
+      }
+      ItemSeparatorComponent={() => <Separator borderColor="$portGore" />}
     />
   )
 }

@@ -7,6 +7,12 @@ export const formatTimestamp = (timestamp: string) => {
   return formattedTimestamp
 }
 
+export const generateRandomPlacekitten = () => {
+  const width = Math.floor(Math.random() * (220 - 200 + 1)) + 200
+  const height = Math.floor(Math.random() * (320 - 300 + 1)) + 300
+  return `https://placekitten.com/${width}/${height}`
+}
+
 export function isValidImageUrl(url: string): boolean {
   // TODO: this needs work
   const urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/

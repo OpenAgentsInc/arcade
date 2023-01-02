@@ -1,4 +1,4 @@
-import { formatTimestamp, isValidImageUrl } from 'app/lib/utils'
+import { formatTimestamp, generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
 import { useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -15,7 +15,7 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
   const [img, setImg] = useState(
     isValidImageUrl(channel.metadata.picture)
       ? channel.metadata.picture
-      : 'https://placekitten.com/100/100'
+      : generateRandomPlacekitten()
   )
   const item = { ...channel, unreadCount: 0 }
   return (
@@ -23,7 +23,7 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
       <Image
         source={{ uri: img }}
         style={styles.avatar}
-        onError={() => setImg('https://placekitten.com/101/101')}
+        onError={() => setImg(generateRandomPlacekitten())}
       />
       <View style={styles.textContainer}>
         <Text style={styles.nameText}>{item.metadata.name}</Text>
