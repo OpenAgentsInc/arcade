@@ -1,6 +1,5 @@
 import { Channel } from 'app/stores/chat'
 import { useRef } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
 import { Separator, Stack, Text } from '@my/ui'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { ChannelPreview } from './ChannelPreview'
@@ -44,28 +43,3 @@ export const ChannelList = () => {
     />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    marginRight: 16,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  about: {
-    fontSize: 14,
-    color: '#666',
-  },
-})
