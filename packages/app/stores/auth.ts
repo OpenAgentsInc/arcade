@@ -18,11 +18,9 @@ export const initialState: AuthState = {
   },
 }
 
-const createAuth = (set: any) => ({
+export const createAuth = (set: any) => ({
   isLoggedIn: initialState.isLoggedIn,
   user: initialState.user,
   login: async (name: string) => set(await login(name)),
   logout: async () => set(await logout()),
 })
-
-export default createAuth

@@ -1,3 +1,3 @@
-import { ChannelScreen } from 'app/features/channels/ChannelScreen'
+import { ChannelsScreen } from 'app/features/chat/ChannelsScreen'
 
-export default ChannelScreen
+export default ChannelsScreen

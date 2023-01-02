@@ -1,5 +1,5 @@
 // Web equivalent of our NativeNavigator re checking auth status
-import { useAuthed } from 'app/lib/hooks/useAuthed'
+import { useAuthed } from 'app/features/user'
 
 export const WebAuthProvider = ({ children }) => {
   // Set authed to useAuthed() if client side, empty hook if server side

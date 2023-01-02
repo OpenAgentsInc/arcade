@@ -53,7 +53,7 @@ const plugins = [
         return true
       }
     },
-    excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker', 'CheckBox', 'Touchable'],
+    excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker', 'CheckBox'], // , 'Touchable'
   }),
 ]
 
@@ -72,13 +72,13 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
-      'expo-secure-storage',
+      'recyclerlistview',
+      '@shopify/flash-list',
     ],
     experimental: {
       // optimizeCss: true,
       scrollRestoration: true,
       legacyBrowsers: false,
-      esmExternals: true,
     },
   }
 

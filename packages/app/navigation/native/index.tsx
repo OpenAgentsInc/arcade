@@ -1,4 +1,4 @@
-import { useAuthed } from 'app/lib/hooks/useAuthed'
+import { useAuthed } from 'app/features/user'
 import { View } from 'react-native'
 import { AuthedNavigator } from './authed-navigator'
 import { UnauthedNavigator } from './unauthed-navigator'
