@@ -22,7 +22,7 @@ const createAuth = (set: any) => ({
   isLoggedIn: initialState.isLoggedIn,
   user: initialState.user,
   login: async (name: string) => set(await login(name)),
-  logout: () => set(logout()),
+  logout: async () => set(await logout()),
 })
 
 export default createAuth
