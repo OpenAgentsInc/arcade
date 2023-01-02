@@ -72,7 +72,8 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
-      'expo-secure-storage',
+      'recyclerlistview',
+      '@shopify/flash-list',
     ],
     experimental: {
       // optimizeCss: true,
