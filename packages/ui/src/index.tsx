@@ -1,4 +1,4 @@
 export * from 'tamagui'
-export * from './MyComponent'
+export * from './Screen'
 export { config } from './tamagui.config'
 export * from './palette'

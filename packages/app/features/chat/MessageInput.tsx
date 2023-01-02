@@ -2,7 +2,8 @@ import { sendChannelMessage } from 'app/lib/chat'
 import { useStore } from 'app/stores'
 // import { palette, } from 'app/theme'
 import { useRef, useState } from 'react'
-import { Alert, TextInput, View } from 'react-native'
+import { Alert, TextInput, TouchableOpacity, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import { palette } from '@my/ui'
 
 export const MessageInput = () => {
@@ -49,12 +50,7 @@ export const MessageInput = () => {
           }}
         />
         <TouchableOpacity activeOpacity={0.8} onPress={submitInput}>
-          <IconButton
-            icon="send"
-            iconColor={palette.blueBell}
-            style={{ marginLeft: 10 }}
-            size={24}
-          />
+          <Ionicons name="md-send" color={palette.blueBell} size={24} style={{ marginLeft: 10 }} />
         </TouchableOpacity>
       </View>
     </View>

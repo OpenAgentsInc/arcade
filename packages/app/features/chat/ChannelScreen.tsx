@@ -1,6 +1,6 @@
 import { useStore } from 'app/stores'
 import { useEffect } from 'react'
-import { Screen } from 'views/shared'
+import { Screen } from '@my/ui'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 
@@ -16,9 +16,10 @@ export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
     navigation.setOptions({ title })
   }, [title])
   return (
-    <Screen preset="fixed" unsafe>
+    <Screen>
       <MessageList />
-      <MessageInput channelId={route.params.id} />
+      <MessageInput />
+      {/* channelId={route.params.id} */}
     </Screen>
   )
 }

@@ -1,7 +1,7 @@
-import { useMessages } from 'lib/hooks/useMessages'
 import * as React from 'react'
 import { FlatList, View } from 'react-native'
 import { Message } from './Message'
+import { useMessages } from './useMessages'
 
 type Props = {}
 
