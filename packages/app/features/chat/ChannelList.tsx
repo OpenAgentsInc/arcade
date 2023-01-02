@@ -37,10 +37,10 @@ export const ChannelList = () => {
           <Text textAlign="center" color="$moonRaker" fontSize={24} mb="$5" fontWeight="bold">
             Channels
           </Text>
-          <Separator borderColor="$portGore" />
+          <Separator borderBottomColor="$portGore" borderColor="$portGore" />
         </Stack>
       }
-      ItemSeparatorComponent={() => <Separator borderColor="$portGore" />}
+      ItemSeparatorComponent={() => <Separator borderColor="$portGore" borderWidth={0.5} mb={-1} />}
     />
   )
 }
