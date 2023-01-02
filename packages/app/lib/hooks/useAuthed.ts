@@ -23,7 +23,6 @@ export const useAuthed = () => {
     const { publicKey, privateKey } = await storage.getKeys()
 
     if (!privateKey || !publicKey) {
-      console.log('No keys found')
       setCheckedForKeys(true)
       return
     }
