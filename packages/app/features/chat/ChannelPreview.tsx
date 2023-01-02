@@ -1,4 +1,4 @@
-import { isValidImageUrl } from 'app/lib/utils'
+import { formatTimestamp, isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
 import { useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -15,24 +15,47 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
       ? channel.metadata.picture
       : 'https://placekitten.com/100/100'
   )
-
+  const item = { ...channel, unreadCount: 4 }
   return (
-    <ListItem
-      hoverTheme
-      pressTheme
-      title={channel.metadata.name}
-      subTitle={channel.metadata.about}
-      onPress={onPress}
-      icon={
-        <Image
-          source={{ uri: img }}
-          style={styles.avatar}
-          onError={() => setImg('https://placekitten.com/101/101')}
-        />
-      }
-      // iconAfter={ChevronRight}
-    />
+    <TouchableOpacity style={styles.chatContainer} onPress={onPress} activeOpacity={0.8}>
+      <Image
+        source={{ uri: img }}
+        style={styles.avatar}
+        onError={() => setImg('https://placekitten.com/101/101')}
+      />
+      <View style={styles.textContainer}>
+        <Text style={styles.nameText}>{item.metadata.name}</Text>
+
+        <Text style={styles.messageText}>{item.metadata.about}</Text>
+      </View>
+      <View style={styles.timeContainer}>
+        <Text style={styles.timeText}>{formatTimestamp(item.timestamp)}</Text>
+        {item.unreadCount > 0 && (
+          <View style={styles.unreadCount}>
+            <Text style={styles.unreadCountText}>{item.unreadCount}</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   )
+
+  //   return (
+  //     <ListItem
+  //       hoverTheme
+  //       pressTheme
+  //       title={channel.metadata.name}
+  //       subTitle={channel.metadata.about}
+  //       onPress={onPress}
+  //       icon={
+  //         <Image
+  //           source={{ uri: img }}
+  //           style={styles.avatar}
+  //           onError={() => setImg('https://placekitten.com/101/101')}
+  //         />
+  //       }
+  //       // iconAfter={ChevronRight}
+  //     />
+  //   )
 
   //   return <Button onPress={onPress} />
   //   const imageUri = isValidImageUrl(channel.metadata.picture)
@@ -61,45 +84,54 @@ export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress
 }
 
 const styles = StyleSheet.create({
-  channelContainer: {
+  container: {
+    backgroundColor: 'transparent',
+  },
+  chatContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: 10,
+    borderColor: '#1E2340',
   },
   avatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
   },
-  defaultAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  defaultAvatarText: {
-    color: '#fff',
-    fontSize: 20,
-  },
   textContainer: {
-    marginLeft: 15,
     flex: 1,
+    marginLeft: 10,
   },
   nameText: {
     fontSize: 16,
+    color: '#F6F9FA',
     fontWeight: 'bold',
   },
-  aboutText: {
+  messageText: {
     fontSize: 14,
-    color: '#666',
+    color: '#8392A8',
   },
   timeContainer: {
     alignItems: 'center',
+    marginLeft: 'auto',
+  },
+  unreadCount: {
+    width: 20,
+    height: 20,
+    backgroundColor: '#364962',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 3,
+    marginLeft: 10,
+  },
+  unreadCountText: {
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   timeText: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: 14,
+    color: '#3B4557',
   },
 })
