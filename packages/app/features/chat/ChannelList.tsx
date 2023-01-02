@@ -32,7 +32,7 @@ export const ChannelList = () => {
       estimatedItemSize={150}
       data={channels}
       ListHeaderComponent={
-        <Stack backgroundColor="$bg" pt="$10">
+        <Stack backgroundColor="$haiti" pt="$10">
           <Text textAlign="center" color="$moonRaker" fontSize={24} mb="$5" fontWeight="bold">
             Channels
           </Text>

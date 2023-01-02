@@ -2,7 +2,8 @@ import { generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
 import React, { useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { palette, Text } from '@my/ui'
+import { useLink } from 'solito/link'
+import { Button, palette, Text } from '@my/ui'
 
 interface ChannelPreviewProps {
   channel: Channel
@@ -18,12 +19,19 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
       : generateRandomPlacekitten()
   )
 
+  const linkProps = useLink({
+    href: `/channel/${channel?.id ?? 'asdf'}`,
+  })
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
+    <Button
+      //   activeOpacity={0.8}
       key={channel?.id ?? 'asdf'}
-      onPress={onPress}
+      //   onPress={onPress}
       style={styles.container}
+      borderRadius={0}
+      borderWidth={0}
+      {...linkProps}
     >
       <Image
         source={{ uri: img }}
@@ -38,7 +46,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
           {channel?.metadata.about ?? 'no about'}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Button>
   )
 }
 
