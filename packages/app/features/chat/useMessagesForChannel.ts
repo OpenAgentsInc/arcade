@@ -21,17 +21,21 @@ export const useMessagesForChannel = (channelId: string) => {
   const messages = useStore((s) => s.messages)
   const subRef = useRef<{ [relayUrl: string]: any }>({})
   useEffect(() => {
+    console.log('creating subscriptions for', channelId)
     relays.forEach((relay) => {
       if (!subRef.current[relay.url]) {
+        console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
         const sub = relay.sub([{ kinds: [42], tags: [['p', channelId]] }])
         subRef.current[relay.url] = sub
         sub.on('event', (event: any) => handleEvent(event, actions))
         sub.on('eose', () => {
+          console.log(`unsubscribing from relay ${relay.url} due to EOSE event`)
           delete subRef.current[relay.url]
         })
       }
     })
     return () => {
+      console.log(`closing subscriptions for ${channelId}`)
       Object.values(subRef.current).forEach((sub) => {
         sub.close()
       })
