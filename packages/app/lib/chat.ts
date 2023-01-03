@@ -3,14 +3,12 @@
 // import { Event } from './nostr-tools/event'
 // import { timeNowInSeconds } from './utils'
 
-const NOSTR_CHANNEL_ID = '25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'
-
 export const sendChannelMessage = async (
   text: string,
   //   relay: any,
-  channelId: string = NOSTR_CHANNEL_ID
+  channelId: string
 ) => {
-  console.log('DO IT - skipping', text)
+  alert('implementing this next :)')
   return
   //   const { privkey: privateKey, pubkey: publicKey } = useChatStore.getState()
 
