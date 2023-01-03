@@ -3,7 +3,7 @@ import { Screen } from '@my/ui'
 
 export const CreateAccountScreen = () => {
   return (
-    <Screen pt={50}>
+    <Screen>
       <BackButton />
     </Screen>
   )

@@ -5,6 +5,7 @@ export const Screen = styled(YStack, {
   bc: '$haiti',
 
   flex: 1,
+  pt: 50,
 
   variants: {
     blue: {
