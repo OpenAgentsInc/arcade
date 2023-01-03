@@ -1,3 +1,5 @@
+import { getEventHash, signEvent } from 'nostr-tools'
+
 export interface Channel {
   id: string
   kind: number
@@ -31,7 +33,7 @@ const initialChatState: ChatState = {
   messages: [],
 }
 
-export const createChatStore = (set: any) => ({
+export const createChatStore = (set: any, get: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
   chatActions: {
@@ -50,10 +52,48 @@ export const createChatStore = (set: any) => ({
         if (state.channels.some((c) => c.id === channel.id)) {
           return state
         }
-        console.log('Saving channel ID:', channel.id)
+        console.log('Saving channel: ', channel.metadata.name)
         return {
           channels: [...state.channels, channel],
         }
       }),
+    sendMessage: async (text: string, channelId: string) => {
+      console.log('Sending message: ', text, ' to channel: ', channelId)
+      // Get the current state
+      const state = get()
+
+      // Get the public and private keys of the authed user
+      const { publicKey, privateKey } = state.user
+
+      // Get relays from the state
+      const { relays } = state
+
+      // Create the event object
+      let event: any = {
+        kind: 42,
+        pubkey: publicKey,
+        created_at: Math.floor(Date.now() / 1000),
+        tags: [['e', channelId]],
+        content: text,
+      }
+      // Set the id and sig properties of the event
+      event.id = getEventHash(event)
+      event.sig = signEvent(event, privateKey)
+
+      // Publish the event to all of the relays
+      relays.forEach((relay) => {
+        console.log('Publishing to relay: ', relay.url)
+        let pub = relay.publish(event)
+        pub.on('ok', () => {
+          console.log(`${relay.url} has accepted our event`)
+        })
+        pub.on('seen', () => {
+          console.log(`we saw the event on ${relay.url}`)
+        })
+        pub.on('failed', (reason) => {
+          console.log(`failed to publish to ${relay.url}: ${reason}`)
+        })
+      })
+    },
   },
 })

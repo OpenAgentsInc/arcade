@@ -35,7 +35,6 @@ export const useNostr = () => {
     }
   }
 
-  console.log('Relays:', relays)
   return {
     relays,
     connect,
