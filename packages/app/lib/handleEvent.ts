@@ -4,7 +4,6 @@ export const handleEvent = (
   event: any,
   actions: { addChannel: (channel: Channel) => void; addMessage: (message: ChatMessage) => void }
 ) => {
-  console.log(`Received event kind ${event.kind}`)
   switch (event.kind) {
     case 40:
       // Event is a channel
@@ -18,25 +17,17 @@ export const handleEvent = (
         timestamp: event.created_at.toString(),
       }
       actions.addChannel(channel)
-
       break
 
     case 42:
       let channelId: string
-      const channelTag = event.tags.find(
-        (tag) => tag[0] === 'e' // && (tag[2] === 'root' || tag[2] === 'reply')
-      )
-      //   console.log('channelTag', channelTag)
-
+      const channelTag = event.tags.find((tag) => tag[0] === 'e')
       if (channelTag) {
         channelId = channelTag[1]
         console.log('channelId', channelId)
-        // Now you have the ID of the channel that this message belongs to
       } else {
         channelId = 'unknown'
-        // console.log(event)
-        // console.error('Could not find channel ID in message tags')
-        throw new Error('Could not find channel ID in message tags')
+        console.error('Could not find channel ID in message tags')
       }
 
       // Event is a message
