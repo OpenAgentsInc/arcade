@@ -1,5 +1,4 @@
-import { BackButton } from 'app/views'
-import { Screen } from '@my/ui'
+import { BackButton, Screen } from 'app/views'
 
 export const CreateAccountScreen = () => {
   return (

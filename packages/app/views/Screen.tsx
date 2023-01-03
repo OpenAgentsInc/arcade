@@ -1,4 +1,4 @@
-import { LinearGradient, palette } from '@my/ui'
+import { LinearGradient, palette, Stack } from '@my/ui'
 
 export const Screen = ({ children, ...props }) => {
   return (
@@ -12,7 +12,9 @@ export const Screen = ({ children, ...props }) => {
       alignItems="center"
       {...props}
     >
-      {children}
+      <Stack f={1} pt={30} m="$4">
+        {children}
+      </Stack>
     </LinearGradient>
   )
 }

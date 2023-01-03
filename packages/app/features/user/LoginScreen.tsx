@@ -4,7 +4,7 @@ import { H2, Input, Paragraph, Stack, YStack } from '@my/ui'
 export const LoginScreen = () => {
   return (
     <Screen>
-      <BackButton mt={40} />
+      <BackButton />
       <YStack jc="center" alignItems="center" f={1}>
         <YStack justifyContent="center" alignItems="center" w="100%" mt={'-50%'}>
           <H2>Login</H2>
