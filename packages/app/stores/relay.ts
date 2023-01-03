@@ -10,7 +10,7 @@ const initialRelayState: RelayState = {
   subscriptions: initialSubscriptions,
 }
 
-export const createRelayStore = (set: any) => ({
+export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
   subscriptions: initialRelayState.subscriptions,
   relayActions: {
@@ -25,5 +25,22 @@ export const createRelayStore = (set: any) => ({
           relays: [...state.relays, relay],
         }
       }),
+    addSubscription: (subscription: { relayUrl: string; sub: any }) =>
+      set((state) => ({
+        subscriptions: [...state.subscriptions, subscription],
+      })),
+    removeSubscription: (subscription: { relayUrl: string; sub: any }) =>
+      set((state) => ({
+        subscriptions: state.subscriptions.filter((s) => s !== subscription),
+      })),
+    clearSubscriptions: () =>
+      set((state) => {
+        console.log('Clearing subscriptions')
+        return {
+          subscriptions: [],
+        }
+      }),
+    hasSubscription: (relayUrl: string, sub: any) =>
+      get().subscriptions.some((s) => s.relayUrl === relayUrl && s.sub === sub),
   },
 })

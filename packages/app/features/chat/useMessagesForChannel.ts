@@ -4,31 +4,30 @@ import { useEffect } from 'react'
 
 export const useMessagesForChannel = (channelId: string) => {
   const relays = useStore((s) => s.relays)
-  const actions = useStore((s) => s.chatActions)
+  const chatActions = useStore((s) => s.chatActions)
+  const relayActions = useStore((s) => s.relayActions)
   const messages = useStore((s) => s.messages)
-  const subscriptions = useStore((s) => s.subscriptions)
+
   useEffect(() => {
     console.log('creating subscriptions for', channelId)
     console.log('Relays:', relays)
     relays.forEach((relay) => {
       console.log('Checking relay:', relay)
-      if (!subscriptions[relay.url]) {
+      if (!relayActions.hasSubscription({ relayUrl: relay.url, channelId })) {
         console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
         const sub = relay.sub([{ kinds: [42], tags: [['p', channelId]] }])
-        subscriptions[relay.url] = sub
-        sub.on('event', (event: any) => handleEvent(event, actions))
+        relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
+        sub.on('event', (event: any) => handleEvent(event, chatActions))
         sub.on('eose', () => {
           console.log(`unsubscribing from relay ${relay.url} due to EOSE event`)
-          delete subscriptions[relay.url]
+          relayActions.removeSubscription({ relayUrl: relay.url, sub, channelId })
         })
       }
     })
     return () => {
       console.log(`closing subscriptions for ${channelId}`)
-      Object.values(subscriptions).forEach((sub) => {
-        sub.close()
-      })
+      relayActions.clearSubscriptions()
     }
-  }, [channelId, relays, subscriptions])
+  }, [channelId, relays])
   return messages.filter((message) => message.channelId === channelId)
 }
