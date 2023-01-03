@@ -1,6 +1,6 @@
 import { Button, Image, LinearGradient, Stack, YStack } from 'tamagui'
 import { palette } from '@my/ui'
-import { ChevronsRight, Key, LogIn } from '@tamagui/lucide-icons'
+import { ChevronsRight, Key, LogIn, UserPlus } from '@tamagui/lucide-icons'
 
 export function HomeScreen() {
   return (
@@ -16,9 +16,14 @@ export function HomeScreen() {
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
         <Stack />
         <Image src={require('./prelogo.png')} width={200} height={200} mt={-60} />
-        <Button als="center" icon={Key} size="$6" theme="blue">
-          Create Account
-        </Button>
+        <YStack space="$6">
+          <Button als="center" icon={UserPlus} size="$6" theme="blue">
+            Create Account
+          </Button>
+          <Button als="center" icon={Key} size="$4" theme="pink_darker">
+            Import backup key
+          </Button>
+        </YStack>
       </YStack>
     </LinearGradient>
   )
