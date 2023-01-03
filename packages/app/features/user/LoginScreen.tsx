@@ -5,8 +5,8 @@ import { ChevronLeft } from '@tamagui/lucide-icons'
 export const LoginScreen = () => {
   const { back } = useRouter()
   return (
-    <Screen pt={50}>
-      <Button icon={ChevronLeft} onPress={back} />
+    <Screen pt={40}>
+      <Button icon={ChevronLeft} onPress={back} circular theme="purple" m="$4" />
     </Screen>
   )
 }
