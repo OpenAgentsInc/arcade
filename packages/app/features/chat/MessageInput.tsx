@@ -1,13 +1,10 @@
 import { sendChannelMessage } from 'app/lib/chat'
-import { useStore } from 'app/stores'
-// import { palette, } from 'app/theme'
 import { useRef, useState } from 'react'
 import { Alert, TextInput, TouchableOpacity, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { palette } from '@my/ui'
+import { Send } from '@tamagui/lucide-icons'
 
 export const MessageInput = () => {
-  const relay = useStore((state) => state.relay)
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput | null>(null)
 
@@ -20,7 +17,7 @@ export const MessageInput = () => {
     inputBoxRef.current?.blur()
     setText('')
     setTimeout(() => {
-      sendChannelMessage(text, relay)
+      sendChannelMessage(text)
     }, 100)
   }
 
@@ -50,7 +47,7 @@ export const MessageInput = () => {
           }}
         />
         <TouchableOpacity activeOpacity={0.8} onPress={submitInput}>
-          <Ionicons name="md-send" color={palette.blueBell} size={24} style={{ marginLeft: 10 }} />
+          <Send color={palette.blueBell} size={24} style={{ marginLeft: 10 }} />
         </TouchableOpacity>
       </View>
     </View>
