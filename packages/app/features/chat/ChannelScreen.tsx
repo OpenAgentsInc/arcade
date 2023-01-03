@@ -1,20 +1,31 @@
+import { useNostr } from 'app/lib/useNostr'
 import { generateRandomPlacekitten } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { useEffect } from 'react'
+import { createParam } from 'solito'
 import { Screen } from '@my/ui'
 import { ChannelHeader } from './ChannelHeader'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 
+const { useParam } = createParam<{ id: string }>()
+
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
 
 export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
+  const { relays, connect } = useNostr()
+  useEffect(() => {
+    if (relays.length === 0) {
+      connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+    }
+  }, [relays])
+  const [id] = useParam('id')
   const { channels } = useStore()
-  const channel = channels.find((c) => c.id === route.params.id)
+  const channel = channels.find((c) => c.id === id)
   const title = channel?.metadata.name
   useEffect(() => {
-    navigation.setOptions({ title })
+    navigation?.setOptions({ title })
   }, [title])
   if (!channel) return <Screen />
   return (
