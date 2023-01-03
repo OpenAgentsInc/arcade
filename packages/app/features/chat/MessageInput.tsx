@@ -18,7 +18,7 @@ export const MessageInput = ({ channelId }) => {
     inputBoxRef.current?.blur()
     setText('')
     setTimeout(() => {
-      actions.sendMessage('testtttt', channelId)
+      actions.sendMessage(text, channelId)
     }, 100)
   }
 

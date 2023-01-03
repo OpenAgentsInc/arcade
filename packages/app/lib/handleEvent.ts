@@ -26,7 +26,8 @@ export const handleEvent = (
         channelId = channelTag[1]
       } else {
         channelId = 'unknown'
-        console.error('Could not find channel ID in message tags')
+        console.log('Could not find channel ID in message tags')
+        return
       }
 
       // Event is a message
