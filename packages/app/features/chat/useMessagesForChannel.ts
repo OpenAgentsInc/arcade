@@ -9,12 +9,8 @@ export const useMessagesForChannel = (channelId: string) => {
   const messages = useStore((s) => s.messages)
 
   useEffect(() => {
-    // console.log('creating subscriptions for', channelId)
-    // console.log('Relays:', relays)
     relays.forEach((relay) => {
-      //   console.log('Checking relay:', relay)
       if (!relayActions.hasSubscription(relay.url, channelId)) {
-        console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
         const sub = relay.sub([{ kinds: [42], '#e': [channelId], limit: 3 }])
         relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
         sub.on('event', (event: any) => handleEvent(event, chatActions))
@@ -22,8 +18,6 @@ export const useMessagesForChannel = (channelId: string) => {
           console.log(`unsubscribing from relay ${relay.url} due to EOSE event`)
           relayActions.removeSubscription({ relayUrl: relay.url, channelId })
         })
-      } else {
-        console.log('sub exists - bye')
       }
     })
     return () => {
