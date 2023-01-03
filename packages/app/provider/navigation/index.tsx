@@ -21,6 +21,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
               home: '',
               'user-detail': 'user/:id',
               channels: 'channels',
+              channel: 'channel/:id',
             },
           },
         }),

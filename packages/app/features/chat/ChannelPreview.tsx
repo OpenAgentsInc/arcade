@@ -1,96 +1,90 @@
-import { formatTimestamp, generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
+import { generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
 import { Channel } from 'app/stores/chat'
-import { useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { palette } from '@my/ui/src'
-
-// import { Button, ListItem, Stack } from '@my/ui'
+import React, { useState } from 'react'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useLink } from 'solito/link'
+import { Button, palette, Text } from '@my/ui'
 
 interface ChannelPreviewProps {
   channel: Channel
   onPress: () => void
 }
 
-export const ChannelPreview: React.FC<ChannelPreviewProps> = ({ channel, onPress }) => {
+export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
   const [img, setImg] = useState(
-    isValidImageUrl(channel.metadata.picture)
+    channel?.metadata.picture &&
+      channel?.metadata.picture?.length > 4 &&
+      isValidImageUrl(channel.metadata.picture)
       ? channel.metadata.picture
       : generateRandomPlacekitten()
   )
-  const item = { ...channel, unreadCount: 0 }
+
+  const linkProps = useLink({
+    href: `/channel/${channel?.id ?? 'asdf'}`,
+  })
+
   return (
-    <TouchableOpacity style={styles.chatContainer} onPress={onPress} activeOpacity={0.8}>
+    <Button
+      //   activeOpacity={0.8}
+      key={channel?.id ?? 'asdf'}
+      //   onPress={onPress}
+      style={styles.container}
+      borderRadius={0}
+      borderWidth={0}
+      {...linkProps}
+    >
       <Image
         source={{ uri: img }}
-        style={styles.avatar}
+        style={{ height: 40, width: 40, borderRadius: 20, marginRight: 10 }}
         onError={() => setImg(generateRandomPlacekitten())}
       />
-      <View style={styles.textContainer}>
-        <Text style={styles.nameText}>{item.metadata.name}</Text>
-        <Text style={styles.messageText}>{item.metadata.about}</Text>
+      <View style={styles.contentContainer}>
+        <Text px="$2" style={styles.channelName}>
+          {channel?.metadata.name ?? 'no name'}
+        </Text>
+        <Text px="$2" style={styles.channelPreview}>
+          {channel?.metadata.about ?? 'no about'}
+        </Text>
       </View>
-      <View style={styles.timeContainer}>
-        <Text style={styles.timeText}>{formatTimestamp(item.timestamp)}</Text>
-        {item.unreadCount > 0 && (
-          <View style={styles.unreadCount}>
-            <Text style={styles.unreadCountText}>{item.unreadCount}</Text>
-          </View>
-        )}
-      </View>
-    </TouchableOpacity>
+    </Button>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
+  channelName: {
+    color: palette.moonRaker,
+    // fontFamily: typography.secondary,
+    textAlign: 'left',
+    // paddingHorizontal: spacing[2],
+    paddingTop: 1,
   },
-  chatContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    borderColor: '#1E2340',
-    backgroundColor: palette.haiti,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  textContainer: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  nameText: {
-    fontSize: 16,
-    color: '#F6F9FA',
-    fontWeight: 'bold',
-  },
-  messageText: {
-    fontSize: 14,
-    color: '#8392A8',
-  },
-  timeContainer: {
-    alignItems: 'center',
-    marginLeft: 'auto',
-  },
-  unreadCount: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#364962',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 3,
-    marginLeft: 10,
-  },
-  unreadCountText: {
+  channelPreview: {
+    color: palette.blueBell,
+    textAlign: 'left',
+    // fontFamily: typography.primary,
     fontSize: 12,
-    color: '#fff',
-    fontWeight: 'bold',
+    // paddingHorizontal: spacing[2],
+    paddingTop: 4,
   },
-  timeText: {
-    fontSize: 14,
-    color: '#3B4557',
+  container: {
+    backgroundColor: palette.purple,
+    borderBottomWidth: 1,
+    borderColor: palette.portGore,
+    borderBottomColor: palette.portGore,
+    flexDirection: 'row',
+    padding: 12,
   },
+  contentContainer: { flex: 1 },
+  row: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 8,
+  },
+  statusContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  title: { fontSize: 14, fontWeight: '700' },
 })

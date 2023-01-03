@@ -15,6 +15,7 @@ export interface Channel {
 
 export interface ChatMessage {
   id: string
+  channelId: string
   sender: string
   text: string
   timestamp: string
@@ -30,27 +31,29 @@ const initialChatState: ChatState = {
   messages: [],
 }
 
-export const createChat = (set: any) => ({
+export const createChatStore = (set: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
-  addMessage: (message: ChatMessage) =>
-    set((state) => {
-      if (state.messages.some((m) => m.id === message.id)) {
-        return state
-      }
-      console.log('Saving message ID:', message.id)
-      return {
-        messages: [...state.messages, message],
-      }
-    }),
-  addChannel: (channel: Channel) =>
-    set((state) => {
-      if (state.channels.some((c) => c.id === channel.id)) {
-        return state
-      }
-      console.log('Saving channel ID:', channel.id)
-      return {
-        channels: [...state.channels, channel],
-      }
-    }),
+  chatActions: {
+    addMessage: (message: ChatMessage) =>
+      set((state) => {
+        if (state.messages.some((m) => m.id === message.id)) {
+          return state
+        }
+        console.log('Saving message ID:', message.id) // to channel: ', message.channelId)
+        return {
+          messages: [...state.messages, message],
+        }
+      }),
+    addChannel: (channel: Channel) =>
+      set((state) => {
+        if (state.channels.some((c) => c.id === channel.id)) {
+          return state
+        }
+        console.log('Saving channel ID:', channel.id)
+        return {
+          channels: [...state.channels, channel],
+        }
+      }),
+  },
 })
