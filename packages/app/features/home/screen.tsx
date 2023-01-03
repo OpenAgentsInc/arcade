@@ -20,7 +20,7 @@ export function HomeScreen() {
           <Button
             als="center"
             icon={UserPlus}
-            size="$6"
+            size="$5"
             theme="blue"
             // bc="$electricIndigo"
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
@@ -35,15 +35,15 @@ export function HomeScreen() {
           <Button
             als="center"
             icon={Key}
-            size="$4"
-            theme="blue_darker"
-            shadowColor={'#000'}
+            size="$5"
+            theme="purple_darker"
+            shadowColor={palette.blueBell}
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             // shadowOffset={{ width: 1.5, height: 1.5 }}
             shadowRadius={8}
-            shadowOpacity={0.3}
+            shadowOpacity={0.1}
           >
-            Log in with backup key
+            Login
           </Button>
         </YStack>
       </YStack>
