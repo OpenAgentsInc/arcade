@@ -26,7 +26,7 @@ export function HomeScreen() {
             als="center"
             icon={UserPlus}
             size="$5"
-            theme="blue"
+            // theme="blue"
             // bc="$electricIndigo"
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             // hoverStyle={{ backgroundColor: '$electricIndigo', borderWidth: 0 }}
@@ -42,12 +42,13 @@ export function HomeScreen() {
             als="center"
             icon={Key}
             size="$5"
-            theme="purple_darker"
+            // theme="purple_darker"
             shadowColor={palette.portGore}
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             // shadowOffset={{ width: 1.5, height: 1.5 }}
             shadowRadius={8}
             shadowOpacity={0.1}
+            theme="darker"
           >
             Login
           </Button>
