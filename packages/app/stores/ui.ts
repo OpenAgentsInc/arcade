@@ -10,12 +10,4 @@ const initialUiState: UiState = {
 
 export const createUiStore = (set: any) => ({
   themeName: initialUiState.themeName,
-  //   themeActions: {
-  //     setThemeName: (themeName: string) =>
-  //       set((state) => {
-  //         return {
-  //           themeName: themeName,
-  //         }
-  //       }),
-  //   },
 })
