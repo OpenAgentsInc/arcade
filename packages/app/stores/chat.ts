@@ -80,21 +80,19 @@ export const createChatStore = (set: any, get: any) => ({
       event.id = getEventHash(event)
       event.sig = signEvent(event, privateKey)
 
-      // Grab the URL of the first relay
-      const relay = relays[0]
-      const url = relay.url
-      console.log('Publishing to relay: ', url)
-
-      // Publish the event to the relays
-      let pub = relay.publish(event)
-      pub.on('ok', () => {
-        console.log(`${relay.url} has accepted our event`)
-      })
-      pub.on('seen', () => {
-        console.log(`we saw the event on ${relay.url}`)
-      })
-      pub.on('failed', (reason) => {
-        console.log(`failed to publish to ${relay.url}: ${reason}`)
+      // Publish the event to all of the relays
+      relays.forEach((relay) => {
+        console.log('Publishing to relay: ', relay.url)
+        let pub = relay.publish(event)
+        pub.on('ok', () => {
+          console.log(`${relay.url} has accepted our event`)
+        })
+        pub.on('seen', () => {
+          console.log(`we saw the event on ${relay.url}`)
+        })
+        pub.on('failed', (reason) => {
+          console.log(`failed to publish to ${relay.url}: ${reason}`)
+        })
       })
     },
   },
