@@ -13,7 +13,7 @@ const { useParam } = createParam<{ id: string }>()
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
 
-export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
+export const ChannelScreen: React.FC<Props> = () => {
   const { relays, connect } = useNostr()
   useEffect(() => {
     if (relays.length === 0) {
@@ -23,10 +23,6 @@ export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
   const [id] = useParam('id')
   const { channels } = useStore()
   const channel = channels.find((c) => c.id === id)
-  const title = channel?.metadata.name
-  useEffect(() => {
-    navigation?.setOptions({ title })
-  }, [title])
   if (!channel) return <Screen />
   return (
     <Screen>
@@ -36,7 +32,6 @@ export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
       />
       <MessageList channelId={channel.id} />
       <MessageInput channelId={channel.id} />
-      {/* channelId={route.params.id} */}
     </Screen>
   )
 }

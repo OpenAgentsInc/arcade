@@ -1,5 +1,3 @@
-import { initialSubscriptions } from 'app/features/chat/initialSubscriptions'
-
 export interface RelayState {
   relays: any[]
   subscriptions: any[]
@@ -7,7 +5,7 @@ export interface RelayState {
 
 const initialRelayState: RelayState = {
   relays: [],
-  subscriptions: initialSubscriptions,
+  subscriptions: [],
 }
 
 export const createRelayStore = (set: any, get: any) => ({
@@ -16,11 +14,9 @@ export const createRelayStore = (set: any, get: any) => ({
   relayActions: {
     addRelay: (relay: any) =>
       set((state) => {
-        console.log('addempting to addRelay')
         if (state.relays.some((r) => r.url === relay.url)) {
           return state
         }
-        console.log('Saving relay URL:', relay.url)
         return {
           relays: [...state.relays, relay],
         }
@@ -35,7 +31,6 @@ export const createRelayStore = (set: any, get: any) => ({
         ) {
           return state
         }
-        console.log('Adding subscription:', subscription)
         return {
           subscriptions: [...state.subscriptions, subscription],
         }
@@ -48,7 +43,6 @@ export const createRelayStore = (set: any, get: any) => ({
       })),
     clearSubscriptions: () =>
       set((state) => {
-        console.log('Clearing subscriptions')
         return {
           subscriptions: [],
         }
