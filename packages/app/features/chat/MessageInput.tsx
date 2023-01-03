@@ -1,12 +1,13 @@
-import { sendChannelMessage } from 'app/lib/chat'
+import { useStore } from 'app/stores'
 import { useRef, useState } from 'react'
 import { Alert, TextInput, TouchableOpacity, View } from 'react-native'
 import { palette } from '@my/ui'
 import { Send } from '@tamagui/lucide-icons'
 
-export const MessageInput = () => {
+export const MessageInput = ({ channelId }) => {
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput | null>(null)
+  const actions = useStore((state) => state.chatActions)
 
   const submitInput = () => {
     if (text.length < 1) {
@@ -17,7 +18,7 @@ export const MessageInput = () => {
     inputBoxRef.current?.blur()
     setText('')
     setTimeout(() => {
-      sendChannelMessage(text)
+      actions.sendMessage('testtttt', channelId)
     }, 100)
   }
 
