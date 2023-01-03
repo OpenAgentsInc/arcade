@@ -17,11 +17,33 @@ export function HomeScreen() {
         <Stack />
         <Image src={require('./prelogo.png')} width={200} height={200} mt={-60} />
         <YStack space="$6">
-          <Button als="center" icon={UserPlus} size="$6" theme="blue">
+          <Button
+            als="center"
+            icon={UserPlus}
+            size="$6"
+            theme="blue"
+            // bc="$electricIndigo"
+            focusStyle={{ opacity: 0.9, borderWidth: 0 }}
+            // hoverStyle={{ backgroundColor: '$electricIndigo', borderWidth: 0 }}
+            shadowColor={palette.portGore}
+            // shadowOffset={{ width: 1.5, height: 1.5 }}
+            shadowRadius={8}
+            shadowOpacity={0.3}
+          >
             Create Account
           </Button>
-          <Button als="center" icon={Key} size="$4" theme="pink_darker">
-            Import backup key
+          <Button
+            als="center"
+            icon={Key}
+            size="$4"
+            theme="blue_darker"
+            shadowColor={'#000'}
+            focusStyle={{ opacity: 0.9, borderWidth: 0 }}
+            // shadowOffset={{ width: 1.5, height: 1.5 }}
+            shadowRadius={8}
+            shadowOpacity={0.3}
+          >
+            Log in with backup key
           </Button>
         </YStack>
       </YStack>
