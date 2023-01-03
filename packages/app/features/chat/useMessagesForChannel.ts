@@ -17,7 +17,7 @@ import { useEffect, useRef } from 'react'
 
 export const useMessagesForChannel = (channelId: string) => {
   const { relays } = useNostr()
-  const actions = useStore((s) => s.actions)
+  const actions = useStore((s) => s.chatActions)
   const messages = useStore((s) => s.messages)
   const subRef = useRef<{ [relayUrl: string]: any }>({})
   useEffect(() => {
@@ -27,7 +27,7 @@ export const useMessagesForChannel = (channelId: string) => {
       console.log('Checking relay:', relay)
       if (!subRef.current[relay.url]) {
         console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
-        const sub = relay.sub([{ kinds: [42], tags: [['p', channelId]] }])
+        const sub = relay.sub([{ kinds: [42], tags: [['e', channelId]] }])
         subRef.current[relay.url] = sub
         sub.on('event', (event: any) => handleEvent(event, actions))
         sub.on('eose', () => {

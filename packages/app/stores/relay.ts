@@ -10,12 +10,13 @@ const initialRelayState: RelayState = {
   subscriptions: initialSubscriptions,
 }
 
-export const createRelay = (set: any) => ({
+export const createRelayStore = (set: any) => ({
   relays: initialRelayState.relays,
   subscriptions: initialRelayState.subscriptions,
-  actions: {
+  relayActions: {
     addRelay: (relay: any) =>
       set((state) => {
+        console.log('addempting to addRelay')
         if (state.relays.some((r) => r.url === relay.url)) {
           return state
         }

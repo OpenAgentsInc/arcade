@@ -31,16 +31,16 @@ const initialChatState: ChatState = {
   messages: [],
 }
 
-export const createChat = (set: any) => ({
+export const createChatStore = (set: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
-  actions: {
+  chatActions: {
     addMessage: (message: ChatMessage) =>
       set((state) => {
         if (state.messages.some((m) => m.id === message.id)) {
           return state
         }
-        console.log('Saving message ID:', message.id, ' to channel: ', message.channelId)
+        console.log('Saving message ID:', message.id) // to channel: ', message.channelId)
         return {
           messages: [...state.messages, message],
         }
