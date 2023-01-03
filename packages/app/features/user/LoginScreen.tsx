@@ -16,7 +16,7 @@ export const LoginScreen = () => {
           </Stack>
         </YStack>
         <Card theme="yellow" w="100%" maxWidth={400} mt="$8">
-          <Card.Header pt="$4" px="$4" pb="$2">
+          <Card.Header pt="$4" px="$4" pb="$3">
             <Paragraph fontWeight="700" fontSize="$3">
               Security warning
             </Paragraph>
