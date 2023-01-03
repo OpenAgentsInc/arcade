@@ -2,6 +2,7 @@ import { useLink } from 'solito/link'
 import { Button, Image, LinearGradient, Stack, YStack } from 'tamagui'
 import { palette } from '@my/ui'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
+import { logo } from './logo'
 
 export function HomeScreen() {
   const createLinkProps = useLink({ href: '/create' })
@@ -18,7 +19,7 @@ export function HomeScreen() {
     >
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
         <Stack />
-        <Image src={require('./prelogo.png')} width={200} height={200} mt={-60} />
+        <Image src={logo} width={200} height={200} mt={-60} />
         <YStack space="$6">
           <Button
             {...createLinkProps}
