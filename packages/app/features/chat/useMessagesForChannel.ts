@@ -15,7 +15,7 @@ export const useMessagesForChannel = (channelId: string) => {
       //   console.log('Checking relay:', relay)
       if (!relayActions.hasSubscription(relay.url, channelId)) {
         console.log(`creating subscription for ${channelId} on relay ${relay.url}`)
-        const sub = relay.sub([{ kinds: [42], tags: [['e', channelId]], limit: 3 }])
+        const sub = relay.sub([{ kinds: [42], '#e': [channelId], limit: 3 }])
         relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
         sub.on('event', (event: any) => handleEvent(event, chatActions))
         sub.on('eose', () => {

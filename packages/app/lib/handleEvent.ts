@@ -4,6 +4,7 @@ export const handleEvent = (
   event: any,
   actions: { addChannel: (channel: Channel) => void; addMessage: (message: ChatMessage) => void }
 ) => {
+  console.log(`Received event kind ${event.kind}`)
   switch (event.kind) {
     case 40:
       // Event is a channel
@@ -29,7 +30,7 @@ export const handleEvent = (
 
       if (channelTag) {
         channelId = channelTag[1]
-        // console.log('channelId', channelId)
+        console.log('channelId', channelId)
         // Now you have the ID of the channel that this message belongs to
       } else {
         channelId = 'unknown'
