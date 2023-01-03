@@ -35,7 +35,7 @@ export const ChannelScreen: React.FC<Props> = ({ navigation, route }) => {
         channelImageUrl={channel?.metadata.picture ?? generateRandomPlacekitten()}
       />
       <MessageList channelId={channel.id} />
-      <MessageInput />
+      <MessageInput channelId={channel.id} />
       {/* channelId={route.params.id} */}
     </Screen>
   )
