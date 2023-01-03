@@ -37,7 +37,7 @@ export function HomeScreen() {
             icon={Key}
             size="$5"
             theme="purple_darker"
-            shadowColor={palette.blueBell}
+            shadowColor={palette.portGore}
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             // shadowOffset={{ width: 1.5, height: 1.5 }}
             shadowRadius={8}
