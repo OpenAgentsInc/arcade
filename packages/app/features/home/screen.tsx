@@ -1,8 +1,11 @@
+import { useLink } from 'solito/link'
 import { Button, Image, LinearGradient, Stack, YStack } from 'tamagui'
 import { palette } from '@my/ui'
-import { ChevronsRight, Key, LogIn, UserPlus } from '@tamagui/lucide-icons'
+import { Key, UserPlus } from '@tamagui/lucide-icons'
 
 export function HomeScreen() {
+  const createLinkProps = useLink({ href: '/create' })
+  const loginLinkProps = useLink({ href: '/login' })
   return (
     <LinearGradient
       f={1}
@@ -18,6 +21,7 @@ export function HomeScreen() {
         <Image src={require('./prelogo.png')} width={200} height={200} mt={-60} />
         <YStack space="$6">
           <Button
+            {...createLinkProps}
             als="center"
             icon={UserPlus}
             size="$5"
@@ -33,6 +37,7 @@ export function HomeScreen() {
             Create Account
           </Button>
           <Button
+            {...loginLinkProps}
             als="center"
             icon={Key}
             size="$5"

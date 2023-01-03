@@ -18,8 +18,12 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
           config: {
             initialRouteName: 'home',
             screens: {
+              // auth
               home: '',
-              'user-detail': 'user/:id',
+              login: 'login',
+              create: 'create',
+
+              // chat
               channels: 'channels',
               channel: 'channel/:id',
             },

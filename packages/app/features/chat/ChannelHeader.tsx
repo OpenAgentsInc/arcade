@@ -10,11 +10,7 @@ type Props = {
 }
 
 export const ChannelHeader: React.FC<Props> = ({ channelName, channelImageUrl }) => {
-  //   const { goBack } = useNavigation()
-  const { push, replace, back, parseNextPath } = useRouter()
-  const onPress = () => {
-    push('/')
-  }
+  const { back } = useRouter()
   const onGoBack = () => {
     back()
   }
