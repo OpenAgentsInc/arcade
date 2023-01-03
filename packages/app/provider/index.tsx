@@ -1,11 +1,13 @@
+import { useStore } from 'app/stores'
 import { TamaguiProvider, TamaguiProviderProps, Theme } from '@my/ui'
 import config from '../tamagui.config'
 import { NavigationProvider } from './navigation'
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
+  const themeName = useStore((s) => s.themeName)
   return (
-    <TamaguiProvider config={config} disableInjectCSS defaultTheme="purple" {...rest}>
-      <Theme name="purple">
+    <TamaguiProvider config={config} disableInjectCSS defaultTheme="dark" {...rest}>
+      <Theme name={themeName}>
         <NavigationProvider>{children}</NavigationProvider>
       </Theme>
     </TamaguiProvider>
