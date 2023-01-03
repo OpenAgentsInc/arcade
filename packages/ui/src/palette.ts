@@ -1,5 +1,5 @@
 export const palette = {
-  bg: 'rgb(0, 2, 18)',
+  bg: '#000212',
 
   // From Adobe Color palette generated from nostrich img, "Colorful"
   indigo: '#3F04BF',
