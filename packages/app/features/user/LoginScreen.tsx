@@ -24,7 +24,7 @@ export const LoginScreen = () => {
           <YStack px="$4" pb="$4">
             <YStack space="$3">
               <Paragraph fontSize="$3" lineHeight={22}>
-                Please do not use account keys from an app other than Arc.
+                Please do not use an account key from apps other than Arc.
               </Paragraph>
               <Paragraph fontSize="$3" lineHeight={22}>
                 Arc is pre-alpha software and may be insecure.
