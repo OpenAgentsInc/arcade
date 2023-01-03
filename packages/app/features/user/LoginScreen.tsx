@@ -21,7 +21,7 @@ export const LoginScreen = () => {
               Security warning
             </Paragraph>
           </Card.Header>
-          <Card.Footer px="$4" pb="$4">
+          <YStack px="$4" pb="$4">
             <YStack space="$3">
               <Paragraph fontSize="$3" lineHeight={22}>
                 Please do not use account keys from an app other than Arc.
@@ -33,7 +33,7 @@ export const LoginScreen = () => {
                 Only log in with keys you generated in Arc.
               </Paragraph>
             </YStack>
-          </Card.Footer>
+          </YStack>
         </Card>
       </YStack>
     </Screen>
