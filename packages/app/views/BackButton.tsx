@@ -4,5 +4,5 @@ import { ChevronLeft } from '@tamagui/lucide-icons'
 
 export const BackButton = () => {
   const { back } = useRouter()
-  return <Button icon={ChevronLeft} onPress={back} circular theme="purple" mx="$4" />
+  return <Button icon={ChevronLeft} onPress={back} circular mx="$4" />
 }

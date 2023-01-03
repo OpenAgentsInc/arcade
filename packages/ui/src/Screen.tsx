@@ -2,7 +2,7 @@ import { styled, YStack } from 'tamagui'
 
 export const Screen = styled(YStack, {
   name: 'Screen',
-  bc: '$haiti',
+  //   bc: '$haiti',
 
   flex: 1,
   pt: 50,
