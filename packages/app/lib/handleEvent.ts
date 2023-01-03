@@ -24,7 +24,6 @@ export const handleEvent = (
       const channelTag = event.tags.find((tag) => tag[0] === 'e')
       if (channelTag) {
         channelId = channelTag[1]
-        console.log('channelId', channelId)
       } else {
         channelId = 'unknown'
         console.error('Could not find channel ID in message tags')
