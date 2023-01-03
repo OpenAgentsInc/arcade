@@ -31,7 +31,7 @@ const initialChatState: ChatState = {
   messages: [],
 }
 
-export const createChatStore = (set: any) => ({
+export const createChatStore = (set: any, get: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
   chatActions: {
@@ -55,5 +55,15 @@ export const createChatStore = (set: any) => ({
           channels: [...state.channels, channel],
         }
       }),
+    sendMessage: async (text: string, channelId: string) => {
+      console.log('Sending message: ', text, ' to channel: ', channelId)
+      console.log('Testing we have state:')
+      // Get the current state
+      const state = get()
+
+      // Get the public and private keys of the authed user
+      const { publicKey, privateKey } = state.user
+      console.log('publicKey:', publicKey)
+    },
   },
 })
