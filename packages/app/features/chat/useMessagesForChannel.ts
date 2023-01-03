@@ -15,8 +15,9 @@ export const useMessagesForChannel = (channelId: string) => {
         relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
         sub.on('event', (event: any) => handleEvent(event, chatActions))
         sub.on('eose', () => {
-          console.log(`unsubscribing from relay ${relay.url} due to EOSE event`)
           relayActions.removeSubscription({ relayUrl: relay.url, channelId })
+          sub.unsub()
+          console.log(`Removed subscription for ${channelId} from ${relay.url}`)
         })
       }
     })
@@ -25,5 +26,8 @@ export const useMessagesForChannel = (channelId: string) => {
       relayActions.clearSubscriptions()
     }
   }, [channelId, relays])
-  return messages.filter((message) => message.channelId === channelId)
+  return messages
+    .filter((message) => message.channelId === channelId)
+    .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
+  // sorted chronologically by timestamp
 }
