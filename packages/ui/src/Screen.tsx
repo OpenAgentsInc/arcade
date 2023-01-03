@@ -1,17 +1,13 @@
-import { styled, YStack } from 'tamagui'
+import { LinearGradient, styled } from 'tamagui'
 
-export const Screen = styled(YStack, {
+export const Screen = styled(LinearGradient, {
   name: 'Screen',
-  //   bc: '$haiti',
-
   flex: 1,
   pt: 50,
-
-  variants: {
-    blue: {
-      true: {
-        backgroundColor: 'blue',
-      },
-    },
-  } as const,
+  br: '4',
+  colors: ['$blue', '$background'],
+  //   start: [1, 1],
+  //   end: [0, 0],
+  justifyContent: 'center',
+  alignItems: 'center',
 })

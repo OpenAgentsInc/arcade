@@ -1,10 +1,10 @@
-import { BackButton } from 'app/views'
-import { H2, Input, Paragraph, Screen, Stack, YStack } from '@my/ui'
+import { BackButton, Screen } from 'app/views'
+import { H2, Input, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
   return (
     <Screen>
-      <BackButton />
+      <BackButton mt={40} />
       <YStack jc="center" alignItems="center" f={1}>
         <YStack justifyContent="center" alignItems="center" w="100%" mt={'-50%'}>
           <H2>Login</H2>
