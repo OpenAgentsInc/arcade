@@ -50,20 +50,18 @@ export const createChatStore = (set: any, get: any) => ({
         if (state.channels.some((c) => c.id === channel.id)) {
           return state
         }
-        console.log('Saving channel ID:', channel.id)
+        console.log('Saving channel: ', channel.metadata.name)
         return {
           channels: [...state.channels, channel],
         }
       }),
     sendMessage: async (text: string, channelId: string) => {
       console.log('Sending message: ', text, ' to channel: ', channelId)
-      console.log('Testing we have state:')
       // Get the current state
       const state = get()
 
       // Get the public and private keys of the authed user
       const { publicKey, privateKey } = state.user
-      console.log('publicKey:', publicKey)
     },
   },
 })
