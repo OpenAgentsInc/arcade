@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { LogBox } from 'react-native'
 
-LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle'])
+LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle', 'Warning, duplicate ID'])
 
 export default function App() {
   const [loaded] = useFonts({
