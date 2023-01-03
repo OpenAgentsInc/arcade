@@ -25,13 +25,26 @@ export const createRelayStore = (set: any, get: any) => ({
           relays: [...state.relays, relay],
         }
       }),
-    addSubscription: (subscription: { relayUrl: string; sub: any }) =>
+    addSubscription: (subscription: { relayUrl: string; sub: any; channelId: string }) =>
+      set((state) => {
+        // Check if we already have a subscription for this relay and channel
+        if (
+          state.subscriptions.some(
+            (s) => s.relayUrl === subscription.relayUrl && s.channelId === subscription.channelId
+          )
+        ) {
+          return state
+        }
+        console.log('Adding subscription:', subscription)
+        return {
+          subscriptions: [...state.subscriptions, subscription],
+        }
+      }),
+    removeSubscription: (subscription: { relayUrl: string; channelId: string }) =>
       set((state) => ({
-        subscriptions: [...state.subscriptions, subscription],
-      })),
-    removeSubscription: (subscription: { relayUrl: string; sub: any }) =>
-      set((state) => ({
-        subscriptions: state.subscriptions.filter((s) => s !== subscription),
+        subscriptions: state.subscriptions.filter(
+          (s) => s.relayUrl !== subscription.relayUrl || s.channelId !== subscription.channelId
+        ),
       })),
     clearSubscriptions: () =>
       set((state) => {
@@ -40,7 +53,9 @@ export const createRelayStore = (set: any, get: any) => ({
           subscriptions: [],
         }
       }),
-    hasSubscription: (relayUrl: string, sub: any) =>
-      get().subscriptions.some((s) => s.relayUrl === relayUrl && s.sub === sub),
+    hasSubscription: (relayUrl: string, channelId: string) => {
+      const state = get()
+      return state.subscriptions.some((s) => s.relayUrl === relayUrl && s.channelId === channelId)
+    },
   },
 })

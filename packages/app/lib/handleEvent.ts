@@ -33,8 +33,8 @@ export const handleEvent = (
         // Now you have the ID of the channel that this message belongs to
       } else {
         channelId = 'unknown'
-        console.log(event)
-        console.error('Could not find channel ID in message tags')
+        // console.log(event)
+        // console.error('Could not find channel ID in message tags')
         throw new Error('Could not find channel ID in message tags')
       }
 
