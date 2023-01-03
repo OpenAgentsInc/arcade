@@ -16,9 +16,13 @@ export function UnauthedNavigator() {
       <Stack.Screen
         name="create"
         component={CreateAccountScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, animation: 'slide_from_right' }}
       />
-      <Stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="login"
+        component={LoginScreen}
+        options={{ headerShown: false, animation: 'slide_from_right' }}
+      />
     </Stack.Navigator>
   )
 }
