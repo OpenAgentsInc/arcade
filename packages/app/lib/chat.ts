@@ -7,14 +7,11 @@ const NOSTR_CHANNEL_ID = '25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350
 
 export const sendChannelMessage = async (
   text: string,
-  relay: any,
+  //   relay: any,
   channelId: string = NOSTR_CHANNEL_ID
 ) => {
-  if (!relay) {
-    return
-  }
-
-  console.log('DO IT', text)
+  console.log('DO IT - skipping', text)
+  return
   //   const { privkey: privateKey, pubkey: publicKey } = useChatStore.getState()
 
   //   if (!privateKey || !publicKey) {
