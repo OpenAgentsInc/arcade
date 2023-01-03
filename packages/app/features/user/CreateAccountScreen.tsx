@@ -1,12 +1,10 @@
-import { useRouter } from 'solito/router'
-import { Button, Screen } from '@my/ui'
-import { ChevronLeft } from '@tamagui/lucide-icons'
+import { BackButton } from 'app/views'
+import { Screen } from '@my/ui'
 
 export const CreateAccountScreen = () => {
-  const { back } = useRouter()
   return (
     <Screen pt={50}>
-      <Button icon={ChevronLeft} onPress={back} />
+      <BackButton />
     </Screen>
   )
 }
