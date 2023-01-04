@@ -7,7 +7,7 @@ export const ThemePicker = () => {
   const setThemeName = useStore((s) => s.setThemeName)
   const themes: ThemeName[] = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'dark']
   return (
-    <XGroup mt="$6" size="$5" space="$1">
+    <XGroup mt="$8" mb="$4" size="$5" space="$1">
       {themes.map((themeName) => (
         <Theme name={themeName} key={themeName}>
           <Square
