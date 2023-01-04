@@ -12,6 +12,8 @@ export const SettingsScreen = () => {
 
   const npubkey = npubEncode(publicKey)
   const nseckey = nsecEncode(privateKey)
+  const mask = '*'.repeat(nseckey.length - 'nsec1'.length)
+  const maskedNsec = `nsec1${mask}`
 
   const copyPublicKey = async () => {
     await Clipboard.setStringAsync(npubkey)
@@ -20,7 +22,7 @@ export const SettingsScreen = () => {
 
   const copyPrivateKey = async () => {
     await Clipboard.setStringAsync(nseckey)
-    Alert.alert('Private key copied to clipboard!')
+    Alert.alert('Secret key copied to clipboard!')
   }
 
   return (
@@ -43,7 +45,7 @@ export const SettingsScreen = () => {
           hoverTheme
           pressTheme
           title="Secret Account Login Key"
-          subTitle={nseckey}
+          subTitle={maskedNsec}
           icon={Key}
           iconAfter={ClipboardIcon}
           onPress={copyPrivateKey}
