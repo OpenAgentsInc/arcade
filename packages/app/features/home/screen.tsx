@@ -1,5 +1,6 @@
+import { Screen } from 'app/views'
 import { useLink } from 'solito/link'
-import { Button, Image, LinearGradient, Stack, YStack } from 'tamagui'
+import { Button, Image, Stack, useTheme, YStack } from 'tamagui'
 import { palette } from '@my/ui'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
 import { logo } from './logo'
@@ -7,16 +8,11 @@ import { logo } from './logo'
 export function HomeScreen() {
   const createLinkProps = useLink({ href: '/create' })
   const loginLinkProps = useLink({ href: '/login' })
+  const theme = useTheme()
+  console.log(theme.background)
+  //   console.log('theme:', theme.background.val)
   return (
-    <LinearGradient
-      f={1}
-      br="$4"
-      colors={[palette.bg, '$background']}
-      start={[1, 1]}
-      end={[0, 0]}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Screen>
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
         <Stack />
         <Image src={logo} width={200} height={200} mt={-60} />
@@ -54,6 +50,6 @@ export function HomeScreen() {
           </Button>
         </YStack>
       </YStack>
-    </LinearGradient>
+    </Screen>
   )
 }
