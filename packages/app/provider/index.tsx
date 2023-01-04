@@ -7,8 +7,10 @@ export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'conf
   const themeName = useStore((s) => s.themeName)
   return (
     <TamaguiProvider config={config} disableInjectCSS defaultTheme="dark" {...rest}>
-      <Theme name={themeName}>
-        <NavigationProvider>{children}</NavigationProvider>
+      <Theme name="dark">
+        <Theme name={themeName}>
+          <NavigationProvider>{children}</NavigationProvider>
+        </Theme>
       </Theme>
     </TamaguiProvider>
   )
