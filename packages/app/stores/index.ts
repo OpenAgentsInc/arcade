@@ -5,7 +5,7 @@ import { createRelayStore } from './relay'
 import { createUiStore } from './ui'
 
 export const useStore = create((set, get) => ({
-  ...createAuthStore(set),
+  ...createAuthStore(set, get),
   ...createChatStore(set, get),
   ...createRelayStore(set, get),
   ...createUiStore(set),

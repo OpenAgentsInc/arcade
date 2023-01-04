@@ -25,6 +25,11 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
+export const timeNowInSeconds = () => {
+  const date = new Date()
+  return Math.floor(date.getTime() / 1000)
+}
+
 export const truncateString = (string: string, maxLength: number) => {
   if (string.length <= maxLength) {
     return string

@@ -1,3 +1,4 @@
+import { timeNowInSeconds } from 'app/lib/utils'
 import { getEventHash, signEvent } from 'nostr-tools'
 
 export interface Channel {
@@ -72,7 +73,7 @@ export const createChatStore = (set: any, get: any) => ({
       let event: any = {
         kind: 42,
         pubkey: publicKey,
-        created_at: Math.floor(Date.now() / 1000),
+        created_at: timeNowInSeconds(),
         tags: [['e', channelId]],
         content: text,
       }

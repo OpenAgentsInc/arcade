@@ -1,8 +1,30 @@
+import { useStore } from 'app/stores'
 import { BackButton, Screen } from 'app/views'
+import { useCallback, useState } from 'react'
+import { Alert } from 'react-native'
 import { Button, H2, Input, isWeb, Label, YStack } from '@my/ui'
 import { ChevronsRight } from '@tamagui/lucide-icons'
 
 export const CreateAccountScreen = () => {
+  const [username, setUsername] = useState('')
+  const [displayName, setDisplayName] = useState('')
+  const [about, setAbout] = useState('')
+  const signup = useStore((s) => s.signup)
+
+  const handleSubmit = useCallback(() => {
+    const regex = /^[a-zA-Z_\-0-9]+$/
+    // const accountId = user.publicKey ? hexToNpub(user.publicKey) : '-'
+    if (username.length < 3) {
+      Alert.alert('Username too short', 'Please enter a username with at least 3 characters')
+      return
+    }
+    if (!regex.test(username)) {
+      Alert.alert('Invalid username', 'Please enter a username with only alphanumeric characters')
+      return
+    }
+    signup(username, displayName, about)
+  }, [username, displayName, about])
+
   return (
     <Screen>
       <BackButton />
@@ -14,23 +36,44 @@ export const CreateAccountScreen = () => {
               <Label htmlFor="username" alignSelf="flex-start" width="100%">
                 Username
               </Label>
-              <Input id="username" autoFocus placeholder="satoshi" width="100%" />
+              <Input
+                id="username"
+                autoFocus
+                placeholder="satoshi"
+                width="100%"
+                value={username}
+                onChangeText={(text) => {
+                  setUsername(text)
+                }}
+              />
             </YStack>
 
             <YStack width="100%">
               <Label htmlFor="displayname" alignSelf="flex-start" width="100%">
                 Display Name
               </Label>
-              <Input id="displayname" placeholder="Satoshi Nakamoto" width="100%" />
+              <Input
+                id="displayname"
+                placeholder="Satoshi Nakamoto"
+                width="100%"
+                value={displayName}
+                onChangeText={(text) => setDisplayName(text)}
+              />
             </YStack>
 
             <YStack width="100%">
               <Label htmlFor="about" alignSelf="flex-start" width="100%">
                 About
               </Label>
-              <Input id="about" placeholder="Creator(s) of Bitcoin." width="100%" />
+              <Input
+                id="about"
+                placeholder="Creator(s) of Bitcoin."
+                width="100%"
+                value={about}
+                onChangeText={(text) => setAbout(text)}
+              />
             </YStack>
-            <Button size="$5" mt="$6" w="100%" iconAfter={ChevronsRight}>
+            <Button size="$5" mt="$6" w="100%" iconAfter={ChevronsRight} onPress={handleSubmit}>
               Create
             </Button>
           </YStack>
