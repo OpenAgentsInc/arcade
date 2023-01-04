@@ -1,5 +1,5 @@
 import { generateRandomPlacekitten, timeNowInSeconds } from 'app/lib/utils'
-import { getEventHash, signEvent } from 'nostr-tools'
+import { getEventHash, getPublicKey, nip19, signEvent } from 'nostr-tools'
 import { login, logout } from './authActions'
 
 export interface AuthState {
@@ -23,7 +23,21 @@ export const initialState: AuthState = {
 export const createAuthStore = (set: any, get: any) => ({
   isLoggedIn: initialState.isLoggedIn,
   user: initialState.user,
-  login: async (name: string) => set(await login(name)),
+  login: async (name: string) => set(await login(name)), // old
+  loginWithNsec: async (nsec: string) => {
+    if (!nsec.startsWith('nsec1') || nsec.length < 60) {
+      return
+    }
+    try {
+      const { data } = nip19.decode(nsec)
+      const privateKey = data as string
+      const publicKey = getPublicKey(privateKey)
+      console.log('Decoded publicKey: ', publicKey)
+      set({ isLoggedIn: true, user: { name: '', publicKey, privateKey } })
+    } catch (e) {
+      alert('Invalid key. Did you copy it correctly?')
+    }
+  },
   logout: async () => set(await logout()),
   signup: async (username, displayName, about) => {
     // Get the current state

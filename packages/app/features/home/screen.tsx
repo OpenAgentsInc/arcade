@@ -1,6 +1,6 @@
 import { Screen } from 'app/views'
 import { useLink } from 'solito/link'
-import { Button, Image, Stack, useTheme, YStack } from 'tamagui'
+import { Button, Image, Stack, YStack } from 'tamagui'
 import { palette } from '@my/ui'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
 import { logo } from './logo'
@@ -8,9 +8,6 @@ import { logo } from './logo'
 export function HomeScreen() {
   const createLinkProps = useLink({ href: '/create' })
   const loginLinkProps = useLink({ href: '/login' })
-  const theme = useTheme()
-  console.log(theme.background)
-  //   console.log('theme:', theme.background.val)
   return (
     <Screen>
       <YStack f={1} alignItems="center" justifyContent="space-evenly">

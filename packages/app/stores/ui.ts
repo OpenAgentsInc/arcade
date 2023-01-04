@@ -5,7 +5,7 @@ export interface UiState {
 }
 
 const initialUiState: UiState = {
-  themeName: 'red',
+  themeName: 'purple',
 }
 
 export const createUiStore = (set: any) => ({

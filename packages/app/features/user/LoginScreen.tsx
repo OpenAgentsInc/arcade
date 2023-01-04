@@ -1,10 +1,12 @@
 import { useNostr } from 'app/lib/useNostr'
+import { useStore } from 'app/stores'
 import { BackButton, Screen } from 'app/views'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, H2, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
   const { connect } = useNostr()
+  const loginWithNsec = useStore((s) => s.loginWithNsec)
 
   const connectem = async () => {
     connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
@@ -13,6 +15,9 @@ export const LoginScreen = () => {
   useEffect(() => {
     connectem()
   }, [])
+
+  const [nsec, setNsec] = useState('')
+
   return (
     <Screen>
       <BackButton />
@@ -23,7 +28,18 @@ export const LoginScreen = () => {
             Enter your account key to log in:
           </Paragraph>
           <Stack alignItems="center" width="100%">
-            <Input placeholder="nsec1..." alignSelf="center" width={300} />
+            <Input
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="nsec1..."
+              alignSelf="center"
+              width={300}
+              value={nsec}
+              onChangeText={(text) => {
+                setNsec(text)
+                loginWithNsec(text)
+              }}
+            />
           </Stack>
         </YStack>
         <Card
