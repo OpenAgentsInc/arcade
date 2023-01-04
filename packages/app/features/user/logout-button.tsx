@@ -4,7 +4,7 @@ import { Button } from '@my/ui'
 export const LogoutButton = () => {
   const logout = useStore((s) => s.logout)
   return (
-    <Button size="$6" backgroundColor="$electricIndigo" onPress={logout}>
+    <Button size="$5" onPress={logout}>
       Log out
     </Button>
   )

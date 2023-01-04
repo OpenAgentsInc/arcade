@@ -22,6 +22,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
               home: '',
               login: 'login',
               create: 'create',
+              settings: 'settings',
 
               // chat
               channels: 'channels',
