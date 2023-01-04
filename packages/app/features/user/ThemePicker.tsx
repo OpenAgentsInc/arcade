@@ -16,7 +16,9 @@ export const ThemePicker = () => {
             bg={themeName === 'dark' ? '#111' : `${themeName}`}
             onPress={() => setThemeName(themeName)}
           >
-            {currentTheme === themeName && <CheckCircle size={20} color="white" />}
+            {currentTheme === themeName && (
+              <CheckCircle size={20} color={themeName === 'dark' ? 'white' : 'black'} />
+            )}
           </Square>
         </Theme>
       ))}
