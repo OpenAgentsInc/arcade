@@ -2,8 +2,9 @@ import { useStore } from 'app/stores'
 import { BackButton, LogoutDialog, Screen } from 'app/views'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
-import { H2, isWeb, ListItem, Separator, YGroup, YStack } from '@my/ui'
+import { H2, isWeb, Label, ListItem, Separator, YGroup, YStack } from '@my/ui'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
+import { ThemePicker } from './ThemePicker'
 
 export const SettingsScreen = () => {
   const publicKey = useStore((s) => s.user.publicKey)
@@ -58,6 +59,7 @@ export const SettingsScreen = () => {
             onPress={copyPrivateKey}
           />
         </YGroup>
+        <ThemePicker />
         <LogoutDialog mt="$6" w={200} />
       </YStack>
     </Screen>

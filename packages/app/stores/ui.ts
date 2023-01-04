@@ -10,4 +10,5 @@ const initialUiState: UiState = {
 
 export const createUiStore = (set: any) => ({
   themeName: initialUiState.themeName,
+  setThemeName: (themeName: ThemeName) => set({ themeName }),
 })
