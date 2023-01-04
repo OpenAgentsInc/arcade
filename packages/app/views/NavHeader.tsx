@@ -7,15 +7,14 @@ export const NavHeader = ({ title, options, ...props }) => {
   const linkprops = useLink({ href: '/settings' })
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
-  console.log('OPTIONS', options)
-  //   console.log('props:', props)
   return (
     <YStack
+      elevation="$3"
       px="$3"
       pt="$6"
-      bg="$backgroundSoft"
-      borderBottomColor="$backgroundStrong"
-      borderBottomWidth="$1"
+      bg="$color1"
+      borderBottomColor="$color5"
+      borderBottomWidth="$0.5"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
         {canGoBack() ? (

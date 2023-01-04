@@ -26,7 +26,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
   return (
     <Button
       key={channel?.id ?? 'asdf'}
-      bg="$backgroundFocus"
+      bg="$color2"
       borderRadius={0}
       borderWidth={0}
       {...linkProps}
@@ -37,8 +37,12 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
         onError={() => setImg(generateRandomPlacekitten())}
       />
       <View style={styles.contentContainer}>
-        <Paragraph px="$2">{channel?.metadata.name ?? 'no name'}</Paragraph>
-        <Paragraph px="$2">{channel?.metadata.about ?? 'no about'}</Paragraph>
+        <Paragraph col="$color12" px="$2" mt={10} mb={0}>
+          {channel?.metadata.name ?? 'no name'}
+        </Paragraph>
+        <Paragraph px="$2" py={0} mb={5} mt={-5} col="$color9">
+          {channel?.metadata.about ?? 'no about'}
+        </Paragraph>
       </View>
     </Button>
   )

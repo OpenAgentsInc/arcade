@@ -31,7 +31,7 @@ export const ChannelList = () => {
       renderItem={renderItem}
       estimatedItemSize={150}
       data={channels}
-      ItemSeparatorComponent={() => <Separator borderColor="$background" borderWidth={0.5} />}
+      ItemSeparatorComponent={() => <Separator borderColor="$color4" borderWidth={0.5} />}
     />
   )
 }

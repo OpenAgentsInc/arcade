@@ -4,7 +4,7 @@ export const Screen = ({ children, ...props }) => {
   return (
     <LinearGradient
       f={1}
-      colors={[palette.bg, '$background']}
+      colors={['$backgroundSoft', '$color3']}
       start={[1, 1]}
       end={[0, 0]}
       justifyContent="center"

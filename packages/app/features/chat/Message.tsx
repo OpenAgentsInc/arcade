@@ -2,7 +2,7 @@ import { formatTimestamp, generateRandomPlacekitten, truncateString } from 'app/
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
 import { Image, View } from 'react-native'
-import { palette, Paragraph as Text, YStack } from '@my/ui'
+import { palette, Paragraph as Text, Stack, YStack } from '@my/ui'
 
 type Props = {
   message: ChatMessage
@@ -13,9 +13,8 @@ export const Message: React.FC<Props> = ({ message }) => {
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://placekitten.com/201/201' : 'https://placekitten.com/200/200'
-  const metadataColor = isCurrentUser ? palette.blueBell : palette.blueBellFaded
   return (
-    <View style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
+    <Stack style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
       {isCurrentUser ? (
         <View style={{ flexGrow: 1, flexShrink: 1 }} />
       ) : (
@@ -25,9 +24,10 @@ export const Message: React.FC<Props> = ({ message }) => {
         />
       )}
       <YStack
+        elevation={'$2'}
         flexGrow={1}
         flexShrink={1}
-        bg={isCurrentUser ? '$backgroundStrong' : '$background'}
+        bg={isCurrentUser ? '$backgroundStrong' : '$color4'}
         style={{
           marginHorizontal: 8,
           paddingHorizontal: 7,
@@ -43,7 +43,6 @@ export const Message: React.FC<Props> = ({ message }) => {
           color="$color11"
           style={{
             fontWeight: '700',
-            // color: '#fff',
             fontSize: 12,
             fontFamily: 'Inter',
             lineHeight: 14,
@@ -55,7 +54,6 @@ export const Message: React.FC<Props> = ({ message }) => {
           mt={2}
           color="$color12"
           style={{
-            // color: palette.moonRaker,
             fontSize: 12,
             lineHeight: 16,
           }}
@@ -65,10 +63,8 @@ export const Message: React.FC<Props> = ({ message }) => {
         <Text
           mt={1}
           color="$color8"
-          //   opacity={0.6}
           style={{
             fontSize: 10,
-            // color: metadataColor,
             textAlign: 'right',
             fontFamily: 'Inter',
             lineHeight: 14,
@@ -85,6 +81,6 @@ export const Message: React.FC<Props> = ({ message }) => {
       ) : (
         <></>
       )}
-    </View>
+    </Stack>
   )
 }
