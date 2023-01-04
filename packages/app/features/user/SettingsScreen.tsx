@@ -1,5 +1,6 @@
 import { useStore } from 'app/stores'
 import { BackButton, Screen } from 'app/views'
+import { AlertDialogDemo } from 'app/views/AlertDialog'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
 import { Alert } from 'react-native'
@@ -51,6 +52,8 @@ export const SettingsScreen = () => {
           onPress={copyPrivateKey}
         />
       </YGroup>
+
+      <AlertDialogDemo />
     </Screen>
   )
 }
