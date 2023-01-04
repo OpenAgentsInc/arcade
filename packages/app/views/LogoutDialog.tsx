@@ -1,10 +1,23 @@
+import { useStore } from 'app/stores'
 import { AlertDialog, Button, XStack, YStack } from 'tamagui'
 
-export function AlertDialogDemo() {
+export function LogoutDialog(props) {
+  const logout = useStore((s) => s.logout)
   return (
-    <AlertDialog native>
+    <AlertDialog
+      native
+      onOpenChange={(isOpen) => {
+        if (isOpen) {
+          console.log('open')
+        } else {
+          console.log('close')
+        }
+      }}
+    >
       <AlertDialog.Trigger asChild>
-        <Button>Show Alert</Button>
+        <Button {...props} onPress={() => console.log('what thesh this')}>
+          Logout
+        </Button>
       </AlertDialog.Trigger>
 
       <AlertDialog.Portal>
@@ -35,9 +48,9 @@ export function AlertDialogDemo() {
           y={0}
         >
           <YStack space>
-            <AlertDialog.Title>Accept</AlertDialog.Title>
+            <AlertDialog.Title>Are you sure?</AlertDialog.Title>
             <AlertDialog.Description>
-              By pressing yes, you accept our terms and conditions.
+              If you logout without saving your secret key, you will lose access to this account.
             </AlertDialog.Description>
 
             <XStack space="$3" jc="flex-end">
@@ -45,7 +58,9 @@ export function AlertDialogDemo() {
                 <Button>Cancel</Button>
               </AlertDialog.Cancel>
               <AlertDialog.Action asChild>
-                <Button theme="active">Accept</Button>
+                <Button theme="active" onPress={logout}>
+                  Logout
+                </Button>
               </AlertDialog.Action>
             </XStack>
           </YStack>

@@ -1,12 +1,9 @@
 import { useStore } from 'app/stores'
-import { BackButton, Screen } from 'app/views'
-import { AlertDialogDemo } from 'app/views/AlertDialog'
+import { BackButton, LogoutDialog, Screen } from 'app/views'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
-import { Alert } from 'react-native'
-import { H2, ListItem, Paragraph, Separator, YGroup, YStack } from '@my/ui'
+import { H2, isWeb, ListItem, Separator, YGroup, YStack } from '@my/ui'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
-import { LogoutButton } from './logout-button'
 
 export const SettingsScreen = () => {
   const publicKey = useStore((s) => s.user.publicKey)
@@ -19,12 +16,12 @@ export const SettingsScreen = () => {
 
   const copyPublicKey = async () => {
     await Clipboard.setStringAsync(npubkey)
-    Alert.alert('Public key copied to clipboard!')
+    alert('Public key copied to clipboard!')
   }
 
   const copyPrivateKey = async () => {
     await Clipboard.setStringAsync(nseckey)
-    Alert.alert('Secret key copied to clipboard!')
+    alert('Secret key copied to clipboard!')
   }
 
   return (
@@ -34,7 +31,14 @@ export const SettingsScreen = () => {
         Settings
       </H2>
       <YStack alignItems="center">
-        <YGroup als="center" bordered w="100%" size="$5" maxWidth="50%" separator={<Separator />}>
+        <YGroup
+          als="center"
+          bordered
+          w="100%"
+          size="$5"
+          maxWidth={isWeb ? '50%' : '100%'}
+          separator={<Separator />}
+        >
           <ListItem
             hoverTheme
             pressTheme
@@ -54,7 +58,7 @@ export const SettingsScreen = () => {
             onPress={copyPrivateKey}
           />
         </YGroup>
-        <LogoutButton mt="$6" w={200} />
+        <LogoutDialog mt="$6" w={200} />
       </YStack>
     </Screen>
   )
