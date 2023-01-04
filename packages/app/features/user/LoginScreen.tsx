@@ -4,6 +4,15 @@ import { useEffect } from 'react'
 import { Card, H2, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
+  const { connect } = useNostr()
+
+  const connectem = async () => {
+    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  }
+
+  useEffect(() => {
+    connectem()
+  }, [])
   return (
     <Screen>
       <BackButton />

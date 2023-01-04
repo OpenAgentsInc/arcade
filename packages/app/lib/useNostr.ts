@@ -15,6 +15,9 @@ export const useNostr = () => {
       if (!relay || relay.url !== url) {
         relay = relayInit(url)
         relayActions.addRelay(relay)
+      } else {
+        console.log('Already connected to relay: ', url)
+        return
       }
       await relay.connect()
       relay.on('connect', () => {
