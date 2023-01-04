@@ -1,13 +1,8 @@
 import { formatTimestamp, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
-import { Image, Text, View } from 'react-native'
-import { palette, YStack } from '@my/ui'
-
-const typography = {
-  bold: 'bold',
-  primary: 'System',
-}
+import { Image, View } from 'react-native'
+import { palette, Paragraph as Text, YStack } from '@my/ui'
 
 type Props = {
   message: ChatMessage
@@ -46,15 +41,22 @@ export const Message: React.FC<Props> = ({ message }) => {
       >
         <Text
           style={{
-            fontWeight: 'bold',
+            fontWeight: '700',
             color: '#fff',
             fontSize: 12,
-            fontFamily: typography.primary,
+            fontFamily: 'Inter',
+            lineHeight: 14,
           }}
         >
           {truncateString(message.sender, 10)}
         </Text>
-        <Text style={{ color: palette.moonRaker, fontSize: 12, fontFamily: typography.primary }}>
+        <Text
+          style={{
+            color: palette.moonRaker,
+            fontSize: 12,
+            lineHeight: 16,
+          }}
+        >
           {message.text}
         </Text>
         <Text
@@ -62,7 +64,8 @@ export const Message: React.FC<Props> = ({ message }) => {
             fontSize: 10,
             color: metadataColor,
             textAlign: 'right',
-            fontFamily: typography.primary,
+            fontFamily: 'Inter',
+            lineHeight: 14,
           }}
         >
           {formatTimestamp(message.timestamp)}
