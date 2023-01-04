@@ -1,4 +1,5 @@
-import { Paragraph, YStack } from '@my/ui'
+import { Paragraph, XStack, YStack } from '@my/ui'
+import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
 
 export const NavHeader = ({ title }) => {
   return (
@@ -9,9 +10,13 @@ export const NavHeader = ({ title }) => {
       borderBottomColor="$backgroundStrong"
       borderBottomWidth="$1"
     >
-      <Paragraph fontWeight="700" textAlign="center">
-        {title}
-      </Paragraph>
+      <XStack w="100%" justifyContent="space-between">
+        <ChevronLeft />
+        <Paragraph fontWeight="700" textAlign="center">
+          {title}
+        </Paragraph>
+        <Settings />
+      </XStack>
     </YStack>
   )
 }
