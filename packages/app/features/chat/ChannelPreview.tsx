@@ -28,7 +28,8 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
       //   activeOpacity={0.8}
       key={channel?.id ?? 'asdf'}
       //   onPress={onPress}
-      style={styles.container}
+      //   style={styles.container}
+      bg="$backgroundSoft"
       borderRadius={0}
       borderWidth={0}
       {...linkProps}
