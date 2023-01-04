@@ -6,7 +6,7 @@ export const LoginScreen = () => {
     <Screen>
       <BackButton />
       <YStack alignItems="center" f={1}>
-        <YStack alignItems="center" w="100%" mt={isWeb ? '12%' : '10%'}>
+        <YStack alignItems="center" w="100%" mt={isWeb ? '12%' : '15%'}>
           <H2>Login</H2>
           <Paragraph mt="$3" mb="$5" opacity={0.7}>
             Enter your account key to log in:
