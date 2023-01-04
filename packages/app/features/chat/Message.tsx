@@ -1,4 +1,4 @@
-import { formatTimestamp, truncateString } from 'app/lib/utils'
+import { formatTimestamp, generateRandomPlacekitten, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
 import { Image, View } from 'react-native'
@@ -12,7 +12,7 @@ export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = useStore((state) => state.user.publicKey)
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
-  const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://placekitten.com/200/200'
+  const pic = isCurrentUser ? 'https://placekitten.com/201/201' : 'https://placekitten.com/200/200'
   const metadataColor = isCurrentUser ? palette.blueBell : palette.blueBellFaded
   return (
     <View style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
