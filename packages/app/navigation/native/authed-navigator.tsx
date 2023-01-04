@@ -17,7 +17,6 @@ export function AuthedNavigator() {
         name="channels"
         component={ChannelsScreen}
         options={{
-          //   headerShown: false,
           title: 'Channels',
           animation: 'slide_from_right',
           header: ({ options: { title } }) => <NavHeader title={title} />,
@@ -35,7 +34,8 @@ export function AuthedNavigator() {
         name="settings"
         component={SettingsScreen}
         options={{
-          headerShown: false,
+          title: 'Settings',
+          header: ({ options: { title } }) => <NavHeader title={title} />,
           animation: 'slide_from_right',
         }}
       />
