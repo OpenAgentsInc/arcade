@@ -36,7 +36,7 @@ export const NavHeader = ({ title, options, ...props }) => {
           <Stack w="$1" />
         )}
 
-        <Paragraph fontWeight="700" textAlign="center">
+        <Paragraph fontWeight="700" textAlign="center" color="$color12">
           {options?.title ?? title}
         </Paragraph>
         {/* If current title is not Settings */}

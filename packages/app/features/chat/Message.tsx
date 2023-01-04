@@ -40,9 +40,10 @@ export const Message: React.FC<Props> = ({ message }) => {
         }}
       >
         <Text
+          color="$color11"
           style={{
             fontWeight: '700',
-            color: '#fff',
+            // color: '#fff',
             fontSize: 12,
             fontFamily: 'Inter',
             lineHeight: 14,
@@ -51,8 +52,10 @@ export const Message: React.FC<Props> = ({ message }) => {
           {truncateString(message.sender, 10)}
         </Text>
         <Text
+          mt={2}
+          color="$color12"
           style={{
-            color: palette.moonRaker,
+            // color: palette.moonRaker,
             fontSize: 12,
             lineHeight: 16,
           }}
@@ -60,9 +63,12 @@ export const Message: React.FC<Props> = ({ message }) => {
           {message.text}
         </Text>
         <Text
+          mt={1}
+          color="$color8"
+          //   opacity={0.6}
           style={{
             fontSize: 10,
-            color: metadataColor,
+            // color: metadataColor,
             textAlign: 'right',
             fontFamily: 'Inter',
             lineHeight: 14,
