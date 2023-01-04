@@ -3,7 +3,7 @@ import { Channel } from 'app/stores/chat'
 import React, { useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { useLink } from 'solito/link'
-import { Button, palette, Text } from '@my/ui'
+import { Button, palette, Paragraph, Text } from '@my/ui'
 
 interface ChannelPreviewProps {
   channel: Channel
@@ -25,11 +25,8 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
 
   return (
     <Button
-      //   activeOpacity={0.8}
       key={channel?.id ?? 'asdf'}
-      //   onPress={onPress}
-      //   style={styles.container}
-      bg="$backgroundSoft"
+      bg="$backgroundFocus"
       borderRadius={0}
       borderWidth={0}
       {...linkProps}
@@ -40,12 +37,8 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
         onError={() => setImg(generateRandomPlacekitten())}
       />
       <View style={styles.contentContainer}>
-        <Text px="$2" style={styles.channelName}>
-          {channel?.metadata.name ?? 'no name'}
-        </Text>
-        <Text px="$2" style={styles.channelPreview}>
-          {channel?.metadata.about ?? 'no about'}
-        </Text>
+        <Paragraph px="$2">{channel?.metadata.name ?? 'no name'}</Paragraph>
+        <Paragraph px="$2">{channel?.metadata.about ?? 'no about'}</Paragraph>
       </View>
     </Button>
   )
@@ -54,9 +47,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
 const styles = StyleSheet.create({
   channelName: {
     color: palette.moonRaker,
-    // fontFamily: typography.secondary,
     textAlign: 'left',
-    // paddingHorizontal: spacing[2],
     paddingTop: 1,
   },
   channelPreview: {
