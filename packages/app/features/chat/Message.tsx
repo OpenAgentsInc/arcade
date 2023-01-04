@@ -1,9 +1,8 @@
 import { formatTimestamp, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
-import { LinearGradient } from 'expo-linear-gradient'
 import { Image, Text, View } from 'react-native'
-import { palette } from '@my/ui'
+import { palette, YStack } from '@my/ui'
 
 const typography = {
   bold: 'bold',
@@ -19,9 +18,6 @@ export const Message: React.FC<Props> = ({ message }) => {
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://i.pravatar.cc/100' : 'https://placekitten.com/200/200'
-  const gradientColors = isCurrentUser
-    ? ['#7454FF', palette.indigo]
-    : [palette.night, palette.night]
   const metadataColor = isCurrentUser ? palette.blueBell : palette.blueBellFaded
   return (
     <View style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
@@ -33,13 +29,12 @@ export const Message: React.FC<Props> = ({ message }) => {
           source={{ uri: pic }}
         />
       )}
-      <LinearGradient
-        colors={gradientColors}
+      <YStack
+        flexGrow={1}
+        flexShrink={1}
+        bg={isCurrentUser ? '$backgroundStrong' : '$background'}
         style={{
           marginHorizontal: 8,
-          flexGrow: 1,
-          flexShrink: 1,
-          backgroundColor: '#222',
           paddingHorizontal: 7,
           paddingVertical: 3,
           borderTopLeftRadius: 10,
@@ -72,7 +67,7 @@ export const Message: React.FC<Props> = ({ message }) => {
         >
           {formatTimestamp(message.timestamp)}
         </Text>
-      </LinearGradient>
+      </YStack>
       {isCurrentUser ? (
         <Image
           style={{ width: 30, height: 30, borderRadius: 25, alignSelf: align }}

@@ -27,11 +27,7 @@ export const SettingsScreen = () => {
 
   return (
     <Screen>
-      {/* <BackButton />
-      <H2 textAlign="center" mb="$4">
-        Settings
-      </H2> */}
-      <YStack alignItems="center">
+      <YStack alignItems="center" m="$4">
         <YGroup
           als="center"
           bordered
