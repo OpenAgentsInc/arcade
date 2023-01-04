@@ -3,10 +3,12 @@ import { Button, Paragraph, Stack, XStack, YStack } from '@my/ui'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
 
-export const NavHeader = ({ title }) => {
+export const NavHeader = ({ title, options, ...props }) => {
   const linkprops = useLink({ href: '/settings' })
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
+  console.log('OPTIONS', options)
+  //   console.log('props:', props)
   return (
     <YStack
       px="$3"
@@ -35,7 +37,7 @@ export const NavHeader = ({ title }) => {
         )}
 
         <Paragraph fontWeight="700" textAlign="center">
-          {title}
+          {options?.title ?? title}
         </Paragraph>
         {/* If current title is not Settings */}
         {name === 'settings' ? (

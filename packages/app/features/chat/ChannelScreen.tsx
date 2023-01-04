@@ -1,11 +1,10 @@
 import { useNostr } from 'app/lib/useNostr'
-import { generateRandomPlacekitten } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { Screen } from 'app/views'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { createParam } from 'solito'
-import { ChannelHeader } from './ChannelHeader'
+import { useNavigation } from '@react-navigation/native'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 
@@ -16,6 +15,7 @@ type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
 
 export const ChannelScreen: React.FC<Props> = () => {
   const { relays, connect } = useNostr()
+  const { setOptions } = useNavigation()
   useEffect(() => {
     if (relays.length === 0) {
       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
@@ -24,6 +24,9 @@ export const ChannelScreen: React.FC<Props> = () => {
   const [id] = useParam('id')
   const { channels } = useStore()
   const channel = channels.find((c) => c.id === id)
+  useEffect(() => {
+    setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
+  }, [channel])
   if (!channel)
     return (
       <Screen>
