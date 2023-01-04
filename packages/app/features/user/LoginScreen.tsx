@@ -20,8 +20,8 @@ export const LoginScreen = () => {
 
   return (
     <Screen>
-      <BackButton />
-      <YStack alignItems="center" f={1}>
+      <BackButton mt={40} ml={20} />
+      <YStack px="$4" alignItems="center" f={1}>
         <YStack alignItems="center" w="100%" mt={isWeb ? '12%' : '15%'}>
           <H2>Login</H2>
           <Paragraph mt="$3" mb="$5" opacity={0.7}>

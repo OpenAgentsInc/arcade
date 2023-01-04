@@ -38,8 +38,8 @@ export const CreateAccountScreen = () => {
 
   return (
     <Screen>
-      <BackButton />
-      <YStack alignItems="center" f={1}>
+      <BackButton mt={40} ml={20} />
+      <YStack px="$4" alignItems="center" f={1}>
         <YStack alignItems="center" w="100%" mt={isWeb ? '15%' : '5%'}>
           <H2 mb="$4">Create Account</H2>
           <YStack space="$3" alignItems="center" width={300}>
