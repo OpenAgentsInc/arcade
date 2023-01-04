@@ -23,7 +23,7 @@ export const MessageInput = ({ channelId }) => {
   }
 
   return (
-    <XStack alignItems="center" px="$2">
+    <XStack alignItems="center" p="$2">
       <Input
         color="$color12"
         placeholder="Message"
