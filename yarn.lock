@@ -4639,6 +4639,7 @@ __metadata:
     date-fns: 2.29.3
     expo-linking: ^3.2.3
     expo-secure-store: ^12.0.0
+    react-hook-form: 7.41.5
     solito: 2.0.0-canary.4
   languageName: unknown
   linkType: soft
@@ -12145,6 +12146,15 @@ __metadata:
   peerDependencies:
     react: ">=17.0.0"
   checksum: 4258eabdbbf74aaebc38ad1fd7cfdc1984d2a844a2247b39a341c55c1beb02d5e855e6473ec5683205a52b2251d0f7dffa07cd8100f402dd2698af88b932d946
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:7.41.5":
+  version: 7.41.5
+  resolution: "react-hook-form@npm:7.41.5"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: ca28b2deb4fdbf120ff726f4d66366711725df03b677f52b2577a69bf761e409644bf06b8342dbc2dd5cdfdb05efecdbc2361799f405a35d65911fd0b4d8bdde
   languageName: node
   linkType: hard
 
