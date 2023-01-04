@@ -22,17 +22,17 @@ export const LoginScreen = () => {
           mt="$8"
           elevate
           bordered
-          //   bg="$backgroundTransparent"
+          bg="$backgroundTransparent"
         >
-          <Card.Background>
-            {/* <LinearGradient
-              pos="absolute"
-              colors={['$yellow', '$blue']}
-              start={[1, 1]}
-              end={[0, 0]}
-              f={1}
-            /> */}
-          </Card.Background>
+          <LinearGradient
+            pos="absolute"
+            width="100%"
+            height="100%"
+            colors={['#794a09', '#996e03']}
+            opacity={0.3}
+            start={[1, 1]}
+            end={[0, 0]}
+          />
           <Card.Header pt="$3" px="$4" pb="$2">
             <Paragraph fontWeight="700" fontSize="$2">
               Security warning
