@@ -71,6 +71,8 @@ export const createAuthStore = (set: any, get: any) => ({
       let pub = relay.publish(event)
       pub.on('ok', () => {
         console.log(`${relay.url} has accepted our event`)
+        set({ user: { ...state.user, privateKey, publicKey } })
+        console.log('set user to', { ...state.user, privateKey, publicKey })
       })
       pub.on('seen', () => {
         console.log(`we saw the event on ${relay.url}`)

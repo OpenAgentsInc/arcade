@@ -1,5 +1,7 @@
+import { useNostr } from 'app/lib/useNostr'
 import { BackButton, Screen } from 'app/views'
-import { Card, H2, H4, H5, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
+import { useEffect } from 'react'
+import { Card, H2, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
   return (

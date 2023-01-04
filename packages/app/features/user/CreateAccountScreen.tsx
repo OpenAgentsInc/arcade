@@ -1,6 +1,7 @@
+import { useNostr } from 'app/lib/useNostr'
 import { useStore } from 'app/stores'
 import { BackButton, Screen } from 'app/views'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { Button, H2, Input, isWeb, Label, YStack } from '@my/ui'
 import { ChevronsRight } from '@tamagui/lucide-icons'
@@ -24,6 +25,16 @@ export const CreateAccountScreen = () => {
     }
     signup(username, displayName, about)
   }, [username, displayName, about])
+
+  const { connect } = useNostr()
+
+  const connectem = async () => {
+    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  }
+
+  useEffect(() => {
+    connectem()
+  }, [])
 
   return (
     <Screen>
