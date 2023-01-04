@@ -1,10 +1,18 @@
+import { THEME_STORAGE_KEY } from 'app/lib/constants'
+import * as storage from 'app/lib/storage'
 import { useStore } from 'app/stores'
 import { Square, Theme, ThemeName, XGroup, YGroup, YStack } from '@my/ui'
 import { CheckCircle } from '@tamagui/lucide-icons'
 
 export const ThemePicker = () => {
   const currentTheme = useStore((s) => s.themeName)
-  const setThemeName = useStore((s) => s.setThemeName)
+  const setStoreThemeName = useStore((s) => s.setThemeName)
+
+  const setThemeName = (themeName: ThemeName) => {
+    setStoreThemeName(themeName)
+    storage.setItem(THEME_STORAGE_KEY, themeName)
+  }
+
   const themes: ThemeName[] = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'dark']
   return (
     <YStack elevation="$8">
