@@ -31,14 +31,14 @@ export const ChannelList = () => {
       renderItem={renderItem}
       estimatedItemSize={150}
       data={channels}
-      ListHeaderComponent={
-        <Stack backgroundColor="$haiti" pt="$10">
-          <Text textAlign="center" color="$moonRaker" fontSize={24} mb="$5" fontWeight="bold">
-            Channels
-          </Text>
-          <Separator borderBottomColor="$portGore" borderColor="$portGore" />
-        </Stack>
-      }
+      //   ListHeaderComponent={
+      //     <Stack backgroundColor="$haiti" pt="$10">
+      //       <Text textAlign="center" color="$moonRaker" fontSize={24} mb="$5" fontWeight="bold">
+      //         Channels
+      //       </Text>
+      //       <Separator borderBottomColor="$portGore" borderColor="$portGore" />
+      //     </Stack>
+      //   }
       ItemSeparatorComponent={() => <Separator borderColor="$portGore" borderWidth={0.5} mb={-1} />}
     />
   )

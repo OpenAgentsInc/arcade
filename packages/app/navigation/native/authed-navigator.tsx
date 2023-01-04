@@ -1,5 +1,6 @@
 import { ChannelScreen, ChannelsScreen } from 'app/features/chat'
 import { SettingsScreen } from 'app/features/user/SettingsScreen'
+import { NavHeader } from 'app/views'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -16,8 +17,10 @@ export function AuthedNavigator() {
         name="channels"
         component={ChannelsScreen}
         options={{
-          headerShown: false,
+          //   headerShown: false,
+          title: 'Channels',
           animation: 'slide_from_right',
+          header: ({ options: { title } }) => <NavHeader title={title} />,
         }}
       />
       <Stack.Screen
