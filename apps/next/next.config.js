@@ -70,10 +70,12 @@ module.exports = function () {
       'solito',
       'react-native-web',
       'expo-linking',
+      'expo-clipboard',
       'expo-constants',
       'expo-modules-core',
       'recyclerlistview',
       '@shopify/flash-list',
+      'nostr-tools',
     ],
     experimental: {
       // optimizeCss: true,

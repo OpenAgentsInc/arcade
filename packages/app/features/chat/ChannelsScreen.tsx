@@ -23,7 +23,6 @@ export function ChannelsScreen() {
       <YGroup als="center" f={1} w="100%" separator={<Separator />}>
         <ChannelList />
         <Button {...linkprops}>Settings</Button>
-        <LogoutButton />
       </YGroup>
     </YStack>
   )

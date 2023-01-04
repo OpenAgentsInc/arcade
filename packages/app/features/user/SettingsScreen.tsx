@@ -4,8 +4,9 @@ import { AlertDialogDemo } from 'app/views/AlertDialog'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
 import { Alert } from 'react-native'
-import { H2, ListItem, Paragraph, Separator, YGroup } from '@my/ui'
+import { H2, ListItem, Paragraph, Separator, YGroup, YStack } from '@my/ui'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
+import { LogoutButton } from './logout-button'
 
 export const SettingsScreen = () => {
   const publicKey = useStore((s) => s.user.publicKey)
@@ -32,28 +33,29 @@ export const SettingsScreen = () => {
       <H2 textAlign="center" mb="$4">
         Settings
       </H2>
-      <YGroup als="center" bordered w="100%" size="$5" separator={<Separator />}>
-        <ListItem
-          hoverTheme
-          pressTheme
-          title="Public Account ID"
-          subTitle={npubkey}
-          icon={User}
-          iconAfter={ClipboardIcon}
-          onPress={copyPublicKey}
-        />
-        <ListItem
-          hoverTheme
-          pressTheme
-          title="Secret Account Login Key"
-          subTitle={maskedNsec}
-          icon={Key}
-          iconAfter={ClipboardIcon}
-          onPress={copyPrivateKey}
-        />
-      </YGroup>
-
-      <AlertDialogDemo />
+      <YStack alignItems="center">
+        <YGroup als="center" bordered w="100%" size="$5" maxWidth="50%" separator={<Separator />}>
+          <ListItem
+            hoverTheme
+            pressTheme
+            title="Public Account ID"
+            subTitle={npubkey}
+            icon={User}
+            iconAfter={ClipboardIcon}
+            onPress={copyPublicKey}
+          />
+          <ListItem
+            hoverTheme
+            pressTheme
+            title="Secret Account Login Key"
+            subTitle={maskedNsec}
+            icon={Key}
+            iconAfter={ClipboardIcon}
+            onPress={copyPrivateKey}
+          />
+        </YGroup>
+        <LogoutButton mt="$6" w={200} />
+      </YStack>
     </Screen>
   )
 }
