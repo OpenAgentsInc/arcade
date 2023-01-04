@@ -26,8 +26,8 @@ export function AuthedNavigator() {
         name="channel"
         component={ChannelScreen}
         options={{
-          headerShown: false,
           animation: 'slide_from_right',
+          header: ({ options: { title } }) => <NavHeader title="" />,
         }}
       />
       <Stack.Screen
