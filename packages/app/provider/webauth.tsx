@@ -17,8 +17,12 @@ export const WebAuthProvider = ({ children }) => {
     window.location.pathname = '/'
   }
 
-  // If authed and NextJS path is /, redirect to /channels
-  if (typeof window !== 'undefined' && authed === true && window.location.pathname === '/') {
+  // If authed and NextJS path is any of the nonRedirectPaths (not well named), redirect to /channels
+  if (
+    typeof window !== 'undefined' &&
+    authed === true &&
+    nonRedirectPaths.includes(window.location.pathname)
+  ) {
     window.location.pathname = '/channels'
   }
 
