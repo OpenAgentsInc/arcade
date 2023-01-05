@@ -16,7 +16,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Features
 
-Current and upcoming features in the rough order of development. [Tweet us](https://twitter.com/TheArcApp) any feature requests.
+Current and upcoming features, in rough order of development:
 
 - [x] Read and send messages to [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) channels ([#22](https://github.com/ArcadeLabsInc/arc/pull/22))
 - [x] Account creation ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
@@ -28,6 +28,8 @@ Current and upcoming features in the rough order of development. [Tweet us](http
 - [ ] Web login via [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md)
 - [ ] Create channels
 - [ ] Display/pay Lightning invoices
+
+[Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
 ## Architecture
 
