@@ -1,44 +1,35 @@
-import { ChannelScreen, ChannelsScreen } from 'app/features/chat'
-import { SettingsScreen } from 'app/features/user/SettingsScreen'
-import { NavHeader } from 'app/views'
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { ProfileScreen } from 'app/features/profile'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { BarChart, MessageCircle, User, UserCog } from '@tamagui/lucide-icons'
+import { ChatNavigator } from './chat-navigator'
 
-const Stack = createNativeStackNavigator<{
-  channels: undefined
-  channel: undefined
-  settings: undefined
+const BottomTab = createBottomTabNavigator<{
+  chat: undefined
+  profile: undefined
 }>()
 
 export function AuthedNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="channels"
-        component={ChannelsScreen}
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarLabel: () => null,
+      }}
+    >
+      <BottomTab.Screen
+        name="chat"
+        component={ChatNavigator}
         options={{
-          title: 'Channels',
-          animation: 'slide_from_right',
-          header: ({ options: { title } }) => <NavHeader title={title} />,
+          tabBarIcon: ({ color, size }) => <MessageCircle color={color} size={size} />,
         }}
       />
-      <Stack.Screen
-        name="channel"
-        component={ChannelScreen}
+      <BottomTab.Screen
+        name="profile"
+        component={ProfileScreen}
         options={{
-          animation: 'slide_from_right',
-          header: (props) => <NavHeader {...props} />,
+          tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
         }}
       />
-      <Stack.Screen
-        name="settings"
-        component={SettingsScreen}
-        options={{
-          title: 'Settings',
-          header: ({ options: { title } }) => <NavHeader title={title} />,
-          animation: 'slide_from_right',
-        }}
-      />
-    </Stack.Navigator>
+    </BottomTab.Navigator>
   )
 }

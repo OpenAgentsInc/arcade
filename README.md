@@ -24,10 +24,11 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
+- [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
+- [ ] Look up user by NIP-05 identifier
 - [ ] Twitter-style profile
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Follower/following feed
-- [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
 - [ ] Click to copy any user's npub
