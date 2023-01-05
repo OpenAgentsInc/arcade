@@ -7,6 +7,7 @@ export const NavHeader = ({ title, options, ...props }) => {
   const linkprops = useLink({ href: '/settings' })
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
+
   return (
     <YStack
       elevation="$3"
@@ -38,6 +39,7 @@ export const NavHeader = ({ title, options, ...props }) => {
         <Paragraph fontWeight="700" textAlign="center" color="$color12">
           {options?.title ?? title}
         </Paragraph>
+
         {/* If current title is not Settings */}
         {name === 'settings' ? (
           <Stack w="$1" />

@@ -4,7 +4,7 @@ import { Screen } from 'app/views'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { createParam } from 'solito'
-import { isWeb } from '@my/ui'
+import { Button, isWeb } from '@my/ui'
 import { useNavigation } from '@react-navigation/native'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
@@ -18,14 +18,16 @@ const { useParam } = createParam<{ id: string }>()
 export const ChannelScreen = () => {
   const { relays, connect } = useNostr()
   const { setOptions } = isWeb ? { setOptions: () => {} } : useNavigation()
+  const { checkAllUserMetadata } = useStore((s) => s.chatActions)
   useEffect(() => {
     if (relays.length === 0) {
       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
     }
   }, [relays])
   const [id] = useParam('id')
-  const { channels } = useStore()
+  const channels = useStore((s) => s.channels)
   const channel = channels.find((c) => c.id === id)
+
   useEffect(() => {
     !isWeb && setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
   }, [channel])
@@ -41,6 +43,7 @@ export const ChannelScreen = () => {
         channelName={channel?.metadata.name ?? 'Unnamed Channel'}
         channelImageUrl={channel?.metadata.picture ?? generateRandomPlacekitten()}
       /> */}
+      <Button onPress={() => checkAllUserMetadata(channel.id)}>Test</Button>
       <MessageList channelId={channel.id} />
       <MessageInput channelId={channel.id} />
     </Screen>

@@ -38,6 +38,20 @@ export const createChatStore = (set: any, get: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
   chatActions: {
+    checkAllUserMetadata: async (channelId: string) => {
+      const state = get()
+      const { relays } = state
+      const { messages } = state
+
+      // Filter the list of messages for those that have a matching channelId
+      const filteredMessages = messages.filter((message) => message.channelId === channelId)
+
+      // Extract the list of unique public keys of the senders of the filtered messages
+      const pubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
+
+      console.log(`Found ${pubkeys.length} unique pubkeys in this channel.`)
+    },
+
     addMessage: (message: ChatMessage) =>
       set((state) => {
         if (state.messages.some((m) => m.id === message.id)) {
