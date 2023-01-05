@@ -24,6 +24,7 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [ ] Show user kind-0 profile info & picture
+- [ ] Contact lists [NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md)
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
@@ -32,11 +33,12 @@ Current and upcoming features in order of priority:
 - [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
 - [ ] Unread messages
-- [ ] Create channels
 - [ ] Display/pay Lightning invoices
+- [ ] Create channels
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
+- [ ] Emojis
 - [ ] UI theme marketplace
 - [ ] Marketplace listings
 - [ ] Audio rooms
