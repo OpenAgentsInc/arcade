@@ -4,16 +4,12 @@ import { Screen } from 'app/views'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { createParam } from 'solito'
-import { Button, isWeb } from '@my/ui'
+import { isWeb } from '@my/ui'
 import { useNavigation } from '@react-navigation/native'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 
 const { useParam } = createParam<{ id: string }>()
-
-// import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-// type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
-// : React.FC<Props>
 
 export const ChannelScreen = () => {
   const { relays, connect } = useNostr()
@@ -31,9 +27,7 @@ export const ChannelScreen = () => {
   }, [relays])
 
   useEffect(() => {
-    console.log('channel?.id, relays', channel?.id, relays)
     if (!channel || relays.length === 0) return
-    console.log('Checking all user metadata')
 
     // horrible hack since messages may not have loaded yet
     setTimeout(() => {
@@ -56,11 +50,6 @@ export const ChannelScreen = () => {
     )
   return (
     <Screen>
-      {/* <ChannelHeader
-        channelName={channel?.metadata.name ?? 'Unnamed Channel'}
-        channelImageUrl={channel?.metadata.picture ?? generateRandomPlacekitten()}
-      /> */}
-      {/* <Button onPress={() => checkAllUserMetadata(channel.id)}>Test</Button> */}
       <MessageList channelId={channel.id} />
       <MessageInput channelId={channel.id} />
     </Screen>
