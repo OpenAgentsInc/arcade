@@ -16,7 +16,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Features
 
-Current and upcoming features in rough order of development:
+Current and upcoming features in order of priority:
 
 - [x] Read and send messages to [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) channels ([#22](https://github.com/ArcadeLabsInc/arc/pull/22))
 - [x] Account creation ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
