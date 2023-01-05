@@ -25,6 +25,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Web login via [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md)
 - [ ] Create channels
+- [ ] Display/pay Lightning invoices
 
 ## Architecture
 
