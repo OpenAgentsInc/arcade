@@ -46,15 +46,19 @@ export const createChatStore = (set: any, get: any) => ({
       const { relays, userMetadata } = state
 
       function onEvent(event: any, relay: string) {
-        console.log(`Received METADATA event from ${relay}, id ${event.id}`)
+        console.log(`Received METADATA event from ${relay}, id ${event.id}`, event)
         // Check if the event has a "kind" of 0
         if (event.kind === 0) {
           // Parse the event's "content" as a JSON object and add it to the list of "userMetadata" in the state
           const content = JSON.parse(event.content)
           set((state) => ({
-            userMetadata: [...state.userMetadata, { ...content, pubkey }],
+            userMetadata: {
+              ...state.userMetadata,
+              [pubkey]: content,
+            },
           }))
-          console.log('saved....', { ...content, pubkey })
+          console.log('SAVED', content)
+          //   console.log('saved....', { ...content, pubkey })
         }
       }
 
@@ -64,15 +68,11 @@ export const createChatStore = (set: any, get: any) => ({
         const stream = relay.sub([{ kinds: [0], authors: [pubkey] }])
         // Pass the "onEvent" function as the callback for the stream
         stream.on('event', onEvent)
-      })
-
-      // When the stream is no longer needed, unsubscribe from it
-      setTimeout(() => {
-        relays.forEach((relay) => {
-          const stream = relay.sub([{ kinds: [0], authors: [pubkey] }])
+        // Unsubscribe from the stream after a 1 second delay
+        setTimeout(() => {
           stream.unsub()
-        })
-      }, 1000)
+        }, 1000)
+      })
     },
 
     checkAllUserMetadata: async (channelId: string) => {
