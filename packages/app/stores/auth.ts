@@ -81,17 +81,14 @@ export const createAuthStore = (set: any, get: any) => ({
     event.id = getEventHash(event)
     event.sig = signEvent(event, privateKey)
 
-    console.log('Signed event: ', event)
-    console.log('Publishing to relays: ', relays)
-
     // Publish the event to all of the relays
     relays.forEach((relay) => {
-      console.log('Publishing to relay: ', relay.url)
+      //   console.log('Publishing to relay: ', relay.url)
       let pub = relay.publish(event)
       pub.on('ok', () => {
-        console.log(`${relay.url} has accepted our event`)
+        // console.log(`${relay.url} has accepted our event`)
         set({ user: { ...state.user, privateKey, publicKey } })
-        console.log('set user to', { ...state.user, privateKey, publicKey })
+        // console.log('set user to', { ...state.user, privateKey, publicKey })
       })
       pub.on('seen', () => {
         console.log(`we saw the event on ${relay.url}`)
