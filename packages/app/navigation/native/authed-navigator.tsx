@@ -18,7 +18,15 @@ export function AuthedNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
-        tabBarBackground: () => <XStack f={1} backgroundColor="$backgroundSoft" />,
+        tabBarBackground: () => (
+          <XStack
+            f={1}
+            backgroundColor="$backgroundSoft"
+            borderTopWidth="$1"
+            borderTopColor="$color3"
+            elevation="$6"
+          />
+        ),
       }}
     >
       <BottomTab.Screen
