@@ -4,6 +4,7 @@ import { Screen } from 'app/views'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { createParam } from 'solito'
+import { isWeb } from '@my/ui'
 import { useNavigation } from '@react-navigation/native'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
@@ -15,7 +16,7 @@ type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
 
 export const ChannelScreen: React.FC<Props> = () => {
   const { relays, connect } = useNostr()
-  const { setOptions } = useNavigation()
+  const { setOptions } = isWeb ? { setOptions: () => {} } : useNavigation()
   useEffect(() => {
     if (relays.length === 0) {
       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
