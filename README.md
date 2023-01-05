@@ -39,6 +39,7 @@ Current and upcoming features in order of priority:
 - [ ] Unread channel messages
 - [ ] Internationalization
 - [ ] Display/pay Lightning invoices
+- [ ] Search messages and feeds
 - [ ] Create channels
 - [ ] Pinned channel messages
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
