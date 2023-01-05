@@ -55,6 +55,7 @@ export const createChatStore = (set: any, get: any) => ({
               [pubkey]: content,
             },
           }))
+          console.log(`Saved metadata for user ${content?.name ?? 'unknown'}: `, pubkey)
         }
       }
 
