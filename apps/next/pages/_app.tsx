@@ -1,21 +1,20 @@
 import '@tamagui/core/reset.css'
 import '@tamagui/font-inter/css/400.css'
 import '@tamagui/font-inter/css/700.css'
-
-import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme'
+import 'raf/polyfill'
 import { Provider } from 'app/provider'
 import { WebAuthProvider } from 'app/provider/webauth'
 import Head from 'next/head'
-import React, { useMemo } from 'react'
+import { NextThemeProvider, useRootTheme } from '@tamagui/next-theme'
+
 import type { SolitoAppProps } from 'solito'
-import 'raf/polyfill'
 
 function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
       <Head>
         <title>Arc</title>
-        <meta name="description" content="Tamagui, Solito, Expo & Next.js" />
+        <meta name="description" content="One chat app to rule them all" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider>
