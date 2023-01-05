@@ -35,6 +35,7 @@ Current and upcoming features in order of priority:
 - [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
 - [ ] Unread channel messages
+- [ ] Internationalization
 - [ ] Display/pay Lightning invoices
 - [ ] Create channels
 - [ ] Pinned channel messages
@@ -45,7 +46,7 @@ Current and upcoming features in order of priority:
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
 - [ ] Paid DMs
 - [ ] Channel moderators
-- [ ] Private group chats [NIP-38?](https://github.com/nostr-protocol/nips/pull/59)
+- [ ] Private group chats ([NIP-38?](https://github.com/nostr-protocol/nips/pull/59))
 - [ ] Each note/post has its own web URL
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
 - [ ] UI theme marketplace
