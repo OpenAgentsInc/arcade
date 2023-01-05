@@ -73,28 +73,33 @@ export const createChatStore = (set: any, get: any) => ({
     },
 
     checkAllUserMetadata: async (channelId: string) => {
-      const state = get()
-      const { chatActions, messages, userMetadata } = state
-      const fetchUser = chatActions.fetchUser
+      try {
+        const state = get()
+        const { chatActions, messages, userMetadata } = state
+        const fetchUser = chatActions.fetchUser
 
-      // Filter the list of messages for those that have a matching channelId
-      const filteredMessages = messages.filter((message) => message.channelId === channelId)
+        // Filter the list of messages for those that have a matching channelId
+        const filteredMessages = messages.filter((message) => message.channelId === channelId)
 
-      // Extract the list of unique public keys of the senders of the filtered messages
-      const uniquePubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
+        // Extract the list of unique public keys of the senders of the filtered messages
+        const uniquePubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
 
-      console.log(`Found ${uniquePubkeys.length} unique pubkeys in this channel.`)
+        console.log(`Found ${uniquePubkeys.length} unique pubkeys in this channel.`)
 
-      // Now fetch metadata for each pubkey
-      for (const pubkey of uniquePubkeys) {
-        if (userMetadata.has(pubkey)) {
-          console.log(`Already have metadata for ${pubkey}`)
-          continue
-        } else {
-          console.log(`Fetching metadata for ${pubkey}`)
-          await delay(250)
-          fetchUser(pubkey)
+        // Now fetch metadata for each pubkey
+        for (const pubkey of uniquePubkeys) {
+          if (userMetadata.has(pubkey)) {
+            console.log(`Already have metadata for ${pubkey}`)
+            continue
+          } else {
+            console.log(`Fetching metadata for ${pubkey}`)
+            await delay(250)
+            fetchUser(pubkey)
+          }
         }
+      } catch (e) {
+        console.log(':(', e)
+        console.log(e.stack)
       }
     },
 

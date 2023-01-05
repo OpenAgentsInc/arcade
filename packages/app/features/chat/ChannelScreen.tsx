@@ -19,14 +19,31 @@ export const ChannelScreen = () => {
   const { relays, connect } = useNostr()
   const { setOptions } = isWeb ? { setOptions: () => {} } : useNavigation()
   const { checkAllUserMetadata } = useStore((s) => s.chatActions)
+
+  const [id] = useParam('id')
+  const channels = useStore((s) => s.channels)
+  const channel = channels.find((c) => c.id === id)
+
   useEffect(() => {
     if (relays.length === 0) {
       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
     }
   }, [relays])
-  const [id] = useParam('id')
-  const channels = useStore((s) => s.channels)
-  const channel = channels.find((c) => c.id === id)
+
+  useEffect(() => {
+    console.log('channel?.id, relays', channel?.id, relays)
+    if (!channel || relays.length === 0) return
+    console.log('Checking all user metadata')
+
+    // horrible hack since messages may not have loaded yet
+    setTimeout(() => {
+      checkAllUserMetadata(channel.id)
+    }, 1000)
+
+    setTimeout(() => {
+      checkAllUserMetadata(channel.id)
+    }, 3000)
+  }, [channel?.id, relays])
 
   useEffect(() => {
     !isWeb && setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
@@ -43,7 +60,7 @@ export const ChannelScreen = () => {
         channelName={channel?.metadata.name ?? 'Unnamed Channel'}
         channelImageUrl={channel?.metadata.picture ?? generateRandomPlacekitten()}
       /> */}
-      <Button onPress={() => checkAllUserMetadata(channel.id)}>Test</Button>
+      {/* <Button onPress={() => checkAllUserMetadata(channel.id)}>Test</Button> */}
       <MessageList channelId={channel.id} />
       <MessageInput channelId={channel.id} />
     </Screen>
