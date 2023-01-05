@@ -23,11 +23,13 @@ Current and upcoming features in order of priority:
 - [x] Log in with nsec ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
-- [ ] Show user kind-0 profile info & picture
+- [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
+- [ ] Follower/following feed
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
+- [ ] Click to copy any user's npub
 - [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
@@ -35,17 +37,19 @@ Current and upcoming features in order of priority:
 - [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
 - [ ] Unread channel messages
+- [ ] Internationalization
 - [ ] Display/pay Lightning invoices
 - [ ] Create channels
 - [ ] Pinned channel messages
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Push notifications
+- [ ] Channel invites
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
 - [ ] Paid DMs
 - [ ] Channel moderators
-- [ ] Private group chats [NIP-38?](https://github.com/nostr-protocol/nips/pull/59)
+- [ ] Private group chats ([NIP-38?](https://github.com/nostr-protocol/nips/pull/59))
 - [ ] Each note/post has its own web URL
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
 - [ ] UI theme marketplace

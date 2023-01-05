@@ -29,5 +29,4 @@ export const useMessagesForChannel = (channelId: string) => {
   return messages
     .filter((message) => message.channelId === channelId)
     .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))
-  // sorted chronologically by timestamp
 }

@@ -1,5 +1,12 @@
 import { formatDistanceToNow } from 'date-fns'
 
+/**
+ * A "modern" sleep statement.
+ *
+ * @param ms The number of milliseconds to wait.
+ */
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const formatTimestamp = (timestamp: string) => {
   const timestampNum = parseInt(timestamp)
   const date = new Date(timestampNum * 1000)
