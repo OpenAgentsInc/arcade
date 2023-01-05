@@ -16,18 +16,19 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Features
 
-Current and upcoming features, in rough order of development:
+Current and upcoming features in rough order of development:
 
 - [x] Read and send messages to [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) channels ([#22](https://github.com/ArcadeLabsInc/arc/pull/22))
 - [x] Account creation ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Log in with nsec ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
-- [ ] Show user kind-0 metadata
+- [ ] Show user kind-0 profile info & picture
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
-- [ ] Web login via [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md)
+- [ ] Web extension login via [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md)
 - [ ] Create channels
 - [ ] Display/pay Lightning invoices
+- [ ] Encrypted DMs via [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md)
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
