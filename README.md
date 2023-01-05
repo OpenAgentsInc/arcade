@@ -22,9 +22,9 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [ ] Show user kind-0 metadata
-- [ ] Display NIP5 identifiers
-- [ ] NIP7 web login
-- [ ] Create channels
+- [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
+- [ ] [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md) web login
+- [ ] User can create channels
 
 ## Architecture
 
