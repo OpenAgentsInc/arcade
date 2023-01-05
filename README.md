@@ -24,7 +24,7 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [ ] Show user kind-0 profile info & picture
-- [ ] Contact lists [NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md)
+- [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
@@ -43,6 +43,7 @@ Current and upcoming features in order of priority:
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
+- [ ] Channel moderators
 - [ ] Private group chats [NIP-38?](https://github.com/nostr-protocol/nips/pull/59)
 - [ ] Each note/post has its own web URL
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
@@ -51,6 +52,7 @@ Current and upcoming features in order of priority:
 - [ ] Audio rooms
 - [ ] Video chat
 - [ ] E-commerce shops
+- [ ] Bots
 - [ ] Developer API
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
