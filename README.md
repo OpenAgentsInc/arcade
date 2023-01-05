@@ -27,7 +27,8 @@ Current and upcoming features in order of priority:
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Web extension login ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Global feed
-- [ ] Handle mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
+- [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
+- [ ] Add/remove/recommend relays
 - [ ] Create channels
 - [ ] Display/pay Lightning invoices
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
