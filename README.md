@@ -37,12 +37,13 @@ Current and upcoming features in order of priority:
 - [ ] Create channels
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
-- [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
 - [ ] Emojis
+- [ ] Lightning wallets via [LNbits](https://lnbits.com/)
+- [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
 - [ ] UI theme marketplace
 - [ ] Marketplace listings
 - [ ] Audio rooms
-- [ ] Video calls
+- [ ] Video chat
 - [ ] E-commerce shops
 - [ ] Developer API
 
