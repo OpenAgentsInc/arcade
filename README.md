@@ -43,6 +43,7 @@ Current and upcoming features in order of priority:
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
+- [ ] Private group chats [NIP-38?](https://github.com/nostr-protocol/nips/pull/59)
 - [ ] Each note/post has its own web URL
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
 - [ ] UI theme marketplace
