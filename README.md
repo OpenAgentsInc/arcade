@@ -34,6 +34,8 @@ Current and upcoming features in order of priority:
 - [ ] Display/pay Lightning invoices
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
+- [ ] Audio rooms
+- [ ] Video calls
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
