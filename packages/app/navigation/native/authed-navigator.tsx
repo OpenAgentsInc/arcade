@@ -16,8 +16,15 @@ export function AuthedNavigator() {
   return (
     <BottomTab.Navigator
       screenOptions={{
+        // hide the tabbar only on the ChannelScreen
+        // tabBarStyle: ({ route }) => {
+        //   console.log('ROUTE?', route)
+        //   return route.name === 'channel' ? { height: 0 } : {}
+        // },
+
         headerShown: false,
         tabBarLabel: () => null,
+        // tabBarStyle: { height: 0 },
         tabBarBackground: () => (
           <XStack
             f={1}
