@@ -29,12 +29,15 @@ Current and upcoming features in order of priority:
 - [ ] Muting
 - [ ] Global feed
 - [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
+- [ ] Display URLs as clickable links
+- [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
 - [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
 - [ ] Unread messages
 - [ ] Display/pay Lightning invoices
 - [ ] Create channels
+- [ ] Pinned channel messages
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
