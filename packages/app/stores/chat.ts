@@ -42,12 +42,42 @@ export const createChatStore = (set: any, get: any) => ({
   userMetadata: initialChatState.userMetadata,
   chatActions: {
     fetchUser: async (pubkey: string) => {
-      //   console.log('Will fetch user metadata for pubkey: ', pubkey)
+      const state = get()
+      const { relays, userMetadata } = state
+
+      function onEvent(event: any, relay: string) {
+        console.log(`Received METADATA event from ${relay}, id ${event.id}`)
+        // Check if the event has a "kind" of 0
+        if (event.kind === 0) {
+          // Parse the event's "content" as a JSON object and add it to the list of "userMetadata" in the state
+          const content = JSON.parse(event.content)
+          set((state) => ({
+            userMetadata: [...state.userMetadata, { ...content, pubkey }],
+          }))
+          console.log('saved....', { ...content, pubkey })
+        }
+      }
+
+      // Iterate over the list of relays
+      relays.forEach((relay) => {
+        // Set up a stream that filters for events with a "kind" of 0 and an "author" that matches the given public key
+        const stream = relay.sub([{ kinds: [0], authors: [pubkey] }])
+        // Pass the "onEvent" function as the callback for the stream
+        stream.on('event', onEvent)
+      })
+
+      // When the stream is no longer needed, unsubscribe from it
+      setTimeout(() => {
+        relays.forEach((relay) => {
+          const stream = relay.sub([{ kinds: [0], authors: [pubkey] }])
+          stream.unsub()
+        })
+      }, 1000)
     },
 
     checkAllUserMetadata: async (channelId: string) => {
       const state = get()
-      const { chatActions, messages, relays, userMetadata } = state
+      const { chatActions, messages, userMetadata } = state
       const fetchUser = chatActions.fetchUser
 
       // Filter the list of messages for those that have a matching channelId
