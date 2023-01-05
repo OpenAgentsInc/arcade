@@ -2,7 +2,7 @@ import { useStore } from 'app/stores'
 import { BackButton, LogoutDialog, Screen } from 'app/views'
 // import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
-import { H2, isWeb, Label, ListItem, Separator, YGroup, YStack } from '@my/ui'
+import { H2, isWeb, ListItem, Separator, YGroup, YStack } from '@my/ui'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 import { ThemePicker } from './ThemePicker'
 
@@ -29,7 +29,7 @@ export const SettingsScreen = () => {
 
   return (
     <Screen>
-      <BackButton />
+      <BackButton m={40} />
       <H2 textAlign="center" mb="$4">
         Settings
       </H2>
