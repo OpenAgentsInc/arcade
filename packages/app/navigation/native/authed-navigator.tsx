@@ -15,6 +15,7 @@ const inactiveTabColor = '$color8'
 export function AuthedNavigator() {
   return (
     <BottomTab.Navigator
+      initialRouteName="profile"
       screenOptions={{
         // hide the tabbar only on the ChannelScreen
         // tabBarStyle: ({ route }) => {
