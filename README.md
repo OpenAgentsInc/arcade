@@ -26,6 +26,7 @@ Current and upcoming features in order of priority:
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Follower/following feed
+- [ ] Twitter-style profile
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
