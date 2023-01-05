@@ -14,6 +14,18 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 | :---------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="700" alt="chats" src="https://user-images.githubusercontent.com/14167547/209855695-e8597eb9-7850-4904-9e92-1d9f42424a4a.png"> | <img width="700" alt="textinput" src="https://user-images.githubusercontent.com/14167547/209863990-54c869d7-9f2a-4db2-87fc-adc1f9156546.png"> | <img width="700" alt="device" src="https://user-images.githubusercontent.com/14167547/210024319-9af65899-9ec8-4b2c-add0-f4f6fbafb16c.png"> |
 
+## Features
+
+- [x] Account creation
+- [x] Log in with nsec
+- [x] Key backup
+- [x] Read and send messages to channels
+- [x] Pick UI theme
+- [ ] Show user kind-0 metadata
+- [ ] Display NIP5 identifiers
+- [ ] NIP7 web login
+- [ ] Create channels
+
 ## Architecture
 
 Documenting on our wiki:
