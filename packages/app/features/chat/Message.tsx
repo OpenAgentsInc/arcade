@@ -2,7 +2,7 @@ import { formatTimestamp, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
 import { Image, View } from 'react-native'
-import { Paragraph as Text, Stack, XStack, YStack } from '@my/ui'
+import { Paragraph, XStack, YStack } from '@my/ui'
 import { useUserMetadata } from './useUserMetadata'
 
 type Props = {
@@ -39,15 +39,28 @@ export const Message: React.FC<Props> = ({ message }) => {
         marginHorizontal={8}
         alignSelf={align}
       >
-        <Text color="$color11" lineHeight={14} fontWeight="700" fontSize="$2">
+        <Paragraph
+          color="$color11"
+          lineHeight={14}
+          fontWeight="700"
+          fontSize="$2"
+          fontFamily="$body"
+        >
           {userMetadata?.name ?? truncateString(message.sender, 10)}
-        </Text>
-        <Text mt={2} color="$color12" fontSize="$2" lineHeight={16}>
+        </Paragraph>
+        <Paragraph mt={2} color="$color12" fontSize="$2" lineHeight={16} fontFamily="$body">
           {message.text}
-        </Text>
-        <Text mt={1} color="$color8" lineHeight={14} fontSize={10} textAlign="right">
+        </Paragraph>
+        <Paragraph
+          mt={1}
+          color="$color8"
+          lineHeight={14}
+          fontSize={10}
+          textAlign="right"
+          fontFamily="$body"
+        >
           {formatTimestamp(message.timestamp)}
-        </Text>
+        </Paragraph>
       </YStack>
       {isCurrentUser ? (
         <Image
