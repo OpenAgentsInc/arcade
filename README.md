@@ -25,10 +25,12 @@ Current and upcoming features in order of priority:
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [ ] Show user kind-0 profile info & picture
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
-- [ ] Web extension login via [NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md)
+- [ ] Web extension login ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
+- [ ] Global feed
+- [ ] Handle mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
 - [ ] Create channels
 - [ ] Display/pay Lightning invoices
-- [ ] Encrypted DMs via [NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md)
+- [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
