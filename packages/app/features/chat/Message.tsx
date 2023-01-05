@@ -2,7 +2,7 @@ import { formatTimestamp, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
 import { Image, View } from 'react-native'
-import { Paragraph as Text, Stack, YStack } from '@my/ui'
+import { Paragraph as Text, Stack, XStack, YStack } from '@my/ui'
 import { useUserMetadata } from './useUserMetadata'
 
 type Props = {
@@ -16,7 +16,7 @@ export const Message: React.FC<Props> = ({ message }) => {
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://placekitten.com/201/201' : 'https://placekitten.com/200/200'
   return (
-    <Stack style={{ flex: 1, flexDirection: 'row', marginTop: 12 }}>
+    <XStack flex={1} mt={12}>
       {isCurrentUser ? (
         <View style={{ flexGrow: 1, flexShrink: 1 }} />
       ) : (
@@ -30,46 +30,22 @@ export const Message: React.FC<Props> = ({ message }) => {
         flexGrow={1}
         flexShrink={1}
         bg={isCurrentUser ? '$backgroundStrong' : '$color4'}
-        style={{
-          marginHorizontal: 8,
-          paddingHorizontal: 7,
-          paddingVertical: 3,
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-          borderBottomRightRadius: isCurrentUser ? 0 : 10,
-          borderBottomLeftRadius: isCurrentUser ? 10 : 0,
-          alignSelf: align,
-        }}
+        borderTopLeftRadius={10}
+        borderTopRightRadius={10}
+        borderBottomRightRadius={isCurrentUser ? 0 : 10}
+        borderBottomLeftRadius={isCurrentUser ? 10 : 0}
+        paddingVertical={3}
+        paddingHorizontal={7}
+        marginHorizontal={8}
+        alignSelf={align}
       >
-        <Text
-          color="$color11"
-          style={{
-            fontWeight: '700',
-            fontSize: 12,
-            lineHeight: 14,
-          }}
-        >
+        <Text color="$color11" lineHeight={14} fontWeight="700" fontSize="$2">
           {userMetadata?.name ?? truncateString(message.sender, 10)}
         </Text>
-        <Text
-          mt={2}
-          color="$color12"
-          style={{
-            fontSize: 12,
-            lineHeight: 16,
-          }}
-        >
+        <Text mt={2} color="$color12" fontSize="$2" lineHeight={16}>
           {message.text}
         </Text>
-        <Text
-          mt={1}
-          color="$color8"
-          style={{
-            fontSize: 10,
-            textAlign: 'right',
-            lineHeight: 14,
-          }}
-        >
+        <Text mt={1} color="$color8" lineHeight={14} fontSize={10} textAlign="right">
           {formatTimestamp(message.timestamp)}
         </Text>
       </YStack>
@@ -81,6 +57,6 @@ export const Message: React.FC<Props> = ({ message }) => {
       ) : (
         <></>
       )}
-    </Stack>
+    </XStack>
   )
 }
