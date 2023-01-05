@@ -16,11 +16,11 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Features
 
-- [x] Account creation
-- [x] Log in with nsec
-- [x] Key backup
-- [x] Read and send messages to channels
-- [x] Pick UI theme
+- [x] Read and send messages to channels (#22)
+- [x] Account creation (#23)
+- [x] Log in with nsec (#23)
+- [x] Key backup (#23)
+- [x] Pick UI theme (#23)
 - [ ] Show user kind-0 metadata
 - [ ] Display NIP5 identifiers
 - [ ] NIP7 web login
