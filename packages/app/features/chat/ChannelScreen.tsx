@@ -26,7 +26,7 @@ export const ChannelScreen: React.FC<Props> = () => {
   const { channels } = useStore()
   const channel = channels.find((c) => c.id === id)
   useEffect(() => {
-    setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
+    !isWeb && setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
   }, [channel])
   if (!channel)
     return (
