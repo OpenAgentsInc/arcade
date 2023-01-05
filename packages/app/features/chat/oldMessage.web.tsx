@@ -42,7 +42,7 @@ export const Message: React.FC<Props> = ({ message }) => {
           style={{
             fontWeight: '700',
             fontSize: 12,
-            fontFamily: 'Inter',
+            // fontFamily: 'Inter',
             // lineHeight: 14,
           }}
         >

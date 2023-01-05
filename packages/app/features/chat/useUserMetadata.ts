@@ -6,5 +6,6 @@ export const useUserMetadata = (pubkey: string) => {
   if (userMetadata.has(pubkey)) {
     metadata = userMetadata.get(pubkey)
   }
+  console.log(`${pubkey}'s metadata: `, metadata)
   return metadata
 }
