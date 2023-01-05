@@ -23,7 +23,7 @@ export const Message: React.FC<Props> = ({ message }) => {
       ) : (
         <Image
           style={{ width: 30, height: 30, borderRadius: 25, alignSelf: 'flex-end' }}
-          source={{ uri: pic }}
+          source={{ uri: userMetadata?.picture ?? pic }}
         />
       )}
       <YStack
@@ -50,7 +50,7 @@ export const Message: React.FC<Props> = ({ message }) => {
             lineHeight: 14,
           }}
         >
-          {truncateString(message.sender, 10)}
+          {userMetadata?.name ?? truncateString(message.sender, 10)}
         </Text>
         <Text
           mt={2}
@@ -77,7 +77,7 @@ export const Message: React.FC<Props> = ({ message }) => {
       {isCurrentUser ? (
         <Image
           style={{ width: 30, height: 30, borderRadius: 25, alignSelf: align }}
-          source={{ uri: pic }}
+          source={{ uri: userMetadata?.picture ?? pic }}
         />
       ) : (
         <></>
