@@ -29,6 +29,7 @@ Current and upcoming features in order of priority:
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
+- [ ] Click to copy any user's npub
 - [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
