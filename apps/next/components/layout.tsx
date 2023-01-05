@@ -7,6 +7,7 @@ import { XStack } from '@my/ui'
 const Layout = ({ children }: any) => {
   const router = useRouter()
   const { id } = router.query
+  console.log('layout sees id:', id)
 
   return (
     <div style={{ display: 'flex', backgroundColor: 'blue' }}>
