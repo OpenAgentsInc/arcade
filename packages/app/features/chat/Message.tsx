@@ -44,7 +44,6 @@ export const Message: React.FC<Props> = ({ message }) => {
           style={{
             fontWeight: '700',
             fontSize: 12,
-            fontFamily: 'Inter',
             lineHeight: 14,
           }}
         >
@@ -66,7 +65,6 @@ export const Message: React.FC<Props> = ({ message }) => {
           style={{
             fontSize: 10,
             textAlign: 'right',
-            fontFamily: 'Inter',
             lineHeight: 14,
           }}
         >
