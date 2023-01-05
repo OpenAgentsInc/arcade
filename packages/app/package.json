@@ -19,8 +19,10 @@
     "@tamagui/shorthands": "^1.0.1",
     "@tamagui/theme-base": "^1.0.1",
     "date-fns": "2.29.3",
+    "expo-clipboard": "^4.0.1",
     "expo-linking": "^3.2.3",
     "expo-secure-store": "^12.0.0",
+    "react-use-clipboard": "1.0.9",
     "solito": "2.0.0-canary.4"
   }
 }

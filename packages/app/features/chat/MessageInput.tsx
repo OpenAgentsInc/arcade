@@ -1,7 +1,7 @@
 import { useStore } from 'app/stores'
 import { useRef, useState } from 'react'
-import { Alert, TextInput, TouchableOpacity, View } from 'react-native'
-import { palette } from '@my/ui'
+import { Alert, TextInput, TouchableOpacity } from 'react-native'
+import { Input, XStack } from '@my/ui'
 import { Send } from '@tamagui/lucide-icons'
 
 export const MessageInput = ({ channelId }) => {
@@ -23,34 +23,21 @@ export const MessageInput = ({ channelId }) => {
   }
 
   return (
-    <View style={{ backgroundColor: palette.night, borderTopWidth: 1, padding: 6 }}>
-      <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-        <TextInput
-          placeholder="Message"
-          placeholderTextColor={palette.blueBellFaded}
-          autoCorrect={false}
-          onChangeText={(text: string) => setText(text)}
-          multiline={true}
-          ref={inputBoxRef}
-          spellCheck={false}
-          style={{
-            backgroundColor: palette.night,
-            color: palette.moonRaker,
-            // fontFamily: typography.primary,
-            flexGrow: 1,
-            flexShrink: 1,
-            fontSize: 14,
-            minHeight: 40,
-            borderRadius: 10,
-            includeFontPadding: false,
-            paddingHorizontal: 10,
-            textAlignVertical: 'center',
-          }}
-        />
-        <TouchableOpacity activeOpacity={0.8} onPress={submitInput}>
-          <Send color={palette.blueBell} size={24} style={{ marginLeft: 10 }} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    <XStack alignItems="center" p="$2">
+      <Input
+        color="$color12"
+        placeholder="Message"
+        placeholderTextColor="$color8"
+        autoCorrect={false}
+        onChangeText={(text: string) => setText(text)}
+        ref={inputBoxRef}
+        spellCheck={false}
+        fg={1}
+        fs={1}
+      />
+      <TouchableOpacity activeOpacity={0.8} onPress={submitInput}>
+        <Send color="$color10" size={24} style={{ marginLeft: 10 }} />
+      </TouchableOpacity>
+    </XStack>
   )
 }

@@ -4637,8 +4637,10 @@ __metadata:
     "@tamagui/shorthands": ^1.0.1
     "@tamagui/theme-base": ^1.0.1
     date-fns: 2.29.3
+    expo-clipboard: ^4.0.1
     expo-linking: ^3.2.3
     expo-secure-store: ^12.0.0
+    react-use-clipboard: 1.0.9
     solito: 2.0.0-canary.4
   languageName: unknown
   linkType: soft
@@ -5968,6 +5970,15 @@ __metadata:
   version: 0.1.1
   resolution: "copy-descriptor@npm:0.1.1"
   checksum: d4b7b57b14f1d256bb9aa0b479241048afd7f5bcf22035fc7b94e8af757adeae247ea23c1a774fe44869fd5694efba4a969b88d966766c5245fdee59837fe45b
+  languageName: node
+  linkType: hard
+
+"copy-to-clipboard@npm:^3.3.1":
+  version: 3.3.3
+  resolution: "copy-to-clipboard@npm:3.3.3"
+  dependencies:
+    toggle-selection: ^1.0.6
+  checksum: e0a325e39b7615108e6c1c8ac110ae7b829cdc4ee3278b1df6a0e4228c490442cc86444cd643e2da344fbc424b3aab8909e2fec82f8bc75e7e5b190b7c24eecf
   languageName: node
   linkType: hard
 
@@ -7427,6 +7438,15 @@ __metadata:
     path-browserify: ^1.0.0
     url-parse: ^1.5.9
   checksum: 49ca5e85ebdb6145f8032ee186643a7d17202db89965dc3f36eb56155c31220c7da49ab87b2d050a9e8c3d1a6af35046263c12a0159e857f768aa21ea847879c
+  languageName: node
+  linkType: hard
+
+"expo-clipboard@npm:^4.0.1":
+  version: 4.0.2
+  resolution: "expo-clipboard@npm:4.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 46cd2067278fcf310a59a30680bd09b3ceb3a14333e5884eecd2d8f10c1623c312fb08301ad475e5e32b6def96c13a07d9e456535249f0ade97bb61c695d2dff
   languageName: node
   linkType: hard
 
@@ -12430,6 +12450,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-use-clipboard@npm:1.0.9":
+  version: 1.0.9
+  resolution: "react-use-clipboard@npm:1.0.9"
+  dependencies:
+    copy-to-clipboard: ^3.3.1
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+    react-dom: ^16.8.0 || ^17 || ^18
+  checksum: a419bac59ed467e3db05b994789d3017270b2e71543f77ae5544ebf792a90e86b8655555e77b3581c151d65aa4495bc61743e2706fbaeb3d86a265d87012d69b
+  languageName: node
+  linkType: hard
+
 "react-use-measure@npm:^2.1.1":
   version: 2.1.1
   resolution: "react-use-measure@npm:2.1.1"
@@ -14194,6 +14226,13 @@ __metadata:
     regex-not: ^1.0.2
     safe-regex: ^1.1.0
   checksum: 4ed4a619059b64e204aad84e4e5f3ea82d97410988bcece7cf6cbfdbf193d11bff48cf53842d88b8bb00b1bfc0d048f61f20f0709e6f393fd8fe0122662d9db4
+  languageName: node
+  linkType: hard
+
+"toggle-selection@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "toggle-selection@npm:1.0.6"
+  checksum: a90dc80ed1e7b18db8f4e16e86a5574f87632dc729cfc07d9ea3ced50021ad42bb4e08f22c0913e0b98e3837b0b717e0a51613c65f30418e21eb99da6556a74c
   languageName: node
   linkType: hard
 

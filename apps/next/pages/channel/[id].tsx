@@ -1,3 +1,10 @@
 import { ChannelScreen } from 'app/features/chat/ChannelScreen'
+import Layout from '../../components/layout'
 
-export default ChannelScreen
+const WebChannelScreen = () => {
+  return <ChannelScreen />
+}
+
+WebChannelScreen.getLayout = (page: any) => <Layout>{page}</Layout>
+
+export default WebChannelScreen

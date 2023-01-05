@@ -1,5 +1,6 @@
 import { useNostr } from 'app/lib/useNostr'
 import { useEffect } from 'react'
+import { useLink } from 'solito/link'
 import { Separator, YGroup, YStack } from '@my/ui'
 import { ChannelList } from './ChannelList'
 

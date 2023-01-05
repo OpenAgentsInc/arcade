@@ -72,8 +72,10 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
+      //   'expo-clipboard',
       'recyclerlistview',
       '@shopify/flash-list',
+      'nostr-tools',
     ],
     experimental: {
       // optimizeCss: true,

@@ -1,3 +1,5 @@
+prelogo.png
+
 /node_modules
 .yarn/*
 !.yarn/patches
