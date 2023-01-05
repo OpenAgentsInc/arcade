@@ -8,12 +8,12 @@ const Layout = () => {
   const { id } = router.query
 
   return (
-    <Stack flex={1} backgroundColor="$color3">
+    <XStack flex={1} backgroundColor="$color3">
       <XStack width={350} borderRightWidth="$1" borderColor="$color5" elevation="$4">
         <ChannelsScreen />
       </XStack>
       {id && <ChannelScreen />}
-    </Stack>
+    </XStack>
   )
 }
 
