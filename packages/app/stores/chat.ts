@@ -1,4 +1,4 @@
-import { timeNowInSeconds } from 'app/lib/utils'
+import { delay, timeNowInSeconds } from 'app/lib/utils'
 import { getEventHash, signEvent } from 'nostr-tools'
 
 export interface Channel {
@@ -27,29 +27,48 @@ export interface ChatMessage {
 export interface ChatState {
   channels: Channel[]
   messages: ChatMessage[]
+  userMetadata: Map<string, any>
 }
 
 const initialChatState: ChatState = {
   channels: [],
   messages: [],
+  userMetadata: new Map(),
 }
 
 export const createChatStore = (set: any, get: any) => ({
   channels: initialChatState.channels,
   messages: initialChatState.messages,
+  userMetadata: initialChatState.userMetadata,
   chatActions: {
+    fetchUser: async (pubkey: string) => {
+      //   console.log('Will fetch user metadata for pubkey: ', pubkey)
+    },
+
     checkAllUserMetadata: async (channelId: string) => {
       const state = get()
-      const { relays } = state
-      const { messages } = state
+      const { chatActions, messages, relays, userMetadata } = state
+      const fetchUser = chatActions.fetchUser
 
       // Filter the list of messages for those that have a matching channelId
       const filteredMessages = messages.filter((message) => message.channelId === channelId)
 
       // Extract the list of unique public keys of the senders of the filtered messages
-      const pubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
+      const uniquePubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
 
-      console.log(`Found ${pubkeys.length} unique pubkeys in this channel.`)
+      console.log(`Found ${uniquePubkeys.length} unique pubkeys in this channel.`)
+
+      // Now fetch metadata for each pubkey
+      for (const pubkey of uniquePubkeys) {
+        if (userMetadata.has(pubkey)) {
+          console.log(`Already have metadata for ${pubkey}`)
+          continue
+        } else {
+          console.log(`Fetching metadata for ${pubkey}`)
+          await delay(250)
+          fetchUser(pubkey)
+        }
+      }
     },
 
     addMessage: (message: ChatMessage) =>
