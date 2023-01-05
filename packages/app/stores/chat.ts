@@ -50,10 +50,8 @@ export const createChatStore = (set: any, get: any) => ({
           // Parse the event's "content" as a JSON object and add it to the list of "userMetadata" in the state
           const content = JSON.parse(event.content)
           set((state) => ({
-            userMetadata: {
-              ...state.userMetadata,
-              [pubkey]: content,
-            },
+            // https://docs.pmnd.rs/zustand/guides/maps-and-sets-usage
+            userMetadata: new Map(state.userMetadata).set(pubkey, content),
           }))
           console.log(`Saved metadata for user ${content?.name ?? 'unknown'}: `, pubkey)
         }

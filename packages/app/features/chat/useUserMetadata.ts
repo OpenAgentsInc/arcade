@@ -2,11 +2,11 @@ import { useStore } from 'app/stores'
 
 export const useUserMetadata = (pubkey: string) => {
   const userMetadata = useStore((s) => s.userMetadata)
-  const metadataArray = Object.entries(userMetadata).map(([key, value]) => ({
-    pubkey: key,
-    ...value,
-  }))
-  return metadataArray.find((metadata) => metadata.pubkey === pubkey)
+  let metadata = null
+  if (userMetadata.has(pubkey)) {
+    metadata = userMetadata.get(pubkey)
+  }
+  return metadata
 }
 
 // export const useUserMetadata = (pubkey: string) => {

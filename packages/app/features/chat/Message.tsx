@@ -12,7 +12,6 @@ type Props = {
 export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = useStore((state) => state.user.publicKey)
   const userMetadata = useUserMetadata(message.sender)
-  console.log('userMetadata', userMetadata)
   const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.sender === currentUser
   const pic = isCurrentUser ? 'https://placekitten.com/201/201' : 'https://placekitten.com/200/200'
