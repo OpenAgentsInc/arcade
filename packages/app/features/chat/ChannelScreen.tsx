@@ -11,10 +11,11 @@ import { MessageList } from './MessageList'
 
 const { useParam } = createParam<{ id: string }>()
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
+// import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+// type Props = NativeStackScreenProps<ChatStackParamList, 'channel'>
+// : React.FC<Props>
 
-export const ChannelScreen: React.FC<Props> = () => {
+export const ChannelScreen = () => {
   const { relays, connect } = useNostr()
   const { setOptions } = isWeb ? { setOptions: () => {} } : useNavigation()
   useEffect(() => {
