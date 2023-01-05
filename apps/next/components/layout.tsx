@@ -1,21 +1,19 @@
-// components/layout.tsx
 import { ChannelScreen } from 'app/features/chat/ChannelScreen'
 import { ChannelsScreen } from 'app/features/chat/ChannelsScreen'
 import { useRouter } from 'next/router'
-import { XStack } from '@my/ui'
+import { Stack, XStack } from '@my/ui'
 
-const Layout = ({ children }: any) => {
+const Layout = () => {
   const router = useRouter()
   const { id } = router.query
-  console.log('layout sees id:', id)
 
   return (
-    <div style={{ display: 'flex', backgroundColor: 'blue' }}>
-      <XStack width={350}>
+    <Stack flex={1} backgroundColor="$color3">
+      <XStack width={350} borderRightWidth="$1" borderColor="$color5" elevation="$4">
         <ChannelsScreen />
       </XStack>
       {id && <ChannelScreen />}
-    </div>
+    </Stack>
   )
 }
 
