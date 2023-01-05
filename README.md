@@ -25,19 +25,24 @@ Current and upcoming features in order of priority:
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [ ] Show user kind-0 profile info & picture
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
-- [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
+- [ ] Muting
 - [ ] Global feed
 - [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
+- [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
+- [ ] Unread messages
 - [ ] Create channels
 - [ ] Display/pay Lightning invoices
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Reputation ([NIP-32](https://github.com/nostr-protocol/nips/pull/46))
+- [ ] UI theme marketplace
+- [ ] Marketplace listings
 - [ ] Audio rooms
 - [ ] Video calls
-- [ ] UI theme marketplace
+- [ ] E-commerce shops
+- [ ] Developer API
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
