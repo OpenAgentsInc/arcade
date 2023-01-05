@@ -1,8 +1,8 @@
-import { formatTimestamp, generateRandomPlacekitten, truncateString } from 'app/lib/utils'
+import { formatTimestamp, truncateString } from 'app/lib/utils'
 import { useStore } from 'app/stores'
 import { ChatMessage } from 'app/stores/chat'
 import { Image, View } from 'react-native'
-import { palette, Paragraph as Text, Stack, YStack } from '@my/ui'
+import { Paragraph as Text, Stack, YStack } from '@my/ui'
 import { useUserMetadata } from './useUserMetadata'
 
 type Props = {
