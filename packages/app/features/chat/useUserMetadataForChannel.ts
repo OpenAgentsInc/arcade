@@ -8,9 +8,6 @@ export const useUserMetadataForChannel = (channelId: string) => {
   const userMetadata = useStore((s) => s.userMetadata)
   const messages = useMessagesForChannel(channelId)
 
-  console.log('USER METADATA', userMetadata)
-  console.log(typeof userMetadata)
-
   useEffect(() => {
     // Extract the list of unique public keys of the senders of the messages
     const uniquePubkeys = [...new Set(messages.map((message) => message.sender))]
