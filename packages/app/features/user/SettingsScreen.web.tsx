@@ -1,7 +1,7 @@
 import { useStore } from 'app/stores'
 import { BackButton, LogoutDialog, Screen } from 'app/views'
-// import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
+import useClipboard from 'react-use-clipboard'
 import { H2, isWeb, ListItem, Separator, YGroup, YStack } from '@my/ui'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 import { ThemePicker } from './ThemePicker'
@@ -15,16 +15,21 @@ export const SettingsScreen = () => {
   const mask = '*'.repeat(nseckey.length - 'nsec1'.length)
   const maskedNsec = `nsec1${mask}`
 
+  const [isPubCopied, setPubCopied] = useClipboard(npubkey)
+  const [isSecCopied, setSecCopied] = useClipboard(nseckey)
+
   const copyPublicKey = async () => {
-    alert('not implemented on web yet')
+    setPubCopied()
+    // alert('not implemented on web yet')
     // await Clipboard.setStringAsync(npubkey)
-    // alert('Public key copied to clipboard!')
+    alert('Public key copied to clipboard!')
   }
 
   const copyPrivateKey = async () => {
-    alert('not implemented on web yet')
+    setSecCopied()
+    // alert('not implemented on web yet')
     // await Clipboard.setStringAsync(nseckey)
-    // alert('Secret key copied to clipboard!')
+    alert('Secret key copied to clipboard!')
   }
 
   return (
