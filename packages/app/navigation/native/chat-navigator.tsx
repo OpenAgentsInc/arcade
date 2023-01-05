@@ -28,11 +28,6 @@ export function ChatNavigator() {
         options={{
           animation: 'slide_from_right',
           header: (props) => <NavHeader {...props} />,
-          //   tabBarOptions: {
-          //     style: {
-          //       display: 'none',
-          //     },
-          //   },
         }}
       />
       <Stack.Screen
