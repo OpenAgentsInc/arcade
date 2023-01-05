@@ -34,7 +34,7 @@ Current and upcoming features in order of priority:
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
 - [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
-- [ ] Unread messages
+- [ ] Unread channel messages
 - [ ] Display/pay Lightning invoices
 - [ ] Create channels
 - [ ] Pinned channel messages
