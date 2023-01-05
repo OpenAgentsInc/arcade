@@ -16,7 +16,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 ## Features
 
-- [x] Read and send messages to channels ([#22](https://github.com/ArcadeLabsInc/arc/pull/22))
+- [x] Read and send messages to [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) channels ([#22](https://github.com/ArcadeLabsInc/arc/pull/22))
 - [x] Account creation ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Log in with nsec ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
