@@ -1,19 +1,36 @@
+import { Asset } from 'expo-asset'
+import * as FileSystem from 'expo-file-system'
 import * as SQLite from 'expo-sqlite'
 
+const dbname = 'arc.db'
+
 export class Database {
-  private database: SQLite.Database
+  private database: SQLite.WebSQLDatabase
 
-  constructor(absoluteFilesPath: string) {
-    this.database = SQLite.openDatabase(
-      `${absoluteFilesPath}/arc.sqlite`,
-      undefined,
-      undefined,
-      undefined,
-      (db: SQLite.Database) => {
-        console.log('Opened database')
-      }
+  constructor(pathToDatabaseFile: string) {
+    this.openDatabase(pathToDatabaseFile)
+      .then((db) => {
+        this.database = db
+        this.createTables()
+      })
+      .catch((error) => {
+        console.error('Error opening database', error)
+      })
+  }
+
+  async openDatabase(pathToDatabaseFile: string): Promise<SQLite.WebSQLDatabase> {
+    if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
+      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite')
+    }
+    await FileSystem.downloadAsync(
+      Asset.fromModule(require(pathToDatabaseFile)).uri,
+      FileSystem.documentDirectory + `SQLite/${dbname}`
     )
+    return SQLite.openDatabase(dbname)
+  }
 
+  private createTables() {
+    console.log('Creating tables...')
     this.database.transaction(
       (tx) => {
         tx.executeSql(
@@ -63,7 +80,6 @@ export class Database {
           read BOOLEAN DEFAULT FALSE
           );`
         )
-        // Add the rest of the executeSql calls here
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS arc_reactions(
             id TEXT PRIMARY KEY NOT NULL,
