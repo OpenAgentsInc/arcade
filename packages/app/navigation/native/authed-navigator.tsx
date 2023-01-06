@@ -1,7 +1,7 @@
 import { ProfileScreen } from 'app/features/profile'
 import { XStack } from '@my/ui'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { BarChart, MessageCircle, User, UserCog } from '@tamagui/lucide-icons'
+import { MessageCircle, User } from '@tamagui/lucide-icons'
 import { ChatNavigator } from './chat-navigator'
 
 const BottomTab = createBottomTabNavigator<{
