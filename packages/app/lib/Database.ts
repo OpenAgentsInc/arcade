@@ -26,6 +26,23 @@ export class Database {
     }
   }
 
+  async getNumberOfNotes(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.database.transaction(
+        (tx) => {
+          tx.executeSql('SELECT COUNT(*) as count FROM arc_notes', [], (_, { rows }) => {
+            const count = rows._array[0].count
+            resolve(count)
+          })
+        },
+        (error) => {
+          console.error('Error counting notes', error)
+          reject(error)
+        }
+      )
+    })
+  }
+
   private createTables() {
     this.database.transaction(
       (tx) => {

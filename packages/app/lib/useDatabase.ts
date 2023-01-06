@@ -6,11 +6,20 @@ export const useDatabase = () => {
   const database = useStore((state) => state.database)
   const setDatabase = useStore((state) => state.databaseActions.setDatabase)
 
+  const checkRows = async (newDatabase: Database) => {
+    const notes = await newDatabase.getNumberOfNotes()
+    console.log(`There are ${notes} notes in the database.`)
+  }
+
   const initializedDatabase = useMemo(() => {
     if (database) return database
     const newDatabase = new Database()
     setDatabase(newDatabase)
-    console.log('Set database', newDatabase)
+    console.log('Initialized database.')
+    setTimeout(() => {
+      checkRows(newDatabase)
+    }, 500)
+
     return newDatabase
   }, [database, setDatabase])
 
