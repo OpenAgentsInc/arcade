@@ -11,9 +11,7 @@ export const Screen = ({ children, ...props }) => {
       alignItems="center"
       {...props}
     >
-      <Stack f={1} m="$1">
-        {children}
-      </Stack>
+      <Stack f={1}>{children}</Stack>
     </LinearGradient>
   )
 }

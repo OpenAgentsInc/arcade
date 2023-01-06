@@ -12,7 +12,7 @@ Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
 |                                                                                                                                           |                                                                                                                                             |                                                                                                                                         |
 | :---------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: |
-| <img width="700" alt="login" src="https://user-images.githubusercontent.com/14167547/210706813-2eccfe72-3d7f-4965-9516-d0f3436d8672.png"> | <img width="700" alt="nostrcn" src="https://user-images.githubusercontent.com/14167547/210685699-f9358d4b-1218-4041-8500-41b541dbb911.png"> | <img width="700" alt="web" src="https://user-images.githubusercontent.com/14167547/210707165-4a7af9e0-4e85-46fb-9f9c-6c8279b27817.png"> |
+| <img width="700" alt="login" src="https://user-images.githubusercontent.com/14167547/210706813-2eccfe72-3d7f-4965-9516-d0f3436d8672.png"> | <img width="700" alt="profile" src="https://user-images.githubusercontent.com/14167547/210916398-663c44af-7a42-470a-8151-c86320e1279f.png"> | <img width="700" alt="web" src="https://user-images.githubusercontent.com/14167547/210707165-4a7af9e0-4e85-46fb-9f9c-6c8279b27817.png"> |
 
 ## Features
 
@@ -24,9 +24,11 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
+- [ ] Twitter-style profiles
+- [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
+- [ ] Look up user by NIP-05 identifier
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Follower/following feed
-- [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Muting
 - [ ] Global feed
 - [ ] Click to copy any user's npub
@@ -39,6 +41,7 @@ Current and upcoming features in order of priority:
 - [ ] Unread channel messages
 - [ ] Internationalization
 - [ ] Display/pay Lightning invoices
+- [ ] Search messages and feeds
 - [ ] Create channels
 - [ ] Pinned channel messages
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
