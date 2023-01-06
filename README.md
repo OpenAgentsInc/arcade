@@ -1,8 +1,6 @@
 # Arc
 
-A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) chat client, currently pre-alpha.
-
-Focuses first on implementing [NIP-28](https://github.com/nostr-protocol/nips/blob/master/28.md) for a Telegram-like experience.
+A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) client, currently pre-alpha.
 
 We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS & web with one codebase.
 
