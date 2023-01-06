@@ -10,7 +10,7 @@ export const useDatabase = () => {
     if (database) return database
     const newDatabase = new Database()
     setDatabase(newDatabase)
-    console.log('Created new database', newDatabase)
+    console.log('Set database', newDatabase)
     return newDatabase
   }, [database, setDatabase])
 
