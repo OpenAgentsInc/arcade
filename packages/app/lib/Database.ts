@@ -1,9 +1,7 @@
-import { Asset } from 'expo-asset'
 import * as FileSystem from 'expo-file-system'
 import * as SQLite from 'expo-sqlite'
 
 const dbname = 'arc.db'
-const databasePath = `${FileSystem.documentDirectory}SQLite/${dbname}`
 
 export class Database {
   private database: SQLite.WebSQLDatabase
@@ -13,7 +11,6 @@ export class Database {
       .then((db) => {
         this.database = db
         this.createTables()
-        console.log('Database tables created maybe')
       })
       .catch((error) => {
         console.error('Error opening database', error)
@@ -24,23 +21,6 @@ export class Database {
     try {
       const db = SQLite.openDatabase(dbname)
       return db
-      //   // Check if the SQLite directory exists in the document directory
-      //   const directoryInfo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')
-      //   if (!directoryInfo.exists) {
-      //     // If it doesn't exist, create the directory
-      //     await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite')
-      //   }
-
-      //   // Check if the database file already exists in the directory
-      //   const fileInfo = await FileSystem.getInfoAsync(databasePath)
-      //   if (!fileInfo.exists) {
-      //     // If it doesn't exist, download the file from the provided path
-      //     const asset = Asset.fromModule(await import(databasePath))
-      //     await FileSystem.downloadAsync(asset.uri, databasePath)
-      //   }
-
-      //   // Open the database
-      //   return SQLite.openDatabase(dbname)
     } catch (error) {
       console.error('Error opening database', error)
       return Promise.reject(error)
@@ -48,7 +28,6 @@ export class Database {
   }
 
   private createTables() {
-    console.log('Creating tables...')
     this.database.transaction(
       (tx) => {
         tx.executeSql(
