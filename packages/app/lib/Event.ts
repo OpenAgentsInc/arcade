@@ -46,6 +46,10 @@ export class Event {
           this.saveDirectMessage(database)
         } else if (this.kind === '7') {
           this.saveReaction(database)
+        } else if (this.kind === '40') {
+          this.saveChannel(database)
+        } else if (this.kind === '42') {
+          this.saveChannelMessage(database)
         }
         console.log('Event saved.')
       } catch (e) {
@@ -105,6 +109,22 @@ export class Event {
     }
 
     return filtered
+  }
+
+  private saveChannel(database: SQLite.Database) {
+    database.transaction((tx) => {
+      tx.executeSql(
+        'INSERT OR REPLACE INTO channels (id, pubkey, content, created_at, main_event_id) VALUES (?, ?, ?, ?, ?)',
+        [this.id, this.pubkey, this.content, this.created_at, this.getMainEventId()],
+        (_, result) => {
+          console.log('Save channel success', result)
+        },
+        (_, error: SQLite.SQLError) => {
+          console.error('Save channel error', error)
+          return false
+        }
+      )
+    })
   }
 
   private saveUserMeta(database: SQLite.Database) {
