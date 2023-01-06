@@ -3,30 +3,48 @@ import * as FileSystem from 'expo-file-system'
 import * as SQLite from 'expo-sqlite'
 
 const dbname = 'arc.db'
+const databasePath = `${FileSystem.documentDirectory}SQLite/${dbname}`
 
 export class Database {
   private database: SQLite.WebSQLDatabase
 
-  constructor(pathToDatabaseFile: string = `${dbname}`) {
-    this.openDatabase(pathToDatabaseFile)
+  constructor() {
+    this.openDatabase()
       .then((db) => {
         this.database = db
         this.createTables()
+        console.log('Database tables created maybe')
       })
       .catch((error) => {
         console.error('Error opening database', error)
       })
   }
 
-  async openDatabase(pathToDatabaseFile: string): Promise<SQLite.WebSQLDatabase> {
-    if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite')
+  async openDatabase(): Promise<SQLite.WebSQLDatabase> {
+    try {
+      const db = SQLite.openDatabase(dbname)
+      return db
+      //   // Check if the SQLite directory exists in the document directory
+      //   const directoryInfo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')
+      //   if (!directoryInfo.exists) {
+      //     // If it doesn't exist, create the directory
+      //     await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite')
+      //   }
+
+      //   // Check if the database file already exists in the directory
+      //   const fileInfo = await FileSystem.getInfoAsync(databasePath)
+      //   if (!fileInfo.exists) {
+      //     // If it doesn't exist, download the file from the provided path
+      //     const asset = Asset.fromModule(await import(databasePath))
+      //     await FileSystem.downloadAsync(asset.uri, databasePath)
+      //   }
+
+      //   // Open the database
+      //   return SQLite.openDatabase(dbname)
+    } catch (error) {
+      console.error('Error opening database', error)
+      return Promise.reject(error)
     }
-    await FileSystem.downloadAsync(
-      Asset.fromModule(require(pathToDatabaseFile)).uri,
-      FileSystem.documentDirectory + `SQLite/${dbname}`
-    )
-    return SQLite.openDatabase(dbname)
   }
 
   private createTables() {
@@ -43,7 +61,7 @@ export class Database {
           sig TEXT NOT NULL,
           tags TEXT NOT NULL,
           main_event_id TEXT,
-          reply_event_id TEXT
+          reply_event_id TEXT,
           user_mentioned BOOLEAN DEFAULT FALSE,
           seen BOOLEAN DEFAULT FALSE
         );`
@@ -56,7 +74,7 @@ export class Database {
           about TEXT,
           main_relay TEXT,
           contact BOOLEAN DEFAULT FALSE,
-          follower BOOLEAN DEFAULT FALSE
+          follower BOOLEAN DEFAULT FALSE,
           lnurl TEXT,
           created_at INT DEFAULT 0
         );`

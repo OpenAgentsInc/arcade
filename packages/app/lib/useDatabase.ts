@@ -1,4 +1,4 @@
-import { Database } from 'app/lib/database'
+import { Database } from 'app/lib/Database'
 import { useStore } from 'app/stores'
 import { useEffect, useMemo } from 'react'
 

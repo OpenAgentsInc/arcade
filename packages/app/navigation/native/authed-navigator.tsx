@@ -1,4 +1,5 @@
 import { ProfileScreen } from 'app/features/profile'
+import { useDatabase } from 'app/lib/useDatabase'
 import { XStack } from '@my/ui'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MessageCircle, User } from '@tamagui/lucide-icons'
@@ -13,6 +14,7 @@ const activeTabColor = '$color11'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
+  useDatabase()
   return (
     <BottomTab.Navigator
       initialRouteName="profile"
