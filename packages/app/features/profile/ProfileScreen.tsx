@@ -1,6 +1,6 @@
 import { Screen } from 'app/views'
 import { Avatar, Button, Image, LinearGradient, Paragraph, Text, XStack, YStack } from '@my/ui'
-import { MessageSquare, Zap } from '@tamagui/lucide-icons'
+import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
 
 export const ProfileScreen = () => {
   return (
@@ -54,24 +54,75 @@ export const ProfileScreen = () => {
           </Paragraph>
         </XStack>
 
-        <XStack mt="$3" space="$3" pt="$1" borderRadius="$2">
-          <Avatar size="$3" circular>
+        <XStack mt="$5" space="$3" borderRadius="$2" width="85%">
+          <Avatar size="$3" circular mt="$2">
+            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
+          </Avatar>
+          <YStack space="$1">
+            <XStack space="$2">
+              <Paragraph size="$3" fontWeight="700">
+                nikki ⚡
+              </Paragraph>
+              <Paragraph size="$2" color="$color8" mt={1}>
+                @almosthuman
+              </Paragraph>
+              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
+                • 38s
+              </Paragraph>
+            </XStack>
+            <Paragraph size="$2" color="$color12">
+              Just tried the new pizza place in town and it was amazing! Definitely recommend it.
+            </Paragraph>
+          </YStack>
+        </XStack>
+
+        <XStack ml="$5" mt="$4" space="$2" alignItems="center" top={0} right={0}>
+          {/* <Button size="$3" circular icon={<Repeat />}></Button> */}
+          <Repeat size={20} color="$color8" />
+          <Paragraph size="$2" color="$color8">
+            nikki ⚡ reposted
+          </Paragraph>
+        </XStack>
+        <XStack mt="$2" space="$3" borderRadius="$2" width="85%">
+          <Avatar size="$3" circular mt="$2">
             <Avatar.Image src="https://i.pravatar.cc/150?img=2" />
           </Avatar>
-          <YStack bg="$color4" p="$3" space="$2">
+          <YStack space="$1">
             <XStack space="$2">
               <Paragraph size="$3" fontWeight="700">
                 John Doe
               </Paragraph>
-              <Paragraph size="$2" color="$color8">
+              <Paragraph size="$2" color="$color8" mt={1}>
                 @johndoe
               </Paragraph>
-              <Paragraph size="$2" color="$color8" ml={-2}>
+              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
                 • 2m
               </Paragraph>
             </XStack>
-            <Paragraph size="$2">
-              Just tried the new pizza place in town and it was amazing! Definitely recommend it.
+            <Paragraph size="$2" color="$color12">
+              my pronouns are nostr/ich
+            </Paragraph>
+          </YStack>
+        </XStack>
+
+        <XStack mt="$6" space="$3" borderRadius="$2" width="85%">
+          <Avatar size="$3" circular mt="$2">
+            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
+          </Avatar>
+          <YStack space="$1">
+            <XStack space="$2">
+              <Paragraph size="$3" fontWeight="700">
+                nikki ⚡
+              </Paragraph>
+              <Paragraph size="$2" color="$color8" mt={1}>
+                @almosthuman
+              </Paragraph>
+              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
+                • 7m
+              </Paragraph>
+            </XStack>
+            <Paragraph size="$2" color="$color12">
+              I wonder how I can sell crafts on here
             </Paragraph>
           </YStack>
         </XStack>
