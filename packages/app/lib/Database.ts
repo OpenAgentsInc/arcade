@@ -7,7 +7,7 @@ const dbname = 'arc.db'
 export class Database {
   private database: SQLite.WebSQLDatabase
 
-  constructor(pathToDatabaseFile: string) {
+  constructor(pathToDatabaseFile: string = `${dbname}`) {
     this.openDatabase(pathToDatabaseFile)
       .then((db) => {
         this.database = db
@@ -101,5 +101,9 @@ export class Database {
         console.log('Success creating tables')
       }
     )
+  }
+
+  close() {
+    this.database.closeAsync()
   }
 }
