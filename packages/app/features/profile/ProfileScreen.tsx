@@ -24,7 +24,7 @@ export const ProfileScreen = () => {
 
       <YStack p="$4">
         <Paragraph size="$6">nikki ⚡</Paragraph>
-        <Paragraph size="$3" color="$color8" mt={-4}>
+        <Paragraph size="$3" color="$color9" mt={-4}>
           @almosthuman
         </Paragraph>
 
@@ -53,6 +53,30 @@ export const ProfileScreen = () => {
             Relays
           </Paragraph>
         </XStack>
+
+        <YStack mt="$3" space="$3" p="$3" bg="$color4" borderRadius="$2">
+          <XStack alignItems="center" space="$2">
+            <Avatar size="$2" circular>
+              <Avatar.Image src="https://i.pravatar.cc/150?img=2" />
+            </Avatar>
+            <YStack>
+              <XStack space="$2">
+                <Paragraph size="$3" fontWeight="700">
+                  John Doe
+                </Paragraph>
+                <Paragraph size="$2" color="$color8">
+                  @johndoe
+                </Paragraph>
+                <Paragraph size="$2" color="$color8" ml={-2}>
+                  • 2m
+                </Paragraph>
+              </XStack>
+            </YStack>
+          </XStack>
+          <Paragraph size="$2">
+            Just tried the new pizza place in town and it was amazing! Definitely recommend it.
+          </Paragraph>
+        </YStack>
       </YStack>
     </Screen>
   )
