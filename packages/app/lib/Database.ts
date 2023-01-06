@@ -27,6 +27,8 @@ export class Database {
           tags TEXT NOT NULL,
           main_event_id TEXT,
           reply_event_id TEXT
+          user_mentioned BOOLEAN DEFAULT FALSE,
+          seen BOOLEAN DEFAULT FALSE
         );`
         )
         tx.executeSql(
@@ -38,6 +40,8 @@ export class Database {
           main_relay TEXT,
           contact BOOLEAN DEFAULT FALSE,
           follower BOOLEAN DEFAULT FALSE
+          lnurl TEXT,
+          created_at INT DEFAULT 0
         );`
         )
         tx.executeSql(
@@ -59,18 +63,19 @@ export class Database {
           read BOOLEAN DEFAULT FALSE
           );`
         )
+        // Add the rest of the executeSql calls here
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS arc_reactions(
-              id TEXT PRIMARY KEY NOT NULL,
-              content TEXT NOT NULL,
-              created_at INT NOT NULL,
-              kind INT NOT NULL,
-              pubkey TEXT NOT NULL,
-              sig TEXT NOT NULL,
-              tags TEXT NOT NULL,
-              event_id TEXT NOT NULL,
-              type INT NOT NULL
-            );`
+            id TEXT PRIMARY KEY NOT NULL,
+            content TEXT NOT NULL,
+            created_at INT NOT NULL,
+            kind INT NOT NULL,
+            pubkey TEXT NOT NULL,
+            sig TEXT NOT NULL,
+            tags TEXT NOT NULL,
+            event_id TEXT NOT NULL,
+            type INT NOT NULL
+          );`
         )
       },
       (error) => {
