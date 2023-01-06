@@ -141,7 +141,7 @@ export class Event {
           this.created_at,
           this.getMainEventId(),
           this.getReplyEventId(),
-          this.getUserMentioned(userPubKey),
+          this.getUserMentioned(userPubKey) ? 1 : 0,
         ],
         (_, result) => {
           console.log('Save note success', result)
@@ -191,5 +191,55 @@ export class Event {
         }
       )
     })
+  }
+
+  private saveDirectMessage(database: SQLite.Database) {
+    database.transaction((tx) => {
+      tx.executeSql(
+        'INSERT OR REPLACE INTO direct_messages (id, pubkey, content, created_at, reply_event_id) VALUES (?, ?, ?, ?, ?)',
+        [this.id, this.pubkey, this.content, this.created_at, this.getReplyEventId()],
+        (_, result) => {
+          console.log('Save direct message success', result)
+        },
+        (_, error: SQLite.SQLError) => {
+          console.error('Save direct message error', error)
+          return false
+        }
+      )
+    })
+  }
+
+  private saveReaction(database: SQLite.Database) {
+    database.transaction((tx) => {
+      tx.executeSql(
+        'INSERT OR REPLACE INTO reactions (id, pubkey, event_id, reaction, created_at) VALUES (?, ?, ?, ?, ?)',
+        [this.id, this.pubkey, this.tags[0], this.content, this.created_at],
+        (_, result) => {
+          console.log('Save reaction success', result)
+        },
+        (_, error: SQLite.SQLError) => {
+          console.error('Save reaction error', error)
+          return false
+        }
+      )
+    })
+  }
+
+  protected getUserMentioned(userPubKey: string): boolean {
+    const pTags = this.filterTags('p')
+    let userMentioned = false
+    try {
+      for (let i = 0; i < pTags.length; i++) {
+        const tag = pTags[i]
+        if (tag[1] === userPubKey) {
+          userMentioned = true
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      return false
+    }
+
+    return userMentioned
   }
 }
