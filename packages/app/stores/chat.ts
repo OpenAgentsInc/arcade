@@ -104,6 +104,7 @@ export const createChatStore = (set: any, get: any) => ({
     addMessage: (message: ChatMessage) =>
       set((state) => {
         if (state.messages.some((m) => m.id === message.id)) {
+          console.log('Already have message', message.id)
           return state
         }
         console.log('Saving message ID:', message.id) // to channel: ', message.channelId)

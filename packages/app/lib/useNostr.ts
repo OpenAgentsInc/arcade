@@ -5,6 +5,9 @@ import { handleEvent } from './handleEvent'
 
 export const useNostr = () => {
   const relayActions = useStore((s) => s.relayActions)
+  const store = useStore()
+  console.log(store)
+  //   console.log('relayActions?', relayActions)
   const chatActions = useStore((s) => s.chatActions)
   const relays = useStore((s) => s.relays)
 
