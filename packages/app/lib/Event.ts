@@ -47,6 +47,7 @@ export class Event {
         } else if (this.kind === '7') {
           this.saveReaction(database)
         }
+        console.log('Event saved.')
       } catch (e) {
         console.error(e)
       }

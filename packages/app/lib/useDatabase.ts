@@ -20,6 +20,10 @@ export const useDatabase = () => {
       checkRows(newDatabase)
     }, 500)
 
+    setTimeout(() => {
+      checkRows(newDatabase)
+    }, 7500)
+
     return newDatabase
   }, [database, setDatabase])
 

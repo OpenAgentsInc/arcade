@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite'
 const dbname = 'arc.db'
 
 export class Database {
-  private database: SQLite.WebSQLDatabase
+  public database: SQLite.WebSQLDatabase
 
   constructor() {
     this.openDatabase()
@@ -31,6 +31,7 @@ export class Database {
       this.database.transaction(
         (tx) => {
           tx.executeSql('SELECT COUNT(*) as count FROM arc_notes', [], (_, { rows }) => {
+            console.log('rows?', rows)
             const count = rows._array[0].count
             resolve(count)
           })
