@@ -2,6 +2,7 @@ prelogo.png
 
 android/
 ios/
+*.apk
 
 /node_modules
 .yarn/*
