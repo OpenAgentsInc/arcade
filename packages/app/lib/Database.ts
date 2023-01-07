@@ -136,7 +136,6 @@ export class Database {
           'SELECT * FROM arc_channels',
           [],
           (_, result) => {
-            console.log('result', result)
             const channels: Channel[] = []
             for (let i = 0; i < result.rows.length; i++) {
               const row = result.rows.item(i)

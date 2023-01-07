@@ -18,7 +18,7 @@ export const NavHeader = ({ title, options, ...props }) => {
       borderBottomWidth="$0.5"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {isWeb && canGoBack() ? (
+        {name === 'channel' && canGoBack() ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}
