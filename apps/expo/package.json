@@ -11,7 +11,7 @@
     "eject": "expo eject",
     "postinstall": "npx patch-package",
     "build:android": "eas build -p android",
-    "build:android:apk": "eas build -p android --profile development"
+    "build:android:apk": "eas build -p android --profile apk"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
