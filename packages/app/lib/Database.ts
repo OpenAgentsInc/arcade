@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite'
 
-const dbname = 'arc1.db'
+const dbname = 'arc2.db'
 
 export class Database {
   public database: SQLite.WebSQLDatabase
