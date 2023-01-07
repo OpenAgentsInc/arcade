@@ -16,7 +16,7 @@
     "postinstall": "yarn build",
     "build": "yarn workspaces foreach --exclude arc-next -pi run build",
     "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
-    "start": "expo start --dev-client",
+    "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
