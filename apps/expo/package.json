@@ -9,7 +9,9 @@
     "ios": "TAMAGUI_TARGET=native yarn expo run:ios",
     "web": "TAMAGUI_TARGET=web yarn expo start --web",
     "eject": "expo eject",
-    "postinstall": "npx patch-package"
+    "postinstall": "npx patch-package",
+    "build:android": "eas build -p android",
+    "build:android:apk": "eas build -p android --profile development"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
