@@ -26,12 +26,11 @@ export class Database {
     }
   }
 
-  async getNumberOfNotes(): Promise<number> {
+  async getNumberOfRows(tabletype: string = 'channels'): Promise<number> {
     return new Promise((resolve, reject) => {
       this.database.transaction(
         (tx) => {
-          tx.executeSql('SELECT COUNT(*) as count FROM arc_notes', [], (_, { rows }) => {
-            console.log('rows?', rows)
+          tx.executeSql(`SELECT COUNT(*) as count FROM arc_${tabletype}`, [], (_, { rows }) => {
             const count = rows._array[0].count
             resolve(count)
           })
