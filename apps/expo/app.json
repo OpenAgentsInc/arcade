@@ -6,7 +6,6 @@
     "sdkVersion": "47.0.0",
     "jsEngine": "hermes",
     "platforms": ["ios", "android", "web"],
-    "plugins": [["./buildfix", "custom"]],
     "scheme": "myapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
