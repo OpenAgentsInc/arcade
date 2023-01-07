@@ -41,6 +41,9 @@ export const createChatStore = (set: any, get: any) => ({
   messages: initialChatState.messages,
   userMetadata: initialChatState.userMetadata,
   chatActions: {
+    // Given an array of channels, just set that to the state
+    setChannels: (channels: Channel[]) => set({ channels }),
+
     fetchUser: async (pubkey: string) => {
       const state = get()
       const { relays } = state

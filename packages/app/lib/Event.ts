@@ -53,7 +53,6 @@ export class Event {
         } else if (this.kind === Kind.ChannelMessage) {
           //   this.saveChannelMessage(database)
         }
-        console.log('Event saved.')
       } catch (e) {
         console.error(e)
       }
@@ -124,14 +123,13 @@ export class Event {
       timestamp: this.created_at.toString(),
     }
     const { name, about, picture } = channel.metadata
-    console.log("Let's save this channel.", channel)
 
     database.transaction((tx) => {
       tx.executeSql(
         'INSERT OR REPLACE INTO arc_channels (id, pubkey, sig, name, about, picture, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [channel.id, channel.pubkey, channel.sig, name, about, picture, channel.timestamp],
         (_, result) => {
-          console.log('Save channel success', result)
+          console.log(`Saved channel ${name}, rowsAffected ${result.rowsAffected}}`)
         },
         (_, error: SQLite.SQLError) => {
           console.error('Save channel error', error)

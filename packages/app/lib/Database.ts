@@ -1,6 +1,8 @@
+import { Channel } from 'app/stores/chat'
 import * as SQLite from 'expo-sqlite'
+import { Kind } from 'nostr-tools'
 
-const dbname = 'arc2.db'
+const dbname = 'arc3.db'
 
 export class Database {
   public database: SQLite.WebSQLDatabase
@@ -125,6 +127,43 @@ export class Database {
         console.log('Success creating tables')
       }
     )
+  }
+
+  public async getChannels(): Promise<Channel[]> {
+    return new Promise((resolve, reject) => {
+      this.database.transaction((tx) => {
+        tx.executeSql(
+          'SELECT * FROM arc_channels',
+          [],
+          (_, result) => {
+            console.log('result', result)
+            const channels: Channel[] = []
+            for (let i = 0; i < result.rows.length; i++) {
+              const row = result.rows.item(i)
+              const channel: Channel = {
+                id: row.id,
+                kind: Kind.ChannelCreation,
+                pubkey: row.pubkey,
+                sig: row.sig,
+                metadata: {
+                  name: row.name,
+                  about: row.about,
+                  picture: row.picture,
+                },
+                tags: [],
+                timestamp: row.timestamp,
+              }
+              channels.push(channel)
+            }
+            resolve(channels)
+          },
+          (_, error: SQLite.SQLError) => {
+            console.error('Error getting channels from database', error)
+            return false
+          }
+        )
+      })
+    })
   }
 
   close() {
