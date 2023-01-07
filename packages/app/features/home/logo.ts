@@ -1,6 +1,6 @@
 let logo1
 
-logo1 = require('./earlylogo.png')
+logo1 = require('./logo.png')
 
 // if (process.env.NODE_ENV === 'production') {
 //   logo1 = require('./placeholder.jpeg')
