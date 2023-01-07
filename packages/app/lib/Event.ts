@@ -1,10 +1,12 @@
+import { Channel } from 'app/stores/chat'
 import * as SQLite from 'expo-sqlite'
+import { Kind } from 'nostr-tools'
 
 interface EventData {
   created_at: number
   content: string
   id: string
-  kind: string
+  kind: Kind
   pubkey: string
   sig: string
   tags: any[]
@@ -14,7 +16,7 @@ export class Event {
   created_at: number
   content: string
   id: string
-  kind: string
+  kind: Kind
   pubkey: string
   sig: string
   tags: any[]
@@ -32,24 +34,24 @@ export class Event {
   public save(database: SQLite.Database, userPubKey: string) {
     if (this.isValid()) {
       try {
-        if (this.kind === '0') {
+        if (this.kind === Kind.Metadata) {
           this.saveUserMeta(database)
-        } else if (this.kind === '1' || this.kind === '2') {
+        } else if (this.kind === Kind.Text || this.kind === Kind.RecommendRelay) {
           this.saveNote(database, userPubKey)
-        } else if (this.kind === '3') {
+        } else if (this.kind === Kind.Contacts) {
           if (this.pubkey === userPubKey) {
             this.savePets(database)
           } else {
             this.saveFollower(database, userPubKey)
           }
-        } else if (this.kind === '4') {
+        } else if (this.kind === Kind.EncryptedDirectMessage) {
           this.saveDirectMessage(database)
-        } else if (this.kind === '7') {
+        } else if (this.kind === Kind.Reaction) {
           this.saveReaction(database)
-        } else if (this.kind === '40') {
+        } else if (this.kind === Kind.ChannelCreation) {
           this.saveChannel(database)
-        } else if (this.kind === '42') {
-          this.saveChannelMessage(database)
+        } else if (this.kind === Kind.ChannelMessage) {
+          //   this.saveChannelMessage(database)
         }
         console.log('Event saved.')
       } catch (e) {
@@ -112,10 +114,28 @@ export class Event {
   }
 
   private saveChannel(database: SQLite.Database) {
+    const channel: Channel = {
+      id: this.id,
+      kind: this.kind,
+      pubkey: this.pubkey,
+      sig: this.sig,
+      tags: this.tags,
+      metadata: JSON.parse(this.content),
+      timestamp: this.created_at.toString(),
+    }
+    console.log("Let's save this channel.", channel)
     database.transaction((tx) => {
       tx.executeSql(
-        'INSERT OR REPLACE INTO channels (id, pubkey, content, created_at, main_event_id) VALUES (?, ?, ?, ?, ?)',
-        [this.id, this.pubkey, this.content, this.created_at, this.getMainEventId()],
+        'INSERT OR REPLACE INTO arc_channels (id, kind, pubkey, sig, tags, metadata, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [
+          channel.id,
+          channel.kind,
+          channel.pubkey,
+          channel.sig,
+          JSON.stringify(channel.tags),
+          JSON.stringify(channel.metadata),
+          channel.timestamp,
+        ],
         (_, result) => {
           console.log('Save channel success', result)
         },

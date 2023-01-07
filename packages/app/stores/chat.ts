@@ -1,9 +1,9 @@
 import { delay, timeNowInSeconds } from 'app/lib/utils'
-import { getEventHash, signEvent } from 'nostr-tools'
+import { getEventHash, Kind, signEvent } from 'nostr-tools'
 
 export interface Channel {
   id: string
-  kind: number
+  kind: Kind
   pubkey: string
   sig: string
   tags: string[]
