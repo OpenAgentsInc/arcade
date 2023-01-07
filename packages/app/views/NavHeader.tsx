@@ -1,5 +1,5 @@
 import { useLink } from 'solito/link'
-import { Button, Paragraph, Stack, XStack, YStack } from '@my/ui'
+import { Button, isWeb, Paragraph, Stack, XStack, YStack } from '@my/ui'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
 
@@ -18,7 +18,7 @@ export const NavHeader = ({ title, options, ...props }) => {
       borderBottomWidth="$0.5"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {canGoBack() ? (
+        {isWeb && canGoBack() ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}
@@ -33,7 +33,7 @@ export const NavHeader = ({ title, options, ...props }) => {
             <ChevronLeft />
           </Button>
         ) : (
-          <Stack w="$1" />
+          <Stack w="$1" h="$4" />
         )}
 
         <Paragraph fontWeight="700" textAlign="center" color="$color12">
@@ -41,7 +41,7 @@ export const NavHeader = ({ title, options, ...props }) => {
         </Paragraph>
 
         {/* If current title is not Settings */}
-        {name === 'settings' ? (
+        {name !== 'settifsdfsdngs' ? (
           <Stack w="$1" />
         ) : (
           <Button

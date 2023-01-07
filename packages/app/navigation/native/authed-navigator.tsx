@@ -1,13 +1,16 @@
 import { ProfileScreen } from 'app/features/profile'
+import { SettingsScreen } from 'app/features/user/SettingsScreen'
 import { useDatabase } from 'app/lib/useDatabase'
+import { NavHeader } from 'app/views'
 import { XStack } from '@my/ui'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MessageCircle, User } from '@tamagui/lucide-icons'
+import { MessageCircle, Settings, User } from '@tamagui/lucide-icons'
 import { ChatNavigator } from './chat-navigator'
 
 const BottomTab = createBottomTabNavigator<{
   chat: undefined
-  profile: undefined
+  //   profile: undefined
+  settings: undefined
 }>()
 
 const activeTabColor = '$color11'
@@ -17,7 +20,7 @@ export function AuthedNavigator() {
   useDatabase()
   return (
     <BottomTab.Navigator
-      initialRouteName="profile"
+      initialRouteName="chat"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
@@ -42,12 +45,15 @@ export function AuthedNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="profile"
-        component={ProfileScreen}
+        name="settings"
+        component={SettingsScreen}
         options={{
+          headerShown: true,
           tabBarIcon: ({ focused, size }) => (
-            <User color={focused ? activeTabColor : inactiveTabColor} size={size} />
+            <Settings color={focused ? activeTabColor : inactiveTabColor} size={size} />
           ),
+          title: 'Settings',
+          header: ({ options: { title } }) => <NavHeader title={title} />,
         }}
       />
     </BottomTab.Navigator>
