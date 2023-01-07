@@ -11,7 +11,7 @@ export const useMessagesForChannel = (channelId: string) => {
   useEffect(() => {
     relays.forEach((relay) => {
       if (!relayActions.hasSubscription(relay.url, channelId)) {
-        const sub = relay.sub([{ kinds: [42], '#e': [channelId], limit: 50 }])
+        const sub = relay.sub([{ kinds: [42], '#e': [channelId], limit: 30 }])
         relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
         sub.on('event', (event: any) => handleEvent(event, chatActions))
         sub.on('eose', () => {
