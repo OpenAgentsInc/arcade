@@ -1,5 +1,8 @@
 prelogo.png
 
+android/
+ios/
+
 /node_modules
 .yarn/*
 !.yarn/patches
