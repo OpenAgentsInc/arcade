@@ -123,19 +123,13 @@ export class Event {
       metadata: JSON.parse(this.content),
       timestamp: this.created_at.toString(),
     }
+    const { name, about, picture } = channel.metadata
     console.log("Let's save this channel.", channel)
+
     database.transaction((tx) => {
       tx.executeSql(
-        'INSERT OR REPLACE INTO arc_channels (id, kind, pubkey, sig, tags, metadata, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [
-          channel.id,
-          channel.kind,
-          channel.pubkey,
-          channel.sig,
-          JSON.stringify(channel.tags),
-          JSON.stringify(channel.metadata),
-          channel.timestamp,
-        ],
+        'INSERT OR REPLACE INTO arc_channels (id, pubkey, sig, name, about, picture, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [channel.id, channel.pubkey, channel.sig, name, about, picture, channel.timestamp],
         (_, result) => {
           console.log('Save channel success', result)
         },

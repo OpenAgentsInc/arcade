@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite'
 
-const dbname = 'arc.db'
+const dbname = 'arc1.db'
 
 export class Database {
   public database: SQLite.WebSQLDatabase
@@ -47,6 +47,17 @@ export class Database {
   private createTables() {
     this.database.transaction(
       (tx) => {
+        tx.executeSql(
+          `CREATE TABLE IF NOT EXISTS arc_channels(
+              id TEXT PRIMARY KEY NOT NULL,
+              pubkey TEXT NOT NULL,
+              sig TEXT NOT NULL,
+              name TEXT NOT NULL,
+              about TEXT NOT NULL,
+              picture TEXT NOT NULL,
+              created_at INT NOT NULL
+            );`
+        )
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS arc_notes(
           id TEXT PRIMARY KEY NOT NULL,
