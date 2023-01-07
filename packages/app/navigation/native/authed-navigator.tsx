@@ -17,7 +17,7 @@ const activeTabColor = '$color11'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
-  useDatabase()
+  //   useDatabase()
   return (
     <BottomTab.Navigator
       initialRouteName="chat"

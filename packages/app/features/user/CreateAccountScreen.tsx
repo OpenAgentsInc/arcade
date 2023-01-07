@@ -49,7 +49,6 @@ export const CreateAccountScreen = () => {
               </Label>
               <Input
                 id="username"
-                autoFocus
                 placeholder="satoshi"
                 width="100%"
                 value={username}
