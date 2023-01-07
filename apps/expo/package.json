@@ -4,14 +4,15 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "expo start -c",
+    "start": "expo start",
     "android": "TAMAGUI_TARGET=native yarn expo run:android",
     "ios": "TAMAGUI_TARGET=native yarn expo run:ios",
     "web": "TAMAGUI_TARGET=web yarn expo start --web",
     "eject": "expo eject",
     "postinstall": "npx patch-package",
     "build:android": "eas build -p android",
-    "build:android:apk": "eas build -p android --profile apk"
+    "build:android:apk": "eas build -p android --profile apk",
+    "build:android:local": "eas build -p android --profile development --local"
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
@@ -28,7 +29,7 @@
     "expo-sqlite": "~11.0.0",
     "expo-status-bar": "^1.4.2",
     "expo-updates": "^0.15.6",
-    "react": "18.0.0",
+    "react": "18.1.0",
     "react-dom": "^18.2.0",
     "react-native": "0.70.5",
     "react-native-gesture-handler": "^2.8.0",
