@@ -18,13 +18,13 @@ export class Nostr {
     this.relays = relays
     this.relayPool = new RelayPool(relays)
     console.log('RelayPool initialized.')
-    setTimeout(() => {
-      console.log('Setting up initial subscriptions...')
-      this.setupInitialSubscriptions()
-    }, 2500)
+    // setTimeout(() => {
+    //   console.log('Setting up initial subscriptions...')
+    //   this.setupInitialSubscriptions()
+    // }, 2500)
   }
 
-  private setupInitialSubscriptions() {
+  public setupInitialSubscriptions() {
     const sub = this.relayPool.sub(initialSubscriptions, this.relays)
     const chatActions = useStore.getState().chatActions
     sub.onevent((event: NostrEvent) => {

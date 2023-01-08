@@ -1,9 +1,13 @@
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
 import { Logo } from 'app/components/Logo'
 import { Screen } from 'app/views'
 import { Button, Stack, YStack } from 'tamagui'
 
 export function HomeScreen() {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
   return (
     <Screen>
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
@@ -11,6 +15,7 @@ export function HomeScreen() {
         <Logo />
         <YStack space="$6">
           <Button
+            onPress={() => navigate('create')}
             als="center"
             icon={UserPlus}
             size="$5"
@@ -21,6 +26,7 @@ export function HomeScreen() {
             Create Account
           </Button>
           <Button
+            onPress={() => navigate('login')}
             als="center"
             icon={Key}
             size="$5"
