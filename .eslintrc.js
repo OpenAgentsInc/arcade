@@ -35,7 +35,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.ts", "*.tsx", "*.d.ts"],
+      files: ["*.ts", "*.tsx", "*.d.ts", "app.json"],
       parserOptions: {
         project: "./tsconfig.json",
       },

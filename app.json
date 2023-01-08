@@ -1,6 +1,23 @@
 {
   "expo": {
-    "name": "arc3",
-    "slug": "arc3"
+    "name": "Arc",
+    "slug": "arc",
+    "version": "0.0.1",
+    "sdkVersion": "47.0.0",
+    "jsEngine": "hermes",
+    "platforms": ["ios", "android"],
+    "orientation": "portrait",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "arcade.labs.arc"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/icons/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "arcade.labs.arc",
+      "versionCode": 3
+    }
   }
 }
