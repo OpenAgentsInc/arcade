@@ -1,8 +1,12 @@
-import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'app/lib/constants'
+import {
+  HEX_PRIVKEY_STORAGE_KEY,
+  HEX_PUBKEY_STORAGE_KEY,
+} from 'app/lib/constants'
 import * as storage from 'app/lib/storage'
 import { generateRandomPlacekitten, timeNowInSeconds } from 'app/lib/utils'
 import { getEventHash, getPublicKey, nip19, signEvent } from 'nostr-tools'
 import { Alert } from 'react-native'
+
 import { login, logout } from './authActions'
 
 export interface AuthState {
@@ -54,7 +58,7 @@ export const createAuthStore = (set: any, get: any) => ({
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
       Alert.alert('No pub and priv, trying to generate...')
-      let keys = await login('')
+      const keys = await login('')
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
     }

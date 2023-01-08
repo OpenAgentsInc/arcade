@@ -4166,6 +4166,7 @@ __metadata:
     "@types/react-native": 0.70.6
     babel-plugin-transform-inline-environment-variables: 0.4.4
     conventional-changelog-conventionalcommits: 5.0.0
+    date-fns: 2.29.3
     eslint: 8.28.0
     eslint-config-universe: 11.1.1
     eslint-plugin-simple-import-sort: 8.0.0
@@ -4174,6 +4175,7 @@ __metadata:
     expo-font: 11.0.1
     expo-linear-gradient: 12.0.1
     expo-screen-orientation: ^5.0.1
+    expo-secure-store: ~12.0.0
     nostr-relaypool: 0.2.1
     nostr-tools: 1.1.1
     prettier: 2.7.1
@@ -4188,6 +4190,7 @@ __metadata:
     react-native-web: 0.18.10
     tamagui: 1.0.3
     typescript: 4.9.3
+    zustand: 4.2.0
   languageName: unknown
   linkType: soft
 
@@ -5490,6 +5493,13 @@ __metadata:
   version: 1.0.2
   resolution: "dag-map@npm:1.0.2"
   checksum: a46bee1adda1459abe778b0c3616ef8c4ec14c314d38c3daa6f6a695ceae7c4b76ea3efa78385c1f25bb4d600566b3e1edd40e9ec3e862bd8927edca828025ed
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:2.29.3":
+  version: 2.29.3
+  resolution: "date-fns@npm:2.29.3"
+  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
   languageName: node
   linkType: hard
 
@@ -6833,6 +6843,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 7ede30533a8c492f82b58c3b8be110b6373ffcc2cbe273299d9f15d9aa943d678d8aaffb3d2565780b45d1d5a2a1ddea54d813fc84c06e30e3cfd59abbd8e30e
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:~12.0.0":
+  version: 12.0.0
+  resolution: "expo-secure-store@npm:12.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 47d72b0bdd9e900e4b2a4d348e79ec6fd0a1c7d1ae7933f7bb237341cea4dbe461a5ebd92f3682859769318b96c3244d776d4324af35e49d6f7d8f430e20d40c
   languageName: node
   linkType: hard
 
@@ -13028,7 +13047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.0.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.0.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
@@ -13452,5 +13471,22 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"zustand@npm:4.2.0":
+  version: 4.2.0
+  resolution: "zustand@npm:4.2.0"
+  dependencies:
+    use-sync-external-store: 1.2.0
+  peerDependencies:
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: 70f9c9272c7ee6534d16e23e1f273822fdf4cb17a9865db588946ed250a51e169f8b0dcaf0a8d15e866239182263c015bca644756a69314ea1da4fe61ba1b67f
   languageName: node
   linkType: hard

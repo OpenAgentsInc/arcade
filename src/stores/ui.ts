@@ -1,4 +1,4 @@
-import { ThemeName } from '@my/ui/types'
+import { ThemeName } from 'tamagui'
 
 export interface UiState {
   themeName: ThemeName
