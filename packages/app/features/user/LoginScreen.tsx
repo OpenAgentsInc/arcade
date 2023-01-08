@@ -5,16 +5,16 @@ import { useEffect, useState } from 'react'
 import { Card, H2, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
-  const { connect } = useNostr()
+  //   const { connect } = useNostr()
   const loginWithNsec = useStore((s) => s.loginWithNsec)
 
-  const connectem = async () => {
-    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-  }
+  //   const connectem = async () => {
+  //     connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  //   }
 
-  useEffect(() => {
-    connectem()
-  }, [])
+  //   useEffect(() => {
+  //     connectem()
+  //   }, [])
 
   const [nsec, setNsec] = useState('')
 

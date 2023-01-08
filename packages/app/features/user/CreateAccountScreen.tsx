@@ -13,6 +13,7 @@ export const CreateAccountScreen = () => {
   const signup = useStore((s) => s.signup)
 
   const handleSubmit = useCallback(() => {
+    Alert.alert('trying')
     const regex = /^[a-zA-Z_\-0-9]+$/
     // const accountId = user.publicKey ? hexToNpub(user.publicKey) : '-'
     if (username.length < 3) {
@@ -27,15 +28,15 @@ export const CreateAccountScreen = () => {
     signup(username, displayName, about)
   }, [username, displayName, about])
 
-  const { connect } = useNostr()
+  //   const { connect } = useNostr()
 
-  const connectem = async () => {
-    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-  }
+  //   const connectem = async () => {
+  //     connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  //   }
 
-  useEffect(() => {
-    connectem()
-  }, [])
+  //   useEffect(() => {
+  //     connectem()
+  //   }, [])
 
   return (
     <Screen>

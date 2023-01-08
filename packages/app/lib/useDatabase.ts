@@ -1,37 +1,33 @@
 import { Database } from 'app/lib/Database'
 import { useStore } from 'app/stores'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { Alert } from 'react-native'
 
-export const useDatabase = (): Database | undefined => {
+export const useDatabase = () => {
   const database = useStore((state) => state.database)
   const setChannels = useStore((state) => state.chatActions.setChannels)
   const setDatabase = useStore((state) => state.databaseActions.setDatabase)
 
-  const checkRows = async (newDatabase: Database) => {
-    // const notes = await newDatabase.getNumberOfRows()
-    // console.log(`There are ${notes} of such rows in the database.`)
-    const channels = await newDatabase.getChannels()
-    setChannels(channels)
-    console.log(`${channels.length} channels hydrated.`)
-  }
+  useEffect(() => {
+    const initializeDatabase = async () => {
+      Alert.alert('Attempting to initialize database?')
+      if (database) return
 
-  const initializedDatabase = useMemo(() => {
-    if (database) return database
-
-    setTimeout(() => {
       const newDatabase = new Database()
       setDatabase(newDatabase)
       console.log('Initialized database.')
-      checkRows(newDatabase)
-    }, 2000)
-  }, [database, setDatabase])
 
-  useEffect(() => {
-    return () => {
-      initializedDatabase?.close()
+      const channels = await newDatabase.getChannels()
+      setChannels(channels)
+      console.log(`${channels.length} channels hydrated.`)
     }
-  }, [initializedDatabase])
 
-  return initializedDatabase
+    setTimeout(() => {
+      initializeDatabase()
+    }, 2000)
+
+    return () => {
+      database?.close()
+    }
+  }, [database, setDatabase])
 }
