@@ -1,3 +1,0 @@
-export * from 'tamagui'
-export { config } from './tamagui.config'
-export * from './palette'

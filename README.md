@@ -2,9 +2,7 @@
 
 A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) client, currently pre-alpha.
 
-We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS & web with one codebase.
-
-The `main` branch is automatically deployed to [alpha.thearcapp.com](https://alpha.thearcapp.com). It may or may not be usable.
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android & iOS with one codebase.
 
 Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
@@ -22,7 +20,6 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
-- [x] Add mobile over-the-air updates via [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/)
 - [ ] Twitter-style profiles
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Look up user by NIP-05 identifier
@@ -64,6 +61,12 @@ Current and upcoming features in order of priority:
 - [ ] Developer API
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
+
+## Web Support
+
+As of [#28](https://github.com/ArcadeLabsInc/arc/pull/28), we removed the web app to focus first on Android and iOS apps. We will re-add web support later.
+
+The previous web app will remain available temporarily at [alpha.thearcapp.com](https://alpha.thearcapp.com), but will not receive updates.
 
 ## Architecture
 
