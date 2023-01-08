@@ -16,7 +16,6 @@
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "arcade.labs.arc",
       "versionCode": 4
     },
     "extra": {
