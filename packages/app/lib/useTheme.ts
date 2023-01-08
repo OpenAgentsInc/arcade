@@ -11,7 +11,7 @@ export const useTheme = () => {
   const checkStorage = async () => {
     const theme = (await storage.getItem(THEME_STORAGE_KEY)) as ThemeName
     if (!theme) {
-      setThemeName('purple')
+      setThemeName('dark')
       return
     }
     setThemeName(theme)
