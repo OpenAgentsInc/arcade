@@ -5,8 +5,8 @@ const IS_BETA = process.env.APP_VARIANT === "beta";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: IS_DEV ? `[DEV] ${config.name}` : config.name,
-  slug: config.slug,
+  name: IS_DEV ? `[DEV] ${config.name ?? ""}` : config.name ?? "Arc",
+  slug: config.slug ?? "arc",
   icon: IS_DEV
     ? "./src/assets/icons/icon-dev.png"
     : IS_BETA
