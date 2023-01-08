@@ -1,0 +1,9 @@
+diff --git a/node_modules/nostr-relaypool/relay-pool.ts b/node_modules/nostr-relaypool/relay-pool.ts
+index 1a5f185..163fffd 100644
+--- a/node_modules/nostr-relaypool/relay-pool.ts
++++ b/node_modules/nostr-relaypool/relay-pool.ts
+@@ -1,3 +1,4 @@
++// @ts-nocheck
+ import type { Event, Filter, Sub } from 'nostr-tools'
+ import {type Relay, relayInit} from './relay'
+ 

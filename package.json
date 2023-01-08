@@ -13,6 +13,7 @@
     "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
     "build:android:apk": "eas build -p android --profile preview",
     "build:android:dev-client": "eas build -p android --profile development",
+    "postinstall": "npx patch-package",
     "apk": "yarn build:android:apk"
   },
   "dependencies": {
@@ -45,9 +46,11 @@
     "react-native-svg": "13.4.0",
     "react-native-web": "0.18.10",
     "tamagui": "1.0.3",
+    "text-encoding-polyfill": "0.6.7",
     "zustand": "4.2.0"
   },
   "resolutions": {
+    "@noble/secp256k1": "1.7.0",
     "react-native-svg": "13.4.0"
   },
   "devDependencies": {

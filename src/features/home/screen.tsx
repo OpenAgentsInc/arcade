@@ -1,14 +1,42 @@
-import { FC } from 'react'
-import { YStack } from 'tamagui'
+import { Key, UserPlus } from '@tamagui/lucide-icons'
+import { Logo } from 'app/components/Logo'
+import { Screen } from 'app/views'
+import { Button, Stack, YStack } from 'tamagui'
 
-import { Logo } from '../../components/Logo'
-import { Screen } from '../../components/Screen'
-
-export const HomeScreen: FC = () => {
+export function HomeScreen() {
   return (
     <Screen>
-      <YStack maxWidth={600} f={1} justifyContent="center" alignItems="center">
+      <YStack f={1} alignItems="center" justifyContent="space-evenly">
+        <Stack />
         <Logo />
+        <YStack space="$6">
+          <Button
+            als="center"
+            icon={UserPlus}
+            size="$5"
+            focusStyle={{ opacity: 0.9, borderWidth: 0 }}
+            // shadowColor={palette.portGore}
+            shadowRadius={8}
+            shadowOpacity={0.3}
+            bg="$color6"
+            elevation="$6"
+          >
+            Create Account
+          </Button>
+          <Button
+            als="center"
+            icon={Key}
+            size="$5"
+            // shadowColor={palette.portGore}
+            focusStyle={{ opacity: 0.9, borderWidth: 0 }}
+            shadowRadius={8}
+            shadowOpacity={0.1}
+            bg="$color1"
+            elevation="$6"
+          >
+            Login
+          </Button>
+        </YStack>
       </YStack>
     </Screen>
   )

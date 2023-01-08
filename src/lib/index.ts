@@ -1,1 +1,1 @@
-export * from './Nostr'
+export * from './nostr'
