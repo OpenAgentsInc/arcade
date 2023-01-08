@@ -15,9 +15,6 @@ export function HomeScreen() {
             icon={UserPlus}
             size="$5"
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
-            // shadowColor={palette.portGore}
-            shadowRadius={8}
-            shadowOpacity={0.3}
             bg="$color6"
             elevation="$6"
           >
@@ -27,10 +24,7 @@ export function HomeScreen() {
             als="center"
             icon={Key}
             size="$5"
-            // shadowColor={palette.portGore}
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
-            shadowRadius={8}
-            shadowOpacity={0.1}
             bg="$color1"
             elevation="$6"
           >
