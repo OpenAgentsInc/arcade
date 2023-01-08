@@ -1,7 +1,8 @@
 {
-  "name": "arc3",
-  "version": "1.0.0",
+  "name": "arc",
+  "version": "0.0.1",
   "packageManager": "yarn@3.2.0",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
