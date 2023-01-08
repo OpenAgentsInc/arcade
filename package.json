@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
-    "build:android:beta-apk": "eas build -p android --profile betaAPK",
+    "build:android:apk": "eas build -p android --profile preview",
     "build:android:dev-client": "eas build -p android --profile development"
   },
   "dependencies": {
