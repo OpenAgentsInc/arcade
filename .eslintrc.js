@@ -18,7 +18,7 @@ module.exports = {
 
     // Includes .prettierrc.js rules
     "prettier/prettier": [
-      "warn",
+      "error",
       {
         endOfLine: "auto",
         printWidth: 80,
@@ -26,6 +26,7 @@ module.exports = {
         singleQuote: false,
         bracketSameLine: false,
         trailingComma: "es5",
+        fix: true,
       },
       { usePrettierrc: false },
     ],
