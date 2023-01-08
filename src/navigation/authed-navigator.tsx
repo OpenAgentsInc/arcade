@@ -28,12 +28,15 @@ export function AuthedNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
+        tabBarStyle: {
+          borderTopWidth: 0,
+        },
         tabBarBackground: () => (
           <XStack
             f={1}
             backgroundColor="$backgroundSoft"
             borderTopWidth="$1"
-            borderTopColor="$color3"
+            borderTopColor="$color4"
             elevation="$6"
           />
         ),
