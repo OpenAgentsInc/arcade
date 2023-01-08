@@ -4,7 +4,6 @@ import { RelayPool } from 'nostr-relaypool'
 import { Event as NostrEvent } from 'nostr-tools'
 
 import { handleEvent } from '../handleEvent'
-// import { Event } from './Event'
 
 const DEFAULT_RELAYS = ['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co']
 
@@ -18,10 +17,6 @@ export class Nostr {
     this.relays = relays
     this.relayPool = new RelayPool(relays)
     console.log('RelayPool initialized.')
-    // setTimeout(() => {
-    //   console.log('Setting up initial subscriptions...')
-    //   this.setupInitialSubscriptions()
-    // }, 2500)
   }
 
   public setupInitialSubscriptions() {
