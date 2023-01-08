@@ -23,7 +23,6 @@ export class Nostr {
     const sub = this.relayPool.sub(initialSubscriptions, this.relays)
     const chatActions = useStore.getState().chatActions
     sub.onevent((event: NostrEvent) => {
-      console.log('Event received', event.id)
       handleEvent(event, {
         addChannel: chatActions.addChannel,
         addMessage: chatActions.addMessage,
@@ -56,7 +55,6 @@ export class Nostr {
     const sub = this.relayPool.sub(filters, this.relays)
     const chatActions = useStore.getState().chatActions
     sub.onevent((event: NostrEvent) => {
-      console.log('Event received', event.id)
       handleEvent(event, {
         addChannel: chatActions.addChannel,
         addMessage: chatActions.addMessage,
