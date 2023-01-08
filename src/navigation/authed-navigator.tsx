@@ -1,14 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { SettingsScreen } from 'app/features/user/SettingsScreen'
+import { useNostr } from 'app/lib/useNostr'
 import { NavHeader } from 'app/views'
+import { useEffect } from 'react'
 import { XStack } from 'tamagui'
 
 import { ChatNavigator } from './chat-navigator'
 
 const BottomTab = createBottomTabNavigator<{
   chat: undefined
-  //   profile: undefined
   settings: undefined
 }>()
 
@@ -16,6 +17,11 @@ const activeTabColor = '$color12'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
+  const nostr = useNostr()
+  useEffect(() => {
+    if (!nostr) return
+    nostr.setupInitialSubscriptions()
+  }, [nostr])
   return (
     <BottomTab.Navigator
       initialRouteName="chat"

@@ -57,7 +57,6 @@ export const createAuthStore = (set: any, get: any) => ({
     let { publicKey, privateKey } = state.user
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
-      Alert.alert('No pub and priv, trying to generate...')
       const keys = await login('')
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
