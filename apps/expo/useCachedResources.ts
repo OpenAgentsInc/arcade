@@ -17,7 +17,6 @@ export function useCachedResources() {
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        // Alert.alert('initializing db...?')
         SplashScreen.preventAutoHideAsync()
 
         // Initialize the database
@@ -27,7 +26,6 @@ export function useCachedResources() {
         // Wait for the database to finish initializing before marking the resources as loaded
         // await db.initialized()
 
-        // Alert.alert('initialized db!!!!!!')
         // console.log('Database initialized')
       } catch (e) {
         // We might want to provide this error information to an error reporting service

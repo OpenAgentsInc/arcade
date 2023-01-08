@@ -38,9 +38,7 @@ export class Nostr {
   }
 
   public publish(event: Event): void {
-    Alert.alert('Publishing event: ' + event.id)
     this.relayPool.publish(event, this.relays)
-    Alert.alert('Published event????' + event.id)
   }
 
   public setKeys(publicKey: string, privateKey: string): void {

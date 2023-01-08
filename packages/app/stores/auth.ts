@@ -78,33 +78,11 @@ export const createAuthStore = (set: any, get: any) => ({
       tags: [],
     }
 
-    // Alert.alert('unsigned event: ' + JSON.stringify(event))
-
     // Set the id and sig properties of the event
     event.id = getEventHash(event)
     event.sig = signEvent(event, privateKey)
 
-    Alert.alert('signed event: ' + JSON.stringify(event))
-
     state.nostr.publish(event)
-
-    // Publish the event to all of the relays
-    // relays.forEach((relay) => {
-    //   //   console.log('Publishing to relay: ', relay.url)
-    //   let pub = relay.publish(event)
-    //   pub.on('ok', () => {
-    //     // console.log(`${relay.url} has accepted our event`)
-    //     set({ user: { ...state.user, privateKey, publicKey } })
-    //     // console.log('set user to', { ...state.user, privateKey, publicKey })
-    //   })
-    //   pub.on('seen', () => {
-    //     console.log(`we saw the event on ${relay.url}`)
-    //   })
-    //   pub.on('failed', (reason) => {
-    //     console.log(`failed to publish to ${relay.url}: ${reason}`)
-    //     Alert.alert(`failed to publish to ${relay.url}: ${reason}`)
-    //   })
-    // })
   },
 })
 
