@@ -7,7 +7,15 @@ import { createDatabaseStore } from './database'
 import { createRelayStore } from './relay'
 import { createUiStore } from './ui'
 
-export const useStore = create((set, get) => ({
+type UseStore = {
+  nostr: Nostr
+} & ReturnType<typeof createAuthStore> &
+  ReturnType<typeof createChatStore> &
+  ReturnType<typeof createDatabaseStore> &
+  ReturnType<typeof createRelayStore> &
+  ReturnType<typeof createUiStore>
+
+export const useStore = create<UseStore>((set, get) => ({
   nostr: new Nostr(),
   ...createAuthStore(set, get),
   ...createChatStore(set, get),
