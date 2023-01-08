@@ -2,7 +2,7 @@
 
 A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) client, currently pre-alpha.
 
-We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android, iOS & web with one codebase.
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android and iOS with one codebase.
 
 Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
@@ -71,9 +71,9 @@ Documenting on our wiki:
 
 ## Web Support
 
-The `main` branch was previously deployed to [alpha.thearcapp.com](https://alpha.thearcapp.com).
-
 As of #28, we removed the web app to focus first on Android and iOS apps. We will re-add web support later.
+
+The previous web app will remain available temporarily at [alpha.thearcapp.com](https://alpha.thearcapp.com), but will not receive updates.
 
 ## Running locally
 
