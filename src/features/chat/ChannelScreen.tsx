@@ -6,7 +6,7 @@ import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 import { useUserMetadataForChannel } from './useUserMetadataForChannel'
 
-export const ChannelScreen = () => {
+export const ChannelScreen = ({}) => {
   //   const { relays, connect } = useNostr()
   const channels = useStore((s) => s.channels)
   const id = 'placeholder'
