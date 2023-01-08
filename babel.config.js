@@ -1,26 +1,26 @@
 // process.env.TAMAGUI_TARGET = "native";
 
 module.exports = function (api) {
-  api.cache(true);
+  api.cache(true)
   return {
-    presets: [["babel-preset-expo", { jsxRuntime: "automatic" }]],
+    presets: [['babel-preset-expo', { jsxRuntime: 'automatic' }]],
     plugins: [
       [
-        "@tamagui/babel-plugin",
+        '@tamagui/babel-plugin',
         {
-          components: ["tamagui"],
-          config: "./src/tamagui.config.ts",
+          components: ['tamagui'],
+          config: './src/tamagui.config.ts',
           logTimings: true,
-          disableExtraction: process.env.NODE_ENV === "development",
+          disableExtraction: process.env.NODE_ENV === 'development',
         },
       ],
       [
-        "transform-inline-environment-variables",
+        'transform-inline-environment-variables',
         {
-          include: "TAMAGUI_TARGET",
+          include: 'TAMAGUI_TARGET',
         },
       ],
-      "react-native-reanimated/plugin",
+      'react-native-reanimated/plugin',
     ],
-  };
-};
+  }
+}

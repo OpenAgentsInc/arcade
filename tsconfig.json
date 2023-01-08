@@ -3,10 +3,17 @@
   "extends": "expo/tsconfig.base.json",
 
   "compilerOptions": {
+    // Allow implicit any
+    "noImplicitAny": false,
+
     // Enable all strict type checking options
     "strict": true,
 
     // Enable strict null checks
-    "strictNullChecks": true
+    "strictNullChecks": true,
+
+    "paths": {
+      "app/*": ["./src/*"]
+    }
   }
 }
