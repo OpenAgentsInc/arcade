@@ -53,14 +53,14 @@ export const createAuthStore = (set: any, get: any) => ({
     let { publicKey, privateKey } = state.user
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
-      Alert.alert('no pub and priv, trying to generate')
+      Alert.alert('No pub and priv, trying to generate...')
       let keys = await login('')
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
     }
 
     // Get relays from the state
-    const { relays } = state
+    // const { relays } = state
 
     const metadata = {
       name: username,
@@ -78,7 +78,7 @@ export const createAuthStore = (set: any, get: any) => ({
       tags: [],
     }
 
-    Alert.alert('unsigned event: ' + JSON.stringify(event))
+    // Alert.alert('unsigned event: ' + JSON.stringify(event))
 
     // Set the id and sig properties of the event
     event.id = getEventHash(event)
@@ -86,23 +86,25 @@ export const createAuthStore = (set: any, get: any) => ({
 
     Alert.alert('signed event: ' + JSON.stringify(event))
 
+    state.nostr.publish(event)
+
     // Publish the event to all of the relays
-    relays.forEach((relay) => {
-      //   console.log('Publishing to relay: ', relay.url)
-      let pub = relay.publish(event)
-      pub.on('ok', () => {
-        // console.log(`${relay.url} has accepted our event`)
-        set({ user: { ...state.user, privateKey, publicKey } })
-        // console.log('set user to', { ...state.user, privateKey, publicKey })
-      })
-      pub.on('seen', () => {
-        console.log(`we saw the event on ${relay.url}`)
-      })
-      pub.on('failed', (reason) => {
-        console.log(`failed to publish to ${relay.url}: ${reason}`)
-        Alert.alert(`failed to publish to ${relay.url}: ${reason}`)
-      })
-    })
+    // relays.forEach((relay) => {
+    //   //   console.log('Publishing to relay: ', relay.url)
+    //   let pub = relay.publish(event)
+    //   pub.on('ok', () => {
+    //     // console.log(`${relay.url} has accepted our event`)
+    //     set({ user: { ...state.user, privateKey, publicKey } })
+    //     // console.log('set user to', { ...state.user, privateKey, publicKey })
+    //   })
+    //   pub.on('seen', () => {
+    //     console.log(`we saw the event on ${relay.url}`)
+    //   })
+    //   pub.on('failed', (reason) => {
+    //     console.log(`failed to publish to ${relay.url}: ${reason}`)
+    //     Alert.alert(`failed to publish to ${relay.url}: ${reason}`)
+    //   })
+    // })
   },
 })
 
