@@ -6,16 +6,20 @@ const dbname = 'arc3.db'
 
 export class Database {
   public database: SQLite.WebSQLDatabase
+  private _initialized: Promise<void>
 
   constructor() {
-    this.openDatabase()
-      .then((db) => {
-        this.database = db
-        this.createTables()
-      })
-      .catch((error) => {
-        console.error('Error opening database', error)
-      })
+    this._initialized = new Promise((resolve) => {
+      this.openDatabase()
+        .then((db) => {
+          this.database = db
+          this.createTables()
+          resolve()
+        })
+        .catch((error) => {
+          console.error('Error opening database', error)
+        })
+    })
   }
 
   async openDatabase(): Promise<SQLite.WebSQLDatabase> {
@@ -26,6 +30,10 @@ export class Database {
       console.error('Error opening database', error)
       return Promise.reject(error)
     }
+  }
+
+  async initialized(): Promise<void> {
+    return this._initialized
   }
 
   async getNumberOfRows(tabletype: string = 'channels'): Promise<number> {
