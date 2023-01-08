@@ -65,7 +65,7 @@ Current and upcoming features in order of priority:
 
 ## Web Support
 
-As of #28, we removed the web app to focus first on Android and iOS apps. We will re-add web support later.
+As of [#28](https://github.com/ArcadeLabsInc/arc/pull/28), we removed the web app to focus first on Android and iOS apps. We will re-add web support later.
 
 The previous web app will remain available temporarily at [alpha.thearcapp.com](https://alpha.thearcapp.com), but will not receive updates.
 
