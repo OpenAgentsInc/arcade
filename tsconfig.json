@@ -12,8 +12,19 @@
     // Enable strict null checks
     "strictNullChecks": true,
 
+    "baseUrl": "./",
     "paths": {
-      "app/*": ["./src/*"]
+      "app/*": ["./src/*"],
+      "i18n": ["src/i18n"],
+      "i18n/*": ["src/i18n/*"],
+      "lib": ["src/lib"],
+      "lib/*": ["src/lib/*"],
+      "navigation": ["src/navigation"],
+      "navigation/*": ["src/navigation/*"],
+      "services/*": ["src/services/*"],
+      "stores/*": ["src/stores/*"],
+      "stores": ["src/stores"],
+      "views/*": ["src/views/*"]
     }
   }
 }
