@@ -1,6 +1,12 @@
 {
+  // This configuration extends the base TypeScript configuration for Expo projects
   "extends": "expo/tsconfig.base.json",
+
   "compilerOptions": {
-    "strictNullChecks": true,
+    // Enable all strict type checking options
+    "strict": true,
+
+    // Enable strict null checks
+    "strictNullChecks": true
   }
 }
