@@ -17,7 +17,7 @@
         "backgroundColor": "#000000"
       },
       "package": "arcade.labs.arc",
-      "versionCode": 3
+      "versionCode": 4
     },
     "extra": {
       "eas": {

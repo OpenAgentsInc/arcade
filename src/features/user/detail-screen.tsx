@@ -1,13 +1,13 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
-import { YStack } from "tamagui";
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { FC } from "react"
+import { YStack } from "tamagui"
 
-import { UserDetails } from "./user-details";
+import { UserDetails } from "./user-details"
 
 export const UserDetailScreen: FC<
   NativeStackScreenProps<StackNavigatorParams, "user-detail">
 > = ({ route }) => {
-  const { id } = route.params;
+  const { id } = route.params
 
   return (
     <YStack
@@ -19,5 +19,5 @@ export const UserDetailScreen: FC<
     >
       <UserDetails id={id} />
     </YStack>
-  );
-};
+  )
+}

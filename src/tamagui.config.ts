@@ -1,9 +1,9 @@
-import { createInterFont } from "@tamagui/font-inter";
-import { shorthands } from "@tamagui/shorthands";
-import { themes, tokens } from "@tamagui/theme-base";
-import { createTamagui } from "tamagui";
+import { createInterFont } from "@tamagui/font-inter"
+import { shorthands } from "@tamagui/shorthands"
+import { themes, tokens } from "@tamagui/theme-base"
+import { createTamagui } from "tamagui"
 
-import { animations } from "./constants/animations";
+import { animations } from "./constants/animations"
 
 const headingFont = createInterFont({
   size: {
@@ -35,7 +35,7 @@ const headingFont = createInterFont({
   face: {
     700: { normal: "InterBold" },
   },
-});
+})
 
 const bodyFont = createInterFont(
   {
@@ -47,7 +47,7 @@ const bodyFont = createInterFont(
     sizeSize: (size) => Math.round(size * 1.1),
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
   }
-);
+)
 
 const config = createTamagui({
   animations,
@@ -77,9 +77,9 @@ const config = createTamagui({
     hoverNone: { hover: "none" },
     pointerCoarse: { pointer: "coarse" },
   },
-});
+})
 
-export type AppConfig = typeof config;
+export type AppConfig = typeof config
 
 declare module "tamagui" {
   // overrides TamaguiCustomConfig so your custom types
@@ -87,4 +87,4 @@ declare module "tamagui" {
   interface TamaguiCustomConfig extends AppConfig {}
 }
 
-export default config;
+export default config

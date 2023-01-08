@@ -1,10 +1,10 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { FC } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { FC } from "react"
 
-import { HomeScreen } from "../features/home/screen";
-import { UserDetailScreen } from "../features/user/detail-screen";
+import { HomeScreen } from "../features/home/screen"
+import { UserDetailScreen } from "../features/user/detail-screen"
 
-const Stack = createNativeStackNavigator<StackNavigatorParams>();
+const Stack = createNativeStackNavigator<StackNavigatorParams>()
 
 export const NativeNavigation: FC = () => {
   return (
@@ -24,5 +24,5 @@ export const NativeNavigation: FC = () => {
         component={UserDetailScreen}
       />
     </Stack.Navigator>
-  );
-};
+  )
+}

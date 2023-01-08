@@ -1,4 +1,4 @@
-import { createAnimations } from "@tamagui/animations-react-native";
+import { createAnimations } from "@tamagui/animations-react-native"
 
 export const animations = createAnimations({
   bouncy: {
@@ -18,4 +18,4 @@ export const animations = createAnimations({
     mass: 1.2,
     stiffness: 250,
   },
-});
+})
