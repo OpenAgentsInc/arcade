@@ -1,6 +1,7 @@
 import { Database } from 'app/lib/Database'
 import { useStore } from 'app/stores'
 import { useEffect, useMemo } from 'react'
+import { Alert } from 'react-native'
 
 export const useDatabase = () => {
   const database = useStore((state) => state.database)
@@ -16,7 +17,9 @@ export const useDatabase = () => {
   }
 
   const initializedDatabase = useMemo(() => {
+    Alert.alert('Attempting to initialize database?')
     if (database) return database
+
     const newDatabase = new Database()
     setDatabase(newDatabase)
     console.log('Initialized database.')

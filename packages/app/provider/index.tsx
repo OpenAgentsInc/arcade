@@ -1,13 +1,10 @@
-import { useDatabase } from 'app/lib/useDatabase'
 import { useTheme } from 'app/lib/useTheme'
-import { useStore } from 'app/stores'
 import { TamaguiProvider, TamaguiProviderProps, Theme } from '@my/ui'
 import config from '../tamagui.config'
 import { NavigationProvider } from './navigation'
 
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   const theme = useTheme()
-  useDatabase()
   return (
     <TamaguiProvider config={config} disableInjectCSS defaultTheme="dark" {...rest}>
       <Theme name="dark">
