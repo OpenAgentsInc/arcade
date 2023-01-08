@@ -11,7 +11,8 @@
     "eject": "expo eject",
     "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
     "build:android:apk": "eas build -p android --profile preview",
-    "build:android:dev-client": "eas build -p android --profile development"
+    "build:android:dev-client": "eas build -p android --profile development",
+    "apk": "yarn build:android:apk"
   },
   "dependencies": {
     "@tamagui/animations-reanimated": "1.0.3",

@@ -7,11 +7,11 @@ export const HomeScreen: FC = () => {
   return (
     <MyStack>
       <YStack
-        space="$4"
         maxWidth={600}
         f={1}
         justifyContent="center"
         alignItems="center"
+        backgroundColor="$color1"
       >
         <H1 textAlign="center">Arc</H1>
       </YStack>
