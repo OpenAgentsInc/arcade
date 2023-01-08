@@ -56,7 +56,10 @@ export const createChatStore = (set: any, get: any) => ({
             // https://docs.pmnd.rs/zustand/guides/maps-and-sets-usage
             userMetadata: new Map(state.userMetadata).set(pubkey, content),
           }))
-          console.log(`Saved metadata for user ${content?.name ?? 'unknown'}: `, pubkey)
+          console.log(
+            `Saved metadata for user ${content?.name ?? 'unknown'}: `,
+            pubkey
+          )
         }
       }
 
@@ -80,12 +83,18 @@ export const createChatStore = (set: any, get: any) => ({
         const fetchUser = chatActions.fetchUser
 
         // Filter the list of messages for those that have a matching channelId
-        const filteredMessages = messages.filter((message) => message.channelId === channelId)
+        const filteredMessages = messages.filter(
+          (message) => message.channelId === channelId
+        )
 
         // Extract the list of unique public keys of the senders of the filtered messages
-        const uniquePubkeys = [...new Set(filteredMessages.map((message) => message.sender))]
+        const uniquePubkeys = [
+          ...new Set(filteredMessages.map((message) => message.sender)),
+        ]
 
-        console.log(`Found ${uniquePubkeys.length} unique pubkeys in this channel.`)
+        console.log(
+          `Found ${uniquePubkeys.length} unique pubkeys in this channel.`
+        )
 
         // Now fetch metadata for each pubkey
         for (const pubkey of uniquePubkeys) {
@@ -98,7 +107,7 @@ export const createChatStore = (set: any, get: any) => ({
             fetchUser(pubkey)
           }
         }
-      } catch (e) {
+      } catch (e: any) {
         console.log(':(', e)
         console.log(e.stack)
       }
@@ -137,7 +146,7 @@ export const createChatStore = (set: any, get: any) => ({
       const { relays } = state
 
       // Create the event object
-      let event: any = {
+      const event: any = {
         kind: 42,
         pubkey: publicKey,
         created_at: timeNowInSeconds(),
@@ -151,7 +160,7 @@ export const createChatStore = (set: any, get: any) => ({
       // Publish the event to all of the relays
       relays.forEach((relay) => {
         console.log('Publishing to relay: ', relay.url)
-        let pub = relay.publish(event)
+        const pub = relay.publish(event)
         pub.on('ok', () => {
           console.log(`${relay.url} has accepted our event`)
         })

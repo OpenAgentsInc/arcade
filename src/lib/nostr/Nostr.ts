@@ -2,10 +2,9 @@ import { initialSubscriptions } from 'app/features/chat/initialSubscriptions'
 import { useStore } from 'app/stores'
 import { RelayPool } from 'nostr-relaypool'
 import { Event as NostrEvent } from 'nostr-tools'
-import { Alert } from 'react-native'
 
 import { handleEvent } from '../handleEvent'
-import { Event } from './Event'
+// import { Event } from './Event'
 
 const DEFAULT_RELAYS = ['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co']
 
@@ -38,7 +37,7 @@ export class Nostr {
     console.log('Subscriptions done.')
   }
 
-  public publish(event: Event): void {
+  public publish(event: NostrEvent): void {
     this.relayPool.publish(event, this.relays)
   }
 

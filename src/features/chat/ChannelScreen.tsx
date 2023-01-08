@@ -9,6 +9,7 @@ import { useUserMetadataForChannel } from './useUserMetadataForChannel'
 export const ChannelScreen = () => {
   //   const { relays, connect } = useNostr()
   const channels = useStore((s) => s.channels)
+  const id = 'placeholder'
   const channel = channels.find((c) => c.id === id)
 
   useUserMetadataForChannel(channel?.id ?? '')
