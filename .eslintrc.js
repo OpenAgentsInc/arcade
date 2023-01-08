@@ -26,6 +26,8 @@ module.exports = {
         singleQuote: false,
         bracketSameLine: false,
         trailingComma: "es5",
+        arrowParens: "always",
+        semi: false,
         fix: true,
       },
       { usePrettierrc: false },
@@ -41,4 +43,4 @@ module.exports = {
       },
     },
   ],
-};
+}
