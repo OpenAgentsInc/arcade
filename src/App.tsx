@@ -2,8 +2,8 @@ import 'expo-dev-client'
 
 import { useFonts } from 'expo-font'
 import { FC } from 'react'
-import { HomeScreen } from './features/home/screen'
 
+import { HomeScreen } from './features/home/screen'
 import { Provider } from './provider'
 
 const App: FC = () => {
