@@ -26,16 +26,6 @@ export const CreateAccountScreen = () => {
     signup(username, displayName, about)
   }, [username, displayName, about])
 
-  const { connect } = useNostr()
-
-  const connectem = async () => {
-    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-  }
-
-  useEffect(() => {
-    connectem()
-  }, [])
-
   return (
     <Screen>
       <BackButton mt={40} ml={20} />
@@ -49,7 +39,6 @@ export const CreateAccountScreen = () => {
               </Label>
               <Input
                 id="username"
-                autoFocus
                 placeholder="satoshi"
                 width="100%"
                 value={username}

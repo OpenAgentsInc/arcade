@@ -1,31 +1,27 @@
 import { ProfileScreen } from 'app/features/profile'
+import { SettingsScreen } from 'app/features/user/SettingsScreen'
+import { NavHeader } from 'app/views'
 import { XStack } from '@my/ui'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { BarChart, MessageCircle, User, UserCog } from '@tamagui/lucide-icons'
+import { MessageCircle, Settings, User } from '@tamagui/lucide-icons'
 import { ChatNavigator } from './chat-navigator'
 
 const BottomTab = createBottomTabNavigator<{
   chat: undefined
-  profile: undefined
+  //   profile: undefined
+  settings: undefined
 }>()
 
-const activeTabColor = '$color11'
+const activeTabColor = '$color12'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="profile"
+      initialRouteName="chat"
       screenOptions={{
-        // hide the tabbar only on the ChannelScreen
-        // tabBarStyle: ({ route }) => {
-        //   console.log('ROUTE?', route)
-        //   return route.name === 'channel' ? { height: 0 } : {}
-        // },
-
         headerShown: false,
         tabBarLabel: () => null,
-        // tabBarStyle: { height: 0 },
         tabBarBackground: () => (
           <XStack
             f={1}
@@ -47,12 +43,15 @@ export function AuthedNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="profile"
-        component={ProfileScreen}
+        name="settings"
+        component={SettingsScreen}
         options={{
+          headerShown: true,
           tabBarIcon: ({ focused, size }) => (
-            <User color={focused ? activeTabColor : inactiveTabColor} size={size} />
+            <Settings color={focused ? activeTabColor : inactiveTabColor} size={size} />
           ),
+          title: 'Settings',
+          header: ({ options: { title } }) => <NavHeader title={title} />,
         }}
       />
     </BottomTab.Navigator>

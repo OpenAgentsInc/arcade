@@ -1,5 +1,4 @@
 import { useTheme } from 'app/lib/useTheme'
-import { useStore } from 'app/stores'
 import { TamaguiProvider, TamaguiProviderProps, Theme } from '@my/ui'
 import config from '../tamagui.config'
 import { NavigationProvider } from './navigation'

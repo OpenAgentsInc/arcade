@@ -2,6 +2,7 @@ import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'app/lib/constan
 import * as storage from 'app/lib/storage'
 import { generateRandomPlacekitten, timeNowInSeconds } from 'app/lib/utils'
 import { getEventHash, getPublicKey, nip19, signEvent } from 'nostr-tools'
+import { Alert } from 'react-native'
 import { login, logout } from './authActions'
 
 export interface AuthState {
@@ -52,14 +53,14 @@ export const createAuthStore = (set: any, get: any) => ({
     let { publicKey, privateKey } = state.user
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
-      console.log('no pub and priv')
+      Alert.alert('No pub and priv, trying to generate...')
       let keys = await login('')
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
     }
 
     // Get relays from the state
-    const { relays } = state
+    // const { relays } = state
 
     const metadata = {
       name: username,
@@ -81,22 +82,7 @@ export const createAuthStore = (set: any, get: any) => ({
     event.id = getEventHash(event)
     event.sig = signEvent(event, privateKey)
 
-    // Publish the event to all of the relays
-    relays.forEach((relay) => {
-      //   console.log('Publishing to relay: ', relay.url)
-      let pub = relay.publish(event)
-      pub.on('ok', () => {
-        // console.log(`${relay.url} has accepted our event`)
-        set({ user: { ...state.user, privateKey, publicKey } })
-        // console.log('set user to', { ...state.user, privateKey, publicKey })
-      })
-      pub.on('seen', () => {
-        console.log(`we saw the event on ${relay.url}`)
-      })
-      pub.on('failed', (reason) => {
-        console.log(`failed to publish to ${relay.url}: ${reason}`)
-      })
-    })
+    state.nostr.publish(event)
   },
 })
 

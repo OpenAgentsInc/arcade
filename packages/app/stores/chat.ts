@@ -1,12 +1,12 @@
 import { delay, timeNowInSeconds } from 'app/lib/utils'
-import { getEventHash, signEvent } from 'nostr-tools'
+import { getEventHash, Kind, signEvent } from 'nostr-tools'
 
 export interface Channel {
   id: string
-  kind: number
+  kind: Kind
   pubkey: string
   sig: string
-  tags: string[]
+  tags: string[][]
   metadata: {
     about: string
     name: string
@@ -41,6 +41,9 @@ export const createChatStore = (set: any, get: any) => ({
   messages: initialChatState.messages,
   userMetadata: initialChatState.userMetadata,
   chatActions: {
+    // Given an array of channels, just set that to the state
+    setChannels: (channels: Channel[]) => set({ channels }),
+
     fetchUser: async (pubkey: string) => {
       const state = get()
       const { relays } = state
@@ -104,6 +107,7 @@ export const createChatStore = (set: any, get: any) => ({
     addMessage: (message: ChatMessage) =>
       set((state) => {
         if (state.messages.some((m) => m.id === message.id)) {
+          console.log('Already have message', message.id)
           return state
         }
         console.log('Saving message ID:', message.id) // to channel: ', message.channelId)

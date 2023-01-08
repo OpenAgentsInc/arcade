@@ -30,7 +30,7 @@ export function ChatNavigator() {
           header: (props) => <NavHeader {...props} />,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="settings"
         component={SettingsScreen}
         options={{
@@ -38,7 +38,7 @@ export function ChatNavigator() {
           header: ({ options: { title } }) => <NavHeader title={title} />,
           animation: 'slide_from_right',
         }}
-      />
+      /> */}
     </Stack.Navigator>
   )
 }

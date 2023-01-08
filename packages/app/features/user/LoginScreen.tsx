@@ -1,20 +1,10 @@
-import { useNostr } from 'app/lib/useNostr'
 import { useStore } from 'app/stores'
 import { BackButton, Screen } from 'app/views'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Card, H2, Input, isWeb, LinearGradient, Paragraph, Stack, YStack } from '@my/ui'
 
 export const LoginScreen = () => {
-  const { connect } = useNostr()
   const loginWithNsec = useStore((s) => s.loginWithNsec)
-
-  const connectem = async () => {
-    connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-  }
-
-  useEffect(() => {
-    connectem()
-  }, [])
 
   const [nsec, setNsec] = useState('')
 

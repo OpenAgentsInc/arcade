@@ -5,20 +5,27 @@
     "version": "0.0.1",
     "sdkVersion": "47.0.0",
     "jsEngine": "hermes",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "scheme": "myapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/4d0739d3-08f0-42a8-a886-2d89327949a1"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc"
@@ -26,7 +33,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#000000"
       },
       "package": "arcade.labs.arc",
       "versionCode": 3
@@ -38,6 +45,9 @@
       "eas": {
         "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

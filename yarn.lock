@@ -2026,6 +2026,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo/websql@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@expo/websql@npm:1.0.1"
+  dependencies:
+    argsarray: ^0.0.1
+    immediate: ^3.2.2
+    noop-fn: ^1.0.0
+    pouchdb-collections: ^1.0.1
+    tiny-queue: ^0.2.1
+  checksum: 9458137b3c59774ca8bf18e2289ee2fd15c710a8017c84be49f78d9b988d6234b02388de2786b44ed22e906e006c3c131413e90e3b703b00886269ddea76cc5d
+  languageName: node
+  linkType: hard
+
 "@expo/xcpretty@npm:^4.2.1":
   version: 4.2.2
   resolution: "@expo/xcpretty@npm:4.2.2"
@@ -4658,6 +4671,7 @@ __metadata:
     expo-clipboard: ^4.0.1
     expo-linking: ^3.2.3
     expo-secure-store: ^12.0.0
+    nostr-relaypool: 0.2.1
     react-use-clipboard: 1.0.9
     solito: 2.0.0-canary.4
   languageName: unknown
@@ -4703,9 +4717,10 @@ __metadata:
     expo-font: ^11.0.1
     expo-linear-gradient: ^12.0.1
     expo-splash-screen: ^0.17.5
+    expo-sqlite: ~11.0.0
     expo-status-bar: ^1.4.2
     expo-updates: ^0.15.6
-    react: 18.0.0
+    react: 18.1.0
     react-dom: ^18.2.0
     react-native: 0.70.5
     react-native-gesture-handler: ^2.8.0
@@ -4795,6 +4810,13 @@ __metadata:
   version: 2.0.1
   resolution: "argparse@npm:2.0.1"
   checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
+  languageName: node
+  linkType: hard
+
+"argsarray@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "argsarray@npm:0.0.1"
+  checksum: 0042accbc0a2d855ad5af56df49291e0e4cae7456f42d486f4cb05518c8e1939bf8aca7dece89d846349d615793fae2cea8ebb20a8207c0f22dafb88b1536819
   languageName: node
   linkType: hard
 
@@ -7702,6 +7724,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-sqlite@npm:~11.0.0":
+  version: 11.0.0
+  resolution: "expo-sqlite@npm:11.0.0"
+  dependencies:
+    "@expo/websql": ^1.0.1
+  peerDependencies:
+    expo: "*"
+  checksum: 45712f811027cb91a22c051ced59c17f2b265bb508a1c993b2183fa41f7ccb177c12142266fbb5e6c82046eb4697d05fae7331e1a2cd6eb416cdc7340dd5cf70
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:^1.4.2, expo-status-bar@npm:~1.4.2":
   version: 1.4.2
   resolution: "expo-status-bar@npm:1.4.2"
@@ -8904,6 +8937,13 @@ __metadata:
   bin:
     image-size: bin/image-size.js
   checksum: cfd01d7672d584a4dd09d29bcf593c4bec3c9bb63769a51f735bd10673a7ddce7445da79771ea70b582a114b35bb4c148366b027ee9d1071c1a051aead54c788
+  languageName: node
+  linkType: hard
+
+"immediate@npm:^3.2.2":
+  version: 3.3.0
+  resolution: "immediate@npm:3.3.0"
+  checksum: 634b4305101e2452eba6c07d485bf3e415995e533c94b9c3ffbc37026fa1be34def6e4f2276b0dc2162a3f91628564a4bfb26280278b89d3ee54624e854d2f5f
   languageName: node
   linkType: hard
 
@@ -11124,6 +11164,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"noop-fn@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "noop-fn@npm:1.0.0"
+  checksum: e271f0590c06283d6216e268507fdab066d52164d7281cef1b99a2f40442c85297341c0e37a8fcbc9da95ea6cead7a87a69937c71a80fb3630b909d08b4e8c19
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^6.0.0":
   version: 6.0.0
   resolution: "nopt@npm:6.0.0"
@@ -11156,6 +11203,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nostr-relaypool@npm:0.2.1":
+  version: 0.2.1
+  resolution: "nostr-relaypool@npm:0.2.1"
+  dependencies:
+    nostr-tools: ^1.1.0
+  checksum: 462659c5d8bacb6f764510c38e7c2b275ff1f784aaf1caf70d931b35d4fe716876bb0492595d27f6466e156b5e038489e3712ade7d73779e583d458d2bd3f805
+  languageName: node
+  linkType: hard
+
 "nostr-tools@npm:1.1.0":
   version: 1.1.0
   resolution: "nostr-tools@npm:1.1.0"
@@ -11166,6 +11222,19 @@ __metadata:
     "@scure/bip32": ^1.1.1
     "@scure/bip39": ^1.1.0
   checksum: 5eee8651ff5c86f3b227f74b8c01e34633df589f0dc138bd4de85d3e25fbd74449897a9107b969ad53d79ac79ef52c1f0cb30f3237061c4a17b9e557b5ccc2b2
+  languageName: node
+  linkType: hard
+
+"nostr-tools@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "nostr-tools@npm:1.1.1"
+  dependencies:
+    "@noble/hashes": ^0.5.7
+    "@noble/secp256k1": ^1.7.0
+    "@scure/base": ^1.1.1
+    "@scure/bip32": ^1.1.1
+    "@scure/bip39": ^1.1.0
+  checksum: eb651e1af83f2e374570535027f77992c231d5377a6f31054981f075d9b8216c7f56b3637d0a621d8ec3e56cdbc9a70fc321d47f0fc2c12947a837236c31c82e
   languageName: node
   linkType: hard
 
@@ -11912,6 +11981,13 @@ __metadata:
   version: 1.0.2
   resolution: "potpack@npm:1.0.2"
   checksum: 9dfdbbce012ce80842249abcdd89e20222eb8ae96beba8d578b7e41e78feefc7e33b5c72d46fb8dd3a1e382cb4da9c34574764d88aa8849ab36f542fd2088b42
+  languageName: node
+  linkType: hard
+
+"pouchdb-collections@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "pouchdb-collections@npm:1.0.1"
+  checksum: 5ac0c3f678406c143d99f5706123ab7d65bfd60a481a7eae2487ad355f5d3c926af0f0acfa9e47ff3e9d2aa0a782cca4431a37ba77d1a02cfd380c5cf5d6aef8
   languageName: node
   linkType: hard
 
@@ -14184,6 +14260,13 @@ __metadata:
   version: 1.0.3
   resolution: "tiny-inflate@npm:1.0.3"
   checksum: 4086a1f8938dafa4a20c63b099aeb47bf8fef5aca991bf4ea4b35dd2684fa52363b2c19b3e76660311e7613cb7c4f063bc48751b9bdf9555e498d997c30bc2d6
+  languageName: node
+  linkType: hard
+
+"tiny-queue@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "tiny-queue@npm:0.2.1"
+  checksum: 9fb00beb47da966cc9296af5049077a656f6111ffb5a20b38a068659b30d8459f8f80b7bcf938e15547c321ecb7da8d001f38c2c847c0492633ae3b69550a4df
   languageName: node
   linkType: hard
 

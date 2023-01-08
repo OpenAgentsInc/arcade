@@ -1,4 +1,7 @@
 {
+  "cli": {
+    "version": ">= 0.60.0"
+  },
   "build": {
     "development": {
       "distribution": "internal",
@@ -8,12 +11,27 @@
       "ios": {
         "simulator": true,
         "image": "latest"
-      }
+      },
+      "channel": "development"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "channel": "preview"
     },
     "production": {
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"
+      },
+      "channel": "production"
+    },
+    "apk": {
+      "channel": "production",
+      "android": {
+        "buildType": "apk"
       }
     }
   }
