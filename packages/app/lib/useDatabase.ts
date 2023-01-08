@@ -10,7 +10,7 @@ export const useDatabase = () => {
 
   useEffect(() => {
     const initializeDatabase = async () => {
-      Alert.alert('Attempting to initialize database?')
+      //   Alert.alert('Attempting to initialize database?')
       if (database) return
 
       const newDatabase = new Database()

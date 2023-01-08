@@ -13,7 +13,6 @@ export const CreateAccountScreen = () => {
   const signup = useStore((s) => s.signup)
 
   const handleSubmit = useCallback(() => {
-    Alert.alert('trying')
     const regex = /^[a-zA-Z_\-0-9]+$/
     // const accountId = user.publicKey ? hexToNpub(user.publicKey) : '-'
     if (username.length < 3) {
@@ -24,7 +23,7 @@ export const CreateAccountScreen = () => {
       Alert.alert('Invalid username', 'Please enter a username with only alphanumeric characters')
       return
     }
-    Alert.alert('attempting signup')
+    // Alert.alert('attempting signup')
     signup(username, displayName, about)
   }, [username, displayName, about])
 
