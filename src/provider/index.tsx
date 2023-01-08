@@ -8,7 +8,7 @@ import config from '../tamagui.config'
 export const Provider: FCC = ({ children }) => {
   return (
     <TamaguiProvider config={config} defaultTheme="dark">
-      <StatusBar barStyle="light-content" translucent />
+      <StatusBar barStyle="light-content" />
       <Suspense>
         <NavigationContainer>{children}</NavigationContainer>
       </Suspense>
