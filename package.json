@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "packageManager": "yarn@3.2.0",
   "scripts": {
-    "start:wsl:wifi": "REACT_NATIVE_PACKAGER_HOSTNAME=$(netsh.exe interface ip show address \"Wi-Fi\" | grep 'IP Address' | sed -r 's/.*IP Address:\\W*//') TAMAGUI_TARGET=native expo start",
-    "start:wsl:eth": "REACT_NATIVE_PACKAGER_HOSTNAME=$(netsh.exe interface ip show address \"Ethernet\" | grep 'IP Address' | sed -r 's/.*IP Address:\\W*//') TAMAGUI_TARGET=native expo start",
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader"
+    "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
+    "build-dev-client:android": "eas build -p android --profile development"
   },
   "dependencies": {
     "@react-navigation/native": "6.1.1",
