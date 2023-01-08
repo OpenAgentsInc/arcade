@@ -63,17 +63,17 @@ Current and upcoming features in order of priority:
 
 [Tweet us](https://twitter.com/TheArcApp) any feature requests.
 
-## Architecture
-
-Documenting on our wiki:
-
-- [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
-
 ## Web Support
 
 As of #28, we removed the web app to focus first on Android and iOS apps. We will re-add web support later.
 
 The previous web app will remain available temporarily at [alpha.thearcapp.com](https://alpha.thearcapp.com), but will not receive updates.
+
+## Architecture
+
+Documenting on our wiki:
+
+- [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
 
 ## Running locally
 
