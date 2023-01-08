@@ -1,11 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ChannelScreen, ChannelsScreen } from 'app/features/chat'
+import { Channel } from 'app/stores/chat'
 import { NavHeader } from 'app/views'
 import React from 'react'
 
 const Stack = createNativeStackNavigator<{
+  // todo: fix the dupe w @types
   channels: undefined
-  channel: undefined
+  channel: { channel: Channel }
   settings: undefined
 }>()
 
@@ -33,15 +35,6 @@ export function ChatNavigator() {
           ),
         }}
       />
-      {/* <Stack.Screen
-        name="settings"
-        component={SettingsScreen}
-        options={{
-          title: 'Settings',
-          header: ({ options: { title } }) => <NavHeader title={title} />,
-          animation: 'slide_from_right',
-        }}
-      /> */}
     </Stack.Navigator>
   )
 }

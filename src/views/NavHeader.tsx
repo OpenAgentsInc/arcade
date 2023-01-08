@@ -12,8 +12,8 @@ export const NavHeader = ({ title, options, ...props }) => {
       px="$3"
       pt="$6"
       bg="$color1"
-      borderBottomColor="$color5"
-      borderBottomWidth="$0.5"
+      borderBottomColor="$color4"
+      borderBottomWidth="$1"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
         {canGoBack() && name === 'channel' ? (
