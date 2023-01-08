@@ -23,6 +23,7 @@ export const CreateAccountScreen = () => {
       Alert.alert('Invalid username', 'Please enter a username with only alphanumeric characters')
       return
     }
+    Alert.alert('attempting signup')
     signup(username, displayName, about)
   }, [username, displayName, about])
 

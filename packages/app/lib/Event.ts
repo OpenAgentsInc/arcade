@@ -32,6 +32,10 @@ export class Event {
   }
 
   public save(database: SQLite.Database, userPubKey: string) {
+    if (!database) {
+      console.log('Not saving, database is not yet ready.')
+      return
+    }
     if (this.isValid()) {
       try {
         if (this.kind === Kind.Metadata) {
