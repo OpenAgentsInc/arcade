@@ -142,9 +142,6 @@ export const createChatStore = (set: any, get: any) => ({
       // Get the public and private keys of the authed user
       const { publicKey, privateKey } = state.user
 
-      // Get relays from the state
-      const { relays } = state
-
       // Create the event object
       const event: any = {
         kind: 42,
@@ -157,20 +154,7 @@ export const createChatStore = (set: any, get: any) => ({
       event.id = getEventHash(event)
       event.sig = signEvent(event, privateKey)
 
-      // Publish the event to all of the relays
-      relays.forEach((relay) => {
-        console.log('Publishing to relay: ', relay.url)
-        const pub = relay.publish(event)
-        pub.on('ok', () => {
-          console.log(`${relay.url} has accepted our event`)
-        })
-        pub.on('seen', () => {
-          console.log(`we saw the event on ${relay.url}`)
-        })
-        pub.on('failed', (reason) => {
-          console.log(`failed to publish to ${relay.url}: ${reason}`)
-        })
-      })
+      state.nostr.publish(event)
     },
   },
 })
