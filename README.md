@@ -2,7 +2,7 @@
 
 A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) client, currently pre-alpha.
 
-We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android and iOS with one codebase.
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tamagui](https://tamagui.dev/) to target Android & iOS with one codebase.
 
 Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
