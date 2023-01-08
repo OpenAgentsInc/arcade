@@ -1,31 +1,21 @@
-import { handleEvent } from 'app/lib/handleEvent'
+/* eslint-disable radix */
+import { useNostr } from 'app/lib/useNostr'
 import { useStore } from 'app/stores'
 import { useEffect } from 'react'
 
 export const useMessagesForChannel = (channelId: string) => {
-  const relays = useStore((s) => s.relays)
-  const chatActions = useStore((s) => s.chatActions)
-  const relayActions = useStore((s) => s.relayActions)
-  const messages = useStore((s) => s.messages)
+  const nostr = useNostr()
+  const messages = useStore((state) => state.messages)
 
   useEffect(() => {
-    relays.forEach((relay) => {
-      if (!relayActions.hasSubscription(relay.url, channelId)) {
-        const sub = relay.sub([{ kinds: [42], '#e': [channelId], limit: 30 }])
-        relayActions.addSubscription({ relayUrl: relay.url, sub, channelId })
-        sub.on('event', (event: any) => handleEvent(event, chatActions))
-        sub.on('eose', () => {
-          relayActions.removeSubscription({ relayUrl: relay.url, channelId })
-          sub.unsub()
-          console.log(`Removed subscription for ${channelId} from ${relay.url}`)
-        })
-      }
-    })
+    const sub = nostr.subscribeToChannel(channelId)
+
     return () => {
       console.log(`closing subscriptions for ${channelId}`)
-      relayActions.clearSubscriptions()
+      sub.unsub()
     }
-  }, [channelId, relays])
+  }, [channelId])
+
   return messages
     .filter((message) => message.channelId === channelId)
     .sort((a, b) => parseInt(a.timestamp) - parseInt(b.timestamp))

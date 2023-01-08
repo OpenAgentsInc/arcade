@@ -1,7 +1,7 @@
 import { initialSubscriptions } from 'app/features/chat/initialSubscriptions'
 import { useStore } from 'app/stores'
-import { RelayPool } from 'nostr-relaypool'
-import { Event as NostrEvent } from 'nostr-tools'
+import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
+import { Event as NostrEvent, Filter } from 'nostr-tools'
 
 import { handleEvent } from '../handleEvent'
 
@@ -40,5 +40,28 @@ export class Nostr {
     this.publicKey = publicKey
     this.privateKey = privateKey
     console.log(`Nostr keys set. pub: ${publicKey}`)
+  }
+
+  public subscribeToChannel(channelId: string): RelayPoolSubscription {
+    return this.subscribe([
+      {
+        kinds: [42],
+        limit: 30,
+        '#e': [channelId],
+      },
+    ])
+  }
+
+  public subscribe(filters: Filter[]): RelayPoolSubscription {
+    const sub = this.relayPool.sub(filters, this.relays)
+    const chatActions = useStore.getState().chatActions
+    sub.onevent((event: NostrEvent) => {
+      console.log('Event received', event.id)
+      handleEvent(event, {
+        addChannel: chatActions.addChannel,
+        addMessage: chatActions.addMessage,
+      })
+    })
+    return sub
   }
 }
