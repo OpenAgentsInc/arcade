@@ -1,4 +1,6 @@
-export const initialSubscriptions = [
+import { Filter } from 'nostr-tools'
+
+export const initialSubscriptions: Filter[] = [
   // Subscribe to the Nostr channel
   {
     kinds: [40],
