@@ -22,6 +22,7 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
+- [x] Add over-the-air updates via [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/) for mobile
 - [ ] Twitter-style profiles
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Look up user by NIP-05 identifier
