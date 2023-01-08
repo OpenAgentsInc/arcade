@@ -1,45 +1,45 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   extends: [
-    "universe/native",
-    "universe/shared/typescript-analysis",
-    "prettier",
+    'universe/native',
+    'universe/shared/typescript-analysis',
+    'prettier',
   ],
-  plugins: ["simple-import-sort"],
+  plugins: ['simple-import-sort'],
   rules: {
     // We will use TypeScript's types for component props instead
-    "react/prop-types": "off",
+    'react/prop-types': 'off',
 
     // Why would you want unused vars?
-    "@typescript-eslint/no-unused-vars": "warn",
+    '@typescript-eslint/no-unused-vars': 'warn',
 
     // I suggest this setting for requiring return types on functions only where useful
-    "@typescript-eslint/explicit-function-return-type": "off",
+    '@typescript-eslint/explicit-function-return-type': 'off',
 
     // Includes .prettierrc.js rules
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
-        endOfLine: "auto",
+        endOfLine: 'auto',
         printWidth: 80,
         tabWidth: 2,
-        singleQuote: false,
+        singleQuote: true,
         bracketSameLine: false,
-        trailingComma: "es5",
-        arrowParens: "always",
+        trailingComma: 'es5',
+        arrowParens: 'always',
         semi: false,
         fix: true,
       },
       { usePrettierrc: false },
     ],
-    "simple-import-sort/exports": "warn",
-    "simple-import-sort/imports": "warn",
+    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': 'warn',
   },
   overrides: [
     {
-      files: ["*.ts", "*.tsx", "*.d.ts", "app.json"],
+      files: ['*.ts', '*.tsx', '*.d.ts', 'app.json'],
       parserOptions: {
-        project: "./tsconfig.json",
+        project: './tsconfig.json',
       },
     },
   ],
