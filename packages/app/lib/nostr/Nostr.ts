@@ -38,6 +38,7 @@ export class Nostr {
 
   public publish(event: Event): void {
     this.relayPool.publish(event, this.relays)
+    console.log('Published?')
   }
 
   public setKeys(publicKey: string, privateKey: string): void {
