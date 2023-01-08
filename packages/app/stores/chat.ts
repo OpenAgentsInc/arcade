@@ -6,7 +6,7 @@ export interface Channel {
   kind: Kind
   pubkey: string
   sig: string
-  tags: string[]
+  tags: string[][]
   metadata: {
     about: string
     name: string

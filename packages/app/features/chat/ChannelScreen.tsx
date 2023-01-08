@@ -13,7 +13,7 @@ import { useUserMetadataForChannel } from './useUserMetadataForChannel'
 const { useParam } = createParam<{ id: string }>()
 
 export const ChannelScreen = () => {
-  const { relays, connect } = useNostr()
+  //   const { relays, connect } = useNostr()
   const { setOptions } = isWeb ? { setOptions: () => {} } : useNavigation()
 
   const [id] = useParam('id')
@@ -22,11 +22,11 @@ export const ChannelScreen = () => {
 
   useUserMetadataForChannel(channel?.id ?? '')
 
-  useEffect(() => {
-    if (relays.length === 0) {
-      connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-    }
-  }, [relays])
+  //   useEffect(() => {
+  //     if (relays.length === 0) {
+  //       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
+  //     }
+  //   }, [relays])
 
   useEffect(() => {
     !isWeb && setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })

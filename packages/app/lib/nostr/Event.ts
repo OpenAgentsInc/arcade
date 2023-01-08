@@ -1,6 +1,6 @@
 import { Channel } from 'app/stores/chat'
 import * as SQLite from 'expo-sqlite'
-import { Kind } from 'nostr-tools'
+import { Event as NostrEventType, Kind } from 'nostr-tools'
 
 interface EventData {
   created_at: number
@@ -9,17 +9,17 @@ interface EventData {
   kind: Kind
   pubkey: string
   sig: string
-  tags: any[]
+  tags: string[][]
 }
 
-export class Event {
+export class Event implements NostrEventType {
   created_at: number
   content: string
   id: string
   kind: Kind
   pubkey: string
   sig: string
-  tags: any[]
+  tags: string[][]
 
   constructor(data: EventData) {
     this.created_at = data.created_at
@@ -105,6 +105,10 @@ export class Event {
     try {
       for (let i = 0; i < this.tags.length; i++) {
         const tag = this.tags[i]
+        if (!tag || tag.length < 1) {
+          // yuck
+          continue
+        }
         if (tag[0] === kind) {
           filtered.push(tag)
         }
@@ -144,6 +148,7 @@ export class Event {
   }
 
   private saveUserMeta(database: SQLite.Database) {
+    console.log('usermeta unsure if this is correct syntax etc', this.tags[0])
     database.transaction((tx) => {
       tx.executeSql(
         'INSERT OR REPLACE INTO users (id, pubkey, username, description, following, followers, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',

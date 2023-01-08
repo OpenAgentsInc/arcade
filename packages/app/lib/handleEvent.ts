@@ -1,21 +1,23 @@
-import { useStore } from 'app/stores'
+// import { useStore } from 'app/stores'
 import { Channel, ChatMessage } from 'app/stores/chat'
-import { isWeb } from '@my/ui'
-import { Event } from './Event'
+
+// import { isWeb } from '@my/ui'
+
+// import { Event } from './Event'
 
 export const handleEvent = (
   event: any,
   actions: { addChannel: (channel: Channel) => void; addMessage: (message: ChatMessage) => void }
 ) => {
-  if (!isWeb) {
-    const classyEvent = new Event(event)
-    const userPubKey = useStore.getState().user.publicKey
-    const database = useStore.getState().database
-    if (!database) {
-      throw new Error('Database not initialized')
-    }
-    classyEvent.save(database.database, userPubKey)
-  }
+  //   if (!isWeb) {
+  //     const classyEvent = new Event(event)
+  //     const userPubKey = useStore.getState().user.publicKey
+  //     const database = useStore.getState().database
+  //     if (database) {
+  //       //   throw new Error('Database not initialized')
+  //       classyEvent.save(database.database, userPubKey)
+  //     }
+  //   }
 
   switch (event.kind) {
     case 40:

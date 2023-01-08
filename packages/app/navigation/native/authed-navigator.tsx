@@ -1,6 +1,5 @@
 import { ProfileScreen } from 'app/features/profile'
 import { SettingsScreen } from 'app/features/user/SettingsScreen'
-import { useDatabase } from 'app/lib/useDatabase'
 import { NavHeader } from 'app/views'
 import { XStack } from '@my/ui'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -17,7 +16,6 @@ const activeTabColor = '$color11'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
-  //   useDatabase()
   return (
     <BottomTab.Navigator
       initialRouteName="chat"

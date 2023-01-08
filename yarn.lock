@@ -4671,6 +4671,7 @@ __metadata:
     expo-clipboard: ^4.0.1
     expo-linking: ^3.2.3
     expo-secure-store: ^12.0.0
+    nostr-relaypool: 0.2.1
     react-use-clipboard: 1.0.9
     solito: 2.0.0-canary.4
   languageName: unknown
@@ -11202,6 +11203,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nostr-relaypool@npm:0.2.1":
+  version: 0.2.1
+  resolution: "nostr-relaypool@npm:0.2.1"
+  dependencies:
+    nostr-tools: ^1.1.0
+  checksum: 462659c5d8bacb6f764510c38e7c2b275ff1f784aaf1caf70d931b35d4fe716876bb0492595d27f6466e156b5e038489e3712ade7d73779e583d458d2bd3f805
+  languageName: node
+  linkType: hard
+
 "nostr-tools@npm:1.1.0":
   version: 1.1.0
   resolution: "nostr-tools@npm:1.1.0"
@@ -11212,6 +11222,19 @@ __metadata:
     "@scure/bip32": ^1.1.1
     "@scure/bip39": ^1.1.0
   checksum: 5eee8651ff5c86f3b227f74b8c01e34633df589f0dc138bd4de85d3e25fbd74449897a9107b969ad53d79ac79ef52c1f0cb30f3237061c4a17b9e557b5ccc2b2
+  languageName: node
+  linkType: hard
+
+"nostr-tools@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "nostr-tools@npm:1.1.1"
+  dependencies:
+    "@noble/hashes": ^0.5.7
+    "@noble/secp256k1": ^1.7.0
+    "@scure/base": ^1.1.1
+    "@scure/bip32": ^1.1.1
+    "@scure/bip39": ^1.1.0
+  checksum: eb651e1af83f2e374570535027f77992c231d5377a6f31054981f075d9b8216c7f56b3637d0a621d8ec3e56cdbc9a70fc321d47f0fc2c12947a837236c31c82e
   languageName: node
   linkType: hard
 
