@@ -5,20 +5,22 @@ import { NativeNavigation } from 'app/navigation/native'
 import { Provider } from 'app/provider'
 import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
-import { LogBox } from 'react-native'
+import { useState } from 'react'
+import { Alert, LogBox } from 'react-native'
+import { useCachedResources } from './useCachedResources'
 
 LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle', 'Warning, duplicate ID'])
 
 export default function App() {
+  //   const [ready, setReady] = useState(false)
+  const isLoadingComplete = useCachedResources()
   useExpoUpdates(3)
 
-  const [loaded] = useFonts({
-    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
-    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-  })
-
-  if (!loaded) {
+  if (!isLoadingComplete) {
+    // Alert.alert('Not done loading resources')
     return null
+  } else {
+    // Alert.alert('Done loading resources')
   }
 
   return (
