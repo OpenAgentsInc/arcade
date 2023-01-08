@@ -16,7 +16,7 @@ export default function App() {
   useExpoUpdates(3)
 
   useEffect(() => {
-    Alert.alert('Testing update - skipping useDatabase')
+    Alert.alert('Testing update - using revised useDatabase')
   }, [])
 
   if (!isLoadingComplete) {
