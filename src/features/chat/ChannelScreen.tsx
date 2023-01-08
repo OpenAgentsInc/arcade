@@ -1,28 +1,28 @@
-import { useStore } from 'app/stores'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { Channel } from 'app/stores/chat'
 import { Screen } from 'app/views'
+import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 import { useUserMetadataForChannel } from './useUserMetadataForChannel'
 
-export const ChannelScreen = ({}) => {
-  //   const { relays, connect } = useNostr()
-  const channels = useStore((s) => s.channels)
-  const id = 'placeholder'
-  const channel = channels.find((c) => c.id === id)
+type ChannelScreenProps = {
+  navigation: NativeStackNavigationProp<StackNavigatorParams, 'channel'>
+  route: RouteProp<StackNavigatorParams, 'channel'>
+}
+
+export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
+  const { channel } = route.params
+  const { setOptions } = useNavigation()
 
   useUserMetadataForChannel(channel?.id ?? '')
 
-  //   useEffect(() => {
-  //     if (relays.length === 0) {
-  //       connect(['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co'])
-  //     }
-  //   }, [relays])
-
-  //   useEffect(() => {
-  //     !isWeb && setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
-  //   }, [channel])
+  useEffect(() => {
+    setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
+  }, [channel])
 
   if (!channel)
     return (
@@ -38,6 +38,9 @@ export const ChannelScreen = ({}) => {
   )
 }
 
-export type ChatStackParamList = {
-  channel: { id: string; name: string }
+export type StackNavigatorParams = {
+  home: undefined
+  create: undefined
+  login: undefined
+  channel: { channel: Channel }
 }

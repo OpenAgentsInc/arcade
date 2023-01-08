@@ -1,12 +1,10 @@
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
 import { Button, Paragraph, Stack, XStack, YStack } from 'tamagui'
 
 export const NavHeader = ({ title, options, ...props }) => {
-  //   const linkprops = useLink({ href: '/settings' })
-  //   const { canGoBack, goBack } = useNavigation()
-  //   const { name } = useRoute()
-  const name: any = 'channel'
-  const goBack = () => {}
+  const { canGoBack, goBack } = useNavigation()
+  const { name } = useRoute()
 
   return (
     <YStack
@@ -18,7 +16,7 @@ export const NavHeader = ({ title, options, ...props }) => {
       borderBottomWidth="$0.5"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {name === 'channel' ? (
+        {canGoBack() && name === 'channel' ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}

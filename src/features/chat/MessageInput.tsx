@@ -1,8 +1,8 @@
+import { Send } from '@tamagui/lucide-icons'
 import { useStore } from 'app/stores'
 import { useRef, useState } from 'react'
 import { Alert, TextInput, TouchableOpacity } from 'react-native'
 import { Input, XStack } from 'tamagui'
-import { Send } from '@tamagui/lucide-icons'
 
 export const MessageInput = ({ channelId }) => {
   const [text, setText] = useState('')

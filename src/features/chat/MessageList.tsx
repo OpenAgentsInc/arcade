@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { FlatList, View } from 'react-native'
+
 import { Message } from './Message'
 import { useMessagesForChannel } from './useMessagesForChannel'
 
