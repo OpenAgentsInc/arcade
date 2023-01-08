@@ -1,4 +1,5 @@
 import { createInterFont } from '@tamagui/font-inter'
+import { createMedia } from '@tamagui/react-native-media-driver'
 import { shorthands } from '@tamagui/shorthands'
 import { themes, tokens } from '@tamagui/theme-base'
 import { createTamagui } from 'tamagui'
@@ -61,7 +62,7 @@ const config = createTamagui({
   },
   themes,
   tokens,
-  media: {
+  media: createMedia({
     xs: { maxWidth: 660 },
     sm: { maxWidth: 800 },
     md: { maxWidth: 1020 },
@@ -76,7 +77,7 @@ const config = createTamagui({
     tall: { minHeight: 820 },
     hoverNone: { hover: 'none' },
     pointerCoarse: { pointer: 'coarse' },
-  },
+  }),
 })
 
 export type AppConfig = typeof config
