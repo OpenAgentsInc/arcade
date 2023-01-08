@@ -4,7 +4,7 @@ import { useExpoUpdates } from 'app/lib/useExpoUpdates'
 import { NativeNavigation } from 'app/navigation/native'
 import { Provider } from 'app/provider'
 import { StatusBar } from 'expo-status-bar'
-import { LogBox } from 'react-native'
+import { LogBox, View } from 'react-native'
 import { useCachedResources } from './useCachedResources'
 
 LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle', 'Warning, duplicate ID'])
@@ -14,7 +14,7 @@ export default function App() {
   useExpoUpdates(3)
 
   if (!isLoadingComplete) {
-    return null
+    return <View style={{ flex: 1, backgroundColor: 'orange' }} />
   }
   return (
     <Provider>

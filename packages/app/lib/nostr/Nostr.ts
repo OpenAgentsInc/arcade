@@ -2,6 +2,7 @@ import { initialSubscriptions } from 'app/features/chat/initialSubscriptions'
 import { useStore } from 'app/stores'
 import { RelayPool } from 'nostr-relaypool'
 import { Event as NostrEvent } from 'nostr-tools'
+import { Alert } from 'react-native'
 import { handleEvent } from '../handleEvent'
 import { Event } from './Event'
 
@@ -37,8 +38,9 @@ export class Nostr {
   }
 
   public publish(event: Event): void {
+    Alert.alert('Publishing event: ' + event.id)
     this.relayPool.publish(event, this.relays)
-    console.log('Published?')
+    Alert.alert('Published event????' + event.id)
   }
 
   public setKeys(publicKey: string, privateKey: string): void {
