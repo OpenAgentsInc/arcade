@@ -7,6 +7,13 @@
     "jsEngine": "hermes",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
+    "icon": "./src/assets/icons/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./src/assets/icons/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc"
