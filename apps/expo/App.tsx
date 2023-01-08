@@ -3,10 +3,8 @@ import 'expo-dev-client'
 import { useExpoUpdates } from 'app/lib/useExpoUpdates'
 import { NativeNavigation } from 'app/navigation/native'
 import { Provider } from 'app/provider'
-import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
-import { useEffect } from 'react'
-import { Alert, LogBox } from 'react-native'
+import { LogBox } from 'react-native'
 import { useCachedResources } from './useCachedResources'
 
 LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle', 'Warning, duplicate ID'])
@@ -14,10 +12,6 @@ LogBox.ignoreLogs(['Constants.platform.ios.model', 'Require cycle', 'Warning, du
 export default function App() {
   const isLoadingComplete = useCachedResources()
   useExpoUpdates(3)
-
-  useEffect(() => {
-    Alert.alert('Testing update - using revised useDatabase')
-  }, [])
 
   if (!isLoadingComplete) {
     return null
