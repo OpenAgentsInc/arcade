@@ -1,0 +1,3 @@
+type StackNavigatorParams = {
+  home: undefined
+}

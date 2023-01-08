@@ -15,6 +15,9 @@
     "apk": "yarn build:android:apk"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "6.5.2",
+    "@react-navigation/native": "6.1.1",
+    "@react-navigation/native-stack": "6.9.7",
     "@shopify/flash-list": "1.3.1",
     "@tamagui/animations-reanimated": "1.0.3",
     "@tamagui/font-inter": "1.0.3",
@@ -23,6 +26,7 @@
     "@tamagui/theme-base": "1.0.3",
     "date-fns": "2.29.3",
     "expo": "47.0.9",
+    "expo-clipboard": "~4.0.1",
     "expo-dev-client": "2.0.1",
     "expo-font": "11.0.1",
     "expo-linear-gradient": "12.0.1",
