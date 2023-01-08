@@ -12,7 +12,7 @@ const BottomTab = createBottomTabNavigator<{
   settings: undefined
 }>()
 
-const activeTabColor = '$color11'
+const activeTabColor = '$color12'
 const inactiveTabColor = '$color8'
 
 export function AuthedNavigator() {
