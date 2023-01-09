@@ -10,7 +10,7 @@ export const parseMentions = (content: string, tags: any[]) => {
     blocks: [],
   }
 
-  arcParseContent(bs, content)
+  arc_parse_content(bs, content)
 
   for (let i = 0; i < bs.num_blocks; i++) {
     const block = bs.blocks[i]
@@ -23,36 +23,68 @@ export const parseMentions = (content: string, tags: any[]) => {
   return out
 }
 
-function parseMention(cur: Cursor, block: Block): number {
-  let d1: number, d2: number, d3: number, ind: number
-  const start: number = cur.p
-
-  if (!parseStr(cur, '#[')) {
-    return 0
+export const arc_parse_content = (bs: any, content: string) => {
+  if (!content) {
+    return false
   }
 
-  if (!parseDigit(cur, d1)) {
-    cur.p = start
-    return 0
+  let start = 0
+  const end = content.length
+
+  for (let i = 0; i < end; i++) {
+    const c = content.charAt(i)
+
+    if (c === '#') {
+      const block = {
+        type: 'BLOCK_HASHTAG',
+        block: {
+          str: {
+            start: content.substring(start, i),
+            end: content.substring(i + 1, end),
+          },
+        },
+      }
+      bs.blocks.push(block)
+      start = i + 1
+    } else if (c === 'h' || c === 'H') {
+      const block = {
+        type: 'BLOCK_URL',
+        block: {
+          str: {
+            start: content.substring(start, i),
+            end: content.substring(i, end),
+          },
+        },
+      }
+      bs.blocks.push(block)
+      start = i
+    } else if (c === 'l' || c === 'L') {
+      const block = {
+        type: 'BLOCK_INVOICE',
+        block: {
+          invstr: {
+            start: content.substring(start, i),
+            end: content.substring(i, end),
+          },
+        },
+      }
+      bs.blocks.push(block)
+      start = i
+    }
   }
 
-  ind = d1
-
-  if (parseDigit(cur, d2)) {
-    ind = d1 * 10 + d2
+  if (start < end) {
+    const block = {
+      type: 'BLOCK_TEXT',
+      block: {
+        str: {
+          start: content.substring(start, end),
+          end: content.substring(end, end),
+        },
+      },
+    }
+    bs.blocks.push(block)
   }
 
-  if (parseDigit(cur, d3)) {
-    ind = d1 * 100 + d2 * 10 + d3
-  }
-
-  if (!parseChar(cur, ']')) {
-    cur.p = start
-    return 0
-  }
-
-  block.type = BlockType.MENTION
-  block.block.mention = ind
-
-  return 1
+  return true
 }
