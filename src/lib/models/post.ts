@@ -1,5 +1,7 @@
 import { Kind } from 'nostr-tools'
 
+import { bech32Decode } from '../nostr'
+import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
 
@@ -69,11 +71,11 @@ export const parsePostMention = (
 function parsePostBech32Mention(p: Parser): ReferencedId | null {
   const start = p.pos
   let hrp = ''
-  if (p.startsWith('note')) {
+  if (p.str.startsWith('note', p.pos)) {
     hrp = 'note'
-  } else if (p.startsWith('npub')) {
+  } else if (p.str.startsWith('npub', p.pos)) {
     hrp = 'npub'
-  } else if (p.startsWith('nsec')) {
+  } else if (p.str.startsWith('nsec', p.pos)) {
     hrp = 'nsec'
   } else {
     return null

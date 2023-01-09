@@ -79,8 +79,8 @@ export const parseNostrRefUri = (p: string): ReferencedId | null => {
 }
 
 export const decodeUniversalLink = (s: string): NostrLink | null => {
-  let uri = s.replace('https://damus.io/r/', '')
-  uri = uri.replace('https://damus.io/', '')
+  let uri = s.replace('https://thearcapp.com/r/', '')
+  uri = uri.replace('https://thearcapp.com/', '')
   uri = uri.replace('/', '')
 
   const decoded = bech32Decode(uri)
