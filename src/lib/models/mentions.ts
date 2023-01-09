@@ -1,3 +1,7 @@
+import { NostrEvent } from '../nostr/NostrEvent'
+import { parsePostBlocks } from './post'
+import { PostBlock } from './postblock'
+
 type NostrPost = {
   content: string
   references: string[]
@@ -8,6 +12,126 @@ enum PostKind {
   TextPost = 1,
   ImagePost = 2,
   AudioPost = 3,
+}
+
+function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
+  const newTags = tags
+  const blocks: Block[] = []
+
+  for (const postBlock of postBlocks) {
+    switch (postBlock.kind) {
+      case 'ref': {
+        const ref = postBlock.ref
+        const mentionType = parseMentionType(ref.key)
+        if (mentionType) {
+          const ind = findTagRef(mentionType, ref.refId, tags)
+          if (ind >= 0) {
+            const mention: Mention = {
+              index: ind,
+              type: mentionType,
+              ref,
+            }
+            const block: Block = {
+              kind: 'mention',
+              mention,
+            }
+            blocks.push(block)
+          } else {
+            const ind = newTags.length
+            newTags.push(refIdToTag(ref))
+            const mention: Mention = {
+              index: ind,
+              type: mentionType,
+              ref,
+            }
+            const block: Block = {
+              kind: 'mention',
+              mention,
+            }
+            blocks.push(block)
+          }
+        }
+        break
+      }
+      case 'hashtag': {
+        const hashtag = postBlock.hashtag.toLowerCase()
+        newTags.push(['t', hashtag])
+        blocks.push({
+          kind: 'hashtag',
+          hashtag,
+        })
+        break
+      }
+      case 'text': {
+        blocks.push({
+          kind: 'text',
+          text: postBlock.text,
+        })
+        break
+      }
+    }
+  }
+
+  return {
+    blocks,
+    tags: newTags,
+  }
+}
+
+interface PostTags {
+  blocks: Block[]
+  tags: string[][]
+}
+
+// type PostBlock = {
+//   kind: 'ref' | 'hashtag' | 'text'
+//   ref?: ReferencedId
+//   hashtag?: string
+//   text?: string
+// }
+
+interface Mention {
+  index: number
+  type: MentionType
+  ref: ReferencedId
+}
+
+type Block = {
+  kind: 'mention' | 'hashtag' | 'text'
+  mention?: Mention
+  hashtag?: string
+  text?: string
+}
+
+type MentionType = 'event' | 'pubkey'
+
+function parseMentionType(p: string): MentionType | null {
+  if (p[0] === '@') {
+    return 'pubkey'
+  }
+
+  if (p[0] === '&') {
+    return 'event'
+  }
+
+  return null
+}
+
+function renderBlocks(blocks: Block[]): string {
+  return blocks.reduce((str, block) => {
+    switch (block.kind) {
+      case 'mention':
+        return str + '#[' + block.index + ']'
+      case 'text':
+        return str + block.text
+      case 'hashtag':
+        return str + '#' + block.hashtag
+      case 'url':
+        return str + block.url
+      case 'invoice':
+        return str + block.invoice.string
+    }
+  }, '')
 }
 
 export const postToEvent = (
@@ -109,4 +233,14 @@ export const parseMentions = (content: string, tags: any[]) => {
 
 function refidToTag(refid: string): string[] {
   return ['e', refid]
+}
+
+function findTagRef(type: string, id: string, tags: string[][]): number | null {
+  for (let i = 0; i < tags.length; i++) {
+    const tag = tags[i]
+    if (tag[0] === type && tag[1] === id) {
+      return i
+    }
+  }
+  return null
 }

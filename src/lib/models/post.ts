@@ -1,6 +1,6 @@
 import { Kind } from 'nostr-tools'
 
-import { bech32Decode } from '../nostr'
+import { bech32Decode } from '../nostr/bech32'
 import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
@@ -232,15 +232,16 @@ function parsePostBlock(p: Parser): PostBlock {
 }
 
 export function parsePostBlocks(content: string): PostBlock[] {
-  const p = new Parser(content)
+  const p = new Parser(0, content)
   const blocks: PostBlock[] = []
   while (!p.done()) {
-    const block = parsePostBlock(p)
+    const block = parsePostTextBlock(p.str, p.pos, p.str.length)
     if (block) {
       blocks.push(block)
     } else {
-      p.pos++
+      break
     }
+    p.pos += 1
   }
   return blocks
 }

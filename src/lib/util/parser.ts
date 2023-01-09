@@ -6,6 +6,10 @@ export class Parser {
     this.pos = pos
     this.str = str
   }
+
+  done(): boolean {
+    return this.pos >= this.str.length
+  }
 }
 
 export function consumeUntil(

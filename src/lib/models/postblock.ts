@@ -13,6 +13,6 @@ export const parsePostTextBlock = (
   str: string,
   from: number,
   to: number
-): PostBlock => {
+): PostBlock | null => {
   return { type: 'text', value: str.substring(from, to) }
 }
