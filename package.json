@@ -15,7 +15,7 @@
     "build:android:dev-client": "eas build -p android --profile development",
     "postinstall": "npx patch-package",
     "apk": "yarn build:android:apk",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.5.2",
