@@ -1,55 +1,3 @@
-function makeCursor(cursor: any, content: Uint8Array, len: number) {
-  cursor.start = content
-  cursor.end = new Uint8Array(content.length + len) // ?
-  cursor.p = content
-}
-
-function arcParseContent(blocks: any, content: string): boolean {
-  let cp: number, c: number
-  const cur: any = {}
-  const block: any = {}
-  let start: any, preMention: any
-
-  blocks.num_blocks = 0
-  makeCursor(cur, content, content.length)
-
-  start = cur.p
-  while (cur.p < cur.end && blocks.num_blocks < MAX_BLOCKS) {
-    cp = peekChar(cur, -1)
-    c = peekChar(cur, 0)
-
-    preMention = cur.p
-    if (cp === -1 || isWhitespace(cp)) {
-      if (c === '#' && (parseMention(cur, block) || parseHashtag(cur, block))) {
-        if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
-          return false
-        }
-        continue
-      } else if ((c === 'h' || c === 'H') && parseUrl(cur, block)) {
-        if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
-          return false
-        }
-        continue
-      } else if ((c === 'l' || c === 'L') && parseInvoice(cur, block)) {
-        if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
-          return false
-        }
-        continue
-      }
-    }
-
-    cur.p++
-  }
-
-  if (cur.p - start > 0) {
-    if (!addTextBlock(blocks, start, cur.p)) {
-      return false
-    }
-  }
-
-  return true
-}
-
 export const parseMentions = (content: string, tags: any[]) => {
   if (!content) {
     return []
@@ -73,4 +21,38 @@ export const parseMentions = (content: string, tags: any[]) => {
   }
 
   return out
+}
+
+function parseMention(cur: Cursor, block: Block): number {
+  let d1: number, d2: number, d3: number, ind: number
+  const start: number = cur.p
+
+  if (!parseStr(cur, '#[')) {
+    return 0
+  }
+
+  if (!parseDigit(cur, d1)) {
+    cur.p = start
+    return 0
+  }
+
+  ind = d1
+
+  if (parseDigit(cur, d2)) {
+    ind = d1 * 10 + d2
+  }
+
+  if (parseDigit(cur, d3)) {
+    ind = d1 * 100 + d2 * 10 + d3
+  }
+
+  if (!parseChar(cur, ']')) {
+    cur.p = start
+    return 0
+  }
+
+  block.type = BlockType.MENTION
+  block.block.mention = ind
+
+  return 1
 }

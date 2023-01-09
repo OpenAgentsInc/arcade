@@ -1,0 +1,425 @@
+type Cursor = {
+  p: number
+  start: number
+  end: number
+}
+
+function isWhitespace(c: string): boolean {
+  return (
+    c === ' ' ||
+    c === '\t' ||
+    c === '\n' ||
+    c === '\v' ||
+    c === '\f' ||
+    c === '\r'
+  )
+}
+
+function makeCursor(c: Cursor, content: number[], len: number): void {
+  c.start = content
+  c.end = content + len
+  c.p = content
+}
+
+function consumeUntilWhitespace(cur: Cursor, orEnd: number): number {
+  let c: string
+
+  while (cur.p < cur.end) {
+    c = String.fromCharCode(cur.p)
+
+    if (isWhitespace(c)) {
+      return 1
+    }
+
+    cur.p++
+  }
+
+  return orEnd
+}
+
+function parseChar(cur: Cursor, c: string): number {
+  if (cur.p >= cur.end) {
+    return 0
+  }
+
+  if (cur.p[0] == c) {
+    cur.p++
+    return 1
+  }
+
+  return 0
+}
+
+function peek_char(cur: Cursor, ind: number): number {
+  if (cur.p + ind < cur.start || cur.p + ind >= cur.end) {
+    return -1
+  }
+
+  return cur.p[ind]
+}
+
+function parseDigit(cur: Cursor, digit: number): number {
+  let c: number = peek_char(cur, 0)
+  if (c == -1) {
+    return 0
+  }
+
+  c -= '0'
+
+  if (c >= 0 && c <= 9) {
+    digit = c
+    cur.p++
+    return 1
+  }
+
+  return 0
+}
+
+function parse_str(cur: Cursor, str: string): number {
+  let i: number
+  let c: string
+  let cs: string
+  let len: number
+
+  len = str.length
+
+  if (cur.p + len >= cur.end) {
+    return 0
+  }
+
+  for (i = 0; i < len; i++) {
+    c = cur.p[i].toLowerCase()
+    cs = str[i].toLowerCase()
+
+    if (c != cs) {
+      return 0
+    }
+  }
+
+  cur.p += len
+
+  return 1
+}
+
+function parseMention(cur: Cursor, block: Block): number {
+  let d1: number, d2: number, d3: number, ind: number
+  const start: number = cur.p
+
+  if (!parseStr(cur, '#[')) {
+    return 0
+  }
+
+  if (!parseDigit(cur, d1)) {
+    cur.p = start
+    return 0
+  }
+
+  ind = d1
+
+  if (parseDigit(cur, d2)) {
+    ind = d1 * 10 + d2
+  }
+
+  if (parseDigit(cur, d3)) {
+    ind = d1 * 100 + d2 * 10 + d3
+  }
+
+  if (!parseChar(cur, ']')) {
+    cur.p = start
+    return 0
+  }
+
+  block.type = BLOCK_MENTION
+  block.block.mention = ind
+
+  return 1
+}
+
+function parseHashtag(cur: Cursor, block: Block): number {
+  let c: number
+  const start: number = cur.p
+
+  if (!parseChar(cur, '#')) {
+    return 0
+  }
+
+  c = peekChar(cur, 0)
+  if (c === -1 || isWhitespace(c) || c === '#') {
+    cur.p = start
+    return 0
+  }
+
+  consumeUntilWhitespace(cur, 1)
+
+  block.type = BLOCK_HASHTAG
+  block.block.str.start = (start + 1) as string
+  block.block.str.end = cur.p as string
+
+  return 1
+}
+
+function addBlock(blocks: Blocks, block: Block): number {
+  if (blocks.num_blocks + 1 >= MAX_BLOCKS) {
+    return 0
+  }
+
+  blocks.blocks[blocks.num_blocks++] = block
+  return 1
+}
+
+function addTextBlock(blocks: Blocks, start: number, end: number): number {
+  const block: Block = {
+    type: BLOCK_TEXT,
+    block: {
+      str: {
+        start: start as string,
+        end: end as string,
+      },
+    },
+  }
+
+  if (start === end) {
+    return 1
+  }
+
+  return addBlock(blocks, block)
+}
+
+interface Block {
+  type: number
+  block: {
+    str: {
+      start: string
+      end: string
+    }
+    invoice: {
+      invstr: {
+        start: string
+        end: string
+      }
+      bolt11: any
+    }
+  }
+}
+
+interface Blocks {
+  blocks: Block[]
+  num_blocks: number
+}
+
+const MAX_BLOCKS = 100
+
+// function add_text_block(blocks: Blocks, start: string, end: string): number {
+//   const b: Block = {
+//     type: 0,
+//     block: {
+//       str: {
+//         start,
+//         end,
+//       },
+//     },
+//   }
+
+//   return addBlock(blocks, b)
+// }
+
+function parse_url(cur: any, block: Block): number {
+  const start = cur.p
+
+  if (!parse_str(cur, 'http')) {
+    return 0
+  }
+
+  if (parseChar(cur, 's') || parseChar(cur, 'S')) {
+    if (!parse_str(cur, '://')) {
+      cur.p = start
+      return 0
+    }
+  } else {
+    if (!parse_str(cur, '://')) {
+      cur.p = start
+      return 0
+    }
+  }
+
+  if (!consume_until_whitespace(cur, 1)) {
+    cur.p = start
+    return 0
+  }
+
+  block.type = 1
+  block.block.str.start = start
+  block.block.str.end = cur.p
+
+  return 1
+}
+
+function parse_invoice(cur: any, block: Block): number {
+  const start = cur.p
+  let end
+  let fail
+  let bolt11
+
+  // optional
+  parse_str(cur, 'lightning:')
+
+  if (!parse_str(cur, 'lnbc')) {
+    return 0
+  }
+
+  if (!consume_until_whitespace(cur, 1)) {
+    cur.p = start
+    return 0
+  }
+
+  end = cur.p
+
+  const str = new Array(end - start + 1).fill(0)
+  str[end - start] = 0
+  str.fill(start, 0, end - start)
+
+  if (!(bolt11 = bolt11_decode(null, str, fail))) {
+    cur.p = start
+    return 0
+  }
+
+  block.type = 2
+  block.block.invoice.invstr.start = start
+  block.block.invoice.invstr.end = end
+  block.block.invoice.bolt11 = bolt11
+
+  cur.p = end
+
+  return 1
+}
+
+function add_text_then_block(
+  cur: any,
+  blocks: Blocks,
+  block: Block,
+  start: string,
+  pre_mention: string
+): number {
+  if (!add_text_block(blocks, start, pre_mention)) {
+    return 0
+  }
+
+  start = cur.p
+
+  if (!addBlock(blocks, block)) {
+    return 0
+  }
+
+  return 1
+}
+
+function content_parse_content(blocks: Blocks, content: string): number {
+  let cp
+  let c
+  const cur = {
+    p: 0,
+    end: content.length,
+  }
+  let block: Block
+  let start
+  let pre_mention
+
+  blocks.num_blocks = 0
+
+  start = cur.p
+  while (cur.p < cur.end && blocks.num_blocks < MAX_BLOCKS) {
+    cp = peek_char(cur, -1)
+    c = peek_char(cur, 0)
+
+    pre_mention = cur.p
+    if (cp === -1 || is_whitespace(cp)) {
+      if (
+        c === '#' &&
+        (parse_mention(cur, block) || parse_hashtag(cur, block))
+      ) {
+        if (!add_text_then_block(cur, blocks, block, start, pre_mention)) {
+          return 0
+        }
+        continue
+      } else if ((c === 'h' || c === 'H') && parse_url(cur, block)) {
+        if (!add_text_then_block(cur, blocks, block, start, pre_mention)) {
+          return 0
+        }
+        continue
+      } else if ((c === 'l' || c === 'L') && parse_invoice(cur, block)) {
+        if (!add_text_then_block(cur, blocks, block, start, pre_mention)) {
+          return 0
+        }
+        continue
+      }
+    }
+
+    cur.p++
+  }
+
+  if (cur.p - start > 0) {
+    if (!add_text_block(blocks, start, cur.p)) {
+      return 0
+    }
+  }
+
+  return 1
+}
+
+function blocks_init(blocks: Blocks): void {
+  blocks.blocks = new Array(MAX_BLOCKS).fill(null)
+  blocks.num_blocks = 0
+}
+
+function blocks_free(blocks: Blocks): void {
+  if (blocks.blocks) {
+    blocks.blocks = []
+    blocks.num_blocks = 0
+  }
+}
+
+// function arcParseContent(blocks: any, content: string): boolean {
+//   let cp: number, c: number
+//   const cur: any = {}
+//   const block: any = {}
+//   let start: any, preMention: any
+
+//   blocks.num_blocks = 0
+//   makeCursor(cur, content, content.length)
+
+//   start = cur.p
+//   while (cur.p < cur.end && blocks.num_blocks < MAX_BLOCKS) {
+//     cp = peekChar(cur, -1)
+//     c = peekChar(cur, 0)
+
+//     preMention = cur.p
+//     if (cp === -1 || isWhitespace(cp)) {
+//       if (c === '#' && (parseMention(cur, block) || parseHashtag(cur, block))) {
+//         if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
+//           return false
+//         }
+//         continue
+//       } else if ((c === 'h' || c === 'H') && parseUrl(cur, block)) {
+//         if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
+//           return false
+//         }
+//         continue
+//       } else if ((c === 'l' || c === 'L') && parseInvoice(cur, block)) {
+//         if (!addTextThenBlock(cur, blocks, block, start, preMention)) {
+//           return false
+//         }
+//         continue
+//       }
+//     }
+
+//     cur.p++
+//   }
+
+//   if (cur.p - start > 0) {
+//     if (!addTextBlock(blocks, start, cur.p)) {
+//       return false
+//     }
+//   }
+
+//   return true
+// }
