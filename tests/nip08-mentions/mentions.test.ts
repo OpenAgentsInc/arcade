@@ -1,4 +1,4 @@
-import { parseMentions, postToEvent } from 'lib/models/mentions'
+import { parseMentions, PostKind, postToEvent } from 'lib/models/mentions'
 
 test('parses a blank mention', () => {
   const parsed = parseMentions('', [['e', 'event_id']])
@@ -15,13 +15,15 @@ test('make hashtag post', () => {
   const post = {
     content: '#arc some content #bitcoin derp',
     references: [],
+    kind: PostKind.TextPost,
   }
   const ev = postToEvent(post, privkey, pubkey)
+  console.log(ev)
 
   expect(ev.tags.length).toBe(2)
-  expect(ev.content).toBe('#damus some content #bitcoin derp')
+  expect(ev.content).toBe('#arc some content #bitcoin derp')
   expect(ev.tags[0][0]).toBe('t')
-  expect(ev.tags[0][1]).toBe('damus')
+  expect(ev.tags[0][1]).toBe('arc')
   expect(ev.tags[1][0]).toBe('t')
   expect(ev.tags[1][1]).toBe('bitcoin')
 })

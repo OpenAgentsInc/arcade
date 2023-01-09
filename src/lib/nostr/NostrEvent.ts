@@ -1,4 +1,4 @@
-import { getEventHash } from 'nostr-tools'
+import { getEventHash, signEvent } from 'nostr-tools'
 
 enum ValidationResult {
   ok,
@@ -30,7 +30,24 @@ export class NostrEvent {
   id: string
   sig: string
   tags: string[][]
+  pubkey: string
+  created_at: number
+  kind: number
+  content: string
+
   boosted_by?: string
+
+  constructor(content: string, pubkey: string, kind: number, tags: string[][]) {
+    this.content = content
+    this.pubkey = pubkey
+    this.kind = kind
+    this.tags = tags
+    this.created_at = Math.floor(Date.now() / 1000) // no
+  }
+
+  sign(privkey: string) {
+    this.sig = signEvent(this, privkey)
+  }
 
   static equals(lhs: NostrEvent, rhs: NostrEvent): boolean {
     return lhs.id === rhs.id
@@ -46,11 +63,6 @@ export class NostrEvent {
 
   // custom flags for internal use
   flags: number = 0
-
-  pubkey: string
-  created_at: number
-  kind: number
-  content: string
 
   get is_textlike(): boolean {
     return this.kind === 1 || this.kind === 42

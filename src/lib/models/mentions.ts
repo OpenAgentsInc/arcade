@@ -8,24 +8,24 @@ type NostrPost = {
   kind: PostKind
 }
 
-enum PostKind {
+export enum PostKind {
   TextPost = 1,
   ImagePost = 2,
   AudioPost = 3,
 }
 
 function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
-  const newTags = tags
+  const newTags = tags.slice()
   const blocks: Block[] = []
 
   for (const postBlock of postBlocks) {
-    switch (postBlock.kind) {
+    switch (postBlock.type) {
       case 'ref': {
-        const ref = postBlock.ref
+        const ref = postBlock.value
         const mentionType = parseMentionType(ref.key)
         if (mentionType) {
           const ind = findTagRef(mentionType, ref.refId, tags)
-          if (ind >= 0) {
+          if (ind && ind >= 0) {
             const mention: Mention = {
               index: ind,
               type: mentionType,
@@ -38,7 +38,7 @@ function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
             blocks.push(block)
           } else {
             const ind = newTags.length
-            newTags.push(refIdToTag(ref))
+            newTags.push(refidToTag(ref.refId))
             const mention: Mention = {
               index: ind,
               type: mentionType,
@@ -54,8 +54,13 @@ function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
         break
       }
       case 'hashtag': {
-        const hashtag = postBlock.hashtag.toLowerCase()
-        newTags.push(['t', hashtag])
+        const hashtag = postBlock.value.toLowerCase()
+        const tagExists = tags.some(
+          (tag) => tag[0] === 't' && tag[1] === hashtag
+        )
+        if (!tagExists) {
+          newTags.push(['t', hashtag])
+        }
         blocks.push({
           kind: 'hashtag',
           hashtag,
@@ -65,13 +70,12 @@ function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
       case 'text': {
         blocks.push({
           kind: 'text',
-          text: postBlock.text,
+          text: postBlock.value,
         })
         break
       }
     }
   }
-
   return {
     blocks,
     tags: newTags,
@@ -141,7 +145,9 @@ export const postToEvent = (
 ) => {
   const tags = post.references.map(refidToTag)
   const postBlocks = parsePostBlocks(post.content)
+  console.log('postBlocks:', postBlocks)
   const postTags = makePostTags(postBlocks, tags)
+  console.log('postTags:', postTags)
   const content = renderBlocks(postTags.blocks)
   const newEv = new NostrEvent(content, pubkey, post.kind, postTags.tags)
   newEv.calculateId()

@@ -219,29 +219,29 @@ function parsePostHashtagBlock(p: Parser): PostBlock {
   return null
 }
 
-function parsePostBlock(p: Parser): PostBlock {
-  const start = p.pos
-  const mentionType = parsePostMentionType(p)
-  if (mentionType) {
-    return parsePostMentionBlock(p, mentionType)
-  } else if (parseChar(p, '#')) {
-    return parsePostHashtagBlock(p)
-  } else {
-    return parsePostTextBlock(p)
-  }
-}
+// function parsePostBlock(p: Parser): PostBlock {
+//   const start = p.pos
+//   const mentionType = parsePostMentionType(p)
+//   if (mentionType) {
+//     return parsePostMentionBlock(p, mentionType)
+//   } else if (parseChar(p, '#')) {
+//     return parsePostHashtagBlock(p)
+//   } else {
+//     return parsePostTextBlock(p)
+//   }
+// }
 
 export function parsePostBlocks(content: string): PostBlock[] {
-  const p = new Parser(0, content)
   const blocks: PostBlock[] = []
-  while (!p.done()) {
-    const block = parsePostTextBlock(p.str, p.pos, p.str.length)
+  let currentIndex = 0
+  while (currentIndex < content.length) {
+    const block = parsePostTextBlock(content, currentIndex, content.length)
     if (block) {
       blocks.push(block)
+      currentIndex += block.value.length
     } else {
-      break
+      currentIndex++
     }
-    p.pos += 1
   }
   return blocks
 }
