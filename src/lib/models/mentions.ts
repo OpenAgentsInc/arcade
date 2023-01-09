@@ -1,3 +1,30 @@
+type NostrPost = {
+  content: string
+  references: string[]
+  kind: PostKind
+}
+
+enum PostKind {
+  TextPost = 1,
+  ImagePost = 2,
+  AudioPost = 3,
+}
+
+export const postToEvent = (
+  post: NostrPost,
+  privkey: string,
+  pubkey: string
+) => {
+  const tags = post.references.map(refidToTag)
+  const postBlocks = parsePostBlocks(post.content)
+  const postTags = makePostTags(postBlocks, tags)
+  const content = renderBlocks(postTags.blocks)
+  const newEv = new NostrEvent(content, pubkey, post.kind, postTags.tags)
+  newEv.calculateId()
+  newEv.sign(privkey)
+  return newEv
+}
+
 export const parseMentions = (content: string, tags: any[]) => {
   // If the content is blank, return an empty array.
   if (!content) {
@@ -9,7 +36,7 @@ export const parseMentions = (content: string, tags: any[]) => {
 
   // Set the start and end indices of the content.
   let start = 0
-  const end = content.length
+  //   const end = content.length
 
   // Use a regular expression to match and extract hashtags from the content string.
   const hashtagRegex = /#\w+/g
@@ -78,4 +105,8 @@ export const parseMentions = (content: string, tags: any[]) => {
   }
 
   return out
+}
+
+function refidToTag(refid: string): string[] {
+  return ['e', refid]
 }

@@ -1,4 +1,4 @@
-import { parseMentions } from 'lib/mentions'
+import { parseMentions, postToEvent } from 'lib/models/mentions'
 
 test('parses a blank mention', () => {
   const parsed = parseMentions('', [['e', 'event_id']])
@@ -7,24 +7,24 @@ test('parses a blank mention', () => {
   expect(parsed.length).toBe(0)
 })
 
-// test('make hashtag post', () => {
-//   const privkey =
-//     'd05f5fcceef3e4529703f62a29222d6ee2d1b7bf1f24729b5e01df7c633cec8a'
-//   const pubkey =
-//     '6e59d3b78b1c1490a6489c94405873b57d8ef398a830ae5e39608f4107e9a790'
-//   const post = {
-//     content: '#damus some content #bitcoin derp',
-//     references: [],
-//   }
-//   const ev = post_to_event(post, privkey, pubkey)
+test('make hashtag post', () => {
+  const privkey =
+    'd05f5fcceef3e4529703f62a29222d6ee2d1b7bf1f24729b5e01df7c633cec8a'
+  const pubkey =
+    '6e59d3b78b1c1490a6489c94405873b57d8ef398a830ae5e39608f4107e9a790'
+  const post = {
+    content: '#arc some content #bitcoin derp',
+    references: [],
+  }
+  const ev = postToEvent(post, privkey, pubkey)
 
-//   expect(ev.tags.length).toBe(2)
-//   expect(ev.content).toBe('#damus some content #bitcoin derp')
-//   expect(ev.tags[0][0]).toBe('t')
-//   expect(ev.tags[0][1]).toBe('damus')
-//   expect(ev.tags[1][0]).toBe('t')
-//   expect(ev.tags[1][1]).toBe('bitcoin')
-// })
+  expect(ev.tags.length).toBe(2)
+  expect(ev.content).toBe('#damus some content #bitcoin derp')
+  expect(ev.tags[0][0]).toBe('t')
+  expect(ev.tags[0][1]).toBe('damus')
+  expect(ev.tags[1][0]).toBe('t')
+  expect(ev.tags[1][1]).toBe('bitcoin')
+})
 
 test('parses a hashtag', () => {
   const parsed: any = parseMentions('some hashtag #bitcoin derp', [])
