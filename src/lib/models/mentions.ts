@@ -14,73 +14,112 @@ export enum PostKind {
   AudioPost = 3,
 }
 
-function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
-  const newTags = tags.slice()
-  const blocks: Block[] = []
+/**
+ * This function takes in an array of PostBlock objects and an array of tags and returns an object
+ * containing an array of Block objects and an array of tags.
+ *
+ * @param postBlocks An array of PostBlock objects
+ * @param tags An array of tags
+ * @returns An object containing an array of Block objects and an array of tags
+ */
+// function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
+//   // Create a copy of the tags array
+//   const newTags = tags.slice()
+//   // Create an empty array to store the Block objects
+//   const blocks: Block[] = []
 
-  for (const postBlock of postBlocks) {
-    switch (postBlock.type) {
-      case 'ref': {
-        const ref = postBlock.value
-        const mentionType = parseMentionType(ref.key)
-        if (mentionType) {
-          const ind = findTagRef(mentionType, ref.refId, tags)
-          if (ind && ind >= 0) {
-            const mention: Mention = {
-              index: ind,
-              type: mentionType,
-              ref,
-            }
-            const block: Block = {
-              kind: 'mention',
-              mention,
-            }
-            blocks.push(block)
-          } else {
-            const ind = newTags.length
-            newTags.push(refidToTag(ref.refId))
-            const mention: Mention = {
-              index: ind,
-              type: mentionType,
-              ref,
-            }
-            const block: Block = {
-              kind: 'mention',
-              mention,
-            }
-            blocks.push(block)
-          }
-        }
-        break
-      }
-      case 'hashtag': {
-        const hashtag = postBlock.value.toLowerCase()
-        const tagExists = tags.some(
-          (tag) => tag[0] === 't' && tag[1] === hashtag
-        )
-        if (!tagExists) {
-          newTags.push(['t', hashtag])
-        }
-        blocks.push({
-          kind: 'hashtag',
-          hashtag,
-        })
-        break
-      }
-      case 'text': {
-        blocks.push({
-          kind: 'text',
-          text: postBlock.value,
-        })
-        break
-      }
-    }
-  }
-  return {
-    blocks,
-    tags: newTags,
-  }
-}
+//   // Iterate through the postBlocks array
+//   for (const postBlock of postBlocks) {
+//     // Check the type of the postBlock
+//     switch (postBlock.type) {
+//       // If the type is 'ref'
+//       case 'ref': {
+//         // Extract the ReferencedId object from the postBlock
+//         const ref = postBlock.value
+//         // Parse the mention type from the key of the ReferencedId object
+//         const mentionType = parseMentionType(ref.key)
+//         // If the mention type is valid
+//         if (mentionType) {
+//           // Find the index of the tag in the tags array
+//           const ind = findTagRef(mentionType, ref.refId, tags)
+//           // If the tag is found in the tags array
+//           if (ind && ind >= 0) {
+//             // Create a Mention object
+//             const mention: Mention = {
+//               index: ind,
+//               type: mentionType,
+//               ref,
+//             }
+//             // Create a Block object
+//             const block: Block = {
+//               kind: 'mention',
+//               mention,
+//             }
+//             // Push the Block object to the blocks array
+//             blocks.push(block)
+//           } else {
+//             // Get the index of the new tag
+//             const ind = newTags.length
+//             // Create a new tag from the refId
+//             newTags.push(refidToTag(ref.refId))
+//             // Create a Mention object
+//             const mention: Mention = {
+//               index: ind,
+//               type: mentionType,
+//               ref,
+//             }
+//             // Create a Block object
+//             const block: Block = {
+//               kind: 'mention',
+//               mention,
+//             }
+//             // Push the Block object to the blocks array
+//             blocks.push(block)
+//           }
+//         }
+//         break
+//       }
+//       // If the type is 'hashtag'
+//       case 'hashtag': {
+//         // Extract the hashtag from the postBlock
+//         const hashtag = postBlock.value.toLowerCase()
+//         // Check if the tag exists in the tags array
+//         const tagExists = tags.some(
+//           (tag) => tag[0] === 't' && tag[1] === hashtag
+//         )
+//         // If the tag does not exist
+//         if (!tagExists) {
+//           // Push the tag to the newTags array
+//           newTags.push(['t', hashtag])
+//         }
+//         // Create a Block object
+//         const block: Block = {
+//           kind: 'hashtag',
+//           hashtag,
+//         }
+//         // Push the Block object to the blocks array
+//         blocks.push(block)
+//         break
+//       }
+//       // If the type is 'text'
+//       case 'text': {
+//         // Create a Block object
+//         const block: Block = {
+//           kind: 'text',
+//           text: postBlock.value,
+//         }
+//         // Push the Block object to the blocks array
+//         blocks.push(block)
+//         break
+//       }
+//     }
+//   }
+//   // Return an object containing the blocks array and the newTags array
+//   return {
+//     blocks,
+//     tags: newTags,
+//   }
+// }
 
 interface PostTags {
   blocks: Block[]
@@ -249,4 +288,270 @@ function findTagRef(type: string, id: string, tags: string[][]): number | null {
     }
   }
   return null
+}
+
+// import { NostrEvent } from '../nostr/NostrEvent'
+// import { parsePostBlocks } from './post'
+// import { PostBlock } from './postblock'
+
+// type NostrPost = {
+//   content: string
+//   references: string[]
+//   kind: PostKind
+// }
+
+// export enum PostKind {
+//   TextPost = 1,
+//   ImagePost = 2,
+//   AudioPost = 3,
+// }
+
+// /**
+//  * This function takes in an array of PostBlock objects and an array of tags and returns an object
+//  * containing an array of Block objects and an array of tags.
+//  *
+//  * @param postBlocks An array of PostBlock objects
+//  * @param tags An array of tags
+//  * @returns An object containing an array of Block objects and an array of tags
+//  */
+// function makePostTags(postBlocks: PostBlock[], tags: string[][]): PostTags {
+//   // Create a copy of the tags array
+//   const newTags = tags.slice()
+//   // Create an empty array to store the Block objects
+//   const blocks: Block[] = []
+
+//   // Iterate through the postBlocks array
+//   for (const postBlock of postBlocks) {
+//     // Check the type of the postBlock
+//     switch (postBlock.type) {
+//       // If the type is 'ref'
+//       case 'ref': {
+//         // Extract the ReferencedId object from the postBlock
+//         const ref = postBlock.value
+//         // Parse the mention type from the key of the ReferencedId object
+//         const mentionType = parseMentionType(ref.key)
+//         // If the mention type is valid
+//         if (mentionType) {
+//           // Find the index of the tag in the tags array
+//           const ind = findTagRef(mentionType, ref.refId, tags)
+//           // If the tag is found in the tags array
+//           if (ind && ind >= 0) {
+//             // Create a Mention object
+//             const mention: Mention = {
+//               index: ind,
+//               type: mentionType,
+//               ref,
+//             }
+//             // Create a Block object
+//             const block: Block = {
+//               kind: 'mention',
+//               mention,
+//             }
+//             // Push the Block object to the blocks array
+//             blocks.push(block)
+//           } else {
+//             // Get the index of the new tag
+//             const ind = newTags.length
+//             // Create a new tag from the refId
+//             newTags.push(refidToTag(ref.refId))
+//             // Create a Mention object
+//             const mention: Mention = {
+//               index: ind,
+//               type: mentionType,
+//               ref,
+//             }
+//             // Create a Block object
+//             const block: Block = {
+//               kind: 'mention',
+//               mention,
+//             }
+//             // Push the Block object to the blocks array
+//             blocks.push(block)
+//           }
+//         }
+//         break
+//       }
+//       // If the type is 'hashtag'
+//       case 'hashtag': {
+//         // Extract the hashtag from the postBlock
+//         const hashtag = postBlock.value.toLowerCase()
+//         // Check if the tag exists in the tags array
+//         const tagExists = tags.some(
+//           (tag) => tag[0] === 't' && tag[1] === hashtag
+//         )
+//         // If the tag does not exist
+//         if (!tagExists) {
+//           // Push the tag to the newTags array
+//           newTags.push(['t', hashtag])
+//         }
+//         // Create a Block object
+//         const block: Block = {
+//           kind: 'hashtag',
+//           hashtag,
+//         }
+//         // Push the Block object to the blocks array
+//         blocks.push(block)
+//         break
+//       }
+//       // If the type is 'text'
+//       case 'text': {
+//         // Create a Block object
+//         const block: Block = {
+//           kind: 'text',
+//           text: postBlock.value,
+//         }
+//         // Push the Block object to the blocks array
+//         blocks.push(block)
+//         break
+//       }
+//     }
+//   }
+//   // Return an object containing the blocks array and the newTags array
+//   return {
+//     blocks,
+//     tags: newTags,
+//   }
+// }
+
+/**
+ * This function takes in a post object and returns a NostrEvent object.
+ *
+ * @param post A post object
+ * @param privkey The private key of the user
+ * @param pubkey The public key of the user
+ * @returns A NostrEvent object
+ */
+// export function postToEvent(
+//   post: NostrPost,
+//   privkey: string,
+//   pubkey: string
+// ): NostrEvent {
+//   // Parse the post blocks from the post content
+//   const postBlocks = parsePostBlocks(post.content)
+//   // Create an empty array to store the tags
+//   const tags: string[][] = []
+//   // Parse the mentions from the post references
+//   //   const mentions = parseMentions(post.references, tags)
+//   // Create an object containing the post blocks and the tags
+//   const postTags = makePostTags(postBlocks, tags)
+//   // Create a NostrEvent object
+//   const ev = new NostrEvent(
+//     post.kind,
+//     postTags.blocks,
+//     postTags.tags,
+//     privkey,
+//     pubkey
+//   )
+//   // Return the NostrEvent object
+//   return ev
+// }
+
+/**
+ * This function takes in an array of PostBlock objects and an array of tags and returns an object
+ * containing an array of Block objects and an array of tags.
+ *
+ * @param postBlocks An array of PostBlock objects
+ * @param tags An array of tags
+ * @returns An object containing an array of Block objects and an array of tags
+ */
+export function makePostTags(
+  postBlocks: PostBlock[],
+  tags: string[][]
+): PostTags {
+  // Create a copy of the tags array
+  const newTags = tags.slice()
+  // Create an empty array to store the Block objects
+  const blocks: Block[] = []
+
+  // Iterate through the postBlocks array
+  for (const postBlock of postBlocks) {
+    // Check the type of the postBlock
+    switch (postBlock.type) {
+      // If the type is 'ref'
+      case 'ref': {
+        // Extract the ReferencedId object from the postBlock
+        const ref = postBlock.value
+        // Parse the mention type from the key of the ReferencedId object
+        const mentionType = parseMentionType(ref.key)
+        // If the mention type is valid
+        if (mentionType) {
+          // Find the index of the tag in the tags array
+          const ind = findTagRef(mentionType, ref.refId, tags)
+          // If the tag is found in the tags array
+          if (ind && ind >= 0) {
+            // Create a Mention object
+            const mention: Mention = {
+              index: ind,
+              type: mentionType,
+              ref,
+            }
+            // Create a Block object
+            const block: Block = {
+              kind: 'mention',
+              mention,
+            }
+            // Push the Block object to the blocks array
+            blocks.push(block)
+          } else {
+            // Get the index of the new tag
+            const ind = newTags.length
+            // Create a new tag from the refId
+            newTags.push(refidToTag(ref.refId))
+            // Create a Mention object
+            const mention: Mention = {
+              index: ind,
+              type: mentionType,
+              ref,
+            }
+            // Create a Block object
+            const block: Block = {
+              kind: 'mention',
+              mention,
+            }
+            // Push the Block object to the blocks array
+            blocks.push(block)
+          }
+        }
+        break
+      }
+      // If the type is 'hashtag'
+      case 'hashtag': {
+        // Extract the hashtag from the postBlock
+        const hashtag = postBlock.value.toLowerCase()
+        // Check if the tag exists in the tags array
+        const tagExists = tags.some(
+          (tag) => tag[0] === 't' && tag[1] === hashtag
+        )
+        // If the tag does not exist
+        if (!tagExists) {
+          // Push the tag to the newTags array
+          newTags.push(['t', hashtag])
+          // Create a Block object
+          const block: Block = {
+            kind: 'hashtag',
+            hashtag,
+          }
+          // Push the Block object to the blocks array
+          blocks.push(block)
+        }
+        break
+      }
+      // If the type is 'text'
+      case 'text': {
+        // Create a Block object
+        const block: Block = {
+          kind: 'text',
+          text: postBlock.value,
+        }
+        // Push the Block object to the blocks array
+        blocks.push(block)
+        break
+      }
+    }
+  }
+  // Return an object containing the blocks array and the newTags array
+  return {
+    blocks,
+    tags: newTags,
+  }
 }

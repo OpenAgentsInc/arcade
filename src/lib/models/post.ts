@@ -238,7 +238,12 @@ export function parsePostBlocks(content: string): PostBlock[] {
     const block = parsePostTextBlock(content, currentIndex, content.length)
     if (block) {
       blocks.push(block)
-      currentIndex += block.value.length
+
+      if (typeof block.value === 'string') {
+        currentIndex += block.value.length
+      } else {
+        currentIndex += block.value.refId.length
+      }
     } else {
       currentIndex++
     }
