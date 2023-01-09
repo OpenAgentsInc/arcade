@@ -1,25 +1,8 @@
-import { Kind } from 'nostr-tools'
-
 import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
 import { bech32Decode } from '../nostr/bech32'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
-
-export type MentionType = {
-  ref: string
-}
-
-type ReferencedId = {
-  refId: string
-  relayId: string | null
-  key: string
-}
-
-export interface NostrPost {
-  kind: Kind
-  content: string
-  references: ReferencedId[]
-}
+import { MentionType, ReferencedId } from './types'
 
 export const parsePostMentionType = (p: string): MentionType | null => {
   if (p[0] === '@') {
@@ -257,29 +240,40 @@ export function parsePostBlocks(content: string): PostBlock[] {
   // Initialize an empty array to store the PostBlock objects
   let currentIndex = 0
   // Initialize a variable to keep track of the current index in the content string
+  if (content.length === 0) {
+    // If the content string is empty, return an empty array
+    return []
+  }
   while (currentIndex < content.length) {
     // Loop through the content string until the current index is equal to the length of the content string
-    const block = parsePostTextBlock(content, currentIndex, content.length)
-    // Parse the content string from the current index to the end of the content string and store the result in a variable
-    if (block) {
-      // If the result of the parsePostTextBlock function is not null
-      blocks.push(block)
-      // Push the result to the blocks array
-      if (typeof block.value === 'string') {
-        // If the value of the block is a string
-        currentIndex += block.value.length
-        // Increase the current index by the length of the string
-      } else {
-        // If the value of the block is not a string
-        currentIndex += block.value.refId.length
-        // Increase the current index by the length of the refId
-      }
+    const preMention = currentIndex
+    // Store the current index in a variable
+    const reference = parsePostReference(content, currentIndex)
+    // Parse the content string from the current index to see if it contains a reference
+    if (reference) {
+      // If the content string contains a reference
+      blocks.push(parsePostTextBlock(content, startingFrom, preMention))
+      // Push the result of the parsePostTextBlock function to the blocks array
+      blocks.push(reference)
+      // Push the reference to the blocks array
+      startingFrom = currentIndex
+      // Set the startingFrom variable to the current index
+    } else if (parseHashtag(content, currentIndex)) {
+      // If the content string contains a hashtag
+      blocks.push(parsePostTextBlock(content, startingFrom, preMention))
+      // Push the result of the parsePostTextBlock function to the blocks array
+      blocks.push(parseHashtag(content, currentIndex))
+      // Push the hashtag to the blocks array
+      startingFrom = currentIndex
+      // Set the startingFrom variable to the current index
     } else {
-      // If the result of the parsePostTextBlock function is null
+      // If the content string does not contain a reference or hashtag
       currentIndex++
       // Increase the current index by 1
     }
   }
+  blocks.push(parsePostTextBlock(content, startingFrom, content.length))
+  // Push the result of the parsePostTextBlock function to the blocks array
   return blocks
   // Return the blocks array
 }

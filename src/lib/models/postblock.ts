@@ -1,8 +1,4 @@
-export type ReferencedId = {
-  refId: string
-  relayId: string | null
-  key: string
-}
+import { ReferencedId } from './types'
 
 export type PostBlock =
   | { type: 'text'; value: string }

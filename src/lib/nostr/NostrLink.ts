@@ -1,4 +1,4 @@
-import { Parser } from '../util/parser'
+import { parseChar, Parser, parseStr } from '../util/parser'
 
 type ReferencedId = {
   refId: string
