@@ -1,3 +1,5 @@
+import { getEventHash } from 'nostr-tools'
+
 enum ValidationResult {
   ok,
   bad_id,
@@ -24,7 +26,12 @@ interface EventId {
   id: string
 }
 
-class NostrEvent {
+export class NostrEvent {
+  id: string
+  sig: string
+  tags: string[][]
+  boosted_by?: string
+
   static equals(lhs: NostrEvent, rhs: NostrEvent): boolean {
     return lhs.id === rhs.id
   }
@@ -33,17 +40,9 @@ class NostrEvent {
     return lhs.created_at < rhs.created_at
   }
 
-  hash(hasher: Hasher): void {
-    hasher.combine(this.id)
+  calculateId() {
+    this.id = getEventHash(this)
   }
-
-  id: string
-  sig: string
-  tags: string[][]
-  boosted_by?: string
-
-  // cached field for pow calc
-  //pow?: number;
 
   // custom flags for internal use
   flags: number = 0
