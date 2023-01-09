@@ -25,8 +25,8 @@ export const parseMentions = (content: string, tags: any[]) => {
     if (hashtagStart > start) {
       out.push(content.substring(start, hashtagStart))
     }
-    // Add the hashtag to the output array.
-    out.push(hashtag)
+    // Add the hashtag to the output array, minus the hashtag itself.
+    out.push(hashtag.substring(1))
     // Update the start index to the index of the end of the hashtag.
     start = hashtagEnd
   }
@@ -77,6 +77,5 @@ export const parseMentions = (content: string, tags: any[]) => {
     out.push(content.substring(start))
   }
 
-  console.log(out)
   return out
 }
