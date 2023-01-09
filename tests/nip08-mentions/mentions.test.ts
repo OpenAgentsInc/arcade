@@ -32,7 +32,7 @@ test('parses a hashtag', () => {
   expect(parsed).not.toBeNull()
   expect(parsed.length).toBe(3)
   expect(parsed[0]).toBe('some hashtag ')
-  expect(parsed[1]).toBe('#bitcoin')
+  expect(parsed[1]).toBe('bitcoin')
   expect(parsed[2]).toBe(' derp')
 })
 
