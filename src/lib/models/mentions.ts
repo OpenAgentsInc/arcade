@@ -534,6 +534,13 @@ export function makePostTags(
           // Push the Block object to the blocks array
           blocks.push(block)
         }
+        // Create a Block object for the hashtag even if it already exists in the tags array
+        const block: Block = {
+          kind: 'hashtag',
+          hashtag,
+        }
+        // Push the Block object to the blocks array
+        blocks.push(block)
         break
       }
       // If the type is 'text'
