@@ -526,15 +526,8 @@ export function makePostTags(
         if (!tagExists) {
           // Push the tag to the newTags array
           newTags.push(['t', hashtag])
-          // Create a Block object
-          const block: Block = {
-            kind: 'hashtag',
-            hashtag,
-          }
-          // Push the Block object to the blocks array
-          blocks.push(block)
         }
-        // Create a Block object for the hashtag even if it already exists in the tags array
+        // Create a Block object for the hashtag
         const block: Block = {
           kind: 'hashtag',
           hashtag,
