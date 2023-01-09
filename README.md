@@ -86,3 +86,9 @@ This is pre-alpha and very little works. But if you like bugs and pain, here are
 Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
 
 To learn the basics of React Native, see this author's [React Native Lightning wallet workshop](https://arcadelabs.co/articles/intro-to-react-native).
+
+## Contributing & Bounties
+
+- Pull requests are welcome to implement any of the above features or smart refactors.
+- We'll pay a bounty of 1 million sats (BTC) to the first three people who submit a non-trivial PR we merge to main, max one per person.
+- If you want ideas for good PRs or to coordinate your work - like you probably shouldn't do a big refactor without checking that we like the general direction - [DM us on Twitter](https://twitter.com/TheArcApp).
