@@ -70,30 +70,38 @@ export const parseMentions = (content: string, tags: any[]) => {
         out.push(text)
         out.push(`${tagName}${tagValue}`)
         // Update the start index to the index of the end of the tag value.
-        start = tagEnd + tagValue.length
+        start = tagEnd
+        // Remove the tag from the tags array
+        tags.shift()
       }
+    }
+    // If none of the other conditions were met, add the remaining content to the output array.
+    if (i === end - 1) {
+      out.push(content.substring(start))
     }
   }
 
   // If the start index is less than the end index, add the remaining text to the output array.
-  if (start < end) {
-    // Check if the last character is a hashtag
-    const lastChar = content.charAt(end - 1)
-    if (lastChar === '#') {
-      // If it is, get the substring from the start index to the end index minus one
-      const hashtag = content.substring(start, end - 1)
-      // Push the hashtag to the output array
-      out.push(hashtag)
-    } else {
-      // If it isn't, get the substring from the start index to the end index
-      const text = content.substring(start, end)
-      // Push the text to the output array
-      out.push(text)
-    }
-  }
+  //   if (start < end) {
+  //     // Check if the last character is a hashtag
+  //     const lastChar = content.charAt(end - 1)
+  //     if (lastChar === '#') {
+  //       // If it is, get the substring from the start index to the end index minus one
+  //       const hashtag = content.substring(start, end - 1)
+  //       // Push the hashtag to the output array
+  //       out.push(hashtag)
+  //     } else {
+  //       // If it isn't, get the substring from the start index to the end index
+  //       const text = content.substring(start, end)
+  //       // Push the text to the output array
+  //       out.push(text)
+  //     }
+  //   }
 
   // Return the output array, filtering out any empty strings.
-  return out.filter((item) => item !== '')
+  const returning = out.filter((item) => item !== '')
+  console.log(returning)
+  return returning
 }
 
 // Explanation:
