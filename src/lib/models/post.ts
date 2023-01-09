@@ -1,7 +1,9 @@
 import { Kind } from 'nostr-tools'
 
-// import { MentionType, ReferencedId } from './types'
-type MentionType = {
+import { consumeUntil, parseChar, Parser } from '../util/parser'
+import { parsePostTextBlock, PostBlock } from './postblock'
+
+export type MentionType = {
   ref: string
 }
 
@@ -19,18 +21,18 @@ export interface NostrPost {
 
 export const parsePostMentionType = (p: string): MentionType | null => {
   if (p[0] === '@') {
-    return MentionType.pubkey
+    return { ref: 'pubkey' }
   }
 
   if (p[0] === '&') {
-    return MentionType.event
+    return { ref: 'event' }
   }
 
   return null
 }
 
 export const parsePostReference = (p: string): ReferencedId | null => {
-  const start = p.pos
+  //   const start = p.pos
 
   const typ = parsePostMentionType(p)
   if (typ) {
@@ -162,19 +164,19 @@ function parsePostTag(p: Parser): PostBlock | null {
   return { type: 'tag', tag }
 }
 
-function parsePostTextBlock(p: Parser): PostBlock {
-  const start = p.pos
+// function parsePostTextBlock(p: Parser): PostBlock {
+//   const start = p.pos
 
-  if (consumeUntil(p, (c) => !isMentionChar(c), true)) {
-    return {
-      kind: 'text',
-      content: String.substring(p.str, start, p.pos),
-    }
-  } else {
-    p.pos = start
-    return null
-  }
-}
+//   if (consumeUntil(p, (c) => !isMentionChar(c), true)) {
+//     return {
+//       kind: 'text',
+//       content: String.substring(p.str, start, p.pos),
+//     }
+//   } else {
+//     p.pos = start
+//     return null
+//   }
+// }
 
 function parsePostMentionBlock(p: Parser, mentionType: MentionType): PostBlock {
   const start = p.pos
