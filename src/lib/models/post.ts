@@ -1,7 +1,7 @@
 import { Kind } from 'nostr-tools'
 
-import { bech32Decode } from '../nostr/bech32'
 import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
+import { bech32Decode } from '../nostr/bech32'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
 
@@ -231,22 +231,55 @@ function parsePostHashtagBlock(p: Parser): PostBlock {
 //   }
 // }
 
-export function parsePostBlocks(content: string): PostBlock[] {
-  const blocks: PostBlock[] = []
-  let currentIndex = 0
-  while (currentIndex < content.length) {
-    const block = parsePostTextBlock(content, currentIndex, content.length)
-    if (block) {
-      blocks.push(block)
+// export function parsePostBlocks(content: string): PostBlock[] {
+//   const blocks: PostBlock[] = []
+//   let currentIndex = 0
+//   while (currentIndex < content.length) {
+//     const block = parsePostTextBlock(content, currentIndex, content.length)
+//     if (block) {
+//       blocks.push(block)
 
+//       if (typeof block.value === 'string') {
+//         currentIndex += block.value.length
+//       } else {
+//         currentIndex += block.value.refId.length
+//       }
+//     } else {
+//       currentIndex++
+//     }
+//   }
+//   return blocks
+// }
+
+export function parsePostBlocks(content: string): PostBlock[] {
+  // This function takes in a string of content and returns an array of PostBlock objects
+  const blocks: PostBlock[] = []
+  // Initialize an empty array to store the PostBlock objects
+  let currentIndex = 0
+  // Initialize a variable to keep track of the current index in the content string
+  while (currentIndex < content.length) {
+    // Loop through the content string until the current index is equal to the length of the content string
+    const block = parsePostTextBlock(content, currentIndex, content.length)
+    // Parse the content string from the current index to the end of the content string and store the result in a variable
+    if (block) {
+      // If the result of the parsePostTextBlock function is not null
+      blocks.push(block)
+      // Push the result to the blocks array
       if (typeof block.value === 'string') {
+        // If the value of the block is a string
         currentIndex += block.value.length
+        // Increase the current index by the length of the string
       } else {
+        // If the value of the block is not a string
         currentIndex += block.value.refId.length
+        // Increase the current index by the length of the refId
       }
     } else {
+      // If the result of the parsePostTextBlock function is null
       currentIndex++
+      // Increase the current index by 1
     }
   }
   return blocks
+  // Return the blocks array
 }

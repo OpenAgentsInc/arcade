@@ -465,6 +465,9 @@ export function makePostTags(
 
   // Iterate through the postBlocks array
   for (const postBlock of postBlocks) {
+    // console.log the postBlock.type
+    console.log(postBlock.type)
+
     // Check the type of the postBlock
     switch (postBlock.type) {
       // If the type is 'ref'
@@ -522,11 +525,6 @@ export function makePostTags(
         const tagExists = tags.some(
           (tag) => tag[0] === 't' && tag[1] === hashtag
         )
-        // If the tag does not exist
-        if (!tagExists) {
-          // Push the tag to the newTags array
-          newTags.push(['t', hashtag])
-        }
         // Create a Block object for the hashtag
         const block: Block = {
           kind: 'hashtag',
@@ -534,6 +532,11 @@ export function makePostTags(
         }
         // Push the Block object to the blocks array
         blocks.push(block)
+        // If the tag does not exist
+        if (!tagExists) {
+          // Push the tag to the newTags array
+          newTags.push(['t', hashtag])
+        }
         break
       }
       // If the type is 'text'
