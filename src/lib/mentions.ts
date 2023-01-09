@@ -11,51 +11,72 @@ export const parseMentions = (content: string, tags: any[]) => {
   let start = 0
   const end = content.length
 
-  // Use a regular expression to match hashtags in the content.
+  // Use a regular expression to match and extract hashtags from the content string.
   const hashtagRegex = /#\w+/g
-  const hashtags = content.match(hashtagRegex)
-  if (hashtags) {
-    // If hashtags are found, add them to the output array.
-    hashtags.forEach((hashtag) => {
-      out.push(hashtag)
-    })
+  let hashtagMatch
+  while ((hashtagMatch = hashtagRegex.exec(content)) !== null) {
+    // Extract the hashtag from the match.
+    const hashtag = hashtagMatch[0]
+    // Get the index of the start of the hashtag.
+    const hashtagStart = hashtagMatch.index
+    // Get the index of the end of the hashtag.
+    const hashtagEnd = hashtagStart + hashtag.length
+    // If the hashtag start index is after the current start index, add the substring between the start index and the hashtag start index to the output array.
+    if (hashtagStart > start) {
+      out.push(content.substring(start, hashtagStart))
+    }
+    // Add the hashtag to the output array.
+    out.push(hashtag)
+    // Update the start index to the index of the end of the hashtag.
+    start = hashtagEnd
   }
 
-  // Use a regular expression to match URLs in the content.
+  // Use a regular expression to match and extract URLs from the content string.
   const urlRegex =
     /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-  const urls = content.match(urlRegex)
-  if (urls) {
-    // If URLs are found, add them to the output array.
-    urls.forEach((url) => {
-      out.push(url)
-    })
-  }
-
-  // If the tags array is not empty, parse the tag and add it to the output array.
-  if (tags.length > 0) {
-    const tag = tags[0]
-    const tagName = tag[0]
-    const tagValue = tag[1]
-    const tagStart = content.indexOf(tagName)
-    const tagEnd = tagStart + tagName.length
-    // Check if the tag is in the content and if the start and end indices are within the content
-    if (tagStart > -1 && tagStart >= start && tagEnd <= end) {
-      // Get the substring from the start index to the tag start index
-      const text = content.substring(start, tagStart)
-      // Push the text and the tag to the output array
-      out.push(text)
-      out.push(`${tagName}${tagValue}`)
-      // Update the start index to the index of the end of the tag value.
-      start = tagEnd
-      // Remove the tag from the tags array
-      tags.shift()
+  let urlMatch
+  while ((urlMatch = urlRegex.exec(content)) !== null) {
+    // Extract the URL from the match.
+    const url = urlMatch[0]
+    // Get the index of the start of the URL.
+    const urlStart = urlMatch.index
+    // Get the index of the end of the URL.
+    const urlEnd = urlStart + url.length
+    // If the URL start index is after the current start index, add the substring between the start index and the URL start index to the output array.
+    if (urlStart > start) {
+      out.push(content.substring(start, urlStart))
     }
+    // Add the URL to the output array.
+    out.push(url)
+    // Update the start index to the index of the end of the URL.
+    start = urlEnd
   }
 
-  // If none of the other conditions were met, add the remaining content to the output array.
-  out.push(content.substring(start))
+  // Use a regular expression to match and extract Lightning Network invoices from the content string.
+  const invoiceRegex = /ln[bc]\w+/g
+  let invoiceMatch
+  while ((invoiceMatch = invoiceRegex.exec(content)) !== null) {
+    // Extract the invoice from the match.
+    const invoice = invoiceMatch[0]
+    // Get the index of the start of the invoice.
+    const invoiceStart = invoiceMatch.index
+    // Get the index of the end of the invoice.
+    const invoiceEnd = invoiceStart + invoice.length
+    // If the invoice start index is after the current start index, add the substring between the start index and the invoice start index to the output array.
+    if (invoiceStart > start) {
+      out.push(content.substring(start, invoiceStart))
+    }
+    // Add the invoice to the output array.
+    out.push(invoice)
+    // Update the start index to the index of the end of the invoice.
+    start = invoiceEnd
+  }
 
-  // Return the output array.
+  // If there is any content remaining after parsing the mentions, add it to the output array.
+  if (start < content.length) {
+    out.push(content.substring(start))
+  }
+
+  console.log(out)
   return out
 }
