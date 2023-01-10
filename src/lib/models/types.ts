@@ -1,3 +1,10 @@
+export enum FollowState {
+  follows,
+  following,
+  unfollowing,
+  unfollows,
+}
+
 export enum Kind {
   Metadata = 0,
   Text = 1,
