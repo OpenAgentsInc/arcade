@@ -2,9 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
 import { StackNavigatorParams } from 'app/@types/navigation'
-import { Logo } from 'app/components/Logo'
-import { Screen } from 'app/views'
 import { Button, Stack, YStack } from 'tamagui'
+import { Logo, Screen } from 'views/shared'
 
 export function HomeScreen() {
   const { navigate } =

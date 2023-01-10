@@ -1,6 +1,6 @@
 import { ChevronsRight } from '@tamagui/lucide-icons'
 import { useStore } from 'app/stores'
-import { BackButton, Screen } from 'app/views'
+import { BackButton, Screen } from 'views/shared'
 import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
 import { Button, H2, Input, isWeb, Label, YStack } from 'tamagui'

@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ChannelScreen, ChannelsScreen } from 'app/features/chat'
+import { ChannelScreen, ChannelsScreen } from 'app/views/chat'
 import { Channel } from 'app/stores/chat'
-import { NavHeader } from 'app/views'
+import { NavHeader } from 'views/shared'
 import React from 'react'
 
 const Stack = createNativeStackNavigator<{

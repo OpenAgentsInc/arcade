@@ -1,9 +1,9 @@
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
-import { useStore } from 'app/stores'
-import { LogoutDialog, Screen } from 'app/views'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
+import { useStore } from 'stores'
 import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
+import { LogoutDialog, Screen } from 'views/shared'
 
 import { ThemePicker } from './ThemePicker'
 

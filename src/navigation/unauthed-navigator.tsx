@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { HomeScreen } from 'app/features/home/screen'
-import { CreateAccountScreen } from 'app/features/user/CreateAccountScreen'
-import { LoginScreen } from 'app/features/user/LoginScreen'
+import { HomeScreen } from 'app/views/home/screen'
+import { CreateAccountScreen } from 'app/views/user/CreateAccountScreen'
+import { LoginScreen } from 'app/views/user/LoginScreen'
 
 const Stack = createNativeStackNavigator<{
   create: undefined

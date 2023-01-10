@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MessageCircle, Settings } from '@tamagui/lucide-icons'
-import { SettingsScreen } from 'app/features/user/SettingsScreen'
+import { SettingsScreen } from 'app/views/user/SettingsScreen'
 import { useNostr } from 'app/lib/useNostr'
-import { NavHeader } from 'app/views'
+import { NavHeader } from 'views/shared'
 import { useEffect } from 'react'
 import { XStack } from 'tamagui'
 

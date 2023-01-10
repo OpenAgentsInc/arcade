@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Channel } from 'app/stores/chat'
-import { Screen } from 'app/views'
+import { Screen } from 'views/shared'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 

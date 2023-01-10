@@ -1,4 +1,4 @@
-import { initialSubscriptions } from 'app/features/chat/initialSubscriptions'
+import { initialSubscriptions } from 'app/views/chat/initialSubscriptions'
 import { useStore } from 'app/stores'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
 import { Event as NostrEvent, Filter } from 'nostr-tools'

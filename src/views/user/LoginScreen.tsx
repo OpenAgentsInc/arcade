@@ -1,6 +1,5 @@
-import { useStore } from 'app/stores'
-import { BackButton, Screen } from 'app/views'
 import { useState } from 'react'
+import { useStore } from 'stores'
 import {
   Card,
   H2,
@@ -11,6 +10,7 @@ import {
   Stack,
   YStack,
 } from 'tamagui'
+import { BackButton, Screen } from 'views/shared'
 
 export const LoginScreen = () => {
   const loginWithNsec = useStore((s) => s.loginWithNsec)
