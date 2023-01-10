@@ -1,3 +1,5 @@
+import 'websocket-polyfill'
+
 import {
   Event as NostrEvent,
   Filter,

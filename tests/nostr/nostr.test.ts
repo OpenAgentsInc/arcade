@@ -118,64 +118,63 @@ describe('Nostr class', () => {
       ])
     ).resolves.toEqual([true, true])
   })
+
+  test('listening (twice) and publishing via pool', async () => {
+    const sk = generatePrivateKey()
+    const pk = getPublicKey(sk)
+    let resolve1
+    let resolve2
+
+    const relayPoolSubscription = nostr.subscribe([
+      {
+        kinds: [27572],
+        authors: [pk],
+      },
+    ])
+
+    console.log('relayPoolSubscription here now:', relayPoolSubscription)
+
+    relayPoolSubscription.onevent((event) => {
+      console.log('wat event:', event)
+      expect(event).toHaveProperty('pubkey', pk)
+      expect(event).toHaveProperty('kind', 27572)
+      expect(event).toHaveProperty('content', 'arc test suite')
+      resolve1(true)
+    })
+    relayPoolSubscription.onevent((event) => {
+      console.log('wat event2:', event)
+      expect(event).toHaveProperty('pubkey', pk)
+      expect(event).toHaveProperty('kind', 27572)
+      expect(event).toHaveProperty('content', 'arc test suite')
+      resolve2(true)
+    })
+
+    const event: NostrEvent = {
+      kind: 27572,
+      pubkey: pk,
+      created_at: Math.floor(Date.now() / 1000),
+      tags: [],
+      content: 'arc test suite',
+    }
+    event.id = getEventHash(event)
+    event.sig = signEvent(event, sk)
+
+    console.log('trying to publish:', event)
+    nostr.publish(event)
+
+    console.log('did we do that')
+
+    return expect(
+      Promise.all([
+        new Promise((resolve) => {
+          console.log('works?', resolve)
+          resolve1 = resolve
+        }),
+        new Promise((resolve) => {
+          console.log('works2?', resolve)
+          resolve2 = resolve
+        }),
+      ])
+    ).resolves.toEqual([true, true])
+  })
 })
-
-//   test('listening (twice) and publishing via pool', async () => {
-//     const sk = nostr.privateKey
-//     const pk = nostr.publicKey
-//     let resolve1
-//     let resolve2
-
-//     const relayPoolSubscription = nostr.subscribe([
-//       {
-//         kinds: [27572],
-//         authors: [pk],
-//       },
-//     ])
-
-//     console.log('relayPoolSubscription here now:', relayPoolSubscription)
-
-//     relayPoolSubscription.onevent((event) => {
-//       console.log('wat event:', event)
-//       expect(event).toHaveProperty('pubkey', pk)
-//       expect(event).toHaveProperty('kind', 27572)
-//       expect(event).toHaveProperty('content', 'arc test suite')
-//       resolve1(true)
-//     })
-//     relayPoolSubscription.onevent((event) => {
-//       console.log('wat event2:', event)
-//       expect(event).toHaveProperty('pubkey', pk)
-//       expect(event).toHaveProperty('kind', 27572)
-//       expect(event).toHaveProperty('content', 'arc test suite')
-//       resolve2(true)
-//     })
-
-//     const event: NostrEvent = {
-//       kind: 27572,
-//       pubkey: pk,
-//       created_at: Math.floor(Date.now() / 1000),
-//       tags: [],
-//       content: 'arc test suite',
-//     }
-//     event.id = getEventHash(event)
-//     event.sig = signEvent(event, sk)
-
-//     console.log('trying to publish:', event)
-//     nostr.publish(event)
-
-//     console.log('did we do that')
-
-//     return expect(
-//       Promise.all([
-//         new Promise((resolve) => {
-//           console.log('works?', resolve)
-//           resolve1 = resolve
-//         }),
-//         new Promise((resolve) => {
-//           console.log('works2?', resolve)
-//           resolve2 = resolve
-//         }),
-//       ])
-//     ).resolves.toEqual([true, true])
-//   })
-// })
