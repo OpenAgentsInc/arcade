@@ -48,10 +48,10 @@ describe('Nostr class', () => {
   })
 
   test('set keys', () => {
-    const publicKey =
-      '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c'
-    const privateKey =
-      '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
+    const privateKey = generatePrivateKey()
+    const publicKey = getPublicKey(privateKey)
+
+    generatePrivateKey()
     nostr.setKeys(publicKey, privateKey)
     expect(nostr.publicKey).toEqual(publicKey)
     expect(nostr.privateKey).toEqual(privateKey)
@@ -60,50 +60,58 @@ describe('Nostr class', () => {
   test('listening (twice) and publishing via pool', async () => {
     const sk = generatePrivateKey()
     const pk = getPublicKey(sk)
-    let resolve1
-    let resolve2
+    const eventContent = 'arc test suite'
+    const eventKind = 27572
+    const promises: Promise<any>[] = []
 
-    const relayPoolSubscription = nostr.subscribe([
-      {
-        kinds: [27572],
-        authors: [pk],
-      },
-    ])
+    promises.push(
+      new Promise((resolve) => {
+        const relayPoolSubscription = nostr.subscribe([
+          {
+            kinds: [eventKind],
+            authors: [pk],
+          },
+        ])
+        relayPoolSubscription.onevent((event) => {
+          expect(event).toHaveProperty('pubkey', pk)
+          expect(event).toHaveProperty('kind', eventKind)
+          expect(event).toHaveProperty('content', eventContent)
+          relayPoolSubscription.unsub() // unsubscribe when event is received
+          resolve(true)
+        })
+      })
+    )
 
-    relayPoolSubscription.onevent((event) => {
-      expect(event).toHaveProperty('pubkey', pk)
-      expect(event).toHaveProperty('kind', 27572)
-      expect(event).toHaveProperty('content', 'arc test suite')
-      resolve1(true)
-    })
-    relayPoolSubscription.onevent((event) => {
-      expect(event).toHaveProperty('pubkey', pk)
-      expect(event).toHaveProperty('kind', 27572)
-      expect(event).toHaveProperty('content', 'arc test suite')
-      resolve2(true)
-    })
+    promises.push(
+      new Promise((resolve) => {
+        const relayPoolSubscription = nostr.subscribe([
+          {
+            kinds: [eventKind],
+            authors: [pk],
+          },
+        ])
+        relayPoolSubscription.onevent((event) => {
+          expect(event).toHaveProperty('pubkey', pk)
+          expect(event).toHaveProperty('kind', eventKind)
+          expect(event).toHaveProperty('content', eventContent)
+          relayPoolSubscription.unsub() // unsubscribe when event is received
+          resolve(true)
+        })
+      })
+    )
 
     const event: NostrEvent = {
-      kind: 27572,
+      kind: eventKind,
       pubkey: pk,
       created_at: Math.floor(Date.now() / 1000),
       tags: [],
-      content: 'arc test suite',
+      content: eventContent,
     }
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 
     nostr.publish(event)
 
-    return expect(
-      Promise.all([
-        new Promise((resolve) => {
-          resolve1 = resolve
-        }),
-        new Promise((resolve) => {
-          resolve2 = resolve
-        }),
-      ])
-    ).resolves.toEqual([true, true])
+    return expect(Promise.all(promises)).resolves.toEqual([true, true])
   })
 })
