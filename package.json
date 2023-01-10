@@ -14,7 +14,9 @@
     "build:android:apk": "eas build -p android --profile preview",
     "build:android:dev-client": "eas build -p android --profile development",
     "postinstall": "npx patch-package",
-    "apk": "yarn build:android:apk"
+    "apk": "yarn build:android:apk",
+    "test": "jest --verbose",
+    "test1": "jest --testPathPattern=tests/nip08-mentions/markdown.test.ts --verbose"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.5.2",
@@ -26,6 +28,7 @@
     "@tamagui/lucide-icons": "1.0.3",
     "@tamagui/shorthands": "1.0.3",
     "@tamagui/theme-base": "1.0.3",
+    "bech32": "2.0.0",
     "date-fns": "2.29.3",
     "expo": "47.0.9",
     "expo-clipboard": "~4.0.1",
@@ -35,6 +38,8 @@
     "expo-random": "~13.0.0",
     "expo-screen-orientation": "^5.0.1",
     "expo-secure-store": "~12.0.0",
+    "jest": "^26.6.3",
+    "jest-expo": "^47.0.1",
     "nostr-relaypool": "0.2.1",
     "nostr-tools": "1.1.1",
     "react": "18.2.0",
@@ -59,6 +64,7 @@
     "@google/semantic-release-replace-plugin": "1.1.0",
     "@manypkg/cli": "0.19.2",
     "@tamagui/babel-plugin": "1.0.3",
+    "@types/jest": "^29.2.5",
     "@types/react": "18.0.25",
     "@types/react-native": "0.70.6",
     "babel-plugin-transform-inline-environment-variables": "0.4.4",
@@ -69,5 +75,11 @@
     "prettier": "2.7.1",
     "typescript": "4.9.3"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ]
+  }
 }
