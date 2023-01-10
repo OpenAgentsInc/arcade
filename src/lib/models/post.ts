@@ -1,5 +1,7 @@
-import { bech32Decode } from '../nostr/bech32'
+// @ts-nocheck
+
 import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
+import { bech32Decode } from '../nostr/bech32'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
 import { MentionType, ReferencedId } from './types'

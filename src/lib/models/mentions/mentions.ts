@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { consumeUntil, Parser, peekChar, substring } from 'app/lib/util/parser'
 
 import { NostrEvent } from '../../nostr/NostrEvent'

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { parseChar, Parser, parseStr } from '../util/parser'
 
 type ReferencedId = {

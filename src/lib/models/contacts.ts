@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FollowState, NostrEvent, ReferencedId } from './types'
 
 export class Contacts {

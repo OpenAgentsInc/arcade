@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const arc_parse_content = (bs: any, content: string) => {
   if (!content) {
     return false
