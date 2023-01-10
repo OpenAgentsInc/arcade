@@ -1,5 +1,5 @@
-import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
 import { bech32Decode } from '../nostr/bech32'
+import { parseHexstr, parseNostrRefUri } from '../nostr/NostrLink'
 import { consumeUntil, parseChar, Parser } from '../util/parser'
 import { parsePostTextBlock, PostBlock } from './postblock'
 import { MentionType, ReferencedId } from './types'
@@ -234,46 +234,61 @@ function parsePostHashtagBlock(p: Parser): PostBlock {
 //   return blocks
 // }
 
+// export function parsePostBlocks(content: string): PostBlock[] {
+//   // This function takes in a string of content and returns an array of PostBlock objects
+//   const blocks: PostBlock[] = []
+//   // Initialize an empty array to store the PostBlock objects
+//   let currentIndex = 0
+//   // Initialize a variable to keep track of the current index in the content string
+//   if (content.length === 0) {
+//     // If the content string is empty, return an empty array
+//     return []
+//   }
+//   while (currentIndex < content.length) {
+//     // Loop through the content string until the current index is equal to the length of the content string
+//     const preMention = currentIndex
+//     // Store the current index in a variable
+//     const reference = parsePostReference(content, currentIndex)
+//     // Parse the content string from the current index to see if it contains a reference
+//     if (reference) {
+//       // If the content string contains a reference
+//       blocks.push(parsePostTextBlock(content, startingFrom, preMention))
+//       // Push the result of the parsePostTextBlock function to the blocks array
+//       blocks.push(reference)
+//       // Push the reference to the blocks array
+//       startingFrom = currentIndex
+//       // Set the startingFrom variable to the current index
+//     } else if (parseHashtag(content, currentIndex)) {
+//       // If the content string contains a hashtag
+//       blocks.push(parsePostTextBlock(content, startingFrom, preMention))
+//       // Push the result of the parsePostTextBlock function to the blocks array
+//       blocks.push(parseHashtag(content, currentIndex))
+//       // Push the hashtag to the blocks array
+//       startingFrom = currentIndex
+//       // Set the startingFrom variable to the current index
+//     } else {
+//       // If the content string does not contain a reference or hashtag
+//       currentIndex++
+//       // Increase the current index by 1
+//     }
+//   }
+//   blocks.push(parsePostTextBlock(content, startingFrom, content.length))
+//   // Push the result of the parsePostTextBlock function to the blocks array
+//   return blocks
+//   // Return the blocks array
+// }
+
 export function parsePostBlocks(content: string): PostBlock[] {
-  // This function takes in a string of content and returns an array of PostBlock objects
+  const p = new Parser(0, content)
   const blocks: PostBlock[] = []
-  // Initialize an empty array to store the PostBlock objects
-  let currentIndex = 0
-  // Initialize a variable to keep track of the current index in the content string
-  if (content.length === 0) {
-    // If the content string is empty, return an empty array
-    return []
-  }
-  while (currentIndex < content.length) {
-    // Loop through the content string until the current index is equal to the length of the content string
-    const preMention = currentIndex
-    // Store the current index in a variable
-    const reference = parsePostReference(content, currentIndex)
-    // Parse the content string from the current index to see if it contains a reference
-    if (reference) {
-      // If the content string contains a reference
-      blocks.push(parsePostTextBlock(content, startingFrom, preMention))
-      // Push the result of the parsePostTextBlock function to the blocks array
-      blocks.push(reference)
-      // Push the reference to the blocks array
-      startingFrom = currentIndex
-      // Set the startingFrom variable to the current index
-    } else if (parseHashtag(content, currentIndex)) {
-      // If the content string contains a hashtag
-      blocks.push(parsePostTextBlock(content, startingFrom, preMention))
-      // Push the result of the parsePostTextBlock function to the blocks array
-      blocks.push(parseHashtag(content, currentIndex))
-      // Push the hashtag to the blocks array
-      startingFrom = currentIndex
-      // Set the startingFrom variable to the current index
+  while (!p.done()) {
+    const block = parsePostTextBlock(p.str, p.pos, p.str.length)
+    if (block) {
+      blocks.push(block)
+      p.pos += block.value.length
     } else {
-      // If the content string does not contain a reference or hashtag
-      currentIndex++
-      // Increase the current index by 1
+      break
     }
   }
-  blocks.push(parsePostTextBlock(content, startingFrom, content.length))
-  // Push the result of the parsePostTextBlock function to the blocks array
   return blocks
-  // Return the blocks array
 }

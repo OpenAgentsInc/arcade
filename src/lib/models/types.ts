@@ -1,5 +1,3 @@
-import { Kind } from 'nostr-tools'
-
 export interface Block {
   kind: 'mention' | 'hashtag' | 'text'
   mention?: Mention

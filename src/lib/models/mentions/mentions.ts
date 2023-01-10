@@ -2,8 +2,9 @@ import { consumeUntil, Parser, peekChar, substring } from 'app/lib/util/parser'
 
 import { NostrEvent } from '../../nostr/NostrEvent'
 import { parsePostBlocks } from '../post'
-import { Block, MentionType } from '../types'
+import { Block, MentionType, NostrPost } from '../types'
 import { makePostTags } from './makePostTags'
+import { extractHashtags } from './simpler'
 
 export function parseMentionType(p: string): MentionType | null {
   if (p[0] === '@') {
@@ -39,13 +40,14 @@ export const postToEvent = (
   privkey: string,
   pubkey: string
 ) => {
-  const tags = post.references.map(refidToTag)
-  const postBlocks = parsePostBlocks(post.content)
-  console.log('postBlocks:', postBlocks)
-  const postTags = makePostTags(postBlocks, tags)
-  console.log('postTags:', postTags)
-  const content = renderBlocks(postTags.blocks)
-  const newEv = new NostrEvent(content, pubkey, post.kind, postTags.tags)
+  //   const tags = post.references.map(refidToTag)
+  //   const postBlocks = parsePostBlocks(post.content)
+  //   console.log('postBlocks:', postBlocks)
+  //   const postTags = makePostTags(postBlocks, tags)
+  //   console.log('postTags:', postTags)
+  //   const content = renderBlocks(postTags.blocks)
+  const tags = extractHashtags(post.content)
+  const newEv = new NostrEvent(post.content, pubkey, post.kind, tags)
   newEv.calculateId()
   newEv.sign(privkey)
   return newEv
@@ -102,6 +104,7 @@ export function parseMentions(
         result.push(substring(p.str, 0, end))
       }
     }
+    p.pos += 1
   }
   return result
 }
