@@ -1,12 +1,7 @@
-import { NostrEvent as Event } from 'lib/nostr'
-import {
-  getPublicKey,
-  signEvent,
-  validateEvent,
-  verifySignature,
-} from 'nostr-tools'
+import { Event, SignedEvent, validateEvent } from 'lib/nostr'
+import { getPublicKey, signEvent, verifySignature } from 'nostr-tools'
 
-const event: Event & { sig: string } = {
+const event: SignedEvent = {
   id: 'd7dd5eb3ab747e16f8d0212d53032ea2a7cadef53837e5a6c66d42849fcb9027',
   kind: 1,
   pubkey: '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c',
@@ -24,8 +19,6 @@ const unsigned: Event = {
   content:
     '{"name":"fiatjaf","about":"buy my merch at fiatjaf store","picture":"https://fiatjaf.com/static/favicon.jpg","nip05":"_@fiatjaf.com"}',
   pubkey: '',
-  id: '',
-  sig: '',
 }
 
 const privateKey =
@@ -48,5 +41,15 @@ describe('NIP-01: Event creation and signing', () => {
     const signed = { ...authored, sig }
 
     expect(verifySignature(signed)).toBeTruthy()
+  })
+
+  test('event kind should be a positive integer', () => {
+    const invalidEvent = { ...event, kind: -1 }
+    expect(validateEvent(invalidEvent)).toBeFalsy()
+  })
+
+  test('event created_at should be a valid unix timestamp', () => {
+    const invalidEvent = { ...event, created_at: -1 }
+    expect(validateEvent(invalidEvent)).toBeFalsy()
   })
 })

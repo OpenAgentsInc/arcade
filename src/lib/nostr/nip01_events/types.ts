@@ -1,6 +1,6 @@
 import { Kind } from 'nostr-tools'
 
-export type NostrEvent = {
+export type Event = {
   id?: string
   sig?: string
   kind: Kind
@@ -9,3 +9,7 @@ export type NostrEvent = {
   content: string
   created_at: number
 }
+
+export type NostrEvent = Event
+
+export type SignedEvent = Event & { id: string; sig: string }
