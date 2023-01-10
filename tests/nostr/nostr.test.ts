@@ -13,7 +13,7 @@ import {
 describe('Nostr class', () => {
   let nostr: Nostr
   let sub: RelayPoolSubscription
-  beforeEach(async () => {
+  beforeAll(async () => {
     nostr = new Nostr(
       '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c',
       '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
@@ -21,7 +21,7 @@ describe('Nostr class', () => {
     await delay(500)
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     if (sub) {
       sub.unsub()
     }
