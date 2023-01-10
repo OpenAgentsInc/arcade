@@ -16,7 +16,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "arcade.labs.arc"
+      "bundleIdentifier": "arcade.labs.arc",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
