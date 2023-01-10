@@ -7,23 +7,10 @@ import {
   generatePrivateKey,
   getEventHash,
   getPublicKey,
-  relayInit,
   signEvent,
 } from 'nostr-tools'
 
-// jest.setTimeout(7000)
-
 describe('Nostr class', () => {
-  const relay = relayInit('wss://nostr-dev.wellorder.net/')
-
-  beforeAll(() => {
-    relay.connect()
-  })
-
-  afterAll(async () => {
-    await relay.close()
-  })
-
   let nostr: Nostr
   let sub: RelayPoolSubscription
   beforeEach(async () => {
@@ -68,55 +55,6 @@ describe('Nostr class', () => {
     nostr.setKeys(publicKey, privateKey)
     expect(nostr.publicKey).toEqual(publicKey)
     expect(nostr.privateKey).toEqual(privateKey)
-  })
-
-  test('listening (twice) and publishing', async () => {
-    const sk = generatePrivateKey()
-    const pk = getPublicKey(sk)
-    let resolve1
-    let resolve2
-
-    const sub = relay.sub([
-      {
-        kinds: [27572],
-        authors: [pk],
-      },
-    ])
-
-    sub.on('event', (event) => {
-      expect(event).toHaveProperty('pubkey', pk)
-      expect(event).toHaveProperty('kind', 27572)
-      expect(event).toHaveProperty('content', 'nostr-tools test suite')
-      resolve1(true)
-    })
-    sub.on('event', (event) => {
-      expect(event).toHaveProperty('pubkey', pk)
-      expect(event).toHaveProperty('kind', 27572)
-      expect(event).toHaveProperty('content', 'nostr-tools test suite')
-      resolve2(true)
-    })
-
-    const event: NostrEvent = {
-      kind: 27572,
-      pubkey: pk,
-      created_at: Math.floor(Date.now() / 1000),
-      tags: [],
-      content: 'nostr-tools test suite',
-    }
-    event.id = getEventHash(event)
-    event.sig = signEvent(event, sk)
-
-    relay.publish(event)
-    return expect(
-      Promise.all([
-        new Promise((resolve) => {
-          resolve1 = resolve
-        }),
-        new Promise((resolve) => {
-          resolve2 = resolve
-        }),
-      ])
-    ).resolves.toEqual([true, true])
   })
 
   test('listening (twice) and publishing via pool', async () => {
