@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MessageCircle, Settings } from '@tamagui/lucide-icons'
+import { Home, List, MessageCircle, Settings } from '@tamagui/lucide-icons'
+import { HomeFeed } from 'app/views/feed/HomeFeed'
 import { useNostr } from 'lib/hooks'
 import { useEffect } from 'react'
 import { XStack } from 'tamagui'
@@ -9,6 +10,7 @@ import { SettingsScreen } from 'views/user/SettingsScreen'
 import { ChatNavigator } from './ChatNavigator'
 
 const BottomTab = createBottomTabNavigator<{
+  feed: undefined
   chat: undefined
   settings: undefined
 }>()
@@ -24,7 +26,7 @@ export function AuthedNavigator() {
   }, [nostr])
   return (
     <BottomTab.Navigator
-      initialRouteName="chat"
+      initialRouteName="feed"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
@@ -42,6 +44,18 @@ export function AuthedNavigator() {
         ),
       }}
     >
+      <BottomTab.Screen
+        name="feed"
+        component={HomeFeed}
+        options={{
+          tabBarIcon: ({ focused, size }) => (
+            <Home
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
+          ),
+        }}
+      />
       <BottomTab.Screen
         name="chat"
         component={ChatNavigator}

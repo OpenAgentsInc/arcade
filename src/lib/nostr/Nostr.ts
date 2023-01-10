@@ -12,7 +12,6 @@ import {
   getPublicKey,
   signEvent,
 } from 'nostr-tools'
-import { useState } from 'react'
 import { useStore } from 'stores'
 import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
@@ -42,6 +41,7 @@ export class Nostr {
   public loadFirstPaint() {
     // Grab friendlist and add self to it
     const friends = this.getFriendList()
+    console.log('FRIENDS:', friends)
     friends.push(this.publicKey)
 
     // We want contact metadata of our friends
