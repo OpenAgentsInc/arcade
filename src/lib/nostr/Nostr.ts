@@ -44,33 +44,39 @@ export class Nostr {
     const friends = this.getFriendList()
     friends.push(this.publicKey)
 
-    // We want contact metadata of all these folks
-    const contactsFilter: Filter = { kinds: [0], authors: friends }
+    // We want contact metadata of our friends
+    const contactsFilters: Filter[] = [{ kinds: [0], authors: friends }]
 
     // We want our contact list
-    const ourContactsFilter: Filter = {
-      kinds: [Kind.Contacts, Kind.Metadata],
-      authors: [this.publicKey],
-    }
+    const ourContactsFilters: Filter[] = [
+      {
+        kinds: [Kind.Contacts, Kind.Metadata],
+        authors: [this.publicKey],
+      },
+    ]
 
     // We want our DMs
-    const dmsFilter: Filter = {
-      kinds: [Kind.EncryptedDirectMessage],
-      limit: 500,
-      authors: [this.publicKey],
-    }
+    const dmsFilters: Filter[] = [
+      {
+        kinds: [Kind.EncryptedDirectMessage],
+        limit: 500,
+        authors: [this.publicKey],
+      },
+    ]
 
-    // We want our DMs (?)
-    // const ourDmsFilter: Filter = {
-    //   kinds: [Kind.EncryptedDirectMessage],
-    //   authors: friends,
-    // }
+    const homeFilters: Filter[] = [
+      {
+        kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
+        authors: friends,
+        limit: 500,
+      },
+    ]
 
-    const homeFilter: Filter = {
-      kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
-      authors: friends,
-      limit: 500,
-    }
+    // TODO add support for throwing these to specific relay
+    this.subscribe(contactsFilters)
+    this.subscribe(ourContactsFilters)
+    this.subscribe(dmsFilters)
+    this.subscribe(homeFilters)
 
     return true
   }
