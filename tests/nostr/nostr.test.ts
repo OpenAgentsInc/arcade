@@ -8,7 +8,10 @@ describe('Nostr class', () => {
   let nostr: Nostr
   let sub: RelayPoolSubscription
   beforeEach(async () => {
-    nostr = new Nostr()
+    nostr = new Nostr(
+      '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c',
+      '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
+    )
     await delay(500)
   })
 
@@ -25,18 +28,18 @@ describe('Nostr class', () => {
     expect(sub).toBeDefined()
   })
 
-  //   test('publish event', () => {
-  //     const event: NostrEvent = {
-  //       kind: 1,
-  //       pubkey: '',
-  //       created_at: Date.now(),
-  //       tags: [],
-  //       content: 'hello world',
-  //     }
-  //     const pub = nostr.publish(event)
-  //     expect(pub).toBeDefined()
-  //     // additional assertions to check if the event has been published correctly
-  //   })
+  test('publish event', () => {
+    const event: NostrEvent = {
+      kind: 1,
+      pubkey: nostr.publicKey,
+      created_at: Date.now(),
+      tags: [],
+      content: 'hello world',
+    }
+    const pub = nostr.publish(event)
+    expect(pub).toBeTruthy()
+    // additional assertions to check if the event has been published correctly
+  })
 
   //   test('set keys', () => {
   //     const publicKey =
