@@ -3,19 +3,8 @@ import 'websocket-polyfill'
 import { delay } from 'app/lib/utils'
 import { Nostr, NostrEvent } from 'lib/nostr'
 import { RelayPoolSubscription } from 'nostr-relaypool'
-import { relayInit } from 'nostr-tools'
-
-const relay = relayInit('wss://arc1.arcadelabs.co')
 
 describe('Nostr class', () => {
-  beforeAll(() => {
-    relay.connect()
-  })
-
-  afterAll(async () => {
-    await relay.close()
-  })
-
   let nostr: Nostr
   let sub: RelayPoolSubscription
   beforeEach(async () => {
@@ -31,23 +20,8 @@ describe('Nostr class', () => {
     nostr.close()
   })
 
-  test('connectivity', () => {
-    return expect(
-      new Promise((resolve) => {
-        relay.on('connect', () => {
-          resolve(true)
-        })
-        relay.on('error', () => {
-          resolve(false)
-        })
-      })
-    ).resolves.toBe(true)
-  })
-
   test('initial subscriptions', async () => {
-    // const sub = nostr.setupInitialSubscriptions()
     sub = nostr.setupInitialSubscriptions()
-
     expect(sub).toBeDefined()
   })
 

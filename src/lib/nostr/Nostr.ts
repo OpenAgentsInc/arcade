@@ -25,7 +25,6 @@ export class Nostr {
         addMessage: chatActions.addMessage,
       })
     })
-    console.log('Subscriptions done.')
     return sub
   }
 
