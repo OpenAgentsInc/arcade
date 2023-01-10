@@ -5,7 +5,12 @@ import {
   validateEvent,
 } from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
-import { getEventHash, signEvent } from 'nostr-tools'
+import {
+  generatePrivateKey,
+  getEventHash,
+  getPublicKey,
+  signEvent,
+} from 'nostr-tools'
 import { useStore } from 'stores'
 import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
@@ -18,14 +23,18 @@ export class Nostr {
   public privateKey: string
 
   constructor(
-    publicKey: string,
-    privateKey: string,
+    publicKey: string | undefined = undefined,
+    privateKey: string | undefined = undefined,
     relays: string[] = DEFAULT_RELAYS
   ) {
     this.relays = relays
     this.relayPool = new RelayPool(this.relays)
-    this.publicKey = publicKey
-    this.privateKey = privateKey
+    this.privateKey = privateKey ?? generatePrivateKey()
+    this.publicKey = publicKey ?? getPublicKey(this.privateKey)
+  }
+
+  public loadFirstPaint() {
+    return true
   }
 
   public setupInitialSubscriptions() {
@@ -90,6 +99,8 @@ export class Nostr {
   }
 
   public close(): void {
-    this.relayPool.close()
+    try {
+      this.relayPool.close()
+    } catch (e: any) {}
   }
 }
