@@ -32,7 +32,6 @@ Current and upcoming features in order of priority:
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
-- [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Add/remove/recommend relays
 - [ ] Unread channel messages
 - [ ] Internationalization
@@ -46,6 +45,8 @@ Current and upcoming features in order of priority:
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
+- [ ] Re-add web support
+- [ ] Log in via web extension ([NIP-07](https://github.com/nostr-protocol/nips/blob/master/07.md))
 - [ ] Paid DMs
 - [ ] Channel moderators
 - [ ] Private group chats ([NIP-38?](https://github.com/nostr-protocol/nips/pull/59))
@@ -80,8 +81,8 @@ This is pre-alpha and very little works. But if you like bugs and pain, here are
 
 1. `git clone git@github.com:ArcadeLabsInc/arc.git`
 2. `cd arc`
-3. `yarn install`
-4. `yarn web` or `yarn native`
+3. `yarn`
+4. `yarn start`
 
 Consult the [Expo docs](https://docs.expo.dev/) for more details on environment setup, running on device or emulator, and building your own version via EAS.
 
