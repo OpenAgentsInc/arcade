@@ -1,4 +1,5 @@
-import { parseMentions, PostKind, postToEvent } from 'lib/models/mentions'
+import { PostKind } from 'app/lib/models/types'
+import { parseMentions, postToEvent } from 'lib/models/mentions'
 
 test('parses a blank mention', () => {
   const parsed = parseMentions('', [['e', 'event_id']])
