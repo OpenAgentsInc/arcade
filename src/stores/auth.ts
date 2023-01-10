@@ -1,11 +1,6 @@
-import {
-  HEX_PRIVKEY_STORAGE_KEY,
-  HEX_PUBKEY_STORAGE_KEY,
-} from 'app/lib/constants'
-import * as storage from 'app/lib/storage'
-import { generateRandomPlacekitten, timeNowInSeconds } from 'app/lib/utils'
+import * as s from 'lib/storage'
+import { generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
 import { getEventHash, getPublicKey, nip19, signEvent } from 'nostr-tools'
-import { Alert } from 'react-native'
 
 import { login, logout } from './authActions'
 
@@ -40,11 +35,12 @@ export const createAuthStore = (set: any, get: any) => ({
       const privateKey = data as string
       const publicKey = getPublicKey(privateKey)
       console.log('Decoded publicKey: ', publicKey)
-      await storage.setItem(HEX_PUBKEY_STORAGE_KEY, publicKey)
-      await storage.setItem(HEX_PRIVKEY_STORAGE_KEY, privateKey)
+      await s.setItem(s.HEX_PUBKEY_STORAGE_KEY, publicKey)
+      await s.setItem(s.HEX_PRIVKEY_STORAGE_KEY, privateKey)
       console.log('Keys saved to local storage')
       set({ isLoggedIn: true, user: { name: '', publicKey, privateKey } })
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e)
       alert('Invalid key. Did you copy it correctly?')
     }
   },

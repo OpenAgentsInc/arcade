@@ -1,5 +1,5 @@
-import { PostKind } from 'app/lib/models/types'
-import { postToEvent } from 'lib/models/mentions/simpler'
+import { postToEvent } from 'lib/nostr/experimental/mentions/simpler'
+import { PostKind } from 'lib/nostr/experimental/types'
 
 test('make hashtag post', () => {
   const privkey =

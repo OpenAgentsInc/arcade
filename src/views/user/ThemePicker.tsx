@@ -1,7 +1,6 @@
 import { CheckCircle } from '@tamagui/lucide-icons'
-import { THEME_STORAGE_KEY } from 'app/lib/constants'
-import * as storage from 'app/lib/storage'
-import { useStore } from 'app/stores'
+import * as storage from 'lib/storage'
+import { useStore } from 'stores'
 import { Square, Theme, ThemeName, XGroup, YStack } from 'tamagui'
 
 export const ThemePicker = () => {
@@ -10,7 +9,7 @@ export const ThemePicker = () => {
 
   const setThemeName = (themeName: ThemeName) => {
     setStoreThemeName(themeName)
-    storage.setItem(THEME_STORAGE_KEY, themeName)
+    storage.setItem(storage.THEME_STORAGE_KEY, themeName)
   }
 
   const themes: ThemeName[] = [

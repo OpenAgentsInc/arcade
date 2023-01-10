@@ -1,4 +1,4 @@
-import { Nostr } from 'app/lib'
+import { Nostr } from 'lib/nostr'
 import create from 'zustand'
 
 import { createAuthStore } from './auth'

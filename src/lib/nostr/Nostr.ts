@@ -1,9 +1,8 @@
 import { initialSubscriptions } from 'app/views/chat/initialSubscriptions'
-import { useStore } from 'app/stores'
+import { handleEvent } from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
 import { Event as NostrEvent, Filter } from 'nostr-tools'
-
-import { handleEvent } from '../handleEvent'
+import { useStore } from 'stores'
 
 const DEFAULT_RELAYS = ['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co']
 

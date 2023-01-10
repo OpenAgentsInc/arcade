@@ -1,4 +1,4 @@
-import { parseMentions } from 'lib/models/mentions/parseMentions'
+import { parseMentions } from 'lib/nostr/experimental/mentions/parseMentions'
 
 test('parses a blank mention', () => {
   const parsed = parseMentions('', [['e', 'event_id']])

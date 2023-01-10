@@ -1,6 +1,9 @@
 import * as SecureStore from 'expo-secure-store'
 
-import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from './constants'
+import {
+  HEX_PRIVKEY_STORAGE_KEY,
+  HEX_PUBKEY_STORAGE_KEY,
+} from './storage-constants'
 
 export function getItem(key) {
   return SecureStore.getItemAsync(key)

@@ -1,8 +1,5 @@
-import {
-  HEX_PRIVKEY_STORAGE_KEY,
-  HEX_PUBKEY_STORAGE_KEY,
-} from 'app/lib/constants'
 import * as storage from 'app/lib/storage'
+import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'lib/storage'
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 
 import { useStore } from '.'
