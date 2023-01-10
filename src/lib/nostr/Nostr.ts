@@ -62,6 +62,9 @@ export class Nostr {
   }
 
   public close(): void {
+    if (!this.relayPool) {
+      return
+    }
     this.relayPool.close()
   }
 }

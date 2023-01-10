@@ -17,7 +17,7 @@
     "postinstall": "npx patch-package",
     "apk": "yarn build:android:apk",
     "test": "jest --verbose",
-    "test1": "jest --testPathPattern=tests/nip01_events/events.test.ts --verbose"
+    "test1": "jest --testPathPattern=tests/nostr/nostr.test.ts --verbose"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.5.2",
@@ -74,7 +74,8 @@
     "eslint-config-universe": "11.1.1",
     "eslint-plugin-simple-import-sort": "8.0.0",
     "prettier": "2.7.1",
-    "typescript": "4.9.3"
+    "typescript": "4.9.3",
+    "websocket-polyfill": "0.0.3"
   },
   "private": true,
   "jest": {

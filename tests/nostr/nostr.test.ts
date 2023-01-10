@@ -1,29 +1,68 @@
+import 'websocket-polyfill'
+
 import { delay } from 'app/lib/utils'
 import { Nostr, NostrEvent } from 'lib/nostr'
 import { RelayPoolSubscription } from 'nostr-relaypool'
+import { relayInit } from 'nostr-tools'
+
+const relay = relayInit('wss://arc1.arcadelabs.co')
 
 describe('Nostr class', () => {
-  let nostr: Nostr
-  let sub: RelayPoolSubscription
-  beforeEach(async () => {
-    nostr = new Nostr()
-    await delay(1000)
+  beforeAll(() => {
+    relay.connect()
   })
 
-  afterEach(async () => {
-    if (sub) {
-      sub.unsub()
-    }
-    await delay(1000)
-    nostr.close()
+  afterAll(async () => {
+    await relay.close()
   })
 
-  test('initial subscriptions', () => {
-    // const sub = nostr.setupInitialSubscriptions()
-    // sub = nostr.setupInitialSubscriptions()
-    expect(sub).toBeDefined()
-    // additional assertions to check if the subscription has been set up correctly
+  //   let nostr: Nostr
+  //   let sub: RelayPoolSubscription
+  //   beforeEach(async () => {
+  //     nostr = new Nostr()
+  //     await delay(1000)
+  //   })
+
+  //   afterEach(async () => {
+  //     if (sub) {
+  //       sub.unsub()
+  //     }
+  //     await delay(1000)
+  //     nostr.close()
+  //   })
+
+  test('connectivity', () => {
+    return expect(
+      new Promise((resolve) => {
+        relay.on('connect', () => {
+          resolve(true)
+        })
+        relay.on('error', () => {
+          resolve(false)
+        })
+      })
+    ).resolves.toBe(true)
   })
+
+  //   test('initial subscriptions', async () => {
+  //     // const sub = nostr.setupInitialSubscriptions()
+  //     // sub = nostr.setupInitialSubscriptions()
+  //     // return expect(
+
+  //     // )
+  //     return expect(
+  //       new Promise(async (resolve) => {
+  //         const nostr = new Nostr()
+  //         console.log(nostr)
+  //         await delay(3000)
+  //         resolve(true)
+  //       })
+  //     ).resolves.toBeTruthy()
+
+  //     // expect(true).toBeTruthy()
+  //     // expect(sub).toBeDefined()
+  //     // additional assertions to check if the subscription has been set up correctly
+  //   })
 
   //   test('publish event', () => {
   //     const event: NostrEvent = {
