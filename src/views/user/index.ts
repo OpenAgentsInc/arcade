@@ -1,1 +1,1 @@
-export * from './useAuthed'
+export * from './SettingsScreen'

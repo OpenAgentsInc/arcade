@@ -1,9 +1,8 @@
-import * as storage from 'app/lib/storage'
-import { useStore } from 'app/stores'
+import { THEME_STORAGE_KEY } from 'lib/constants'
+import * as storage from 'lib/storage'
 import { useEffect } from 'react'
+import { useStore } from 'stores'
 import { ThemeName } from 'tamagui'
-
-import { THEME_STORAGE_KEY } from './constants'
 
 export const useTheme = () => {
   const themeName = useStore((s) => s.themeName)

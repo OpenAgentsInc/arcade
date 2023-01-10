@@ -1,7 +1,7 @@
 /* eslint-disable radix */
-import { useNostr } from 'app/lib/useNostr'
-import { useStore } from 'app/stores'
+import { useNostr } from 'lib/hooks'
 import { useEffect } from 'react'
+import { useStore } from 'stores'
 
 export const useMessagesForChannel = (channelId: string) => {
   const nostr = useNostr()

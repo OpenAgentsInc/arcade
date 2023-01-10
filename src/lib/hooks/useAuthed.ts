@@ -1,14 +1,16 @@
-import * as storage from 'app/lib/storage'
-import { useNostr } from 'app/lib/useNostr'
-import { useStore } from 'app/stores'
+import { useNostr } from 'lib/hooks'
+import * as storage from 'lib/storage'
 import { useEffect, useState } from 'react'
+import { useStore } from 'stores'
 
 export const useAuthed = () => {
   const privateKey = useStore((s) => s.user.privateKey)
   const publicKey = useStore((s) => s.user.publicKey)
   const nostr = useNostr()
   const [checkedForKeys, setCheckedForKeys] = useState<boolean>(false)
-  const authed = checkedForKeys ? publicKey.length > 10 && privateKey.length > 10 : null
+  const authed = checkedForKeys
+    ? publicKey.length > 10 && privateKey.length > 10
+    : null
 
   useEffect(() => {
     if (checkedForKeys && privateKey && publicKey) {
@@ -17,7 +19,6 @@ export const useAuthed = () => {
     }
     if (checkedForKeys && (!privateKey || !publicKey)) {
       console.log('No keys found')
-      return
     }
   }, [privateKey, publicKey, checkedForKeys])
 

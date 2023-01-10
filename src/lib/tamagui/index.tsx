@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { useTheme } from 'app/lib/useTheme'
+import { useTheme } from 'lib/hooks'
 import { Suspense } from 'react'
 import { StatusBar } from 'react-native'
 import { TamaguiProvider, Theme } from 'tamagui'
