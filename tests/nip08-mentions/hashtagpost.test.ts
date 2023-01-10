@@ -12,7 +12,6 @@ test('make hashtag post', () => {
     kind: PostKind.TextPost,
   }
   const ev = postToEvent(post, privkey, pubkey)
-  console.log(ev)
 
   expect(ev.tags.length).toBe(2)
   expect(ev.content).toBe('#arc some content #bitcoin derp')

@@ -18,8 +18,8 @@ export function parseMentions(content: string, mentions: any[]): any[] {
     while (hashtagEnd < content.length && !content[hashtagEnd].match(/\s/)) {
       hashtagEnd++
     }
-    // Add the hashtag to the parsed array
-    parsed.push(content.substring(nextHashtagIndex, hashtagEnd))
+    // Add the hashtag to the parsed array, but remove the # character
+    parsed.push(content.substring(nextHashtagIndex + 1, hashtagEnd))
     currentIndex = hashtagEnd
   }
 
