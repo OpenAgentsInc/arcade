@@ -63,7 +63,8 @@ export function parseChar(p: Parser, c: string): boolean {
   if (p.pos >= p.str.length) {
     return false
   }
-  if (p.str[p.pos] === c) {
+  if (p.str[p.pos] === c || p.str[p.pos] === '#') {
+    // Check for hashtag character '#'
     p.pos += 1
     return true
   }
