@@ -5,8 +5,10 @@ import { formatDistanceToNow } from 'date-fns'
  *
  * @param ms The number of milliseconds to wait.
  */
-export const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms))
+export const delay = (ms: number) => {
+  console.log(`Sleeping for ${ms}ms...`)
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 export const formatTimestamp = (timestamp: string) => {
   // eslint-disable-next-line radix

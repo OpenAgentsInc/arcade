@@ -1,21 +1,19 @@
-import { initialSubscriptions } from 'app/views/chat/initialSubscriptions'
-import { handleEvent } from 'lib/nostr'
+import { Event as NostrEvent, Filter, handleEvent } from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
-import { Event as NostrEvent, Filter } from 'nostr-tools'
 import { useStore } from 'stores'
+import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 const DEFAULT_RELAYS = ['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co']
 
 export class Nostr {
   private relayPool: RelayPool
   private relays: string[]
-  private publicKey: string | undefined
-  private privateKey: string | undefined
+  public publicKey: string | undefined
+  public privateKey: string | undefined
 
   constructor(relays: string[] = DEFAULT_RELAYS) {
     this.relays = relays
-    this.relayPool = new RelayPool(relays)
-    console.log('RelayPool initialized.')
+    this.relayPool = new RelayPool(this.relays)
   }
 
   public setupInitialSubscriptions() {
@@ -28,6 +26,7 @@ export class Nostr {
       })
     })
     console.log('Subscriptions done.')
+    return sub
   }
 
   public publish(event: NostrEvent): void {
@@ -60,5 +59,9 @@ export class Nostr {
       })
     })
     return sub
+  }
+
+  public close(): void {
+    this.relayPool.close()
   }
 }
