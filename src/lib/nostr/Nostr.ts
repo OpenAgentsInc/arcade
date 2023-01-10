@@ -132,13 +132,13 @@ export class Nostr {
 
   public subscribe(filters: Filter[]): RelayPoolSubscription {
     const sub = this.relayPool.sub(filters, this.relays)
-    // const chatActions = useStore.getState().chatActions
-    // sub.onevent((event: NostrEvent) => {
-    //   handleEvent(event, {
-    //     addChannel: chatActions.addChannel,
-    //     addMessage: chatActions.addMessage,
-    //   })
-    // })
+    const chatActions = useStore.getState().chatActions
+    sub.onevent((event: NostrEvent) => {
+      handleEvent(event, {
+        addChannel: chatActions.addChannel,
+        addMessage: chatActions.addMessage,
+      })
+    })
     return sub
   }
 
