@@ -132,17 +132,13 @@ describe('Nostr class', () => {
       },
     ])
 
-    console.log('relayPoolSubscription here now:', relayPoolSubscription)
-
     relayPoolSubscription.onevent((event) => {
-      console.log('wat event:', event)
       expect(event).toHaveProperty('pubkey', pk)
       expect(event).toHaveProperty('kind', 27572)
       expect(event).toHaveProperty('content', 'arc test suite')
       resolve1(true)
     })
     relayPoolSubscription.onevent((event) => {
-      console.log('wat event2:', event)
       expect(event).toHaveProperty('pubkey', pk)
       expect(event).toHaveProperty('kind', 27572)
       expect(event).toHaveProperty('content', 'arc test suite')
@@ -159,19 +155,14 @@ describe('Nostr class', () => {
     event.id = getEventHash(event)
     event.sig = signEvent(event, sk)
 
-    console.log('trying to publish:', event)
     nostr.publish(event)
-
-    console.log('did we do that')
 
     return expect(
       Promise.all([
         new Promise((resolve) => {
-          console.log('works?', resolve)
           resolve1 = resolve
         }),
         new Promise((resolve) => {
-          console.log('works2?', resolve)
           resolve2 = resolve
         }),
       ])
