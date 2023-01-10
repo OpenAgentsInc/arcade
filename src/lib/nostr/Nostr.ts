@@ -41,7 +41,6 @@ export class Nostr {
   public loadFirstPaint() {
     // Grab friendlist and add self to it
     const friends = this.getFriendList()
-    console.log('FRIENDS:', friends)
     friends.push(this.publicKey)
 
     // We want contact metadata of our friends
@@ -68,7 +67,8 @@ export class Nostr {
       {
         kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
         authors: friends,
-        limit: 500,
+        limit: 10,
+        // limit: 500,
       },
     ]
 
@@ -84,9 +84,11 @@ export class Nostr {
   public setupInitialSubscriptions() {
     const sub = this.relayPool.sub(initialSubscriptions, this.relays)
     const chatActions = useStore.getState().chatActions
+    const addEvent = useStore.getState().addEvent
     sub.onevent((event: NostrEvent) => {
       handleEvent(event, {
         addChannel: chatActions.addChannel,
+        addEvent,
         addMessage: chatActions.addMessage,
       })
     })
@@ -133,9 +135,11 @@ export class Nostr {
   public subscribe(filters: Filter[]): RelayPoolSubscription {
     const sub = this.relayPool.sub(filters, this.relays)
     const chatActions = useStore.getState().chatActions
+    const addEvent = useStore.getState().addEvent
     sub.onevent((event: NostrEvent) => {
       handleEvent(event, {
         addChannel: chatActions.addChannel,
+        addEvent,
         addMessage: chatActions.addMessage,
       })
     })

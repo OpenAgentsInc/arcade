@@ -12,6 +12,7 @@ LogBox.ignoreLogs([
   'Constants.platform.ios.model',
   'Require cycle',
   'Warning, duplicate ID',
+  'failed to connect',
 ])
 
 const App: FC = () => {
