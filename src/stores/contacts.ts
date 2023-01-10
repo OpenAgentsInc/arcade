@@ -1,4 +1,4 @@
-import { demoFriends } from './dummydata'
+import { demoFriends } from 'lib/constants'
 
 export interface ContactsState {
   friends: string[]

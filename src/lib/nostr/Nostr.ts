@@ -15,7 +15,7 @@ import {
 import { useStore } from 'stores'
 import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
-const DEFAULT_RELAYS = ['wss://relay.nostr.ch', 'wss://arc1.arcadelabs.co']
+import { DEFAULT_RELAYS } from '../constants/relays'
 
 export class Nostr {
   private relayPool: RelayPool
