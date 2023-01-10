@@ -1,4 +1,5 @@
 export * from './BackButton'
+export * from './Logo'
 export * from './LogoutDialog'
 export * from './NavHeader'
 export * from './Screen'

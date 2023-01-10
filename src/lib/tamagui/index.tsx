@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { StatusBar } from 'react-native'
 import { TamaguiProvider, Theme } from 'tamagui'
 
-import config from '../tamagui.config'
+import config from './tamagui.config'
 
 export const Provider: FCC = ({ children }) => {
   const theme = useTheme()

@@ -2,11 +2,11 @@ import 'text-encoding-polyfill'
 import 'expo-dev-client'
 
 import { useFonts } from 'expo-font'
+import { Provider } from 'lib/tamagui'
 import { FC } from 'react'
 import { LogBox } from 'react-native'
 
 import { NativeNavigation } from './navigation'
-import { Provider } from './provider'
 
 LogBox.ignoreLogs([
   'Constants.platform.ios.model',
