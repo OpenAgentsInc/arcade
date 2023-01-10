@@ -2,6 +2,7 @@ import {
   Event as NostrEvent,
   Filter,
   handleEvent,
+  Kind,
   validateEvent,
 } from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
@@ -35,11 +36,42 @@ export class Nostr {
   }
 
   public getFriendList(): string[] {
-    return useStore.getState().ContactsState.channels.map((c) => c.pubkey)
+    return useStore.getState().friends
   }
 
   public loadFirstPaint() {
+    // Grab friendlist and add self to it
     const friends = this.getFriendList()
+    friends.push(this.publicKey)
+
+    // We want contact metadata of all these folks
+    const contactsFilter: Filter = { kinds: [0], authors: friends }
+
+    // We want our contact list
+    const ourContactsFilter: Filter = {
+      kinds: [Kind.Contacts, Kind.Metadata],
+      authors: [this.publicKey],
+    }
+
+    // We want our DMs
+    const dmsFilter: Filter = {
+      kinds: [Kind.EncryptedDirectMessage],
+      limit: 500,
+      authors: [this.publicKey],
+    }
+
+    // We want our DMs (?)
+    // const ourDmsFilter: Filter = {
+    //   kinds: [Kind.EncryptedDirectMessage],
+    //   authors: friends,
+    // }
+
+    const homeFilter: Filter = {
+      kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
+      authors: friends,
+      limit: 500,
+    }
+
     return true
   }
 
