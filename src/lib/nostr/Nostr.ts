@@ -41,11 +41,9 @@ export class Nostr {
   }
 
   public publish(event: NostrEvent): boolean {
-    console.log('EVENTSOFAR:', event)
     try {
       if (!event.id) {
         event.id = getEventHash(event)
-        console.log('we made an event', event)
       }
       if (!event.sig) {
         if (!this.privateKey) {
@@ -58,7 +56,8 @@ export class Nostr {
       }
       this.relayPool.publish(event, this.relays)
       return true
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e)
       return false
     }
   }
