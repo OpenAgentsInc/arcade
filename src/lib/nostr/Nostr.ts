@@ -11,6 +11,7 @@ import {
   getPublicKey,
   signEvent,
 } from 'nostr-tools'
+import { useState } from 'react'
 import { useStore } from 'stores'
 import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
@@ -33,7 +34,12 @@ export class Nostr {
     this.publicKey = publicKey ?? getPublicKey(this.privateKey)
   }
 
+  public getFriendList(): string[] {
+    return useStore.getState().ContactsState.channels.map((c) => c.pubkey)
+  }
+
   public loadFirstPaint() {
+    const friends = this.getFriendList()
     return true
   }
 
