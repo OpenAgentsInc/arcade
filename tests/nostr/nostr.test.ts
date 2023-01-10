@@ -16,20 +16,20 @@ describe('Nostr class', () => {
     await relay.close()
   })
 
-  //   let nostr: Nostr
-  //   let sub: RelayPoolSubscription
-  //   beforeEach(async () => {
-  //     nostr = new Nostr()
-  //     await delay(1000)
-  //   })
+  let nostr: Nostr
+  let sub: RelayPoolSubscription
+  beforeEach(async () => {
+    nostr = new Nostr()
+    await delay(500)
+  })
 
-  //   afterEach(async () => {
-  //     if (sub) {
-  //       sub.unsub()
-  //     }
-  //     await delay(1000)
-  //     nostr.close()
-  //   })
+  afterEach(async () => {
+    if (sub) {
+      sub.unsub()
+    }
+    await delay(500)
+    nostr.close()
+  })
 
   test('connectivity', () => {
     return expect(
@@ -44,25 +44,12 @@ describe('Nostr class', () => {
     ).resolves.toBe(true)
   })
 
-  //   test('initial subscriptions', async () => {
-  //     // const sub = nostr.setupInitialSubscriptions()
-  //     // sub = nostr.setupInitialSubscriptions()
-  //     // return expect(
+  test('initial subscriptions', async () => {
+    // const sub = nostr.setupInitialSubscriptions()
+    sub = nostr.setupInitialSubscriptions()
 
-  //     // )
-  //     return expect(
-  //       new Promise(async (resolve) => {
-  //         const nostr = new Nostr()
-  //         console.log(nostr)
-  //         await delay(3000)
-  //         resolve(true)
-  //       })
-  //     ).resolves.toBeTruthy()
-
-  //     // expect(true).toBeTruthy()
-  //     // expect(sub).toBeDefined()
-  //     // additional assertions to check if the subscription has been set up correctly
-  //   })
+    expect(sub).toBeDefined()
+  })
 
   //   test('publish event', () => {
   //     const event: NostrEvent = {
