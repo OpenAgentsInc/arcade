@@ -6,7 +6,7 @@ import { XStack } from 'tamagui'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
 
-import { ChatNavigator } from './chat-navigator'
+import { ChatNavigator } from './ChatNavigator'
 
 const BottomTab = createBottomTabNavigator<{
   chat: undefined

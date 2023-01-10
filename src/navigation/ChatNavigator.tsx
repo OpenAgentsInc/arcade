@@ -1,8 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ChannelScreen, ChannelsScreen } from 'app/views/chat'
-import { Channel } from 'app/stores/chat'
+import { Channel } from 'stores/chat'
+import { ChannelScreen, ChannelsScreen } from 'views/chat'
 import { NavHeader } from 'views/shared'
-import React from 'react'
 
 const Stack = createNativeStackNavigator<{
   // todo: fix the dupe w @types
