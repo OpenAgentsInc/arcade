@@ -1,8 +1,8 @@
-import { useAuthed } from 'app/features/user'
+import { useAuthed } from 'lib/hooks'
 import { View } from 'react-native'
 
-import { AuthedNavigator } from './authed-navigator'
-import { UnauthedNavigator } from './unauthed-navigator'
+import { AuthedNavigator } from './AuthedNavigator'
+import { UnauthedNavigator } from './UnauthedNavigator'
 
 export function NativeNavigation() {
   const authed = useAuthed()

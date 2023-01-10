@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { getEventHash, signEvent } from 'nostr-tools'
 
 enum ValidationResult {

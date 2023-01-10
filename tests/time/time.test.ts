@@ -7,7 +7,7 @@ import {
   subWeeks,
   subYears,
 } from 'date-fns'
-import { timeAgoSince } from 'lib/time'
+import { timeAgoSince } from 'lib/utils'
 
 describe('timeAgoSince', () => {
   test('returns "now" when the time difference is less than 3 seconds', () => {
