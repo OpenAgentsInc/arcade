@@ -34,17 +34,21 @@ describe('Nostr class', () => {
     expect(sub).toBeDefined()
   })
 
-  test('publish event', () => {
+  test('publish event', async () => {
+    const sk = generatePrivateKey()
+    const pk = getPublicKey(sk)
     const event: NostrEvent = {
       kind: 1,
-      pubkey: nostr.publicKey,
+      pubkey: pk,
       created_at: Date.now(),
       tags: [],
       content: 'hello world',
     }
+    event.id = getEventHash(event)
+    event.sig = signEvent(event, sk)
+
     const pub = nostr.publish(event)
     expect(pub).toBeTruthy()
-    // additional assertions to check if the event has been published correctly
   })
 
   test('set keys', () => {
