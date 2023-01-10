@@ -16,7 +16,7 @@
     "postinstall": "npx patch-package",
     "apk": "yarn build:android:apk",
     "test": "jest --verbose",
-    "test1": "jest --testPathPattern=tests/nip08-mentions/hashtagpost.test.ts --verbose"
+    "test1": "jest --testPathPattern=tests/nip08-mentions/markdown.test.ts --verbose"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "6.5.2",
