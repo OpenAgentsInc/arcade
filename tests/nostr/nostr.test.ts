@@ -3,8 +3,27 @@ import 'websocket-polyfill'
 import { delay } from 'app/lib/utils'
 import { Nostr, NostrEvent } from 'lib/nostr'
 import { RelayPoolSubscription } from 'nostr-relaypool'
+import {
+  generatePrivateKey,
+  getEventHash,
+  getPublicKey,
+  relayInit,
+  signEvent,
+} from 'nostr-tools'
+
+// jest.setTimeout(7000)
 
 describe('Nostr class', () => {
+  const relay = relayInit('wss://nostr-dev.wellorder.net/')
+
+  beforeAll(() => {
+    relay.connect()
+  })
+
+  afterAll(async () => {
+    await relay.close()
+  })
+
   let nostr: Nostr
   let sub: RelayPoolSubscription
   beforeEach(async () => {
@@ -41,33 +60,122 @@ describe('Nostr class', () => {
     // additional assertions to check if the event has been published correctly
   })
 
-  //   test('set keys', () => {
-  //     const publicKey =
-  //       '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c'
-  //     const privateKey =
-  //       '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
-  //     nostr.setKeys(publicKey, privateKey)
-  //     expect(nostr.publicKey).toEqual(publicKey)
-  //     // additional assertions to check if the keys have been set correctly
-  //   })
+  test('set keys', () => {
+    const publicKey =
+      '22a12a128a3be27cd7fb250cbe796e692896398dc1440ae3fa567812c8107c1c'
+    const privateKey =
+      '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
+    nostr.setKeys(publicKey, privateKey)
+    expect(nostr.publicKey).toEqual(publicKey)
+    expect(nostr.privateKey).toEqual(privateKey)
+  })
 
-  //   test('subscribe', () => {
-  //     const filters = [{ kinds: [42], limit: 30, '#e': ['channelId'] }]
-  //     const mockHandleEvent = jest.fn()
-  //     const mockUseStore = {
-  //       getState: jest.fn().mockReturnValue({
-  //         chatActions: {
-  //           addChannel: mockHandleEvent,
-  //           addMessage: mockHandleEvent,
-  //         },
-  //       }),
-  //     }
-  //     jest.mock('stores', () => ({
-  //       useStore: mockUseStore,
-  //     }))
+  test('listening (twice) and publishing', async () => {
+    const sk = generatePrivateKey()
+    const pk = getPublicKey(sk)
+    let resolve1
+    let resolve2
 
-  //     const sub = nostr.subscribe(filters)
-  //     expect(sub).toBeDefined()
-  //     expect(mockUseStore.getState).toHaveBeenCalled()
-  //   })
+    const sub = relay.sub([
+      {
+        kinds: [27572],
+        authors: [pk],
+      },
+    ])
+
+    sub.on('event', (event) => {
+      expect(event).toHaveProperty('pubkey', pk)
+      expect(event).toHaveProperty('kind', 27572)
+      expect(event).toHaveProperty('content', 'nostr-tools test suite')
+      resolve1(true)
+    })
+    sub.on('event', (event) => {
+      expect(event).toHaveProperty('pubkey', pk)
+      expect(event).toHaveProperty('kind', 27572)
+      expect(event).toHaveProperty('content', 'nostr-tools test suite')
+      resolve2(true)
+    })
+
+    const event: NostrEvent = {
+      kind: 27572,
+      pubkey: pk,
+      created_at: Math.floor(Date.now() / 1000),
+      tags: [],
+      content: 'nostr-tools test suite',
+    }
+    event.id = getEventHash(event)
+    event.sig = signEvent(event, sk)
+
+    relay.publish(event)
+    return expect(
+      Promise.all([
+        new Promise((resolve) => {
+          resolve1 = resolve
+        }),
+        new Promise((resolve) => {
+          resolve2 = resolve
+        }),
+      ])
+    ).resolves.toEqual([true, true])
+  })
 })
+
+//   test('listening (twice) and publishing via pool', async () => {
+//     const sk = nostr.privateKey
+//     const pk = nostr.publicKey
+//     let resolve1
+//     let resolve2
+
+//     const relayPoolSubscription = nostr.subscribe([
+//       {
+//         kinds: [27572],
+//         authors: [pk],
+//       },
+//     ])
+
+//     console.log('relayPoolSubscription here now:', relayPoolSubscription)
+
+//     relayPoolSubscription.onevent((event) => {
+//       console.log('wat event:', event)
+//       expect(event).toHaveProperty('pubkey', pk)
+//       expect(event).toHaveProperty('kind', 27572)
+//       expect(event).toHaveProperty('content', 'arc test suite')
+//       resolve1(true)
+//     })
+//     relayPoolSubscription.onevent((event) => {
+//       console.log('wat event2:', event)
+//       expect(event).toHaveProperty('pubkey', pk)
+//       expect(event).toHaveProperty('kind', 27572)
+//       expect(event).toHaveProperty('content', 'arc test suite')
+//       resolve2(true)
+//     })
+
+//     const event: NostrEvent = {
+//       kind: 27572,
+//       pubkey: pk,
+//       created_at: Math.floor(Date.now() / 1000),
+//       tags: [],
+//       content: 'arc test suite',
+//     }
+//     event.id = getEventHash(event)
+//     event.sig = signEvent(event, sk)
+
+//     console.log('trying to publish:', event)
+//     nostr.publish(event)
+
+//     console.log('did we do that')
+
+//     return expect(
+//       Promise.all([
+//         new Promise((resolve) => {
+//           console.log('works?', resolve)
+//           resolve1 = resolve
+//         }),
+//         new Promise((resolve) => {
+//           console.log('works2?', resolve)
+//           resolve2 = resolve
+//         }),
+//       ])
+//     ).resolves.toEqual([true, true])
+//   })
+// })
