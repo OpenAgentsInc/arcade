@@ -10,7 +10,7 @@ export const NavHeader = ({ title, options, ...props }) => {
     <YStack
       elevation="$3"
       px="$3"
-      pt="$7"
+      pt="$8"
       bg="$color1"
       borderBottomColor="$color4"
       borderBottomWidth="$1"
