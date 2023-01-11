@@ -20,8 +20,8 @@ Current and upcoming features in order of priority:
 - [x] Key backup ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Pick UI theme ([#23](https://github.com/ArcadeLabsInc/arc/pull/23))
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
-- [x] Curated global feed
-- [x] Twitter-style profiles
+- [x] Curated global feed ([#34](https://github.com/ArcadeLabsInc/arc/pull/34))
+- [x] Twitter-style profiles ([#35](https://github.com/ArcadeLabsInc/arc/pull/35))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Look up user by NIP-05 identifier
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
