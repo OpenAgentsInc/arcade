@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native'
 import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
 import {
   Avatar,
@@ -14,6 +15,9 @@ import { Screen } from 'views/shared'
 const COVER_HEIGHT = 130
 
 export const ProfileScreen = () => {
+  const pubkey = useRoute<any>().params.pubkey
+  console.log(pubkey)
+
   return (
     <Screen>
       <YStack width="100%" bg="$color8" height={COVER_HEIGHT}>
