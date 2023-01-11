@@ -35,7 +35,7 @@ function hex_encode(buf) {
 
 export const bechToHex = (bech) => {
   const decoded = bech32Decode(bech)
-  if (!decoded) return
+  if (!decoded) return ''
   const bytes = bech32.fromWords(decoded.words)
   return hex_encode(bytes)
 }
