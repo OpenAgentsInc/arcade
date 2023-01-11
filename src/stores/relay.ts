@@ -1,3 +1,5 @@
+import { DEFAULT_RELAYS } from 'app/lib/constants/relays'
+
 export interface RelayInfo {
   url: string
   status: string
@@ -9,7 +11,11 @@ export interface RelayState {
 }
 
 const initialRelayState: RelayState = {
-  relays: [],
+  relays: DEFAULT_RELAYS.map((url) => ({
+    url,
+    status: 'disconnected',
+    connected: false,
+  })),
 }
 
 export const createRelayStore = (set: any, get: any) => ({
