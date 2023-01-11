@@ -5,6 +5,7 @@ import {
   timeAgoSince,
   truncateString,
 } from 'lib/utils'
+import { useMemo } from 'react'
 import { Avatar, Paragraph, XStack, YStack } from 'tamagui'
 
 export const TextNote = (props: { data: NostrEvent }) => {
@@ -13,7 +14,10 @@ export const TextNote = (props: { data: NostrEvent }) => {
   const metadata = useUserMetadata(data.pubkey)
   const name = metadata?.display_name || truncateString(data.pubkey, 8)
   const username = `${metadata?.name}` || ''
-  const picture = metadata?.picture || generateRandomPlacekitten()
+  const picture = useMemo(
+    () => metadata?.picture || generateRandomPlacekitten(),
+    [metadata]
+  )
   return (
     <XStack
       mt="$5"

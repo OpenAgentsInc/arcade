@@ -2,6 +2,7 @@ import { useStore } from 'stores'
 
 import { Kind } from '../nostr'
 
+// Todo: refactor this to use a map instead of array iteration
 export const useUserMetadata = (pubkey: string) => {
   const events = useStore((s) => s.events)
 

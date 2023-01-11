@@ -1,4 +1,6 @@
-export const demoFriends = [
+import { bechToHex } from 'lib/nostr'
+
+const demoFriendsany = [
   '00000000827ffaa94bfea288c3dfce4422c794fbb96625b6b31e9049f729d700', // cameri
   'npub1hu3hdctm5nkzd8gslnyedfr5ddz3z547jqcl5j88g4fame2jd08qh6h8nh', // carla
   'npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6', // fiatjaf
@@ -7,3 +9,8 @@ export const demoFriends = [
   'npub1ahxjq4v0zlvexf7cg8j9stumqp3nrtzqzzqxa7szpmcdgqrcumdq0h5ech', // natbrunell
   'npub1qny3tkh0acurzla8x3zy4nhrjz5zd8l9sy9jys09umwng00manysew95gx', // odell
 ]
+
+export const demoFriends = demoFriendsany.map(
+  // if key begins with npub, convert to hex
+  (key) => (key.startsWith('npub') ? bechToHex(key) : key)
+)

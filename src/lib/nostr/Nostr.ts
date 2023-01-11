@@ -42,6 +42,7 @@ export class Nostr {
   public loadFirstPaint() {
     // Grab friendlist and add self to it
     const friends = this.getFriendList()
+    console.log('friends:', friends)
     friends.push(this.publicKey)
 
     // We want contact metadata of our friends
@@ -68,7 +69,7 @@ export class Nostr {
       {
         kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
         authors: friends,
-        limit: 200,
+        limit: 5,
         // limit: 500,
       },
     ]
