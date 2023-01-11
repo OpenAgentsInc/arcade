@@ -77,7 +77,7 @@ export class RelayPool {
         connected: false,
       })
       relayInstance?.on('notice', (msg: string) => {
-        this.noticecbs.forEach((cb) => cb(relay + ': ' + msg))
+        this.noticecbs.forEach((cb) => cb(relayInstance.url + ': ' + msg))
       })
     }
     this.relayByUrl.clear()
