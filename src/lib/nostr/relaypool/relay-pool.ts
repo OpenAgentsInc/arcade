@@ -38,13 +38,18 @@ export class RelayPool {
     }
   }
   addOrGetRelay(relay: string): Relay {
+    const store = useStore.getState()
     let relayInstance = this.relayByUrl.get(relay)
     if (relayInstance) {
       return relayInstance
     }
+    store.relayActions.addOrModifyRelay({
+      url: relay,
+      status: 'connecting',
+      connected: false,
+    })
     relayInstance = relayInit(relay)
     this.relayByUrl.set(relay, relayInstance)
-    const store = useStore.getState()
     relayInstance.connect().then(
       (onfulfilled) => {
         store.relayActions.addOrModifyRelay({
@@ -66,6 +71,19 @@ export class RelayPool {
       }
     )
     return relayInstance
+  }
+
+  closeRelay(url: string) {
+    console.log('Closing relay: ' + url)
+    const relayInstance = this.relayByUrl.get(url)
+    if (!relayInstance) return
+    relayInstance.close()
+    useStore.getState().relayActions.addOrModifyRelay({
+      url: relayInstance.url,
+      status: 'closed',
+      connected: false,
+    })
+    this.relayByUrl.delete(url)
   }
 
   close() {

@@ -8,7 +8,7 @@ import { ListItem, Separator, Switch, Text, XStack, YStack } from 'tamagui'
 import { AddRelay } from './AddRelay'
 
 export const RelayManager = () => {
-  const { relays } = useRelayPool(DEFAULT_RELAYS)
+  const { relays, relayPool } = useRelayPool(DEFAULT_RELAYS)
 
   return (
     <AnimatedFlashList
@@ -34,13 +34,32 @@ export const RelayManager = () => {
               <CircleDot color="green" size={20} />
             ) : (
               <CircleSlashed
-                color={item.status === 'not-connected' ? 'yellow' : 'red'}
+                color={
+                  item.status === 'not-connected' ||
+                  item.status === 'connecting'
+                    ? 'yellow'
+                    : 'red'
+                }
                 size={20}
               />
             )
           }
           iconAfter={
-            <Switch size="$2" checked={item.status === 'connected'}>
+            <Switch
+              size="$2"
+              checked={
+                item.status === 'connected' || item.status === 'connecting'
+              }
+              onCheckedChange={(checked: boolean) => {
+                if (checked) {
+                  console.log('LETS TRY CONNECTING AGAIN TO THISSSS')
+                  relayPool?.addOrGetRelay(item.url)
+                } else {
+                  console.log("NOW WE'RE DISCONNECTING")
+                  relayPool?.closeRelay(item.url)
+                }
+              }}
+            >
               <Switch.Thumb animation="quick" />
             </Switch>
           }

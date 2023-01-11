@@ -2,7 +2,17 @@ import { ChevronDown, ChevronUp, Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
 import { SheetProps } from '@tamagui/sheet/types/types'
 import { useState } from 'react'
-import { Button, H1, H2, Paragraph, XStack } from 'tamagui'
+import {
+  Button,
+  Fieldset,
+  H1,
+  H2,
+  Input,
+  Label,
+  Paragraph,
+  XStack,
+  YStack,
+} from 'tamagui'
 
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
@@ -26,7 +36,7 @@ export const AddRelay = () => {
         modal={true}
         open={open}
         onOpenChange={setOpen}
-        snapPoints={[85, 50, 25]}
+        snapPoints={[75, 50, 25]}
         dismissOnSnapToBottom
         position={position}
         onPositionChange={setPosition}
@@ -34,50 +44,25 @@ export const AddRelay = () => {
       >
         <Sheet.Overlay backgroundColor="black" />
         <Sheet.Handle />
-        <Sheet.Frame f={1} p="$4" jc="center" ai="center" space="$5">
+        <Sheet.Frame f={1} p="$4" space="$5">
           <>
-            <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
+            <YStack space="$1">
+              <Label w={160} justifyContent="flex-end" htmlFor="name">
+                Relay URL
+              </Label>
+              <Input autoFocus id="name" placeholder="wss://" size="$4" />
+            </YStack>
             <Button
-              size="$6"
-              circular
-              icon={ChevronUp}
+              size="$4"
+              mt="$4"
+              icon={PlusCircle}
               onPress={() => setInnerOpen(true)}
-            ></Button>
+            >
+              Add Relay
+            </Button>
           </>
         </Sheet.Frame>
       </Sheet>
     </>
-  )
-}
-
-function InnerSheet(props: SheetProps) {
-  return (
-    <Sheet modal snapPoints={[90]} dismissOnSnapToBottom {...props}>
-      <Sheet.Overlay />
-      <Sheet.Handle />
-      <Sheet.Frame f={1} jc="center" ai="center" space="$5">
-        <Sheet.ScrollView p="$4" space>
-          <Button
-            size="$8"
-            circular
-            als="center"
-            icon={ChevronDown}
-            onPress={() => props.onOpenChange?.(false)}
-          />
-          <H1>Hello world</H1>
-          <H2>You can scroll me</H2>
-          {[1, 2, 3].map((i) => (
-            <Paragraph key={i} size="$10">
-              Eu officia sunt ipsum nisi dolore labore est laborum laborum in
-              esse ad pariatur. Dolor excepteur esse deserunt voluptate labore
-              ea. Exercitation ipsum deserunt occaecat cupidatat consequat est
-              adipisicing velit cupidatat ullamco veniam aliquip reprehenderit
-              officia. Officia labore culpa ullamco velit. In sit occaecat velit
-              ipsum fugiat esse aliqua dolor sint.
-            </Paragraph>
-          ))}
-        </Sheet.ScrollView>
-      </Sheet.Frame>
-    </Sheet>
   )
 }

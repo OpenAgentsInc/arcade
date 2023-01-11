@@ -49,7 +49,6 @@ export function useRelayPool(
     }
     console.log('subscribing maybe')
     const callback = (event: NostrEvent) => {
-      console.log('event...')
       handleEvent(event, {
         addChannel: chatActions.addChannel,
         addEvent,
