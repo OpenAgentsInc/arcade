@@ -1,10 +1,5 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
-import {
-  ChevronRight,
-  CircleDot,
-  CircleSlashed,
-  PlayCircle,
-} from '@tamagui/lucide-icons'
+import { ChevronRight, CircleDot, CircleSlashed } from '@tamagui/lucide-icons'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { ListItem, Stack } from 'tamagui'
