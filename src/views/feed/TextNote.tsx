@@ -37,6 +37,7 @@ export const TextNote = (props: { data: NostrEvent }) => {
         circular
         mt="$2"
         onPress={() => navigate('profile', { pubkey: data.pubkey })}
+        pressStyle={{ opacity: 0.8 }}
       >
         <Avatar.Image src={picture} />
       </Avatar>
