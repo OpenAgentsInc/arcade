@@ -50,7 +50,7 @@ export const handleEvent = (
         break
 
       default:
-        console.log(`Unhandled event kind: ${event.kind}`)
+      // console.log(`Unhandled event kind: ${event.kind}`)
     }
   } catch (e) {
     console.log('Error handling event', e)

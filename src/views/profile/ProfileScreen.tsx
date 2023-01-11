@@ -1,24 +1,28 @@
 import { useRoute } from '@react-navigation/native'
-import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
+import { FlashList } from '@shopify/flash-list'
+import { MessageSquare, Zap } from '@tamagui/lucide-icons'
 import { useUserMetadata } from 'lib/hooks'
+import { useUserPosts } from 'lib/hooks/useUserPosts'
+import { NostrEvent } from 'lib/nostr'
 import {
   Avatar,
   Button,
   Image,
   LinearGradient,
   Paragraph,
-  Text,
   XStack,
   YStack,
 } from 'tamagui'
 import { Screen } from 'views/shared'
+
+import { TextNote } from '../feed/TextNote'
 
 const COVER_HEIGHT = 130
 
 export const ProfileScreen = () => {
   const pubkey = useRoute<any>().params.pubkey
   const metadata = useUserMetadata(pubkey)
-  console.log(metadata)
+  const posts = useUserPosts(pubkey)
 
   return (
     <Screen>
@@ -48,6 +52,7 @@ export const ProfileScreen = () => {
         ml="$3"
         borderWidth={2}
         borderColor="$color3"
+        elevation="$16"
       >
         <Avatar.Image src={metadata.picture} />
         <Avatar.Fallback bc="$background" />
@@ -96,30 +101,7 @@ export const ProfileScreen = () => {
           </Paragraph>
         </XStack> */}
 
-        {/* <XStack mt="$5" space="$3" borderRadius="$2" width="85%">
-          <Avatar size="$3" circular mt="$2">
-            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
-          </Avatar>
-          <YStack space="$1">
-            <XStack space="$2">
-              <Paragraph size="$3" fontWeight="700">
-                nikki ⚡
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" mt={1}>
-                @almosthuman
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
-                • 38s
-              </Paragraph>
-            </XStack>
-            <Paragraph size="$2" color="$color12">
-              Just tried the new pizza place in town and it was amazing!
-              Definitely recommend it.
-            </Paragraph>
-          </YStack>
-        </XStack>
-
-        <XStack
+        {/* <XStack
           ml="$5"
           mt="$4"
           space="$2"
@@ -176,6 +158,13 @@ export const ProfileScreen = () => {
           </YStack>
         </XStack> */}
       </YStack>
+      <FlashList
+        data={posts}
+        renderItem={({ item }: { item: NostrEvent }) => (
+          <TextNote data={item} />
+        )}
+        estimatedItemSize={150}
+      />
     </Screen>
   )
 }
