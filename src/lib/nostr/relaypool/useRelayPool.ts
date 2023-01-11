@@ -1,37 +1,38 @@
 import { DEFAULT_RELAYS } from 'app/lib/constants/relays'
 import { initialSubscriptions } from 'app/views/chat/initialSubscriptions'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useStore } from 'stores'
 
 import { handleEvent } from '../handleEvent'
 import { NostrEvent } from '../nip01_events'
 import { RelayPool } from './relay-pool'
 
+let relayPoolInstance: RelayPool | null = null
+
 export function useRelayPool(
   relays: string[] = DEFAULT_RELAYS,
   options: { noCache?: boolean } = {}
 ) {
-  const [relayPool, setRelayPool] = useState<RelayPool | null>(null)
   const chatActions = useStore().chatActions
   const addEvent = useStore().addEvent
   const activeRelays = useStore((state) => state.relays)
 
   useEffect(() => {
-    const newRelayPool = new RelayPool(relays, options)
-    newRelayPool.onnotice = (notice) => {
-      console.log('notice:', notice)
+    if (!relayPoolInstance) {
+      relayPoolInstance = new RelayPool(relays, options)
+      relayPoolInstance.onnotice = (notice) => {
+        console.log('notice:', notice)
+      }
     }
-    setRelayPool(newRelayPool)
-    console.log('relaypool set maybe.')
+
     return () => {
-      newRelayPool.close()
-      setRelayPool(null)
-      console.log('relaypool notset')
+      relayPoolInstance?.close()
+      relayPoolInstance = null
     }
-  }, [relays])
+  }, [])
 
   const setupInitialSubscriptions = useCallback(() => {
-    if (!relayPool) {
+    if (!relayPoolInstance) {
       console.log('No relaypool, bye.')
       return
     }
@@ -44,13 +45,17 @@ export function useRelayPool(
         addMessage: chatActions.addMessage,
       })
     }
-    const sub = relayPool.subscribe(initialSubscriptions, relays, callback)
+    const sub = relayPoolInstance.subscribe(
+      initialSubscriptions,
+      relays,
+      callback
+    )
     return sub
-  }, [relayPool])
+  }, [relayPoolInstance])
 
   return {
     relays: activeRelays,
-    relayPool,
+    relayPool: relayPoolInstance,
     setupInitialSubscriptions,
   }
 }
