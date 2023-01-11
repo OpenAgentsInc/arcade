@@ -1,4 +1,4 @@
-interface RelayInfo {
+export interface RelayInfo {
   url: string
   status: string
   connected: boolean

@@ -1,8 +1,9 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
-import { ChevronRight, CircleDot, CircleSlashed } from '@tamagui/lucide-icons'
+import { CircleDot, CircleSlashed } from '@tamagui/lucide-icons'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
-import { ListItem, Stack } from 'tamagui'
+import { RelayInfo } from 'stores/relay'
+import { ListItem, Stack, Switch } from 'tamagui'
 
 export const RelayManager = () => {
   const { relays } = useRelayPool(DEFAULT_RELAYS)
@@ -12,7 +13,7 @@ export const RelayManager = () => {
       ListHeaderComponent={<Stack h={60} />}
       estimatedItemSize={150}
       data={relays}
-      renderItem={({ item }) => (
+      renderItem={({ item }: { item: RelayInfo }) => (
         <ListItem
           hoverTheme
           pressTheme
@@ -25,7 +26,11 @@ export const RelayManager = () => {
               <CircleSlashed color="red" size={20} />
             )
           }
-          iconAfter={ChevronRight}
+          iconAfter={
+            <Switch size="$2" checked={item.status === 'connected'}>
+              <Switch.Thumb animation="quick" />
+            </Switch>
+          }
         />
       )}
     />
