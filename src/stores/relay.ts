@@ -13,7 +13,7 @@ export interface RelayState {
 const initialRelayState: RelayState = {
   relays: DEFAULT_RELAYS.map((url) => ({
     url,
-    status: 'disconnected',
+    status: 'not-connected',
     connected: false,
   })),
 }

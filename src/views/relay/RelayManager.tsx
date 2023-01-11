@@ -5,6 +5,8 @@ import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { RelayInfo } from 'stores/relay'
 import { ListItem, Separator, Switch, Text, XStack, YStack } from 'tamagui'
 
+import { AddRelay } from './AddRelay'
+
 export const RelayManager = () => {
   const { relays } = useRelayPool(DEFAULT_RELAYS)
 
@@ -16,7 +18,7 @@ export const RelayManager = () => {
             <Text color="$color12" fontSize={18} fontWeight="700">
               Relays ({relays.length})
             </Text>
-            <PlusCircle size={24} color="$color12" />
+            <AddRelay />
           </XStack>
           <Separator mt="$4" mb="$2" />
         </YStack>
@@ -31,7 +33,10 @@ export const RelayManager = () => {
             item.status === 'connected' ? (
               <CircleDot color="green" size={20} />
             ) : (
-              <CircleSlashed color="red" size={20} />
+              <CircleSlashed
+                color={item.status === 'not-connected' ? 'yellow' : 'red'}
+                size={20}
+              />
             )
           }
           iconAfter={
