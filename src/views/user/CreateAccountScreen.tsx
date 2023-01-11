@@ -1,9 +1,9 @@
 import { ChevronsRight } from '@tamagui/lucide-icons'
 import { useStore } from 'app/stores'
-import { BackButton, Screen } from 'views/shared'
 import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
 import { Button, H2, Input, isWeb, Label, YStack } from 'tamagui'
+import { BackButton, Screen } from 'views/shared'
 
 export const CreateAccountScreen = () => {
   const [username, setUsername] = useState('')
@@ -33,9 +33,9 @@ export const CreateAccountScreen = () => {
 
   return (
     <Screen>
-      <BackButton mt={40} ml={20} />
+      <BackButton mt={75} ml={20} />
       <YStack px="$4" alignItems="center" f={1}>
-        <YStack alignItems="center" w="100%" mt={isWeb ? '15%' : '5%'}>
+        <YStack alignItems="center" w="100%" mt={15}>
           <H2 mb="$4">Create Account</H2>
           <YStack space="$3" alignItems="center" width={300}>
             <YStack width="100%">
