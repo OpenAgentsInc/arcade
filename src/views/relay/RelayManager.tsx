@@ -1,22 +1,9 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
-import {
-  CircleDot,
-  CircleSlashed,
-  Plus,
-  PlusCircle,
-} from '@tamagui/lucide-icons'
+import { CircleDot, CircleSlashed, PlusCircle } from '@tamagui/lucide-icons'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { RelayInfo } from 'stores/relay'
-import {
-  ListItem,
-  Separator,
-  Stack,
-  Switch,
-  Text,
-  XStack,
-  YStack,
-} from 'tamagui'
+import { ListItem, Separator, Switch, Text, XStack, YStack } from 'tamagui'
 
 export const RelayManager = () => {
   const { relays } = useRelayPool(DEFAULT_RELAYS)
@@ -38,8 +25,6 @@ export const RelayManager = () => {
       data={relays}
       renderItem={({ item }: { item: RelayInfo }) => (
         <ListItem
-          hoverTheme
-          pressTheme
           title={item.url}
           subTitle={item.status}
           icon={
