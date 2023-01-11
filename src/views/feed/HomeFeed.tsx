@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useGlobalFeed, useNostr } from 'lib/hooks'
+import { NostrEvent } from 'lib/nostr'
 import { useEffect } from 'react'
 import { Text } from 'tamagui'
 import { Screen } from 'views/shared'
@@ -15,10 +16,11 @@ export const HomeFeed = () => {
     <Screen>
       <FlashList
         estimatedItemSize={150}
-        data={events.map((e) => JSON.stringify(e))}
-        renderItem={({ item }) => <Text color="$color11">{item}</Text>}
+        data={events}
+        renderItem={({ item }: { item: NostrEvent }) => (
+          <Text color="$color12">{item.content}</Text>
+        )}
       />
     </Screen>
   )
 }
-1

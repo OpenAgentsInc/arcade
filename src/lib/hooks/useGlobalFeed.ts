@@ -1,5 +1,7 @@
 import { useStore } from 'stores'
 
 export const useGlobalFeed = () => {
-  return useStore((s) => s.events)
+  const events = useStore((s) => s.events)
+  const filteredEvents = events.filter((e) => e.kind === 1)
+  return filteredEvents
 }

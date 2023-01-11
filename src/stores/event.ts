@@ -1,7 +1,7 @@
 import { NostrEvent } from 'lib/nostr'
 
 export interface EventsState {
-  events: string[]
+  events: NostrEvent[]
 }
 
 const initialEventsState: EventsState = {
