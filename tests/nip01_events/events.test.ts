@@ -1,5 +1,5 @@
-import { Event, SignedEvent, validateEvent } from 'lib/nostr'
-import { getPublicKey, signEvent, verifySignature } from 'nostr-tools'
+import { NostrEvent, SignedEvent, validateEvent } from 'lib/nostr'
+import { Event, getPublicKey, signEvent, verifySignature } from 'nostr-tools'
 
 const event: SignedEvent = {
   id: 'd7dd5eb3ab747e16f8d0212d53032ea2a7cadef53837e5a6c66d42849fcb9027',
@@ -30,7 +30,7 @@ describe('NIP-01: Event creation and signing', () => {
   })
 
   test('check signature', async () => {
-    expect(verifySignature(event)).toBeTruthy()
+    expect(verifySignature(event as any)).toBeTruthy()
   })
 
   test('sign event', async () => {

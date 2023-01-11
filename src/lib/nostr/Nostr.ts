@@ -7,6 +7,7 @@ import {
 } from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
 import {
+  Event,
   generatePrivateKey,
   getEventHash,
   getPublicKey,
@@ -67,7 +68,7 @@ export class Nostr {
       {
         kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
         authors: friends,
-        limit: 20,
+        limit: 200,
         // limit: 500,
       },
     ]
@@ -98,18 +99,18 @@ export class Nostr {
   public publish(event: NostrEvent): boolean {
     try {
       if (!event.id) {
-        event.id = getEventHash(event)
+        event.id = getEventHash(event as Event)
       }
       if (!event.sig) {
         if (!this.privateKey) {
           throw new Error('Cannot sign event, private key not set')
         }
-        event.sig = signEvent(event, this.privateKey)
+        event.sig = signEvent(event as Event, this.privateKey)
       }
       if (!validateEvent(event)) {
         throw new Error('Invalid event')
       }
-      this.relayPool.publish(event, this.relays)
+      this.relayPool.publish(event as Event, this.relays)
       return true
     } catch (e: any) {
       console.log(e)
@@ -149,6 +150,7 @@ export class Nostr {
   public close(): void {
     try {
       this.relayPool.close()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: any) {}
   }
 }

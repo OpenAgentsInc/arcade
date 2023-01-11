@@ -4,6 +4,7 @@ import { delay } from 'app/lib/utils'
 import { Nostr, NostrEvent } from 'lib/nostr'
 import { RelayPoolSubscription } from 'nostr-relaypool'
 import {
+  Event,
   generatePrivateKey,
   getEventHash,
   getPublicKey,
@@ -43,8 +44,8 @@ describe('Nostr class', () => {
       tags: [],
       content: 'hello world',
     }
-    event.id = getEventHash(event)
-    event.sig = signEvent(event, sk)
+    event.id = getEventHash(event as Event)
+    event.sig = signEvent(event as Event, sk)
 
     const pub = nostr.publish(event)
     expect(pub).toBeTruthy()
@@ -110,8 +111,8 @@ describe('Nostr class', () => {
       tags: [],
       content: eventContent,
     }
-    event.id = getEventHash(event)
-    event.sig = signEvent(event, sk)
+    event.id = getEventHash(event as Event)
+    event.sig = signEvent(event as Event, sk)
 
     nostr.publish(event)
 
