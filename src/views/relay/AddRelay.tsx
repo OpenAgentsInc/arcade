@@ -95,11 +95,13 @@ export const AddRelay = () => {
               <Input
                 autoFocus
                 spellCheck={false}
+                autoCorrect={false}
                 autoCapitalize="none"
                 autoComplete="off"
                 id="name"
                 placeholder="wss://"
                 size="$4"
+                value={relayUrl}
                 onChangeText={(text) => {
                   setRelayUrl(text)
                 }}
