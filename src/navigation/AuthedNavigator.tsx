@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ProfileScreen } from 'views/profile'
+import { NavHeader } from 'views/shared'
 
 import { TabNavigator } from './TabNavigator'
 
@@ -15,24 +16,20 @@ export function AuthedNavigator() {
     <Stack.Navigator
       initialRouteName="tabs"
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        header: ({ options }) => (
+          <NavHeader options={options} title={options.title} />
+        ),
       }}
     >
       <Stack.Screen
         name="tabs"
         component={TabNavigator}
-        options={{ title: 'Chats' }}
+        options={{ title: 'Chats', headerShown: false }}
       />
       <Stack.Screen
         name="profile"
         component={ProfileScreen}
-        options={{ title: 'Chat' }}
+        options={{ title: 'Profile' }}
       />
     </Stack.Navigator>
   )

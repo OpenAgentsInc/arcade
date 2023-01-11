@@ -10,13 +10,13 @@ export const NavHeader = ({ title, options, ...props }) => {
     <YStack
       elevation="$3"
       px="$3"
-      pt="$6"
+      pt="$7"
       bg="$color1"
       borderBottomColor="$color4"
       borderBottomWidth="$1"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {canGoBack() && name === 'channel' ? (
+        {canGoBack() && name !== 'tabs' ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}
