@@ -31,6 +31,17 @@ export function useRelayPool(
     }
   }, [])
 
+  useEffect(() => {
+    if (!relayPoolInstance) return
+
+    activeRelays.forEach((relay) => {
+      if (!relayPoolInstance?.relayByUrl.has(relay.url)) {
+        console.log(`Adding relay ${relay.url} to pool.`)
+        relayPoolInstance?.addOrGetRelay(relay.url)
+      }
+    })
+  }, [activeRelays, relayPoolInstance])
+
   const setupInitialSubscriptions = useCallback(() => {
     if (!relayPoolInstance) {
       console.log('No relaypool, bye.')
