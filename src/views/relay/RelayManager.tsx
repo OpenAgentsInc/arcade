@@ -52,10 +52,9 @@ export const RelayManager = () => {
               }
               onCheckedChange={(checked: boolean) => {
                 if (checked) {
-                  console.log('LETS TRY CONNECTING AGAIN TO THISSSS')
+                  relayPool?.closeRelay(item.url)
                   relayPool?.addOrGetRelay(item.url)
                 } else {
-                  console.log("NOW WE'RE DISCONNECTING")
                   relayPool?.closeRelay(item.url)
                 }
               }}

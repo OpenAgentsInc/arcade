@@ -1,6 +1,8 @@
-import { ChevronDown, ChevronUp, Plus, PlusCircle } from '@tamagui/lucide-icons'
+import { Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
-import { SheetProps } from '@tamagui/sheet/types/types'
+import { useStore } from 'stores'
+import { DEFAULT_RELAYS } from 'lib/constants/relays'
+import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { useState } from 'react'
 import {
   Button,
@@ -13,11 +15,51 @@ import {
   XStack,
   YStack,
 } from 'tamagui'
+import { Alert } from 'react-native'
 
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
   const [open, setOpen] = useState(false)
-  const [innerOpen, setInnerOpen] = useState(false)
+  const [relayUrl, setRelayUrl] = useState('')
+  const relays = useStore((state) => state.relays)
+  const addOrModifyRelay = useStore(
+    (state) => state.relayActions.addOrModifyRelay
+  )
+
+  const addRelay = () => {
+    const newRelayUrl = relayUrl.replace(/\/$/, '')
+    let url = newRelayUrl
+    if (url.startsWith('ws://')) {
+      Alert.alert(
+        'Sorry, only secure connections are accepted. Please use wss://'
+      )
+      return
+    }
+
+    if (!url.startsWith('wss://')) {
+      url = 'wss://' + url
+    }
+    const isValidUrl = /^wss:\/\/(.+?)/.test(url)
+    if (!isValidUrl) {
+      Alert.alert('Invalid URL')
+      return
+    }
+
+    console.log("Checking to see if it's already added...", url)
+    if (relays.some((relay) => relay.url === url)) {
+      Alert.alert('This relay is already added!')
+      return
+    } else {
+      console.log('no has.')
+    }
+
+    console.log('Adding:', url)
+    addOrModifyRelay({ url: url, status: 'connecting' })
+    console.log('adddeddddd')
+    setOpen(false)
+    setRelayUrl('')
+    Alert.alert(`Relay ${url} added!`)
+  }
 
   return (
     <>
@@ -50,14 +92,20 @@ export const AddRelay = () => {
               <Label w={160} justifyContent="flex-end" htmlFor="name">
                 Relay URL
               </Label>
-              <Input autoFocus id="name" placeholder="wss://" size="$4" />
+              <Input
+                autoFocus
+                spellCheck={false}
+                autoCapitalize="none"
+                autoComplete="off"
+                id="name"
+                placeholder="wss://"
+                size="$4"
+                onChangeText={(text) => {
+                  setRelayUrl(text)
+                }}
+              />
             </YStack>
-            <Button
-              size="$4"
-              mt="$4"
-              icon={PlusCircle}
-              onPress={() => setInnerOpen(true)}
-            >
+            <Button size="$4" mt="$4" icon={PlusCircle} onPress={addRelay}>
               Add Relay
             </Button>
           </>
