@@ -52,6 +52,7 @@
     "react-native-screens": "3.18.2",
     "react-native-svg": "13.4.0",
     "react-native-web": "0.18.10",
+    "safe-stable-stringify": "2.4.2",
     "tamagui": "1.0.3",
     "text-encoding-polyfill": "0.6.7",
     "zustand": "4.2.0"

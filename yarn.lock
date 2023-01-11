@@ -4740,6 +4740,7 @@ __metadata:
     react-native-screens: 3.18.2
     react-native-svg: 13.4.0
     react-native-web: 0.18.10
+    safe-stable-stringify: 2.4.2
     tamagui: 1.0.3
     text-encoding-polyfill: 0.6.7
     typescript: 4.9.3
@@ -13604,6 +13605,13 @@ __metadata:
   dependencies:
     ret: ~0.1.10
   checksum: 9a8bba57c87a841f7997b3b951e8e403b1128c1a4fd1182f40cc1a20e2d490593d7c2a21030fadfea320c8e859219019e136f678c6689ed5960b391b822f01d5
+  languageName: node
+  linkType: hard
+
+"safe-stable-stringify@npm:2.4.2":
+  version: 2.4.2
+  resolution: "safe-stable-stringify@npm:2.4.2"
+  checksum: 0324ba2e40f78cae63e31a02b1c9bdf1b786621f9e8760845608eb9e81aef401944ac2078e5c9c1533cf516aea34d08fa8052ca853637ced84b791caaf1e394e
   languageName: node
   linkType: hard
 
