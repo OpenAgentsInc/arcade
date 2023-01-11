@@ -47,13 +47,22 @@ export class RelayPool {
     const store = useStore.getState()
     relayInstance.connect().then(
       (onfulfilled) => {
-        store.relayActions.addRelay({ url: relay, status: 'connected' })
+        store.relayActions.addOrModifyRelay({
+          url: relay,
+          status: 'connected',
+          connected: true,
+        })
         relayInstance?.on('notice', (msg: string) => {
           this.noticecbs.forEach((cb) => cb(relay + ': ' + msg))
         })
       },
       (onrejected) => {
         console.warn('failed to connect to relay ' + relay)
+        store.relayActions.addOrModifyRelay({
+          url: relay,
+          status: 'disconnected',
+          connected: false,
+        })
       }
     )
     return relayInstance
@@ -62,6 +71,14 @@ export class RelayPool {
   close() {
     for (const relayInstance of this.relayByUrl.values()) {
       relayInstance.close()
+      useStore.getState().relayActions.addOrModifyRelay({
+        url: relayInstance.url,
+        status: 'closed',
+        connected: false,
+      })
+      relayInstance?.on('notice', (msg: string) => {
+        this.noticecbs.forEach((cb) => cb(relay + ': ' + msg))
+      })
     }
     this.relayByUrl.clear()
   }

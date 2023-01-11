@@ -1,5 +1,11 @@
+interface RelayInfo {
+  url: string
+  status: string
+  connected: boolean
+}
+
 export interface RelayState {
-  relays: any[]
+  relays: RelayInfo[]
 }
 
 const initialRelayState: RelayState = {
@@ -9,17 +15,25 @@ const initialRelayState: RelayState = {
 export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
   relayActions: {
-    addRelay: (relay: any) =>
+    addOrModifyRelay: (relay: any) => {
       set((state) => {
-        if (state.relays.some((r) => r.url === relay.url)) {
-          return state
+        const currentRelays = state.relays
+        const currentRelayIndex = currentRelays.findIndex(
+          (r: any) => r.url === relay.url
+        )
+        if (currentRelayIndex !== -1) {
+          currentRelays[currentRelayIndex] = {
+            ...currentRelays[currentRelayIndex],
+            ...relay,
+          }
+          return { ...state, relays: currentRelays }
+        } else {
+          return { ...state, relays: [...currentRelays, relay] }
         }
-        return {
-          relays: [...state.relays, relay],
-        }
-      }),
-    removeRelay: (relay: any) =>
-      set((state) => {
+      })
+    },
+    removeRelay: (relay: RelayInfo) =>
+      set((state: RelayState) => {
         if (!state.relays.some((r) => r.url === relay.url)) {
           return state
         }

@@ -18,6 +18,11 @@ export const RelayTest = () => {
         <Text color="$color11" fontSize={24}>
           {relays.length} Relays
         </Text>
+        {relays.map((relay) => (
+          <Text key={relay.url} color="$color11" fontSize={16}>
+            {relay.url} - {relay.status}
+          </Text>
+        ))}
       </Stack>
     </Screen>
   )
