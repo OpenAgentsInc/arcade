@@ -23,17 +23,17 @@ Current and upcoming features in order of priority:
 - [x] Curated global feed ([#34](https://github.com/ArcadeLabsInc/arc/pull/34))
 - [x] Twitter-style profiles ([#35](https://github.com/ArcadeLabsInc/arc/pull/35))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
-- [ ] Look up user by NIP-05 identifier
-- [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Follower/following feed
-- [ ] Muting
-- [ ] Click to copy any user's npub
+- [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
+- [ ] Look up user by NIP-05 identifier
 - [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
+- [ ] Click to copy any user's npub
 - [ ] Add/remove/recommend relays
 - [ ] Unread channel messages
+- [ ] Muting
 - [ ] Internationalization
 - [ ] Display/pay Lightning invoices
 - [ ] Search messages and feeds
