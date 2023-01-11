@@ -1,5 +1,6 @@
 import { useRoute } from '@react-navigation/native'
 import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
+import { useUserMetadata } from 'lib/hooks'
 import {
   Avatar,
   Button,
@@ -16,13 +17,14 @@ const COVER_HEIGHT = 130
 
 export const ProfileScreen = () => {
   const pubkey = useRoute<any>().params.pubkey
-  console.log(pubkey)
+  const metadata = useUserMetadata(pubkey)
+  console.log(metadata)
 
   return (
     <Screen>
       <YStack width="100%" bg="$color8" height={COVER_HEIGHT}>
         <Image
-          src="https://source.unsplash.com/random/800x606"
+          src={require('./cover.jpeg')}
           width="100%"
           height={COVER_HEIGHT}
           //   height="100%"
@@ -47,7 +49,7 @@ export const ProfileScreen = () => {
         borderWidth={2}
         borderColor="$color3"
       >
-        <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
+        <Avatar.Image src={metadata.picture} />
         <Avatar.Fallback bc="$background" />
       </Avatar>
       <XStack space="$3" justifyContent="flex-end" mt={-45} mr="$3">
@@ -57,17 +59,18 @@ export const ProfileScreen = () => {
       </XStack>
 
       <YStack p="$4">
-        <Paragraph size="$6">nikki ⚡</Paragraph>
+        <Paragraph size="$6">
+          {metadata.display_name ?? metadata.name}
+        </Paragraph>
         <Paragraph size="$3" color="$color9" mt={-4}>
-          @almosthuman
+          {`@${metadata.name}`}
         </Paragraph>
 
         <Paragraph size="$2" lineHeight="$1" mt="$2">
-          I'm a software engineer and a designer. I love to build things that
-          make people's lives easier.
+          {metadata.about}
         </Paragraph>
 
-        <XStack
+        {/* <XStack
           mt="$2"
           alignItems="center"
           justifyContent="space-evenly"
@@ -91,9 +94,9 @@ export const ProfileScreen = () => {
             </Text>{' '}
             Relays
           </Paragraph>
-        </XStack>
+        </XStack> */}
 
-        <XStack mt="$5" space="$3" borderRadius="$2" width="85%">
+        {/* <XStack mt="$5" space="$3" borderRadius="$2" width="85%">
           <Avatar size="$3" circular mt="$2">
             <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
           </Avatar>
@@ -124,7 +127,6 @@ export const ProfileScreen = () => {
           top={0}
           right={0}
         >
-          {/* <Button size="$3" circular icon={<Repeat />}></Button> */}
           <Repeat size={20} color="$color8" />
           <Paragraph size="$2" color="$color8">
             nikki ⚡ reposted
@@ -172,7 +174,7 @@ export const ProfileScreen = () => {
               I wonder how I can sell crafts on here
             </Paragraph>
           </YStack>
-        </XStack>
+        </XStack> */}
       </YStack>
     </Screen>
   )
