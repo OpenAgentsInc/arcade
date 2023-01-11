@@ -58,10 +58,10 @@ export const ProfileScreen = () => {
         <Avatar.Image src={metadata.picture} />
         <Avatar.Fallback bc="$background" />
       </Avatar>
-      <XStack space="$3" justifyContent="flex-end" mt={-45} mr="$3">
-        <Button size="$3" circular icon={<Zap />} />
+      <XStack space="$3" justifyContent="flex-end" mt={-45} mr="$3" h="$3">
+        {/* <Button size="$3" circular icon={<Zap />} />
         <Button size="$3" circular icon={<MessageSquare />} />
-        <Button size="$3">Follow</Button>
+        <Button size="$3">Follow</Button> */}
       </XStack>
 
       <YStack pt="$4" px="$4">
