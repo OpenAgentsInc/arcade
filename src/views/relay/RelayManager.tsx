@@ -12,11 +12,11 @@ export const RelayManager = () => {
     <AnimatedFlashList
       ListHeaderComponent={
         <YStack pt={70}>
-          <XStack px="$4" justifyContent="space-between">
-            <Text color="$color12" fontSize={18}>
+          <XStack px="$4" justifyContent="space-between" alignItems="center">
+            <Text color="$color12" fontSize={18} fontWeight="700">
               Relays ({relays.length})
             </Text>
-            <PlusCircle size={20} color="$color12" />
+            <PlusCircle size={24} color="$color12" />
           </XStack>
           <Separator mt="$4" mb="$2" />
         </YStack>
