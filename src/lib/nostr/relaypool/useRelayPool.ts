@@ -14,9 +14,13 @@ export function useRelayPool(
   const [relayPool, setRelayPool] = useState<RelayPool | null>(null)
   const chatActions = useStore().chatActions
   const addEvent = useStore().addEvent
+  const activeRelays = useStore((state) => state.relays)
 
   useEffect(() => {
     const newRelayPool = new RelayPool(relays, options)
+    newRelayPool.onnotice = (notice) => {
+      console.log('notice:', notice)
+    }
     setRelayPool(newRelayPool)
     console.log('relaypool set maybe.')
     return () => {
@@ -45,6 +49,7 @@ export function useRelayPool(
   }, [relayPool])
 
   return {
+    relays: activeRelays,
     relayPool,
     setupInitialSubscriptions,
   }

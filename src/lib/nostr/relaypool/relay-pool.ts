@@ -1,4 +1,5 @@
 import { Event, Filter, Kind, Sub } from 'nostr-tools'
+import { useStore } from 'stores'
 
 import { mergeSimilarAndRemoveEmptyFilters } from './merge-similar-filters'
 import { type Relay, relayInit } from './relay'
@@ -43,8 +44,10 @@ export class RelayPool {
     }
     relayInstance = relayInit(relay)
     this.relayByUrl.set(relay, relayInstance)
+    const store = useStore.getState()
     relayInstance.connect().then(
       (onfulfilled) => {
+        store.relayActions.addRelay({ url: relay, status: 'connected' })
         relayInstance?.on('notice', (msg: string) => {
           this.noticecbs.forEach((cb) => cb(relay + ': ' + msg))
         })
