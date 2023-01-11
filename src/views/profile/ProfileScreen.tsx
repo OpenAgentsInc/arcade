@@ -1,35 +1,41 @@
-import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
+import { useRoute } from '@react-navigation/native'
+import { FlashList } from '@shopify/flash-list'
+// import { MessageSquare, Zap } from '@tamagui/lucide-icons'
+import { useUserMetadata } from 'lib/hooks'
+import { useUserPosts } from 'lib/hooks/useUserPosts'
+import { NostrEvent } from 'lib/nostr'
+import { StyleSheet } from 'react-native'
 import {
   Avatar,
-  Button,
   Image,
   LinearGradient,
   Paragraph,
-  Text,
+  Separator,
   XStack,
   YStack,
 } from 'tamagui'
 import { Screen } from 'views/shared'
 
+import { TextNote } from '../feed/TextNote'
+
+const COVER_HEIGHT = 130
+
 export const ProfileScreen = () => {
-  return (
-    <Screen>
-      <YStack width="100%" bg="$color8" height={110}>
+  const pubkey = useRoute<any>().params.pubkey
+  const metadata = useUserMetadata(pubkey)
+  const posts = useUserPosts(pubkey)
+
+  const ProfileHeader = () => (
+    <>
+      <YStack width="100%" bg="$color8" height={COVER_HEIGHT}>
         <Image
-          src="https://source.unsplash.com/random/800x606"
+          src={require('./cover.jpeg')}
           width="100%"
-          height="100%"
+          height={COVER_HEIGHT}
         />
         <LinearGradient
           colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)']}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 110,
-            zIndex: 200,
-          }}
+          style={styles.gradient}
         />
       </YStack>
       <Avatar
@@ -39,134 +45,51 @@ export const ProfileScreen = () => {
         ml="$3"
         borderWidth={2}
         borderColor="$color3"
+        elevation="$16"
       >
-        <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
+        <Avatar.Image src={metadata.picture} />
         <Avatar.Fallback bc="$background" />
       </Avatar>
-      <XStack space="$3" justifyContent="flex-end" mt={-45} mr="$3">
-        <Button size="$3" circular icon={<Zap />} />
-        <Button size="$3" circular icon={<MessageSquare />} />
-        <Button size="$3">Follow</Button>
-      </XStack>
+      <XStack space="$3" justifyContent="flex-end" mt={-45} mr="$3" h="$3" />
 
-      <YStack p="$4">
-        <Paragraph size="$6">nikki ⚡</Paragraph>
+      <YStack pt="$4" px="$4">
+        <Paragraph size="$6">
+          {metadata.display_name ?? metadata.name}
+        </Paragraph>
         <Paragraph size="$3" color="$color9" mt={-4}>
-          @almosthuman
+          {`@${metadata.name}`}
         </Paragraph>
 
         <Paragraph size="$2" lineHeight="$1" mt="$2">
-          I'm a software engineer and a designer. I love to build things that
-          make people's lives easier.
+          {metadata.about}
         </Paragraph>
 
-        <XStack
-          mt="$2"
-          alignItems="center"
-          justifyContent="space-evenly"
-          space="$2"
-        >
-          <Paragraph size="$2" color="$color8">
-            <Text fontWeight="700" color="$color11">
-              392
-            </Text>{' '}
-            Following
-          </Paragraph>
-          <Paragraph size="$2" color="$color8">
-            <Text fontWeight="700" color="$color11">
-              4123
-            </Text>{' '}
-            Followers
-          </Paragraph>
-          <Paragraph size="$2" color="$color8">
-            <Text fontWeight="700" color="$color11">
-              5
-            </Text>{' '}
-            Relays
-          </Paragraph>
-        </XStack>
-
-        <XStack mt="$5" space="$3" borderRadius="$2" width="85%">
-          <Avatar size="$3" circular mt="$2">
-            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
-          </Avatar>
-          <YStack space="$1">
-            <XStack space="$2">
-              <Paragraph size="$3" fontWeight="700">
-                nikki ⚡
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" mt={1}>
-                @almosthuman
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
-                • 38s
-              </Paragraph>
-            </XStack>
-            <Paragraph size="$2" color="$color12">
-              Just tried the new pizza place in town and it was amazing!
-              Definitely recommend it.
-            </Paragraph>
-          </YStack>
-        </XStack>
-
-        <XStack
-          ml="$5"
-          mt="$4"
-          space="$2"
-          alignItems="center"
-          top={0}
-          right={0}
-        >
-          {/* <Button size="$3" circular icon={<Repeat />}></Button> */}
-          <Repeat size={20} color="$color8" />
-          <Paragraph size="$2" color="$color8">
-            nikki ⚡ reposted
-          </Paragraph>
-        </XStack>
-        <XStack mt="$2" space="$3" borderRadius="$2" width="85%">
-          <Avatar size="$3" circular mt="$2">
-            <Avatar.Image src="https://i.pravatar.cc/150?img=2" />
-          </Avatar>
-          <YStack space="$1">
-            <XStack space="$2">
-              <Paragraph size="$3" fontWeight="700">
-                John Doe
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" mt={1}>
-                @johndoe
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
-                • 2m
-              </Paragraph>
-            </XStack>
-            <Paragraph size="$2" color="$color12">
-              my pronouns are nostr/ich
-            </Paragraph>
-          </YStack>
-        </XStack>
-
-        <XStack mt="$6" space="$3" borderRadius="$2" width="85%">
-          <Avatar size="$3" circular mt="$2">
-            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
-          </Avatar>
-          <YStack space="$1">
-            <XStack space="$2">
-              <Paragraph size="$3" fontWeight="700">
-                nikki ⚡
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" mt={1}>
-                @almosthuman
-              </Paragraph>
-              <Paragraph size="$2" color="$color8" ml={-2} mt={1}>
-                • 7m
-              </Paragraph>
-            </XStack>
-            <Paragraph size="$2" color="$color12">
-              I wonder how I can sell crafts on here
-            </Paragraph>
-          </YStack>
-        </XStack>
+        <Separator mt="$5" mb={0} pb={0} />
       </YStack>
+    </>
+  )
+
+  return (
+    <Screen>
+      <FlashList
+        ListHeaderComponent={ProfileHeader}
+        data={posts}
+        renderItem={({ item }: { item: NostrEvent }) => (
+          <TextNote data={item} />
+        )}
+        estimatedItemSize={150}
+      />
     </Screen>
   )
 }
+
+const styles = StyleSheet.create({
+  gradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: COVER_HEIGHT,
+    zIndex: 200,
+  },
+})

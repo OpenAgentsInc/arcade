@@ -1,3 +1,6 @@
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { AuthedStackParams } from 'app/navigation/AuthedNavigator'
 import { useUserMetadata } from 'lib/hooks'
 import { NostrEvent } from 'lib/nostr'
 import {
@@ -18,6 +21,8 @@ export const TextNote = (props: { data: NostrEvent }) => {
     () => metadata?.picture || generateRandomPlacekitten(),
     [metadata]
   )
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<AuthedStackParams>>()
   return (
     <XStack
       mt="$5"
@@ -27,7 +32,13 @@ export const TextNote = (props: { data: NostrEvent }) => {
       px="$2"
       onPress={() => console.log(data)}
     >
-      <Avatar size="$3" circular mt="$2">
+      <Avatar
+        size="$3"
+        circular
+        mt="$2"
+        onPress={() => navigate('profile', { pubkey: data.pubkey })}
+        pressStyle={{ opacity: 0.8 }}
+      >
         <Avatar.Image src={picture} />
       </Avatar>
       <YStack space="$1">

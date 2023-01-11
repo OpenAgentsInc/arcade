@@ -69,7 +69,7 @@ export class Nostr {
       {
         kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
         authors: friends,
-        limit: 5,
+        limit: 100,
         // limit: 500,
       },
     ]
