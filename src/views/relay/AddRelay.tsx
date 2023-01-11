@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, PlusCircle } from '@tamagui/lucide-icons'
+import { ChevronDown, ChevronUp, Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
 import { SheetProps } from '@tamagui/sheet/types/types'
 import { useState } from 'react'
@@ -7,20 +7,23 @@ import { Button, H1, H2, Paragraph, XStack } from 'tamagui'
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
   const [open, setOpen] = useState(false)
-  const [modal, setModal] = useState(true)
   const [innerOpen, setInnerOpen] = useState(false)
 
   return (
     <>
-      <XStack space>
-        <Button onPress={() => setOpen(true)}>
-          <PlusCircle size={24} color="$color12" />
-        </Button>
-      </XStack>
+      <Button
+        circular
+        onPress={() => setOpen(true)}
+        my={-10}
+        size="$3"
+        bg="$color5"
+      >
+        <Plus size={20} color="$color12" />
+      </Button>
 
       <Sheet
         forceRemoveScrollEnabled={open}
-        modal={modal}
+        modal={true}
         open={open}
         onOpenChange={setOpen}
         snapPoints={[85, 50, 25]}
@@ -32,17 +35,15 @@ export const AddRelay = () => {
         <Sheet.Overlay backgroundColor="black" />
         <Sheet.Handle />
         <Sheet.Frame f={1} p="$4" jc="center" ai="center" space="$5">
-          {modal && (
-            <>
-              <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
-              <Button
-                size="$6"
-                circular
-                icon={ChevronUp}
-                onPress={() => setInnerOpen(true)}
-              ></Button>
-            </>
-          )}
+          <>
+            <InnerSheet open={innerOpen} onOpenChange={setInnerOpen} />
+            <Button
+              size="$6"
+              circular
+              icon={ChevronUp}
+              onPress={() => setInnerOpen(true)}
+            ></Button>
+          </>
         </Sheet.Frame>
       </Sheet>
     </>
