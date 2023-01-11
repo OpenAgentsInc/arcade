@@ -10,6 +10,7 @@ import {
   Image,
   LinearGradient,
   Paragraph,
+  Separator,
   XStack,
   YStack,
 } from 'tamagui'
@@ -63,7 +64,7 @@ export const ProfileScreen = () => {
         <Button size="$3">Follow</Button>
       </XStack>
 
-      <YStack p="$4">
+      <YStack pt="$4" px="$4">
         <Paragraph size="$6">
           {metadata.display_name ?? metadata.name}
         </Paragraph>
@@ -74,6 +75,8 @@ export const ProfileScreen = () => {
         <Paragraph size="$2" lineHeight="$1" mt="$2">
           {metadata.about}
         </Paragraph>
+
+        <Separator mt="$5" mb={0} pb={0} />
 
         {/* <XStack
           mt="$2"
