@@ -8,13 +8,14 @@ export const useMessagesForChannel = (channelId: string) => {
   const messages = useStore((state) => state.messages)
 
   useEffect(() => {
+    if (!nostr) return
     const sub = nostr.subscribeToChannel(channelId)
 
     return () => {
       console.log(`closing subscriptions for ${channelId}`)
       sub.unsub()
     }
-  }, [channelId])
+  }, [channelId, nostr])
 
   return messages
     .filter((message) => message.channelId === channelId)
