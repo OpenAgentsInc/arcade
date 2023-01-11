@@ -1,5 +1,10 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
-import { ChevronRight, Star } from '@tamagui/lucide-icons'
+import {
+  ChevronRight,
+  CircleDot,
+  CircleSlashed,
+  PlayCircle,
+} from '@tamagui/lucide-icons'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { ListItem, Stack } from 'tamagui'
@@ -18,7 +23,13 @@ export const RelayManager = () => {
           pressTheme
           title={item.url}
           subTitle={item.status}
-          icon={Star}
+          icon={
+            item.status === 'connected' ? (
+              <CircleDot color="green" size={20} />
+            ) : (
+              <CircleSlashed color="red" size={20} />
+            )
+          }
           iconAfter={ChevronRight}
         />
       )}
