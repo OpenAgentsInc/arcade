@@ -1,7 +1,7 @@
-import { useNostr } from 'app/lib/hooks'
-import { useGlobalFeed } from 'app/lib/hooks/useGlobalFeed'
+import { FlashList } from '@shopify/flash-list'
+import { useGlobalFeed, useNostr } from 'lib/hooks'
 import { useEffect } from 'react'
-import { Stack, Text } from 'tamagui'
+import { Text } from 'tamagui'
 import { Screen } from 'views/shared'
 
 export const HomeFeed = () => {
@@ -13,11 +13,12 @@ export const HomeFeed = () => {
   }, [nostr])
   return (
     <Screen>
-      <Stack f={1} justifyContent="center" alignItems="center">
-        <Text color="$color12" fontSize={34}>
-          {events.length} events.
-        </Text>
-      </Stack>
+      <FlashList
+        estimatedItemSize={150}
+        data={events.map((e) => JSON.stringify(e))}
+        renderItem={({ item }) => <Text color="$color11">{item}</Text>}
+      />
     </Screen>
   )
 }
+1
