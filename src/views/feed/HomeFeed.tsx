@@ -2,8 +2,10 @@ import { FlashList } from '@shopify/flash-list'
 import { useGlobalFeed, useNostr } from 'lib/hooks'
 import { NostrEvent } from 'lib/nostr'
 import { useEffect } from 'react'
-import { Text } from 'tamagui'
+import { Stack, Text } from 'tamagui'
 import { Screen } from 'views/shared'
+
+import { TextNote } from './TextNote'
 
 export const HomeFeed = () => {
   const nostr = useNostr()
@@ -15,10 +17,11 @@ export const HomeFeed = () => {
   return (
     <Screen>
       <FlashList
+        ListHeaderComponent={<Stack h={50} />}
         estimatedItemSize={150}
         data={events}
         renderItem={({ item }: { item: NostrEvent }) => (
-          <Text color="$color12">{item.content}</Text>
+          <TextNote data={item} />
         )}
       />
     </Screen>
