@@ -133,21 +133,22 @@ export class NostrEvent {
 
     this.db.transaction((tx) => {
       tx.executeSql(
-        'INSERT OR REPLACE INTO arc_channel_messages (id, pubkey, sig, content, created_at, channel_id, reply_event_id, root_message) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT OR REPLACE INTO arc_channel_messages (id, content, created_at, kind, pubkey, sig, tags, channel_id, reply_event_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           this.id,
-          this.pubkey,
-          this.sig,
           this.content,
           this.created_at.toString(),
+          this.kind,
+          this.pubkey,
+          this.sig,
+          JSON.stringify(this.tags),
           channel_id,
           reply_event_id,
-          root_message,
         ],
         (_, result) => {
-          console.log(
-            `Saved channel message ${this.content}, rowsAffected ${result.rowsAffected}}`
-          )
+          //   console.log(
+          //     `Saved channel message, rowsAffected ${result.rowsAffected}}`
+          //   )
         },
         (_, error: SQLite.SQLError) => {
           console.error('Save channel message error', error)

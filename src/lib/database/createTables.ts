@@ -32,10 +32,7 @@ const createTableCalls = [
     sig TEXT NOT NULL,
     tags TEXT NOT NULL,
     channel_id TEXT NOT NULL,
-    parent_id TEXT,
-    is_reply BOOLEAN DEFAULT FALSE,
-    is_hidden BOOLEAN DEFAULT FALSE,
-    sender_muted BOOLEAN DEFAULT FALSE
+    reply_event_id TEXT
   );`,
   `CREATE TABLE IF NOT EXISTS arc_direct_messages(
     id TEXT PRIMARY KEY NOT NULL,
