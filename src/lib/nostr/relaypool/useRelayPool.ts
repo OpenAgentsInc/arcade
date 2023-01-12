@@ -21,6 +21,7 @@ export function useRelayPool({
   const activeRelays = useStore((state) => state.relays)
   const connectedRelays = activeRelays.filter((relay) => relay.connected)
   const db = useDatabase()
+  const pubkey = useStore((state) => state.user.publicKey)
 
   useEffect(() => {
     if (!relayPoolInstance) {
@@ -48,21 +49,23 @@ export function useRelayPool({
   }, [activeRelays, relayPoolInstance])
 
   const setupInitialSubscriptions = useCallback(() => {
+    if (!pubkey) {
+      return
+    }
     if (!relayPoolInstance) {
       console.log('No relaypool, bye.')
       return
     }
-    console.log('subscribing maybe')
     const callback = (event: NostrEvent) => {
       handleEvent(event, db)
     }
     const sub = relayPoolInstance.subscribe(
-      initialSubscriptions,
+      createInitialSubscriptions(pubkey),
       relays,
       callback
     )
     return sub
-  }, [relayPoolInstance])
+  }, [relayPoolInstance, pubkey])
 
   // If connectNow is true, setup initial subscriptions
   useEffect(() => {
@@ -77,4 +80,12 @@ export function useRelayPool({
     relayPool: relayPoolInstance,
     setupInitialSubscriptions,
   }
+}
+
+const createInitialSubscriptions = (userPubkey: string) => {
+  console.log(`Creating initial subscriptions for ${userPubkey}.`)
+  return [
+    ...initialSubscriptions,
+    { kinds: [40], pubkeys: [userPubkey], limit: 1 },
+  ]
 }

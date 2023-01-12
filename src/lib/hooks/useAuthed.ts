@@ -15,10 +15,10 @@ export const useAuthed = () => {
     : null
 
   useEffect(() => {
-    if (checkedForKeys && privateKey && publicKey) {
-      console.log(`You are ${publicKey}`)
-      return
-    }
+    // if (checkedForKeys && privateKey && publicKey) {
+    //   console.log(`You are ${publicKey}`)
+    //   return
+    // }
     if (checkedForKeys && (!privateKey || !publicKey)) {
       console.log('No keys found')
     }
@@ -36,11 +36,10 @@ export const useAuthed = () => {
     setCheckedForKeys(true)
   }
 
-  //   useEffect(() => {
-  //     if (!nostr) return
-  //     checkForKeys()
-  //   }, [nostr])
+  useEffect(() => {
+    checkForKeys()
+  }, [])
 
-  console.log('authed: ', authed)
+  //   console.log('authed: ', authed)
   return authed
 }
