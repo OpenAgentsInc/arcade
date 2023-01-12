@@ -1,55 +1,51 @@
+import { DEFAULT_RELAYS } from 'app/lib/constants/relays'
+
+export interface RelayInfo {
+  url: string
+  status: string
+  connected: boolean
+}
+
 export interface RelayState {
-  relays: any[]
-  subscriptions: any[]
+  relays: RelayInfo[]
 }
 
 const initialRelayState: RelayState = {
-  relays: [],
-  subscriptions: [],
+  relays: DEFAULT_RELAYS.map((url) => ({
+    url,
+    status: 'not-connected',
+    connected: false,
+  })),
 }
 
 export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
-  subscriptions: initialRelayState.subscriptions,
   relayActions: {
-    addRelay: (relay: any) =>
+    addOrModifyRelay: (relay: any) => {
       set((state) => {
-        if (state.relays.some((r) => r.url === relay.url)) {
-          return state
+        const currentRelays = state.relays
+        const currentRelayIndex = currentRelays.findIndex(
+          (r: any) => r.url === relay.url
+        )
+        if (currentRelayIndex !== -1) {
+          currentRelays[currentRelayIndex] = {
+            ...currentRelays[currentRelayIndex],
+            ...relay,
+          }
+          return { ...state, relays: currentRelays }
+        } else {
+          return { ...state, relays: [...currentRelays, relay] }
         }
-        return {
-          relays: [...state.relays, relay],
-        }
-      }),
-    addSubscription: (subscription: { relayUrl: string; sub: any; channelId: string }) =>
-      set((state) => {
-        // Check if we already have a subscription for this relay and channel
-        if (
-          state.subscriptions.some(
-            (s) => s.relayUrl === subscription.relayUrl && s.channelId === subscription.channelId
-          )
-        ) {
-          return state
-        }
-        return {
-          subscriptions: [...state.subscriptions, subscription],
-        }
-      }),
-    removeSubscription: (subscription: { relayUrl: string; channelId: string }) =>
-      set((state) => ({
-        subscriptions: state.subscriptions.filter(
-          (s) => s.relayUrl !== subscription.relayUrl || s.channelId !== subscription.channelId
-        ),
-      })),
-    clearSubscriptions: () =>
-      set((state) => {
-        return {
-          subscriptions: [],
-        }
-      }),
-    hasSubscription: (relayUrl: string, channelId: string) => {
-      const state = get()
-      return state.subscriptions.some((s) => s.relayUrl === relayUrl && s.channelId === channelId)
+      })
     },
+    removeRelay: (url: string) =>
+      set((state: RelayState) => {
+        if (!state.relays.some((r) => r.url === url)) {
+          return state
+        }
+        return {
+          relays: state.relays.filter((r) => r.url !== url),
+        }
+      }),
   },
 })

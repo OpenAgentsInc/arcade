@@ -22,6 +22,7 @@ Current and upcoming features in order of priority:
 - [x] Show user kind-0 name & picture ([#25](https://github.com/ArcadeLabsInc/arc/pull/25))
 - [x] Curated global feed ([#34](https://github.com/ArcadeLabsInc/arc/pull/34))
 - [x] Twitter-style profiles ([#35](https://github.com/ArcadeLabsInc/arc/pull/35))
+- [x] Add/remove relays ([#37](https://github.com/ArcadeLabsInc/arc/pull/37))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Follower/following feed
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
@@ -31,7 +32,6 @@ Current and upcoming features in order of priority:
 - [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
 - [ ] Click to copy any user's npub
-- [ ] Add/remove/recommend relays
 - [ ] Unread channel messages
 - [ ] Muting
 - [ ] Internationalization
@@ -40,6 +40,7 @@ Current and upcoming features in order of priority:
 - [ ] Create channels
 - [ ] Pinned channel messages
 - [ ] Encrypted DMs ([NIP-04](https://github.com/nostr-protocol/nips/blob/master/04.md))
+- [ ] Recommended relays
 - [ ] Push notifications
 - [ ] Channel invites
 - [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))

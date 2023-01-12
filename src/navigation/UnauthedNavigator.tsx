@@ -1,7 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { HomeScreen } from 'app/views/home/screen'
-import { CreateAccountScreen } from 'app/views/user/CreateAccountScreen'
-import { LoginScreen } from 'app/views/user/LoginScreen'
+import { RelayTest } from 'views/dev/RelayTest'
+import { HomeScreen } from 'views/home/screen'
+import { CreateAccountScreen } from 'views/user/CreateAccountScreen'
+import { LoginScreen } from 'views/user/LoginScreen'
 
 const Stack = createNativeStackNavigator<{
   create: undefined
@@ -14,7 +15,8 @@ export function UnauthedNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name="home"
-        component={HomeScreen}
+        component={RelayTest}
+        // component={HomeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
