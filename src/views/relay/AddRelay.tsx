@@ -1,7 +1,10 @@
 import { Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
-import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
+import {
+  relayPoolInstance,
+  useRelayPool,
+} from 'lib/nostr/relaypool/useRelayPool'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 import { useStore } from 'stores'
@@ -55,6 +58,7 @@ export const AddRelay = () => {
 
     console.log('Adding:', url)
     addOrModifyRelay({ url, status: 'connecting', connected: false })
+    relayPoolInstance?.addOrGetRelay(url)
     console.log('adddeddddd')
     setOpen(false)
     setRelayUrl('')
