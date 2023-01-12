@@ -9,7 +9,7 @@ import { Filter, Kind, NostrEvent } from '../nip01_events'
 import { createInitialSubscriptions } from './createInitialSubscriptions'
 import { RelayPool } from './relay-pool'
 
-let relayPoolInstance: RelayPool | null = null
+export let relayPoolInstance: RelayPool | null = null
 let subscribed: boolean = false
 
 export function useRelayPool({
@@ -32,17 +32,6 @@ export function useRelayPool({
     () => createInitialSubscriptions(pubkey, friends),
     [pubkey, friends]
   )
-
-  useEffect(() => {
-    if (!relayPoolInstance) return
-
-    relays.forEach((relay) => {
-      if (!relayPoolInstance?.relayByUrl.has(relay.url)) {
-        console.log(`Adding relay ${relay.url} to pool.`)
-        relayPoolInstance?.addOrGetRelay(relay.url)
-      }
-    })
-  }, [relays, relayPoolInstance])
 
   useEffect(() => {
     if (!relayPoolInstance) {
