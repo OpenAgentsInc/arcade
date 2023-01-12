@@ -15,10 +15,10 @@ export const useAuthed = () => {
     : null
 
   useEffect(() => {
-    // if (checkedForKeys && privateKey && publicKey) {
-    //   console.log(`You are ${publicKey}`)
-    //   return
-    // }
+    if (checkedForKeys && privateKey && publicKey) {
+      console.log(`You are ${publicKey}`)
+      return
+    }
     if (checkedForKeys && (!privateKey || !publicKey)) {
       console.log('No keys found')
     }
@@ -32,6 +32,7 @@ export const useAuthed = () => {
       return
     }
     useStore.setState({ user: { privateKey, publicKey, name: 'Test Ostrich' } })
+    console.log('userstore set.')
     // nostr?.setKeys(publicKey, privateKey)
     setCheckedForKeys(true)
   }

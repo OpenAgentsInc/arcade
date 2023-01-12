@@ -10,6 +10,7 @@ import { createInitialSubscriptions } from './createInitialSubscriptions'
 import { RelayPool } from './relay-pool'
 
 let relayPoolInstance: RelayPool | null = null
+let subscribed: boolean = false
 
 export function useRelayPool({
   relays: relaysToConnectTo = DEFAULT_RELAYS,
@@ -31,10 +32,6 @@ export function useRelayPool({
     () => createInitialSubscriptions(pubkey, friends),
     [pubkey, friends]
   )
-
-  useEffect(() => {
-    console.log('connectedRelays:', connectedRelays.length)
-  }, [connectedRelays])
 
   useEffect(() => {
     if (!relayPoolInstance) return
@@ -64,26 +61,50 @@ export function useRelayPool({
   }, [])
 
   const setupInitialSubscriptions = useCallback(() => {
+    const pubkey = useStore.getState().user.publicKey
+    console.log('Trying with pubkey...', pubkey)
     if (!pubkey) {
       console.log('Subs: No pubkey, bye.')
       return
     }
-    if (subscriptions.length === 0) {
-      console.log('Subs: No subscriptions, bye.')
-      return
-    }
+    const friends = useStore.getState().friends
+    const subscriptions = createInitialSubscriptions(pubkey, friends)
+    const relayInfo = useStore.getState().relays
+    // if (subscriptions.length === 0) {
+    //   console.log('Subs: No subscriptions, bye.')
+    //   return
+    // }
     if (!relayPoolInstance) {
       console.log('Subs: No relaypool, bye.')
       return
     }
-    const relays = connectedRelays.map((relay) => relay.url)
+    // if (connectedRelays.length === 0) {
+    //   console.log('Subs: No connected relays, bye.')
+    //   return
+    // }
+    if (subscribed) {
+      console.log('Subs: Already subscribed, bye.')
+      return
+    }
+    const relays = relayInfo.map((relay) => relay.url)
     const callback = (event: NostrEvent) => {
       handleEvent(event, db)
     }
     console.log('SUBSCRIBING...')
+
     const sub = relayPoolInstance.subscribe(subscriptions, relays, callback)
+    subscribed = true
     return sub
-  }, [relayPoolInstance, pubkey, subscriptions])
+  }, []) // relayPoolInstance, pubkey, subscriptions, connectedRelays
+
+  // If connectNow is true, setup initial subscriptions
+  useEffect(() => {
+    if (options.connectNow) {
+      setTimeout(() => {
+        setupInitialSubscriptions()
+      }, 3000)
+    }
+  }, [options.connectNow])
 
   return {
     relays,
