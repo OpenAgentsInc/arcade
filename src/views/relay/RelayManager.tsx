@@ -10,7 +10,8 @@ import { ListItem, Separator, Switch, Text, XStack, YStack } from 'tamagui'
 import { AddRelay } from './AddRelay'
 
 export const RelayManager = () => {
-  const { relays, relayPool } = useRelayPool()
+  const relays = useStore((state) => state.relays)
+  const { relayPool } = useRelayPool()
   const removeRelay = useStore((state) => state.relayActions.removeRelay)
   const { onPressIn, onPressOut, target } = useLongPress((props) => {
     console.log('props here?', props)

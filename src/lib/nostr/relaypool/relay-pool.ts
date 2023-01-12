@@ -77,14 +77,15 @@ export class RelayPool {
   closeRelay(url: string) {
     console.log('Closing relay: ' + url)
     const relayInstance = this.relayByUrl.get(url)
-    console.log('we got relayInstance?', relayInstance)
-    if (!relayInstance) return
-    relayInstance.close()
+    // console.log('we got relayInstance?', relayInstance)
     useStore.getState().relayActions.addOrModifyRelay({
-      url: relayInstance.url,
+      url,
       status: 'closed',
       connected: false,
     })
+    if (!relayInstance) return
+    relayInstance.close()
+
     this.relayByUrl.delete(url)
   }
 

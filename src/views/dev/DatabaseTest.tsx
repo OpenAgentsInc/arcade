@@ -10,7 +10,7 @@ import { Screen } from '../shared'
 export const DatabaseTest = () => {
   useAuthed()
   useDatabase()
-  useRelayPool({ connectNow: true })
+  //   useRelayPool({ connectNow: true })
 
   //   const [count, setCount] = useState(0)
 

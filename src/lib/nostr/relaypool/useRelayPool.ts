@@ -24,20 +24,24 @@ export function useRelayPool({
     () => relays.filter((relay) => relay.connected),
     [relays]
   )
-  const db = useDatabase()
+  //   const db = useDatabase()
   const pubkey = useStore((state) => state.user.publicKey)
   const friends = useStore((state) => state.friends)
   const subscriptions = useMemo(
     () => createInitialSubscriptions(pubkey, friends),
     [pubkey, friends]
   )
-  useEffect(() => {
-    console.log('Subscriptions:', subscriptions)
-  }, [subscriptions])
 
   useEffect(() => {
-    console.log('Relays:', relays.length)
-  }, [relays])
+    if (!relayPoolInstance) return
+
+    relays.forEach((relay) => {
+      if (!relayPoolInstance?.relayByUrl.has(relay.url)) {
+        console.log(`Adding relay ${relay.url} to pool.`)
+        relayPoolInstance?.addOrGetRelay(relay.url)
+      }
+    })
+  }, [relays, relayPoolInstance])
 
   useEffect(() => {
     if (!relayPoolInstance) {
@@ -55,7 +59,12 @@ export function useRelayPool({
     }
   }, [])
 
-  return { relays, connectedRelays, subscriptions }
+  return {
+    relays,
+    relayPool: relayPoolInstance,
+    connectedRelays,
+    subscriptions,
+  }
 
   //   const relays = useStore((state) => state.relays)
   //   const connectedRelays = useStore((state) => state.connectedRelays)
@@ -101,16 +110,16 @@ export function useRelayPool({
   //     }
   //   }, [])
 
-  //   useEffect(() => {
-  //     if (!relayPoolInstance) return
+  // useEffect(() => {
+  //   if (!relayPoolInstance) return
 
-  //     activeRelays.forEach((relay) => {
-  //       if (!relayPoolInstance?.relayByUrl.has(relay.url)) {
-  //         console.log(`Adding relay ${relay.url} to pool.`)
-  //         relayPoolInstance?.addOrGetRelay(relay.url)
-  //       }
-  //     })
-  //   }, [activeRelays, relayPoolInstance])
+  //   activeRelays.forEach((relay) => {
+  //     if (!relayPoolInstance?.relayByUrl.has(relay.url)) {
+  //       console.log(`Adding relay ${relay.url} to pool.`)
+  //       relayPoolInstance?.addOrGetRelay(relay.url)
+  //     }
+  //   })
+  // }, [activeRelays, relayPoolInstance])
 
   //   const setupInitialSubscriptions = useCallback(() => {
   //     if (!pubkey) {

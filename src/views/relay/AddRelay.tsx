@@ -1,9 +1,10 @@
 import { Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
-import { useStore } from 'stores'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { useState } from 'react'
+import { Alert } from 'react-native'
+import { useStore } from 'stores'
 import {
   Button,
   Fieldset,
@@ -15,7 +16,6 @@ import {
   XStack,
   YStack,
 } from 'tamagui'
-import { Alert } from 'react-native'
 
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
@@ -54,7 +54,7 @@ export const AddRelay = () => {
     }
 
     console.log('Adding:', url)
-    addOrModifyRelay({ url: url, status: 'connecting' })
+    addOrModifyRelay({ url, status: 'connecting', connected: false })
     console.log('adddeddddd')
     setOpen(false)
     setRelayUrl('')
@@ -75,7 +75,7 @@ export const AddRelay = () => {
 
       <Sheet
         forceRemoveScrollEnabled={open}
-        modal={true}
+        modal
         open={open}
         onOpenChange={setOpen}
         snapPoints={[75, 50, 25]}
