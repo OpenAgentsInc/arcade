@@ -41,6 +41,6 @@ export const useAuthed = () => {
   //     checkForKeys()
   //   }, [nostr])
 
-  console.log('Returning authed: ', authed)
+  console.log('authed: ', authed)
   return authed
 }
