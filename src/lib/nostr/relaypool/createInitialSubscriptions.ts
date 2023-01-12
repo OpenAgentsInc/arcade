@@ -2,7 +2,7 @@ import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 import { Filter, Kind } from '../nip01_events'
 
-let created: boolean = false
+// let created: boolean = false
 
 export const createInitialSubscriptions = (
   userPubkey: string,
@@ -12,9 +12,9 @@ export const createInitialSubscriptions = (
     return []
   }
 
-  if (created) {
-    return []
-  }
+  //   if (created) {
+  // return []
+  //   }
 
   const subscriptions = [...initialSubscriptions]
 
@@ -50,7 +50,7 @@ export const createInitialSubscriptions = (
 
   console.log(`Created initial subscriptions for ${userPubkey}.`)
 
-  created = true
+  //   created = true
 
   return subscriptions
 }

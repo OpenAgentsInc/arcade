@@ -70,18 +70,10 @@ export function useRelayPool({
     const friends = useStore.getState().friends
     const subscriptions = createInitialSubscriptions(pubkey, friends)
     const relayInfo = useStore.getState().relays
-    // if (subscriptions.length === 0) {
-    //   console.log('Subs: No subscriptions, bye.')
-    //   return
-    // }
     if (!relayPoolInstance) {
       console.log('Subs: No relaypool, bye.')
       return
     }
-    // if (connectedRelays.length === 0) {
-    //   console.log('Subs: No connected relays, bye.')
-    //   return
-    // }
     if (subscribed) {
       console.log('Subs: Already subscribed, bye.')
       return
@@ -90,8 +82,8 @@ export function useRelayPool({
     const callback = (event: NostrEvent) => {
       handleEvent(event, db)
     }
-    console.log('SUBSCRIBING...')
 
+    console.log("Subs: We're subscribing now...", relays.length)
     const sub = relayPoolInstance.subscribe(subscriptions, relays, callback)
     subscribed = true
     return sub
