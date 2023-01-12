@@ -280,6 +280,7 @@ export class RelayPool {
       subs.push(sub)
       let eventsBySub: (Event & { id: string })[] | undefined = []
       sub.on('event', (event: Event & { id: string }) => {
+        console.log(`Received event kind ${event.kind} from ${relay}`)
         this.addEventToCache(event)
         eventsBySub?.push(event)
         onEvent(event, eventsBySub === undefined, relay)

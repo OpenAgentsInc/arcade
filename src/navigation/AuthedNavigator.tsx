@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useRelayPool } from 'app/lib/nostr'
 import { ProfileScreen } from 'views/profile'
 import { NavHeader } from 'views/shared'
 
@@ -12,6 +13,7 @@ export type AuthedStackParams = {
 const Stack = createNativeStackNavigator<AuthedStackParams>()
 
 export function AuthedNavigator() {
+  useRelayPool({ connectNow: true })
   return (
     <Stack.Navigator
       initialRouteName="tabs"
