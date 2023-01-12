@@ -1,24 +1,10 @@
 import { Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
-import { DEFAULT_RELAYS } from 'lib/constants/relays'
-import {
-  relayPoolInstance,
-  useRelayPool,
-} from 'lib/nostr/relaypool/useRelayPool'
+import { relayPoolInstance } from 'lib/nostr/relaypool/useRelayPool'
 import { useState } from 'react'
 import { Alert } from 'react-native'
 import { useStore } from 'stores'
-import {
-  Button,
-  Fieldset,
-  H1,
-  H2,
-  Input,
-  Label,
-  Paragraph,
-  XStack,
-  YStack,
-} from 'tamagui'
+import { Button, Input, Label, YStack } from 'tamagui'
 
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
@@ -48,7 +34,7 @@ export const AddRelay = () => {
       return
     }
 
-    console.log("Checking to see if it's already added...", url)
+    // console.log("Checking to see if it's already added...", url)
     if (relays.some((relay) => relay.url === url)) {
       Alert.alert('This relay is already added!')
       return
@@ -56,10 +42,8 @@ export const AddRelay = () => {
       console.log('no has.')
     }
 
-    console.log('Adding:', url)
     addOrModifyRelay({ url, status: 'connecting', connected: false })
     relayPoolInstance?.addOrGetRelay(url)
-    console.log('adddeddddd')
     setOpen(false)
     setRelayUrl('')
     Alert.alert(`Relay ${url} added!`)
