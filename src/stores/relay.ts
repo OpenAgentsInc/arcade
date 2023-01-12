@@ -22,6 +22,7 @@ export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
   relayActions: {
     addOrModifyRelay: (relay: any) => {
+      console.log('Here and about to add or modify relay: ', relay)
       set((state) => {
         const currentRelays = state.relays
         const currentRelayIndex = currentRelays.findIndex(
@@ -32,8 +33,13 @@ export const createRelayStore = (set: any, get: any) => ({
             ...currentRelays[currentRelayIndex],
             ...relay,
           }
+          //   console.log('returning:', { ...state, relays: currentRelays })
           return { ...state, relays: currentRelays }
         } else {
+          //   console.log('elsereturning:', {
+          // ...state,
+          // relays: [...currentRelays, relay],
+          //   })
           return { ...state, relays: [...currentRelays, relay] }
         }
       })

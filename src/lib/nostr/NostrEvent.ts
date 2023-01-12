@@ -49,7 +49,6 @@ export class NostrEvent {
 
   // Kind 1
   private saveNote() {
-    console.log('Attempting saveNote')
     const { id, pubkey, created_at, kind, tags, content, sig } = this
     const sql = `INSERT INTO arc_notes (id, pubkey, created_at, kind, tags, content, sig) VALUES (?, ?, ?, ?, ?, ?, ?)`
     const params = [

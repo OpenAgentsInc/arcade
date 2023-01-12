@@ -11,7 +11,7 @@ import { AddRelay } from './AddRelay'
 import { useStore } from 'app/stores'
 
 export const RelayManager = () => {
-  const { relays, relayPool } = useRelayPool(DEFAULT_RELAYS)
+  const { relays, relayPool } = useRelayPool()
   const removeRelay = useStore((state) => state.relayActions.removeRelay)
   const { onPressIn, onPressOut, target } = useLongPress((props) => {
     console.log('props here?', props)

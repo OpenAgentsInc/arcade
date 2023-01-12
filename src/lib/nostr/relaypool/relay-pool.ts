@@ -22,6 +22,7 @@ export class RelayPool {
   noticecbs: ((msg: string) => void)[]
   cache?: Cache
   constructor(relays?: string[], options: { noCache?: boolean } = {}) {
+    console.log(`RelayPool constructed with ${relays?.length} relays.`)
     if (!options.noCache) {
       this.cache = {
         eventsById: new Map(),
