@@ -1,28 +1,32 @@
-import { useInterval } from 'lib/hooks/useIntervalMine'
+import { useDatabase } from 'lib/database'
+import { useAuthed, useInterval } from 'lib/hooks'
+import { useRelayPool } from 'lib/nostr'
 import { useEffect, useState } from 'react'
-import { Stack, Text } from 'tamagui'
+import { Stack } from 'tamagui'
 
+import { RelayIndicator } from '../relay/RelayIndicator'
+import { RelayManager } from '../relay/RelayManager'
 import { Screen } from '../shared'
 
 export const DatabaseTest = () => {
+  useAuthed()
+  useDatabase()
+  useRelayPool({ connectNow: true })
+
   const [count, setCount] = useState(0)
+
+  useInterval(() => {
+    setCount(count + 1)
+  }, 1000)
+
   useEffect(() => {
-    // increment the count by 1
-    const countTimer = setInterval(() => {
-      setCount((prevCount) => prevCount + 1)
-      // every 1000 milliseconds
-    }, 1000)
-    // and clear this timer when the component is unmounted
-    return function cleanup() {
-      clearInterval(countTimer)
-    }
-  })
+    console.log('count is:', count)
+  }, [count])
 
   return (
     <Screen>
-      <Stack jc="center" f={1} ai="center">
-        <Text color="white">Count: {count}</Text>
-      </Stack>
+      <RelayIndicator />
+      {/* <RelayManager /> */}
     </Screen>
   )
 }
