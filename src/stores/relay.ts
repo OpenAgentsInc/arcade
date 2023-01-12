@@ -38,13 +38,13 @@ export const createRelayStore = (set: any, get: any) => ({
         }
       })
     },
-    removeRelay: (relay: RelayInfo) =>
+    removeRelay: (url: string) =>
       set((state: RelayState) => {
-        if (!state.relays.some((r) => r.url === relay.url)) {
+        if (!state.relays.some((r) => r.url === url)) {
           return state
         }
         return {
-          relays: state.relays.filter((r) => r.url !== relay.url),
+          relays: state.relays.filter((r) => r.url !== url),
         }
       }),
   },
