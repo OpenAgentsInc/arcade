@@ -5,13 +5,14 @@ export const RelayIndicator = () => {
   const { connectedRelays } = useRelayPool()
   return (
     <Button
-      onPress={() => console.log('Pressed')}
+      onPress={() => {}}
       bc="$color6"
       opacity={0.8}
       circular
       pos="absolute"
       top={50}
       right={20}
+      pressTheme={undefined}
     >
       <Text color="$color11">{connectedRelays.length}</Text>
     </Button>
