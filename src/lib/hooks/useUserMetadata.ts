@@ -1,25 +1,29 @@
-import { useStore } from 'stores'
+import { useDatabase } from 'lib/database'
+import { useEffect, useState } from 'react'
 
-import { Kind } from '../nostr'
-
-// Todo: refactor this to use a map instead of array iteration
 export const useUserMetadata = (pubkey: string) => {
-  const events = useStore((s) => s.events)
+  const db = useDatabase()
+  const [metadata, setMetadata] = useState(null)
 
-  try {
-    const latestMetadata = events
-      // where pubkey is pubkey
-      .filter((e) => e.pubkey === pubkey)
-      // where kind is Kind.UserMetadata
-      .filter((e) => e.kind === Kind.Metadata)
-      // and grab only the most recent one
-      .sort((a, b) => b.created_at - a.created_at)
-      .slice(0, 1)
+  useEffect(() => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          `SELECT * FROM arc_users WHERE id = ?`,
+          [pubkey],
+          (_, { rows: { _array } }) => {
+            setMetadata(_array[0])
+          },
+          (_, error) => {
+            console.log(error)
+            return false
+          }
+        )
+      })
+    } catch (e) {
+      console.log('error fetching user metadata', e)
+    }
+  }, [db, pubkey])
 
-    const metadata = latestMetadata[0]
-    return JSON.parse(metadata.content)
-  } catch (e) {
-    console.log('Error getting user metadata', e)
-    return null
-  }
+  return metadata
 }
