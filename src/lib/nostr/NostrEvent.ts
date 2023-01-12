@@ -26,6 +26,9 @@ export class NostrEvent {
   async save() {
     try {
       switch (this.kind) {
+        case 0:
+          this.saveUserMeta()
+          break
         case 1:
           this.saveNote()
           break
@@ -45,6 +48,16 @@ export class NostrEvent {
       console.error(err)
       //   console.error(err.stack)
     }
+  }
+
+  // Kind 0
+  private saveUserMeta() {
+    const { id, pubkey, created_at, kind, content, sig } = this
+    const sql = `INSERT INTO arc_users (id, pubkey, created_at, kind, content, sig) VALUES (?, ?, ?, ?, ?, ?)`
+    const params = [id, pubkey, created_at, kind, content, sig]
+    this.db.transaction((tx) => {
+      tx.executeSql(sql, params)
+    })
   }
 
   // Kind 1
