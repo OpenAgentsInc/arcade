@@ -13,6 +13,7 @@ LogBox.ignoreLogs([
   'Require cycle',
   'Warning, duplicate ID',
   'failed to connect',
+  'Sending `onAnimatedValueUpdate`',
 ])
 
 const App: FC = () => {
