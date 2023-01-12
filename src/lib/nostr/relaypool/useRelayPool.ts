@@ -24,13 +24,17 @@ export function useRelayPool({
     () => relays.filter((relay) => relay.connected),
     [relays]
   )
-  //   const db = useDatabase()
+  const db = useDatabase()
   const pubkey = useStore((state) => state.user.publicKey)
   const friends = useStore((state) => state.friends)
   const subscriptions = useMemo(
     () => createInitialSubscriptions(pubkey, friends),
     [pubkey, friends]
   )
+
+  useEffect(() => {
+    console.log('connectedRelays:', connectedRelays.length)
+  }, [connectedRelays])
 
   useEffect(() => {
     if (!relayPoolInstance) return
@@ -58,6 +62,28 @@ export function useRelayPool({
       relayPoolInstance = null
     }
   }, [])
+
+  const setupInitialSubscriptions = useCallback(() => {
+    if (!pubkey) {
+      console.log('Subs: No pubkey, bye.')
+      return
+    }
+    if (subscriptions.length === 0) {
+      console.log('Subs: No subscriptions, bye.')
+      return
+    }
+    if (!relayPoolInstance) {
+      console.log('Subs: No relaypool, bye.')
+      return
+    }
+    const relays = connectedRelays.map((relay) => relay.url)
+    const callback = (event: NostrEvent) => {
+      handleEvent(event, db)
+    }
+    console.log('SUBSCRIBING...')
+    const sub = relayPoolInstance.subscribe(subscriptions, relays, callback)
+    return sub
+  }, [relayPoolInstance, pubkey, subscriptions])
 
   return {
     relays,

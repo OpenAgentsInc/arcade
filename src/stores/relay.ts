@@ -23,8 +23,7 @@ export const createRelayStore = (set: any, get: any) => ({
   relayActions: {
     setRelays: (relays: any[]) => set((state) => ({ ...state, relays })),
     addOrModifyRelay: (relay: RelayInfo) => {
-      // Log the relay that is about to be added or modified
-      console.log('Here and about to add or modify relay: ', relay)
+      //   console.log('Here and about to add or modify relay: ', relay)
 
       // Update the state with the new relay
       set((state) => {

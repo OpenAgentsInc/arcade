@@ -7,10 +7,10 @@ export const createInitialSubscriptions = (
   friends: string[]
 ) => {
   if (!userPubkey || userPubkey === '') {
-    console.log('No user pubkey, bye.')
+    // console.log('No user pubkey, bye.')
     return []
   }
-  console.log(`Creating initial subscriptions for ${userPubkey}.`)
+
   const subscriptions = [...initialSubscriptions]
 
   friends.push(userPubkey)
@@ -42,6 +42,8 @@ export const createInitialSubscriptions = (
     },
   ]
   subscriptions.push(...homeFilters)
+
+  console.log(`Created initial subscriptions for ${userPubkey}.`)
 
   return subscriptions
 }
