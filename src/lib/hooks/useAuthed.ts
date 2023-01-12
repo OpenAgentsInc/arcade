@@ -1,7 +1,8 @@
-import { useNostr } from 'lib/hooks'
 import * as storage from 'lib/storage'
 import { useEffect, useState } from 'react'
 import { useStore } from 'stores'
+
+import { useNostr } from './useNostr'
 
 export const useAuthed = () => {
   const privateKey = useStore((s) => s.user.privateKey)

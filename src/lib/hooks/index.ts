@@ -1,4 +1,5 @@
 export * from './useAuthed'
+export * from './useDatabase'
 export * from './useGlobalFeed'
 export * from './useLongPress'
 export * from './useNostr'
