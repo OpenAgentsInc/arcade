@@ -10,7 +10,7 @@ export const useGlobalFeed = () => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM arc_notes WHERE kind = ?',
+        'SELECT * FROM arc_notes WHERE kind = ? ORDER BY created_at DESC',
         [Kind.Text],
         (_, { rows: { _array } }) => {
           setNotes(_array)
