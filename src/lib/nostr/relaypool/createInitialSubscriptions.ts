@@ -2,8 +2,6 @@ import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 import { Filter, Kind } from '../nip01_events'
 
-// let created: boolean = false
-
 export const createInitialSubscriptions = (
   userPubkey: string,
   friends: string[]
@@ -11,10 +9,6 @@ export const createInitialSubscriptions = (
   if (!userPubkey || userPubkey === '') {
     return []
   }
-
-  //   if (created) {
-  // return []
-  //   }
 
   const subscriptions = [...initialSubscriptions]
 
@@ -43,14 +37,10 @@ export const createInitialSubscriptions = (
     {
       kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
       authors: friends,
-      limit: 10,
+      limit: 100,
     },
   ]
   subscriptions.push(...homeFilters)
-
-  console.log(`Created initial subscriptions for ${userPubkey}.`)
-
-  //   created = true
 
   return subscriptions
 }

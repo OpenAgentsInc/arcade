@@ -39,7 +39,7 @@ export class NostrEvent {
           this.saveChannelMessage()
           break
         default:
-          console.log(`Event kind ${this.kind} is not handled yet.`)
+        //   console.log(`Event kind ${this.kind} is not handled yet.`)
       }
     } catch (err) {
       console.error(err)

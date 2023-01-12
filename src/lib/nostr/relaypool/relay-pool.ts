@@ -259,15 +259,12 @@ export class RelayPool {
     const cachedEventsWithUpdatedFilters =
       this.getCachedEventsWithUpdatedFilters(filters, relays)
 
-    console.log('got filters:', filters)
-
     for (const event of cachedEventsWithUpdatedFilters.events) {
       onEvent(event, false, undefined)
     }
     filters = cachedEventsWithUpdatedFilters.filters
     filters = mergeSimilarAndRemoveEmptyFilters(filters)
     relays = unique(relays)
-    console.log("So we're here with what", relays, filters)
     const filtersByRelay = this.getFiltersByRelay(filters, relays)
 
     const subs: Sub[] = []
@@ -280,7 +277,6 @@ export class RelayPool {
       const instance = this.addOrGetRelay(relay)
       const sub = instance.sub(mergedAndRemovedEmptyFilters)
       subs.push(sub)
-      console.log("So now let's do something")
       let eventsBySub: (Event & { id: string })[] | undefined = []
       sub.on('event', (event: Event & { id: string }) => {
         this.addEventToCache(event)
