@@ -23,6 +23,20 @@ const createTableCalls = [
     picture TEXT NOT NULL,
     created_at INT NOT NULL
   );`,
+  `CREATE TABLE IF NOT EXISTS arc_channel_messages(
+    id TEXT PRIMARY KEY NOT NULL,
+    content TEXT NOT NULL,
+    created_at INT NOT NULL,
+    kind INT NOT NULL,
+    pubkey TEXT NOT NULL,
+    sig TEXT NOT NULL,
+    tags TEXT NOT NULL,
+    channel_id TEXT NOT NULL,
+    parent_id TEXT,
+    is_reply BOOLEAN DEFAULT FALSE,
+    is_hidden BOOLEAN DEFAULT FALSE,
+    sender_muted BOOLEAN DEFAULT FALSE
+  );`,
   `CREATE TABLE IF NOT EXISTS arc_direct_messages(
     id TEXT PRIMARY KEY NOT NULL,
     content TEXT NOT NULL,

@@ -35,6 +35,9 @@ export class NostrEvent {
         case 40:
           this.saveChannel()
           break
+        case 42:
+          this.saveChannelMessage()
+          break
         default:
           console.log(`Event kind ${this.kind} is not handled yet.`)
       }
@@ -97,9 +100,9 @@ export class NostrEvent {
           this.created_at.toString(),
         ],
         (_, result) => {
-          console.log(
-            `Saved channel ${name}, rowsAffected ${result.rowsAffected}}`
-          )
+          //   console.log(
+          //     `Saved channel ${name}, rowsAffected ${result.rowsAffected}}`
+          //   )
         },
         (_, error: SQLite.SQLError) => {
           console.error('Save channel error', error)
@@ -108,4 +111,80 @@ export class NostrEvent {
       )
     })
   }
+
+  // Kind 42
+  private saveChannelMessage() {
+    let channel_id: string | null = null
+    let reply_event_id: string | null = null
+    let root_message = false
+
+    // Extract channel_id and reply_event_id from tags
+    this.tags.forEach((tag) => {
+      if (tag[0] === 'e') {
+        channel_id = tag[1]
+        if (tag[3] === 'reply') {
+          reply_event_id = tag[1]
+        }
+        if (tag[3] === 'root') {
+          root_message = true
+        }
+      }
+    })
+
+    this.db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT OR REPLACE INTO arc_channel_messages (id, pubkey, sig, content, created_at, channel_id, reply_event_id, root_message) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+          this.id,
+          this.pubkey,
+          this.sig,
+          this.content,
+          this.created_at.toString(),
+          channel_id,
+          reply_event_id,
+          root_message,
+        ],
+        (_, result) => {
+          console.log(
+            `Saved channel message ${this.content}, rowsAffected ${result.rowsAffected}}`
+          )
+        },
+        (_, error: SQLite.SQLError) => {
+          console.error('Save channel message error', error)
+          return false
+        }
+      )
+    })
+  }
+
+  //   private saveChannelMessage() {
+  //     console.log('content:', this.content)
+  //     const metadata = JSON.parse(this.content)
+  //     console.log('metadata?', metadata)
+  //     const { message, channel_id, reply_event_id } = metadata
+  //     this.db.transaction((tx) => {
+  //       tx.executeSql(
+  //         'INSERT OR REPLACE INTO arc_channel_messages (id, pubkey, sig, message, channel_id, reply_event_id, created_at, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+  //         [
+  //           this.id,
+  //           this.pubkey,
+  //           this.sig,
+  //           message,
+  //           channel_id,
+  //           reply_event_id,
+  //           this.created_at.toString(),
+  //           JSON.stringify(this.tags),
+  //         ],
+  //         (_, result) => {
+  //           console.log(
+  //             `Saved channel message ${message}, rowsAffected ${result.rowsAffected}}`
+  //           )
+  //         },
+  //         (_, error: SQLite.SQLError) => {
+  //           console.error('Save channel message error', error)
+  //           return false
+  //         }
+  //       )
+  //     })
+  //   }
 }
