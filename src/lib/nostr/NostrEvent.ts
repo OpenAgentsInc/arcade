@@ -42,7 +42,8 @@ export class NostrEvent {
           console.log(`Event kind ${this.kind} is not handled yet.`)
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
+      //   console.error(err.stack)
     }
   }
 
@@ -85,7 +86,14 @@ export class NostrEvent {
 
   // Kind 40
   private saveChannel() {
-    const metadata = JSON.parse(this.content)
+    let metadata: { name: any; about: any; picture: any }
+    try {
+      metadata = JSON.parse(this.content)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      return
+    }
+
     const { name, about, picture } = metadata
     this.db.transaction((tx) => {
       tx.executeSql(
