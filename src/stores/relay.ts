@@ -11,6 +11,7 @@ export interface RelayState {
 }
 
 const initialRelayState: RelayState = {
+  connectedRelays: [],
   relays: DEFAULT_RELAYS.map((url) => ({
     url,
     status: 'not-connected',
@@ -21,6 +22,9 @@ const initialRelayState: RelayState = {
 export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
   relayActions: {
+    setRelays: (relays: any[]) => set((state) => ({ ...state, relays })),
+    setConnectedRelays: (connectedRelays: any[]) =>
+      set((state) => ({ ...state, connectedRelays })),
     addOrModifyRelay: (relay: any) => {
       console.log('Here and about to add or modify relay: ', relay)
       set((state) => {
@@ -33,13 +37,8 @@ export const createRelayStore = (set: any, get: any) => ({
             ...currentRelays[currentRelayIndex],
             ...relay,
           }
-          //   console.log('returning:', { ...state, relays: currentRelays })
           return { ...state, relays: currentRelays }
         } else {
-          //   console.log('elsereturning:', {
-          // ...state,
-          // relays: [...currentRelays, relay],
-          //   })
           return { ...state, relays: [...currentRelays, relay] }
         }
       })

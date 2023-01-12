@@ -2,7 +2,6 @@ import { useDatabase } from 'lib/database'
 import { useAuthed, useInterval } from 'lib/hooks'
 import { useRelayPool } from 'lib/nostr'
 import { useEffect, useState } from 'react'
-import { Stack } from 'tamagui'
 
 import { RelayIndicator } from '../relay/RelayIndicator'
 import { RelayManager } from '../relay/RelayManager'
@@ -13,20 +12,20 @@ export const DatabaseTest = () => {
   useDatabase()
   useRelayPool({ connectNow: true })
 
-  const [count, setCount] = useState(0)
+  //   const [count, setCount] = useState(0)
 
-  useInterval(() => {
-    setCount(count + 1)
-  }, 1000)
+  //   useInterval(() => {
+  //     setCount(count + 1)
+  //   }, 1000)
 
-  useEffect(() => {
-    console.log('count is:', count)
-  }, [count])
+  //   useEffect(() => {
+  //     console.log('count is:', count)
+  //   }, [count])
 
   return (
     <Screen>
-      <RelayIndicator />
-      {/* <RelayManager /> */}
+      {/* <RelayIndicator /> */}
+      <RelayManager />
     </Screen>
   )
 }
