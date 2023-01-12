@@ -16,6 +16,7 @@ export function useRelayPool(
   const chatActions = useStore().chatActions
   const addEvent = useStore().addEvent
   const activeRelays = useStore((state) => state.relays)
+  const connectedRelays = activeRelays.filter((relay) => relay.connected)
 
   useEffect(() => {
     if (!relayPoolInstance) {
@@ -64,6 +65,7 @@ export function useRelayPool(
   }, [relayPoolInstance])
 
   return {
+    connectedRelays,
     relays: activeRelays,
     relayPool: relayPoolInstance,
     setupInitialSubscriptions,
