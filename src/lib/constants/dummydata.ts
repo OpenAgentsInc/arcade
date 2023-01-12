@@ -1,4 +1,4 @@
-import { bechToHex } from 'lib/nostr'
+import { bechToHex } from 'lib/nostr/bech32'
 
 const demoFriendsany = [
   'npub1qg8j6gdwpxlntlxlkew7eu283wzx7hmj32esch42hntdpqdgrslqv024kw', // adam3us
