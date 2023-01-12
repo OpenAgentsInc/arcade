@@ -1,10 +1,3 @@
-import {
-  Event as NostrEvent,
-  Filter,
-  handleEvent,
-  Kind,
-  validateEvent,
-} from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
 import {
   Event,
@@ -17,6 +10,8 @@ import { useStore } from 'stores'
 import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 import { DEFAULT_RELAYS } from '../constants/relays'
+import { handleEvent } from './handleEvent'
+import { Filter, Kind, NostrEvent, validateEvent } from './nip01_events'
 
 export class Nostr {
   private relayPool: RelayPool
