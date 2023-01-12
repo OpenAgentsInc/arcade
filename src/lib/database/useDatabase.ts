@@ -13,5 +13,5 @@ export const useDatabase = () => {
     databaseReport(db)
   }, [])
 
-  return {}
+  return db
 }
