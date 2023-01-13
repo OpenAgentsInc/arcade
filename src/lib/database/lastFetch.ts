@@ -24,14 +24,15 @@ export const getLastFetch = (type: string) => {
         [type],
         (_, result) => {
           if (result.rows.length > 0) {
-            resolve(result.rows.item(0).timestamp)
+            console.log('ya result:', result)
+            resolve(result.rows.item(0).last_fetch)
           } else {
-            resolve(null)
+            resolve(undefined)
           }
         },
         (_, error) => {
           console.log('Error getting last fetch timestamp:', error)
-          resolve(null)
+          resolve(undefined)
           return false
         }
       )

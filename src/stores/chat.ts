@@ -1,4 +1,4 @@
-import { delay, timeNowInSeconds } from 'app/lib/utils'
+import { delay, timeNowInSeconds } from 'lib/utils'
 import { getEventHash, Kind, signEvent } from 'nostr-tools'
 
 export interface Channel {

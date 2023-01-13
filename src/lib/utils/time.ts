@@ -1,5 +1,13 @@
 import { differenceInSeconds } from 'date-fns'
 
+export const daysAgoInSeconds = (days: number): number =>
+  timeNowInSeconds() - days * 24 * 60 * 60
+
+export const timeNowInSeconds = (): number => {
+  const date = new Date()
+  return Math.floor(date.getTime() / 1000)
+}
+
 export const timeAgoSince = (date: Date) => {
   const now = new Date()
   const seconds = differenceInSeconds(now, date)

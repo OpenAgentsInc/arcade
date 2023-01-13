@@ -10,8 +10,6 @@ import {
   signEvent,
 } from 'nostr-tools'
 
-import { useStore } from '.'
-
 export interface AuthState {
   isLoggedIn: boolean
   user: {

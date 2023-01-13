@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
+import { useInterval } from 'app/lib/hooks'
 import { hydrateStoreFromDatabase } from 'lib/database'
 import { resetToTabs } from 'lib/utils/nav'
 import { useEffect, useState } from 'react'
@@ -14,11 +15,7 @@ const noteFontSize = 20
 export const FirstLoadScreen = () => {
   const navigation = useNavigation()
   const [done, setDone] = useState(false)
-
-  const channels = useStore((s) => s.channels)
-  const channelMessages = useStore((s) => s.channelMessages)
-  const notes = useStore((s) => s.notes)
-  const users = useStore((s) => s.users)
+  const { channels, channelMessages, notes, users } = useStore()
 
   useEffect(() => {
     if (done) {
@@ -33,14 +30,20 @@ export const FirstLoadScreen = () => {
       notes.length > 10 &&
       users.length > 8
     ) {
-      console.log('setdone placeholder')
-      //   setDone(true)
+      setTimeout(() => {
+        console.log('setdone placeholder')
+        // setDone(true)
+      }, 750)
     }
   }, [channels, channelMessages, notes, users])
 
   useEffect(() => {
     hydrateStoreFromDatabase()
   }, [])
+
+  useInterval(() => {
+    hydrateStoreFromDatabase()
+  }, 2500)
 
   return (
     <Screen>

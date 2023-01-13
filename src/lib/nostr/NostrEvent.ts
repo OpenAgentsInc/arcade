@@ -1,6 +1,10 @@
 import { useStore } from 'app/stores'
-import { Note, User } from 'app/stores/eventTypes'
-import { addNoteHelper, addUserHelper } from 'app/stores/helpers'
+import { Channel, Note, User } from 'app/stores/eventTypes'
+import {
+  addChannelHelper,
+  addNoteHelper,
+  addUserHelper,
+} from 'app/stores/helpers'
 import * as SQLite from 'expo-sqlite'
 
 export class NostrEvent {
@@ -172,6 +176,23 @@ export class NostrEvent {
 
     const { name, about, picture } = metadata
     if (!name) return
+
+    try {
+      const channel: Channel = {
+        id: this.id,
+        pubkey: this.pubkey,
+        sig: this.sig,
+        name,
+        about,
+        picture,
+        created_at: this.created_at,
+      }
+
+      addChannelHelper(channel)
+    } catch (e) {
+      console.log('couldnt add note to store')
+    }
+
     this.db.transaction((tx) => {
       tx.executeSql(
         'INSERT OR REPLACE INTO arc_channels (id, pubkey, sig, name, about, picture, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
