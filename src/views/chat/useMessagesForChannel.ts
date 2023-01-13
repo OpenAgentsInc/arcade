@@ -9,25 +9,24 @@ export const useMessagesForChannel = (channelId: string) => {
   //   const nostr = useNostr()
   const messages = useStore((state) => state.channelMessages)
 
-  //   const relaypool = useRelayPool()
-  //   useEffect(() => {
-  //     relaypool.relayPool?.subscribe(
-  //       [
-  //         {
-  //           kinds: [42],
-  //           '#e': [channelId],
-  //         },
-  //       ],
-  //       relaypool.relays.map((relay) => relay.url),
-  //       (event) => {
-  //         console.log('got chat msg i think', event)
-  //         handleEvent(event)
-  //       },
-  //       (eose) => {
-  //         console.log('eose for ', channelId)
-  //       }
-  //     )
-  //   }, [channelId])
+  const relaypool = useRelayPool()
+  useEffect(() => {
+    relaypool.relayPool?.subscribe(
+      [
+        {
+          kinds: [42],
+          '#e': [channelId],
+        },
+      ],
+      relaypool.relays.map((relay) => relay.url),
+      (event) => {
+        handleEvent(event)
+      },
+      (eose) => {
+        // console.log('eose for ', channelId)
+      }
+    )
+  }, [channelId])
 
   //   useEffect(() => {
   //     if (!nostr) return
