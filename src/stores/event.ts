@@ -108,7 +108,11 @@ export const createEventsStore = (set: any, get: any) => ({
         (acc, user) => {
           const existingUser = acc.find((u) => u.pubkey === user.pubkey)
           if (existingUser) {
-            return acc
+            if (existingUser.created_at < user.created_at) {
+              return acc.map((u) => (u.pubkey === user.pubkey ? user : u))
+            } else {
+              return acc
+            }
           } else {
             return [...acc, user]
           }
