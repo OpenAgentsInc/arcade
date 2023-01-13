@@ -29,22 +29,65 @@ export const createEventsStore = (set: any, get: any) => ({
   events: initialEventsState.events,
   addChannels: (channels: Channel[]) => {
     set((state) => {
+      const existingIds = state.channels.map((channel) => channel.id)
+      const newChannels = channels.filter(
+        (channel) => !existingIds.includes(channel.id)
+      )
+      const deduplicatedChannels = [...state.channels, ...newChannels].reduce(
+        (acc, channel) => {
+          const existingChannel = acc.find((c) => c.id === channel.id)
+          if (existingChannel) {
+            return acc
+          } else {
+            return [...acc, channel]
+          }
+        },
+        []
+      )
       return {
-        channels: [...state.channels, ...channels],
+        channels: deduplicatedChannels,
       }
     })
   },
   addChannelMessages: (channelMessages: ChannelMessage[]) => {
     set((state) => {
+      const existingIds = state.channelMessages.map((message) => message.id)
+      const newMessages = channelMessages.filter(
+        (message) => !existingIds.includes(message.id)
+      )
+      const deduplicatedMessages = [
+        ...state.channelMessages,
+        ...newMessages,
+      ].reduce((acc, message) => {
+        const existingMessage = acc.find((m) => m.id === message.id)
+        if (existingMessage) {
+          return acc
+        } else {
+          return [...acc, message]
+        }
+      }, [])
       return {
-        channelMessages: [...state.channelMessages, ...channelMessages],
+        channelMessages: deduplicatedMessages,
       }
     })
   },
   addNotes: (notes: Note[]) => {
     set((state) => {
+      const existingIds = state.notes.map((note) => note.id)
+      const newNotes = notes.filter((note) => !existingIds.includes(note.id))
+      const deduplicatedNotes = [...state.notes, ...newNotes].reduce(
+        (acc, note) => {
+          const existingNote = acc.find((n) => n.id === note.id)
+          if (existingNote) {
+            return acc
+          } else {
+            return [...acc, note]
+          }
+        },
+        []
+      )
       return {
-        notes: [...state.notes, ...notes],
+        notes: deduplicatedNotes,
       }
     })
   },
@@ -78,10 +121,26 @@ export const createEventsStore = (set: any, get: any) => ({
     })
   },
 
+  // single
   addChannel: (channel: Channel) => {
     set((state) => {
+      const existingIds = state.channels.map((channel) => channel.id)
+      const newChannels = [channel].filter(
+        (channel) => !existingIds.includes(channel.id)
+      )
+      const deduplicatedChannels = [...state.channels, ...newChannels].reduce(
+        (acc, channel) => {
+          const existingChannel = acc.find((c) => c.id === channel.id)
+          if (existingChannel) {
+            return acc
+          } else {
+            return [...acc, channel]
+          }
+        },
+        []
+      )
       return {
-        channels: [...state.channels, channel],
+        channels: deduplicatedChannels,
       }
     })
   },
