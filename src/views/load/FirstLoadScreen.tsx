@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
+import { hydrateStoreFromDatabase } from 'app/lib/database/hydrateStoreFromDatabase'
 import { db } from 'lib/database'
 import { databaseReport } from 'lib/database/databaseReport'
 import { getFriendMetadata } from 'lib/nostr/getFriendMetadata'
@@ -32,6 +33,8 @@ export const FirstLoadScreen = () => {
   const users = useStore((s) => s.users)
 
   const doFirstLoad = async () => {
+    hydrateStoreFromDatabase()
+
     const counts = (await databaseReport(db)) as TableCounts
     setTableCounts(counts)
     console.log(counts)
@@ -69,7 +72,6 @@ export const FirstLoadScreen = () => {
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {users.length}
-                {/* {tableCounts.arc_users} */}
               </Text>
             </XStack>
             <XStack justifyContent="space-between">
@@ -78,7 +80,6 @@ export const FirstLoadScreen = () => {
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {notes.length}
-                {/* {tableCounts.arc_notes} */}
               </Text>
             </XStack>
 
@@ -88,7 +89,6 @@ export const FirstLoadScreen = () => {
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {channels.length}
-                {/* {tableCounts.arc_channels} */}
               </Text>
             </XStack>
 
@@ -98,7 +98,6 @@ export const FirstLoadScreen = () => {
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {channelMessages.length}
-                {/* {tableCounts.arc_channel_messages} */}
               </Text>
             </XStack>
           </YStack>
