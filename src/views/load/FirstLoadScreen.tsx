@@ -26,12 +26,7 @@ export const FirstLoadScreen = () => {
   }, [done])
 
   useEffect(() => {
-    if (
-      channels.length > 10 &&
-      channelMessages.length > 10 &&
-      notes.length > 10 &&
-      users.length > 8
-    ) {
+    if (notes.length > 5 && users.length > 8) {
       // clear any existing timeout
       if (timeoutId) {
         clearTimeout(timeoutId)
@@ -39,7 +34,7 @@ export const FirstLoadScreen = () => {
       // set new timeout to call setDone after 500ms
       const newTimeoutId = setTimeout(() => {
         setDone(true)
-      }, 250)
+      }, 1500)
       setTimeoutId(newTimeoutId)
     }
   }, [channels, channelMessages, notes, users])

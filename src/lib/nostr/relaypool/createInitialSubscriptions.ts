@@ -22,6 +22,9 @@ export const createInitialSubscriptions = async (
     | undefined
   console.log('allChannelsSince:', allChannelsSince)
 
+  const homeFeedSince = (await getLastFetch('home-feed')) as number | undefined
+  console.log('homeFeedSince:', homeFeedSince)
+
   const subscriptions: Filter[] = [
     // Subscribe to the Nostr channel
     {
@@ -51,6 +54,7 @@ export const createInitialSubscriptions = async (
       kinds: [Kind.Text, Kind.ChannelMessage], // , Kind.Repost, Kind.Reaction
       authors: friends,
       limit: 35,
+      since: homeFeedSince ?? daysAgoInSeconds(1),
     },
     // Grab our contacts/metadata
     // { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
@@ -61,5 +65,8 @@ export const createInitialSubscriptions = async (
     //   authors: [userPubkey],
     // },
   ]
+
+  console.log('Returning subscriptions:')
+
   return subscriptions
 }

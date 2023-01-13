@@ -96,9 +96,10 @@ export class NostrEvent {
           sql,
           params,
           (_, result) => {
-            console.log(
-              `Saved user ${pubkey}, rowsAffected ${result.rowsAffected}}`
-            )
+            console
+              .log
+              //   `Saved user ${pubkey}, rowsAffected ${result.rowsAffected}}`
+              ()
           },
           (_, error: SQLite.SQLError) => {
             console.error('Save user error', error)

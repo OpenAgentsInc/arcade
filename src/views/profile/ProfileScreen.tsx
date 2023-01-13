@@ -23,6 +23,7 @@ const COVER_HEIGHT = 130
 export const ProfileScreen = () => {
   const pubkey = useRoute<any>().params.pubkey
   const metadata = useUserMetadata(pubkey)
+  //   console.log(metadata)
   const posts = useUserPosts(pubkey)
 
   const ProfileHeader = () => (
