@@ -85,4 +85,8 @@ const createTableCalls = [
     lnurl TEXT,
     created_at INT DEFAULT 0
   );`,
+  `CREATE TABLE IF NOT EXISTS last_fetch (
+    type TEXT PRIMARY KEY NOT NULL,
+    last_fetch INT NOT NULL
+  );`,
 ]
