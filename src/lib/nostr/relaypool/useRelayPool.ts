@@ -32,7 +32,6 @@ export function useRelayPool({
   useEffect(() => {
     if (!relayPoolInstance) {
       relayPoolInstance = new RelayPool(relaysToConnectTo, { noCache })
-      console.log('We set up a new relay pool instance.')
       relayPoolInstance.onnotice = (notice) => {
         console.log('notice:', notice)
       }
