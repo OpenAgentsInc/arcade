@@ -15,7 +15,8 @@ export const TextNote = (props: { data: Note }) => {
   const data = props.data
   const time = timeAgoSince(new Date(data.created_at * 1000))
   const metadata = useUserMetadata(data.pubkey)
-  const name = metadata?.name || truncateString(data.pubkey, 8)
+  const name =
+    (metadata?.display_name ?? metadata?.name) || truncateString(data.pubkey, 8)
   const username = `${metadata?.name}` || ''
   const picture = useMemo(
     () => metadata?.picture || generateRandomPlacekitten(),

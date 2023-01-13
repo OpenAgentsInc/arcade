@@ -62,6 +62,7 @@ export interface User {
   id: string
   pubkey: string
   name: string
+  display_name?: string
   picture: string
   about: string
   main_relay?: string

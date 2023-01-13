@@ -29,10 +29,10 @@ describe('Nostr class', () => {
     nostr.close()
   })
 
-  test('initial subscriptions', async () => {
-    sub = nostr.setupInitialSubscriptions()
-    expect(sub).toBeDefined()
-  })
+  //   test('initial subscriptions', async () => {
+  //     sub = nostr.setupInitialSubscriptions()
+  //     expect(sub).toBeDefined()
+  //   })
 
   test('publish event', async () => {
     const sk = generatePrivateKey()

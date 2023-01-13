@@ -65,11 +65,13 @@ export class NostrEvent {
   private saveUserMeta() {
     const { id, pubkey, created_at, content } = this
     const userData = JSON.parse(content)
-    const sql = `INSERT OR REPLACE INTO arc_users (id, pubkey, name, picture, about, created_at) VALUES (?, ?, ?, ?, ?, ?)`
+    console.log('kind0', userData)
+    const sql = `INSERT OR REPLACE INTO arc_users (id, pubkey, name, display_name, picture, about, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)`
     const params = [
       id,
       pubkey,
       userData.name,
+      userData.display_name,
       userData.picture,
       userData.about,
       created_at,
@@ -82,6 +84,7 @@ export class NostrEvent {
         name: userData.name,
         picture: userData.picture,
         about: userData.about,
+        display_name: userData.display_name,
         created_at,
       }
 

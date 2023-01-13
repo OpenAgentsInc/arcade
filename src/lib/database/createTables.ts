@@ -77,6 +77,7 @@ const createTableCalls = [
     id TEXT PRIMARY KEY NOT NULL,
     pubkey TEXT NOT NULL,
     name TEXT,
+    display_name TEXT,
     picture TEXT,
     about TEXT,
     main_relay TEXT,
