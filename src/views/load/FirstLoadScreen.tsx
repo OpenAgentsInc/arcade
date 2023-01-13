@@ -11,6 +11,7 @@ import { Screen } from '../shared'
 const noteTypeColor = '$color9'
 const noteCountColor = '$color12'
 const noteFontSize = 20
+const countWidth = 50
 
 export const FirstLoadScreen = () => {
   const navigation = useNavigation()
@@ -57,7 +58,12 @@ export const FirstLoadScreen = () => {
             <Text color={noteTypeColor} fontSize={noteFontSize}>
               Users
             </Text>
-            <Text color={noteCountColor} fontSize={noteFontSize}>
+            <Text
+              color={noteCountColor}
+              fontSize={noteFontSize}
+              w={countWidth}
+              textAlign="right"
+            >
               {users.length}
             </Text>
           </XStack>
@@ -65,7 +71,12 @@ export const FirstLoadScreen = () => {
             <Text color={noteTypeColor} fontSize={noteFontSize}>
               Posts
             </Text>
-            <Text color={noteCountColor} fontSize={noteFontSize}>
+            <Text
+              color={noteCountColor}
+              fontSize={noteFontSize}
+              w={countWidth}
+              textAlign="right"
+            >
               {notes.length}
             </Text>
           </XStack>
@@ -74,7 +85,12 @@ export const FirstLoadScreen = () => {
             <Text color={noteTypeColor} fontSize={noteFontSize}>
               Channels
             </Text>
-            <Text color={noteCountColor} fontSize={noteFontSize}>
+            <Text
+              color={noteCountColor}
+              fontSize={noteFontSize}
+              w={countWidth}
+              textAlign="right"
+            >
               {channels.length}
             </Text>
           </XStack>
@@ -83,7 +99,12 @@ export const FirstLoadScreen = () => {
             <Text color={noteTypeColor} fontSize={noteFontSize} mr="$8">
               Messages
             </Text>
-            <Text color={noteCountColor} fontSize={noteFontSize}>
+            <Text
+              color={noteCountColor}
+              fontSize={noteFontSize}
+              w={countWidth}
+              textAlign="right"
+            >
               {channelMessages.length}
             </Text>
           </XStack>

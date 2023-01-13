@@ -16,8 +16,8 @@ export interface ChannelMessage {
   pubkey: string
   sig: string
   tags: string
-  channel_id: string
-  reply_event_id: string
+  channel_id?: string
+  reply_event_id?: string
 }
 
 export interface DirectMessage {

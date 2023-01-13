@@ -1,7 +1,8 @@
 import { useStore } from 'app/stores'
-import { Channel, Note, User } from 'app/stores/eventTypes'
+import { Channel, ChannelMessage, Note, User } from 'app/stores/eventTypes'
 import {
   addChannelHelper,
+  addChannelMessageHelper,
   addNoteHelper,
   addUserHelper,
 } from 'app/stores/helpers'
@@ -190,7 +191,7 @@ export class NostrEvent {
 
       addChannelHelper(channel)
     } catch (e) {
-      console.log('couldnt add note to store')
+      console.log('couldnt add channel to store')
     }
 
     this.db.transaction((tx) => {
@@ -236,6 +237,24 @@ export class NostrEvent {
         }
       }
     })
+
+    try {
+      const channelMessage: ChannelMessage = {
+        id: this.id,
+        content: this.content,
+        created_at: this.created_at,
+        kind: this.kind,
+        pubkey: this.pubkey,
+        sig: this.sig,
+        tags: JSON.stringify(this.tags),
+        channel_id: channel_id ?? undefined,
+        reply_event_id: reply_event_id ?? undefined,
+      }
+
+      addChannelMessageHelper(channelMessage)
+    } catch (e) {
+      console.log('couldnt add channelmsg to store')
+    }
 
     this.db.transaction((tx) => {
       tx.executeSql(
