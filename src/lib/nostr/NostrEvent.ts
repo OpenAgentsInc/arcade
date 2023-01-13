@@ -58,7 +58,7 @@ export class NostrEvent {
 
   // Kind 0
   private saveUserMeta() {
-    const { id, pubkey, created_at, content, sig } = this
+    const { id, pubkey, created_at, content } = this
     const userData = JSON.parse(content)
     const sql = `INSERT OR REPLACE INTO arc_users (id, pubkey, name, picture, about, created_at) VALUES (?, ?, ?, ?, ?, ?)`
     const params = [
@@ -81,11 +81,6 @@ export class NostrEvent {
       }
 
       addUserHelper(user)
-      //   useStore.setState({
-      //     users: [...useStore.getState().users, user],
-      //   })
-      console.log('SO?')
-      //   this.actions.addUser(user)
     } catch (e) {
       console.log('couldnt add user to store')
     }
