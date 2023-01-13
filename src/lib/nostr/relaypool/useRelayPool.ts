@@ -86,3 +86,4 @@ export function useRelayPool({
     relayPool: relayPoolInstance,
     connectedRelays,
   }
+}
