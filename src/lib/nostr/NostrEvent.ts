@@ -27,7 +27,6 @@ export class NostrEvent {
     try {
       switch (this.kind) {
         case 0:
-          console.log(' SAVING USER META??? ? ?!? !??! ?! ?! ?! ??! ')
           this.saveUserMeta()
           break
         case 1:
@@ -79,7 +78,6 @@ export class NostrEvent {
             return false
           }
         )
-        console.log('saved?')
       })
     } catch (e) {
       console.error(e)

@@ -1,18 +1,15 @@
 import { useStore } from 'stores'
 
 import { db } from '../database'
-import { NostrEvent } from './NostrEvent'
 import { handleEvent } from './handleEvent'
+// eslint-disable-next-line import/order
+import { NostrEvent } from './NostrEvent'
 import { relayPoolInstance } from './relaypool'
 
-export const getFriendMetadata = async (
-  pubkeys: string[],
-  onError = (relay) => {
-    console.log('error', relay)
-  }
-): Promise<NostrEvent[]> => {
+export const getFriendMetadata = async (): Promise<NostrEvent[]> => {
   const relays = useStore.getState().relays
   const events: NostrEvent[] = []
+  const pubkeys = useStore.getState().friends
 
   return new Promise((resolve) => {
     relays.forEach((relayInfo) => {
