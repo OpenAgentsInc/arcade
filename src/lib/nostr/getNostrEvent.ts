@@ -2,8 +2,9 @@ import { Filter } from 'nostr-tools'
 import { useStore } from 'stores'
 
 import { db } from '../database'
-import { NostrEvent } from './NostrEvent'
 import { handleEvent } from './handleEvent'
+// eslint-disable-next-line import/order
+import { NostrEvent } from './NostrEvent'
 import { relayPoolInstance } from './relaypool'
 
 export const getNostrEvent = async (
