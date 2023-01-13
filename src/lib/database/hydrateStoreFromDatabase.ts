@@ -1,10 +1,8 @@
 import { useStore } from 'app/stores'
-import * as SQLite from 'expo-sqlite'
 import { db } from 'lib/database'
-import { Channel, ChannelMessage, Note, User } from 'stores/eventTypes'
 
 export const hydrateStoreFromDatabase = async () => {
-  const { addUser, addNote, addChannel, addChannelMessage } =
+  const { addUsers, addNotes, addChannels, addChannelMessages } =
     useStore.getState()
 
   db.transaction((tx) => {
@@ -12,10 +10,10 @@ export const hydrateStoreFromDatabase = async () => {
       'SELECT * FROM arc_users',
       [],
       (_, { rows: { _array } }) => {
-        _array.forEach((user) => {
-          console.log('trying to add user:', user)
-          addUser(user)
+        const users = _array.map((user) => {
+          return user
         })
+        addUsers(users)
       },
       (_, error) => {
         console.log('Error querying arc_users', error)
@@ -27,10 +25,10 @@ export const hydrateStoreFromDatabase = async () => {
       'SELECT * FROM arc_notes',
       [],
       (_, { rows: { _array } }) => {
-        _array.forEach((note) => {
-          console.log('trying to add note:', note)
-          addNote(note)
+        const notes = _array.map((note) => {
+          return note
         })
+        addNotes(notes)
       },
       (_, error) => {
         console.log('Error querying arc_notes', error)
@@ -42,9 +40,8 @@ export const hydrateStoreFromDatabase = async () => {
       'SELECT * FROM arc_channels',
       [],
       (_, { rows: { _array } }) => {
-        _array.forEach((channel) => {
-          addChannel(channel)
-        })
+        const channels = _array.map((channel) => channel)
+        addChannels(channels)
       },
       (_, error) => {
         console.log('Error querying arc_channels', error)
@@ -56,9 +53,12 @@ export const hydrateStoreFromDatabase = async () => {
       'SELECT * FROM arc_channel_messages',
       [],
       (_, { rows: { _array } }) => {
-        _array.forEach((channelMessage) => {
-          addChannelMessage(channelMessage)
-        })
+        const channelMessages = _array.map((channelMessage) => channelMessage)
+        addChannelMessages(channelMessages)
+      },
+      (_, error) => {
+        console.log('Error querying arc_channel_messages', error)
+        return false
       }
     )
   })

@@ -27,6 +27,42 @@ export const createEventsStore = (set: any, get: any) => ({
   reactions: initialEventsState.reactions,
   users: initialEventsState.users,
   events: initialEventsState.events,
+  addChannels: (channels: Channel[]) => {
+    set((state) => {
+      return {
+        channels: [...state.channels, ...channels],
+      }
+    })
+  },
+  addChannelMessages: (channelMessages: ChannelMessage[]) => {
+    set((state) => {
+      return {
+        channelMessages: [...state.channelMessages, ...channelMessages],
+      }
+    })
+  },
+  addNotes: (notes: Note[]) => {
+    set((state) => {
+      return {
+        notes: [...state.notes, ...notes],
+      }
+    })
+  },
+  addReactions: (reactions: Reaction[]) => {
+    set((state) => {
+      return {
+        reactions: [...state.reactions, ...reactions],
+      }
+    })
+  },
+  addUsers: (users: User[]) => {
+    set((state) => {
+      return {
+        users: [...state.users, ...users],
+      }
+    })
+  },
+
   addChannel: (channel: Channel) => {
     set((state) => {
       return {

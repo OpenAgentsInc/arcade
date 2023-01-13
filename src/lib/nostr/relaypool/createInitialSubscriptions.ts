@@ -39,7 +39,7 @@ export const createInitialSubscriptions = (
     {
       kinds: [Kind.Text, Kind.ChannelMessage], // , Kind.Repost, Kind.Reaction
       authors: friends,
-      limit: 5,
+      limit: 35,
     },
   ]
   subscriptions.push(...homeFilters)
