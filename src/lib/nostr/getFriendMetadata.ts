@@ -6,7 +6,11 @@ import { handleEvent } from './handleEvent'
 import { NostrEvent } from './NostrEvent'
 import { relayPoolInstance } from './relaypool'
 
+let done = false
+
 export const getFriendMetadata = async () => {
+  if (done) return
+  done = true
   const relays = useStore.getState().relays
   const events: NostrEvent[] = []
   const pubkeys = useStore.getState().friends

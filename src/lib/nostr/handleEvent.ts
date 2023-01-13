@@ -13,6 +13,25 @@ export const handleEvent = (
   try {
     const event = new NostrEvent(eventFromRelay, db)
     event.save()
+
+    // switch (event.kind) {
+    //   case 0:
+    //     try {
+    //       const user: User = {
+    //         event.id,
+    //         pubkey,
+    //         name: userData.name,
+    //         picture: userData.picture,
+    //         about: userData.about,
+    //         created_at,
+    //       }
+
+    //       useStore.getState().addUser(user)
+    //     } catch (e) {
+    //       console.log('couldnt add user to store')
+    //     }
+    // }
+
     // console.log('event:', event)
 
     // actions.addEvent(event)

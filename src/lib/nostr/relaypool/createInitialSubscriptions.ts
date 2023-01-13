@@ -10,7 +10,7 @@ export const createInitialSubscriptions = (
     return []
   }
 
-  console.log('creating this filter for friends:', friends)
+  //   console.log('creating this filter for friends:', friends)
 
   const subscriptions = [...initialSubscriptions]
 
@@ -21,19 +21,19 @@ export const createInitialSubscriptions = (
   ]
   subscriptions.push(...contactsFilters)
 
-  const ourContactsFilters: Filter[] = [
-    { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
-  ]
-  subscriptions.push(...ourContactsFilters)
+  //   const ourContactsFilters: Filter[] = [
+  //     { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
+  //   ]
+  //   subscriptions.push(...ourContactsFilters)
 
-  const dmsFilters: Filter[] = [
-    {
-      kinds: [Kind.EncryptedDirectMessage],
-      limit: 500,
-      authors: [userPubkey],
-    },
-  ]
-  subscriptions.push(...dmsFilters)
+  //   const dmsFilters: Filter[] = [
+  //     {
+  //       kinds: [Kind.EncryptedDirectMessage],
+  //       limit: 500,
+  //       authors: [userPubkey],
+  //     },
+  //   ]
+  //   subscriptions.push(...dmsFilters)
 
   const homeFilters: Filter[] = [
     {

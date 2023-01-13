@@ -69,21 +69,6 @@ export class NostrEvent {
     ]
 
     try {
-      const user: User = {
-        id,
-        pubkey,
-        name: userData.name,
-        picture: userData.picture,
-        about: userData.about,
-        created_at,
-      }
-
-      useStore.getState().addUser(user)
-    } catch (e) {
-      console.log('couldnt add user to store')
-    }
-
-    try {
       this.db.transaction((tx) => {
         tx.executeSql(
           sql,
