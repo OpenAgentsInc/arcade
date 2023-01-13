@@ -178,9 +178,22 @@ export const createEventsStore = (set: any, get: any) => ({
   },
   addUser: (user: User) => {
     set((state) => {
-      if (!state.users.find((u) => u.pubkey === user.pubkey)) {
+      const existingUser = state.users.find((u) => u.pubkey === user.pubkey)
+      if (!existingUser) {
         return {
           users: [...state.users, user],
+        }
+      } else {
+        if (existingUser.created_at < user.created_at) {
+          const updatedUsers = state.users.map((u) => {
+            if (u.pubkey === user.pubkey) {
+              return user
+            }
+            return u
+          })
+          return {
+            users: updatedUsers,
+          }
         }
       }
     })
