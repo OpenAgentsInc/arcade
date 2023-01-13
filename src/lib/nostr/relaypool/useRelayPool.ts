@@ -27,6 +27,10 @@ export function useRelayPool({
     [relays]
   )
   const db = useDatabase()
+  const set = useStore.setState
+
+  const addUser = useStore((state) => state.addUser)
+
   //   const pubkey = useStore((state) => state.user.publicKey)
   //   const friends = useStore((state) => state.friends)
   //   const subscriptions = useMemo(
@@ -70,7 +74,7 @@ export function useRelayPool({
     }
     const relays = relayInfo.map((relay) => relay.url)
     const callback = (event: NostrEvent) => {
-      handleEvent(event, db)
+      handleEvent(event, db, { set })
     }
 
     console.log("Subs: We're subscribing now...", relays.length)
@@ -84,7 +88,7 @@ export function useRelayPool({
     if (connectNow) {
       setTimeout(() => {
         setupInitialSubscriptions()
-      }, 3000)
+      }, 300)
     }
   }, [connectNow])
 

@@ -33,11 +33,6 @@ export const FirstLoadScreen = () => {
 
   const doFirstLoad = async () => {
     hydrateStoreFromDatabase()
-    // const counts = (await databaseReport(db)) as TableCounts
-    // if (counts.arc_users < 10) {
-    //   const evt = await getFriendMetadata()
-    //   console.log(evt)
-    // }
   }
 
   useEffect(() => {

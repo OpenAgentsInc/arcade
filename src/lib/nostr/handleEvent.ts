@@ -8,10 +8,11 @@ import { NostrEvent } from './NostrEvent'
 
 export const handleEvent = (
   eventFromRelay: any,
-  db: SQLite.WebSQLDatabase = db2
+  db: SQLite.WebSQLDatabase = db2,
+  actions: any = {}
 ) => {
   try {
-    const event = new NostrEvent(eventFromRelay, db)
+    const event = new NostrEvent(eventFromRelay, db, actions)
     event.save()
 
     // switch (event.kind) {

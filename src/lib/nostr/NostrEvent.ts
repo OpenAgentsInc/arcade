@@ -1,5 +1,6 @@
 import { useStore } from 'app/stores'
 import { User } from 'app/stores/eventTypes'
+import { addUserHelper } from 'app/stores/helpers'
 import * as SQLite from 'expo-sqlite'
 
 export class NostrEvent {
@@ -13,8 +14,9 @@ export class NostrEvent {
   private rawEvent: any
   private db: any
   private addUser: any
+  private actions: any
 
-  constructor(rawEvent: any, db: SQLite.WebSQLDatabase) {
+  constructor(rawEvent: any, db: SQLite.WebSQLDatabase, actions: any = {}) {
     this.rawEvent = rawEvent
     this.db = db
     this.content = rawEvent.content
@@ -24,7 +26,7 @@ export class NostrEvent {
     this.pubkey = rawEvent.pubkey
     this.sig = rawEvent.sig
     this.tags = rawEvent.tags
-    // this.addUser = useStore.getState().addUser
+    this.actions = actions
   }
 
   async save() {
@@ -67,6 +69,26 @@ export class NostrEvent {
       userData.about,
       created_at,
     ]
+
+    try {
+      const user: User = {
+        id,
+        pubkey,
+        name: userData.name,
+        picture: userData.picture,
+        about: userData.about,
+        created_at,
+      }
+
+      addUserHelper(user)
+      //   useStore.setState({
+      //     users: [...useStore.getState().users, user],
+      //   })
+      console.log('SO?')
+      //   this.actions.addUser(user)
+    } catch (e) {
+      console.log('couldnt add user to store')
+    }
 
     try {
       this.db.transaction((tx) => {

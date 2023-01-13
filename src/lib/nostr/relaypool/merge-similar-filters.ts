@@ -18,14 +18,13 @@ export function mergeSimilarAndRemoveEmptyFilters(filters: Filter[]): Filter[] {
   const indexByFilter = new Map<string, number>()
   // iterate through the filters array
   for (const filter of filters) {
-    console.log('filters obj initially:', filters)
     let added = false
     // iterate through the key value pairs of the filter
     for (const key in filter) {
       // check if key is 'ids', 'authors', 'kinds' or starts with '#' and filter value is not empty
       if (
         filter[key] &&
-        (['authors', 'kinds'].includes(key) || key.startsWith('#'))
+        (['ids', 'authors', 'kinds'].includes(key) || key.startsWith('#'))
       ) {
         // check if filter value is empty, if yes set added to true and break
         if (filter[key].length === 0) {
