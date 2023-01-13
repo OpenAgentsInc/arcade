@@ -53,11 +53,19 @@ export const FirstLoadScreen = () => {
     <Screen>
       <Stack f={1} jc="center" ai="center">
         <Spinner mt={-60} size="large" color="$color10" />
-        <Text color="$color10" mt="$6" fontSize={24}>
+        <Text color="$color11" mt="$6" fontSize={24} fontWeight="700">
           Loading from relays
         </Text>
         {tableCounts && (
           <YStack mt="$6" space="$3">
+            <XStack justifyContent="space-between">
+              <Text color={noteTypeColor} fontSize={noteFontSize}>
+                Users
+              </Text>
+              <Text color={noteCountColor} fontSize={noteFontSize}>
+                {tableCounts.arc_users}
+              </Text>
+            </XStack>
             <XStack justifyContent="space-between">
               <Text color={noteTypeColor} fontSize={noteFontSize}>
                 Posts
@@ -73,15 +81,6 @@ export const FirstLoadScreen = () => {
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {tableCounts.arc_reactions}
-              </Text>
-            </XStack>
-
-            <XStack justifyContent="space-between">
-              <Text color={noteTypeColor} fontSize={noteFontSize}>
-                Users
-              </Text>
-              <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_users}
               </Text>
             </XStack>
 
