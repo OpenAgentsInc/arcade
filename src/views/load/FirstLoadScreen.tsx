@@ -77,14 +77,14 @@ export const FirstLoadScreen = () => {
               </Text>
             </XStack>
 
-            <XStack justifyContent="space-between">
+            {/* <XStack justifyContent="space-between">
               <Text color={noteTypeColor} fontSize={noteFontSize}>
                 Reactions
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
                 {tableCounts.arc_reactions}
               </Text>
-            </XStack>
+            </XStack> */}
 
             <XStack justifyContent="space-between">
               <Text color={noteTypeColor} fontSize={noteFontSize}>
