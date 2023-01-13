@@ -7,6 +7,7 @@ import {
   getEventHash,
   getPublicKey,
   nip19,
+  relayInit,
   signEvent,
 } from 'nostr-tools'
 
@@ -125,7 +126,9 @@ export const createAuthStore = (set: any, get: any) => ({
     event.id = getEventHash(event)
     event.sig = signEvent(event, privateKey)
 
-    state.nostr.publish(event)
+    // we aren't yet subscribed to pool which we do in authednavigator, lets just put our metadata on arc relay and get it from there later
+    const relay = relayInit('wss://arc1.arcadelabs.co')
+    relay.publish(event)
   },
 })
 
