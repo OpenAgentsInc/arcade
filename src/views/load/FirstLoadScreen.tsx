@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
-import { useRelayPool } from 'app/lib/nostr'
 import { db } from 'lib/database'
 import { databaseReport } from 'lib/database/databaseReport'
 import { getFriendMetadata } from 'lib/nostr/getFriendMetadata'
 import { resetToTabs } from 'lib/utils/nav'
 import { useEffect, useState } from 'react'
+import { useStore } from 'stores'
 import { Spinner, Stack, Text, XStack, YStack } from 'tamagui'
 
 import { Screen } from '../shared'
@@ -25,10 +25,13 @@ export const FirstLoadScreen = () => {
   const navigation = useNavigation()
   const [done, setDone] = useState(false)
   const [tableCounts, setTableCounts] = useState<TableCounts>()
-  //   useRelayPool({ connectNow: true })
+
+  const channels = useStore((s) => s.channels)
+  const channelMessages = useStore((s) => s.channelMessages)
+  const notes = useStore((s) => s.notes)
+  const users = useStore((s) => s.users)
 
   const doFirstLoad = async () => {
-    // First we'll check to see what's in the database
     const counts = (await databaseReport(db)) as TableCounts
     setTableCounts(counts)
     console.log(counts)
@@ -65,7 +68,8 @@ export const FirstLoadScreen = () => {
                 Users
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_users}
+                {users.length}
+                {/* {tableCounts.arc_users} */}
               </Text>
             </XStack>
             <XStack justifyContent="space-between">
@@ -73,25 +77,18 @@ export const FirstLoadScreen = () => {
                 Posts
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_notes}
+                {notes.length}
+                {/* {tableCounts.arc_notes} */}
               </Text>
             </XStack>
-
-            {/* <XStack justifyContent="space-between">
-              <Text color={noteTypeColor} fontSize={noteFontSize}>
-                Reactions
-              </Text>
-              <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_reactions}
-              </Text>
-            </XStack> */}
 
             <XStack justifyContent="space-between">
               <Text color={noteTypeColor} fontSize={noteFontSize}>
                 Channels
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_channels}
+                {channels.length}
+                {/* {tableCounts.arc_channels} */}
               </Text>
             </XStack>
 
@@ -100,7 +97,8 @@ export const FirstLoadScreen = () => {
                 Messages
               </Text>
               <Text color={noteCountColor} fontSize={noteFontSize}>
-                {tableCounts.arc_channel_messages}
+                {channelMessages.length}
+                {/* {tableCounts.arc_channel_messages} */}
               </Text>
             </XStack>
           </YStack>
