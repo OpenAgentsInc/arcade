@@ -75,6 +75,7 @@ const createTableCalls = [
   );`,
   `CREATE TABLE IF NOT EXISTS arc_users(
     id TEXT PRIMARY KEY NOT NULL,
+    pubkey TEXT NOT NULL,
     name TEXT,
     picture TEXT,
     about TEXT,

@@ -26,12 +26,12 @@ export function useRelayPool({
     [relays]
   )
   const db = useDatabase()
-  const pubkey = useStore((state) => state.user.publicKey)
-  const friends = useStore((state) => state.friends)
-  const subscriptions = useMemo(
-    () => createInitialSubscriptions(pubkey, friends),
-    [pubkey, friends]
-  )
+  //   const pubkey = useStore((state) => state.user.publicKey)
+  //   const friends = useStore((state) => state.friends)
+  //   const subscriptions = useMemo(
+  //     () => createInitialSubscriptions(pubkey, friends),
+  //     [pubkey, friends]
+  //   )
 
   useEffect(() => {
     if (!relayPoolInstance) {
@@ -91,7 +91,7 @@ export function useRelayPool({
     relays,
     relayPool: relayPoolInstance,
     connectedRelays,
-    subscriptions,
+    // subscriptions,
   }
 
   //   const relays = useStore((state) => state.relays)

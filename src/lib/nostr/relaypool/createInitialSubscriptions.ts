@@ -10,6 +10,8 @@ export const createInitialSubscriptions = (
     return []
   }
 
+  console.log('creating this filter for friends:', friends)
+
   const subscriptions = [...initialSubscriptions]
 
   friends.push(userPubkey)
@@ -19,28 +21,28 @@ export const createInitialSubscriptions = (
   ]
   subscriptions.push(...contactsFilters)
 
-  const ourContactsFilters: Filter[] = [
-    { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
-  ]
-  subscriptions.push(...ourContactsFilters)
+  //   const ourContactsFilters: Filter[] = [
+  //     { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
+  //   ]
+  //   subscriptions.push(...ourContactsFilters)
 
-  const dmsFilters: Filter[] = [
-    {
-      kinds: [Kind.EncryptedDirectMessage],
-      limit: 500,
-      authors: [userPubkey],
-    },
-  ]
-  subscriptions.push(...dmsFilters)
+  //   const dmsFilters: Filter[] = [
+  //     {
+  //       kinds: [Kind.EncryptedDirectMessage],
+  //       limit: 500,
+  //       authors: [userPubkey],
+  //     },
+  //   ]
+  //   subscriptions.push(...dmsFilters)
 
-  const homeFilters: Filter[] = [
-    {
-      kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
-      authors: friends,
-      limit: 5,
-    },
-  ]
-  subscriptions.push(...homeFilters)
+  //   const homeFilters: Filter[] = [
+  //     {
+  //       kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
+  //       authors: friends,
+  //       limit: 5,
+  //     },
+  //   ]
+  //   subscriptions.push(...homeFilters)
 
   return subscriptions
 }

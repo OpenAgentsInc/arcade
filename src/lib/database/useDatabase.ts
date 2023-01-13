@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 import { createTables } from './createTables'
 import { databaseReport } from './databaseReport'
 
-const openDatabase = () => SQLite.openDatabase('arc5.db')
-const db = openDatabase()
+const openDatabase = () => SQLite.openDatabase('arc6.db')
+export const db = openDatabase()
 
 let did = false
 

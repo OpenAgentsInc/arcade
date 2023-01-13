@@ -27,6 +27,7 @@ export class NostrEvent {
     try {
       switch (this.kind) {
         case 0:
+          console.log(' SAVING USER META??? ? ?!? !??! ?! ?! ?! ??! ')
           this.saveUserMeta()
           break
         case 1:
@@ -52,12 +53,38 @@ export class NostrEvent {
 
   // Kind 0
   private saveUserMeta() {
-    const { id, pubkey, created_at, kind, content, sig } = this
-    const sql = `INSERT INTO arc_users (id, pubkey, created_at, kind, content, sig) VALUES (?, ?, ?, ?, ?, ?)`
-    const params = [id, pubkey, created_at, kind, content, sig]
-    this.db.transaction((tx) => {
-      tx.executeSql(sql, params)
-    })
+    const { id, pubkey, created_at, content, sig } = this
+    const userData = JSON.parse(content)
+    const sql = `INSERT INTO arc_users (id, pubkey, name, picture, about, created_at) VALUES (?, ?, ?, ?, ?, ?)`
+    const params = [
+      id,
+      pubkey,
+      userData.name,
+      userData.picture,
+      userData.about,
+      created_at,
+    ]
+    try {
+      this.db.transaction((tx) => {
+        tx.executeSql(
+          sql,
+          params,
+          (_, result) => {
+            console.log(
+              `Saved user ${pubkey}, rowsAffected ${result.rowsAffected}}`
+            )
+          },
+          (_, error: SQLite.SQLError) => {
+            console.error('Save user error', error)
+            return false
+          }
+        )
+        console.log('saved?')
+      })
+    } catch (e) {
+      console.error(e)
+      console.error(e.stack)
+    }
   }
 
   // Kind 1
