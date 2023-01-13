@@ -31,10 +31,6 @@ export const FirstLoadScreen = () => {
   const notes = useStore((s) => s.notes)
   const users = useStore((s) => s.users)
 
-  const doFirstLoad = async () => {
-    hydrateStoreFromDatabase()
-  }
-
   useEffect(() => {
     if (done) {
       resetToTabs(navigation)
@@ -42,9 +38,19 @@ export const FirstLoadScreen = () => {
   }, [done])
 
   useEffect(() => {
-    setTimeout(() => {
-      doFirstLoad()
-    }, 100)
+    if (
+      channels.length > 10 &&
+      channelMessages.length > 10 &&
+      notes.length > 10 &&
+      users.length > 8
+    ) {
+      console.log('setdone placeholder')
+      //   setDone(true)
+    }
+  }, [channels, channelMessages, notes, users])
+
+  useEffect(() => {
+    hydrateStoreFromDatabase()
   }, [])
 
   return (
