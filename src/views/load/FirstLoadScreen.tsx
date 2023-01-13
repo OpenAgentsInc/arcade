@@ -18,7 +18,8 @@ export const FirstLoadScreen = () => {
 
   const doFirstLoad = async () => {
     // First we'll check to see what's in the database
-    databaseReport(db)
+    const tableCounts = await databaseReport(db)
+    console.log(tableCounts)
 
     // const evt = await getFriendMetadata()
     // console.log(evt)
