@@ -45,7 +45,7 @@ export const FirstLoadScreen = () => {
       users.length > 8
     ) {
       console.log('setdone placeholder')
-      //   setDone(true)
+      setDone(true)
     }
   }, [channels, channelMessages, notes, users])
 

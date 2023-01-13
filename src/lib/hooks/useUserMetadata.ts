@@ -1,29 +1,9 @@
-import { useDatabase } from 'lib/database'
-import { useEffect, useState } from 'react'
+import { useStore } from 'stores'
 
 export const useUserMetadata = (pubkey: string) => {
-  const db = useDatabase()
-  const [metadata, setMetadata] = useState(null)
-
-  useEffect(() => {
-    try {
-      db.transaction((tx) => {
-        tx.executeSql(
-          `SELECT * FROM arc_users WHERE id = ?`,
-          [pubkey],
-          (_, { rows: { _array } }) => {
-            setMetadata(_array[0])
-          },
-          (_, error) => {
-            console.log(error)
-            return false
-          }
-        )
-      })
-    } catch (e) {
-      console.log('error fetching user metadata', e)
-    }
-  }, [db, pubkey])
-
-  return metadata
+  const users = useStore((state) => state.users).filter(
+    (user) => user.pubkey === pubkey
+  )
+  console.log(`user ${pubkey}`, users[0])
+  return users[0]
 }

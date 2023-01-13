@@ -7,7 +7,6 @@ import {
   signEvent,
 } from 'nostr-tools'
 import { useStore } from 'stores'
-import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 import { DEFAULT_RELAYS } from '../constants/relays'
 import { handleEvent } from './handleEvent'
@@ -78,20 +77,6 @@ export class Nostr {
     return true
   }
 
-  public setupInitialSubscriptions() {
-    const sub = this.relayPool.sub(initialSubscriptions, this.relays)
-    const chatActions = useStore.getState().chatActions
-    const addEvent = useStore.getState().addEvent
-    sub.onevent((event: NostrEvent) => {
-      handleEvent(event, {
-        addChannel: chatActions.addChannel,
-        addEvent,
-        addMessage: chatActions.addMessage,
-      })
-    })
-    return sub
-  }
-
   public publish(event: NostrEvent): boolean {
     try {
       if (!event.id) {
@@ -131,14 +116,11 @@ export class Nostr {
 
   public subscribe(filters: Filter[]): RelayPoolSubscription {
     const sub = this.relayPool.sub(filters, this.relays)
-    const chatActions = useStore.getState().chatActions
-    const addEvent = useStore.getState().addEvent
+    // const chatActions = useStore.getState().chatActions
+    // const addEvent = useStore.getState().addEvent
     sub.onevent((event: NostrEvent) => {
-      handleEvent(event, {
-        addChannel: chatActions.addChannel,
-        addEvent,
-        addMessage: chatActions.addMessage,
-      })
+      console.log('whats this subscribe?')
+      handleEvent(event)
     })
     return sub
   }
