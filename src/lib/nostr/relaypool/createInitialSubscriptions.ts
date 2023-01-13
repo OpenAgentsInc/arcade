@@ -1,5 +1,6 @@
 import { getLastFetch } from 'app/lib/database'
 import { daysAgoInSeconds } from 'app/lib/utils'
+import { useStore } from 'app/stores'
 
 import { Filter, Kind } from '../nip01_events'
 
@@ -11,6 +12,12 @@ export const createInitialSubscriptions = async (
     return []
   }
   friends.push(userPubkey)
+
+  const users = useStore.getState().users
+  const existingUsersPubkeys = users.map((u) => u.pubkey)
+  const filteredFriends = friends.filter(
+    (friend) => !existingUsersPubkeys.includes(friend)
+  )
 
   const nostrChannelMessagesSince = (await getLastFetch(
     'nostr-channel-messages'
@@ -48,7 +55,7 @@ export const createInitialSubscriptions = async (
       since: allChannelsSince ?? daysAgoInSeconds(2),
     },
     // Grab user metadata of friends
-    { kinds: [Kind.Metadata], authors: friends },
+    { kinds: [Kind.Metadata], authors: filteredFriends },
     // Grab home feed
     {
       kinds: [Kind.Text, Kind.ChannelMessage], // , Kind.Repost, Kind.Reaction
