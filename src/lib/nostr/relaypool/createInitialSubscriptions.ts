@@ -1,5 +1,3 @@
-import { initialSubscriptions } from 'views/chat/initialSubscriptions'
-
 import { Filter, Kind } from '../nip01_events'
 
 export const createInitialSubscriptions = (
@@ -9,6 +7,19 @@ export const createInitialSubscriptions = (
   if (!userPubkey || userPubkey === '') {
     return []
   }
+
+  // Subscribe to the Nostr channel
+  const initialSubscriptions = [
+    {
+      kinds: [40],
+      limit: 1,
+      ids: ['25e5c82273a271cb1a840d0060391a0bf4965cafeb029d5ab55350b418953fbb'],
+    },
+    // Subscribe to other channels
+    { kinds: [40], limit: 20 },
+    // Subscribe to messages and grab some
+    { kinds: [42], limit: 10 },
+  ]
 
   //   console.log('creating this filter for friends:', friends)
 
