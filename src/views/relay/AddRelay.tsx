@@ -81,7 +81,6 @@ export const AddRelay = () => {
                 Relay URL
               </Label>
               <Input
-                autoFocus
                 spellCheck={false}
                 autoCorrect={false}
                 autoCapitalize="none"
