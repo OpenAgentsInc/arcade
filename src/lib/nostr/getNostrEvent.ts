@@ -27,14 +27,14 @@ export const getNostrEvent = async (
 
       sub.on('event', (event) => {
         console.log('GOT EVENT KIND:', event.kind)
-        if (event.kind !== 0) {
-          sub.unsub()
-          onError(relay)
-        } else {
-          console.log('HANDLING?')
-          handleEvent(event, db)
-          resolve(event)
-        }
+        // if (event.kind !== 0) {
+        //   sub.unsub()
+        //   onError(relay)
+        // } else {
+        //   console.log('HANDLING?')
+        handleEvent(event, db)
+        resolve(event)
+        // }
         // const nostrEvent = event
 
         // const { content: stringifedContent, ...rest } = nostrEvent
@@ -51,7 +51,7 @@ export const getNostrEvent = async (
         //   }
         // }
 
-        sub.unsub()
+        // sub.unsub()
       })
 
       sub.on('eose', () => {

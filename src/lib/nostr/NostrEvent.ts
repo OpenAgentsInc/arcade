@@ -65,7 +65,7 @@ export class NostrEvent {
   private saveUserMeta() {
     const { id, pubkey, created_at, content } = this
     const userData = JSON.parse(content)
-    console.log('kind0', userData)
+    // console.log('kind0', userData)
     const sql = `INSERT OR REPLACE INTO arc_users (id, pubkey, name, display_name, picture, about, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)`
     const params = [
       id,
@@ -99,10 +99,10 @@ export class NostrEvent {
           sql,
           params,
           (_, result) => {
-            console
-              .log
-              //   `Saved user ${pubkey}, rowsAffected ${result.rowsAffected}}`
-              ()
+            // console
+            //   .log
+            //   //   `Saved user ${pubkey}, rowsAffected ${result.rowsAffected}}`
+            //   ()
           },
           (_, error: SQLite.SQLError) => {
             console.error('Save user error', error)

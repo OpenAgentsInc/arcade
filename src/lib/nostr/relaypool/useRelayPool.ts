@@ -38,9 +38,10 @@ export function useRelayPool({
     }
 
     return () => {
-      console.log('Closing relayPoolInstance.')
-      relayPoolInstance?.close()
-      relayPoolInstance = null
+      // TODO: cant put this here cuz we use this in multiple screens and dont want one closing the instance relied on by root
+      //   console.log('Closing relayPoolInstance.')
+      //   relayPoolInstance?.close()
+      //   relayPoolInstance = null
     }
   }, [])
 
