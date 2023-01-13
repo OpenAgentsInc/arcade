@@ -86,7 +86,7 @@ const createTableCalls = [
     created_at INT DEFAULT 0
   );`,
   `CREATE TABLE IF NOT EXISTS last_fetch (
-    type TEXT PRIMARY KEY NOT NULL,
+    type TEXT PRIMARY KEY NOT NULL UNIQUE,
     last_fetch INT NOT NULL
   );`,
 ]

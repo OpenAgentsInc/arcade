@@ -73,7 +73,7 @@ export const createInitialSubscriptions = async (
     // },
   ]
 
-  console.log('Returning subscriptions:')
+  console.log('Returning subscriptions:', subscriptions)
 
   return subscriptions
 }

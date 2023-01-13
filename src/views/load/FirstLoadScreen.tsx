@@ -52,9 +52,9 @@ export const FirstLoadScreen = () => {
     hydrateStoreFromDatabase()
   }, [])
 
-  useInterval(() => {
-    hydrateStoreFromDatabase()
-  }, 2500)
+  //   useInterval(() => {
+  // //     hydrateStoreFromDatabase()
+  // // //   }, 2500)
 
   return (
     <Screen>

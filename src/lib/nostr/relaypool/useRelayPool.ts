@@ -1,5 +1,6 @@
+import { timeNowInSeconds } from 'app/lib/utils'
 import { DEFAULT_RELAYS } from 'lib/constants/relays'
-import { useDatabase } from 'lib/database'
+import { setLastFetch, useDatabase } from 'lib/database'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useStore } from 'stores'
 
@@ -67,7 +68,20 @@ export function useRelayPool({
     }
 
     console.log("Subs: We're subscribing now...", relays.length)
-    const sub = relayPoolInstance.subscribe(subscriptions, relays, callback)
+
+    const oneose = () => {
+      const timenow = timeNowInSeconds()
+      setLastFetch('nostr-channel-messages', timenow)
+      setLastFetch('all-channels', timenow)
+      setLastFetch('home-feed', timenow)
+    }
+
+    const sub = relayPoolInstance.subscribe(
+      subscriptions,
+      relays,
+      callback,
+      oneose
+    )
     subscribed = true
     return sub
   }, [])
