@@ -88,7 +88,7 @@ export function useRelayPool({
     if (connectNow) {
       setTimeout(() => {
         setupInitialSubscriptions()
-      }, 300)
+      }, 800)
     }
   }, [connectNow])
 

@@ -277,7 +277,6 @@ export class RelayPool {
       }
       const instance = this.addOrGetRelay(relay)
       const sub = instance.sub(mergedAndRemovedEmptyFilters)
-      console.log('pushing sub with filters:', mergedAndRemovedEmptyFilters)
       subs.push(sub)
       let eventsBySub: (Event & { id: string })[] | undefined = []
       sub.on('event', (event: Event & { id: string }) => {

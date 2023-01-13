@@ -57,8 +57,23 @@ export const createEventsStore = (set: any, get: any) => ({
   },
   addUsers: (users: User[]) => {
     set((state) => {
+      const existingPubKeys = state.users.map((user) => user.pubkey)
+      const newUsers = users.filter(
+        (user) => !existingPubKeys.includes(user.pubkey)
+      )
+      const deduplicatedUsers = [...state.users, ...newUsers].reduce(
+        (acc, user) => {
+          const existingUser = acc.find((u) => u.pubkey === user.pubkey)
+          if (existingUser) {
+            return acc
+          } else {
+            return [...acc, user]
+          }
+        },
+        []
+      )
       return {
-        users,
+        users: deduplicatedUsers,
       }
     })
   },
