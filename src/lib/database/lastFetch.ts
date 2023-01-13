@@ -22,7 +22,6 @@ export const getLastFetch = (type: string) => {
         [type],
         (_, result) => {
           if (result.rows.length > 0) {
-            console.log('ya result:', result)
             resolve(result.rows.item(0).last_fetch)
           } else {
             resolve(undefined)

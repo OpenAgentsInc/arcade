@@ -58,9 +58,9 @@ export const createInitialSubscriptions = async (
     { kinds: [Kind.Metadata], authors: filteredFriends },
     // Grab home feed
     {
-      kinds: [Kind.Text, Kind.ChannelMessage], // , Kind.Repost, Kind.Reaction
+      kinds: [Kind.Text], // , Kind.Repost, Kind.Reaction,Kind.ChannelMessage
       authors: friends,
-      limit: 35,
+      limit: 100,
       since: homeFeedSince ?? daysAgoInSeconds(1),
     },
     // Grab our contacts/metadata
@@ -72,8 +72,6 @@ export const createInitialSubscriptions = async (
     //   authors: [userPubkey],
     // },
   ]
-
-  console.log('Returning subscriptions:', subscriptions)
 
   return subscriptions
 }
