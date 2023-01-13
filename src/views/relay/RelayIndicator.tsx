@@ -3,7 +3,6 @@ import { Button, Text } from 'tamagui'
 
 export const RelayIndicator = () => {
   const { connectedRelays } = useRelayPool()
-  console.log('connectedRelays', connectedRelays.length)
   return (
     <Button
       onPress={() => {}}
@@ -11,9 +10,10 @@ export const RelayIndicator = () => {
       opacity={0.8}
       circular
       pos="absolute"
-      top={50}
-      right={20}
+      top={-50}
+      right={0}
       pressTheme={undefined}
+      zi={9999}
     >
       <Text color="$color11">{connectedRelays.length}</Text>
     </Button>

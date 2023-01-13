@@ -37,10 +37,10 @@ export const RelayManager = () => {
   return (
     <AnimatedFlashList
       ListHeaderComponent={
-        <YStack pt={70}>
+        <YStack pt={18}>
           <XStack px="$4" justifyContent="space-between" alignItems="center">
-            <Text color="$color12" fontSize={18} fontWeight="700">
-              Relays ({relays.length})
+            <Text color="$color12" fontSize={16} fontWeight="700">
+              {relays.length} Relays
             </Text>
             <AddRelay />
           </XStack>
