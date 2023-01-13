@@ -1,22 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
-import { hydrateStoreFromDatabase } from 'app/lib/database/hydrateStoreFromDatabase'
-import { handleEvent, NostrEvent, relayPoolInstance } from 'app/lib/nostr'
-import { db } from 'lib/database'
-import { databaseReport } from 'lib/database/databaseReport'
+import { hydrateStoreFromDatabase } from 'lib/database'
 import { resetToTabs } from 'lib/utils/nav'
 import { useEffect, useState } from 'react'
 import { useStore } from 'stores'
 import { Spinner, Stack, Text, XStack, YStack } from 'tamagui'
 
 import { Screen } from '../shared'
-
-interface TableCounts {
-  arc_notes: number
-  arc_reactions: number
-  arc_users: number
-  arc_channels: number
-  arc_channel_messages: number
-}
 
 const noteTypeColor = '$color9'
 const noteCountColor = '$color12'
@@ -45,7 +34,7 @@ export const FirstLoadScreen = () => {
       users.length > 8
     ) {
       console.log('setdone placeholder')
-      setDone(true)
+      //   setDone(true)
     }
   }, [channels, channelMessages, notes, users])
 
