@@ -43,9 +43,9 @@ export class NostrEvent {
         case 1:
           this.saveNote()
           break
-        case 4:
-          this.saveDirectMessage()
-          break
+        // case 4:
+        //   this.saveDirectMessage()
+        //   break
         case 40:
           this.saveChannel()
           break
