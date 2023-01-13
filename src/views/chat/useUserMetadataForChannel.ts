@@ -34,7 +34,7 @@ export const useUserMetadataForChannel = (channelId: string) => {
         handleEvent(event)
       },
       (eose) => {
-        console.log('eose for ', channelId)
+        // console.log('eose for ', channelId)
       }
     )
   }, [messages, channelId])

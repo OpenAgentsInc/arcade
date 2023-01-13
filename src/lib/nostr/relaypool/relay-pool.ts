@@ -257,6 +257,7 @@ export class RelayPool {
       url: string
     ) => void
   ): () => void {
+    console.log('subscribing w filters:', filters)
     const cachedEventsWithUpdatedFilters =
       this.getCachedEventsWithUpdatedFilters(filters, relays)
 
