@@ -34,21 +34,14 @@ export const createInitialSubscriptions = (
       authors: friends,
       limit: 35,
     },
+    // Grab our contacts/metadata
+    // { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
+    // Grab DMs
+    // {
+    //   kinds: [Kind.EncryptedDirectMessage],
+    //   limit: 500,
+    //   authors: [userPubkey],
+    // },
   ]
-
   return subscriptions
 }
-
-//   const ourContactsFilters: Filter[] = [
-//     { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
-//   ]
-//   subscriptions.push(...ourContactsFilters)
-
-//   const dmsFilters: Filter[] = [
-//     {
-//       kinds: [Kind.EncryptedDirectMessage],
-//       limit: 500,
-//       authors: [userPubkey],
-//     },
-//   ]
-//   subscriptions.push(...dmsFilters)

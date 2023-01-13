@@ -54,7 +54,7 @@ export function useRelayPool({
     }
   }, [])
 
-  const setupInitialSubscriptions = useCallback(() => {
+  const setupInitialSubscriptions = useCallback(async () => {
     const pubkey = useStore.getState().user.publicKey
     console.log('Trying with pubkey...', pubkey)
     if (!pubkey) {
