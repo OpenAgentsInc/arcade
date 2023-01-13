@@ -1,4 +1,4 @@
-import { db } from 'lib/database'
+import { db } from 'lib/database/useDatabase'
 
 export const setLastFetch = (type: string, timestamp: number) => {
   db.transaction((tx) => {

@@ -1,5 +1,5 @@
 import { useStore } from 'app/stores'
-import { db } from 'lib/database'
+import { db } from 'lib/database/useDatabase'
 
 export const hydrateStoreFromDatabase = async () => {
   const { addUsers, addNotes, addChannels, addChannelMessages } =
