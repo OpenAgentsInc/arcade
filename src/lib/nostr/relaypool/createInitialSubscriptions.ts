@@ -1,6 +1,6 @@
 import { Filter, Kind } from '../nip01_events'
 
-export const createInitialSubscriptions = (
+export const createInitialSubscriptions = async (
   userPubkey: string,
   friends: string[]
 ) => {

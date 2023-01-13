@@ -62,7 +62,7 @@ export function useRelayPool({
       return
     }
     const friends = useStore.getState().friends
-    const subscriptions = createInitialSubscriptions(pubkey, friends)
+    const subscriptions = await createInitialSubscriptions(pubkey, friends)
     const relayInfo = useStore.getState().relays
     if (!relayPoolInstance) {
       console.log('Subs: No relaypool, bye.')
