@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
+import { useRelayPool } from 'app/lib/nostr'
 import { db } from 'lib/database'
 import { databaseReport } from 'lib/database/databaseReport'
 import { getFriendMetadata } from 'lib/nostr/getFriendMetadata'
@@ -16,7 +17,7 @@ interface TableCounts {
   arc_channel_messages: number
 }
 
-const noteTypeColor = '$color10'
+const noteTypeColor = '$color9'
 const noteCountColor = '$color12'
 const noteFontSize = 20
 
@@ -24,6 +25,7 @@ export const FirstLoadScreen = () => {
   const navigation = useNavigation()
   const [done, setDone] = useState(false)
   const [tableCounts, setTableCounts] = useState<TableCounts>()
+  //   useRelayPool({ connectNow: true })
 
   const doFirstLoad = async () => {
     // First we'll check to see what's in the database
@@ -52,7 +54,7 @@ export const FirstLoadScreen = () => {
   return (
     <Screen>
       <Stack f={1} jc="center" ai="center">
-        <Spinner mt={-60} size="large" color="$color10" />
+        <Spinner mt={-60} size="large" color="$color11" />
         <Text color="$color11" mt="$6" fontSize={24} fontWeight="700">
           Loading from relays
         </Text>

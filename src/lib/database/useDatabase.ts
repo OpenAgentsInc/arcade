@@ -13,7 +13,7 @@ export const useDatabase = () => {
   useEffect(() => {
     if (did) return
     createTables(db)
-    databaseReport(db)
+    // databaseReport(db)
     did = true
   }, [])
 

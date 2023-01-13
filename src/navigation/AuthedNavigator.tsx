@@ -30,7 +30,7 @@ export function AuthedNavigator() {
       <Stack.Screen
         name="firstload"
         component={FirstLoadScreen}
-        options={{ title: 'Chats', headerShown: false }}
+        options={{ title: 'Firstload', headerShown: false }}
       />
       <Stack.Screen
         name="tabs"

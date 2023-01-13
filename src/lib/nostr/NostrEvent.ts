@@ -132,6 +132,7 @@ export class NostrEvent {
     }
 
     const { name, about, picture } = metadata
+    if (!name) return
     this.db.transaction((tx) => {
       tx.executeSql(
         'INSERT OR REPLACE INTO arc_channels (id, pubkey, sig, name, about, picture, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -150,7 +151,7 @@ export class NostrEvent {
           //   )
         },
         (_, error: SQLite.SQLError) => {
-          console.error('Save channel error', error)
+          console.warn('Save channel error', error)
           return false
         }
       )
