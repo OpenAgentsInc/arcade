@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useRelayPool } from 'app/lib/nostr'
+import { FirstLoadScreen } from 'app/views/load/FirstLoadScreen'
 import { RelaysScreen } from 'app/views/relay/RelayTest'
 import { ProfileScreen } from 'views/profile'
 import { NavHeader } from 'views/shared'
@@ -7,6 +8,7 @@ import { NavHeader } from 'views/shared'
 import { TabNavigator } from './TabNavigator'
 
 export type AuthedStackParams = {
+  firstload: undefined
   tabs: undefined
   profile: { pubkey: string }
   relays: undefined
@@ -18,13 +20,18 @@ export function AuthedNavigator() {
   useRelayPool({ connectNow: true })
   return (
     <Stack.Navigator
-      initialRouteName="tabs"
+      initialRouteName="firstload"
       screenOptions={{
         header: ({ options }) => (
           <NavHeader options={options} title={options.title} />
         ),
       }}
     >
+      <Stack.Screen
+        name="firstload"
+        component={FirstLoadScreen}
+        options={{ title: 'Chats', headerShown: false }}
+      />
       <Stack.Screen
         name="tabs"
         component={TabNavigator}
