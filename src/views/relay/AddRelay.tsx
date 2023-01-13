@@ -70,7 +70,7 @@ export const AddRelay = () => {
         dismissOnSnapToBottom
         position={position}
         onPositionChange={setPosition}
-        zIndex={100_000}
+        zIndex={100000}
       >
         <Sheet.Overlay backgroundColor="black" />
         <Sheet.Handle />
