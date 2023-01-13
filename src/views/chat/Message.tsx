@@ -1,9 +1,9 @@
-import { formatTimestamp, truncateString } from 'app/lib/utils'
-import { useStore } from 'app/stores'
-import { ChatMessage } from 'app/stores/chat'
+import { useUserMetadata } from 'lib/hooks'
+import { formatTimestamp, truncateString } from 'lib/utils'
 import { Image, View } from 'react-native'
+import { useStore } from 'stores'
+import { ChatMessage } from 'stores/chat'
 import { Paragraph, XStack, YStack } from 'tamagui'
-import { useUserMetadata } from './useUserMetadata'
 
 type Props = {
   message: ChatMessage
@@ -33,7 +33,7 @@ export const Message: React.FC<Props> = ({ message }) => {
         />
       )}
       <YStack
-        elevation={'$2'}
+        elevation="$2"
         flexGrow={1}
         flexShrink={1}
         bg={isCurrentUser ? '$backgroundStrong' : '$color4'}
