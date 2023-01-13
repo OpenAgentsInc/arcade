@@ -16,6 +16,7 @@ const countWidth = 50
 export const FirstLoadScreen = () => {
   const navigation = useNavigation()
   const [done, setDone] = useState(false)
+  const [timeoutId, setTimeoutId] = useState<any>(null)
   const { channels, channelMessages, notes, users } = useStore()
 
   useEffect(() => {
@@ -31,12 +32,26 @@ export const FirstLoadScreen = () => {
       notes.length > 10 &&
       users.length > 8
     ) {
-      setTimeout(() => {
-        console.log('setdone placeholder')
-        // setDone(true)
-      }, 750)
+      // clear any existing timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+      // set new timeout to call setDone after 500ms
+      const newTimeoutId = setTimeout(() => {
+        setDone(true)
+      }, 250)
+      setTimeoutId(newTimeoutId)
     }
   }, [channels, channelMessages, notes, users])
+
+  useEffect(() => {
+    return () => {
+      // clear timeout on unmount
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [timeoutId])
 
   useEffect(() => {
     hydrateStoreFromDatabase()
