@@ -58,7 +58,7 @@ export const createEventsStore = (set: any, get: any) => ({
   addUsers: (users: User[]) => {
     set((state) => {
       return {
-        users: [...state.users, ...users],
+        users,
       }
     })
   },
@@ -100,8 +100,10 @@ export const createEventsStore = (set: any, get: any) => ({
   },
   addUser: (user: User) => {
     set((state) => {
-      return {
-        users: [...state.users, user],
+      if (!state.users.find((u) => u.pubkey === user.pubkey)) {
+        return {
+          users: [...state.users, user],
+        }
       }
     })
   },

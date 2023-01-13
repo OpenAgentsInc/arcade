@@ -64,9 +64,9 @@ export interface User {
   name: string
   picture: string
   about: string
-  main_relay: string
-  contact: boolean
-  follower: boolean
-  lnurl: string
+  main_relay?: string
+  contact?: boolean
+  follower?: boolean
+  lnurl?: string
   created_at: number
 }

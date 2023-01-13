@@ -2,10 +2,14 @@
 
 // import { Channel, ChatMessage } from 'app/stores/chat'
 import * as SQLite from 'expo-sqlite'
+import { db as db2 } from 'lib/database'
 
 import { NostrEvent } from './NostrEvent'
 
-export const handleEvent = (eventFromRelay: any, db: SQLite.WebSQLDatabase) => {
+export const handleEvent = (
+  eventFromRelay: any,
+  db: SQLite.WebSQLDatabase = db2
+) => {
   try {
     const event = new NostrEvent(eventFromRelay, db)
     event.save()
