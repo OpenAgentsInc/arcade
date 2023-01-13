@@ -12,7 +12,7 @@ export const useUserMetadataForChannel = (channelId: string) => {
   useEffect(() => {
     // Extract the list of unique public keys of the senders of the messages
     const uniquePubkeys = [
-      ...new Set(messages.map((message) => message.sender)),
+      ...new Set(messages.map((message) => message.pubkey)),
     ] as string[]
 
     getNostrEvent([{ kinds: [0], authors: uniquePubkeys }]).then((stream) => {

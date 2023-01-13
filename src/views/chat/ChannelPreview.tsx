@@ -1,6 +1,6 @@
 import { generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
-import { Channel } from 'app/stores/chat'
-import React, { useState } from 'react'
+import { Channel } from 'app/stores/eventTypes'
+import { useState } from 'react'
 import { Image, View } from 'react-native'
 import { Button, Paragraph } from 'tamagui'
 
@@ -11,10 +11,10 @@ interface ChannelPreviewProps {
 
 export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
   const [img, setImg] = useState(
-    channel?.metadata.picture &&
-      channel?.metadata.picture?.length > 4 &&
-      isValidImageUrl(channel.metadata.picture)
-      ? channel.metadata.picture
+    channel?.picture &&
+      channel?.picture?.length > 4 &&
+      isValidImageUrl(channel.picture)
+      ? channel.picture
       : generateRandomPlacekitten()
   )
 
@@ -35,10 +35,10 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
         <Paragraph
           col="$color12"
           px="$2"
-          mt={channel?.metadata.about ? 5 : -5}
+          mt={channel?.about ? 5 : -5}
           numberOfLines={1}
         >
-          {channel?.metadata.name ?? 'no name'}
+          {channel?.name ?? 'no name'}
         </Paragraph>
         <Paragraph
           px="$2"
@@ -49,7 +49,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
           fontSize="$1"
           numberOfLines={1}
         >
-          {channel?.metadata.about ?? 'no about'}
+          {channel?.about ?? 'no about'}
         </Paragraph>
       </View>
     </Button>

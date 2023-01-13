@@ -4,10 +4,12 @@ import { useRef, useState } from 'react'
 import { Alert, TextInput, TouchableOpacity } from 'react-native'
 import { Input, XStack } from 'tamagui'
 
+import { sendMessage } from './nostrchat'
+
 export const MessageInput = ({ channelId }) => {
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput | null>(null)
-  const actions = useStore((state) => state.chatActions)
+  //   const actions = useStore((state) => state.chatActions)
 
   const submitInput = () => {
     if (text.length < 1) {
@@ -18,7 +20,7 @@ export const MessageInput = ({ channelId }) => {
     inputBoxRef.current?.blur()
     setText('')
     setTimeout(() => {
-      actions.sendMessage(text, channelId)
+      sendMessage(text, channelId)
     }, 100)
   }
 

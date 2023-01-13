@@ -1,19 +1,20 @@
+import { ChannelMessage } from 'app/stores/eventTypes'
 import { useUserMetadata } from 'lib/hooks'
 import { formatTimestamp, truncateString } from 'lib/utils'
 import { Image, View } from 'react-native'
 import { useStore } from 'stores'
-import { ChatMessage } from 'stores/chat'
+// import { ChatMessage } from 'stores/chat'
 import { Paragraph, XStack, YStack } from 'tamagui'
 
 type Props = {
-  message: ChatMessage
+  message: ChannelMessage
 }
 
 export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = useStore((state) => state.user.publicKey)
-  const userMetadata = useUserMetadata(message.sender)
-  const align = message.sender === currentUser ? 'flex-end' : 'flex-start'
-  const isCurrentUser = message.sender === currentUser
+  const userMetadata = useUserMetadata(message.pubkey)
+  const align = message.pubkey === currentUser ? 'flex-end' : 'flex-start'
+  const isCurrentUser = message.pubkey === currentUser
   const pic = isCurrentUser
     ? 'https://placekitten.com/201/201'
     : 'https://placekitten.com/200/200'
@@ -53,7 +54,7 @@ export const Message: React.FC<Props> = ({ message }) => {
           fontSize="$2"
           fontFamily="$body"
         >
-          {userMetadata?.name ?? truncateString(message.sender, 10)}
+          {userMetadata?.name ?? truncateString(message.pubkey, 10)}
         </Paragraph>
         <Paragraph
           mt={2}
@@ -62,7 +63,7 @@ export const Message: React.FC<Props> = ({ message }) => {
           lineHeight={16}
           fontFamily="$body"
         >
-          {message.text}
+          {message.content}
         </Paragraph>
         <Paragraph
           mt={1}
@@ -72,7 +73,7 @@ export const Message: React.FC<Props> = ({ message }) => {
           textAlign="right"
           fontFamily="$body"
         >
-          {formatTimestamp(message.timestamp)}
+          {formatTimestamp(message.created_at.toString())}
         </Paragraph>
       </YStack>
       {isCurrentUser ? (

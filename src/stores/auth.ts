@@ -97,7 +97,7 @@ export const createAuthStore = (set: any, get: any) => ({
     let { publicKey, privateKey } = state.user
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
-      const keys = await login('')
+      const keys = await login('', set)
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
     }

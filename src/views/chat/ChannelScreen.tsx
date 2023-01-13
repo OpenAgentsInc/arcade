@@ -1,9 +1,10 @@
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Channel } from 'app/stores/chat'
-import { Screen } from 'views/shared'
+import { Channel } from 'app/stores/eventTypes'
+// import { Channel } from 'app/stores/chat'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
+import { Screen } from 'views/shared'
 
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
@@ -21,7 +22,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   useUserMetadataForChannel(channel?.id ?? '')
 
   useEffect(() => {
-    setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
+    setOptions({ title: channel?.name ?? 'Unnamed Channel' })
   }, [channel])
 
   if (!channel)

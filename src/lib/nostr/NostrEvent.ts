@@ -110,7 +110,7 @@ export class NostrEvent {
           }
         )
       })
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
       console.error(e.stack)
     }
