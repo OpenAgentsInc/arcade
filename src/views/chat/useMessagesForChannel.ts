@@ -12,22 +12,23 @@ export const useMessagesForChannel = (channelId: string) => {
 
   const relaypool = useRelayPool()
   useEffect(() => {
-    relaypool.relayPool?.subscribe(
-      [
-        {
-          kinds: [42],
-          '#e': [channelId],
-          since: daysAgoInSeconds(3),
+    if (messages.length === 0)
+      relaypool.relayPool?.subscribe(
+        [
+          {
+            kinds: [42],
+            '#e': [channelId],
+            since: daysAgoInSeconds(3),
+          },
+        ],
+        relaypool.relays.map((relay) => relay.url),
+        (event) => {
+          handleEvent(event)
         },
-      ],
-      relaypool.relays.map((relay) => relay.url),
-      (event) => {
-        handleEvent(event)
-      },
-      (eose) => {
-        // console.log('eose for ', channelId)
-      }
-    )
+        (eose) => {
+          // console.log('eose for ', channelId)
+        }
+      )
   }, [channelId])
 
   //   useEffect(() => {

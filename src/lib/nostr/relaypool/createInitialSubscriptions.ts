@@ -57,7 +57,7 @@ export const createInitialSubscriptions = async (
     {
       kinds: [Kind.Text], // , Kind.Repost, Kind.Reaction,Kind.ChannelMessage
       authors: friends,
-      limit: 100,
+      limit: 75,
       since: homeFeedSince ?? daysAgoInSeconds(1),
     },
     // Grab our contacts/metadata

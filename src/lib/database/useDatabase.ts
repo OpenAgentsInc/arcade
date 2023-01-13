@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 import { createTables } from './createTables'
 
-const openDatabase = () => SQLite.openDatabase('arc51.db')
+const openDatabase = () => SQLite.openDatabase('arc53.db')
 export const db = openDatabase()
 
 let did = false
