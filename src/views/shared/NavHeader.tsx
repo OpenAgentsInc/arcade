@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
+import { Platform } from 'react-native'
 import { Button, Paragraph, Stack, XStack, YStack } from 'tamagui'
 
 export const NavHeader = ({ title, options, ...props }) => {
@@ -10,7 +11,7 @@ export const NavHeader = ({ title, options, ...props }) => {
     <YStack
       elevation="$3"
       px="$3"
-      pt="$8"
+      pt={Platform.OS === 'ios' ? '$8' : '$4'}
       bg="$color1"
       borderBottomColor="$color4"
       borderBottomWidth="$1"
