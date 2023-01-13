@@ -16,6 +16,7 @@ export const createInitialSubscriptions = (
 
   friends.push(userPubkey)
 
+  console.log('MAKING CONTACTSFILTERS WITH FRIENDS:', friends)
   const contactsFilters: Filter[] = [
     { kinds: [Kind.Metadata], authors: friends },
   ]

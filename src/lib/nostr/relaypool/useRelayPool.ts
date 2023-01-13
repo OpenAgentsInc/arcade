@@ -14,7 +14,8 @@ let subscribed: boolean = false
 
 export function useRelayPool({
   relays: relaysToConnectTo = DEFAULT_RELAYS,
-  ...options
+  noCache = true,
+  connectNow = false,
 }: {
   connectNow?: boolean
   noCache?: boolean
@@ -35,7 +36,7 @@ export function useRelayPool({
 
   useEffect(() => {
     if (!relayPoolInstance) {
-      relayPoolInstance = new RelayPool(relaysToConnectTo, options)
+      relayPoolInstance = new RelayPool(relaysToConnectTo, { noCache })
       console.log('We set up a new relay pool instance.')
       relayPoolInstance.onnotice = (notice) => {
         console.log('notice:', notice)
@@ -80,12 +81,12 @@ export function useRelayPool({
 
   // If connectNow is true, setup initial subscriptions
   useEffect(() => {
-    if (options.connectNow) {
+    if (connectNow) {
       setTimeout(() => {
         setupInitialSubscriptions()
       }, 3000)
     }
-  }, [options.connectNow])
+  }, [connectNow])
 
   return {
     relays,
