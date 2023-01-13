@@ -1,5 +1,6 @@
 /* eslint-disable radix */
 import { handleEvent, useRelayPool } from 'app/lib/nostr'
+import { daysAgoInSeconds } from 'app/lib/utils'
 // import { useNostr } from 'lib/hooks'
 import { useEffect } from 'react'
 import { Alert } from 'react-native'
@@ -16,6 +17,7 @@ export const useMessagesForChannel = (channelId: string) => {
         {
           kinds: [42],
           '#e': [channelId],
+          since: daysAgoInSeconds(3),
         },
       ],
       relaypool.relays.map((relay) => relay.url),
