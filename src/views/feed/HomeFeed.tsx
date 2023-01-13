@@ -1,14 +1,13 @@
 import { FlashList } from '@shopify/flash-list'
-import { Note } from 'app/stores/eventTypes'
 import { useGlobalFeed } from 'lib/hooks'
-import { NostrEvent } from 'lib/nostr'
+import { Note } from 'stores/eventTypes'
 import { Stack } from 'tamagui'
 import { Screen } from 'views/shared'
 
 import { TextNote } from './TextNote'
 
 export const HomeFeed = () => {
-  const events = useGlobalFeed()
+  const events = useGlobalFeed().slice(0, 50)
   return (
     <Screen>
       <FlashList
