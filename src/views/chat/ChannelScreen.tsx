@@ -1,8 +1,9 @@
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Channel } from 'app/stores/eventTypes'
 import { useEffect } from 'react'
-import { ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native'
+import { ActivityIndicator } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Channel } from 'stores/eventTypes'
 import { Screen } from 'views/shared'
 
 import { MessageInput } from './MessageInput'
@@ -31,15 +32,10 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
       </Screen>
     )
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Screen>
-        <MessageList channelId={channel.id} />
-        <MessageInput channelId={channel.id} />
-      </Screen>
-    </KeyboardAvoidingView>
+    <Screen>
+      <MessageList channelId={channel.id} />
+      <MessageInput channelId={channel.id} />
+    </Screen>
   )
 }
 
