@@ -1,7 +1,7 @@
 import { getNostrEvent } from 'app/lib/nostr/getNostrEvent'
 import { useEffect } from 'react'
-import { useStore } from 'stores'
 
+// import { useStore } from 'stores'
 import { useMessagesForChannel } from './useMessagesForChannel'
 
 export const useUserMetadataForChannel = (channelId: string) => {
