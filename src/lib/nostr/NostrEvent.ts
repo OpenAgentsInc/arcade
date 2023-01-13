@@ -1,6 +1,6 @@
 import { useStore } from 'app/stores'
-import { User } from 'app/stores/eventTypes'
-import { addUserHelper } from 'app/stores/helpers'
+import { Note, User } from 'app/stores/eventTypes'
+import { addNoteHelper, addUserHelper } from 'app/stores/helpers'
 import * as SQLite from 'expo-sqlite'
 
 export class NostrEvent {
@@ -120,6 +120,23 @@ export class NostrEvent {
       content,
       sig,
     ]
+
+    try {
+      const note: Note = {
+        id,
+        pubkey,
+        created_at,
+        kind,
+        tags: JSON.stringify(tags),
+        content,
+        sig,
+      }
+
+      addNoteHelper(note)
+    } catch (e) {
+      console.log('couldnt add note to store')
+    }
+
     this.db.transaction((tx) => {
       tx.executeSql(sql, params)
     })

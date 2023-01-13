@@ -40,10 +40,10 @@ export interface Note {
   pubkey: string
   sig: string
   tags: string
-  main_event_id: string
-  reply_event_id: string
-  user_mentioned: boolean
-  seen: boolean
+  main_event_id?: string
+  reply_event_id?: string
+  user_mentioned?: boolean
+  seen?: boolean
 }
 
 export interface Reaction {
