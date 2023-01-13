@@ -67,7 +67,7 @@ export function useRelayPool({
       handleEvent(event, db, { set })
     }
 
-    console.log("Subs: We're subscribing now...", relays.length)
+    // console.log("Subs: We're subscribing now...", relays.length)
 
     const oneose = () => {
       const timenow = timeNowInSeconds()

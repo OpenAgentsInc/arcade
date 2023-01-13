@@ -6,7 +6,7 @@ export const createTables = async (db: SQLite.WebSQLDatabase) => {
       for (const createTableCall of createTableCalls) {
         tx.executeSql(createTableCall)
       }
-      console.log('Tables are created')
+      console.log('Database initialized.')
     })
   } catch (error) {
     console.error('Error creating tables', error)

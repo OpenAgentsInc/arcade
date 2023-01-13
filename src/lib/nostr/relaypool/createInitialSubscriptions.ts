@@ -22,15 +22,12 @@ export const createInitialSubscriptions = async (
   const nostrChannelMessagesSince = (await getLastFetch(
     'nostr-channel-messages'
   )) as number | undefined
-  console.log('nostrChannelMessagesSince:', nostrChannelMessagesSince)
 
   const allChannelsSince = (await getLastFetch('all-channels')) as
     | number
     | undefined
-  console.log('allChannelsSince:', allChannelsSince)
 
   const homeFeedSince = (await getLastFetch('home-feed')) as number | undefined
-  console.log('homeFeedSince:', homeFeedSince)
 
   const subscriptions: Filter[] = [
     // Subscribe to the Nostr channel
