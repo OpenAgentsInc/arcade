@@ -1,9 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Home, MessageCircle, Settings } from '@tamagui/lucide-icons'
-import { HomeFeed } from 'app/views/feed/HomeFeed'
-import { useNostr } from 'lib/hooks'
-import { useEffect } from 'react'
 import { XStack } from 'tamagui'
+import { HomeFeed } from 'views/feed/HomeFeed'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
 
@@ -19,11 +17,6 @@ const activeTabColor = '$color12'
 const inactiveTabColor = '$color8'
 
 export function TabNavigator() {
-  const nostr = useNostr()
-  useEffect(() => {
-    if (!nostr) return
-    nostr.setupInitialSubscriptions()
-  }, [nostr])
   return (
     <BottomTab.Navigator
       initialRouteName="feed"

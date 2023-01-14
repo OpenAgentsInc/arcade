@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Channel } from 'stores/chat'
+import { Channel } from 'app/stores/eventTypes'
 import { ChannelScreen, ChannelsScreen } from 'views/chat'
 import { NavHeader } from 'views/shared'
 

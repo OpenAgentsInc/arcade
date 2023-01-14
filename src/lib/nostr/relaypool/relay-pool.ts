@@ -22,6 +22,7 @@ export class RelayPool {
   noticecbs: ((msg: string) => void)[]
   cache?: Cache
   constructor(relays?: string[], options: { noCache?: boolean } = {}) {
+    console.log(`RelayPool constructed with ${relays?.length} relays.`)
     if (!options.noCache) {
       this.cache = {
         eventsById: new Map(),
@@ -76,13 +77,16 @@ export class RelayPool {
   closeRelay(url: string) {
     console.log('Closing relay: ' + url)
     const relayInstance = this.relayByUrl.get(url)
+    // console.log('we got relayInstance?', relayInstance)
     if (!relayInstance) return
-    relayInstance.close()
     useStore.getState().relayActions.addOrModifyRelay({
-      url: relayInstance.url,
+      url,
       status: 'closed',
       connected: false,
     })
+
+    relayInstance.close()
+
     this.relayByUrl.delete(url)
   }
 
@@ -253,8 +257,10 @@ export class RelayPool {
       url: string
     ) => void
   ): () => void {
+    // console.log('subscribing w filters:', filters)
     const cachedEventsWithUpdatedFilters =
       this.getCachedEventsWithUpdatedFilters(filters, relays)
+
     for (const event of cachedEventsWithUpdatedFilters.events) {
       onEvent(event, false, undefined)
     }
@@ -275,6 +281,7 @@ export class RelayPool {
       subs.push(sub)
       let eventsBySub: (Event & { id: string })[] | undefined = []
       sub.on('event', (event: Event & { id: string }) => {
+        console.log(`Received event kind ${event.kind} from ${relay}`)
         this.addEventToCache(event)
         eventsBySub?.push(event)
         onEvent(event, eventsBySub === undefined, relay)

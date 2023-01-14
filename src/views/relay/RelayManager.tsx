@@ -1,17 +1,17 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
 import { CircleDot, CircleSlashed } from '@tamagui/lucide-icons'
+import { useStore } from 'app/stores'
 import { useLongPress } from 'lib/hooks'
-import { DEFAULT_RELAYS } from 'lib/constants/relays'
 import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
 import { Alert, TouchableOpacity } from 'react-native'
 import { RelayInfo } from 'stores/relay'
 import { ListItem, Separator, Switch, Text, XStack, YStack } from 'tamagui'
 
 import { AddRelay } from './AddRelay'
-import { useStore } from 'app/stores'
 
 export const RelayManager = () => {
-  const { relays, relayPool } = useRelayPool(DEFAULT_RELAYS)
+  const relays = useStore((state) => state.relays)
+  const { relayPool } = useRelayPool()
   const removeRelay = useStore((state) => state.relayActions.removeRelay)
   const { onPressIn, onPressOut, target } = useLongPress((props) => {
     console.log('props here?', props)
@@ -37,10 +37,10 @@ export const RelayManager = () => {
   return (
     <AnimatedFlashList
       ListHeaderComponent={
-        <YStack pt={70}>
+        <YStack pt={18}>
           <XStack px="$4" justifyContent="space-between" alignItems="center">
-            <Text color="$color12" fontSize={18} fontWeight="700">
-              Relays ({relays.length})
+            <Text color="$color12" fontSize={16} fontWeight="700">
+              {relays.length} Relays
             </Text>
             <AddRelay />
           </XStack>

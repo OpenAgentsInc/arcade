@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { AuthedStackParams } from 'app/navigation/AuthedNavigator'
+import { Note } from 'app/stores/eventTypes'
 import { useUserMetadata } from 'lib/hooks'
-import { NostrEvent } from 'lib/nostr'
 import {
   generateRandomPlacekitten,
   timeAgoSince,
@@ -11,11 +11,12 @@ import {
 import { useMemo } from 'react'
 import { Avatar, Paragraph, XStack, YStack } from 'tamagui'
 
-export const TextNote = (props: { data: NostrEvent }) => {
+export const TextNote = (props: { data: Note }) => {
   const data = props.data
   const time = timeAgoSince(new Date(data.created_at * 1000))
   const metadata = useUserMetadata(data.pubkey)
-  const name = metadata?.display_name || truncateString(data.pubkey, 8)
+  const name =
+    (metadata?.display_name ?? metadata?.name) || truncateString(data.pubkey, 8)
   const username = `${metadata?.name}` || ''
   const picture = useMemo(
     () => metadata?.picture || generateRandomPlacekitten(),

@@ -21,19 +21,33 @@ const initialRelayState: RelayState = {
 export const createRelayStore = (set: any, get: any) => ({
   relays: initialRelayState.relays,
   relayActions: {
-    addOrModifyRelay: (relay: any) => {
+    setRelays: (relays: any[]) => set((state) => ({ ...state, relays })),
+    addOrModifyRelay: (relay: RelayInfo) => {
+      //   console.log('Here and about to add or modify relay: ', relay)
+
+      // Update the state with the new relay
       set((state) => {
-        const currentRelays = state.relays
+        // Copy the current relays
+        const currentRelays = [...state.relays]
+
+        // Find the index of the relay to be modified
         const currentRelayIndex = currentRelays.findIndex(
-          (r: any) => r.url === relay.url
+          (r) => r.url === relay.url
         )
+
+        // If the relay already exists in the state
         if (currentRelayIndex !== -1) {
+          // Update the existing relay with the new relay information
           currentRelays[currentRelayIndex] = {
             ...currentRelays[currentRelayIndex],
             ...relay,
           }
+          // Return the updated state
           return { ...state, relays: currentRelays }
-        } else {
+        }
+        // If the relay does not exist in the state
+        else {
+          // Add the new relay to the state
           return { ...state, relays: [...currentRelays, relay] }
         }
       })

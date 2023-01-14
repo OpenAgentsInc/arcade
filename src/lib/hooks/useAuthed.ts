@@ -1,4 +1,3 @@
-import { useNostr } from 'lib/hooks'
 import * as storage from 'lib/storage'
 import { useEffect, useState } from 'react'
 import { useStore } from 'stores'
@@ -6,7 +5,6 @@ import { useStore } from 'stores'
 export const useAuthed = () => {
   const privateKey = useStore((s) => s.user.privateKey)
   const publicKey = useStore((s) => s.user.publicKey)
-  const nostr = useNostr()
 
   const [checkedForKeys, setCheckedForKeys] = useState<boolean>(false)
   const authed = checkedForKeys
@@ -31,15 +29,12 @@ export const useAuthed = () => {
       return
     }
     useStore.setState({ user: { privateKey, publicKey, name: 'Test Ostrich' } })
-    nostr?.setKeys(publicKey, privateKey)
     setCheckedForKeys(true)
   }
 
   useEffect(() => {
-    if (!nostr) return
     checkForKeys()
-  }, [nostr])
+  }, [])
 
-  console.log('Returning authed: ', authed)
   return authed
 }

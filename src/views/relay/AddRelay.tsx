@@ -1,21 +1,10 @@
 import { Plus, PlusCircle } from '@tamagui/lucide-icons'
 import { Sheet } from '@tamagui/sheet'
-import { useStore } from 'stores'
-import { DEFAULT_RELAYS } from 'lib/constants/relays'
-import { useRelayPool } from 'lib/nostr/relaypool/useRelayPool'
+import { relayPoolInstance } from 'lib/nostr/relaypool/useRelayPool'
 import { useState } from 'react'
-import {
-  Button,
-  Fieldset,
-  H1,
-  H2,
-  Input,
-  Label,
-  Paragraph,
-  XStack,
-  YStack,
-} from 'tamagui'
 import { Alert } from 'react-native'
+import { useStore } from 'stores'
+import { Button, Input, Label, YStack } from 'tamagui'
 
 export const AddRelay = () => {
   const [position, setPosition] = useState(0)
@@ -45,7 +34,7 @@ export const AddRelay = () => {
       return
     }
 
-    console.log("Checking to see if it's already added...", url)
+    // console.log("Checking to see if it's already added...", url)
     if (relays.some((relay) => relay.url === url)) {
       Alert.alert('This relay is already added!')
       return
@@ -53,9 +42,8 @@ export const AddRelay = () => {
       console.log('no has.')
     }
 
-    console.log('Adding:', url)
-    addOrModifyRelay({ url: url, status: 'connecting' })
-    console.log('adddeddddd')
+    addOrModifyRelay({ url, status: 'connecting', connected: false })
+    relayPoolInstance?.addOrGetRelay(url)
     setOpen(false)
     setRelayUrl('')
     Alert.alert(`Relay ${url} added!`)
@@ -75,14 +63,14 @@ export const AddRelay = () => {
 
       <Sheet
         forceRemoveScrollEnabled={open}
-        modal={true}
+        modal
         open={open}
         onOpenChange={setOpen}
         snapPoints={[75, 50, 25]}
         dismissOnSnapToBottom
         position={position}
         onPositionChange={setPosition}
-        zIndex={100_000}
+        zIndex={100000}
       >
         <Sheet.Overlay backgroundColor="black" />
         <Sheet.Handle />
@@ -93,7 +81,6 @@ export const AddRelay = () => {
                 Relay URL
               </Label>
               <Input
-                autoFocus
                 spellCheck={false}
                 autoCorrect={false}
                 autoCapitalize="none"

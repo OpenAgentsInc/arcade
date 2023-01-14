@@ -1,8 +1,15 @@
+import * as storage from 'app/lib/storage'
+import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'lib/storage'
 import * as s from 'lib/storage'
 import { generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
-import { getEventHash, getPublicKey, nip19, signEvent } from 'nostr-tools'
-
-import { login, logout } from './authActions'
+import {
+  generatePrivateKey,
+  getEventHash,
+  getPublicKey,
+  nip19,
+  relayInit,
+  signEvent,
+} from 'nostr-tools'
 
 export interface AuthState {
   isLoggedIn: boolean
@@ -22,10 +29,48 @@ export const initialState: AuthState = {
   },
 }
 
+export const login = async (name: string, set: any): Promise<AuthState> => {
+  const privateKey = generatePrivateKey() // `sk` is a hex string
+  const publicKey = getPublicKey(privateKey) // `pk` is a hex string
+
+  try {
+    await storage.setItem(HEX_PUBKEY_STORAGE_KEY, publicKey)
+    await storage.setItem(HEX_PRIVKEY_STORAGE_KEY, privateKey)
+    console.log('Keys saved to local storage')
+    set({
+      isLoggedIn: true,
+      user: { name: '', publicKey, privateKey },
+    })
+  } catch (e) {
+    console.log('Error saving keys to storage:', e)
+  }
+
+  if (!privateKey || !publicKey) {
+    console.log('Error generating key')
+  }
+
+  return {
+    isLoggedIn: true,
+    user: {
+      name,
+      publicKey,
+      privateKey,
+    },
+  }
+}
+
+export const logout = async (): Promise<AuthState> => {
+  console.log('Logging out...')
+  await storage.removeItem(HEX_PUBKEY_STORAGE_KEY)
+  await storage.removeItem(HEX_PRIVKEY_STORAGE_KEY)
+  console.log('Removed keys from storage.')
+  return initialState
+}
+
 export const createAuthStore = (set: any, get: any) => ({
   isLoggedIn: initialState.isLoggedIn,
   user: initialState.user,
-  login: async (name: string) => set(await login(name)), // old
+  login: async (name: string) => set(await login(name, set)), // old
   loginWithNsec: async (nsec: string) => {
     if (!nsec.startsWith('nsec1') || nsec.length < 60) {
       return
@@ -53,7 +98,7 @@ export const createAuthStore = (set: any, get: any) => ({
     let { publicKey, privateKey } = state.user
 
     if (!publicKey || !privateKey || publicKey === '' || privateKey === '') {
-      const keys = await login('')
+      const keys = await login('', set)
       publicKey = keys.user.publicKey
       privateKey = keys.user.privateKey
     }
@@ -81,7 +126,9 @@ export const createAuthStore = (set: any, get: any) => ({
     event.id = getEventHash(event)
     event.sig = signEvent(event, privateKey)
 
-    state.nostr.publish(event)
+    // we aren't yet subscribed to pool which we do in authednavigator, lets just put our metadata on arc relay and get it from there later
+    const relay = relayInit('wss://arc1.arcadelabs.co')
+    relay.publish(event)
   },
 })
 

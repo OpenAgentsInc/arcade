@@ -2,8 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { StackNavigatorParams } from 'app/@types/navigation'
-import { Channel } from 'app/stores/chat'
 import { useRef } from 'react'
+import { Channel } from 'stores/eventTypes'
 import { Separator } from 'tamagui'
 
 import { ChannelPreview } from './ChannelPreview'
@@ -24,7 +24,7 @@ export const ChannelList = () => {
         channel={channel}
         onPress={() => {
           console.log(
-            `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}, ${channel.metadata.about}}`
+            `Clicked channel: ${channel.name} with picture: ${channel.picture}, ${channel.about}}`
           )
           navigate('channel', { channel })
         }}

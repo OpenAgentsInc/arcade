@@ -6,6 +6,7 @@ import { UnauthedNavigator } from './UnauthedNavigator'
 
 export function NativeNavigation() {
   const authed = useAuthed()
+  //   const authed = false
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       {authed ? <AuthedNavigator /> : <UnauthedNavigator />}

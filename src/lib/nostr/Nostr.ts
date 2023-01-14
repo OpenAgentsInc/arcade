@@ -1,10 +1,3 @@
-import {
-  Event as NostrEvent,
-  Filter,
-  handleEvent,
-  Kind,
-  validateEvent,
-} from 'lib/nostr'
 import { RelayPool, RelayPoolSubscription } from 'nostr-relaypool'
 import {
   Event,
@@ -14,9 +7,10 @@ import {
   signEvent,
 } from 'nostr-tools'
 import { useStore } from 'stores'
-import { initialSubscriptions } from 'views/chat/initialSubscriptions'
 
 import { DEFAULT_RELAYS } from '../constants/relays'
+import { handleEvent } from './handleEvent'
+import { Filter, Kind, NostrEvent, validateEvent } from './nip01_events'
 
 export class Nostr {
   private relayPool: RelayPool
@@ -37,64 +31,6 @@ export class Nostr {
 
   public getFriendList(): string[] {
     return useStore.getState().friends
-  }
-
-  public loadFirstPaint() {
-    // Grab friendlist and add self to it
-    const friends = this.getFriendList()
-    console.log('friends:', friends)
-    friends.push(this.publicKey)
-
-    // We want contact metadata of our friends
-    const contactsFilters: Filter[] = [{ kinds: [0], authors: friends }]
-
-    // We want our contact list
-    const ourContactsFilters: Filter[] = [
-      {
-        kinds: [Kind.Contacts, Kind.Metadata],
-        authors: [this.publicKey],
-      },
-    ]
-
-    // We want our DMs
-    const dmsFilters: Filter[] = [
-      {
-        kinds: [Kind.EncryptedDirectMessage],
-        limit: 500,
-        authors: [this.publicKey],
-      },
-    ]
-
-    const homeFilters: Filter[] = [
-      {
-        kinds: [Kind.Text, Kind.ChannelMessage, Kind.Repost, Kind.Reaction],
-        authors: friends,
-        limit: 10,
-        // limit: 500,
-      },
-    ]
-
-    // TODO add support for throwing these to specific relay
-    this.subscribe(contactsFilters)
-    this.subscribe(ourContactsFilters)
-    this.subscribe(dmsFilters)
-    this.subscribe(homeFilters)
-
-    return true
-  }
-
-  public setupInitialSubscriptions() {
-    const sub = this.relayPool.sub(initialSubscriptions, this.relays)
-    const chatActions = useStore.getState().chatActions
-    const addEvent = useStore.getState().addEvent
-    sub.onevent((event: NostrEvent) => {
-      handleEvent(event, {
-        addChannel: chatActions.addChannel,
-        addEvent,
-        addMessage: chatActions.addMessage,
-      })
-    })
-    return sub
   }
 
   public publish(event: NostrEvent): boolean {
@@ -136,14 +72,8 @@ export class Nostr {
 
   public subscribe(filters: Filter[]): RelayPoolSubscription {
     const sub = this.relayPool.sub(filters, this.relays)
-    const chatActions = useStore.getState().chatActions
-    const addEvent = useStore.getState().addEvent
     sub.onevent((event: NostrEvent) => {
-      handleEvent(event, {
-        addChannel: chatActions.addChannel,
-        addEvent,
-        addMessage: chatActions.addMessage,
-      })
+      handleEvent(event)
     })
     return sub
   }

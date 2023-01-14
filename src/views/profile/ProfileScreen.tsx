@@ -1,5 +1,6 @@
 import { useRoute } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
+import { AnimatedFlashList, FlashList } from '@shopify/flash-list'
+import { Note } from 'app/stores/eventTypes'
 // import { MessageSquare, Zap } from '@tamagui/lucide-icons'
 import { useUserMetadata } from 'lib/hooks'
 import { useUserPosts } from 'lib/hooks/useUserPosts'
@@ -23,6 +24,7 @@ const COVER_HEIGHT = 130
 export const ProfileScreen = () => {
   const pubkey = useRoute<any>().params.pubkey
   const metadata = useUserMetadata(pubkey)
+  //   console.log(metadata)
   const posts = useUserPosts(pubkey)
 
   const ProfileHeader = () => (
@@ -71,12 +73,10 @@ export const ProfileScreen = () => {
 
   return (
     <Screen>
-      <FlashList
+      <AnimatedFlashList
         ListHeaderComponent={ProfileHeader}
         data={posts}
-        renderItem={({ item }: { item: NostrEvent }) => (
-          <TextNote data={item} />
-        )}
+        renderItem={({ item }: { item: Note }) => <TextNote data={item} />}
         estimatedItemSize={150}
       />
     </Screen>

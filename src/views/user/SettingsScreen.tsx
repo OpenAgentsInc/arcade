@@ -1,13 +1,15 @@
+import { useNavigation } from '@react-navigation/native'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 import * as Clipboard from 'expo-clipboard'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
 import { useStore } from 'stores'
-import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
+import { Button, isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
 import { LogoutDialog, Screen } from 'views/shared'
 
 import { ThemePicker } from './ThemePicker'
 
 export const SettingsScreen = () => {
+  const { navigate } = useNavigation<any>()
   const publicKey = useStore((s) => s.user.publicKey)
   const privateKey = useStore((s) => s.user.privateKey)
 
@@ -57,6 +59,9 @@ export const SettingsScreen = () => {
           />
         </YGroup>
         <ThemePicker />
+        <Button size="$5" mt="$6" w="100%" onPress={() => navigate('relays')}>
+          View relays
+        </Button>
         <LogoutDialog mt="$6" w={200} />
       </YStack>
     </Screen>
