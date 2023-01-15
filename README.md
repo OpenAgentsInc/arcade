@@ -43,7 +43,7 @@ Current and upcoming features in order of priority:
 - [ ] Recommended relays
 - [ ] Push notifications
 - [ ] Channel invites
-- [ ] Reposts ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/18.md))
+- [ ] Reposts ([NIP-18](https://github.com/nostr-protocol/nips/blob/master/18.md))
 - [ ] Emojis
 - [ ] Lightning wallets via [LNbits](https://lnbits.com/)
 - [ ] Re-add web support
