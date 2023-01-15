@@ -75,6 +75,7 @@ The previous web app will remain available temporarily at [alpha.thearcapp.com](
 Documenting on our wiki:
 
 - [Authentication](https://github.com/ArcadeLabsInc/arc/wiki/Authentication)
+- [Fetching events via API](https://github.com/ArcadeLabsInc/arc/wiki/Fetching-events-via-API)
 
 ## Running locally
 
