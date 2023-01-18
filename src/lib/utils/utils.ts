@@ -1,3 +1,5 @@
+import * as secp from '@noble/secp256k1'
+import { bech32 } from 'bech32'
 import { formatDistanceToNow } from 'date-fns'
 
 /**
@@ -40,4 +42,53 @@ export const truncateString = (string: string, maxLength: number) => {
     return string
   }
   return `${string.substring(0, maxLength)}...`
+}
+
+/**
+ * Parse bech32 ids
+ * https://github.com/nostr-protocol/nips/blob/master/19.md
+ */
+export function parseId(id: string) {
+  const hrp = ['note', 'npub', 'nsec']
+  try {
+    if (hrp.some((a) => id.startsWith(a))) {
+      return bech32ToHex(id)
+    }
+  } catch (e) {}
+  return id
+}
+
+export function bech32ToHex(str: string) {
+  const nKey = bech32.decode(str)
+  const buff = bech32.fromWords(nKey.words)
+  return secp.utils.bytesToHex(Uint8Array.from(buff))
+}
+
+/**
+ * Convert hex to bech32
+ */
+export function hexToBech32(hrp: 'note' | 'npub' | 'nsec', hex: string) {
+  if (typeof hex !== 'string' || hex.length === 0 || hex.length % 2 !== 0) {
+    return ''
+  }
+
+  try {
+    const buf = secp.utils.hexToBytes(hex)
+    return bech32.encode(hrp, bech32.toWords(buf))
+  } catch (e) {
+    console.warn('Invalid hex', hex, e)
+    return ''
+  }
+}
+
+export function getLastETagId(tags: string[][]) {
+  let lastETag = ''
+
+  tags.forEach((tag) => {
+    if (tag[0] === 'e') {
+      lastETag = tag[1]
+    }
+  })
+
+  return lastETag
 }

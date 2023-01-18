@@ -8,6 +8,8 @@ import {
 } from 'app/stores/helpers'
 import * as SQLite from 'expo-sqlite'
 
+import { getLastETagId } from '../utils'
+
 export class NostrEvent {
   public created_at: number
   public content: string
@@ -38,7 +40,9 @@ export class NostrEvent {
     try {
       switch (this.kind) {
         case 0:
-          this.saveUserMeta()
+          try {
+            this.saveUserMeta()
+          } catch (err) {}
           break
         case 1:
           this.saveNote()
@@ -46,6 +50,9 @@ export class NostrEvent {
         // case 4:
         //   this.saveDirectMessage()
         //   break
+        case 7:
+          this.saveReaction()
+          break
         case 40:
           this.saveChannel()
           break
@@ -166,6 +173,42 @@ export class NostrEvent {
     ]
     this.db.transaction((tx) => {
       tx.executeSql(sql, params)
+    })
+  }
+
+  // Kind 7
+  private saveReaction() {
+    const { addReactions } = useStore.getState()
+    const { id, pubkey, created_at, kind, tags, content, sig } = this
+
+    const lastETagId = getLastETagId(tags)
+
+    const sql = `INSERT INTO arc_reactions (id, pubkey, created_at, kind, tags, content, sig) VALUES (?, ?, ?, ?, ?, ?, ?)`
+    const params = [
+      id,
+      pubkey,
+      created_at,
+      kind,
+      JSON.stringify(tags),
+      content,
+      sig,
+    ]
+    this.db.transaction((tx) => {
+      tx.executeSql(sql, params)
+    })
+
+    addReactions({
+      [lastETagId]: {
+        [id]: {
+          id,
+          content,
+          created_at,
+          kind,
+          pubkey,
+          sig,
+          tags: JSON.stringify(tags),
+        },
+      },
     })
   }
 
