@@ -23,11 +23,11 @@ Current and upcoming features in order of priority:
 - [x] Curated global feed ([#34](https://github.com/ArcadeLabsInc/arc/pull/34))
 - [x] Twitter-style profiles ([#35](https://github.com/ArcadeLabsInc/arc/pull/35))
 - [x] Add/remove relays ([#37](https://github.com/ArcadeLabsInc/arc/pull/37))
+- [x] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md)) ([#41](https://github.com/ArcadeLabsInc/arc/pull/41))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Follower/following feed
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Look up user by NIP-05 identifier
-- [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
