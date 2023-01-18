@@ -23,11 +23,11 @@ Current and upcoming features in order of priority:
 - [x] Curated global feed ([#34](https://github.com/ArcadeLabsInc/arc/pull/34))
 - [x] Twitter-style profiles ([#35](https://github.com/ArcadeLabsInc/arc/pull/35))
 - [x] Add/remove relays ([#37](https://github.com/ArcadeLabsInc/arc/pull/37))
+- [x] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md)) ([#41](https://github.com/ArcadeLabsInc/arc/pull/41))
 - [ ] Display [NIP-05](https://github.com/nostr-protocol/nips/blob/master/05.md) identifiers
 - [ ] Follower/following feed
 - [ ] Contact lists ([NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md))
 - [ ] Look up user by NIP-05 identifier
-- [ ] Reactions ([NIP-25](https://github.com/nostr-protocol/nips/blob/master/25.md))
 - [ ] Display URLs as clickable links
 - [ ] Display images from people you follow
 - [ ] Mentions ([NIP-08](https://github.com/nostr-protocol/nips/blob/master/08.md))
@@ -94,4 +94,5 @@ To learn the basics of React Native, see this author's [React Native Lightning w
 
 - Pull requests are welcome to implement any of the above features or do smart refactors.
 - We'll pay a bounty of 1 million sats (BTC) to the first three people who submit a non-trivial PR we merge to main, max one per person.
+  - Bounty #1 [awarded](https://mempool.space/tx/b82326c7794d21c1f56114b846cc24c45519e030145284302a6c0db282db4b70) to [saltrafael](https://github.com/saltrafael) for [#41](https://github.com/ArcadeLabsInc/arc/pull/41)
 - If you want ideas for good PRs or to coordinate your work - like you probably shouldn't do a big refactor without checking that we like the general direction - [DM us on Twitter](https://twitter.com/TheArcApp).
