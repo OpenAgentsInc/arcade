@@ -94,5 +94,5 @@ To learn the basics of React Native, see this author's [React Native Lightning w
 
 - Pull requests are welcome to implement any of the above features or do smart refactors.
 - We'll pay a bounty of 1 million sats (BTC) to the first three people who submit a non-trivial PR we merge to main, max one per person.
-  - Bounty #1 [awarded](https://mempool.space/tx/b82326c7794d21c1f56114b846cc24c45519e030145284302a6c0db282db4b70) to @saltrafael for [#41](https://github.com/ArcadeLabsInc/arc/pull/41)
+  - Bounty #1 [awarded](https://mempool.space/tx/b82326c7794d21c1f56114b846cc24c45519e030145284302a6c0db282db4b70) to [saltrafael](https://github.com/saltrafael) for [#41](https://github.com/ArcadeLabsInc/arc/pull/41)
 - If you want ideas for good PRs or to coordinate your work - like you probably shouldn't do a big refactor without checking that we like the general direction - [DM us on Twitter](https://twitter.com/TheArcApp).
