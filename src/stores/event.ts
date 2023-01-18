@@ -7,7 +7,7 @@ export interface EventsState {
   channels: Channel[]
   channelMessages: ChannelMessage[]
   notes: Note[]
-  reactions: Reaction[]
+  reactions: { [noteId: string]: { [id: string]: Reaction } }
   users: User[]
 }
 
@@ -16,7 +16,7 @@ const initialEventsState: EventsState = {
   channels: [],
   channelMessages: [],
   notes: [],
-  reactions: [],
+  reactions: {},
   users: [],
 }
 
@@ -91,11 +91,22 @@ export const createEventsStore = (set: any, get: any) => ({
       }
     })
   },
-  addReactions: (reactions: Reaction[]) => {
+  addReactions: (reactions: {
+    [noteId: string]: { [id: string]: Reaction }
+  }) => {
     set((state) => {
-      return {
-        reactions: [...state.reactions, ...reactions],
+      const newReactions = Object.assign({}, state.reactions)
+
+      for (const noteId in reactions) {
+        const currentNoteReactionsById = newReactions[noteId] || {}
+
+        newReactions[noteId] = {
+          ...currentNoteReactionsById,
+          ...reactions[noteId],
+        }
       }
+
+      return { reactions: newReactions }
     })
   },
   addUsers: (users: User[]) => {

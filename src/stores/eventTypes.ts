@@ -54,8 +54,8 @@ export interface Reaction {
   pubkey: string
   sig: string
   tags: string
-  event_id: string
-  type: number
+  event_id?: string
+  type?: number
 }
 
 export interface User {
