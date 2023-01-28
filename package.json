@@ -79,6 +79,7 @@
     "@types/jest": "^29.2.5",
     "@types/react": "18.0.25",
     "@types/react-native": "0.70.6",
+    "@types/three": "^0.145",
     "babel-plugin-transform-inline-environment-variables": "0.4.4",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.28.0",
