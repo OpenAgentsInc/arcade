@@ -4657,19 +4657,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/three@npm:^0.148.1":
-  version: 0.148.1
-  resolution: "@types/three@npm:0.148.1"
-  dependencies:
-    "@types/webxr": "*"
-  checksum: 166eb03b80ece4d400641c17cc74a9ad28331dc1f255964dee3d9bead9a4d46e2c287beb1f65a44254b224163a8102f4fe1d50685c896c7fb84fd01c11c43e2d
-  languageName: node
-  linkType: hard
-
-"@types/webxr@npm:*":
-  version: 0.5.1
-  resolution: "@types/webxr@npm:0.5.1"
-  checksum: a77c6be72623679341526dbec18971db0824d5697626d56decc8bb5b73491582b64d094c168ae8d00861549122ca066d7dc45d9cbb5c608626be7f48a6cd7c43
+"@types/three@npm:0.139.0":
+  version: 0.139.0
+  resolution: "@types/three@npm:0.139.0"
+  checksum: 811ce2dd6cfeaa8b051699b6e57f5696b30cb4d33697675c9eee500e377cdbdc872dc6932dfc094c3ae61acfb895d089043a6e5c389d563c516d99ebfef8c130
   languageName: node
   linkType: hard
 
@@ -5177,8 +5168,9 @@ __metadata:
     "@types/jest": ^29.2.5
     "@types/react": 18.0.25
     "@types/react-native": 0.70.6
-    "@types/three": ^0.148.1
+    "@types/three": 0.139.0
     babel-plugin-transform-inline-environment-variables: 0.4.4
+    base64-arraybuffer: 1.0.2
     bech32: 2.0.0
     conventional-changelog-conventionalcommits: 5.0.0
     date-fns: 2.29.3
@@ -5196,6 +5188,7 @@ __metadata:
     expo-random: ~13.0.0
     expo-screen-orientation: ^5.0.1
     expo-secure-store: ~12.0.0
+    expo-sensors: ~12.0.1
     expo-sqlite: ~11.0.0
     expo-three: ^7.0.0
     jest: ^26.6.3
@@ -5216,7 +5209,7 @@ __metadata:
     safe-stable-stringify: 2.4.2
     tamagui: 1.0.7
     text-encoding-polyfill: 0.6.7
-    three: ^0.145.0
+    three: 0.139.2
     typescript: 4.9.3
     websocket-polyfill: 0.0.3
     zustand: 4.2.0
@@ -5669,6 +5662,13 @@ __metadata:
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 9706c088a283058a8a99e0bf91b0a2f75497f185980d9ffa8b304de1d9e58ebda7c72c07ebf01dadedaac5b2907b2c6f566f660d62bd336c3468e960403b9d65
+  languageName: node
+  linkType: hard
+
+"base64-arraybuffer@npm:1.0.2":
+  version: 1.0.2
+  resolution: "base64-arraybuffer@npm:1.0.2"
+  checksum: 15e6400d2d028bf18be4ed97702b11418f8f8779fb8c743251c863b726638d52f69571d4cc1843224da7838abef0949c670bde46936663c45ad078e89fee5c62
   languageName: node
   linkType: hard
 
@@ -8269,6 +8269,17 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 47d72b0bdd9e900e4b2a4d348e79ec6fd0a1c7d1ae7933f7bb237341cea4dbe461a5ebd92f3682859769318b96c3244d776d4324af35e49d6f7d8f430e20d40c
+  languageName: node
+  linkType: hard
+
+"expo-sensors@npm:~12.0.1":
+  version: 12.0.1
+  resolution: "expo-sensors@npm:12.0.1"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+  checksum: de5c73a1b6e3c9cb7dbcb0f545130eaf3c35947e546a3436361defecaaa7ab2ad98f8a5102f2fe6692c9b02363143800582e6b78ac68cd322d4a1d340d5b107a
   languageName: node
   linkType: hard
 
@@ -15468,10 +15479,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.145.0":
-  version: 0.145.0
-  resolution: "three@npm:0.145.0"
-  checksum: 1469a5994666a8e76ee7fffda93bde9a5d1c0dfcc831377b1a6ce3579f2933b57e8a8004a3ff7b36529b68484b9fa58eec8f136e1ac9ec02413cdfc360300ec4
+"three@npm:0.139.2":
+  version: 0.139.2
+  resolution: "three@npm:0.139.2"
+  checksum: 9e016065b31a2a69bba730a32bd5b61354365bf0f5072121b8695aac38c9585e4e46361275967fbb58d21e001e5189128107c3ecbf24338ca951d11b524df992
   languageName: node
   linkType: hard
 
