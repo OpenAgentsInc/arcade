@@ -4,8 +4,31 @@ import { db } from 'lib/database/useDatabase'
 import { getLastETagId } from '../utils'
 
 export const hydrateStoreFromDatabase = async () => {
-  const { addUsers, addNotes, addReactions, addChannels, addChannelMessages } =
-    useStore.getState()
+  const {
+    addDirectMessages,
+    addUsers,
+    addNotes,
+    addReactions,
+    addChannels,
+    addChannelMessages,
+  } = useStore.getState()
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      'SELECT * FROM arc_direct_messages',
+      [],
+      (_, { rows: { _array } }) => {
+        const directMessages = _array.map((directMessage) => {
+          return directMessage
+        })
+        addDirectMessages(directMessages)
+      },
+      (_, error) => {
+        console.log('Error querying arc_direct_messages', error)
+        return false
+      }
+    )
+  })
 
   db.transaction((tx) => {
     tx.executeSql(

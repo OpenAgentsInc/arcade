@@ -47,9 +47,9 @@ export class NostrEvent {
         case 1:
           this.saveNote()
           break
-        // case 4:
-        //   this.saveDirectMessage()
-        //   break
+        case 4:
+          this.saveDirectMessage()
+          break
         case 7:
           this.saveReaction()
           break
@@ -161,6 +161,7 @@ export class NostrEvent {
   // Kind 4
   private saveDirectMessage() {
     const { id, pubkey, created_at, kind, tags, content, sig } = this
+    console.log('saving DM:', id)
     const sql = `INSERT INTO arc_direct_messages (id, pubkey, created_at, kind, tags, content, sig) VALUES (?, ?, ?, ?, ?, ?, ?)`
     const params = [
       id,
