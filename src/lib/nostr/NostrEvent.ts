@@ -1,12 +1,20 @@
 import { useStore } from 'app/stores'
-import { Channel, ChannelMessage, Note, User } from 'app/stores/eventTypes'
+import {
+  Channel,
+  ChannelMessage,
+  DirectMessage,
+  Note,
+  User,
+} from 'app/stores/eventTypes'
 import {
   addChannelHelper,
   addChannelMessageHelper,
+  addDirectMessageHelper,
   addNoteHelper,
   addUserHelper,
 } from 'app/stores/helpers'
 import * as SQLite from 'expo-sqlite'
+import { v4 as uuidv4 } from 'uuid'
 
 import { getLastETagId } from '../utils'
 
@@ -47,9 +55,9 @@ export class NostrEvent {
         case 1:
           this.saveNote()
           break
-        // case 4:
-        //   this.saveDirectMessage()
-        //   break
+        case 4:
+          this.saveDirectMessage()
+          break
         case 7:
           this.saveReaction()
           break
@@ -161,7 +169,13 @@ export class NostrEvent {
   // Kind 4
   private saveDirectMessage() {
     const { id, pubkey, created_at, kind, tags, content, sig } = this
-    const sql = `INSERT INTO arc_direct_messages (id, pubkey, created_at, kind, tags, content, sig) VALUES (?, ?, ?, ?, ?, ?, ?)`
+
+    // console.log('trying to save uhhhhh ya', id)
+    const identifiers = [pubkey, tags[1]]
+    identifiers.sort()
+    const conversation_id = uuidv4(identifiers.toString())
+
+    const sql = `INSERT INTO arc_direct_messages (id, pubkey, created_at, kind, tags, content, sig, conversation_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     const params = [
       id,
       pubkey,
@@ -170,9 +184,39 @@ export class NostrEvent {
       JSON.stringify(tags),
       content,
       sig,
+      conversation_id,
     ]
+
+    try {
+      const dm: DirectMessage = {
+        id,
+        pubkey,
+        created_at,
+        kind,
+        tags: JSON.stringify(tags),
+        content,
+        sig,
+        conversation_id,
+        read: false,
+      }
+
+      addDirectMessageHelper(dm)
+    } catch (e) {
+      console.log('couldnt add note to store')
+    }
+
     this.db.transaction((tx) => {
-      tx.executeSql(sql, params)
+      tx.executeSql(
+        sql,
+        params,
+        (_, result) => {
+          console.log(`Saved DM ${id}, rowsAffected ${result.rowsAffected}}`)
+        },
+        (_, error: SQLite.SQLError) => {
+          console.warn('Save DM error', error)
+          return false
+        }
+      )
     })
   }
 
