@@ -6,10 +6,10 @@ export const DmPreview = ({
 }: {
   conversation: DirectMessage
 }) => {
-  console.log(conversation.pubkey)
+  const { pubkey } = conversation
   return (
-    <XStack p="$2">
-      <Text color="$color10">ehehehehehhe</Text>
+    <XStack p="$3">
+      <Text color="$color10">{pubkey}</Text>
     </XStack>
   )
 }

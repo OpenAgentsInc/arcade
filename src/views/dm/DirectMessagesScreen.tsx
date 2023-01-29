@@ -36,7 +36,7 @@ export const DirectMessagesScreen = () => {
         renderItem={renderItem}
         estimatedItemSize={150}
         data={dms}
-        ListHeaderComponent={() => <YStack mt="$6" />}
+        ListHeaderComponent={() => <YStack mt="$9" />}
         ItemSeparatorComponent={() => (
           <Separator borderColor="$color4" borderWidth={0.5} />
         )}
