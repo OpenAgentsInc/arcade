@@ -1,11 +1,19 @@
 import { NostrEvent } from 'lib/nostr'
 
-import { Channel, ChannelMessage, Note, Reaction, User } from './eventTypes'
+import {
+  Channel,
+  ChannelMessage,
+  DirectMessage,
+  Note,
+  Reaction,
+  User,
+} from './eventTypes'
 
 export interface EventsState {
-  events: NostrEvent[]
   channels: Channel[]
   channelMessages: ChannelMessage[]
+  dms: DirectMessage[]
+  events: NostrEvent[]
   notes: Note[]
   reactions: { [noteId: string]: { [id: string]: Reaction } }
   users: User[]
@@ -18,6 +26,7 @@ const initialEventsState: EventsState = {
   notes: [],
   reactions: {},
   users: [],
+  dms: [],
 }
 
 export const createEventsStore = (set: any, get: any) => ({
@@ -27,6 +36,7 @@ export const createEventsStore = (set: any, get: any) => ({
   reactions: initialEventsState.reactions,
   users: initialEventsState.users,
   events: initialEventsState.events,
+  dms: initialEventsState.dms,
   addChannels: (channels: Channel[]) => {
     set((state) => {
       const existingIds = state.channels.map((channel) => channel.id)

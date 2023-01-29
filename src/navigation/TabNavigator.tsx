@@ -10,8 +10,8 @@ import { ChatNavigator } from './ChatNavigator'
 
 const BottomTab = createBottomTabNavigator<{
   feed: undefined
-  dms: undefined
   chat: undefined
+  dms: undefined
   settings: undefined
 }>()
 
@@ -21,7 +21,7 @@ const inactiveTabColor = '$color8'
 export function TabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="feed"
+      initialRouteName="dms"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
