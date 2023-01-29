@@ -9,7 +9,7 @@ export const DmPreview = ({
   const { pubkey } = conversation
   return (
     <XStack p="$3">
-      <Text color="$color10">{pubkey}</Text>
+      <Text color="$color11">{pubkey}</Text>
     </XStack>
   )
 }
