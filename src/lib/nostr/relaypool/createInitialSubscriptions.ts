@@ -63,11 +63,11 @@ export const createInitialSubscriptions = async (
     // Grab our contacts/metadata
     // { kinds: [Kind.Contacts, Kind.Metadata], authors: [userPubkey] },
     // Grab DMs
-    // {
-    //   kinds: [Kind.EncryptedDirectMessage],
-    //   limit: 500,
-    //   authors: [userPubkey],
-    // },
+    {
+      kinds: [Kind.EncryptedDirectMessage],
+      limit: 5,
+      //   authors: [userPubkey],
+    },
   ]
 
   return subscriptions
