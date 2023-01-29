@@ -27,7 +27,7 @@
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "versionCode": 8
+      "versionCode": 9
     },
     "extra": {
       "eas": {
