@@ -2,7 +2,7 @@
   "expo": {
     "name": "Arc",
     "slug": "arc",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "sdkVersion": "47.0.0",
     "jsEngine": "hermes",
     "platforms": ["ios", "android"],
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "3",
+      "buildNumber": "1",
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -27,7 +27,7 @@
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "versionCode": 7
+      "versionCode": 9
     },
     "extra": {
       "eas": {

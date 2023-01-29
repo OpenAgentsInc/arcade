@@ -38,6 +38,7 @@ module.exports = function (api) {
           alias: {
             '@types': './src/@types',
             app: './src',
+            arca: './src/arca',
             assets: './src/assets',
             components: './src/components',
             features: './src/features',

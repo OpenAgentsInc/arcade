@@ -14,6 +14,7 @@ LogBox.ignoreLogs([
   'Warning, duplicate ID',
   'failed to connect',
   'Sending `onAnimatedValueUpdate`',
+  'THREE.GLTFLoader',
 ])
 
 const App: FC = () => {
