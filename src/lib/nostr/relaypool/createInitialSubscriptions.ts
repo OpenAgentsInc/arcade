@@ -66,7 +66,7 @@ export const createInitialSubscriptions = async (
     {
       kinds: [Kind.EncryptedDirectMessage],
       limit: 5,
-      //   authors: [userPubkey],
+      authors: [userPubkey],
     },
   ]
 

@@ -21,6 +21,7 @@ export const hydrateStoreFromDatabase = async () => {
         const directMessages = _array.map((directMessage) => {
           return directMessage
         })
+        console.log('um dms here:', directMessages.length)
         addDirectMessages(directMessages)
       },
       (_, error) => {

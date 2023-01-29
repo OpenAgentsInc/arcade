@@ -1,5 +1,20 @@
-import { Channel, ChannelMessage, Note, User } from './eventTypes'
+import {
+  Channel,
+  ChannelMessage,
+  DirectMessage,
+  Note,
+  User,
+} from './eventTypes'
 import { useStore } from './index'
+
+export const addDirectMessageHelper = (directMessage: DirectMessage) => {
+  const state = useStore.getState()
+  if (!state.dms.find((dm) => dm.id === directMessage.id)) {
+    useStore.setState({
+      dms: [...state.dms, directMessage],
+    })
+  }
+}
 
 export const addUserHelper = (user: User) => {
   const state = useStore.getState()
