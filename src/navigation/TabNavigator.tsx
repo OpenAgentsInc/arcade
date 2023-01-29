@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Home, MessageCircle, Settings } from '@tamagui/lucide-icons'
+import { Home, Inbox, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
+import { DirectMessagesScreen } from 'views/dm/DirectMessagesScreen'
 import { HomeFeed } from 'views/feed/HomeFeed'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
@@ -9,6 +10,7 @@ import { ChatNavigator } from './ChatNavigator'
 
 const BottomTab = createBottomTabNavigator<{
   feed: undefined
+  dms: undefined
   chat: undefined
   settings: undefined
 }>()
@@ -55,6 +57,18 @@ export function TabNavigator() {
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MessageCircle
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="dms"
+        component={DirectMessagesScreen}
+        options={{
+          tabBarIcon: ({ focused, size }) => (
+            <Inbox
               color={focused ? activeTabColor : inactiveTabColor}
               size={size}
             />
