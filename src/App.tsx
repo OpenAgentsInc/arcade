@@ -1,3 +1,5 @@
+import 'react-native-url-polyfill/auto'
+import 'react-native-get-random-values'
 import 'text-encoding-polyfill'
 import 'expo-dev-client'
 
@@ -5,6 +7,7 @@ import { useFonts } from 'expo-font'
 import { Provider } from 'lib/tamagui'
 import { FC } from 'react'
 import { LogBox } from 'react-native'
+import PolyfillCrypto from 'react-native-webview-crypto'
 
 import { NativeNavigation } from './navigation'
 
@@ -15,6 +18,7 @@ LogBox.ignoreLogs([
   'failed to connect',
   'Sending `onAnimatedValueUpdate`',
   'THREE.GLTFLoader',
+  'fontFamily',
 ])
 
 const App: FC = () => {
@@ -30,6 +34,7 @@ const App: FC = () => {
   return (
     <Provider>
       <NativeNavigation />
+      <PolyfillCrypto />
     </Provider>
   )
 }

@@ -21,7 +21,7 @@ const inactiveTabColor = '$color8'
 export function TabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="dms"
+      initialRouteName="settings"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
@@ -63,7 +63,7 @@ export function TabNavigator() {
           ),
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="dms"
         component={DirectMessagesScreen}
         options={{
@@ -74,7 +74,7 @@ export function TabNavigator() {
             />
           ),
         }}
-      />
+      /> */}
       <BottomTab.Screen
         name="settings"
         component={SettingsScreen}
