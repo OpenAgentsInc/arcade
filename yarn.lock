@@ -2275,6 +2275,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gorhom/bottom-sheet@npm:^4":
+  version: 4.4.5
+  resolution: "@gorhom/bottom-sheet@npm:4.4.5"
+  dependencies:
+    "@gorhom/portal": 1.0.14
+    invariant: ^2.2.4
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=1.10.1"
+    react-native-reanimated: ">=2.2.0"
+  checksum: 19b3efeaacdd0eddb3f6c6e6c225dd20fcf21fae9d20f760c94e81b7ecba47a56737cb0e681225c368c93779beebe7a61102e064656a376eeb7761366b9874d6
+  languageName: node
+  linkType: hard
+
+"@gorhom/portal@npm:1.0.14":
+  version: 1.0.14
+  resolution: "@gorhom/portal@npm:1.0.14"
+  dependencies:
+    nanoid: ^3.3.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 227bb96a2db854ab29bb9da8d4f3823c7f7448358de459709dd1b78522110da564c9a8734c6bc7d7153ed7c99320e0fb5d60b420c2ebb75ecaf2f0d757f410f9
+  languageName: node
+  linkType: hard
+
 "@graphql-typed-document-node/core@npm:^3.1.0":
   version: 3.1.1
   resolution: "@graphql-typed-document-node/core@npm:3.1.1"
@@ -2731,6 +2758,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/hashes@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@noble/hashes@npm:1.0.0"
+  checksum: bdf1c28a4b587e72ec6b0c504903239c6f96680b2c15a6d90d367512f468eeca12f2ee7bd25967a9529be2bedbf3f8d0a50c33368937f8dfef2a973d0661c7b5
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:^0.5.7":
   version: 0.5.9
   resolution: "@noble/hashes@npm:0.5.9"
@@ -2742,6 +2776,13 @@ __metadata:
   version: 1.1.5
   resolution: "@noble/hashes@npm:1.1.5"
   checksum: de3f095a7ac1cbf5b4b3d09f193288d4f2eec35fbadf2ed9fd7e47d8a3042fef410052ba62dc0296a185f994c11192f5357fdb1bd9178c905efd82e946c53b00
+  languageName: node
+  linkType: hard
+
+"@noble/hashes@npm:~1.2.0":
+  version: 1.2.0
+  resolution: "@noble/hashes@npm:1.2.0"
+  checksum: 8ca080ce557b8f40fb2f78d3aedffd95825a415ac8e13d7ffe3643f8626a8c2d99a3e5975b555027ac24316d8b3c02a35b8358567c0c23af681e6573602aa434
   languageName: node
   linkType: hard
 
@@ -2776,6 +2817,18 @@ __metadata:
     "@nodelib/fs.scandir": 2.1.5
     fastq: ^1.6.0
   checksum: 190c643f156d8f8f277bf2a6078af1ffde1fd43f498f187c2db24d35b4b4b5785c02c7dc52e356497b9a1b65b13edc996de08de0b961c32844364da02986dc53
+  languageName: node
+  linkType: hard
+
+"@nostr-connect/connect@npm:0.3.2":
+  version: 0.3.2
+  resolution: "@nostr-connect/connect@npm:0.3.2"
+  dependencies:
+    events: ^3.3.0
+    nostr-tools: ^1.6.0
+  peerDependencies:
+    react: ">=16"
+  checksum: d3d8ac52aca09fcbe35d3fce8f1a48f6941a97efc5cfbb87e8af03db427a6574e0c090aedc906a79a6e50942d66c1c5af5ffabaf46d8d0bcd9683c4dd7d9c870
   languageName: node
   linkType: hard
 
@@ -2850,6 +2903,17 @@ __metadata:
   peerDependencies:
     react: ^16.8 || ^17.0
   checksum: ca6d7fc397bb19a59fb06529c376fc0b4501fde29c390e9448dd381d05d25d7d2dbfde4c15a491851930cb62fec3cc15ecc413ff77e789a3139d8083db06bf21
+  languageName: node
+  linkType: hard
+
+"@react-native-async-storage/async-storage@npm:~1.17.3":
+  version: 1.17.11
+  resolution: "@react-native-async-storage/async-storage@npm:1.17.11"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || 0.60 - 0.71 || 1000.0.0
+  checksum: 691f2b74498160d0b532f673402d8affeecb28b005b1c6d6fa2e7c87f89ab3068177e8e2d2686738306e7592a39c6d7148aa4c426b7e8e149c43a336ad446648
   languageName: node
   linkType: hard
 
@@ -3338,6 +3402,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@scure/bip32@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "@scure/bip32@npm:1.1.5"
+  dependencies:
+    "@noble/hashes": ~1.2.0
+    "@noble/secp256k1": ~1.7.0
+    "@scure/base": ~1.1.0
+  checksum: b08494ab0d2b1efee7226d1b5100db5157ebea22a78bb87126982a76a186cb3048413e8be0ba2622d00d048a20acbba527af730de86c132a77de616eb9907a3b
+  languageName: node
+  linkType: hard
+
 "@scure/bip39@npm:^1.1.0":
   version: 1.1.0
   resolution: "@scure/bip39@npm:1.1.0"
@@ -3345,6 +3420,16 @@ __metadata:
     "@noble/hashes": ~1.1.1
     "@scure/base": ~1.1.0
   checksum: c4361406f092a45e511dc572c89f497af6665ad81cb3fd7bf78e6772f357f7ae885e129ef0b985cb3496a460b4811318f77bc61634d9b0a8446079a801b6003c
+  languageName: node
+  linkType: hard
+
+"@scure/bip39@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@scure/bip39@npm:1.1.1"
+  dependencies:
+    "@noble/hashes": ~1.2.0
+    "@scure/base": ~1.1.0
+  checksum: fbb594c50696fa9c14e891d872f382e50a3f919b6c96c55ef2fb10c7102c546dafb8f099a62bd114c12a00525b595dcf7381846f383f0ddcedeaa6e210747d2f
   languageName: node
   linkType: hard
 
@@ -5152,7 +5237,10 @@ __metadata:
   dependencies:
     "@babel/core": 7.20.2
     "@google/semantic-release-replace-plugin": 1.1.0
+    "@gorhom/bottom-sheet": ^4
     "@manypkg/cli": 0.19.2
+    "@nostr-connect/connect": 0.3.2
+    "@react-native-async-storage/async-storage": ~1.17.3
     "@react-navigation/bottom-tabs": 6.5.2
     "@react-navigation/native": 6.1.1
     "@react-navigation/native-stack": 6.9.7
@@ -5179,6 +5267,7 @@ __metadata:
     eslint-plugin-simple-import-sort: 8.0.0
     expo: 47.0.9
     expo-asset: ~8.7.0
+    expo-barcode-scanner: ~12.1.0
     expo-clipboard: ~4.0.1
     expo-dev-client: 2.0.1
     expo-file-system: ~15.1.1
@@ -5200,12 +5289,16 @@ __metadata:
     react-dom: 18.2.0
     react-native: 0.70.5
     react-native-gesture-handler: 2.8.0
+    react-native-get-random-values: ^1.8.0
     react-native-keyboard-aware-scroll-view: 0.9.5
     react-native-reanimated: 2.12.0
     react-native-safe-area-context: 4.4.1
     react-native-screens: 3.18.2
     react-native-svg: 13.4.0
+    react-native-url-polyfill: ^1.3.0
     react-native-web: 0.18.10
+    react-native-webview: 11.23.1
+    react-native-webview-crypto: ^0.0.25
     safe-stable-stringify: 2.4.2
     tamagui: 1.0.7
     text-encoding-polyfill: 0.6.7
@@ -5901,7 +5994,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.5.0":
+"buffer@npm:^5.4.3, buffer@npm:^5.5.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -7213,6 +7306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"encode-utf8@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "encode-utf8@npm:1.0.3"
+  checksum: 550224bf2a104b1d355458c8a82e9b4ea07f9fc78387bc3a49c151b940ad26473de8dc9e121eefc4e84561cb0b46de1e4cd2bc766f72ee145e9ea9541482817f
+  languageName: node
+  linkType: hard
+
 "encodeurl@npm:~1.0.2":
   version: 1.0.2
   resolution: "encodeurl@npm:1.0.2"
@@ -7515,17 +7615,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"escape-string-regexp@npm:2.0.0, escape-string-regexp@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "escape-string-regexp@npm:2.0.0"
+  checksum: 9f8a2d5743677c16e85c810e3024d54f0c8dea6424fad3c79ef6666e81dd0846f7437f5e729dfcdac8981bc9e5294c39b4580814d114076b8d36318f46ae4395
+  languageName: node
+  linkType: hard
+
 "escape-string-regexp@npm:^1.0.5":
   version: 1.0.5
   resolution: "escape-string-regexp@npm:1.0.5"
   checksum: 6092fda75c63b110c706b6a9bfde8a612ad595b628f0bd2147eea1d3406723020810e591effc7db1da91d80a71a737a313567c5abb3813e8d9c71f4aa595b410
-  languageName: node
-  linkType: hard
-
-"escape-string-regexp@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "escape-string-regexp@npm:2.0.0"
-  checksum: 9f8a2d5743677c16e85c810e3024d54f0c8dea6424fad3c79ef6666e81dd0846f7437f5e729dfcdac8981bc9e5294c39b4580814d114076b8d36318f46ae4395
   languageName: node
   linkType: hard
 
@@ -7903,6 +8003,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"events@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
+  languageName: node
+  linkType: hard
+
 "exec-async@npm:^2.2.0":
   version: 2.2.0
   resolution: "exec-async@npm:2.2.0"
@@ -8072,6 +8179,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-barcode-scanner@npm:~12.1.0":
+  version: 12.1.0
+  resolution: "expo-barcode-scanner@npm:12.1.0"
+  dependencies:
+    expo-image-loader: ~4.0.0
+  peerDependencies:
+    expo: "*"
+  checksum: 196ed1433f561bc46a7bc6bd2085b4ede8c3e82a7f0ea0cc3d6aeaec7f6636246eafb2d46a6ae81af202365f66cb3c6b4a8df098aa694cd805ada7c7fead9201
+  languageName: node
+  linkType: hard
+
 "expo-clipboard@npm:~4.0.1":
   version: 4.0.2
   resolution: "expo-clipboard@npm:4.0.2"
@@ -8181,6 +8299,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 4c6f36ddd4814aa23507d63a2e4ab40e08dc3924802fa1f2dd43d86eaf397d6e53628b440db5a01fd089d8d247615670dcceb513b2333b9591649b98699a8cd9
+  languageName: node
+  linkType: hard
+
+"expo-image-loader@npm:~4.0.0":
+  version: 4.0.0
+  resolution: "expo-image-loader@npm:4.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 21b0a77bd9fd3b434db70e16e21f8531db668c30bd539bb230a52d47f7536b3baf8742db7fd70b41e2165330d92881ef31b8eb1c69b5088fa5d36e57464ca0e4
   languageName: node
   linkType: hard
 
@@ -8396,6 +8523,20 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.1
   checksum: a41531b8934735b684cef5e8c5a01d0f298d7d384500ceca38793a9ce098125aab04ee73e2d75d5b2901bc5dddd2b64e1b5e3bf19139ea48bac52af4a92f1d00
+  languageName: node
+  linkType: hard
+
+"fast-base64-decode@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-base64-decode@npm:1.0.0"
+  checksum: 4c59eb1775a7f132333f296c5082476fdcc8f58d023c42ed6d378d2e2da4c328c7a71562f271181a725dd17cdaa8f2805346cc330cdbad3b8e4b9751508bd0a3
+  languageName: node
+  linkType: hard
+
+"fast-base64-encode@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-base64-encode@npm:1.0.0"
+  checksum: 1a711d2cfd663ae612900f0836b1c51cdcb797893b312db818e61fe55fde41a201d1f06d0814abc74fd3aeb92826ef45aa889bf1a1a7d68f52748d92f4d4bcd2
   languageName: node
   linkType: hard
 
@@ -9604,7 +9745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
+"invariant@npm:2.2.4, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -9953,6 +10094,13 @@ __metadata:
   version: 3.0.3
   resolution: "is-path-inside@npm:3.0.3"
   checksum: abd50f06186a052b349c15e55b182326f1936c89a78bf6c8f2b707412517c097ce04bc49a0ca221787bc44e1049f51f09a2ffb63d22899051988d3a618ba13e9
+  languageName: node
+  linkType: hard
+
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
   languageName: node
   linkType: hard
 
@@ -11315,6 +11463,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash@npm:4.17.3":
+  version: 4.17.3
+  resolution: "lodash@npm:4.17.3"
+  checksum: 5811ce6f39de420142631be6ee8c4bab321474ad1b79b43277baad6a4b2352e854558c8efd2845d1b61fb335902b43593baa73cfa0a12edfc80a8119ed6e8121
+  languageName: node
+  linkType: hard
+
 "log-symbols@npm:^2.2.0":
   version: 2.2.0
   resolution: "log-symbols@npm:2.2.0"
@@ -11550,6 +11705,15 @@ __metadata:
   version: 0.2.0
   resolution: "memory-cache@npm:0.2.0"
   checksum: 255c87fec360ce06818ca7aeb5850d798e14950a9fcea879d88e1f8d1f4a6cffb8ed16da54aa677f5ec8e47773fbe15775a1cdf837ac190e17e9fb4b71e87bee
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 
@@ -12173,7 +12337,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.23":
+"nanoid@npm:^3.1.23, nanoid@npm:^3.3.1":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
@@ -12451,6 +12615,20 @@ __metadata:
     "@scure/bip32": ^1.1.1
     "@scure/bip39": ^1.1.0
   checksum: eb651e1af83f2e374570535027f77992c231d5377a6f31054981f075d9b8216c7f56b3637d0a621d8ec3e56cdbc9a70fc321d47f0fc2c12947a837236c31c82e
+  languageName: node
+  linkType: hard
+
+"nostr-tools@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "nostr-tools@npm:1.6.0"
+  dependencies:
+    "@noble/hashes": 1.0.0
+    "@noble/secp256k1": ^1.7.1
+    "@scure/base": ^1.1.1
+    "@scure/bip32": ^1.1.5
+    "@scure/bip39": ^1.1.1
+    prettier: ^2.8.4
+  checksum: c0e8d56539bf0cfb3dbc1817eb42f5d22c1d3d64ceabb90ac73c5297e27dec51a8d3594d95a0e862df76e8829fea98c36c259c450b52b7643b59e46fe10ff139
   languageName: node
   linkType: hard
 
@@ -13174,6 +13352,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "prettier@npm:2.8.4"
+  bin:
+    prettier: bin-prettier.js
+  checksum: c173064bf3df57b6d93d19aa98753b9b9dd7657212e33b41ada8e2e9f9884066bb9ca0b4005b89b3ab137efffdf8fbe0b462785aba20364798ff4303aadda57e
+  languageName: node
+  linkType: hard
+
 "pretty-bytes@npm:5.6.0":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -13496,6 +13683,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-get-random-values@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "react-native-get-random-values@npm:1.8.0"
+  dependencies:
+    fast-base64-decode: ^1.0.0
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: 9163368ebd935d897f6ea0f9e95c476aa7608080e3848bb6c6f85db01b9de3498d857795c84df5492d6511a55aebf89492860ac886b652a9a7a3efdb19913f87
+  languageName: node
+  linkType: hard
+
 "react-native-gradle-plugin@npm:^0.70.3":
   version: 0.70.3
   resolution: "react-native-gradle-plugin@npm:0.70.3"
@@ -13579,6 +13777,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-url-polyfill@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "react-native-url-polyfill@npm:1.3.0"
+  dependencies:
+    whatwg-url-without-unicode: 8.0.0-3
+  peerDependencies:
+    react-native: "*"
+  checksum: 24ef81493a642b9359c1e8048de4da84fb554ffcf35677f9d8b11956d700faa4b9ac9d74f56aee67dd8d8b4ef6d9879e7431848785880ada657f8bec0211b00a
+  languageName: node
+  linkType: hard
+
 "react-native-web-internals@npm:^1.0.7":
   version: 1.0.7
   resolution: "react-native-web-internals@npm:1.0.7"
@@ -13625,6 +13834,34 @@ __metadata:
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
   checksum: 2549a7e316e5e6ac2b59eac0c500bc8e021f32854bd852d4bf719eebad9ef9fbccbeb6fd3f4654d3d3f971c7af43240139affc8b3f36ad288908e7aeea32c43e
+  languageName: node
+  linkType: hard
+
+"react-native-webview-crypto@npm:^0.0.25":
+  version: 0.0.25
+  resolution: "react-native-webview-crypto@npm:0.0.25"
+  dependencies:
+    encode-utf8: ^1.0.2
+    fast-base64-encode: ^1.0.0
+    webview-crypto: ^0.1.13
+  peerDependencies:
+    react: ">=16.4"
+    react-native: ">=0.56"
+    react-native-webview: ">=8.*"
+  checksum: 66277ecf2ec7a433bea64c99ee2914c34f80d8e0fd323367831145be5bc4aa1a1be5e1ebe04af168f4f498e0352b6323223c3e2fd44a44f893268ada8bbf750b
+  languageName: node
+  linkType: hard
+
+"react-native-webview@npm:11.23.1":
+  version: 11.23.1
+  resolution: "react-native-webview@npm:11.23.1"
+  dependencies:
+    escape-string-regexp: 2.0.0
+    invariant: 2.2.4
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 58367276b4457a12c0ecb24084c237048a31a8b4d49f53615634052c2dfcb318824e9239909b6bfb80cc8abacab658d278f480f7ff96267d10d5ff84a8ff1373
   languageName: node
   linkType: hard
 
@@ -14508,19 +14745,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"serialize-error@npm:2.1.0, serialize-error@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "serialize-error@npm:2.1.0"
+  checksum: 28464a6f65e6becd6e49fb782aff06573fdbf3d19f161a20228179842fed05c75a34110e54c3ee020b00240f9e11d8bee9b9fee5d04e0bc0bef1fdbf2baa297e
+  languageName: node
+  linkType: hard
+
 "serialize-error@npm:6.0.0":
   version: 6.0.0
   resolution: "serialize-error@npm:6.0.0"
   dependencies:
     type-fest: ^0.12.0
   checksum: 3419fb068af8f22a6ddfabee55b69cfc717008d381b086c01c7b1c506f96c14d1fd4a222b85b4a551cd86498ec52913a5f6b5971650fe8d0859e2b41010feb9e
-  languageName: node
-  linkType: hard
-
-"serialize-error@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "serialize-error@npm:2.1.0"
-  checksum: 28464a6f65e6becd6e49fb782aff06573fdbf3d19f161a20228179842fed05c75a34110e54c3ee020b00240f9e11d8bee9b9fee5d04e0bc0bef1fdbf2baa297e
   languageName: node
   linkType: hard
 
@@ -16404,6 +16641,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"webview-crypto@npm:^0.1.13":
+  version: 0.1.13
+  resolution: "webview-crypto@npm:0.1.13"
+  dependencies:
+    lodash: 4.17.3
+    serialize-error: 2.1.0
+  checksum: a6a4c2560add55a5060e33b0b04797bc8cd19674cac6cfcd86b68a99b9bacacb9fdcd94461ed8279f3221ab56348227cc9a3644792784b093552959661541b9b
+  languageName: node
+  linkType: hard
+
 "whatwg-encoding@npm:^1.0.5":
   version: 1.0.5
   resolution: "whatwg-encoding@npm:1.0.5"
@@ -16424,6 +16671,17 @@ __metadata:
   version: 2.3.0
   resolution: "whatwg-mimetype@npm:2.3.0"
   checksum: 23eb885940bcbcca4ff841c40a78e9cbb893ec42743993a42bf7aed16085b048b44b06f3402018931687153550f9a32d259dfa524e4f03577ab898b6965e5383
+  languageName: node
+  linkType: hard
+
+"whatwg-url-without-unicode@npm:8.0.0-3":
+  version: 8.0.0-3
+  resolution: "whatwg-url-without-unicode@npm:8.0.0-3"
+  dependencies:
+    buffer: ^5.4.3
+    punycode: ^2.1.1
+    webidl-conversions: ^5.0.0
+  checksum: 1fe266f7161e0bd961087c1254a5a59d1138c3d402064495eed65e7590d9caed5a1d9acfd6e7a1b0bf0431253b0e637ee3e4ffc08387cd60e0b2ddb9d4687a4b
   languageName: node
   linkType: hard
 

@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useRelayPool } from 'app/lib/nostr'
-import { FirstLoadScreen } from 'app/views/load/FirstLoadScreen'
-import { RelaysScreen } from 'app/views/relay/RelayTest'
+import { useRelayPool } from 'lib/nostr'
+import { ConnectScreen } from 'views/connect/ConnectScreen'
+import { FirstLoadScreen } from 'views/load/FirstLoadScreen'
 import { ProfileScreen } from 'views/profile'
+import { RelaysScreen } from 'views/relay/RelayTest'
 import { NavHeader } from 'views/shared'
 
 import { TabNavigator } from './TabNavigator'
@@ -12,6 +13,7 @@ export type AuthedStackParams = {
   tabs: undefined
   profile: { pubkey: string }
   relays: undefined
+  connect: undefined
 }
 
 const Stack = createNativeStackNavigator<AuthedStackParams>()
@@ -46,6 +48,11 @@ export function AuthedNavigator() {
         name="relays"
         component={RelaysScreen}
         options={{ title: 'Relays' }}
+      />
+      <Stack.Screen
+        name="connect"
+        component={ConnectScreen}
+        options={{ title: 'Connect' }}
       />
     </Stack.Navigator>
   )

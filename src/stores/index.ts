@@ -7,7 +7,7 @@ import { createEventsStore } from './event'
 import { createRelayStore } from './relay'
 import { createUiStore } from './ui'
 
-type UseStore = {
+export type UseStore = {
   nostr: Nostr | undefined
 } & ReturnType<typeof createAuthStore> &
   ReturnType<typeof createContactsStore> &

@@ -22,7 +22,7 @@ export class RelayPool {
   noticecbs: ((msg: string) => void)[]
   cache?: Cache
   constructor(relays?: string[], options: { noCache?: boolean } = {}) {
-    console.log(`RelayPool constructed with ${relays?.length} relays.`)
+    // console.log(`RelayPool constructed with ${relays?.length} relays.`)
     if (!options.noCache) {
       this.cache = {
         eventsById: new Map(),
@@ -281,7 +281,7 @@ export class RelayPool {
       subs.push(sub)
       let eventsBySub: (Event & { id: string })[] | undefined = []
       sub.on('event', (event: Event & { id: string }) => {
-        console.log(`Received event kind ${event.kind} from ${relay}`)
+        // console.log(`Received event kind ${event.kind} from ${relay}`)
         this.addEventToCache(event)
         eventsBySub?.push(event)
         onEvent(event, eventsBySub === undefined, relay)
