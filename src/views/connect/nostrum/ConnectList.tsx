@@ -101,8 +101,6 @@ export default function ConnectList({ navigation }: { navigation: any }) {
       const store = useStore.getState() as UseStore
       const key = store.user.privateKey
 
-      console.log('We have key?', key)
-
       if (!key) return
 
       // set the pub key
@@ -344,17 +342,6 @@ export default function ConnectList({ navigation }: { navigation: any }) {
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={{ justifyContent: 'center' }}>
               <Text style={styles.title}>Connected Apps</Text>
-            </View>
-            <View
-              style={{
-                marginLeft: 'auto',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <TouchableOpacity onPress={keyInfoPress} style={styles.button}>
-                <Text style={{ fontSize: 32 }}>🔑</Text>
-              </TouchableOpacity>
             </View>
           </View>
           {apps === null || apps.length === 0 ? (
@@ -607,13 +594,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    // fontFamily: 'SoraBold',
-    marginVertical: 24,
+    fontFamily: 'InterBold',
+    marginBottom: 24,
     color: '#fff',
   },
   text: {
     fontSize: 16,
-    // fontFamily: 'SoraRegular',
+    fontFamily: 'Inter',
     marginBottom: 8,
     color: '#fff',
     textAlign: 'center',
@@ -627,7 +614,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: darkBlue,
+    backgroundColor: 'transparent',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderBottomLeftRadius: 8,
