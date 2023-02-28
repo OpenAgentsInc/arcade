@@ -22,7 +22,7 @@ export function AuthedNavigator() {
   useRelayPool({ connectNow: true })
   return (
     <Stack.Navigator
-      initialRouteName="firstload"
+      initialRouteName="tabs"
       screenOptions={{
         header: ({ options }) => (
           <NavHeader options={options} title={options.title} />

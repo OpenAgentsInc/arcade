@@ -9,7 +9,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 const styles = StyleSheet.create({
   center: {
     flex: 1,
-    backgroundColor: darkBlue,
+    backgroundColor: 'transparent',
     paddingTop: 32,
   },
 })
