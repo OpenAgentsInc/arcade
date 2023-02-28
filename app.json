@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -27,7 +27,7 @@
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "versionCode": 9
+      "versionCode": 10
     },
     "extra": {
       "eas": {
