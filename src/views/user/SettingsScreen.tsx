@@ -59,9 +59,6 @@ export const SettingsScreen = () => {
           />
         </YGroup>
         <ThemePicker />
-        <Button size="$5" mt="$6" w="100%" onPress={() => navigate('relays')}>
-          View relays
-        </Button>
         <Button size="$5" mt="$6" w="100%" onPress={() => navigate('connect')}>
           Nostr Connect
         </Button>

@@ -103,9 +103,6 @@ export const createAuthStore = (set: any, get: any) => ({
       privateKey = keys.user.privateKey
     }
 
-    // Get relays from the state
-    // const { relays } = state
-
     const metadata = {
       name: username,
       displayName,
