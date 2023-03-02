@@ -18,6 +18,8 @@ LogBox.ignoreLogs([
   'failed to connect',
   'Sending `onAnimatedValueUpdate`',
   'fontFamily',
+  '(ADVICE) Vie',
+  'Failed prop type: Invalid',
 ])
 
 const App: FC = () => {
