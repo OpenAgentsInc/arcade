@@ -1,12 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Channel } from 'app/stores/eventTypes'
 import { ChannelScreen, ChannelsScreen } from 'views/chat'
 import { NavHeader } from 'views/shared'
 
 const Stack = createNativeStackNavigator<{
   // todo: fix the dupe w @types
   channels: undefined
-  channel: { channel: Channel }
+  channel: { channel: any } // replace w actual model
   settings: undefined
 }>()
 

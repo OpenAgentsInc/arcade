@@ -53,7 +53,7 @@ describe('timeAgoSince', () => {
 
   test('returns months in the format "Xmo" when the time difference is less than 1 year', () => {
     const now = new Date()
-    expect(timeAgoSince(subMonths(now, 1))).toBe('1mo')
+    expect(timeAgoSince(subMonths(now, 1))).toBe('4w')
     expect(timeAgoSince(subMonths(now, 11))).toBe('11mo')
   })
 

@@ -2,13 +2,11 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Channel } from 'stores/eventTypes'
+import { Channel } from 'stores/types'
 import { Screen } from 'views/shared'
 
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
-import { useUserMetadataForChannel } from './useUserMetadataForChannel'
 
 type ChannelScreenProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, 'channel'>
@@ -18,8 +16,6 @@ type ChannelScreenProps = {
 export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   const { channel } = route.params
   const { setOptions } = useNavigation()
-
-  useUserMetadataForChannel(channel?.id ?? '')
 
   useEffect(() => {
     setOptions({ title: channel?.name ?? 'Unnamed Channel' })

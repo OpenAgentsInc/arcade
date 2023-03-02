@@ -2,7 +2,7 @@ import { createInterFont } from '@tamagui/font-inter'
 import { createMedia } from '@tamagui/react-native-media-driver'
 import { shorthands } from '@tamagui/shorthands'
 import { themes, tokens } from '@tamagui/theme-base'
-import { animations } from 'app/lib/constants'
+import { animations } from 'lib/constants'
 import { createTamagui } from 'tamagui'
 
 const headingFont = createInterFont({

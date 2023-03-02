@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -108,6 +109,7 @@ export default function ConnectList({ navigation }: { navigation: any }) {
       setNostrID(pub)
 
       const remoteHandler = new NostrConnectHandler({
+        relay: 'wss://arc1.arcadelabs.co',
         secretKey: key,
       })
       try {

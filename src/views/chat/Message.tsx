@@ -1,8 +1,7 @@
-import { ChannelMessage } from 'app/stores/eventTypes'
-import { useUserMetadata } from 'lib/hooks'
 import { formatTimestamp, truncateString } from 'lib/utils'
 import { Image, View } from 'react-native'
 import { useStore } from 'stores'
+import { ChannelMessage } from 'stores/types'
 // import { ChatMessage } from 'stores/chat'
 import { Paragraph, XStack, YStack } from 'tamagui'
 
@@ -12,7 +11,10 @@ type Props = {
 
 export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = useStore((state) => state.user.publicKey)
-  const userMetadata = useUserMetadata(message.pubkey)
+  const userMetadata = {
+    name: 'Mr. Placeholder',
+    picture: 'https://placekitten.com/200/200',
+  }
   const align = message.pubkey === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.pubkey === currentUser
   const pic = isCurrentUser

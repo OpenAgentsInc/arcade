@@ -2,7 +2,6 @@ import { useAuthed } from 'lib/hooks'
 import { View } from 'react-native'
 
 import { AuthedNavigator } from './AuthedNavigator'
-// import { HudNavigator } from './HudNavigator'
 import { UnauthedNavigator } from './UnauthedNavigator'
 
 export function NativeNavigation() {
