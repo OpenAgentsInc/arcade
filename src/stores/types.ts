@@ -1,7 +1,7 @@
 export interface Channel {
   id: string
   about: string
-  name: string
+  title: string
   picture: string
 }
 

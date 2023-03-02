@@ -38,7 +38,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
           mt={channel?.about ? 5 : -5}
           numberOfLines={1}
         >
-          {channel?.name ?? 'no name'}
+          {channel?.title ?? 'no name'}
         </Paragraph>
         <Paragraph
           px="$2"

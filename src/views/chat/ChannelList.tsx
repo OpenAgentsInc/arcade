@@ -11,12 +11,14 @@ import { useChannels } from './useChannels'
 
 export const ChannelList = () => {
   const channels = useChannels() as Channel[]
+  console.log('Channels length:', channels.length)
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =
     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
 
   const renderItem = ({ index }: ListRenderItemInfo<Channel>) => {
     const channel = channels[index]
+    console.log('wut dis? ', channel)
     if (!channel) return <></>
 
     return (

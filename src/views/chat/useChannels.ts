@@ -1,14 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useEffect } from 'react'
 
 export const useChannels = () => {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ['todos'],
     queryFn: () =>
-      axios
-        .get('https://api.github.com/repos/tannerlinsley/react-query')
-        .then((res) => res.data),
+      axios.get('http://localhost:8000/api/demo').then((res) => res.data),
   })
-  console.log(data)
-  return data
+
+  useEffect(() => {
+    console.log('error:', error)
+  }, [error])
+
+  //   useEffect(() => {
+  //     console.log('data:', data)
+  //   }, [data])
+
+  return data?.channels || []
 }
