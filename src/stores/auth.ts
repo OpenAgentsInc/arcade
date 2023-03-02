@@ -1,6 +1,5 @@
-import * as storage from 'app/lib/storage'
 import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'lib/storage'
-import * as s from 'lib/storage'
+import * as storage from 'lib/storage'
 import { generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
 import {
   generatePrivateKey,
@@ -80,8 +79,8 @@ export const createAuthStore = (set: any, get: any) => ({
       const privateKey = data as string
       const publicKey = getPublicKey(privateKey)
       console.log('Decoded publicKey: ', publicKey)
-      await s.setItem(s.HEX_PUBKEY_STORAGE_KEY, publicKey)
-      await s.setItem(s.HEX_PRIVKEY_STORAGE_KEY, privateKey)
+      await storage.setItem(storage.HEX_PUBKEY_STORAGE_KEY, publicKey)
+      await storage.setItem(storage.HEX_PRIVKEY_STORAGE_KEY, privateKey)
       console.log('Keys saved to local storage')
       set({ isLoggedIn: true, user: { name: '', publicKey, privateKey } })
     } catch (e: any) {

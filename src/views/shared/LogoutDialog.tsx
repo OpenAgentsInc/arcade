@@ -1,5 +1,5 @@
-import { useStore } from 'app/stores'
 import { Alert } from 'react-native'
+import { useStore } from 'stores'
 import { Button } from 'tamagui'
 
 export const LogoutDialog = (props) => {

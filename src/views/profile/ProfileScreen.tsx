@@ -1,8 +1,4 @@
-import { useRoute } from '@react-navigation/native'
 import { AnimatedFlashList } from '@shopify/flash-list'
-import { Note } from 'app/stores/eventTypes'
-import { useUserMetadata } from 'lib/hooks'
-import { useUserPosts } from 'lib/hooks/useUserPosts'
 import { StyleSheet } from 'react-native'
 import {
   Avatar,
@@ -18,10 +14,13 @@ import { Screen } from 'views/shared'
 const COVER_HEIGHT = 130
 
 export const ProfileScreen = () => {
-  const pubkey = useRoute<any>().params.pubkey
-  const metadata = useUserMetadata(pubkey)
-  //   console.log(metadata)
-  const posts = useUserPosts(pubkey)
+  const posts = []
+  const metadata = {
+    about: 'Hello',
+    display_name: 'Mr. Placeholder',
+    name: 'Mr. Placeholder',
+    picture: 'https://placekitten.com/200/200',
+  }
 
   const ProfileHeader = () => (
     <>
@@ -72,7 +71,7 @@ export const ProfileScreen = () => {
       <AnimatedFlashList
         ListHeaderComponent={ProfileHeader}
         data={posts}
-        renderItem={({ item }: { item: Note }) => null}
+        renderItem={({ item }: { item: any }) => null}
         estimatedItemSize={150}
       />
     </Screen>

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
-import { StackNavigatorParams } from 'app/@types/navigation'
+import { StackNavigatorParams } from 'navigation/nav-types'
 import { Button, Stack, YStack } from 'tamagui'
 import { Logo, Screen } from 'views/shared'
 

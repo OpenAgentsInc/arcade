@@ -1,8 +1,8 @@
 import { ChevronsRight } from '@tamagui/lucide-icons'
-import { useStore } from 'app/stores'
 import { useCallback, useState } from 'react'
 import { Alert, Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useStore } from 'stores'
 import { Button, H2, Input, Label, YStack } from 'tamagui'
 import { BackButton, Screen } from 'views/shared'
 

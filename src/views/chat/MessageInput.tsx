@@ -4,8 +4,6 @@ import { Alert, TextInput, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Input, XStack } from 'tamagui'
 
-import { sendMessage } from './nostrchat'
-
 export const MessageInput = ({ channelId }) => {
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput | null>(null)
@@ -20,7 +18,8 @@ export const MessageInput = ({ channelId }) => {
     inputBoxRef.current?.blur()
     setText('')
     setTimeout(() => {
-      sendMessage(text, channelId)
+      console.log('sendMessage goes here')
+      //   sendMessage(text, channelId)
     }, 100)
   }
 

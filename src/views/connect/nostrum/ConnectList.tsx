@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   BottomSheetModal,
   BottomSheetModalProvider,

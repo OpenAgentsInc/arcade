@@ -15,7 +15,6 @@
     "baseUrl": "./",
     "paths": {
       "@types/*": ["./src/@types/*"],
-      "app/*": ["./src/*"],
       "arca": ["src/arca"],
       "arca/*": ["src/arca/*"],
       "i18n": ["src/i18n"],
