@@ -5004,7 +5004,6 @@ __metadata:
     expo-sqlite: ~11.0.0
     jest: ^26.6.3
     jest-expo: ^47.0.1
-    nostr-relaypool: 0.2.1
     nostr-tools: 1.1.1
     prettier: 2.7.1
     react: 18.2.0
@@ -12022,16 +12021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nostr-relaypool@npm:0.2.1":
-  version: 0.2.1
-  resolution: "nostr-relaypool@npm:0.2.1"
-  dependencies:
-    nostr-tools: ^1.1.0
-  checksum: 462659c5d8bacb6f764510c38e7c2b275ff1f784aaf1caf70d931b35d4fe716876bb0492595d27f6466e156b5e038489e3712ade7d73779e583d458d2bd3f805
-  languageName: node
-  linkType: hard
-
-"nostr-tools@npm:1.1.1, nostr-tools@npm:^1.1.0":
+"nostr-tools@npm:1.1.1":
   version: 1.1.1
   resolution: "nostr-tools@npm:1.1.1"
   dependencies:
