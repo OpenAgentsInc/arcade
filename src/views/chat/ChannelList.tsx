@@ -18,7 +18,6 @@ export const ChannelList = () => {
 
   const renderItem = ({ index }: ListRenderItemInfo<Channel>) => {
     const channel = channels[index]
-    console.log('wut dis? ', channel)
     if (!channel) return <></>
 
     return (
@@ -26,7 +25,7 @@ export const ChannelList = () => {
         channel={channel}
         onPress={() => {
           console.log(
-            `Clicked channel: ${channel.name} with picture: ${channel.picture}, ${channel.about}}`
+            `Clicked channel: ${channel.title} with picture: ${channel.picture}, ${channel.about}}`
           )
           navigate('channel', { channel })
         }}

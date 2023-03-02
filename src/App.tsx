@@ -20,6 +20,7 @@ LogBox.ignoreLogs([
   'fontFamily',
   '(ADVICE) Vie',
   'Failed prop type: Invalid',
+  'Axios',
 ])
 
 const App: FC = () => {
