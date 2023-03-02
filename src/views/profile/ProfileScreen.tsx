@@ -1,14 +1,7 @@
 import { AnimatedFlashList } from '@shopify/flash-list'
 import { StyleSheet } from 'react-native'
-import {
-  Avatar,
-  Image,
-  LinearGradient,
-  Paragraph,
-  Separator,
-  XStack,
-  YStack,
-} from 'tamagui'
+import { Avatar, Image, Paragraph, Separator, XStack, YStack } from 'tamagui'
+import { LinearGradient } from 'tamagui/linear-gradient'
 import { Screen } from 'views/shared'
 
 const COVER_HEIGHT = 130

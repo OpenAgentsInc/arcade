@@ -1,4 +1,5 @@
-import { LinearGradient, Stack } from 'tamagui'
+import { Stack } from 'tamagui'
+import { LinearGradient } from 'tamagui/linear-gradient'
 
 export const Screen = ({ children, ...props }) => {
   return (
