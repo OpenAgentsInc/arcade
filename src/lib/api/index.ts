@@ -14,19 +14,4 @@ export const testApiLogin = async () => {
   console.log(privateKey)
 
   // sign the nonce with the private key
-  const signature = signEvent(data, privateKey)
-  console.log(signature)
-}
-
-const signEvent = (event, privateKey) => {
-  const eventHash = getEventHash(event)
-  const signature = signMessage(eventHash, privateKey)
-  return signature
-}
-
-const signMessage = (message, privateKey) => {
-  const key = ec.keyFromPrivate(privateKey, 'hex')
-  const signature = key.sign(message)
-  const signatureHex = signature.toDER('hex')
-  return signatureHex
 }
