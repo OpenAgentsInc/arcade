@@ -1,5 +1,7 @@
 import axios from 'axios'
+import * as Crypto from 'expo-crypto'
 import { useStore } from 'stores/index'
+import * as nacl from 'tweetnacl'
 
 export const testApiLogin = async () => {
   // fetch the nonce from localhost:8000/api/nonce via axios
