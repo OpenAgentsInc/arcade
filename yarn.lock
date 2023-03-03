@@ -5221,6 +5221,7 @@ __metadata:
     expo-asset: ~8.9.0
     expo-barcode-scanner: ~12.3.1
     expo-clipboard: ~4.1.1
+    expo-crypto: ~12.2.1
     expo-dev-client: ~2.1.4
     expo-file-system: ~15.2.2
     expo-font: ~11.1.1
@@ -8045,6 +8046,17 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: fc89991204d61cd01535098c95f5d1cefd7ef0a0bc8aa0f6ee49b0146a2fe18962ab020271438c0e88ee70ffb9d6391221c1e78c5419eb62bb19f3d07105be99
+  languageName: node
+  linkType: hard
+
+"expo-crypto@npm:~12.2.1":
+  version: 12.2.1
+  resolution: "expo-crypto@npm:12.2.1"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: b5cbec821a00087119e1d73a1bcd021c2355ae85bdcdb58bd98fb1b33d65b700c416d19745432a585b3e22c80a4b1c8033d531ca539279e9b1eeffbfff302a18
   languageName: node
   linkType: hard
 
