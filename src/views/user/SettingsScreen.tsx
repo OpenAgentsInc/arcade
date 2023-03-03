@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 import * as Clipboard from 'expo-clipboard'
+import { testApiLogin } from 'lib/api'
 import { npubEncode, nsecEncode } from 'nostr-tools/nip19'
 import { useStore } from 'stores'
 import { Button, isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
@@ -61,6 +62,9 @@ export const SettingsScreen = () => {
         <ThemePicker />
         <Button size="$5" mt="$6" w="100%" onPress={() => navigate('connect')}>
           Nostr Connect
+        </Button>
+        <Button size="$5" mt="$6" w="100%" onPress={testApiLogin}>
+          Test API login
         </Button>
         <LogoutDialog mt="$6" w={200} />
       </YStack>
