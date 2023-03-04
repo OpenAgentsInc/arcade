@@ -4,7 +4,7 @@ import 'text-encoding-polyfill'
 import 'expo-dev-client'
 
 import { useFonts } from 'expo-font'
-import { Provider } from 'lib/tamagui'
+import { Provider } from 'lib/provider'
 import { FC } from 'react'
 import { LogBox } from 'react-native'
 import PolyfillCrypto from 'react-native-webview-crypto'
@@ -20,6 +20,7 @@ LogBox.ignoreLogs([
   'fontFamily',
   '(ADVICE) Vie',
   'Failed prop type: Invalid',
+  'Axios',
 ])
 
 const App: FC = () => {

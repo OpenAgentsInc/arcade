@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY } from 'lib/storage'
 import * as storage from 'lib/storage'
 import { generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
@@ -125,6 +126,28 @@ export const createAuthStore = (set: any, get: any) => ({
     // we aren't yet subscribed to pool which we do in authednavigator, lets just put our metadata on arc relay and get it from there later
     const relay = relayInit('wss://arc1.arcadelabs.co')
     relay.publish(event)
+
+    // make an axios post request to /sanctum/token with the public key
+    console.log('Attempting to get API token from server')
+    const res = await axios.post('http://localhost:8000/sanctum/token', {
+      pubkey: publicKey,
+      device_name: 'test',
+    })
+
+    // get just the body as json
+    const apitoken = await res.data
+    console.log(apitoken)
+
+    // save apitoken to expo securestore
+    await storage.setItem('apitoken', apitoken)
+    // await storage.setItem(storage.API_TOKEN_STORAGE_KEY, apitoken)
+
+    // const json = await res.json()
+    // console.log(json)
+    // if the user exists, the server will return a token
+    // if the user doesn't exist, the server will create a user and return a token
+    // set the token in local storage
+    // set the user in the store
   },
 })
 

@@ -4473,6 +4473,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.24.10":
+  version: 4.24.10
+  resolution: "@tanstack/query-core@npm:4.24.10"
+  checksum: 8268b9dca4a2ed39f8575976d8a3e2f839bb6f4fb821dc00ba8e2aeffffe2f73e23344bcc24b9cb6dae9dbfe3ba2b14c76a1e0a38b4064c83beb9aa607fd94bc
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^4.24.10":
+  version: 4.24.10
+  resolution: "@tanstack/react-query@npm:4.24.10"
+  dependencies:
+    "@tanstack/query-core": 4.24.10
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 576a2c73e98cf6a3c9584283989383d5ac63b01efe546cc7580ec7b1edf0c0cb8958a3071778cb0af908f5269d45c7516fa388e5f856e37f5b2d3c6110974cbe
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -5178,9 +5204,11 @@ __metadata:
     "@tamagui/lucide-icons": 1.6.0
     "@tamagui/shorthands": 1.6.0
     "@tamagui/theme-base": 1.5.21
+    "@tanstack/react-query": ^4.24.10
     "@types/jest": ^29.2.5
     "@types/react": ~18.0.27
     "@types/react-native": 0.70.6
+    axios: 1.3.4
     babel-plugin-transform-inline-environment-variables: 0.4.4
     base64-arraybuffer: 1.0.2
     bech32: 2.0.0
@@ -5193,6 +5221,7 @@ __metadata:
     expo-asset: ~8.9.0
     expo-barcode-scanner: ~12.3.1
     expo-clipboard: ~4.1.1
+    expo-crypto: ~12.2.1
     expo-dev-client: ~2.1.4
     expo-file-system: ~15.2.2
     expo-font: ~11.1.1
@@ -5220,6 +5249,7 @@ __metadata:
     safe-stable-stringify: 2.4.2
     tamagui: 1.6.0
     text-encoding-polyfill: 0.6.7
+    tweetnacl: 1.0.3
     typescript: ^4.9.4
     websocket-polyfill: 0.0.3
     zustand: 4.2.0
@@ -5437,6 +5467,17 @@ __metadata:
   version: 1.0.5
   resolution: "available-typed-arrays@npm:1.0.5"
   checksum: 20eb47b3cefd7db027b9bbb993c658abd36d4edd3fe1060e83699a03ee275b0c9b216cc076ff3f2db29073225fb70e7613987af14269ac1fe2a19803ccc97f1a
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.3.4":
+  version: 1.3.4
+  resolution: "axios@npm:1.3.4"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 7440edefcf8498bc3cdf39de00443e8101f249972c83b739c6e880d9d669fea9486372dbe8739e88b3bf8bb1ad15f6106693f206f078f4516fe8fd47b1c3093c
   languageName: node
   linkType: hard
 
@@ -8009,6 +8050,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-crypto@npm:~12.2.1":
+  version: 12.2.1
+  resolution: "expo-crypto@npm:12.2.1"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: b5cbec821a00087119e1d73a1bcd021c2355ae85bdcdb58bd98fb1b33d65b700c416d19745432a585b3e22c80a4b1c8033d531ca539279e9b1eeffbfff302a18
+  languageName: node
+  linkType: hard
+
 "expo-dev-client@npm:~2.1.4":
   version: 2.1.4
   resolution: "expo-dev-client@npm:2.1.4"
@@ -8539,6 +8591,16 @@ __metadata:
   version: 0.185.2
   resolution: "flow-parser@npm:0.185.2"
   checksum: 6c8cee6ef2a2f0e5a5dd29698dfc493c8148263ce52b061804c812877ef68b1d0747d8f17256f2ed36e105550eab27a37377be32f1fed4b72c434dda6e0c053c
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.0":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
   languageName: node
   linkType: hard
 
@@ -13044,6 +13106,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: ed7fcc2ba0a33404958e34d95d18638249a68c430e30fcb6c478497d72739ba64ce9810a24f53a7d921d0c065e5b78e3822759800698167256b04659366ca4d4
+  languageName: node
+  linkType: hard
+
 "pseudomap@npm:^1.0.2":
   version: 1.0.2
   resolution: "pseudomap@npm:1.0.2"
@@ -15327,6 +15396,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tweetnacl@npm:1.0.3":
+  version: 1.0.3
+  resolution: "tweetnacl@npm:1.0.3"
+  checksum: e4a57cac188f0c53f24c7a33279e223618a2bfb5fea426231991652a13247bea06b081fd745d71291fcae0f4428d29beba1b984b1f1ce6f66b06a6d1ab90645c
+  languageName: node
+  linkType: hard
+
 "type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
@@ -15752,7 +15828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.0.0":
+"use-sync-external-store@npm:1.2.0, use-sync-external-store@npm:^1.0.0, use-sync-external-store@npm:^1.2.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
