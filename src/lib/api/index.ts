@@ -4,7 +4,7 @@ import * as Crypto from 'expo-crypto'
 import { randomFourLetterString } from 'lib/utils'
 import { useStore } from 'stores/index'
 
-export const testApiLogin = async () => {
+export const getApiToken = async () => {
   const device_name = `Unknown Device ${randomFourLetterString()}`
   const pubkey = useStore.getState().user.publicKey
   const res = await axios.post('http://localhost:8000/api/nonce', {
@@ -34,19 +34,5 @@ export const testApiLogin = async () => {
     hash,
   })
   const data2 = await res2.data
-  console.log(data2)
+  return data2.token
 }
-
-//   hash,
-//   console.log('sig:', sig)
-
-//   const privateKeyUint8Array = Buffer.from(privateKeyString, 'hex')
-//   const hash = await Crypto.digestStringAsync(
-//     Crypto.CryptoDigestAlgorithm.SHA256,
-//     nonce
-//   )
-//   const hashBuffer = Buffer.from(hash, 'hex')
-//   const privateKey = nacl.sign.keyPair.fromSeed(privateKeyUint8Array).secretKey
-//   const signature = nacl.sign.detached(hashBuffer, privateKey)
-//   const proof = Buffer.from(signature).toString('hex')
-//   console.log(proof)
