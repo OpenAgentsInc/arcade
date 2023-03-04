@@ -1,9 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MessageCircle, Settings, Video } from '@tamagui/lucide-icons'
+import { MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
-import { VideoScreen } from 'views/video/VideoScreen'
 
 import { ChatNavigator } from './ChatNavigator'
 
@@ -19,7 +18,7 @@ const inactiveTabColor = '$color8'
 export function TabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="video"
+      initialRouteName="chat"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
@@ -43,18 +42,6 @@ export function TabNavigator() {
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MessageCircle
-              color={focused ? activeTabColor : inactiveTabColor}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="video"
-        component={VideoScreen}
-        options={{
-          tabBarIcon: ({ focused, size }) => (
-            <Video
               color={focused ? activeTabColor : inactiveTabColor}
               size={size}
             />
