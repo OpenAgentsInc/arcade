@@ -5219,6 +5219,7 @@ __metadata:
     eslint-plugin-simple-import-sort: 8.0.0
     expo: ^48.0.0
     expo-asset: ~8.9.0
+    expo-av: ~13.2.1
     expo-barcode-scanner: ~12.3.1
     expo-clipboard: ~4.1.1
     expo-crypto: ~12.2.1
@@ -8015,6 +8016,15 @@ __metadata:
     path-browserify: ^1.0.0
     url-parse: ^1.5.9
   checksum: 0c531bc2264b49a9d625e95afebf82a2b49e1550db0156401a62c72593a770c76ae5599eb9c6c5e3b418d34effb4705ab19c88568dc377671a741f373f5e5248
+  languageName: node
+  linkType: hard
+
+"expo-av@npm:~13.2.1":
+  version: 13.2.1
+  resolution: "expo-av@npm:13.2.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 9bbcbc3ce8336580b12f895346c06d4079a250703cd09a21949aa40e7e9ee41fc25014994a13d9388787466cb797c7fe88d4c74298911f2c195666b5aa83ee4d
   languageName: node
   linkType: hard
 
