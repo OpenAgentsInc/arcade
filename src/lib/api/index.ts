@@ -1,19 +1,17 @@
 import * as secp256k1 from '@noble/secp256k1'
 import axios from 'axios'
 import * as Crypto from 'expo-crypto'
+import * as storage from 'lib/storage'
 import { randomFourLetterString } from 'lib/utils'
-import { useStore } from 'stores/index'
 
-export const getApiToken = async () => {
+export const getApiToken = async ({ publicKey, privateKey }) => {
   const device_name = `Unknown Device ${randomFourLetterString()}`
-  const pubkey = useStore.getState().user.publicKey
   const res = await axios.post('http://localhost:8000/api/nonce', {
-    pubkey,
+    pubkey: publicKey,
     device_name,
   })
   const data = await res.data
   const nonce = data.nonce
-  const privateKey = useStore.getState().user.privateKey
   const secpPublicKey = secp256k1.getPublicKey(privateKey)
 
   const hash = await Crypto.digestStringAsync(
@@ -26,7 +24,7 @@ export const getApiToken = async () => {
   )
 
   const res2 = await axios.post('http://localhost:8000/api/login', {
-    pubkey,
+    pubkey: publicKey,
     secp_pubkey: secp256k1.utils.bytesToHex(secpPublicKey),
     device_name,
     signature,
@@ -34,5 +32,7 @@ export const getApiToken = async () => {
     hash,
   })
   const data2 = await res2.data
-  return data2.token
+  const apiToken = data2.token
+  await storage.setItem(storage.API_TOKEN_STORAGE_KEY, apiToken)
+  return apiToken
 }

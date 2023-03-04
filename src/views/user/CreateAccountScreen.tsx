@@ -109,7 +109,6 @@ export const CreateAccountScreen = () => {
           </YStack>
         </YStack>
       </KeyboardAwareScrollView>
-      {/* </KeyboardAvoidingView> */}
     </Screen>
   )
 }

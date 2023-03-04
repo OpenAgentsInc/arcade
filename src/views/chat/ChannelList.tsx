@@ -11,7 +11,6 @@ import { useChannels } from './useChannels'
 
 export const ChannelList = () => {
   const channels = useChannels() as Channel[]
-  console.log('Channels length:', channels.length)
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =
     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()

@@ -5,14 +5,18 @@ import { useStore } from 'stores'
 export const useAuthed = () => {
   const privateKey = useStore((s) => s.user.privateKey)
   const publicKey = useStore((s) => s.user.publicKey)
+  const apiToken = useStore((s) => s.apiToken)
 
   const [checkedForKeys, setCheckedForKeys] = useState<boolean>(false)
   const authed = checkedForKeys
-    ? publicKey.length > 10 && privateKey.length > 10
+    ? publicKey.length > 10 &&
+      privateKey.length > 10 &&
+      !!apiToken &&
+      apiToken.length > 10
     : null
 
   useEffect(() => {
-    if (checkedForKeys && privateKey && publicKey) {
+    if (checkedForKeys && privateKey && publicKey && apiToken) {
       console.log(`You are ${publicKey}`)
       return
     }
@@ -22,13 +26,14 @@ export const useAuthed = () => {
   }, [privateKey, publicKey, checkedForKeys])
 
   const checkForKeys = async () => {
-    const { publicKey, privateKey } = await storage.getKeys()
+    const { apiToken, publicKey, privateKey } = await storage.getKeys()
 
     if (!privateKey || !publicKey) {
       setCheckedForKeys(true)
       return
     }
-    useStore.setState({ user: { privateKey, publicKey, name: 'Test Ostrich' } })
+
+    useStore.setState({ apiToken, user: { privateKey, publicKey } })
     setCheckedForKeys(true)
   }
 
