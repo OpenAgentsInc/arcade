@@ -42,7 +42,12 @@ export const CreateAccountScreen = () => {
 
             <YStack space="$3" alignItems="center" width={300}>
               <YStack width="100%">
-                <Label htmlFor="username" alignSelf="flex-start" width="100%">
+                <Label
+                  htmlFor="username"
+                  alignSelf="flex-start"
+                  width="100%"
+                  role="heading"
+                >
                   Username
                 </Label>
                 <Input
@@ -61,6 +66,7 @@ export const CreateAccountScreen = () => {
                   htmlFor="displayname"
                   alignSelf="flex-start"
                   width="100%"
+                  role="heading"
                 >
                   Display Name
                 </Label>
@@ -74,7 +80,12 @@ export const CreateAccountScreen = () => {
               </YStack>
 
               <YStack width="100%">
-                <Label htmlFor="about" alignSelf="flex-start" width="100%">
+                <Label
+                  htmlFor="about"
+                  alignSelf="flex-start"
+                  width="100%"
+                  role="heading"
+                >
                   About
                 </Label>
                 <Input
