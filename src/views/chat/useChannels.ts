@@ -1,30 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { getItem } from 'lib/storage'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useStore } from 'stores/index'
 
 export const useChannels = () => {
-  //   const [apitoken, setApitoken] = useState(null)
+  const apiToken = useStore((s) => s.apiToken)
 
-  const apitoken = '1|qYxuDFdzS1fIO0ABeLDKPhhcFizMpPOmAGFTNW8g'
-
-  //   useEffect(() => {
-  //     const getApiToken = async () => {
-  //       const token = await getItem('apitoken')
-  //       setApitoken(token)
-  //     }
-  //     getApiToken()
-  //   }, [])
-
-  const { isLoading, error, data, isFetching } = useQuery({
-    queryKey: ['todos'],
+  const { error, data } = useQuery({
+    queryKey: ['channels'],
     queryFn: () => {
-      if (!apitoken) return []
-      console.log('lets make the request with apitoken: ', apitoken)
+      if (!apiToken) return []
       return axios
         .get('http://localhost:8000/api/demo', {
           headers: {
-            Authorization: `Bearer ${apitoken}`,
+            Authorization: `Bearer ${apiToken}`,
           },
         })
         .then((res) => res.data)
@@ -32,12 +21,9 @@ export const useChannels = () => {
   })
 
   useEffect(() => {
+    if (!error) return
     console.log('error:', error)
   }, [error])
-
-  //   useEffect(() => {
-  //     console.log('data:', data)
-  //   }, [data])
 
   return data?.channels || []
 }

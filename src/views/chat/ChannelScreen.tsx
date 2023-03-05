@@ -18,7 +18,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   const { setOptions } = useNavigation()
 
   useEffect(() => {
-    setOptions({ title: channel?.name ?? 'Unnamed Channel' })
+    setOptions({ title: channel?.title ?? 'Unnamed Channel' })
   }, [channel])
 
   if (!channel)

@@ -21,6 +21,7 @@ export const NavHeader = ({ title, options, ...props }) => {
           <Button
             onPress={() => goBack()}
             backgrounded={false}
+            backgroundColor="transparent"
             circular
             w="$3"
             mx={-10}
