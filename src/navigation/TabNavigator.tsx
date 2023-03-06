@@ -19,7 +19,7 @@ const inactiveTabColor = '$color8'
 export function TabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="discover"
+      initialRouteName="chat"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
