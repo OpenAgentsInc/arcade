@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { StackNavigatorParams } from 'navigation/nav-types'
 import { useRef } from 'react'
+import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Separator } from 'tamagui'
 
@@ -11,10 +14,32 @@ import { useChannels } from './useChannels'
 
 export const ChannelList = ({ joined }) => {
   const channels = useChannels(joined) as Channel[]
-  console.log('Channels:', channels)
+  const queryClient = useQueryClient()
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =
     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
+
+  const apiToken = useStore((s) => s.apiToken)
+
+  const mutation = useMutation({
+    mutationFn: (channel: Channel) => {
+      return axios.post(
+        `http://localhost:8000/api/channels/${channel.id}/join`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${apiToken}`,
+          },
+        }
+      )
+    },
+    onSuccess: (_, channel) => {
+      console.log('Successfully joined channel')
+      queryClient.invalidateQueries({ queryKey: ['channels/true'] })
+      queryClient.invalidateQueries({ queryKey: ['channels/false'] })
+      navigate('channel', { channel })
+    },
+  })
 
   const renderItem = ({ index }: ListRenderItemInfo<Channel>) => {
     const channel = channels[index]
@@ -24,10 +49,11 @@ export const ChannelList = ({ joined }) => {
       <ChannelPreview
         channel={channel}
         onPress={() => {
-          console.log(
-            `Clicked channel: ${channel.title} with picture: ${channel.picture}, ${channel.about}}`
-          )
-          navigate('channel', { channel })
+          if (joined) {
+            navigate('channel', { channel })
+          } else {
+            mutation.mutate(channel)
+          }
         }}
       />
     )

@@ -1,9 +1,19 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
+import { ChevronLeft } from '@tamagui/lucide-icons'
 import { Platform } from 'react-native'
 import { Button, Paragraph, Stack, XStack, YStack } from 'tamagui'
 
-export const NavHeader = ({ title, options, ...props }) => {
+interface NavHeaderProps {
+  title?: string
+  rightButton?: React.ReactNode
+  options?: any
+}
+
+export const NavHeader = ({
+  title,
+  rightButton = undefined,
+  options,
+}: NavHeaderProps) => {
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
 
@@ -40,7 +50,8 @@ export const NavHeader = ({ title, options, ...props }) => {
           {options?.title ?? title}
         </Paragraph>
 
-        {/* If current title is not Settings */}
+        {rightButton ?? <Stack w="$1" />}
+        {/*
         {name !== 'settifsdfsdngs' ? (
           <Stack w="$1" />
         ) : (
@@ -56,7 +67,7 @@ export const NavHeader = ({ title, options, ...props }) => {
           >
             <Settings />
           </Button>
-        )}
+        )} */}
       </XStack>
     </YStack>
   )

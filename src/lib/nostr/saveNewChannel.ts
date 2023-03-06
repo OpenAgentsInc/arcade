@@ -1,25 +1,28 @@
-import { generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
+import { delay, generateRandomPlacekitten, timeNowInSeconds } from 'lib/utils'
 import { getEventHash, relayInit, signEvent } from 'nostr-tools'
+import { Channel } from 'stores/types'
 
-export const saveNewUserMetadata = async ({
-  about,
-  displayName,
+interface SaveNewChannelProps {
+  channel: Channel
+  publicKey: string
+  privateKey: string
+}
+
+export const saveNewChannel = async ({
+  channel,
   publicKey,
   privateKey,
-  username,
-}) => {
-  const metadata = {
-    name: username,
-    displayName,
-    about,
-    picture: generateRandomPlacekitten(),
-    website: null,
+}: SaveNewChannelProps) => {
+  const chan = {
+    about: channel.about,
+    title: channel.title,
+    picture: channel.picture,
   }
 
   const event: any = {
-    content: JSON.stringify(metadata),
+    content: JSON.stringify(chan),
     created_at: timeNowInSeconds(),
-    kind: 0,
+    kind: 40,
     pubkey: publicKey,
     tags: [],
   }
@@ -44,10 +47,15 @@ export const saveNewUserMetadata = async ({
   pub.on('failed', (err) => {
     console.log('error:', err)
   })
-  pub.on('ok', () => {
+  pub.on('ok', (ok) => {
     console.log('ok')
   })
-  pub.on('seen', () => {
+  pub.on('seen', (seen) => {
     console.log('seen')
   })
+
+  return {
+    eventid: event.id,
+    relayurl,
+  }
 }
