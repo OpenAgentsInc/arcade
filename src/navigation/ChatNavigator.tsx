@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ChannelScreen, ChannelsScreen } from 'views/chat'
+import { CreateChannelButton } from 'views/chat/CreateChannelButton'
 import { LeaveChannelButton } from 'views/chat/LeaveChannelButton'
 import { NavHeader } from 'views/shared'
 
@@ -20,7 +21,11 @@ export function ChatNavigator() {
           title: 'Channels',
           animation: 'slide_from_right',
           header: ({ options }) => (
-            <NavHeader options={options} title={options.title} />
+            <NavHeader
+              options={options}
+              title={options.title}
+              rightButton={<CreateChannelButton />}
+            />
           ),
         }}
       />

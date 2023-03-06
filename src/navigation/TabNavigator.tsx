@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
+import { CreateChannelButton } from 'views/chat/CreateChannelButton'
 import { DiscoverScreen } from 'views/chat/DiscoverScreen'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
@@ -56,7 +57,11 @@ export function TabNavigator() {
           headerShown: true,
           title: 'Discover',
           header: ({ options }) => (
-            <NavHeader options={options} title={options.title} />
+            <NavHeader
+              options={options}
+              title={options.title}
+              rightButton={<CreateChannelButton />}
+            />
           ),
           tabBarIcon: ({ focused, size }) => (
             <Globe
