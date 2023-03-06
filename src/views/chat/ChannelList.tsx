@@ -11,7 +11,6 @@ import { useChannels } from './useChannels'
 
 export const ChannelList = ({ joined }) => {
   const channels = useChannels(joined) as Channel[]
-  console.log('Channels:', channels)
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =
     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
@@ -24,10 +23,11 @@ export const ChannelList = ({ joined }) => {
       <ChannelPreview
         channel={channel}
         onPress={() => {
-          console.log(
-            `Clicked channel: ${channel.title} with picture: ${channel.picture}, ${channel.about}}`
-          )
-          navigate('channel', { channel })
+          if (joined) {
+            navigate('channel', { channel })
+          } else {
+            console.log('Lets join this channel')
+          }
         }}
       />
     )
