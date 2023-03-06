@@ -1,7 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ChannelScreen, ChannelsScreen } from 'views/chat'
-import { CreateChannelButton } from 'views/chat/CreateChannelButton'
-import { LeaveChannelButton } from 'views/chat/LeaveChannelButton'
+import {
+  ChannelScreen,
+  ChannelsScreen,
+  CreateChannelButton,
+  LeaveChannelButton,
+} from 'views/chat'
 import { NavHeader } from 'views/shared'
 
 const Stack = createNativeStackNavigator<{

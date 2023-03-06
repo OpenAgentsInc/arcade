@@ -5,8 +5,7 @@ import { ActivityIndicator } from 'react-native'
 import { Channel } from 'stores/types'
 import { Screen } from 'views/shared'
 
-import { MessageInput } from './MessageInput'
-import { MessageList } from './MessageList'
+import { MessageInput, MessageList } from '../components'
 
 type ChannelScreenProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, 'channel'>
