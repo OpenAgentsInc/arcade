@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { MessageCircle, Settings } from '@tamagui/lucide-icons'
+import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
+import { DiscoverScreen } from 'views/chat/DiscoverScreen'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
 
@@ -8,8 +9,8 @@ import { ChatNavigator } from './ChatNavigator'
 
 const BottomTab = createBottomTabNavigator<{
   chat: undefined
+  discover: undefined
   settings: undefined
-  video: undefined
 }>()
 
 const activeTabColor = '$color12'
@@ -42,6 +43,23 @@ export function TabNavigator() {
         options={{
           tabBarIcon: ({ focused, size }) => (
             <MessageCircle
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="discover"
+        component={DiscoverScreen}
+        options={{
+          headerShown: true,
+          title: 'Discover',
+          header: ({ options }) => (
+            <NavHeader options={options} title={options.title} />
+          ),
+          tabBarIcon: ({ focused, size }) => (
+            <Globe
               color={focused ? activeTabColor : inactiveTabColor}
               size={size}
             />
