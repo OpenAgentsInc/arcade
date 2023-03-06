@@ -15,13 +15,6 @@ export const saveNewChannelMessage = async ({
   privateKey,
   text,
 }: SaveNewChannelProps) => {
-  console.log('in saveNewChannelMessage with:', {
-    channel,
-    publicKey,
-    privateKey,
-    text,
-  })
-
   const event: any = {
     content: text,
     created_at: timeNowInSeconds(),
@@ -29,8 +22,6 @@ export const saveNewChannelMessage = async ({
     pubkey: publicKey,
     tags: [['e', channel.eventid, channel.relayurl, 'root']],
   }
-
-  console.log('event:', event)
 
   // Set the id and sig properties of the event
   event.id = getEventHash(event)

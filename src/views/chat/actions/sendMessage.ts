@@ -1,3 +1,4 @@
+import { UseMutationResult } from '@tanstack/react-query'
 import { saveNewChannelMessage } from 'lib/nostr/saveNewChannelMessage'
 import { delay } from 'lib/utils'
 import { RefObject } from 'react'
@@ -9,7 +10,8 @@ export const sendMessage = async (
   channel: Channel,
   text: string,
   setText: (text: string) => void,
-  inputBoxRef: RefObject<TextInput>
+  inputBoxRef: RefObject<TextInput>,
+  mutation: UseMutationResult
 ) => {
   const { publicKey, privateKey } = useStore.getState().user
   console.log('Sending a message to channel:', channel.title, channel)
@@ -29,4 +31,5 @@ export const sendMessage = async (
   })
 
   console.log(eventid)
+  mutation.mutate({ channel, text, eventid })
 }

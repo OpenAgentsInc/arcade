@@ -1,7 +1,14 @@
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Send } from '@tamagui/lucide-icons'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+import { StackNavigatorParams } from 'navigation/nav-types'
 import { useRef, useState } from 'react'
 import { TextInput, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useStore } from 'stores/index'
+import { Channel } from 'stores/types'
 import { Input, XStack } from 'tamagui'
 
 import { sendMessage } from '../actions/sendMessage'
@@ -9,9 +16,39 @@ import { sendMessage } from '../actions/sendMessage'
 export const MessageInput = ({ channel }) => {
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput>(null)
+
+  const queryClient = useQueryClient()
+  const apiToken = useStore((s) => s.apiToken)
+
+  const mutation = useMutation({
+    mutationFn: (variables: {
+      channel: Channel
+      text: string
+      eventid: string
+    }) => {
+      const { channel, text, eventid } = variables
+      console.log('in mutationFn with channel', channel, 'and text', text)
+      return axios.post(
+        `http://localhost:8000/api/channels/${channel.id}/messages`,
+        { eventid, relayurl: channel.relayurl, text },
+        {
+          headers: {
+            Authorization: `Bearer ${apiToken}`,
+          },
+        }
+      )
+    },
+    onSuccess: (_, { channel }) => {
+      console.log('Successfully sent message to channel?', channel)
+      queryClient.invalidateQueries({
+        queryKey: [`channel-messages/${channel.id}`],
+      })
+    },
+  })
+
   const submitInput = () => {
     if (!inputBoxRef) return
-    sendMessage(channel, text, setText, inputBoxRef)
+    sendMessage(channel, text, setText, inputBoxRef, mutation)
   }
   return (
     <XStack alignItems="center" p="$2">
