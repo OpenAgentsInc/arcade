@@ -52,7 +52,6 @@ export const ChannelList = ({ joined }) => {
             navigate('channel', { channel })
           } else {
             mutation.mutate(channel)
-            console.log('Lets join this channel')
           }
         }}
       />
