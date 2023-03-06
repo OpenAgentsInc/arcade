@@ -1,9 +1,19 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
+import { ChevronLeft } from '@tamagui/lucide-icons'
 import { Platform } from 'react-native'
 import { Button, Paragraph, Stack, XStack, YStack } from 'tamagui'
 
-export const NavHeader = ({ title, rightButton, options, ...props }) => {
+interface NavHeaderProps {
+  title?: string
+  rightButton?: React.ReactNode
+  options?: any
+}
+
+export const NavHeader = ({
+  title,
+  rightButton = undefined,
+  options,
+}: NavHeaderProps) => {
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
 
