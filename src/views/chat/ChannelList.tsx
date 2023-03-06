@@ -22,11 +22,9 @@ export const ChannelList = ({ joined }) => {
   const apiToken = useStore((s) => s.apiToken)
 
   const mutation = useMutation({
-    mutationFn: ({ id }) => {
-      console.log('Attempting API call with id:', id)
-      console.log('and api tokeN:', apiToken)
+    mutationFn: (channel: Channel) => {
       return axios.post(
-        `http://localhost:8000/api/channels/${id}/join`,
+        `http://localhost:8000/api/channels/${channel.id}/join`,
         {},
         {
           headers: {
@@ -53,7 +51,7 @@ export const ChannelList = ({ joined }) => {
           if (joined) {
             navigate('channel', { channel })
           } else {
-            mutation.mutate({ id: channel.id })
+            mutation.mutate(channel)
             console.log('Lets join this channel')
           }
         }}
