@@ -27,7 +27,6 @@ export const MessageInput = ({ channel }) => {
       eventid: string
     }) => {
       const { channel, text, eventid } = variables
-      console.log('in mutationFn with channel', channel, 'and text', text)
       return axios.post(
         `http://localhost:8000/api/channels/${channel.id}/messages`,
         { eventid, relayurl: channel.relayurl, text },

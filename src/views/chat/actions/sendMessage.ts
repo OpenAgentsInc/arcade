@@ -14,7 +14,6 @@ export const sendMessage = async (
   mutation: UseMutationResult
 ) => {
   const { publicKey, privateKey } = useStore.getState().user
-  console.log('Sending a message to channel:', channel.title, channel)
   if (text.length < 1) {
     Alert.alert('Message too short', 'What is that, a message for ants?')
     return
