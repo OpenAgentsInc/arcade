@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Plus } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { saveNewChannel } from 'lib/nostr/saveNewChannel'
 import { generateRandomPlacekitten } from 'lib/utils'
 import { StackNavigatorParams } from 'navigation/nav-types'
 import { useStore } from 'stores/index'
@@ -11,15 +12,19 @@ import { Button } from 'tamagui'
 
 export const CreateChannelButton = () => {
   const apiToken = useStore((s) => s.apiToken)
-  const { goBack } = useNavigation()
   const queryClient = useQueryClient()
   const { navigate } =
     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
+  const publicKey = useStore((s) => s.user?.publicKey)
+  const privateKey = useStore((s) => s.user?.privateKey)
 
   const mutation = useMutation({
-    mutationFn: (channel: Channel) => {
-      const eventid = `1234556 ${Math.random()}`
-      const relayurl = 'wss://fakerelay.io'
+    mutationFn: async (channel: Channel) => {
+      const { eventid, relayurl } = await saveNewChannel({
+        channel,
+        publicKey,
+        privateKey,
+      })
 
       return axios.post(
         `http://localhost:8000/api/channels/`,
