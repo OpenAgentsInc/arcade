@@ -1,28 +1,18 @@
 import { Send } from '@tamagui/lucide-icons'
 import { useRef, useState } from 'react'
-import { Alert, TextInput, TouchableOpacity } from 'react-native'
+import { TextInput, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Input, XStack } from 'tamagui'
 
+import { sendMessage } from '../actions/sendMessage'
+
 export const MessageInput = ({ channelId }) => {
   const [text, setText] = useState('')
-  const inputBoxRef = useRef<TextInput | null>(null)
-  //   const actions = useStore((state) => state.chatActions)
-
+  const inputBoxRef = useRef<TextInput>(null)
   const submitInput = () => {
-    if (text.length < 1) {
-      Alert.alert('Message too short', 'What is that, a message for ants?')
-      return
-    }
-    inputBoxRef.current?.clear()
-    inputBoxRef.current?.blur()
-    setText('')
-    setTimeout(() => {
-      console.log('sendMessage goes here')
-      //   sendMessage(text, channelId)
-    }, 100)
+    if (!inputBoxRef) return
+    sendMessage(channelId, text, setText, inputBoxRef)
   }
-
   return (
     <XStack alignItems="center" p="$2">
       <KeyboardAwareScrollView style={{ flexGrow: 1, flexShrink: 1 }}>
