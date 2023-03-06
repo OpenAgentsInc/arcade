@@ -6,26 +6,31 @@ interface SaveNewChannelProps {
   channel: Channel
   publicKey: string
   privateKey: string
+  text: string
 }
 
-export const saveNewChannel = async ({
+export const saveNewChannelMessage = async ({
   channel,
   publicKey,
   privateKey,
+  text,
 }: SaveNewChannelProps) => {
-  const chan = {
-    about: channel.about,
-    title: channel.title,
-    picture: channel.picture,
-  }
+  console.log('in saveNewChannelMessage with:', {
+    channel,
+    publicKey,
+    privateKey,
+    text,
+  })
 
   const event: any = {
-    content: JSON.stringify(chan),
+    content: text,
     created_at: timeNowInSeconds(),
-    kind: 40,
+    kind: 42,
     pubkey: publicKey,
-    tags: [],
+    tags: [['e', channel.eventid, channel.relayurl, 'root']],
   }
+
+  console.log('event:', event)
 
   // Set the id and sig properties of the event
   event.id = getEventHash(event)
@@ -56,6 +61,5 @@ export const saveNewChannel = async ({
 
   return {
     eventid: event.id,
-    relayurl,
   }
 }

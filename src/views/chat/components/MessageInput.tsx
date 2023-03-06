@@ -6,12 +6,12 @@ import { Input, XStack } from 'tamagui'
 
 import { sendMessage } from '../actions/sendMessage'
 
-export const MessageInput = ({ channelId }) => {
+export const MessageInput = ({ channel }) => {
   const [text, setText] = useState('')
   const inputBoxRef = useRef<TextInput>(null)
   const submitInput = () => {
     if (!inputBoxRef) return
-    sendMessage(channelId, text, setText, inputBoxRef)
+    sendMessage(channel, text, setText, inputBoxRef)
   }
   return (
     <XStack alignItems="center" p="$2">

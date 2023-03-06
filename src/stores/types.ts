@@ -1,8 +1,10 @@
 export interface Channel {
   id: string
   about: string
+  eventid: string
   title: string
   picture: string
+  relayurl: string
 }
 
 export interface ChannelMessage {

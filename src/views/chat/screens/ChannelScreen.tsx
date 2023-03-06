@@ -29,7 +29,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   return (
     <Screen>
       <MessageList channelId={channel.id} />
-      <MessageInput channelId={channel.id} />
+      <MessageInput channel={channel} />
     </Screen>
   )
 }
