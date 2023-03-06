@@ -9,8 +9,8 @@ import { Separator } from 'tamagui'
 import { ChannelPreview } from './ChannelPreview'
 import { useChannels } from './useChannels'
 
-export const ChannelList = () => {
-  const channels = useChannels() as Channel[]
+export const ChannelList = ({ joined }) => {
+  const channels = useChannels(joined) as Channel[]
   console.log('Channels:', channels)
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =

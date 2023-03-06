@@ -7,7 +7,7 @@ export const useChannels = (joined: boolean = true) => {
   const apiToken = useStore((s) => s.apiToken)
 
   const { error, data } = useQuery({
-    queryKey: ['channels'],
+    queryKey: [`channels-${joined.toString()}`],
     queryFn: () => {
       if (!apiToken) return []
       return axios
