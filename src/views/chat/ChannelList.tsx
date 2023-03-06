@@ -33,10 +33,11 @@ export const ChannelList = ({ joined }) => {
         }
       )
     },
-    onSuccess: () => {
+    onSuccess: (_, channel) => {
       console.log('Successfully joined channel')
       queryClient.invalidateQueries({ queryKey: ['channels/true'] })
       queryClient.invalidateQueries({ queryKey: ['channels/false'] })
+      navigate('channel', { channel })
     },
   })
 
