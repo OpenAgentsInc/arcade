@@ -44,10 +44,10 @@ export const saveNewUserMetadata = async ({
   pub.on('failed', (err) => {
     console.log('error:', err)
   })
-  pub.on('ok', (ok) => {
-    console.log('ok:', ok)
+  pub.on('ok', () => {
+    console.log('ok')
   })
-  pub.on('seen', (seen) => {
-    console.log('seen:', seen)
+  pub.on('seen', () => {
+    console.log('seen')
   })
 }

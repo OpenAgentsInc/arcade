@@ -48,10 +48,10 @@ export const saveNewChannel = async ({
     console.log('error:', err)
   })
   pub.on('ok', (ok) => {
-    console.log('ok:', ok)
+    console.log('ok')
   })
   pub.on('seen', (seen) => {
-    console.log('seen:', seen)
+    console.log('seen')
   })
 
   return {
