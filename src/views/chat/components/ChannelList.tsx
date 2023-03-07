@@ -14,7 +14,9 @@ import { useChannels } from '../hooks'
 import { ChannelPreview } from './ChannelPreview'
 
 export const ChannelList = ({ joined }) => {
-  const channels = useChannels(joined) as Channel[]
+  const channels = useChannels(joined).filter(
+    (c: Channel) => c.relayurl !== 'wss://nostr.developer.li'
+  ) as Channel[]
   const queryClient = useQueryClient()
   const flashListRef = useRef<FlashList<Channel>>(null)
   const { navigate } =

@@ -28,7 +28,7 @@ export const saveNewChannelMessage = async ({
   event.sig = signEvent(event, privateKey)
 
   // Publish event to relay
-  const relayurl = 'wss://arc1.arcadelabs.co'
+  const relayurl = channel.relayurl
   const relay = relayInit(relayurl)
   relay.on('connect', () => {
     // console.log(`connected to ${relay.url}`)

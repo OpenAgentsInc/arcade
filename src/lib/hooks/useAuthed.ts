@@ -17,7 +17,7 @@ export const useAuthed = () => {
 
   useEffect(() => {
     if (checkedForKeys && privateKey && publicKey && apiToken) {
-      console.log(`You are ${publicKey}`)
+      //   console.log(`You are ${publicKey}`)
       return
     }
     if (checkedForKeys && (!privateKey || !publicKey)) {

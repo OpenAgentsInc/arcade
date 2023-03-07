@@ -10,24 +10,22 @@ import { formatDistanceToNow } from 'date-fns'
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
 
-export const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp)
-  const formattedTimestamp = formatDistanceToNow(date, {
-    addSuffix: true,
-    includeSeconds: true,
-  })
-  return formattedTimestamp
-}
-
 // export const formatTimestamp = (timestamp: string) => {
-//   // eslint-disable-next-line radix
-//   console.log('attempting to format:', timestamp)
-//   const timestampNum = parseInt(timestamp)
-//   const date = new Date(timestampNum * 1000)
-//   const formattedTimestamp = formatDistanceToNow(date, { addSuffix: true })
-//   console.log('Returning formatted timestamp:', formattedTimestamp)
+//   const date = new Date(timestamp)
+//   const formattedTimestamp = formatDistanceToNow(date, {
+//     addSuffix: true,
+//     includeSeconds: true,
+//   })
 //   return formattedTimestamp
 // }
+
+export const formatTimestamp = (timestamp: string) => {
+  // eslint-disable-next-line radix
+  const timestampNum = parseInt(timestamp)
+  const date = new Date(timestampNum * 1000)
+  const formattedTimestamp = formatDistanceToNow(date, { addSuffix: true })
+  return formattedTimestamp
+}
 
 export const generateRandomPlacekitten = () => {
   const width = Math.floor(Math.random() * (220 - 200 + 1)) + 200
