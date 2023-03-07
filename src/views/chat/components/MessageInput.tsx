@@ -38,7 +38,6 @@ export const MessageInput = ({ channel }) => {
       )
     },
     onSuccess: (_, { channel }) => {
-      console.log('Successfully sent message to channel?', channel)
       queryClient.invalidateQueries({
         queryKey: [`channel-messages/${channel.id}`],
       })
@@ -47,7 +46,7 @@ export const MessageInput = ({ channel }) => {
 
   const submitInput = () => {
     if (!inputBoxRef) return
-    sendMessage(channel, text, setText, inputBoxRef, mutation)
+    sendMessage(channel, text, setText, inputBoxRef, mutation as any)
   }
   return (
     <XStack alignItems="center" p="$2">

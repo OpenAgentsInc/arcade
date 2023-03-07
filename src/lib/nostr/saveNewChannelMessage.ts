@@ -31,7 +31,7 @@ export const saveNewChannelMessage = async ({
   const relayurl = 'wss://arc1.arcadelabs.co'
   const relay = relayInit(relayurl)
   relay.on('connect', () => {
-    console.log(`connected to ${relay.url}`)
+    // console.log(`connected to ${relay.url}`)
   })
   relay.on('error', () => {
     console.log(`failed to connect to ${relay.url}`)
@@ -44,10 +44,10 @@ export const saveNewChannelMessage = async ({
     console.log('error:', err)
   })
   pub.on('ok', (ok) => {
-    console.log('ok')
+    // console.log('ok')
   })
   pub.on('seen', (seen) => {
-    console.log('seen')
+    console.log('Message seen on relay')
   })
 
   return {
