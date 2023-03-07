@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { API_URL } from 'lib/api'
 import { StackNavigatorParams } from 'navigation/nav-types'
 import { useRef } from 'react'
 import { useStore } from 'stores/index'
@@ -24,7 +25,7 @@ export const ChannelList = ({ joined }) => {
   const mutation = useMutation({
     mutationFn: (channel: Channel) => {
       return axios.post(
-        `http://localhost:8000/api/channels/${channel.id}/join`,
+        `${API_URL}/api/channels/${channel.id}/join`,
         {},
         {
           headers: {

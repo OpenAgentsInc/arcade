@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { API_URL } from 'lib/api'
 import * as React from 'react'
 import { FlatList, View } from 'react-native'
 import { useStore } from 'stores/index'
@@ -18,14 +19,11 @@ export const MessageList: React.FC<Props> = ({ channelId }) => {
   useQuery({
     queryKey: [`channel-messages/${channelId}`],
     queryFn: () => {
-      return axios.get(
-        `http://localhost:8000/api/channels/${channelId}/messages`,
-        {
-          headers: {
-            Authorization: `Bearer ${apiToken}`,
-          },
-        }
-      )
+      return axios.get(`${API_URL}/api/channels/${channelId}/messages`, {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+        },
+      })
     },
     onSuccess: (data) => {
       setMessages(data.data.messages)

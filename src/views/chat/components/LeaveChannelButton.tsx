@@ -2,6 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { Trash2 } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { API_URL } from 'lib/api'
 import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Button } from 'tamagui'
@@ -15,14 +16,11 @@ export const LeaveChannelButton = () => {
 
   const mutation = useMutation({
     mutationFn: (channel: Channel) => {
-      return axios.delete(
-        `http://localhost:8000/api/channels/${channel.id}/join`,
-        {
-          headers: {
-            Authorization: `Bearer ${apiToken}`,
-          },
-        }
-      )
+      return axios.delete(`${API_URL}/api/channels/${channel.id}/join`, {
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+        },
+      })
     },
     onSuccess: () => {
       console.log('Successfully left channel')

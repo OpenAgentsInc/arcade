@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { API_URL } from 'lib/api'
 import { useEffect } from 'react'
 import { useStore } from 'stores/index'
 
@@ -11,7 +12,7 @@ export const useChannels = (joined: boolean = true) => {
     queryFn: () => {
       if (!apiToken) return []
       return axios
-        .get(`http://localhost:8000/api/channels?joined=${joined}`, {
+        .get(`${API_URL}/api/channels?joined=${joined}`, {
           headers: {
             Authorization: `Bearer ${apiToken}`,
           },
