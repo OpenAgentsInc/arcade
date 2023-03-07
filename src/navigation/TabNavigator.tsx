@@ -1,8 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { XStack } from 'tamagui'
-import { CreateChannelButton } from 'views/chat/CreateChannelButton'
-import { DiscoverScreen } from 'views/chat/DiscoverScreen'
+import { CreateChannelButton, DiscoverScreen } from 'views/chat'
 import { NavHeader } from 'views/shared'
 import { SettingsScreen } from 'views/user/SettingsScreen'
 

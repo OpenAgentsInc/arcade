@@ -1,6 +1,6 @@
 import { Separator, YGroup, YStack } from 'tamagui'
 
-import { ChannelList } from './ChannelList'
+import { ChannelList } from '../components'
 
 export function ChannelsScreen() {
   return (

@@ -9,8 +9,8 @@ import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Separator } from 'tamagui'
 
+import { useChannels } from '../hooks'
 import { ChannelPreview } from './ChannelPreview'
-import { useChannels } from './useChannels'
 
 export const ChannelList = ({ joined }) => {
   const channels = useChannels(joined) as Channel[]

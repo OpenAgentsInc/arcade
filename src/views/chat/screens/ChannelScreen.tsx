@@ -1,12 +1,11 @@
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackNavigatorParams } from 'navigation/nav-types'
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { Channel } from 'stores/types'
 import { Screen } from 'views/shared'
 
-import { MessageInput } from './MessageInput'
-import { MessageList } from './MessageList'
+import { MessageInput, MessageList } from '../components'
 
 type ChannelScreenProps = {
   navigation: NativeStackNavigationProp<StackNavigatorParams, 'channel'>
@@ -30,14 +29,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   return (
     <Screen>
       <MessageList channelId={channel.id} />
-      <MessageInput channelId={channel.id} />
+      <MessageInput channel={channel} />
     </Screen>
   )
-}
-
-export type StackNavigatorParams = {
-  home: undefined
-  create: undefined
-  login: undefined
-  channel: { channel: Channel }
 }

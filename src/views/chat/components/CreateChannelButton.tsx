@@ -19,7 +19,7 @@ export const CreateChannelButton = () => {
   const privateKey = useStore((s) => s.user?.privateKey)
 
   const mutation = useMutation({
-    mutationFn: async (channel: Channel) => {
+    mutationFn: async (channel: Partial<Channel>) => {
       const { eventid, relayurl } = await saveNewChannel({
         channel,
         publicKey,
@@ -36,8 +36,18 @@ export const CreateChannelButton = () => {
         }
       )
     },
-    onSuccess: (_, channel) => {
-      console.log('Successfully created channel')
+    onSuccess: (data, channelPartial) => {
+      console.log('Successfully created channel', channelPartial)
+      const apiChannel = data.data.channel
+      const channel: Channel = {
+        id: apiChannel.id,
+        title: apiChannel.title,
+        about: apiChannel.about,
+        picture: apiChannel.picture,
+        eventid: apiChannel.eventid,
+        relayurl: apiChannel.relayurl,
+      }
+
       queryClient.invalidateQueries({ queryKey: ['channels/true'] })
       queryClient.invalidateQueries({ queryKey: ['channels/false'] })
       navigate('channel', { channel })
@@ -47,7 +57,7 @@ export const CreateChannelButton = () => {
   const clickedCreateChannel = () => {
     console.log('clicked create channel')
     mutation.mutate({
-      id: '0',
+      //   id: '0',
       about: 'New Channel Description',
       title: `New Channel ${Math.random()}`,
       picture: generateRandomPlacekitten(),

@@ -6,25 +6,21 @@ interface SaveNewChannelProps {
   channel: Channel
   publicKey: string
   privateKey: string
+  text: string
 }
 
-export const saveNewChannel = async ({
+export const saveNewChannelMessage = async ({
   channel,
   publicKey,
   privateKey,
+  text,
 }: SaveNewChannelProps) => {
-  const chan = {
-    about: channel.about,
-    title: channel.title,
-    picture: channel.picture,
-  }
-
   const event: any = {
-    content: JSON.stringify(chan),
+    content: text,
     created_at: timeNowInSeconds(),
-    kind: 40,
+    kind: 42,
     pubkey: publicKey,
-    tags: [],
+    tags: [['e', channel.eventid, channel.relayurl, 'root']],
   }
 
   // Set the id and sig properties of the event
@@ -35,7 +31,7 @@ export const saveNewChannel = async ({
   const relayurl = 'wss://arc1.arcadelabs.co'
   const relay = relayInit(relayurl)
   relay.on('connect', () => {
-    console.log(`connected to ${relay.url}`)
+    // console.log(`connected to ${relay.url}`)
   })
   relay.on('error', () => {
     console.log(`failed to connect to ${relay.url}`)
@@ -48,14 +44,13 @@ export const saveNewChannel = async ({
     console.log('error:', err)
   })
   pub.on('ok', (ok) => {
-    console.log('ok')
+    // console.log('ok')
   })
   pub.on('seen', (seen) => {
-    console.log('seen')
+    console.log('Message seen on relay')
   })
 
   return {
     eventid: event.id,
-    relayurl,
   }
 }
