@@ -29,6 +29,5 @@ export const sendMessage = async (
     text,
   })
 
-  console.log(eventid)
   mutation.mutate({ channel, text, eventid })
 }
