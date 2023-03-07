@@ -49,7 +49,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
           fontSize="$1"
           numberOfLines={1}
         >
-          {channel?.about ?? 'no about'}
+          {channel?.about ?? ''}
         </Paragraph>
       </View>
     </Button>

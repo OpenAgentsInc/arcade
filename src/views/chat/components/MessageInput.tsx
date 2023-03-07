@@ -1,9 +1,7 @@
-import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Send } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { StackNavigatorParams } from 'navigation/nav-types'
+import { API_URL } from 'lib/api'
 import { useRef, useState } from 'react'
 import { TextInput, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -28,7 +26,7 @@ export const MessageInput = ({ channel }) => {
     }) => {
       const { channel, text, eventid } = variables
       return axios.post(
-        `http://localhost:8000/api/channels/${channel.id}/messages`,
+        `${API_URL}/api/channels/${channel.id}/messages`,
         { eventid, relayurl: channel.relayurl, text },
         {
           headers: {

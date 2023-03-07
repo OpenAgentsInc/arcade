@@ -12,7 +12,7 @@ type Props = {
 export const Message: React.FC<Props> = ({ message }) => {
   const currentUser = useStore((state) => state.user.publicKey)
   const userMetadata = {
-    name: 'Mr. Placeholder',
+    name: message.pubkey.slice(0, 10),
     picture: 'https://placekitten.com/200/200',
   }
   const align = message.pubkey === currentUser ? 'flex-end' : 'flex-start'

@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Plus } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { API_URL } from 'lib/api'
 import { saveNewChannel } from 'lib/nostr/saveNewChannel'
 import { generateRandomPlacekitten } from 'lib/utils'
 import { StackNavigatorParams } from 'navigation/nav-types'
@@ -27,7 +28,7 @@ export const CreateChannelButton = () => {
       })
 
       return axios.post(
-        `http://localhost:8000/api/channels/`,
+        `${API_URL}/api/channels/`,
         { ...channel, eventid, relayurl },
         {
           headers: {
