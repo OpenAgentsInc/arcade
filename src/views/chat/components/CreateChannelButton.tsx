@@ -22,7 +22,7 @@ export const CreateChannelButton = () => {
   const mutation = useMutation({
     mutationFn: async (channel: Partial<Channel>) => {
       const { eventid, relayurl } = await saveNewChannel({
-        channel,
+        channel: channel as Channel,
         publicKey,
         privateKey,
       })
