@@ -15,7 +15,10 @@ import { ChannelPreview } from './ChannelPreview'
 
 export const ChannelList = ({ joined }) => {
   const channels = useChannels(joined).filter(
-    (c: Channel) => c.relayurl !== 'wss://nostr.developer.li'
+    (c: Channel) =>
+      c.relayurl !== 'wss://nostr.developer.li' &&
+      // and name isn't channel name
+      c.title !== 'channel name'
   ) as Channel[]
   const queryClient = useQueryClient()
   const flashListRef = useRef<FlashList<Channel>>(null)

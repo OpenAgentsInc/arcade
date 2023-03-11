@@ -23,7 +23,7 @@ export function useChannelMessages(channel: Channel) {
           kinds: [42],
           '#e': [channel.eventid],
           limit: 100,
-          since: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 3,
+          since: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 14,
         },
       ])
       sub.on('event', (event: any) => {
