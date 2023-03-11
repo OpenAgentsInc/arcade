@@ -56,11 +56,9 @@ export const CreateChannelButton = () => {
   })
 
   const clickedCreateChannel = () => {
-    console.log('clicked create channel')
     mutation.mutate({
-      //   id: '0',
-      about: 'New Channel Description',
-      title: `New Channel ${Math.random()}`,
+      about: 'Testing channel creation from Arc',
+      title: `Random Test Channel ${Math.floor(Math.random() * 10000)}`,
       picture: generateRandomPlacekitten(),
     })
   }
