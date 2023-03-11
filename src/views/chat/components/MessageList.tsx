@@ -2,6 +2,7 @@ import { useChannelMessages } from 'lib/hooks'
 import * as React from 'react'
 import { FlatList, View } from 'react-native'
 import { Channel } from 'stores/types'
+import { Stack, Text } from 'tamagui'
 
 import { Message } from './Message'
 
@@ -21,6 +22,13 @@ export const MessageList: React.FC<Props> = ({ channel }) => {
       keyExtractor={(item) => item.id}
       style={{ paddingHorizontal: 10 }}
       ListFooterComponent={<View style={{ margin: 5 }} />}
+      ListEmptyComponent={() => (
+        <Stack mt="$4" f={1} jc="center" ai="center" h={500}>
+          <Text color="$color10" textAlign="center">
+            No messages found from last 14 days
+          </Text>
+        </Stack>
+      )}
     />
   )
 }
