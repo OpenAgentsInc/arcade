@@ -1,4 +1,5 @@
 import { formatTimestamp, truncateString } from '../utils'
+import { Zap } from '@tamagui/lucide-icons'
 import { Image, View } from 'react-native'
 import { ChannelMessage } from '../types'
 import { Paragraph, XStack, YStack } from 'tamagui'
@@ -47,15 +48,31 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
         marginHorizontal={8}
         alignSelf={align}
       >
-        <Paragraph
-          color="$color11"
-          lineHeight={14}
-          fontWeight="700"
-          fontSize="$2"
-          fontFamily="$body"
-        >
-          {userMetadata?.name ?? truncateString(message.pubkey, 10)}
-        </Paragraph>
+        <XStack jc="space-between">
+          <Paragraph
+            color="$color11"
+            lineHeight={14}
+            fontWeight="700"
+            fontSize="$2"
+            fontFamily="$body"
+          >
+            {userMetadata?.name ?? truncateString(message.pubkey, 10)}
+          </Paragraph>
+          <XStack ai="center" jc="center">
+            <Zap color="$orange11" size={14} />
+            <Paragraph
+              color="$orange11"
+              lineHeight={14}
+              //   fontWeight="700"
+              fontSize="$2"
+              fontFamily="$body"
+              mt={1}
+              ml={1}
+            >
+              {message.sats_zapped}
+            </Paragraph>
+          </XStack>
+        </XStack>
         <Paragraph
           mt={2}
           color="$color12"
@@ -67,7 +84,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
         </Paragraph>
         <Paragraph
           mt={1}
-          color="$color8"
+          color="$color9"
           lineHeight={14}
           fontSize={10}
           textAlign="right"
