@@ -1,32 +1,13 @@
 {
-  // This configuration extends the base TypeScript configuration for Expo projects
-  "extends": "expo/tsconfig.base.json",
-
   "compilerOptions": {
-    // Allow implicit any
-    "noImplicitAny": false,
-
-    // Enable all strict type checking options
-    "strict": true,
-
-    // Enable strict null checks
     "strictNullChecks": true,
-
-    "baseUrl": "./",
+    "noUncheckedIndexedAccess": true,
     "paths": {
-      "@types/*": ["./src/@types/*"],
-      "arca": ["src/arca"],
-      "arca/*": ["src/arca/*"],
-      "i18n": ["src/i18n"],
-      "i18n/*": ["src/i18n/*"],
-      "lib": ["src/lib"],
-      "lib/*": ["src/lib/*"],
-      "navigation": ["src/navigation"],
-      "navigation/*": ["src/navigation/*"],
-      "services/*": ["src/services/*"],
-      "stores/*": ["src/stores/*"],
-      "stores": ["src/stores"],
-      "views/*": ["src/views/*"]
+      "app/*": ["./packages/app/*"],
+      "@my/ui/*": ["./packages/ui/*"],
+      "@my/api/*": ["./packages/api/*"],
+      "@my/db/*": ["./packages/db/*"]
     }
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
