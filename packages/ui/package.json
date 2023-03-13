@@ -23,6 +23,7 @@
     "@tamagui/react-native-media-driver": "^1.0.17",
     "@tamagui/shorthands": "^1.0.17",
     "@tamagui/theme-base": "^1.0.17",
+    "date-fns": "2.29.3",
     "tamagui": "^1.0.17"
   },
   "devDependencies": {

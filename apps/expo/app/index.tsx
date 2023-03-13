@@ -1,5 +1,11 @@
-import { HomeScreen } from 'app/features/home/screen'
+import { DesignShowcase } from '@my/ui/src/components/DesignShowcase'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Home() {
-    return <HomeScreen />
+  return (
+    <>
+      <DesignShowcase />
+      <StatusBar style="light" />
+    </>
+  )
 }

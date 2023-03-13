@@ -12,4 +12,5 @@ export interface ChannelMessage {
   content: string
   created_at: number
   pubkey: string
+  sats_zapped: number
 }
