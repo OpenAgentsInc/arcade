@@ -1,5 +1,6 @@
 {
-  "name": "myapp-monorepo",
+  "name": "arc",
+  "description": "A cross-platform Nostr client",
   "private": true,
   "workspaces": [
     "apps/*",
