@@ -89,7 +89,7 @@ buck-out/
 
 # Next.js
 .next/
-nextjs/out/
+*/nextjs/out/
 /out/
 
 # Tamagui
