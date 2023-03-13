@@ -35,11 +35,15 @@ function ThemeAndAuthProvider({
   const [theme, setTheme] = useRootTheme()
 
   return (
-    // <NextThemeProvider onChangeTheme={setTheme}>
-    <Provider disableRootThemeClass defaultTheme={theme} pageProps={pageProps}>
-      {children}
-    </Provider>
-    // </NextThemeProvider>
+    <NextThemeProvider onChangeTheme={setTheme}>
+      <Provider
+        disableRootThemeClass
+        defaultTheme={theme}
+        pageProps={pageProps}
+      >
+        {children}
+      </Provider>
+    </NextThemeProvider>
   )
 }
 

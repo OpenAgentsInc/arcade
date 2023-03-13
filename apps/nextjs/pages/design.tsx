@@ -10,12 +10,14 @@ export default function DesignPage() {
     created_at: 1678567890,
   }
   return (
-    <Theme name="green">
-      <YStack f={1} bc="$blue2Dark" jc="center" ai="center">
-        <Stack>
-          <Message currentUser="asdf1234" message={message} />
-        </Stack>
-      </YStack>
+    <Theme name="dark">
+      <Theme name="blue">
+        <YStack f={1} bc="$blue2Dark" jc="center" ai="center">
+          <Stack width={300}>
+            <Message currentUser="asdf1234" message={message} />
+          </Stack>
+        </YStack>
+      </Theme>
     </Theme>
   )
 }
