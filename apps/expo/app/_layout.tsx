@@ -16,7 +16,11 @@ export default function App() {
 
   return (
     <Provider>
-      <Stack />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
     </Provider>
   )
 }
