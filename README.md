@@ -2,7 +2,7 @@
 
 A cross-platform [Nostr](https://github.com/nostr-protocol/nostr) chat app, currently in alpha.
 
-We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tauri](https://tauri.app/) to target mobile, web and desktop with one codebase.
+We use [React Native](https://reactnative.dev/), [Expo](https://expo.dev/), and [Tauri](https://tauri.app/) to target mobile, web, and desktop with one codebase.
 
 Follow [@TheArcApp on Twitter](https://twitter.com/TheArcApp) for updates.
 
