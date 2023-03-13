@@ -1,6 +1,0 @@
-export * from './components/ChannelPreview'
-export * from './components/CreateChannelButton'
-export * from './components/LeaveChannelButton'
-export * from './screens/ChannelScreen'
-export * from './screens/ChannelsScreen'
-export * from './screens/DiscoverScreen'
