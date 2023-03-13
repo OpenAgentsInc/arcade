@@ -5145,6 +5145,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arc@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "arc@workspace:."
+  dependencies:
+    "@babel/runtime": ^7.18.9
+    "@manypkg/cli": ^0.19.1
+    dotenv: ^16.0.3
+    dotenv-cli: ^6.0.0
+    eslint: ^8.21.0
+    lerna-update-wizard: ^1.1.2
+    prettier: ^2.7.1
+    turbo: ^1.4.2
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
 "are-we-there-yet@npm:^3.0.0":
   version: 3.0.1
   resolution: "are-we-there-yet@npm:3.0.1"
@@ -11730,22 +11746,6 @@ __metadata:
   checksum: 59d4b5ebff6c265b452d6630ae8873d573c82e36fdc1ed9c34c7901a0bf2d3d357022f49db8e9bded127b743f709c7ef7befec249a2b3967578d649a8029aa06
   languageName: node
   linkType: hard
-
-"myapp-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "myapp-monorepo@workspace:."
-  dependencies:
-    "@babel/runtime": ^7.18.9
-    "@manypkg/cli": ^0.19.1
-    dotenv: ^16.0.3
-    dotenv-cli: ^6.0.0
-    eslint: ^8.21.0
-    lerna-update-wizard: ^1.1.2
-    prettier: ^2.7.1
-    turbo: ^1.4.2
-    typescript: ^4.9.4
-  languageName: unknown
-  linkType: soft
 
 "mz@npm:^2.7.0":
   version: 2.7.0
