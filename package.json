@@ -28,6 +28,7 @@
   },
   "resolutions": {
     "esbuild": "0.15.6",
+    "@noble/secp256k1": "1.7.0",
     "@scure/bip32": "1.1.5",
     "@types/react": "17.0.21",
     "react": "18.2.0",
