@@ -28,6 +28,7 @@
   },
   "resolutions": {
     "esbuild": "0.15.6",
+    "@scure/bip32": "1.1.5",
     "@types/react": "17.0.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
