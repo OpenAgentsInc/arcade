@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "@bacons/expo-metro-runtime": "^2.0.1",
     "@clerk/clerk-expo": "^0.10.16",
+    "@expo-google-fonts/source-code-pro": "^0.2.3",
     "@my/ui": "*",
     "@types/react-native": "~0.70.6",
     "app": "*",
