@@ -22,7 +22,7 @@ export function ZapScreen() {
   const zapUser = async (account, targetNoteId, userPubkey, userRelays) => {
     console.log('lets zap', account)
 
-    const amount = 15000
+    const amount = 16000
 
     // Step 1: Parse the metadata field
     const metadata = JSON.parse(account.metadata)
