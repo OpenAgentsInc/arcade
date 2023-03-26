@@ -2,11 +2,14 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": ".",
+    "baseUrl": "../..",
     "paths": {
-      "react-native": [
-        "react-native-web"
-      ]
+      "app/*": ["./packages/app/*"],
+      "lib/*": ["./packages/app/lib/*"],
+      "@my/ui/*": ["./packages/ui/*"],
+      "@my/api/*": ["./packages/api/*"],
+      "@my/db/*": ["./packages/db/*"],
+      "react-native": ["react-native-web"]
     },
     "allowJs": true,
     "skipLibCheck": true,
