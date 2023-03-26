@@ -47,7 +47,7 @@ export const saveNewUserMetadata = async ({
   pub.on('ok', () => {
     console.log('ok')
   })
-  pub.on('seen', () => {
-    console.log('seen')
-  })
+  //   pub.on('seen', () => {
+  //     console.log('seen')
+  //   })
 }

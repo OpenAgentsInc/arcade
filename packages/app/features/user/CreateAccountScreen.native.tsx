@@ -2,7 +2,7 @@ import { ChevronsRight } from '@tamagui/lucide-icons'
 import { useCallback, useState } from 'react'
 import { Alert, Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useStore } from 'stores'
+import { useStore } from 'app/stores'
 import { Button, H2, Input, Label, YStack } from 'tamagui'
 import { BackButton, Screen } from '@my/ui/src'
 
@@ -42,15 +42,11 @@ export const CreateAccountScreen = () => {
 
             <YStack space="$3" alignItems="center" width={300}>
               <YStack width="100%">
-                <Label
-                  htmlFor="username"
-                  alignSelf="flex-start"
-                  width="100%"
-                  role="heading"
-                >
+                <Label htmlFor="username" alignSelf="flex-start" width="100%">
                   Username
                 </Label>
                 <Input
+                  autoCorrect={false}
                   id="username"
                   placeholder="satoshi"
                   width="100%"
@@ -66,11 +62,11 @@ export const CreateAccountScreen = () => {
                   htmlFor="displayname"
                   alignSelf="flex-start"
                   width="100%"
-                  role="heading"
                 >
                   Display Name
                 </Label>
                 <Input
+                  autoCorrect={false}
                   id="displayname"
                   placeholder="Satoshi Nakamoto"
                   width="100%"
@@ -80,15 +76,11 @@ export const CreateAccountScreen = () => {
               </YStack>
 
               <YStack width="100%">
-                <Label
-                  htmlFor="about"
-                  alignSelf="flex-start"
-                  width="100%"
-                  role="heading"
-                >
+                <Label htmlFor="about" alignSelf="flex-start" width="100%">
                   About
                 </Label>
                 <Input
+                  autoCorrect={false}
                   id="about"
                   placeholder="Creator(s) of Bitcoin."
                   width="100%"
