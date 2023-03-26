@@ -2,6 +2,7 @@ import { formatTimestamp, truncateString } from '../utils'
 import { Zap } from '@tamagui/lucide-icons'
 import { Image, Pressable, TouchableOpacity, View } from 'react-native'
 import { ChannelMessage } from '../types'
+import { saveZap } from 'app/lib/nostr'
 import { Button, Paragraph, XStack, YStack } from 'tamagui'
 
 type Props = {
@@ -20,7 +21,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
     ? 'https://placekitten.com/201/201'
     : 'https://placekitten.com/200/200'
   const onLongPress = () => {
-    console.log('sup')
+    saveZap({ eventId: message.id })
   }
   return (
     <Pressable onLongPress={onLongPress} style={{ flex: 1 }}>
