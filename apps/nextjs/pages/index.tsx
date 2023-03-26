@@ -1,6 +1,6 @@
-import { ZapScreen } from 'app/features/zaps/screen'
+import { ChatZapScreen } from 'app/features/zaps/chatzap'
 
-export default ZapScreen
+export default ChatZapScreen
 
 // import { HomeScreen } from 'app/features/home/screen'
 // import { buildClerkProps, clerkClient, getAuth } from '@clerk/nextjs/server'

@@ -1,6 +1,6 @@
 import { Stack, Theme, YStack } from 'tamagui'
 import { Message } from '@my/ui/src/components/Message'
-import { RUNNING_ARC_MESSAGE } from 'lib/nostr'
+import { RUNNING_ARC_MESSAGE } from 'app/lib/nostr'
 
 export const ChatZapScreen = () => {
   return (
