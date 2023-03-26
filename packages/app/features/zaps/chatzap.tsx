@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
 import { Stack, Theme, YStack } from 'tamagui'
 import { Message } from '@my/ui/src/components/Message'
-import { saveNewChannel, saveNewChannelMessage } from 'lib/nostr'
+import {
+  checkRelayForEvent,
+  saveNewChannel,
+  saveNewChannelMessage,
+} from 'lib/nostr'
 import { generateRandomPlacekitten } from 'lib/utils'
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 
@@ -39,7 +43,10 @@ export const ChatZapScreen = () => {
 
   useEffect(() => {
     // createTestChannel()
-    createTestMessage()
+    // createTestMessage()
+    checkRelayForEvent(
+      '4b9dc9f2f445ee2213195d9e7e79a1eaf1c609ff11979d528081da40dd48ad88'
+    )
   }, [])
 
   const message = {
