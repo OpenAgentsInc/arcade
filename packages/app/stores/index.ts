@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 
 import { createAuthStore } from './auth'
 import { createUiStore } from './ui'

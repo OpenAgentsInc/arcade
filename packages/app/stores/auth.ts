@@ -1,11 +1,11 @@
-import { getApiToken } from 'lib/api'
-import { saveNewUserMetadata } from 'lib/nostr/saveNewUserMetadata'
+import { getApiToken } from 'app/lib/api'
+import { saveNewUserMetadata } from 'app/lib/nostr/saveNewUserMetadata'
 import {
   API_TOKEN_STORAGE_KEY,
   HEX_PRIVKEY_STORAGE_KEY,
   HEX_PUBKEY_STORAGE_KEY,
-} from 'lib/storage'
-import * as storage from 'lib/storage'
+} from 'app/lib/storage'
+import * as storage from 'app/lib/storage'
 import { generatePrivateKey, getPublicKey, nip19 } from 'nostr-tools'
 
 export interface AuthState {
