@@ -18,29 +18,19 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
         <meta name="description" content="Connect freely." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ThemeAndAuthProvider pageProps={pageProps}>
+      <ThemeProvider>
         <Component {...pageProps} />
-      </ThemeAndAuthProvider>
+      </ThemeProvider>
     </>
   )
 }
 
-function ThemeAndAuthProvider({
-  children,
-  pageProps,
-}: {
-  children: React.ReactNode
-  pageProps: any
-}) {
+function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useRootTheme()
 
   return (
     <NextThemeProvider onChangeTheme={setTheme}>
-      <Provider
-        disableRootThemeClass
-        defaultTheme={theme}
-        pageProps={pageProps}
-      >
+      <Provider disableRootThemeClass defaultTheme={theme}>
         {children}
       </Provider>
     </NextThemeProvider>
