@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { useState } from 'react'
 import { useStore } from 'stores'
 import { Card, H2, Input, isWeb, Paragraph, Stack, YStack } from 'tamagui'
@@ -33,43 +34,6 @@ export const LoginScreen = () => {
             />
           </Stack>
         </YStack>
-        <Card
-          theme="yellow"
-          w="100%"
-          maxWidth={400}
-          mt="$8"
-          elevate
-          bordered
-          bg="$backgroundTransparent"
-        >
-          <LinearGradient
-            pos="absolute"
-            width="100%"
-            height="100%"
-            colors={['#794a09', '#996e03']}
-            opacity={0.3}
-            start={[1, 1]}
-            end={[0, 0]}
-          />
-          <Card.Header pt="$3" px="$4" pb="$2">
-            <Paragraph fontWeight="700" fontSize="$2">
-              Security warning
-            </Paragraph>
-          </Card.Header>
-          <YStack px="$4" pb="$4">
-            <YStack space="$3">
-              <Paragraph fontSize="$2" lineHeight={22}>
-                Please do not use an account key from apps other than Arc.
-              </Paragraph>
-              <Paragraph fontSize="$2" lineHeight={22}>
-                Arc is pre-alpha software and may be insecure.
-              </Paragraph>
-              <Paragraph fontSize="$2" lineHeight={22}>
-                Only log in with keys you generated in Arc.
-              </Paragraph>
-            </YStack>
-          </YStack>
-        </Card>
       </YStack>
     </Screen>
   )
