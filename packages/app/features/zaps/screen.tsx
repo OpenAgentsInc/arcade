@@ -206,10 +206,15 @@ export function ZapScreen() {
     const events = await pool.list(relays, [{ kinds: [0] }])
     console.log(`Got ${events.length} events`)
     const userAccounts2 = events
-      .filter(
-        (event: any) =>
-          JSON.parse(event.content).lud06 || JSON.parse(event.content).lud16
-      )
+      .filter((event: any) => {
+        try {
+          const filter =
+            JSON.parse(event.content).lud06 || JSON.parse(event.content).lud16
+          return filter
+        } catch (e) {
+          return false
+        }
+      })
       .map((event) => {
         return {
           id: event.id,
