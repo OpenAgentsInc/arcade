@@ -56,10 +56,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 1080,
         "resizable": true,
-        "title": "My App",
-        "width": 800
+        "title": "Arc",
+        "width": 1920
       }
     ]
   }
