@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
 // import { StackNavigatorParams } from 'navigation/nav-types'
 import { Button, Stack, YStack } from 'tamagui'
-import { Screen } from '@my/ui/src'
+import { Logo, Screen } from '@my/ui/src'
 
 export function HomeScreen() {
   //   const { navigate } =
@@ -12,7 +12,7 @@ export function HomeScreen() {
     <Screen>
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
         <Stack />
-        {/* <Logo /> */}
+        <Logo />
         <YStack space="$6">
           <Button
             // onPress={() => navigate('create')}
