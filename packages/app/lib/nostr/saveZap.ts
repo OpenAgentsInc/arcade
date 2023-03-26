@@ -1,5 +1,6 @@
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
-import { createZapRequestNote, getLnurlPayRequestUrl } from 'app/lib/nostr'
+import { getLnurlPayRequestUrl } from './lnurl'
+import { createZapRequestNote } from './zaps'
 
 const userRelays = [
   'wss://relay.damus.io',
