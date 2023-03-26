@@ -1,10 +1,10 @@
-import { useNavigation } from '@react-navigation/native'
+import { useRouter } from 'solito/router'
 import { ChevronLeft } from '@tamagui/lucide-icons'
 import { Button } from 'tamagui'
 
 export const BackButton = (props) => {
-  const { goBack } = useNavigation()
+  const router = useRouter()
   return (
-    <Button icon={ChevronLeft} onPress={() => goBack()} circular {...props} />
+    <Button icon={ChevronLeft} onPress={() => router.back()} circular {...props} />
   )
 }
