@@ -13,7 +13,7 @@ export const saveZap = async ({ eventId, lud16 }) => {
 
   console.log(`Sending zap to ${lud16} for ${eventId} from ${publicKey}`)
 
-  const amount = 20000
+  const amount = 21000
   const paymentUrl = await getLnurlPayRequestUrl(lud16)
   console.log('Using:', paymentUrl)
   const response = await fetch(`${paymentUrl}?amount=${amount}`)
