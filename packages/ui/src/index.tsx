@@ -1,5 +1,6 @@
 export * from 'tamagui'
 export * from './MyComponent'
+export * from './components/BackButton'
 export * from './components/Logo'
 export * from './components/Message'
 export * from './components/Screen'
