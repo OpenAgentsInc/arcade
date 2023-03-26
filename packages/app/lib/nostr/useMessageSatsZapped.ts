@@ -6,18 +6,11 @@ const relayUrl = 'wss://relay.damus.io'
 export function useMessageSatsZapped(eventId: string) {
   const [msats, setMsats] = useState(0)
 
-  const grabSats = async () => {
+  useEffect(() => {
     const relay = relayInit(relayUrl)
-    await relay.connect()
-    let events: any = await relay.list([
-      {
-        kinds: [9735],
-        '#e': [eventId],
-      },
-    ])
 
-    for (let i = 0; i < events.length; i++) {
-      const tagsArray = events[i].tags
+    const processEvent = (event) => {
+      const tagsArray = event.tags
 
       for (let j = 0; j < tagsArray.length; j++) {
         if (tagsArray[j][0] === 'description') {
@@ -33,9 +26,26 @@ export function useMessageSatsZapped(eventId: string) {
         }
       }
     }
-  }
-  useEffect(() => {
-    grabSats()
+
+    const subscribeToEvents = async () => {
+      await relay.connect()
+
+      const sub = relay.sub([
+        {
+          kinds: [9735],
+          '#e': [eventId],
+        },
+      ])
+
+      sub.on('event', processEvent)
+    }
+
+    subscribeToEvents()
+
+    return () => {
+      relay.close()
+    }
   }, [])
+
   return msats / 1000
 }
