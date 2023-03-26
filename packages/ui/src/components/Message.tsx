@@ -21,7 +21,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
     ? 'https://placekitten.com/201/201'
     : 'https://placekitten.com/200/200'
   const onLongPress = () => {
-    saveZap({ eventId: message.id })
+    saveZap({ eventId: message.id, lud16: 'jb55@sendsats.lol' })
   }
   return (
     <Pressable onLongPress={onLongPress} style={{ flex: 1 }}>

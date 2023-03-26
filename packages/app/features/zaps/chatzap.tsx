@@ -1,8 +1,15 @@
+import { useEffect } from 'react'
 import { Stack, Theme, YStack } from 'tamagui'
 import { Message } from '@my/ui/src/components/Message'
-import { RUNNING_ARC_MESSAGE } from 'app/lib/nostr'
+import { checkRelayForEvent, RUNNING_ARC_MESSAGE } from 'app/lib/nostr'
 
 export const ChatZapScreen = () => {
+  //   useEffect(() => {
+  //     checkRelayForEvent(
+  //       '32e1827635450ebb3c5a7d12c1f8e7b2b514439ac10a67eef3d9fd9c5c68e245',
+  //       'wss://relay.damus.io'
+  //     )
+  //   }, [])
   return (
     <Theme name="dark">
       <Theme name="blue">
