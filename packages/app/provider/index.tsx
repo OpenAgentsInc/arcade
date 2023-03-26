@@ -12,7 +12,7 @@ export function Provider({
       <TamaguiProvider
         config={config}
         disableInjectCSS
-        defaultTheme="light"
+        defaultTheme="dark"
         {...rest}
       >
         <TRPCProvider>{children}</TRPCProvider>
