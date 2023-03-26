@@ -26,10 +26,13 @@ export const saveNewChannel = async ({
     pubkey: publicKey,
     tags: [],
   }
+  console.log('event:', event)
 
   // Set the id and sig properties of the event
   event.id = getEventHash(event)
   event.sig = signEvent(event, privateKey)
+
+  console.log('event:', event)
 
   // Publish event to relay
   const relayurl = 'wss://arc1.arcadelabs.co'
