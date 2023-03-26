@@ -57,15 +57,15 @@ export const truncateString = (string: string, maxLength: number) => {
  * Parse bech32 ids
  * https://github.com/nostr-protocol/nips/blob/master/19.md
  */
-export function parseId(id: string) {
-  const hrp = ['note', 'npub', 'nsec']
-  try {
-    if (hrp.some((a) => id.startsWith(a))) {
-      return bech32ToHex(id)
-    }
-  } catch (e) {}
-  return id
-}
+// export function parseId(id: string) {
+//   const hrp = ['note', 'npub', 'nsec']
+//   try {
+//     if (hrp.some((a) => id.startsWith(a))) {
+//       return bech32ToHex(id)
+//     }
+//   } catch (e) {}
+//   return id
+// }
 
 // export function bech32ToHex(str: string) {
 //   const nKey = bech32.decode(str)

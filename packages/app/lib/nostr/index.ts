@@ -1,5 +1,6 @@
 export * from './checkRelayForEvent'
 export * from './dummydata'
+export * from './lnurl'
 export * from './saveNewChannel'
 export * from './saveNewChannelMessage'
 export * from './saveZap'

@@ -1,4 +1,4 @@
-import { timeNowInSeconds } from 'lib/utils'
+import { timeNowInSeconds } from 'app/lib/utils'
 import { getEventHash, relayInit, signEvent } from 'nostr-tools'
 // import { Channel } from 'stores/types'
 
