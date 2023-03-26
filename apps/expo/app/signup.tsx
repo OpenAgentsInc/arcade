@@ -1,5 +1,5 @@
-import { SignUpScreen } from 'app/features/signup/screen'
+import { CreateAccountScreen } from 'app/features/user/CreateAccountScreen'
 
 export default function () {
-  return <SignUpScreen />
+  return <CreateAccountScreen />
 }
