@@ -7,6 +7,7 @@ import {
 } from 'app/lib/storage'
 import * as storage from 'app/lib/storage'
 import { generatePrivateKey, getPublicKey, nip19 } from 'nostr-tools'
+import { hexToBech32 } from 'app/lib/utils'
 
 export interface AuthState {
   apiToken: string | null
@@ -35,6 +36,7 @@ export const login = async (set: any): Promise<AuthState> => {
   try {
     await storage.setItem(HEX_PUBKEY_STORAGE_KEY, publicKey)
     await storage.setItem(HEX_PRIVKEY_STORAGE_KEY, privateKey)
+    console.log(hexToBech32('nsec', privateKey))
     console.log('Keys saved to local storage')
     set({
       apiToken,
