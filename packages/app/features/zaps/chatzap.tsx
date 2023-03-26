@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Stack, Theme, YStack } from 'tamagui'
 import { Message } from '@my/ui/src/components/Message'
-import { saveNewChannel } from 'lib/nostr'
+import { saveNewChannel, saveNewChannelMessage } from 'lib/nostr'
 import { generateRandomPlacekitten } from 'lib/utils'
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 
@@ -21,7 +21,21 @@ export const ChatZapScreen = () => {
     })
   }
 
-  const createTestMessage = async () => {}
+  const createTestMessage = async () => {
+    const privateKey = generatePrivateKey() // `sk` is a hex string
+    const publicKey = getPublicKey(privateKey) // `pk` is a hex string
+    const channel = {
+      relayurl: 'wss://arc1.arcadelabs.co',
+      eventid:
+        '581c5295bc99f6a695b743f5a3ded09d24ae5fdb087e2ae56e16d257ccbbadb2',
+    }
+    saveNewChannelMessage({
+      channel,
+      publicKey,
+      privateKey,
+      text: 'Running Arc',
+    })
+  }
 
   useEffect(() => {
     // createTestChannel()

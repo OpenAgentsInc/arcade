@@ -44,7 +44,7 @@ export const saveNewChannelMessage = async ({
     console.log('error:', err)
   })
   pub.on('ok', (ok) => {
-    // console.log('ok')
+    console.log('ok', event)
   })
   //   pub.on('seen', (seen) => {
   //     console.log('Message seen on relay')
