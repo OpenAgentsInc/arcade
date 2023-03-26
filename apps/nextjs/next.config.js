@@ -13,7 +13,8 @@ const boolVals = {
 }
 
 const disableExtraction =
-  boolVals[process.env.DISABLE_EXTRACTION] ?? process.env.NODE_ENV === 'development'
+  boolVals[process.env.DISABLE_EXTRACTION] ??
+  process.env.NODE_ENV === 'development'
 
 /* console.log(`
 
@@ -55,7 +56,13 @@ const plugins = [
         return true
       }
     },
-    excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker', 'CheckBox', 'Touchable'],
+    excludeReactNativeWebExports: [
+      'Switch',
+      'ProgressBar',
+      'Picker',
+      'CheckBox',
+      'Touchable',
+    ],
   }),
 ]
 
@@ -74,7 +81,8 @@ module.exports = function () {
       'expo-linking',
       'expo-constants',
       'expo-modules-core',
-        /*
+      'react-native-reanimated',
+      /*
         leave these here, and enable if installing dependancies causes issues
         '@my/api',
         '@my/db',
