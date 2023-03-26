@@ -1,9 +1,9 @@
 import { formatTimestamp, truncateString } from '../utils'
 import { Zap } from '@tamagui/lucide-icons'
-import { Image, Pressable, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, View } from 'react-native'
 import { ChannelMessage } from '../types'
-import { saveZap } from 'app/lib/nostr'
-import { Button, Paragraph, XStack, YStack } from 'tamagui'
+import { saveZap, useMessageSatsZapped } from 'app/lib/nostr'
+import { Paragraph, XStack, YStack } from 'tamagui'
 
 type Props = {
   currentUser: string // pubkey
@@ -23,6 +23,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
   const onLongPress = () => {
     saveZap({ eventId: message.id, lud16: 'jb55@sendsats.lol' })
   }
+  const satsZapped = useMessageSatsZapped(message.id)
   return (
     <Pressable onLongPress={onLongPress} style={{ flex: 1 }}>
       <XStack flex={1} mt={12}>
@@ -74,7 +75,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
                 mt={1}
                 ml={1}
               >
-                {message.sats_zapped}
+                {satsZapped}
               </Paragraph>
             </XStack>
           </XStack>
