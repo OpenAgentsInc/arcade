@@ -1,13 +1,12 @@
-import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Key, UserPlus } from '@tamagui/lucide-icons'
-// import { StackNavigatorParams } from 'navigation/nav-types'
 import { Button, Stack, YStack } from 'tamagui'
 import { Logo, Screen } from '@my/ui/src'
+import { useLink } from 'solito/link'
 
 export function HomeScreen() {
-  //   const { navigate } =
-  //     useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
+  const signupLinkProps = useLink({ href: '/signup' })
+  const loginLinkProps = useLink({ href: '/signin' })
+
   return (
     <Screen>
       <YStack f={1} alignItems="center" justifyContent="space-evenly">
@@ -15,7 +14,7 @@ export function HomeScreen() {
         <Logo />
         <YStack space="$6">
           <Button
-            // onPress={() => navigate('create')}
+            {...signupLinkProps}
             als="center"
             icon={UserPlus}
             size="$5"
@@ -26,7 +25,7 @@ export function HomeScreen() {
             Create Account
           </Button>
           <Button
-            // onPress={() => navigate('login')}
+            {...loginLinkProps}
             als="center"
             icon={Key}
             size="$5"
