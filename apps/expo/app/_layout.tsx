@@ -16,11 +16,7 @@ export default function App() {
 
   return (
     <Provider>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      />
+      <Stack screenOptions={{ headerShown: false }} />
     </Provider>
   )
 }
