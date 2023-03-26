@@ -9,11 +9,10 @@ export const useAuthed = () => {
 
   const [checkedForKeys, setCheckedForKeys] = useState<boolean>(false)
   const authed = checkedForKeys
-    ? publicKey.length > 10 &&
-      privateKey.length > 10 &&
-      !!apiToken &&
-      apiToken.length > 10
-    : null
+    ? publicKey.length > 10 && privateKey.length > 10 //&&
+    : //   !!apiToken &&
+      //   apiToken.length > 10
+      null
 
   useEffect(() => {
     if (checkedForKeys && privateKey && publicKey && apiToken) {
@@ -27,6 +26,11 @@ export const useAuthed = () => {
 
   const checkForKeys = async () => {
     const { apiToken, publicKey, privateKey } = await storage.getKeys()
+    console.log('checked for keys and found:', {
+      apiToken,
+      publicKey,
+      privateKey,
+    })
 
     if (!privateKey || !publicKey) {
       setCheckedForKeys(true)
