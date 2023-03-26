@@ -1,4 +1,8 @@
-import { HomeScreen } from 'app/features/home/screen'
+import { ZapScreen } from 'app/features/zaps/screen'
+
+export default ZapScreen
+
+// import { HomeScreen } from 'app/features/home/screen'
 // import { buildClerkProps, clerkClient, getAuth } from '@clerk/nextjs/server'
 
 // Use getServerSideProps to get the Clerk user
@@ -10,4 +14,4 @@ import { HomeScreen } from 'app/features/home/screen'
 //   return { props: { ...buildClerkProps(req, { user }) } };
 // };
 
-export default HomeScreen
+// export default HomeScreen
