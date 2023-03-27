@@ -8,7 +8,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (authed) {
-      console.log('replacing')
       replace('/home/chat')
     } else {
       replace('/', undefined, {
