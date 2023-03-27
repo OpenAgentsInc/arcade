@@ -59,9 +59,6 @@ export const SettingsScreen = () => {
           />
         </YGroup>
         <ThemePicker />
-        <Button size="$5" mt="$6" w="100%" onPress={() => navigate('connect')}>
-          Nostr Connect
-        </Button>
         <LogoutDialog mt="$6" w={200} />
       </YStack>
     </Screen>
