@@ -10,7 +10,11 @@ const { useParam } = createParam<{ channel: string }>()
 export const ChannelScreen = ({ navigation, route }) => {
   const { setOptions } = useNavigation()
   const [channelString] = useParam('channel')
-  const channel = JSON.parse(channelString as string)
+  console.log('channelString', channelString)
+  const channel =
+    typeof channelString === 'string'
+      ? JSON.parse(channelString)
+      : channelString
 
   useEffect(() => {
     setOptions({ title: channel?.title ?? 'Unnamed Channel' })

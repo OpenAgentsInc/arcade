@@ -47,7 +47,12 @@ export const ChannelList = ({ joined }) => {
       //   navigate('channel', { channel })
       push({
         pathname: '/home/chat/channel',
-        query: { channel: JSON.stringify(channel) },
+        query: {
+          channel: JSON.stringify({
+            ...channel,
+            messages: [],
+          }),
+        },
       })
     },
   })
@@ -64,7 +69,12 @@ export const ChannelList = ({ joined }) => {
             // navigate('channel', { channel })
             push({
               pathname: '/home/chat/channel',
-              query: { channel: JSON.stringify(channel) },
+              query: {
+                channel: JSON.stringify({
+                  ...channel,
+                  messages: [],
+                }),
+              },
             })
           } else {
             mutation.mutate(channel)

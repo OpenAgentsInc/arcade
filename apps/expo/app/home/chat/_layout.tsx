@@ -1,5 +1,7 @@
 import { NavHeader } from '@my/ui/src'
 import { Stack } from 'expo-router'
+import { CreateChannelButton } from 'app/features/chat/components/CreateChannelButton'
+import { LeaveChannelButton } from 'app/features/chat/components/LeaveChannelButton'
 
 export const unstable_settings = {
   initialRouteName: 'channels',
@@ -17,7 +19,7 @@ export default () => (
           <NavHeader
             options={options}
             title={options.title}
-            // rightButton={<CreateChannelButton />}
+            rightButton={<CreateChannelButton />}
           />
         ),
       }}
@@ -32,7 +34,7 @@ export default () => (
           <NavHeader
             options={options}
             title={options.title}
-            // rightButton={<CreateChannelButton />}
+            rightButton={<LeaveChannelButton />}
           />
         ),
       }}
