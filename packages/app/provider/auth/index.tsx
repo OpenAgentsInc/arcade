@@ -9,7 +9,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (authed) {
       console.log('authed - redirecting (skipped)')
-      //   replace('/(tabs)/index')
+      replace('/home')
     } else {
       console.log('authed:', authed)
     }
