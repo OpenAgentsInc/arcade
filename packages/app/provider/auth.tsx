@@ -8,8 +8,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (authed) {
-      console.log('authed - redirecting (skipped)')
-      replace('/home')
+      replace('/home/chat')
     } else {
       replace('/', undefined, {
         experimental: {
