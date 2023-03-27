@@ -1,4 +1,5 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { createParam } from 'solito'
+import { useNavigation } from '@react-navigation/native'
 import { Trash2 } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
@@ -7,12 +8,18 @@ import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Button } from 'tamagui'
 
+const { useParam } = createParam<{ channel: string }>()
+
 export const LeaveChannelButton = () => {
   const apiToken = useStore((s) => s.apiToken)
-  const route = useRoute<any>()
   const { goBack } = useNavigation()
-  const channel = route.params?.channel as Channel
   const queryClient = useQueryClient()
+
+  const [channelString] = useParam('channel')
+  const channel =
+    typeof channelString === 'string'
+      ? JSON.parse(channelString)
+      : channelString
 
   const mutation = useMutation({
     mutationFn: (channel: Channel) => {

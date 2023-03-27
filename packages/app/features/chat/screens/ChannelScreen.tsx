@@ -10,7 +10,6 @@ const { useParam } = createParam<{ channel: string }>()
 export const ChannelScreen = ({ navigation, route }) => {
   const { setOptions } = useNavigation()
   const [channelString] = useParam('channel')
-  console.log('channelString', channelString)
   const channel =
     typeof channelString === 'string'
       ? JSON.parse(channelString)
