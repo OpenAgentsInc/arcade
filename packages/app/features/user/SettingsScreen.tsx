@@ -1,15 +1,13 @@
-import { useNavigation } from '@react-navigation/native'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 import * as Clipboard from 'expo-clipboard'
 import { nip19 } from 'nostr-tools'
 import { useStore } from 'stores'
-import { Button, isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
+import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
 import { LogoutDialog, Screen } from '@my/ui/src'
 
 import { ThemePicker } from './ThemePicker'
 
 export const SettingsScreen = () => {
-  const { navigate } = useNavigation<any>()
   const publicKey = useStore((s) => s.user.publicKey)
   const privateKey = useStore((s) => s.user.privateKey)
 

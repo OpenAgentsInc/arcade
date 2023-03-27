@@ -1,5 +1,6 @@
 import config from '../tamagui.config'
-import { TamaguiProvider, TamaguiProviderProps } from '@my/ui'
+import { TamaguiProvider, TamaguiProviderProps, Theme } from '@my/ui'
+import { useTheme } from '../lib/hooks'
 import { AuthProvider } from './auth'
 import { TRPCProvider } from './trpc' //mobile only
 
@@ -7,6 +8,7 @@ export function Provider({
   children,
   ...rest
 }: Omit<TamaguiProviderProps, 'config'> & { pageProps?: any }) {
+  const theme = useTheme()
   return (
     <AuthProvider>
       <TamaguiProvider
@@ -15,7 +17,11 @@ export function Provider({
         defaultTheme="dark"
         {...rest}
       >
-        <TRPCProvider>{children}</TRPCProvider>
+        <Theme name="dark">
+          <Theme name={theme}>
+            <TRPCProvider>{children}</TRPCProvider>
+          </Theme>
+        </Theme>
       </TamaguiProvider>
     </AuthProvider>
   )
