@@ -3,8 +3,9 @@ import * as React from 'react'
 import { FlatList, View } from 'react-native'
 import { Channel } from 'stores/types'
 import { Stack, Text } from 'tamagui'
+import { Message } from '@my/ui/src/components/Message'
 
-import { Message } from './Message'
+// import { Message } from './Message'
 
 type Props = {
   channel: Channel
