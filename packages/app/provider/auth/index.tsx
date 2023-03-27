@@ -11,7 +11,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log('authed - redirecting (skipped)')
       replace('/home')
     } else {
-      console.log('authed:', authed)
+      replace('/', undefined, {
+        experimental: {
+          nativeBehavior: 'stack-replace',
+          isNestedNavigator: true,
+        },
+      })
     }
   }, [authed])
 
