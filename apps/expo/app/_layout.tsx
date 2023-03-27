@@ -3,11 +3,11 @@ import {
   useFonts,
 } from '@expo-google-fonts/source-code-pro'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DarkTheme, DefaultTheme } from '@react-navigation/native'
 import { SplashScreen, Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { useColorScheme } from 'react-native'
+import ErrorToastContainer from '@bacons/expo-metro-runtime/error-overlay'
+import { Provider } from 'app/provider'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -17,6 +17,8 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
     ...FontAwesome.font,
     SourceCodePro_400Regular,
   })
@@ -34,20 +36,19 @@ export default function RootLayout() {
   )
 }
 
-import ErrorToastContainer from '@bacons/expo-metro-runtime/error-overlay'
-
 function RootLayoutNav() {
-  const colorScheme = useColorScheme()
-
   return (
     <>
       <ErrorToastContainer>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
+        <Provider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </Provider>
       </ErrorToastContainer>
-      <StatusBar />
+      <StatusBar style="light" />
     </>
   )
 }

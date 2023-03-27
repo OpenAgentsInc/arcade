@@ -1,7 +1,8 @@
 import { Link, Tabs } from 'expo-router'
 import { Pressable, useColorScheme } from 'react-native'
-import Colors from '../../../constants/Colors'
+import Colors from '../../constants/Colors'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { XStack } from 'tamagui'
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -19,8 +20,24 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+        tabBarLabel: () => null,
+        tabBarStyle: {
+          borderTopWidth: 0,
+        },
+        // tabBarBackground: () => (
+        //   <XStack
+        //     f={1}
+        //     backgroundColor="$backgroundSoft"
+        //     borderTopWidth="$1"
+        //     borderTopColor="$color4"
+        //     elevation="$6"
+        //   />
+        // ),
       }}
+      //   screenOptions={{
+      //     tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      //   }}
     >
       <Tabs.Screen
         name="index"
