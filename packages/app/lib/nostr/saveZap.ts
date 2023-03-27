@@ -1,5 +1,6 @@
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
-import { createZapRequestNote, getLnurlPayRequestUrl } from 'app/lib/nostr'
+import { getLnurlPayRequestUrl } from './lnurl'
+import { createZapRequestNote } from './zaps'
 
 const userRelays = [
   'wss://relay.damus.io',
@@ -13,7 +14,7 @@ export const saveZap = async ({ eventId, lud16 }) => {
 
   console.log(`Sending zap to ${lud16} for ${eventId} from ${publicKey}`)
 
-  const amount = 21000
+  const amount = 210000
   const paymentUrl = await getLnurlPayRequestUrl(lud16)
   console.log('Using:', paymentUrl)
   const response = await fetch(`${paymentUrl}?amount=${amount}`)

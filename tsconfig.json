@@ -7,7 +7,9 @@
       "lib/*": ["./packages/app/lib/*"],
       "@my/ui/*": ["./packages/ui/*"],
       "@my/api/*": ["./packages/api/*"],
-      "@my/db/*": ["./packages/db/*"]
+      "@my/db/*": ["./packages/db/*"],
+      "stores/*": ["./packages/app/stores/*"],
+      "stores": ["./packages/app/stores"]
     }
   },
   "extends": "expo/tsconfig.base"

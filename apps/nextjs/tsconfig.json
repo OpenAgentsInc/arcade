@@ -9,6 +9,8 @@
       "@my/ui/*": ["./packages/ui/*"],
       "@my/api/*": ["./packages/api/*"],
       "@my/db/*": ["./packages/db/*"],
+      "stores/*": ["./packages/app/stores/*"],
+      "stores": ["./packages/app/stores"],
       "react-native": ["react-native-web"]
     },
     "allowJs": true,
