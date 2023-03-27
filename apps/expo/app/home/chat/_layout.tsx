@@ -22,5 +22,20 @@ export default () => (
         ),
       }}
     />
+    <Stack.Screen
+      name="channel"
+      options={{
+        headerShown: true,
+        title: 'Channel',
+        animation: 'slide_from_right',
+        header: ({ options }) => (
+          <NavHeader
+            options={options}
+            title={options.title}
+            // rightButton={<CreateChannelButton />}
+          />
+        ),
+      }}
+    />
   </Stack>
 )
