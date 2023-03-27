@@ -1,8 +1,12 @@
 import { Link, Tabs } from 'expo-router'
 import { Pressable, useColorScheme } from 'react-native'
+import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import Colors from '../../constants/Colors'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { XStack } from 'tamagui'
+
+const activeTabColor = '$color12'
+const inactiveTabColor = '$color8'
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -25,15 +29,15 @@ export default function TabLayout() {
         tabBarStyle: {
           borderTopWidth: 0,
         },
-        // tabBarBackground: () => (
-        //   <XStack
-        //     f={1}
-        //     backgroundColor="$backgroundSoft"
-        //     borderTopWidth="$1"
-        //     borderTopColor="$color4"
-        //     elevation="$6"
-        //   />
-        // ),
+        tabBarBackground: () => (
+          <XStack
+            f={1}
+            backgroundColor="$backgroundSoft"
+            borderTopWidth="$1"
+            borderTopColor="$color4"
+            elevation="$6"
+          />
+        ),
       }}
       //   screenOptions={{
       //     tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -44,20 +48,11 @@ export default function TabLayout() {
         // TODO: Type
         options={({ navigation }): any => ({
           title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          tabBarIcon: ({ focused, size }) => (
+            <MessageCircle
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
           ),
         })}
       />
@@ -65,7 +60,24 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ focused, size }) => (
+            <Globe
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Tab Two',
+          tabBarIcon: ({ focused, size }) => (
+            <Settings
+              color={focused ? activeTabColor : inactiveTabColor}
+              size={size}
+            />
+          ),
         }}
       />
     </Tabs>
