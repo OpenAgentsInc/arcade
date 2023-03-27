@@ -1,9 +1,9 @@
-import { Link, Tabs } from 'expo-router'
-import { Pressable, useColorScheme } from 'react-native'
+import { Tabs } from 'expo-router'
+import { useColorScheme } from 'react-native'
 import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
-import Colors from '../../constants/Colors'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { XStack } from 'tamagui'
+import { NavHeader } from '@my/ui/src'
 
 const activeTabColor = '$color12'
 const inactiveTabColor = '$color8'
@@ -71,12 +71,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Tab Two',
+          headerShown: true,
+          title: 'Settings',
           tabBarIcon: ({ focused, size }) => (
             <Settings
               color={focused ? activeTabColor : inactiveTabColor}
               size={size}
             />
+          ),
+          header: ({ options }) => (
+            <NavHeader options={options} title={options.title} />
           ),
         }}
       />

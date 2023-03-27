@@ -5336,6 +5336,7 @@ __metadata:
     "@trpc/next": 10.9.0
     "@trpc/react-query": 10.9.0
     axios: 1.3.4
+    expo-clipboard: ~4.0.1
     expo-linking: 3.3.0
     js-lnurl: ^0.5.1
     nostr-tools: ^1.1.1
@@ -8402,6 +8403,15 @@ __metadata:
     expo-random:
       optional: true
   checksum: 2863db5df3ec8a8892d0ef8fde7606fdf04230216101e55ae879d63b6df0d26a62cbf7ddfa5cf947a316a2ef29f2eeb86891e988c34b1a1f7ee4e3ce6ac4ac1b
+  languageName: node
+  linkType: hard
+
+"expo-clipboard@npm:~4.0.1":
+  version: 4.0.2
+  resolution: "expo-clipboard@npm:4.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 46cd2067278fcf310a59a30680bd09b3ceb3a14333e5884eecd2d8f10c1623c312fb08301ad475e5e32b6def96c13a07d9e456535249f0ade97bb61c695d2dff
   languageName: node
   linkType: hard
 
