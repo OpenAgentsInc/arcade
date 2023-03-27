@@ -6,6 +6,7 @@ import axios from 'axios'
 import { API_URL } from 'lib/api'
 // import { StackNavigatorParams } from 'navigation/nav-types'
 import { useRef } from 'react'
+import { useRouter } from 'solito/router'
 import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Separator } from 'tamagui'
@@ -22,9 +23,10 @@ export const ChannelList = ({ joined }) => {
   ) as Channel[]
   const queryClient = useQueryClient()
   const flashListRef = useRef<FlashList<Channel>>(null)
-  const { navigate } = useNavigation<NativeStackNavigationProp<any>>()
+  //   const { navigate } = useNavigation<NativeStackNavigationProp<any>>()
 
   const apiToken = useStore((s) => s.apiToken)
+  const { push } = useRouter()
 
   const mutation = useMutation({
     mutationFn: (channel: Channel) => {
@@ -42,7 +44,11 @@ export const ChannelList = ({ joined }) => {
       console.log('Successfully joined channel')
       queryClient.invalidateQueries({ queryKey: ['channels/true'] })
       queryClient.invalidateQueries({ queryKey: ['channels/false'] })
-      navigate('channel', { channel })
+      //   navigate('channel', { channel })
+      push({
+        pathname: '/home/chat/channel',
+        query: { channel: JSON.stringify(channel) },
+      })
     },
   })
 
@@ -55,7 +61,11 @@ export const ChannelList = ({ joined }) => {
         channel={channel}
         onPress={() => {
           if (joined) {
-            navigate('channel', { channel })
+            // navigate('channel', { channel })
+            push({
+              pathname: '/home/chat/channel',
+              query: { channel: JSON.stringify(channel) },
+            })
           } else {
             mutation.mutate(channel)
           }
