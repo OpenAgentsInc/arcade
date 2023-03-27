@@ -40,9 +40,17 @@ export default function TabLayout() {
         })}
       />
       <Tabs.Screen
-        name="two"
+        name="discover"
         options={{
-          title: 'Tab Two',
+          headerShown: true,
+          title: 'Discover',
+          header: ({ options }) => (
+            <NavHeader
+              options={options}
+              title={options.title}
+              // rightButton={<CreateChannelButton />}
+            />
+          ),
           tabBarIcon: ({ focused, size }) => (
             <Globe
               color={focused ? activeTabColor : inactiveTabColor}
