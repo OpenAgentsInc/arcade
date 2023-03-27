@@ -1,3 +1,4 @@
+import { createParam } from 'solito'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 // import { StackNavigatorParams } from 'navigation/nav-types'
@@ -12,9 +13,13 @@ import { MessageInput, MessageList } from '../components'
 //   route: RouteProp<StackNavigatorParams, 'channel'>
 // }
 
+const { useParam } = createParam<{ channel: string }>()
+
 export const ChannelScreen = ({ navigation, route }) => {
-  const { channel } = route.params
+  //   const { channel } = route.params
   const { setOptions } = useNavigation()
+  const [channelString] = useParam('channel')
+  const channel = JSON.parse(channelString as string)
 
   useEffect(() => {
     setOptions({ title: channel?.title ?? 'Unnamed Channel' })
