@@ -120,12 +120,10 @@ export const createAuthStore = (set: any, get: any) => ({
     })
 
     // Auth user to API
-    // const apitoken = await getApiToken({ publicKey, privateKey })
+    const apitoken = await getApiToken({ publicKey, privateKey })
 
-    // save apitoken to expo securestore
-    // set({ apiToken: apitoken, user: { publicKey, privateKey } })
-    set({ apiToken: 'dummy', user: { publicKey, privateKey } })
-    // console.log('API token set and saved.')
+    set({ apiToken: apitoken, user: { publicKey, privateKey } })
+    console.log('API token set and saved.')
   },
 })
 
