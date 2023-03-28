@@ -22,7 +22,7 @@
     "@tamagui/font-inter": "^1.9.12",
     "@tamagui/react-native-media-driver": "^1.9.12",
     "@tamagui/shorthands": "^1.9.12",
-    "@tamagui/theme-base": "^1.9.12",
+    "@tamagui/themes": "^1.9.12",
     "date-fns": "2.29.3",
     "tamagui": "^1.9.12"
   },

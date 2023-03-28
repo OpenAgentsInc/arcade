@@ -2817,7 +2817,7 @@ __metadata:
     "@tamagui/font-inter": ^1.9.12
     "@tamagui/react-native-media-driver": ^1.9.12
     "@tamagui/shorthands": ^1.9.12
-    "@tamagui/theme-base": ^1.9.12
+    "@tamagui/themes": ^1.9.12
     date-fns: 2.29.3
     tamagui: ^1.9.12
   languageName: unknown
@@ -3863,12 +3863,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/create-themes@npm:1.9.12":
+"@tamagui/create-theme@npm:1.9.12":
   version: 1.9.12
-  resolution: "@tamagui/create-themes@npm:1.9.12"
+  resolution: "@tamagui/create-theme@npm:1.9.12"
   dependencies:
-    "@tamagui/core": 1.9.12
-  checksum: b696a3292654dbebc78fcdeaeaf8b95d622be306270d7d257bf463073d8d8d2a1b0c2859a7d27124604c3f8aca53ab1fc4c558df663642cc7a7218d50a8e1130
+    "@tamagui/web": 1.9.12
+  checksum: 785b90a5f053c858d37a873e81c5a50cd59ebd8a007a6177c828a98544a32240e9fef664d7793177c2bd1534ab449e267b008300aa35421935a0ea92d69b25ea
   languageName: node
   linkType: hard
 
@@ -4615,14 +4615,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/theme-base@npm:^1.9.12":
+"@tamagui/themes@npm:^1.9.12":
   version: 1.9.12
-  resolution: "@tamagui/theme-base@npm:1.9.12"
+  resolution: "@tamagui/themes@npm:1.9.12"
   dependencies:
     "@tamagui/colors": 1.9.12
-    "@tamagui/core": 1.9.12
-    "@tamagui/create-themes": 1.9.12
-  checksum: d964e83ba8af2a8d361599f073536530db2ca710929c95c177de190fb8fc9a47c94ae5ba78649025936f6d4bea57f8ae2c78995e1ebf3e6c91e3923aa8ccfe8e
+    "@tamagui/create-theme": 1.9.12
+    "@tamagui/web": 1.9.12
+  checksum: 2392d328e0680ce615931d1b888f29022ab8a830fb961ebe247107fa4bcd800bdf5c6bb971e2d026479a6a74bac0b136a2bb3620765e7f4067f80f31aec8179d
   languageName: node
   linkType: hard
 
@@ -5616,7 +5616,7 @@ __metadata:
     "@tamagui/font-inter": ^1.9.12
     "@tamagui/lucide-icons": ^1.9.12
     "@tamagui/shorthands": ^1.9.12
-    "@tamagui/theme-base": ^1.9.12
+    "@tamagui/themes": ^1.9.12
     "@tanstack/react-query": 4.22.0
     "@trpc/next": 10.9.0
     "@trpc/react-query": 10.9.0
