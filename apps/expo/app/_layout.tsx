@@ -1,4 +1,3 @@
-import 'expo-dev-client'
 import React from 'react'
 import { Provider } from 'app/provider'
 import { useFonts } from 'expo-font'

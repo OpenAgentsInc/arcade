@@ -8644,7 +8644,6 @@ __metadata:
     expo: ^48.0.0
     expo-auth-session: ~4.0.3
     expo-constants: ~14.2.1
-    expo-dev-client: ~2.1.6
     expo-font: ~11.1.1
     expo-linear-gradient: ~12.1.2
     expo-linking: ~4.0.1
@@ -8735,55 +8734,6 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: b5cbec821a00087119e1d73a1bcd021c2355ae85bdcdb58bd98fb1b33d65b700c416d19745432a585b3e22c80a4b1c8033d531ca539279e9b1eeffbfff302a18
-  languageName: node
-  linkType: hard
-
-"expo-dev-client@npm:~2.1.6":
-  version: 2.1.6
-  resolution: "expo-dev-client@npm:2.1.6"
-  dependencies:
-    expo-dev-launcher: 2.1.6
-    expo-dev-menu: 2.1.4
-    expo-dev-menu-interface: 1.1.1
-    expo-manifests: ~0.5.0
-    expo-updates-interface: ~0.9.0
-  peerDependencies:
-    expo: "*"
-  checksum: dd8d20c191203cd986f1ab4467bf9f3ee72f223f3511c22780a84d31e6bced36b16c718b431fe5fbcce24842f7b63f6b8fd72a4351af558732a33cc180645796
-  languageName: node
-  linkType: hard
-
-"expo-dev-launcher@npm:2.1.6":
-  version: 2.1.6
-  resolution: "expo-dev-launcher@npm:2.1.6"
-  dependencies:
-    expo-dev-menu: 2.1.4
-    resolve-from: ^5.0.0
-    semver: ^7.3.5
-  peerDependencies:
-    expo: "*"
-  checksum: 78049d4b8800d66d04b22b8804c4657468c03c3cef4d3c4d99d05aa40672e196bf59a90901f8cbec5965bbacd40627b47e70276c73ba0692e3a3c986c8d3ccde
-  languageName: node
-  linkType: hard
-
-"expo-dev-menu-interface@npm:1.1.1":
-  version: 1.1.1
-  resolution: "expo-dev-menu-interface@npm:1.1.1"
-  peerDependencies:
-    expo: "*"
-  checksum: 04d9efe30916d520e7d8ec46fb31a7971b6efae2af3b7e787affc20b17f9dc0a409d3b0f73d4fd757133201ece9e119e3da3fb2082ee801fbf7291e5403914ce
-  languageName: node
-  linkType: hard
-
-"expo-dev-menu@npm:2.1.4":
-  version: 2.1.4
-  resolution: "expo-dev-menu@npm:2.1.4"
-  dependencies:
-    expo-dev-menu-interface: 1.1.1
-    semver: ^7.3.5
-  peerDependencies:
-    expo: "*"
-  checksum: 6d61c1eea64715b684c3ef06fa020cb9c5a59375fd2479a010f2c81918bd44c7139b64df6604bdc507317d5e68e21d261238d3b0e32ed6e8f96eed5eef90739e
   languageName: node
   linkType: hard
 
