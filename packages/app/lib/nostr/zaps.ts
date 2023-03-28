@@ -51,6 +51,7 @@ export const createZapRequestNote = (
   // Generate the note ID and sign the note
   zapRequestNote.id = getEventHash(zapRequestNote)
 
+  // @ts-ignore
   zapRequestNote.sig = signEvent(zapRequestNote, senderPrivateKey)
 
   return zapRequestNote
