@@ -1,4 +1,5 @@
-apps/nextjs/.tamagui
+apps/nextjs/.tamagui/
+apps/nextjs/.tamagui/*
 
 # Node.js
 node_modules/
