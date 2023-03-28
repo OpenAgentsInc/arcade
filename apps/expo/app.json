@@ -3,7 +3,7 @@
     "name": "Arc",
     "slug": "arc",
     "version": "0.0.5",
-    "sdkVersion": "47.0.0",
+    "sdkVersion": "48.0.0",
     "jsEngine": "hermes",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
