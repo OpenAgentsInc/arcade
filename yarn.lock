@@ -8623,10 +8623,10 @@ __metadata:
     expo: ^48.0.0
     expo-auth-session: ~4.0.3
     expo-constants: ~14.2.1
+    expo-crypto: ~12.2.1
     expo-font: ~11.1.1
     expo-linear-gradient: ~12.1.2
     expo-linking: ~4.0.1
-    expo-random: ~13.1.1
     expo-router: 1.0.0-rc1
     expo-secure-store: ~12.1.1
     expo-splash-screen: ~0.18.1
@@ -8705,7 +8705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-crypto@npm:~12.2.0":
+"expo-crypto@npm:~12.2.0, expo-crypto@npm:~12.2.1":
   version: 12.2.1
   resolution: "expo-crypto@npm:12.2.1"
   dependencies:
@@ -8814,17 +8814,6 @@ __metadata:
     compare-versions: ^3.4.0
     invariant: ^2.2.4
   checksum: 78e82167f73b77f0ae6224027601b4aa3c4cec46e6a2f01eebfd19ac94e63f19e7d03da8e06f67caa0c9323a6df7bb87d4de848349d29a6004741e5b401a00fe
-  languageName: node
-  linkType: hard
-
-"expo-random@npm:~13.1.1":
-  version: 13.1.1
-  resolution: "expo-random@npm:13.1.1"
-  dependencies:
-    base64-js: ^1.3.0
-  peerDependencies:
-    expo: "*"
-  checksum: ff790eb806d2122465718ba481bbfa2827476a680834766d99b555ddc4935d53d44d028bd13f67f128fcfd9207230cf89e4185029fe7a70193b406e42a181a0d
   languageName: node
   linkType: hard
 

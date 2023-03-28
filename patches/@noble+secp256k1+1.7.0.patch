@@ -13,10 +13,10 @@ index e207e74..da07368 100644
          else {
 -            throw new Error("The environment doesn't have randomBytes function");
 +            try {
-+                const randomBytes = require('expo-random').getRandomBytes;
++                const randomBytes = require('expo-crypto').getRandomBytes;
 +                return randomBytes(bytesLength);
 +            } catch (e) {
-+                throw new Error("The environment doesn't have randomBytes function and we couldn't use expo-random");
++                throw new Error("The environment doesn't have randomBytes function and we couldn't use expo-crypto");
 +            }
          }
      },
