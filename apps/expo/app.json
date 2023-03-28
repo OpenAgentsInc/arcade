@@ -2,6 +2,7 @@
   "expo": {
     "name": "Arc",
     "slug": "arc",
+    "scheme": "thearcapp",
     "version": "0.0.5",
     "sdkVersion": "48.0.0",
     "jsEngine": "hermes",
