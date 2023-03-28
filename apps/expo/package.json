@@ -52,7 +52,7 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@expo/metro-config": "^0.7.0",
-    "@tamagui/babel-plugin": "1.0.17",
+    "@tamagui/babel-plugin": "1.9.12",
     "@types/react-native-dotenv": "^0.2.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "react-native-dotenv": "^3.4.8",
