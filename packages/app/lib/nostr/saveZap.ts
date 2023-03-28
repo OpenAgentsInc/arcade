@@ -51,6 +51,7 @@ export const saveZap = async ({ eventId, lud16 }) => {
     if (invoiceData.pr) {
       // Step 5: Pay the invoice or pass it to an app that can pay the invoice
       console.log('Invoice:', invoiceData.pr)
+      return invoiceData.pr
       // Here, you should pay the invoice or pass it to an app that can handle the payment
     } else {
       console.error('Error fetching invoice:', invoiceData)
