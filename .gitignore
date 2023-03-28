@@ -123,3 +123,5 @@ thumbs.db
 
 # SQLite
 *.sqlite
+
+turbo-build.log
