@@ -5212,13 +5212,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.5
-  resolution: "@types/prop-types@npm:15.7.5"
-  checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
-  languageName: node
-  linkType: hard
-
 "@types/qs@npm:*, @types/qs@npm:^6.9.7":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
@@ -5240,39 +5233,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native@npm:~0.70.6":
-  version: 0.70.9
-  resolution: "@types/react-native@npm:0.70.9"
-  dependencies:
-    "@types/react": "*"
-  checksum: 52b362f518c8a912174ae7cda1b20532bee11c2767794efcc0300650b750f72bcd8852435105559155f202504a742fe6e50f4e3cc4c1a9836dea9db132410ce3
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:17.0.21":
-  version: 17.0.21
-  resolution: "@types/react@npm:17.0.21"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: a590bd2e50e4ec0b1957388e198cf248bac3051e525e036901dea10f7d12203bf1c58350aa899e66494cbf8a60ee56402522273866c29748217f72552bb27d04
-  languageName: node
-  linkType: hard
-
 "@types/responselike@npm:^1.0.0":
   version: 1.0.0
   resolution: "@types/responselike@npm:1.0.0"
   dependencies:
     "@types/node": "*"
   checksum: e99fc7cc6265407987b30deda54c1c24bb1478803faf6037557a774b2f034c5b097ffd65847daa87e82a61a250d919f35c3588654b0fdaa816906650f596d1b0
-  languageName: node
-  linkType: hard
-
-"@types/scheduler@npm:*":
-  version: 0.16.2
-  resolution: "@types/scheduler@npm:0.16.2"
-  checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
   languageName: node
   linkType: hard
 
@@ -5698,7 +5664,7 @@ __metadata:
     eslint: ^8.21.0
     lerna-update-wizard: ^1.1.2
     prettier: ^2.7.1
-    turbo: ^1.4.2
+    turbo: ^1.8.6
     typescript: ^4.9.4
   languageName: unknown
   linkType: soft
@@ -8649,7 +8615,6 @@ __metadata:
     "@expo/metro-config": ^0.7.0
     "@my/ui": "*"
     "@tamagui/babel-plugin": 1.9.12
-    "@types/react-native": ~0.70.6
     "@types/react-native-dotenv": ^0.2.0
     app: "*"
     babel-plugin-module-resolver: ^4.1.0
@@ -16390,58 +16355,58 @@ prisma@latest:
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-darwin-64@npm:1.7.0"
+"turbo-darwin-64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-darwin-64@npm:1.8.6"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-darwin-arm64@npm:1.7.0"
+"turbo-darwin-arm64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-darwin-arm64@npm:1.8.6"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-linux-64@npm:1.7.0"
+"turbo-linux-64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-linux-64@npm:1.8.6"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-linux-arm64@npm:1.7.0"
+"turbo-linux-arm64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-linux-arm64@npm:1.8.6"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-windows-64@npm:1.7.0"
+"turbo-windows-64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-windows-64@npm:1.8.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "turbo-windows-arm64@npm:1.7.0"
+"turbo-windows-arm64@npm:1.8.6":
+  version: 1.8.6
+  resolution: "turbo-windows-arm64@npm:1.8.6"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.4.2":
-  version: 1.7.0
-  resolution: "turbo@npm:1.7.0"
+"turbo@npm:^1.8.6":
+  version: 1.8.6
+  resolution: "turbo@npm:1.8.6"
   dependencies:
-    turbo-darwin-64: 1.7.0
-    turbo-darwin-arm64: 1.7.0
-    turbo-linux-64: 1.7.0
-    turbo-linux-arm64: 1.7.0
-    turbo-windows-64: 1.7.0
-    turbo-windows-arm64: 1.7.0
+    turbo-darwin-64: 1.8.6
+    turbo-darwin-arm64: 1.8.6
+    turbo-linux-64: 1.8.6
+    turbo-linux-arm64: 1.8.6
+    turbo-windows-64: 1.8.6
+    turbo-windows-arm64: 1.8.6
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -16457,7 +16422,7 @@ prisma@latest:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: effefebefeb7531bb33205e368b2b3571fee9e8face3530af25126d4162527f105a5fe7777509a99288326be3b6e28953c7ceacab2c2ef74abb0604c8ec9bbe7
+  checksum: f20983be69ac689eb8193adff5838fbc1248dc987fbecfa7433996ee50934dc5574c98f2b09e552bfae48386f2077ce810e203a8a9961819106098384bf4e806
   languageName: node
   linkType: hard
 
