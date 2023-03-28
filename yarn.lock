@@ -2356,23 +2356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/metro-config@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@expo/metro-config@npm:0.5.2"
-  dependencies:
-    "@expo/config": ~7.0.2
-    "@expo/json-file": 8.2.36
-    chalk: ^4.1.0
-    debug: ^4.3.2
-    find-yarn-workspace-root: ~2.0.0
-    getenv: ^1.0.0
-    resolve-from: ^5.0.0
-    sucrase: ^3.20.0
-  checksum: 7d31316cd97fdc058965bb517de5a4b56fe3ce957dc730780781024861aa2070c2a4bf7fcddb710c0e4c703f8d9ed9ddf84d1cd3efb4724998105f265b6c4aad
-  languageName: node
-  linkType: hard
-
-"@expo/metro-config@npm:~0.7.0":
+"@expo/metro-config@npm:^0.7.0, @expo/metro-config@npm:~0.7.0":
   version: 0.7.1
   resolution: "@expo/metro-config@npm:0.7.1"
   dependencies:
@@ -8576,7 +8560,7 @@ __metadata:
     "@bacons/expo-metro-runtime": ^2.0.1
     "@clerk/clerk-expo": ^0.10.16
     "@expo-google-fonts/source-code-pro": ^0.2.3
-    "@expo/metro-config": ^0.5.2
+    "@expo/metro-config": ^0.7.0
     "@my/ui": "*"
     "@tamagui/babel-plugin": 1.0.17
     "@types/react-native": ~0.70.6
