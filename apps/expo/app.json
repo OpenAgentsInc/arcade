@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "5",
+      "buildNumber": "6",
       "config": {
         "usesNonExemptEncryption": false
       }
