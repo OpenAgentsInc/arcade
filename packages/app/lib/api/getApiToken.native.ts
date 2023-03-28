@@ -36,6 +36,5 @@ export const getApiToken = async ({ publicKey, privateKey }) => {
   const data2 = await res2.data
   const apiToken = data2.token
   await storage.setItem(storage.API_TOKEN_STORAGE_KEY, apiToken)
-  console.log('Saved apiToken', apiToken)
   return apiToken
 }
