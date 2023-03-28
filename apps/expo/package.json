@@ -15,6 +15,7 @@
     "build:ios:local": "eas build -p ios --local",
     "build:android": "eas build -p android",
     "build:android:apk": "eas build -p android --profile preview",
+    "build:android:apk:local": "eas build -p android --profile preview --local",
     "build:android:dev-client": "eas build -p android --profile development",
     "apk": "yarn build:android:apk",
     "doctor": "npx expo-doctor",
