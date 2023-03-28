@@ -6,10 +6,7 @@
     "version": "0.0.5",
     "sdkVersion": "48.0.0",
     "jsEngine": "hermes",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -21,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "4",
+      "buildNumber": "5",
       "config": {
         "usesNonExemptEncryption": false
       }
