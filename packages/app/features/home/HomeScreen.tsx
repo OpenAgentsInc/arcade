@@ -20,6 +20,7 @@ export function HomeScreen() {
             size="$5"
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             bg="$color6"
+            color="$color11"
             elevation="$6"
           >
             Create Account
@@ -31,6 +32,7 @@ export function HomeScreen() {
             size="$5"
             focusStyle={{ opacity: 0.9, borderWidth: 0 }}
             bg="$color1"
+            color="$color11"
             elevation="$6"
           >
             Login

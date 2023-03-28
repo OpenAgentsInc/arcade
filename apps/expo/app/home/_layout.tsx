@@ -18,7 +18,7 @@ export default function TabLayout() {
         tabBarBackground: () => (
           <XStack
             f={1}
-            backgroundColor="$backgroundSoft"
+            backgroundColor="$color1"
             borderTopWidth="$1"
             borderTopColor="$color4"
             elevation="$6"

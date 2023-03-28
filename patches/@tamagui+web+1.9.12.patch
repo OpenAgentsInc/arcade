@@ -1,0 +1,13 @@
+diff --git a/node_modules/@tamagui/web/dist/cjs/helpers/createPropMapper.js b/node_modules/@tamagui/web/dist/cjs/helpers/createPropMapper.js
+index 101e85b..2bdc609 100644
+--- a/node_modules/@tamagui/web/dist/cjs/helpers/createPropMapper.js
++++ b/node_modules/@tamagui/web/dist/cjs/helpers/createPropMapper.js
+@@ -324,7 +324,7 @@ const getToken = (key, value, conf, theme, fontFamily = "$body", languageContext
+       case "letterSpacing":
+       case "fontWeight":
+         valOrVar = ((_c = (_b = fontsParsed[fontFamily]) == null ? void 0 : _b[fontShorthand[key] || key]) == null ? void 0 : _c[value]) || value;
+-        console.warn("??", { fontFamily, fontShorthand, key, value, valOrVar });
++        // console.warn("??", { fontFamily, fontShorthand, key, value, valOrVar });
+         hasSet = true;
+         break;
+     }
