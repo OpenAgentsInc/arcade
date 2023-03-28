@@ -23,7 +23,6 @@
     "@clerk/clerk-expo": "^0.10.16",
     "@expo-google-fonts/source-code-pro": "^0.2.3",
     "@my/ui": "*",
-    "@types/react-native": "~0.70.6",
     "app": "*",
     "babel-plugin-module-resolver": "^4.1.0",
     "burnt": "^0.10.0",
