@@ -6,7 +6,10 @@
     "version": "0.0.5",
     "sdkVersion": "48.0.0",
     "jsEngine": "hermes",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -28,7 +31,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "versionCode": 12
+      "versionCode": 12,
+      "package": "arcade.labs.arc"
     },
     "extra": {
       "eas": {
