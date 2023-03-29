@@ -7,6 +7,7 @@
     "dev": "expo start -c",
     "clean": "rm -rf .expo .turbo node_modules",
     "android": "TAMAGUI_TARGET=native yarn expo run:android",
+    "android:release": "TAMAGUI_TARGET=native yarn expo run:android --variant release",
     "ios": "TAMAGUI_TARGET=native yarn expo run:ios",
     "ios:release": "TAMAGUI_TARGET=native yarn expo run:ios --configuration Release",
     "web": "TAMAGUI_TARGET=web yarn expo start --web",
