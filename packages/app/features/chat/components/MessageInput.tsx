@@ -1,10 +1,10 @@
+import { KeyboardAvoider } from '@my/ui/src'
 import { Send } from '@tamagui/lucide-icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { API_URL } from 'lib/api'
 import { useRef, useState } from 'react'
 import { TextInput, TouchableOpacity } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useStore } from 'stores/index'
 import { Channel } from 'stores/types'
 import { Input, XStack } from 'tamagui'
@@ -48,7 +48,7 @@ export const MessageInput = ({ channel }) => {
   }
   return (
     <XStack alignItems="center" p="$2">
-      <KeyboardAwareScrollView style={{ flexGrow: 1, flexShrink: 1 }}>
+      <KeyboardAvoider>
         <Input
           color="$color12"
           placeholder="Message"
@@ -60,7 +60,7 @@ export const MessageInput = ({ channel }) => {
           fg={1}
           fs={1}
         />
-      </KeyboardAwareScrollView>
+      </KeyboardAvoider>
       <TouchableOpacity activeOpacity={0.8} onPress={submitInput}>
         <Send color="$color10" size={24} style={{ marginLeft: 10 }} />
       </TouchableOpacity>
