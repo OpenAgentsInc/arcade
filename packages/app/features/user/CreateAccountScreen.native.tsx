@@ -1,10 +1,9 @@
 import { ChevronsRight } from '@tamagui/lucide-icons'
 import { useCallback, useState } from 'react'
 import { Alert, Platform } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useStore } from 'app/stores'
 import { Button, H2, Input, Label, YStack } from 'tamagui'
-import { BackButton, Screen } from '@my/ui/src'
+import { BackButton, KeyboardAvoider, Screen } from '@my/ui/src'
 
 export const CreateAccountScreen = () => {
   const [username, setUsername] = useState('')
@@ -35,7 +34,7 @@ export const CreateAccountScreen = () => {
   return (
     <Screen>
       <BackButton mt={Platform.OS === 'ios' ? 75 : 25} ml={20} />
-      <KeyboardAwareScrollView>
+      <KeyboardAvoider>
         <YStack px="$4" alignItems="center" f={1}>
           <YStack alignItems="center" w="100%" mt={15}>
             <H2 mb="$4">Create Account</H2>
@@ -100,7 +99,7 @@ export const CreateAccountScreen = () => {
             </YStack>
           </YStack>
         </YStack>
-      </KeyboardAwareScrollView>
+      </KeyboardAvoider>
     </Screen>
   )
 }

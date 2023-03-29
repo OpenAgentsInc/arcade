@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { useStore } from 'stores'
-import { Card, H2, Input, isWeb, Paragraph, Stack, YStack } from 'tamagui'
-import { LinearGradient } from '@tamagui/linear-gradient'
+import { H2, Input, isWeb, Paragraph, Stack, YStack } from 'tamagui'
 import { BackButton, Screen } from '@my/ui/src'
 
 export const LoginScreen = () => {

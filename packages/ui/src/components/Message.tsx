@@ -4,6 +4,7 @@ import { Image, Pressable, View } from 'react-native'
 import { ChannelMessage } from '../types'
 import { saveZap, useMessageSatsZapped } from 'app/lib/nostr'
 import { Paragraph, XStack, YStack } from 'tamagui'
+import * as Linking from 'expo-linking'
 
 type Props = {
   currentUser: string // pubkey
@@ -20,12 +21,24 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
   const pic = isCurrentUser
     ? 'https://placekitten.com/201/201'
     : 'https://placekitten.com/200/200'
-  const onLongPress = () => {
-    saveZap({ eventId: message.id, lud16: 'jb55@sendsats.lol' })
+  const onLongPress = async () => {
+    const invoice = await saveZap({
+      eventId: message.id,
+      lud16: 'jb55@sendsats.lol',
+    })
+    try {
+      Linking.openURL(`lightning:${invoice}`)
+    } catch (e) {
+      console.log(e)
+    }
   }
   const satsZapped = useMessageSatsZapped(message.id)
   return (
-    <Pressable onLongPress={onLongPress} style={{ flex: 1 }}>
+    <Pressable
+      onPress={() => console.log('hmm')}
+      onLongPress={onLongPress}
+      style={{ flex: 1 }}
+    >
       <XStack flex={1} mt={12}>
         {isCurrentUser ? (
           <View style={{ flexGrow: 1, flexShrink: 1 }} />
