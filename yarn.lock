@@ -5008,14 +5008,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:17.0.21":
-  version: 17.0.21
-  resolution: "@types/react@npm:17.0.21"
+"@types/react@npm:18.0.30":
+  version: 18.0.30
+  resolution: "@types/react@npm:18.0.30"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: a590bd2e50e4ec0b1957388e198cf248bac3051e525e036901dea10f7d12203bf1c58350aa899e66494cbf8a60ee56402522273866c29748217f72552bb27d04
+  checksum: 3ca13fd10a1ee92826e37cd8c2fe563bff65d4bdb3ff53f632bc46c8fba2e94e24247b4b77ce957677a54e592299782e1235f7a3dfcfea327cb3213ddc98e968
   languageName: node
   linkType: hard
 
@@ -5418,7 +5418,6 @@ __metadata:
     expo-linking: ~4.0.1
     js-lnurl: ^0.5.1
     nostr-tools: ^1.1.1
-    react-native-keyboard-aware-scroll-view: 0.9.5
     solito: 2.1.3
     text-encoding-polyfill: 0.6.7
     zustand: 4.3.6
@@ -8356,8 +8355,8 @@ __metadata:
     expo-splash-screen: ~0.18.1
     expo-status-bar: ~1.4.4
     expo-updates: ~0.16.3
-    react: 18.2.0
-    react-dom: 18.1.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
     react-native: 0.71.4
     react-native-dotenv: ^3.4.8
     react-native-gesture-handler: ~2.9.0
@@ -13428,7 +13427,7 @@ prisma@latest:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:*, prop-types@npm:15.8.1, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -13723,27 +13722,6 @@ prisma@latest:
   languageName: node
   linkType: hard
 
-"react-native-iphone-x-helper@npm:^1.0.3":
-  version: 1.3.1
-  resolution: "react-native-iphone-x-helper@npm:1.3.1"
-  peerDependencies:
-    react-native: ">=0.42.0"
-  checksum: 024376646009a966e33e12fc2358751830818b0fb73b1c601a64eb5e490d2dc43eec23668991b985a8c412a84d087f20eb45bb9b593567c08b66e741b7bddda5
-  languageName: node
-  linkType: hard
-
-"react-native-keyboard-aware-scroll-view@npm:0.9.5":
-  version: 0.9.5
-  resolution: "react-native-keyboard-aware-scroll-view@npm:0.9.5"
-  dependencies:
-    prop-types: ^15.6.2
-    react-native-iphone-x-helper: ^1.0.3
-  peerDependencies:
-    react-native: ">=0.48.4"
-  checksum: 5eec2aedb886213dfed4c8428a443b565dce80ba9fcf5897171e4c8829d4dd64c5011ac004d93f29adfc83ad6f88c2838d1a5b45255dc4a49bd1c0a169245800
-  languageName: node
-  linkType: hard
-
 "react-native-reanimated@npm:~2.14.4":
   version: 2.14.4
   resolution: "react-native-reanimated@npm:2.14.4"
@@ -13860,9 +13838,9 @@ prisma@latest:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:^0.18.6, react-native-web@npm:~0.18.10":
-  version: 0.18.12
-  resolution: "react-native-web@npm:0.18.12"
+"react-native-web@npm:0.18.9":
+  version: 0.18.9
+  resolution: "react-native-web@npm:0.18.9"
   dependencies:
     "@babel/runtime": ^7.18.6
     create-react-class: ^15.7.0
@@ -13874,7 +13852,7 @@ prisma@latest:
   peerDependencies:
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
-  checksum: 69f0ebafafc4b04b845105646d0efc0cee10ed378377c621ac67a487d5508bb0dbd1c0ff3ea8d17f5cff0c0fb8d6355916f52f19ad3dad842b99b75c65ff4973
+  checksum: 2cd2c08d8ff92bf969a54124d21f101e8d4645b1eb0625aeabccc70ba55b05c0d1fc6ab570b237417be674346d140edc387c5deac403050a9e1f1d87b15b2253
   languageName: node
   linkType: hard
 
