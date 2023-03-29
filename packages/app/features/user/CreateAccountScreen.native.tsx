@@ -93,6 +93,7 @@ export const CreateAccountScreen = () => {
                 w="100%"
                 iconAfter={ChevronsRight}
                 onPress={handleSubmit}
+                color="$color11"
               >
                 Create
               </Button>
