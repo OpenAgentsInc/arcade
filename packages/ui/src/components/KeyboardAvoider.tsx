@@ -42,7 +42,7 @@ export const KeyboardAvoider = (props) => {
     <Animated.View
       style={[
         styles.container,
-        { paddingBottom: keyboardOffset },
+        { paddingBottom: Platform.OS === 'ios' ? keyboardOffset : 0 },
         props.containerStyle,
       ]}
     >
