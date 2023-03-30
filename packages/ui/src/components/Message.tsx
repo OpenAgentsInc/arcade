@@ -8,13 +8,14 @@ import * as Linking from 'expo-linking'
 
 type Props = {
   currentUser: string // pubkey
-  message: ChannelMessage
+  message: any
 }
 
 export const Message: React.FC<Props> = ({ currentUser, message }) => {
+  //   console.log(message)
   const userMetadata = {
-    name: message.pubkey.slice(0, 10),
-    picture: 'https://placekitten.com/200/200',
+    name: message.user?.name ?? message.pubkey.slice(0, 10),
+    picture: message.user?.avatar ?? 'https://placekitten.com/200/200',
   }
   const align = message.pubkey === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.pubkey === currentUser

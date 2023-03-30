@@ -4,8 +4,7 @@ import { FlatList, View } from 'react-native'
 import { Channel } from 'stores/types'
 import { Stack, Text } from 'tamagui'
 import { Message } from '@my/ui/src/components/Message'
-
-// import { Message } from './Message'
+import { useUserMetadataForMessages } from 'app/lib/hooks/useUserMetadataForMessages'
 
 type Props = {
   channel: Channel
@@ -15,10 +14,12 @@ export const MessageList: React.FC<Props> = ({ channel }) => {
   const messages = useChannelMessages(channel).sort((a, b) => {
     return a.created_at - b.created_at
   })
+  const messagesWithMetadata = useUserMetadataForMessages(messages)
+  //   console.log('messagesWithMetadata', messagesWithMetadata)
 
   return (
     <FlatList
-      data={messages}
+      data={messagesWithMetadata}
       renderItem={({ item }) => <Message message={item} />}
       keyExtractor={(item) => item.id}
       style={{ paddingHorizontal: 10 }}
