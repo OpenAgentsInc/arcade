@@ -16,7 +16,6 @@ export const NavHeader = ({
 }: NavHeaderProps) => {
   const { canGoBack, goBack } = useNavigation()
   const { name } = useRoute()
-
   return (
     <YStack
       elevation="$3"
@@ -27,7 +26,7 @@ export const NavHeader = ({
       borderBottomWidth="$1"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {canGoBack() && name !== 'tabs' ? (
+        {canGoBack() && name !== 'tabs' && name !== 'channels' ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}
