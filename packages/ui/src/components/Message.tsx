@@ -16,7 +16,9 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
   const userMetadata = {
     name: message.user?.name ?? message.pubkey.slice(0, 10),
     picture: message.user?.avatar ?? 'https://placekitten.com/200/200',
+    lud16: message.user?.lud16 ?? null,
   }
+  console.log(userMetadata.lud16)
   const align = message.pubkey === currentUser ? 'flex-end' : 'flex-start'
   const isCurrentUser = message.pubkey === currentUser
   const pic = isCurrentUser
@@ -25,7 +27,7 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
   const onLongPress = async () => {
     const invoice = await saveZap({
       eventId: message.id,
-      lud16: 'jb55@sendsats.lol',
+      lud16: message.user.lud16,
     })
     try {
       Linking.openURL(`lightning:${invoice}`)
@@ -78,20 +80,24 @@ export const Message: React.FC<Props> = ({ currentUser, message }) => {
             >
               {userMetadata?.name ?? truncateString(message.pubkey, 10)}
             </Paragraph>
-            <XStack ai="center" jc="center">
-              <Zap color="$orange11" size={14} />
-              <Paragraph
-                color="$orange11"
-                lineHeight={14}
-                //   fontWeight="700"
-                fontSize="$2"
-                fontFamily="$body"
-                mt={1}
-                ml={1}
-              >
-                {satsZapped}
-              </Paragraph>
-            </XStack>
+            {userMetadata?.lud16 ? (
+              <XStack ai="center" jc="center">
+                <Zap color="$orange11" size={14} />
+                <Paragraph
+                  color="$orange11"
+                  lineHeight={14}
+                  //   fontWeight="700"
+                  fontSize="$2"
+                  fontFamily="$body"
+                  mt={1}
+                  ml={1}
+                >
+                  {satsZapped}
+                </Paragraph>
+              </XStack>
+            ) : (
+              <></>
+            )}
           </XStack>
           <Paragraph
             mt={2}

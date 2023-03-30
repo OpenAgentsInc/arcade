@@ -63,8 +63,9 @@ export function useUserMetadataForMessages(messages: ChannelMessage[]) {
 }
 
 async function fetchUserMetadata(pubkeys: string[]) {
-  const userMetadata: { [pubkey: string]: { name: string; avatar: string } } =
-    {}
+  const userMetadata: {
+    [pubkey: string]: { name: string; avatar: string; lud16: string | null }
+  } = {}
 
   try {
     await pool.ensureRelay(relays[0] as string)
@@ -77,7 +78,8 @@ async function fetchUserMetadata(pubkeys: string[]) {
       const metadata = JSON.parse(event.content)
       userMetadata[event.pubkey] = {
         name: metadata.name || 'Unknown',
-        avatar: metadata.avatar || generateRandomPlacekitten(),
+        avatar: metadata.picture || generateRandomPlacekitten(),
+        lud16: metadata.lud16 || null,
       }
     })
 
