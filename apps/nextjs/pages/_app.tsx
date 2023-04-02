@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
   return (
     <>
       <Head>
-        <title>Arc</title>
+        <title>Arcade</title>
         <meta name="description" content="Connect freely." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
