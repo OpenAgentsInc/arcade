@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Arcade",
-    "slug": "arcade",
+    "slug": "arc",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
