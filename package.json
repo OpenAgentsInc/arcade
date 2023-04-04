@@ -1,5 +1,5 @@
 {
-  "name": "arcade",
+  "name": "@placeholder/arcade",
   "version": "0.1.0",
   "scripts": {
     "start": "expo start",
