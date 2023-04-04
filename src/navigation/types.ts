@@ -23,6 +23,9 @@ export type RootNavigatorParamList = {
 export type StreamNavigatorParamList = {
   streamhome: undefined
   ChannelScreen: {
-    channel: Channel<DefaultStreamChatGenerics>
+    channel: {
+      channelId: string
+      channelType: string
+    }
   }
 }

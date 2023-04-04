@@ -7,9 +7,7 @@ export const ChannelScreen = () => {
   const route: any = useRoute()
   const { client } = useChatClient()
   const channelData = route.params?.channel
-
   const channel = client.channel(channelData.channelType, channelData.channelId)
-
   const navigation = useNavigation()
 
   useEffect(() => {

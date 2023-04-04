@@ -36,7 +36,7 @@ export const StreamHome = () => {
         filters={filters}
         onSelect={(channel) => {
           const channelData = extractChannelData(channel)
-          console.log(channelData)
+          // console.log(channelData)
           // console.log(channel)
           navigation.navigate('ChannelScreen', { channel: channelData })
         }}
