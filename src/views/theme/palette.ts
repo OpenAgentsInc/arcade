@@ -1,0 +1,25 @@
+// Color names per http://chir.ag/projects/name-that-color
+export const palette = {
+  arwes: 'rgb(0, 248, 248)',
+  arwesTitle: '#a1ecfb',
+  arwesText: '#26dafd',
+  arwesFade: 'rgba(0, 248, 248, 0.5)',
+  arwesFader: 'rgba(0, 248, 248, 0.3)',
+  // arwesSecondary: 'rgba(6,61,62,0.8)',
+  arwesSecondary: 'rgb(6,61,62)',
+  white: '#FFFFFF',
+  black: '#000000',
+  haiti: '#120B29',
+  purple: '#1C133A',
+  portGore: '#2D2252',
+  blueBell: '#9D98CB',
+  blueBellFaded: 'rgba(157, 152, 203, 0.6)',
+  minsk: '#46367C',
+  moonRaker: '#EEECFB',
+  radicalRed: '#FC3A57',
+  pinkFlamingo: '#F459F4',
+  electricViolet: '#AE30FF',
+  electricIndigo: '#5B20F2',
+
+  blueBright: '#66B3F8',
+}

@@ -1,6 +1,20 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "noImplicitAny": false,
+    "baseUrl": "./",
+    "paths": {
+      "i18n": ["src/i18n"],
+      "i18n/*": ["src/i18n/*"],
+      "lib": ["src/lib"],
+      "lib/*": ["src/lib/*"],
+      "stores/*": ["src/stores/*"],
+      "stores": ["src/stores"],
+      "navigation": ["src/navigation"],
+      "navigation/*": ["src/navigation/*"],
+      "services/*": ["src/services/*"],
+      "views/*": ["src/views/*"]
+    }
   }
 }
