@@ -9,28 +9,22 @@ import {
 import { View } from '../../components/Themed'
 import { chatApiKey } from '../../lib/chatConfig'
 
-const chatClient = StreamChat.getInstance(chatApiKey)
-
 export default function TabOneScreen() {
   return (
-    <OverlayProvider>
-      <Chat client={chatClient}>
-        <View style={styles.container}>
-          <ChannelList
-            List={() => (
-              <View
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
-                <ChannelListMessenger />
-              </View>
-            )}
-          />
-        </View>
-      </Chat>
-    </OverlayProvider>
+    <View style={styles.container}>
+      <ChannelList
+        List={() => (
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <ChannelListMessenger />
+          </View>
+        )}
+      />
+    </View>
   )
 }
 
