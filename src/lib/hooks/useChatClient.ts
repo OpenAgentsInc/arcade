@@ -17,9 +17,9 @@ export const useChatClient = () => {
   useEffect(() => {
     const setupClient = async () => {
       try {
-        console.log('Attempting to connect...')
+        // console.log('Attempting to connect...')
         await chatClient.connectUser(user, chatUserToken)
-        console.log('Connected')
+        // console.log('Connected')
         setClientIsReady(true)
       } catch (error) {
         if (error instanceof Error) {

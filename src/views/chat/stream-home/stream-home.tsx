@@ -15,7 +15,7 @@ const sort = { last_message_at: -1 }
 export const StreamHome = () => {
   const { clientIsReady } = useChatClient()
 
-  console.log(clientIsReady)
+  // console.log(clientIsReady)
 
   const navigation = useNavigation<NavigationProp<StreamNavigatorParamList>>()
   useEffect(() => {
