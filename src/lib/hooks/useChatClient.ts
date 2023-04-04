@@ -39,5 +39,6 @@ export const useChatClient = () => {
 
   return {
     clientIsReady,
+    client: chatClient,
   }
 }

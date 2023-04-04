@@ -35,11 +35,20 @@ export const StreamHome = () => {
       <ChannelList
         filters={filters}
         onSelect={(channel) => {
+          const channelData = extractChannelData(channel)
+          console.log(channelData)
           // console.log(channel)
-          navigation.navigate('ChannelScreen', { channel })
+          navigation.navigate('ChannelScreen', { channel: channelData })
         }}
         // sort={sort}
       />
     </View>
   )
+}
+
+const extractChannelData = (channel) => {
+  return {
+    channelId: channel.id,
+    channelType: channel.type,
+  }
 }
