@@ -1,19 +1,36 @@
 import { StyleSheet } from 'react-native'
+import { StreamChat } from 'stream-chat'
+import {
+  ChannelList,
+  ChannelListMessenger,
+  Chat,
+  OverlayProvider,
+} from 'stream-chat-expo'
+import { View } from '../../components/Themed'
+import { chatApiKey } from '../../lib/chatConfig'
 
-import EditScreenInfo from '../../components/EditScreenInfo'
-import { Text, View } from '../../components/Themed'
+const chatClient = StreamChat.getInstance(chatApiKey)
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <OverlayProvider>
+      <Chat client={chatClient}>
+        <View style={styles.container}>
+          <ChannelList
+            List={() => (
+              <View
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <ChannelListMessenger />
+              </View>
+            )}
+          />
+        </View>
+      </Chat>
+    </OverlayProvider>
   )
 }
 
