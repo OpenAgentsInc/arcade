@@ -5,6 +5,30 @@ import type { DeepPartial, Theme } from 'stream-chat-expo'
 
 export const useStreamChatTheme = () => {
   const getChatStyle = (): DeepPartial<Theme> => ({
+    messageSimple: {
+      content: {
+        deletedContainer: {
+          backgroundColor: 'transparent', // Set the background color for the deleted message container
+          display: 'none', // Hide the deleted message container
+        },
+      },
+    },
+    dateHeader: {
+      container: {
+        display: 'none', // Hide the date header
+      },
+    },
+    inlineDateSeparator: {
+      container: {
+        backgroundColor: palette.portGore, // Set the background color to transparent or any other color you prefer
+        margin: 5,
+        height: 30,
+        borderRadius: 15,
+      },
+      text: {
+        color: palette.white, // Set the text color to your preferred color
+      },
+    },
     colors: {
       accent_blue: palette.electricIndigo,
       accent_green: 'cyan',
@@ -21,7 +45,7 @@ export const useStreamChatTheme = () => {
       grey_whisper: palette.blueBell,
       icon_background: '#FFFFFF',
       modal_shadow: '#000000',
-      dateHeader: palette.blueBellFaded,
+      // dateHeader: palette.blueBellFaded,
       // overlay: `${palette.blueBell}CC`, // CC = 80% opacity
       overlay: `#000000CC`, // CC = 80% opacity
       shadow_icon: `${palette.blueBell}80`, // 80 = 50% opacity
