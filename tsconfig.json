@@ -1,16 +1,6 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "paths": {
-      "app/*": ["./packages/app/*"],
-      "lib/*": ["./packages/app/lib/*"],
-      "@my/ui/*": ["./packages/ui/*"],
-      "@my/api/*": ["./packages/api/*"],
-      "@my/db/*": ["./packages/db/*"],
-      "stores/*": ["./packages/app/stores/*"],
-      "stores": ["./packages/app/stores"]
-    }
-  },
-  "extends": "expo/tsconfig.base"
+    "strict": true
+  }
 }

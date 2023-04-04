@@ -1,54 +1,43 @@
 {
-  "name": "arc",
-  "description": "A cross-platform Nostr client",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "packageManager": "yarn@3.3.1",
-  "prisma": {
-    "schema": "./packages/db/prisma/schema.prisma"
-  },
+  "name": "arcade",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "turbo run dev",
-    "web": "turbo run dev --filter nextjs",
-    "native": "cd apps/expo && yarn dev",
-    "desktop": "turbo run dev:tauri --filter nextjs",
-    "build": "turbo build",
-    "clean": "rm -rf node_modules",
-    "clean:workspaces": "turbo clean ; rm -rf .yarn/cache .yarn/install-state.gz",
-    "db-push": "turbo db-push",
-    "postinstall": "yarn build:ui && yarn generate",
-    "generate": "cd packages/db && yarn prisma generate",
-    "build:ui": "cd packages/ui && yarn build",
-    "build-desktop": "turbo run build:tauri --filter nextjs",
-    "studio": "cd packages/db && yarn prisma:studio",
-    "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest --watchAll",
+    "build:ios": "eas build -p ios",
+    "build:android": "eas build -p android"
   },
-  "resolutions": {
-    "esbuild": "0.15.6",
-    "@noble/secp256k1": "1.7.0",
-    "@scure/bip32": "1.1.5",
-    "expo-splash-screen": "0.18.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-refresh": "^0.14.0",
-    "react-native-svg": "13.4.0",
-    "react-native-web": "0.18.9"
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
-    "dotenv": "^16.0.3",
-    "dotenv-cli": "^6.0.0"
+    "@expo/vector-icons": "^13.0.0",
+    "@react-navigation/native": "^6.0.2",
+    "expo": "~48.0.10",
+    "expo-font": "~11.1.1",
+    "expo-linking": "~4.0.1",
+    "expo-splash-screen": "~0.18.1",
+    "expo-status-bar": "~1.4.4",
+    "expo-system-ui": "~2.2.1",
+    "expo-web-browser": "~12.1.1",
+    "expo-router": "^1.0.0-rc5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.71.6",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "react-native-web": "~0.18.10"
   },
   "devDependencies": {
-    "@manypkg/cli": "^0.19.1",
-    "@types/react": "18.0.30",
-    "eslint": "^8.21.0",
-    "lerna-update-wizard": "^1.1.2",
-    "prettier": "^2.7.1",
-    "turbo": "^1.8.6",
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.0.14",
+    "jest": "^29.2.1",
+    "jest-expo": "~48.0.0",
+    "react-test-renderer": "18.2.0",
     "typescript": "^4.9.4"
-  }
+  },
+  "private": true
 }
