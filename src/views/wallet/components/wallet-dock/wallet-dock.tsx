@@ -20,7 +20,13 @@ export const WalletDock = () => {
       <Button
         preset="primary"
         text="Request"
-        style={{ flex: 1, marginRight: 10 }}
+        style={{
+          flex: 1,
+          marginRight: 10,
+          backgroundColor: 'transparent',
+          borderWidth: 1,
+          borderColor: palette.arwesSecondary,
+        }}
         hasIcon={
           <Feather
             name="arrow-down-right"

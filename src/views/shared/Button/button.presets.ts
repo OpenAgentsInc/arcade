@@ -65,12 +65,13 @@ export const viewPresets: Record<string, ViewStyle> = {
   } as ViewStyle,
   purpleglow: {
     ...BASE_VIEW,
-    backgroundColor: color.origin,
-    shadowColor: 'rgba(255, 0, 255, 0.32)',
+    backgroundColor: color.palette.arwesSecondary, //origin,
+    shadowColor: color.palette.arwesFade, // 'rgba(255, 0, 255, 0.32)',
     shadowOffset: {
       width: 0,
       height: 0,
     },
+    shadowOpacity: 0.4,
   } as ViewStyle,
   icon: {
     borderRadius: 23,
