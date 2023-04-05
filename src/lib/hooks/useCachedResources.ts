@@ -2,9 +2,16 @@ import * as Font from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect, useState } from 'react'
 import {
-    Inter_400Regular, Inter_700Bold, useFonts
+  Inter_400Regular,
+  Inter_700Bold,
+  useFonts,
 } from '@expo-google-fonts/inter'
 import { Lexend_400Regular, Lexend_700Bold } from '@expo-google-fonts/lexend'
+import {
+  TitilliumWeb_400Regular,
+  TitilliumWeb_700Bold,
+  TitilliumWeb_900Black,
+} from '@expo-google-fonts/titillium-web'
 import { FontAwesome } from '@expo/vector-icons'
 
 export const useCachedResources = () => {
@@ -15,6 +22,9 @@ export const useCachedResources = () => {
     Inter_700Bold,
     Lexend_400Regular,
     Lexend_700Bold,
+    TitilliumWeb_400Regular,
+    TitilliumWeb_700Bold,
+    TitilliumWeb_900Black,
   })
 
   // Load any resources or data that we need prior to rendering the app

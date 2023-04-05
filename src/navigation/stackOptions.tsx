@@ -1,7 +1,8 @@
 import { NavButton } from 'views/shared'
 import { color, typography } from 'views/theme'
 import {
-    createNativeStackNavigator, NativeStackScreenProps
+  createNativeStackNavigator,
+  NativeStackScreenProps,
 } from '@react-navigation/native-stack'
 import { RootNavigatorParamList } from './types'
 
@@ -13,7 +14,7 @@ export const stackOptions = ({
 }: NativeStackScreenProps<any, any, any>) => {
   return {
     headerStyle: {
-      backgroundColor: color.tabbar,
+      backgroundColor: 'black', // color.tabbar,
       elevation: 0,
       shadowColor: 'transparent',
     },

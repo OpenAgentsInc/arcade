@@ -1112,6 +1112,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/lexend/-/lexend-0.2.3.tgz#05991a5a20266cd2436072872ec73dcd4de2d073"
   integrity sha512-GtEv1oYYAZ0+bdVbvmR640dsOuQAPAZFDgBL2p8zGDnz0oGcNxQVxwml8k8We6BnRLyJmM43WshgxZvQ4i6TeA==
 
+"@expo-google-fonts/titillium-web@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/titillium-web/-/titillium-web-0.2.3.tgz#54afcc5f0b04f54b4a5ce6c06355f80923cc9534"
+  integrity sha512-Lbh8MBcDP/mFh9uLjRrKgwqRgoDWJxPY/9a8Ez3+Qs9onJCVQ4aluVmrO1JUJdhkT8gS+faVDYSzg6M0NxpQ4g==
+
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@expo/bunyan/-/bunyan-4.0.0.tgz#be0c1de943c7987a9fbd309ea0b1acd605890c7b"
