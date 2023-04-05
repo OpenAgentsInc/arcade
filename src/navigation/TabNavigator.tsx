@@ -1,3 +1,4 @@
+import { BlankScreen } from 'views/dev'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -23,12 +24,11 @@ export const TabNavigator = () => {
         name="Wallet"
         component={WalletScreen}
         options={stackOptions}
-        // options={hideHeaderOptions}
       />
       <Tab.Screen
-        name="profile"
-        component={WalletScreen}
-        options={hideHeaderOptions}
+        name="Profile"
+        component={BlankScreen}
+        options={stackOptions}
       />
     </Tab.Navigator>
   )

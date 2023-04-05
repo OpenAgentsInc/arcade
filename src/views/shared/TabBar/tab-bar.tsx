@@ -92,7 +92,7 @@ const ACTIVE_ICONS: any = {
     <Ionicons name="md-arrow-forward-circle-outline" size={32} color="white" />
   ),
   settings: <Ionicons name="ios-settings-sharp" size={32} color="white" />,
-  profile: <Ionicons name="person-outline" size={32} color="white" />,
+  Profile: <Ionicons name="person-outline" size={32} color="white" />,
 }
 
 const ICONS: any = {
@@ -132,7 +132,7 @@ const ICONS: any = {
       color={color.palette.blueBell}
     />
   ),
-  profile: <Ionicons name="person-outline" size={32} color="#777" />,
+  Profile: <Ionicons name="person-outline" size={32} color="#777" />,
   // menu: (
   //   <Ionicons name='person-outline' size={32} color={color.palette.blueBell} />
   // ),
