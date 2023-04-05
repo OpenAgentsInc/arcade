@@ -42,8 +42,9 @@
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
     "expo-web-browser": "~12.1.1",
-    "i18n-js": "4.2.3",
+    "i18n-js": "3.9.2",
     "lodash": "^4.17.21",
+    "luxon": "3.3.0",
     "moment": "^2.29.4",
     "ramda": "0.29.0",
     "react": "18.2.0",
@@ -64,6 +65,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-share": "^7.9.1",
     "react-native-svg": "13.4.0",
+    "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "3.3.0",
     "react-native-web": "~0.18.10",
     "stream-chat-expo": "^5.12.1"
