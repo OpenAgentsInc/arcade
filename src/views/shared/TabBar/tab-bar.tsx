@@ -59,7 +59,7 @@ const ACTIVE_INDICATOR: ViewStyle = {
   height: 4,
   width: 4,
   borderRadius: 2,
-  backgroundColor: 'cyan', // color.highlight,
+  backgroundColor: color.palette.arwes, // color.highlight,
   shadowOffset: {
     width: 0,
     height: 0,
@@ -110,17 +110,11 @@ const ICONS: any = {
   ),
   map: <Image source={images.map} style={iconTabStyle} />,
   service: <Image source={images.service} style={iconTabStyle} />,
-  inbox: <Image source={images.inbox} style={iconTabStyle} />,
+  inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="#666" />,
   guild: <Image source={images.guilds} style={iconTabStyle} />,
   menu: <Image source={images.profile} style={iconTabStyle} />,
   // wallet: <SvgIcon active={false} />,
-  wallet: (
-    <Ionicons
-      name="ios-wallet-outline"
-      size={32}
-      color={color.palette.blueBell}
-    />
-  ),
+  wallet: <Ionicons name="ios-wallet-outline" size={32} color="#666" />,
   history: (
     <Ionicons
       name="ios-list-circle-outline"

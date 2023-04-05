@@ -17,6 +17,11 @@ export const TabNavigator = () => {
         component={StreamNavigator}
         options={hideHeaderOptions}
       />
+      <Tab.Screen
+        name="wallet"
+        component={StreamNavigator}
+        options={hideHeaderOptions}
+      />
     </Tab.Navigator>
   )
 }
