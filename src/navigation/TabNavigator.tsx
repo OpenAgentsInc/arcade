@@ -23,6 +23,11 @@ export const TabNavigator = () => {
         component={WalletScreen}
         options={hideHeaderOptions}
       />
+      <Tab.Screen
+        name="profile"
+        component={WalletScreen}
+        options={hideHeaderOptions}
+      />
     </Tab.Navigator>
   )
 }
