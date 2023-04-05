@@ -1,5 +1,13 @@
 // Color names per http://chir.ag/projects/name-that-color
 export const palette = {
+  electricBlue: '#B0FFFD',
+  secondaryBlue: '#8AFFFD',
+  neonOrange: '#F9FFA3',
+  orangeGlow: '#F7AE45',
+  backgroundBlue: '#051C24',
+  metallic: '#051C24',
+  backgroundMetallicBlue: '#0B313C',
+
   arwes: 'rgb(0, 248, 248)',
   arwesTitle: '#a1ecfb',
   arwesText: '#26dafd',
