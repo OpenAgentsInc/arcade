@@ -2,6 +2,7 @@ import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { hideHeaderOptions } from './navigation-utilities'
+import { stackOptions } from './stackOptions'
 import { StreamNavigator } from './StreamNavigator'
 
 const Tab = createBottomTabNavigator()
@@ -19,9 +20,10 @@ export const TabNavigator = () => {
         options={hideHeaderOptions}
       />
       <Tab.Screen
-        name="wallet"
+        name="Wallet"
         component={WalletScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
+        // options={hideHeaderOptions}
       />
       <Tab.Screen
         name="profile"
