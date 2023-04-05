@@ -1,11 +1,14 @@
-import { View } from 'react-native'
+import { useWindowDimensions, View } from 'react-native'
 import { Screen, Text } from 'views/shared'
 import { SvgIcon } from 'views/shared/svg-icon'
-import { palette, spacing } from 'views/theme'
+import { spacing } from 'views/theme'
+import { FlashList } from '@shopify/flash-list'
 import { WalletDock } from './components/wallet-dock'
 
 export const WalletScreen = () => {
   const balance = 0
+  const { width, height } = useWindowDimensions()
+  const payments = []
   return (
     <Screen
       preset="scrollStack"
@@ -22,9 +25,9 @@ export const WalletScreen = () => {
       //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       // }
     >
-      <Text preset="header" style={{ margin: spacing[4] }}>
+      {/* <Text preset="header" style={{ margin: spacing[4] }}>
         Bitcoin Balance
-      </Text>
+      </Text> */}
 
       <View
         style={{
@@ -33,7 +36,7 @@ export const WalletScreen = () => {
           justifyContent: 'center',
           marginTop: spacing[4],
           marginBottom: spacing[2],
-          // paddingTop: 25,
+          paddingVertical: 50,
         }}
       >
         <View
@@ -57,6 +60,20 @@ export const WalletScreen = () => {
         >
           {balance} sats
         </Text>
+      </View>
+
+      <Text preset="header" style={{ margin: spacing[4] }}>
+        Transactions
+      </Text>
+
+      <View style={{ minHeight: height, width: width }}>
+        {payments && payments.length > 0 && (
+          <FlashList
+            data={payments}
+            renderItem={({ item }: any) => <PaymentDetail payment={item} />}
+            estimatedItemSize={100}
+          />
+        )}
       </View>
     </Screen>
   )

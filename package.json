@@ -25,6 +25,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "6.9.12",
     "@react-navigation/stack": "6.3.2",
+    "@shopify/flash-list": "1.4.0",
     "expo": "~48.0.10",
     "expo-av": "~13.2.1",
     "expo-clipboard": "~4.1.2",
