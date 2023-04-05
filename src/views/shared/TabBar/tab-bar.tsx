@@ -110,11 +110,11 @@ const ICONS: any = {
   ),
   map: <Image source={images.map} style={iconTabStyle} />,
   service: <Image source={images.service} style={iconTabStyle} />,
-  inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="#666" />,
+  inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
   guild: <Image source={images.guilds} style={iconTabStyle} />,
   menu: <Image source={images.profile} style={iconTabStyle} />,
   // wallet: <SvgIcon active={false} />,
-  wallet: <Ionicons name="ios-wallet-outline" size={32} color="#666" />,
+  wallet: <Ionicons name="ios-wallet-outline" size={32} color="#777" />,
   history: (
     <Ionicons
       name="ios-list-circle-outline"

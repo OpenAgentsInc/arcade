@@ -1,5 +1,6 @@
 // Color names per http://chir.ag/projects/name-that-color
 export const palette = {
+  almostBlack: '#070A0D',
   darkGray: '#101418',
 
   electricBlue: '#B0FFFD',
