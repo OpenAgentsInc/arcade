@@ -13,10 +13,21 @@ export const useStreamChatTheme = () => {
         width: 32,
       },
     },
+    inlineDateSeparator: {
+      container: {
+        backgroundColor: palette.darkGray, // Set the background color to transparent or any other color you prefer
+        margin: 5,
+        height: 30,
+        borderRadius: 15,
+      },
+      text: {
+        color: palette.white, // Set the text color to your preferred color
+      },
+    },
     colors:
       colorScheme === 'dark'
         ? {
-            accent_blue: '#005FFF',
+            accent_blue: 'cyan',
             accent_green: '#20E070',
             accent_red: '#FF3742',
             bg_gradient_end: '#101214',
