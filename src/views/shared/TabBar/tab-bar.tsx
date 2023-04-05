@@ -86,7 +86,7 @@ const ACTIVE_ICONS: any = {
   menu: <Image source={images.profileActive} style={iconTabStyle} />,
   // wallet: <SvgIcon active={true} />,
   inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
-  wallet: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
+  Wallet: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
   history: <Ionicons name="ios-list-circle-outline" size={32} color="white" />,
   send: (
     <Ionicons name="md-arrow-forward-circle-outline" size={32} color="white" />
@@ -110,7 +110,7 @@ const ICONS: any = {
   guild: <Image source={images.guilds} style={iconTabStyle} />,
   menu: <Image source={images.profile} style={iconTabStyle} />,
   // wallet: <SvgIcon active={false} />,
-  wallet: <Ionicons name="ios-wallet-outline" size={32} color="#777" />,
+  Wallet: <Ionicons name="ios-wallet-outline" size={32} color="#777" />,
   history: (
     <Ionicons
       name="ios-list-circle-outline"
