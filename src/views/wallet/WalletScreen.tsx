@@ -3,12 +3,13 @@ import { Screen, Text } from 'views/shared'
 import { SvgIcon } from 'views/shared/svg-icon'
 import { spacing } from 'views/theme'
 import { FlashList } from '@shopify/flash-list'
+import { PaymentDetail } from './components/payment-detail'
 import { WalletDock } from './components/wallet-dock'
 
 export const WalletScreen = () => {
   const balance = 0
   const { width, height } = useWindowDimensions()
-  const payments = []
+  const payments = null
   return (
     <Screen
       preset="scrollStack"
@@ -66,14 +67,25 @@ export const WalletScreen = () => {
         Transactions
       </Text>
 
-      <View style={{ minHeight: height, width: width }}>
-        {payments && payments.length > 0 && (
-          <FlashList
-            data={payments}
-            renderItem={({ item }: any) => <PaymentDetail payment={item} />}
-            estimatedItemSize={100}
-          />
-        )}
+      <View style={{ height: 50, width: width }}>
+        <FlashList
+          data={payments}
+          renderItem={({ item }: any) => <PaymentDetail payment={item} />}
+          estimatedItemSize={5}
+          ListEmptyComponent={
+            <View
+              style={{
+                // flex: 1,
+                justifyContent: 'center',
+                // alignItems: 'center',
+                paddingHorizontal: spacing[4],
+                // height: height,
+              }}
+            >
+              <Text preset="descriptionSlim">No payments yet</Text>
+            </View>
+          }
+        />
       </View>
     </Screen>
   )
