@@ -1,11 +1,6 @@
 import * as React from 'react'
 import {
-  Animated,
-  Image,
-  ImageStyle,
-  TouchableOpacity,
-  View,
-  ViewStyle,
+    Animated, Image, ImageStyle, TouchableOpacity, View, ViewStyle
 } from 'react-native'
 // import { JumpingTransition } from 'react-native-reanimated'
 import { color, images } from 'views/theme'
@@ -59,7 +54,7 @@ const ACTIVE_INDICATOR: ViewStyle = {
   height: 4,
   width: 4,
   borderRadius: 2,
-  backgroundColor: 'cyan', // color.highlight,
+  backgroundColor: color.palette.arwes, // color.highlight,
   shadowOffset: {
     width: 0,
     height: 0,
@@ -91,12 +86,13 @@ const ACTIVE_ICONS: any = {
   menu: <Image source={images.profileActive} style={iconTabStyle} />,
   // wallet: <SvgIcon active={true} />,
   inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
-  wallet: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
+  Wallet: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
   history: <Ionicons name="ios-list-circle-outline" size={32} color="white" />,
   send: (
     <Ionicons name="md-arrow-forward-circle-outline" size={32} color="white" />
   ),
   settings: <Ionicons name="ios-settings-sharp" size={32} color="white" />,
+  Profile: <Ionicons name="person-outline" size={32} color="white" />,
 }
 
 const ICONS: any = {
@@ -110,17 +106,11 @@ const ICONS: any = {
   ),
   map: <Image source={images.map} style={iconTabStyle} />,
   service: <Image source={images.service} style={iconTabStyle} />,
-  inbox: <Image source={images.inbox} style={iconTabStyle} />,
+  inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
   guild: <Image source={images.guilds} style={iconTabStyle} />,
   menu: <Image source={images.profile} style={iconTabStyle} />,
   // wallet: <SvgIcon active={false} />,
-  wallet: (
-    <Ionicons
-      name="ios-wallet-outline"
-      size={32}
-      color={color.palette.blueBell}
-    />
-  ),
+  Wallet: <Ionicons name="ios-wallet-outline" size={32} color="#777" />,
   history: (
     <Ionicons
       name="ios-list-circle-outline"
@@ -142,6 +132,7 @@ const ICONS: any = {
       color={color.palette.blueBell}
     />
   ),
+  Profile: <Ionicons name="person-outline" size={32} color="#777" />,
   // menu: (
   //   <Ionicons name='person-outline' size={32} color={color.palette.blueBell} />
   // ),

@@ -151,14 +151,14 @@ class ScreenWithScrolling extends React.Component<ScreenProps, ScreenState> {
           // ref={(ref) => (global.screen = ref)}
           style={{ ...outerStyle, backgroundColor: 'transparent' }}
           contentContainerStyle={innerStyle}
-          keyboardShouldPersistTaps='always'
+          keyboardShouldPersistTaps="always"
           {...(this.props.refreshControl && {
             refreshControl: this.props.refreshControl,
           })}
         >
           <SafeAreaView>{this.props.children}</SafeAreaView>
         </ScrollView>
-        <SafeAreaView style={{ borderTopWidth: 1, borderTopColor: color.line }}>
+        <SafeAreaView style={{ borderTopWidth: 0, borderTopColor: color.line }}>
           {this.props.dock}
         </SafeAreaView>
       </KeyboardAvoidingView>
@@ -185,6 +185,6 @@ export class Screen extends React.Component<ScreenProps, ScreenState> {
       return <ScreenWithoutScrolling {...this.props} />
     }
     // tslint:disable-next-line: jsx-no-string-ref
-    return <ScreenWithScrolling {...this.props} ref='sws' />
+    return <ScreenWithScrolling {...this.props} ref="sws" />
   }
 }

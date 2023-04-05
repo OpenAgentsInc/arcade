@@ -13,7 +13,7 @@ const BASE: TextStyle = {
 
 const SECONDARY: TextStyle = {
   ...BASE,
-  color: color.palette.blueBell, // color.dim,
+  color: '#777', // color.palette.arwesFader, // blueBell, // color.dim,
 }
 
 /**

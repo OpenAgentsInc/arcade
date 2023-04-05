@@ -1,10 +1,7 @@
 import { useChatClient } from 'lib/hooks'
-import {
-  RootNavigatorParamList,
-  StreamNavigatorParamList,
-} from 'navigation/types'
+import { StreamNavigatorParamList } from 'navigation/types'
 import { useEffect } from 'react'
-import { View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { ChannelList } from 'stream-chat-expo'
 import { Screen, Text } from 'views/shared'
 import { color } from 'views/theme'
@@ -16,8 +13,6 @@ const sort = { last_message_at: -1 }
 export const StreamHome = () => {
   const { clientIsReady } = useChatClient()
 
-  // console.log(clientIsReady)
-
   const navigation = useNavigation<NavigationProp<StreamNavigatorParamList>>()
   useEffect(() => {
     navigation.setOptions({ title: 'Chatrooms' })
@@ -26,7 +21,7 @@ export const StreamHome = () => {
   if (!clientIsReady) {
     return (
       <Screen preset="fixedCenter">
-        <Text text="Loading chat" preset="title" />
+        <ActivityIndicator size="large" color={color.palette.arwesSecondary} />
       </Screen>
     )
   }
@@ -39,8 +34,6 @@ export const StreamHome = () => {
         filters={filters}
         onSelect={(channel) => {
           const channelData = extractChannelData(channel)
-          // console.log(channelData)
-          // console.log(channel)
           navigation.navigate('ChannelScreen', { channel: channelData })
         }}
         // sort={sort}

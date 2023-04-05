@@ -8,14 +8,14 @@
     "scheme": "arcade",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "4",
+      "buildNumber": "7",
       "config": {
         "usesNonExemptEncryption": false
       },

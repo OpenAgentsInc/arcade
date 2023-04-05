@@ -1,8 +1,7 @@
 import { NavButton } from 'views/shared'
 import { color, typography } from 'views/theme'
 import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
+    createNativeStackNavigator, NativeStackScreenProps
 } from '@react-navigation/native-stack'
 import { RootNavigatorParamList } from './types'
 
@@ -23,6 +22,8 @@ export const stackOptions = ({
       fontFamily: typography.secondary,
     },
     headerLeft: () =>
-      route.name !== 'streamhome' && <NavButton onPress={navigation.goBack} />,
+      route.name !== 'streamhome' &&
+      route.name !== 'Wallet' &&
+      route.name !== 'Profile' && <NavButton onPress={navigation.goBack} />,
   }
 }

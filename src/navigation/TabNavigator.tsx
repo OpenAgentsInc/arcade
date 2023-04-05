@@ -1,6 +1,9 @@
+import { BlankScreen } from 'views/dev'
 import { TabBar } from 'views/shared'
+import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { hideHeaderOptions } from './navigation-utilities'
+import { stackOptions } from './stackOptions'
 import { StreamNavigator } from './StreamNavigator'
 
 const Tab = createBottomTabNavigator()
@@ -16,6 +19,16 @@ export const TabNavigator = () => {
         name="inbox"
         component={StreamNavigator}
         options={hideHeaderOptions}
+      />
+      <Tab.Screen
+        name="Wallet"
+        component={WalletScreen}
+        options={stackOptions}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={BlankScreen}
+        options={stackOptions}
       />
     </Tab.Navigator>
   )

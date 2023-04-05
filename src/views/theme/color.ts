@@ -25,7 +25,7 @@ export const color = {
   /**
    * The screen background.
    */
-  background: palette.haiti,
+  background: palette.almostBlack, // palette.haiti,
   /**
    * The main tinting color.
    */
