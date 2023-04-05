@@ -1,6 +1,11 @@
 import * as React from 'react'
 import {
-    Animated, Image, ImageStyle, TouchableOpacity, View, ViewStyle
+  Animated,
+  Image,
+  ImageStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native'
 // import { JumpingTransition } from 'react-native-reanimated'
 import { color, images } from 'views/theme'
@@ -50,18 +55,18 @@ const BADGE: ViewStyle = {
 
 const ACTIVE_INDICATOR: ViewStyle = {
   position: 'absolute',
-  bottom: 2,
+  bottom: 0,
   height: 4,
   width: 4,
   borderRadius: 2,
-  backgroundColor: color.highlight,
+  backgroundColor: 'cyan', // color.highlight,
   shadowOffset: {
     width: 0,
     height: 0,
   },
-  shadowOpacity: 1,
-  shadowRadius: 4,
-  shadowColor: 'rgb(244,89,244)', //color.highlight,
+  shadowOpacity: 0.9,
+  shadowRadius: 2,
+  shadowColor: 'cyan', //color.highlight,
 }
 
 const iconTabStyle: ImageStyle = {
@@ -81,10 +86,11 @@ const ACTIVE_ICONS: any = {
   ),
   map: <Image source={images.mapActive} style={iconTabStyle} />,
   service: <Image source={images.serviceActive} style={iconTabStyle} />,
-  inbox: <Image source={images.inboxActive} style={iconTabStyle} />,
+  // inbox: <Image source={images.inboxActive} style={iconTabStyle} />,
   guild: <Image source={images.guildsActive} style={iconTabStyle} />,
   menu: <Image source={images.profileActive} style={iconTabStyle} />,
   // wallet: <SvgIcon active={true} />,
+  inbox: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
   wallet: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
   history: <Ionicons name="ios-list-circle-outline" size={32} color="white" />,
   send: (

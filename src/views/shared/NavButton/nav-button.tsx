@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import { spacing } from '../../theme'
 import { Text } from '../Text'
 import { NavButtonProps } from './nav-button.props'
@@ -11,7 +12,15 @@ function NavButtonImage({ preset }: { preset: string }) {
   if (preset === 'forward') {
     return <Image source={require('./forward.png')} />
   }
-  return <Image source={require('./back.png')} />
+  // return <Image source={require('./back.png')} />
+  return (
+    <Ionicons
+      name="chevron-back"
+      size={26}
+      color="cyan"
+      style={{ marginTop: -4, marginLeft: -8, opacity: 0.6 }}
+    />
+  )
 }
 
 /**

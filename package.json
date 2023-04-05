@@ -1,5 +1,5 @@
 {
-  "name": "@placeholder/arcade",
+  "name": "thearcadeapp",
   "version": "0.1.0",
   "scripts": {
     "start": "expo start",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
     "@expo-google-fonts/lexend": "^0.2.3",
+    "@expo-google-fonts/titillium-web": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-community/netinfo": "9.3.7",
     "@react-native-community/slider": "4.4.2",

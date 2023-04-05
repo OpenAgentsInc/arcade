@@ -1,6 +1,7 @@
 import { useChatClient } from 'lib/hooks'
 import {
-    RootNavigatorParamList, StreamNavigatorParamList
+  RootNavigatorParamList,
+  StreamNavigatorParamList,
 } from 'navigation/types'
 import { useEffect } from 'react'
 import { View } from 'react-native'
@@ -31,7 +32,9 @@ export const StreamHome = () => {
   }
 
   return (
-    <View style={{ paddingTop: 5, flex: 1, backgroundColor: color.background }}>
+    <View
+      style={{ paddingTop: 0, flex: 1, backgroundColor: color.palette.black }}
+    >
       <ChannelList
         filters={filters}
         onSelect={(channel) => {

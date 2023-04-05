@@ -24,7 +24,8 @@ export const typography = {
   /**
    * An alternate font used for perhaps titles and stuff.
    */
-  secondary: 'Lexend_700Bold',
+  secondary: 'TitilliumWeb_700Bold',
+  // secondary: 'Lexend_700Bold',
 
   /**
    * Lets get fancy with a monospace font!
