@@ -1,5 +1,7 @@
 // Color names per http://chir.ag/projects/name-that-color
 export const palette = {
+  darkGray: '#101418',
+
   electricBlue: '#B0FFFD',
   secondaryBlue: '#8AFFFD',
   neonOrange: '#F9FFA3',

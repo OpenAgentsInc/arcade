@@ -50,7 +50,7 @@ export const color = {
   /**
    * A subtle color used for the tab bar.
    */
-  tabbar: palette.portGore,
+  tabbar: palette.darkGray, // palette.portGore,
   /**
    * The default color of text in many components.
    */

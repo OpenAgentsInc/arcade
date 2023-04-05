@@ -34,9 +34,9 @@ export const useStreamChatTheme = () => {
             shadow_icon: '#00000080', // 80 = 50% opacity
             targetedMessageBackground: '#302D22',
             transparent: 'transparent',
-            white: '#101418',
+            white: '#101418', // message input
             white_smoke: '#13151B',
-            white_snow: '#070A0D',
+            white_snow: '#070A0D', // main BG
           }
         : {
             accent_blue: '#005FFF',
