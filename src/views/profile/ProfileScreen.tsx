@@ -1,6 +1,5 @@
-import {
-    Avatar, Button, Image, LinearGradient, Paragraph, Text, XStack, YStack
-} from 'tamagui'
+import { Avatar, Button, Image, Paragraph, Text, XStack, YStack } from 'tamagui'
+import { LinearGradient } from 'tamagui/linear-gradient'
 import { Screen } from 'views/shared'
 import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
 
