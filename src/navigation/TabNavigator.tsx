@@ -21,6 +21,11 @@ export const TabNavigator = () => {
         options={hideHeaderOptions}
       />
       <Tab.Screen
+        name="Contacts"
+        component={BlankScreen}
+        options={stackOptions}
+      />
+      <Tab.Screen
         name="Wallet"
         component={WalletScreen}
         options={stackOptions}
