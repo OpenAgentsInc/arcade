@@ -1,4 +1,5 @@
 import { BlankScreen } from 'views/dev'
+import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -21,13 +22,18 @@ export const TabNavigator = () => {
         options={hideHeaderOptions}
       />
       <Tab.Screen
+        name="Contacts"
+        component={BlankScreen}
+        options={stackOptions}
+      />
+      <Tab.Screen
         name="Wallet"
         component={WalletScreen}
         options={stackOptions}
       />
       <Tab.Screen
         name="Profile"
-        component={BlankScreen}
+        component={ProfileScreen}
         options={stackOptions}
       />
     </Tab.Navigator>

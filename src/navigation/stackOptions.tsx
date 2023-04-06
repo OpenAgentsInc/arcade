@@ -23,6 +23,7 @@ export const stackOptions = ({
     },
     headerLeft: () =>
       route.name !== 'streamhome' &&
+      route.name !== 'Contacts' &&
       route.name !== 'Wallet' &&
       route.name !== 'Profile' && <NavButton onPress={navigation.goBack} />,
   }

@@ -23,6 +23,11 @@ export const useCachedResources = () => {
     TitilliumWeb_900Black,
   })
 
+  const [interLoaded] = Font.useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+  })
+
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
@@ -45,5 +50,5 @@ export const useCachedResources = () => {
     loadResourcesAndDataAsync()
   }, [])
 
-  return isLoadingComplete && loaded
+  return isLoadingComplete && loaded && interLoaded
 }

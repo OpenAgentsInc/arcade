@@ -6,17 +6,26 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "env": {
+        "TAMAGUI_TARGET": "native"
+      },
       "ios": {
         "resourceClass": "m-medium"
       }
     },
     "preview": {
       "distribution": "internal",
+      "env": {
+        "TAMAGUI_TARGET": "native"
+      },
       "ios": {
         "resourceClass": "m-medium"
       }
     },
     "production": {
+      "env": {
+        "TAMAGUI_TARGET": "native"
+      },
       "ios": {
         "resourceClass": "m-medium"
       }
