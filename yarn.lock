@@ -2352,6 +2352,11 @@
     "@tamagui/stacks" "1.11.2"
     "@tamagui/use-controllable-state" "1.11.2"
 
+"@tamagui/colors@1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@tamagui/colors/-/colors-1.11.2.tgz#14125a50b5eabf4c9f68c138934cea19ad5acb67"
+  integrity sha512-L+5dlN/5hWyS+aO4a/WHNRYnKN0HesTkqvo+ZHp33RXVgMNRToVG2ZDhN+Z0UllWlLaJ+Pb6rpIhhJ1FqD7Feg==
+
 "@tamagui/compose-refs@1.11.2":
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@tamagui/compose-refs/-/compose-refs-1.11.2.tgz#066b492976e09faddf3191ef5fc0ff4148ee465f"
@@ -2376,6 +2381,13 @@
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@tamagui/create-context/-/create-context-1.11.2.tgz#b04a4fb67c674c08981cec582eea3f839de2b633"
   integrity sha512-cIfPspaEWQNiJe5fXKL6Hry7+fSZcJPYDdrdL5us+Y0dXyEesasbujE4ZMJ1Po2574B4eCaO+0u/6HjG+NT5sQ==
+
+"@tamagui/create-theme@1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@tamagui/create-theme/-/create-theme-1.11.2.tgz#18483cc90180a67cc16a8c8eb622f76d954ff84a"
+  integrity sha512-K7D95J+SUrhB31bJSW3LmGayvJCPrpaa/XbmkFaNeQz64IInFWrydOasuk7gvlq8SLeC1/DwMLTyV8nq58Qh0g==
+  dependencies:
+    "@tamagui/web" "1.11.2"
 
 "@tamagui/dialog@1.11.2":
   version "1.11.2"
@@ -2738,6 +2750,11 @@
     "@tamagui/use-controllable-state" "1.11.2"
     "@tamagui/use-keyboard-visible" "1.11.2"
 
+"@tamagui/shorthands@1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@tamagui/shorthands/-/shorthands-1.11.2.tgz#7e627d8ec46921c8abd4f9fcef478739b726684e"
+  integrity sha512-u9E3wlB88OByNZM3/rinCyjKDVYcHraFRXdLeIwF+/PFv0cVraoK0Ot8Qx3y6J24hfNOkQkEjWVPVGIWGfoWsw==
+
 "@tamagui/simple-hash@1.11.2":
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@tamagui/simple-hash/-/simple-hash-1.11.2.tgz#168f3c4fe567e6974b01fa183a71a76ddfe19d46"
@@ -2800,6 +2817,15 @@
   dependencies:
     "@tamagui/get-font-sized" "1.11.2"
     "@tamagui/helpers-tamagui" "1.11.2"
+    "@tamagui/web" "1.11.2"
+
+"@tamagui/themes@1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@tamagui/themes/-/themes-1.11.2.tgz#ce4c68c287b7fb418fc9a83b6cbd882a533beee1"
+  integrity sha512-k3HoP/xZ9DoiFzeSkiy8K5IM0BJhvrTGIf7SSSDK6rrv8t83ifzlGCfTzFS6OJFRk7SN37CTizW+69NTzVunAg==
+  dependencies:
+    "@tamagui/colors" "1.11.2"
+    "@tamagui/create-theme" "1.11.2"
     "@tamagui/web" "1.11.2"
 
 "@tamagui/toast@1.11.2":
