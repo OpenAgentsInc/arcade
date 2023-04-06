@@ -9,7 +9,7 @@ export const ProfileScreen = () => {
   const { width } = useWindowDimensions()
   return (
     <Screen preset="scrollStack">
-      <YStack width="100%" bg="$color8" height={110}>
+      <YStack width={width} bg="$color8" height={110}>
         <Image
           src="https://source.unsplash.com/random/800x606"
           width={width}
