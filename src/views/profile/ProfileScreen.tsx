@@ -1,16 +1,19 @@
-import { Avatar, Button, Image, Paragraph, Text, XStack, YStack } from 'tamagui'
+import {
+    Avatar, Button, Image, Paragraph, Text, useWindowDimensions, XStack, YStack
+} from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 import { Screen } from 'views/shared'
 import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
 
 export const ProfileScreen = () => {
+  const { width } = useWindowDimensions()
   return (
     <Screen preset="scrollStack">
       <YStack width="100%" bg="$color8" height={110}>
         <Image
           src="https://source.unsplash.com/random/800x606"
-          width="100%"
-          height="100%"
+          width={width}
+          height={110}
         />
         <LinearGradient
           colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)']}
