@@ -1,3 +1,4 @@
+import 'lib/ignoreWarnings'
 import { useCachedResources } from 'lib/hooks'
 import { RootNavigator } from 'navigation/RootNavigator'
 import React, { Suspense } from 'react'
