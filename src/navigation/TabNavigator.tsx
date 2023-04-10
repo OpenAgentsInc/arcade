@@ -1,4 +1,5 @@
 import { BlankScreen } from 'views/dev'
+import { FeedScreen } from 'views/feed/FeedScreen'
 import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
@@ -13,9 +14,14 @@ export const TabNavigator = () => {
   return (
     <Tab.Navigator
       detachInactiveScreens={false}
-      initialRouteName="inbox"
+      initialRouteName="feed"
       tabBar={(props) => <TabBar {...props} />}
     >
+      <Tab.Screen
+        name="feed"
+        component={FeedScreen}
+        options={hideHeaderOptions}
+      />
       <Tab.Screen
         name="inbox"
         component={StreamNavigator}
