@@ -101,7 +101,7 @@ const ICONS: any = {
     <FontAwesome5
       name="list-ul"
       size={25}
-      color={color.palette.blueBell}
+      color="#777"
       style={{ marginBottom: 2 }}
     />
   ),
