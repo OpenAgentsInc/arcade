@@ -10,18 +10,20 @@
 
 import { chatClient, useStreamChatTheme } from 'lib/hooks'
 import { Chat, OverlayProvider } from 'stream-chat-expo'
+import { SplashScreen } from 'views/splash/SplashScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { navigationRef } from './navigation-utilities'
 import { RootStack } from './RootStack'
 import { NavigationProps } from './types'
 
 export const RootNavigator = (props: NavigationProps) => {
+  const authed = false
   const theme = useStreamChatTheme()
   return (
     <NavigationContainer ref={navigationRef} {...props}>
       <OverlayProvider value={{ style: theme }}>
         <Chat client={chatClient}>
-          <RootStack />
+          {authed ? <RootStack /> : <SplashScreen />}
         </Chat>
       </OverlayProvider>
     </NavigationContainer>
