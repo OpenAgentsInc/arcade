@@ -40,7 +40,7 @@ export const SplashScreen = () => {
         borderRadius={38}
         color="black"
         backgroundColor="#00ffff"
-        mt="$8"
+        mt="$9"
         pressStyle={{ opacity: 0.8 }}
         minWidth={imgWidth - 40}
         style={{
@@ -71,7 +71,7 @@ export const SplashScreen = () => {
           elevation: 10, // For Android
         }}
       >
-        <Paragraph fontFamily="Protomolecule" fontSize={18}>
+        <Paragraph fontFamily="Protomolecule" fontSize={18} color="$color11">
           Login
         </Paragraph>
       </Button>
