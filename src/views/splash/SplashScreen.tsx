@@ -1,5 +1,5 @@
 import { Image, useWindowDimensions, View } from 'react-native'
-import { Button } from 'tamagui'
+import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
 
 export const SplashScreen = () => {
@@ -26,14 +26,22 @@ export const SplashScreen = () => {
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
         />
       </View>
+      <H1
+        mt="$8"
+        fontFamily="Protomolecule"
+        fontSize={86}
+        lineHeight={100}
+        letterSpacing={4}
+      >
+        arcade
+      </H1>
       <Button
         size="$6"
         borderRadius={38}
         color="black"
         backgroundColor="#00ffff"
-        mt="$12"
+        mt="$8"
         pressStyle={{ opacity: 0.8 }}
-        fontFamily="Courier"
         minWidth={imgWidth - 40}
         style={{
           shadowColor: '#00ffff',
@@ -43,16 +51,17 @@ export const SplashScreen = () => {
           elevation: 10, // For Android
         }}
       >
-        ENTER
+        <Text fontFamily="Protomolecule" fontSize={24} color="black">
+          EntEr
+        </Text>
       </Button>
       <Button
         size="$4"
         borderRadius={38}
         color="white"
         backgroundColor="#222"
-        mt="$8"
+        mt="$6"
         pressStyle={{ opacity: 0.8 }}
-        fontFamily="Courier"
         minWidth={imgWidth - 140}
         style={{
           shadowColor: '#000',
@@ -62,7 +71,9 @@ export const SplashScreen = () => {
           elevation: 10, // For Android
         }}
       >
-        LOGIN
+        <Paragraph fontFamily="Protomolecule" fontSize={18}>
+          Login
+        </Paragraph>
       </Button>
     </View>
   )
