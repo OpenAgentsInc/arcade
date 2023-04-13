@@ -1,5 +1,9 @@
 import { Platform } from 'react-native'
 
+export const fonts = {
+  protomolecule: require('../../../assets/fonts/Protomolecule.otf'),
+}
+
 /**
  * You can find a list of available fonts on both iOS and Android here:
  * https://github.com/react-native-training/react-native-fonts
