@@ -5,9 +5,21 @@ import { animated, useSpring } from '@react-spring/native'
 
 export const SplashScreen = () => {
   const { width } = useWindowDimensions()
-  const springs = useSpring({
+  const imageSpring = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
+    config: { duration: 3000 },
+    delay: 750,
+  })
+  const arcadeSpring = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: { duration: 3000 },
+  })
+  const buttonsSpring = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: { duration: 3000 },
   })
   const imgWidth = width // - 50
   return (
@@ -23,7 +35,7 @@ export const SplashScreen = () => {
           width: imgWidth,
           height: imgWidth,
           overflow: 'hidden',
-          ...springs,
+          ...imageSpring,
         }}
       >
         <Image
@@ -31,55 +43,59 @@ export const SplashScreen = () => {
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
         />
       </animated.View>
-      <H1
-        mt="$8"
-        fontFamily="Protomolecule"
-        fontSize={86}
-        lineHeight={100}
-        letterSpacing={4}
-      >
-        arcade
-      </H1>
-      <Button
-        size="$6"
-        borderRadius={38}
-        color="black"
-        backgroundColor="#00ffff"
-        mt="$9"
-        pressStyle={{ opacity: 0.8 }}
-        minWidth={imgWidth - 40}
-        style={{
-          shadowColor: '#00ffff',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 1,
-          shadowRadius: 20,
-          elevation: 10, // For Android
-        }}
-      >
-        <Text fontFamily="Protomolecule" fontSize={24} color="black">
-          EntEr
-        </Text>
-      </Button>
-      <Button
-        size="$4"
-        borderRadius={38}
-        color="white"
-        backgroundColor="#222"
-        mt="$6"
-        pressStyle={{ opacity: 0.8 }}
-        minWidth={imgWidth - 140}
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.4,
-          shadowRadius: 20,
-          elevation: 10, // For Android
-        }}
-      >
-        <Paragraph fontFamily="Protomolecule" fontSize={18} color="$color11">
-          Login
-        </Paragraph>
-      </Button>
+      <animated.View style={arcadeSpring}>
+        <H1
+          mt="$8"
+          fontFamily="Protomolecule"
+          fontSize={86}
+          lineHeight={100}
+          letterSpacing={4}
+        >
+          arcade
+        </H1>
+      </animated.View>
+      <animated.View style={buttonsSpring}>
+        <Button
+          size="$6"
+          borderRadius={38}
+          color="black"
+          backgroundColor="#00ffff"
+          mt="$9"
+          pressStyle={{ opacity: 0.8 }}
+          minWidth={imgWidth - 40}
+          style={{
+            shadowColor: '#00ffff',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 1,
+            shadowRadius: 20,
+            elevation: 10, // For Android
+          }}
+        >
+          <Text fontFamily="Protomolecule" fontSize={24} color="black">
+            EntEr
+          </Text>
+        </Button>
+        <Button
+          size="$4"
+          borderRadius={38}
+          color="white"
+          backgroundColor="#222"
+          mt="$6"
+          pressStyle={{ opacity: 0.8 }}
+          minWidth={imgWidth - 140}
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.4,
+            shadowRadius: 20,
+            elevation: 10, // For Android
+          }}
+        >
+          <Paragraph fontFamily="Protomolecule" fontSize={18} color="$color11">
+            Login
+          </Paragraph>
+        </Button>
+      </animated.View>
     </View>
   )
 }
