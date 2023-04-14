@@ -32,6 +32,11 @@ export const SplashScreen = () => {
   useEffect(() => {
     if (showTransmission) {
       api.start({ opacity: 1, delay: 300, config: config.molasses })
+      const timer = setTimeout(() => {
+        api.start({ opacity: 0, config: config.molasses })
+      }, 2000) // Fade out after 2 seconds
+
+      return () => clearTimeout(timer) // Clean up the timeout when component is unmounted
     }
   }, [showTransmission, api])
 
