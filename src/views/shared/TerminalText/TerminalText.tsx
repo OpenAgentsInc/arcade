@@ -15,6 +15,7 @@ export const TerminalText = ({ text, delay = 100 }) => {
           return text.slice(0, prevText.length + 1)
         } else {
           clearInterval(typingInterval)
+          return prevText
         }
       })
     }, delay)

@@ -41,7 +41,7 @@ export const SplashScreen = () => {
           config: config.slow,
           onRest: () => setShowFeed(true),
         })
-      }, 5000)
+      }, 4000)
 
       return () => clearTimeout(timer) // Clean up the timeout when component is unmounted
     }
