@@ -1,20 +1,21 @@
+import { useState } from 'react'
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
-import { animated, useSpring } from '@react-spring/native'
+import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 
 export const SplashScreen = () => {
   const { width } = useWindowDimensions()
-  const imgWidth = width
+
+  const [reverse, setReverse] = useState(false)
+  const toggleReverse = () => setReverse(!reverse)
 
   const spring = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
-    config: {
-      friction: 400,
-      tension: 200,
-    },
+    reverse,
+    config: reverse ? config.default : config.molasses,
   })
 
   return (
@@ -28,8 +29,8 @@ export const SplashScreen = () => {
       <animated.View
         style={{
           ...spring,
-          width: imgWidth,
-          height: imgWidth,
+          width,
+          height: width,
           overflow: 'hidden',
         }}
       >
@@ -65,13 +66,14 @@ export const SplashScreen = () => {
       </animated.View>
       <animated.View style={spring}>
         <Button
+          onPress={toggleReverse}
           size="$6"
           borderRadius={38}
           color="black"
           backgroundColor="#00ffff"
           mt="$9"
           pressStyle={{ opacity: 0.8 }}
-          minWidth={imgWidth - 40}
+          minWidth={width - 40}
           style={{
             shadowColor: '#00ffff',
             shadowOffset: { width: 0, height: 0 },
@@ -91,7 +93,7 @@ export const SplashScreen = () => {
           backgroundColor="#222"
           mt="$6"
           pressStyle={{ opacity: 0.8 }}
-          minWidth={imgWidth - 140}
+          minWidth={width - 140}
           style={{
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 0 },
