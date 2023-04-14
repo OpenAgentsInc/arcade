@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
@@ -6,17 +6,61 @@ import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 
 export const SplashScreen = () => {
-  const { width } = useWindowDimensions()
+  const { height, width } = useWindowDimensions()
 
   const [reverse, setReverse] = useState(false)
   const toggleReverse = () => setReverse(!reverse)
+
+  const [showTransmission, setShowTransmission] = useState(false)
 
   const spring = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
     reverse,
     config: reverse ? config.default : config.molasses,
+    onRest: () => {
+      if (reverse) {
+        setShowTransmission(true)
+      }
+    },
   })
+
+  const [transmissionSpring, api] = useSpring(() => ({
+    opacity: 0,
+  }))
+
+  useEffect(() => {
+    if (showTransmission) {
+      api.start({ opacity: 1, delay: 300, config: config.molasses })
+    }
+  }, [showTransmission, api])
+
+  if (showTransmission) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          paddingTop: height * 0.3,
+          alignItems: 'center',
+        }}
+      >
+        <animated.View style={transmissionSpring}>
+          <H1
+            mt="$8"
+            fontFamily="Protomolecule"
+            fontSize={36}
+            letterSpacing={4}
+            textShadowColor="#00ffff"
+            textShadowOffset={{ width: 0, height: 0 }}
+            textShadowRadius={15}
+          >
+            RECEIVING TRANSMISSION
+          </H1>
+        </animated.View>
+      </View>
+    )
+  }
 
   return (
     <View
