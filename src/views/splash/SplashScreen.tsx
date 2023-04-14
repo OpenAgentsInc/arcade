@@ -1,39 +1,82 @@
+import { useEffect, useState } from 'react'
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
+import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
-import { animated, config, useSprings } from '@react-spring/native'
+import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
+import { SplashFeed } from './SplashFeed'
 
 export const SplashScreen = () => {
-  const { width } = useWindowDimensions()
-  const imgWidth = width
+  const { height, width } = useWindowDimensions()
 
-  const springs = useSprings(3, [
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
+  const [reverse, setReverse] = useState(false)
+  const toggleReverse = () => setReverse(!reverse)
+
+  const [showTransmission, setShowTransmission] = useState(false)
+  const [showFeed, setShowFeed] = useState(false)
+
+  const spring = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    reverse,
+    config: reverse ? config.default : config.molasses,
+    onRest: () => {
+      if (reverse) {
+        setShowTransmission(true)
+      }
     },
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
-    },
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
-    },
-  ])
+  })
+
+  const [transmissionSpring, api] = useSpring(() => ({
+    opacity: 0,
+  }))
+
+  useEffect(() => {
+    if (showTransmission) {
+      api.start({ opacity: 1, delay: 0, config: config.gentle })
+      const timer = setTimeout(() => {
+        api.start({
+          opacity: 0,
+          config: config.stiff,
+          onRest: () => setShowFeed(true),
+        })
+      }, 4000)
+
+      return () => clearTimeout(timer) // Clean up the timeout when component is unmounted
+    }
+  }, [showTransmission, api])
+
+  if (showFeed) {
+    return <SplashFeed />
+  }
+
+  if (showTransmission) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'black',
+          paddingTop: height * 0.3,
+          paddingHorizontal: 46,
+          // alignItems: 'center',
+        }}
+      >
+        <animated.View style={transmissionSpring}>
+          <TerminalText
+            text="RECEIVING TRANSMISSION"
+            style={{
+              fontSize: 20,
+              letterSpacing: 2,
+              textShadowColor: '#00ffff',
+              textShadowOffset: { width: 0, height: 0 },
+              textShadowRadius: 15,
+            }}
+          />
+        </animated.View>
+      </View>
+    )
+  }
 
   return (
     <View
@@ -45,9 +88,9 @@ export const SplashScreen = () => {
     >
       <animated.View
         style={{
-          ...springs[0],
-          width: imgWidth,
-          height: imgWidth,
+          ...spring,
+          width,
+          height: width,
           overflow: 'hidden',
         }}
       >
@@ -67,7 +110,7 @@ export const SplashScreen = () => {
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
         />
       </animated.View>
-      <animated.View style={springs[1]}>
+      <animated.View style={spring}>
         <H1
           mt="$8"
           fontFamily="Protomolecule"
@@ -81,15 +124,16 @@ export const SplashScreen = () => {
           arcade
         </H1>
       </animated.View>
-      <animated.View style={springs[2]}>
+      <animated.View style={spring}>
         <Button
+          onPress={toggleReverse}
           size="$6"
           borderRadius={38}
           color="black"
           backgroundColor="#00ffff"
           mt="$9"
           pressStyle={{ opacity: 0.8 }}
-          minWidth={imgWidth - 40}
+          minWidth={width - 40}
           style={{
             shadowColor: '#00ffff',
             shadowOffset: { width: 0, height: 0 },
@@ -109,7 +153,7 @@ export const SplashScreen = () => {
           backgroundColor="#222"
           mt="$6"
           pressStyle={{ opacity: 0.8 }}
-          minWidth={imgWidth - 140}
+          minWidth={width - 140}
           style={{
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 0 },
