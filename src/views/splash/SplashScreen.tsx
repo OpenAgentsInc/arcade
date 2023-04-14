@@ -34,11 +34,11 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     if (showTransmission) {
-      api.start({ opacity: 1, delay: 200, config: config.molasses })
+      api.start({ opacity: 1, delay: 0, config: config.gentle })
       const timer = setTimeout(() => {
         api.start({
           opacity: 0,
-          config: config.slow,
+          config: config.stiff,
           onRest: () => setShowFeed(true),
         })
       }, 4000)
@@ -58,21 +58,21 @@ export const SplashScreen = () => {
           flex: 1,
           backgroundColor: 'black',
           paddingTop: height * 0.3,
-          alignItems: 'center',
+          paddingHorizontal: 25,
+          // alignItems: 'center',
         }}
       >
         <animated.View style={transmissionSpring}>
-          <H1
-            mt="$8"
-            fontFamily="Protomolecule"
-            fontSize={36}
-            letterSpacing={4}
-            textShadowColor="#00ffff"
-            textShadowOffset={{ width: 0, height: 0 }}
-            textShadowRadius={15}
-          >
-            <TerminalText text="RECEIVING TRANSMISSION" />
-          </H1>
+          <TerminalText
+            text="RECEIVING TRANSMISSION"
+            style={{
+              fontSize: 20,
+              letterSpacing: 2,
+              textShadowColor: '#00ffff',
+              textShadowOffset: { width: 0, height: 0 },
+              textShadowRadius: 15,
+            }}
+          />
         </animated.View>
       </View>
     )

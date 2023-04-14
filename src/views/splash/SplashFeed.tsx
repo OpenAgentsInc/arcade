@@ -1,4 +1,5 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
 import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
@@ -29,8 +30,12 @@ export const SplashFeed = () => {
           </View>
           <></>
         </View>
-        <Text style={styles.bodyText}>WELCOME PLAYER.</Text>
-        <Text style={styles.bodyText}>WHAT IS YOUR NAME?</Text>
+        <TerminalText text="WELCOME PLAYER." style={styles.bodyText} />
+        <TerminalText
+          text="WHAT IS YOUR NAME?"
+          initialDelay={2000}
+          style={styles.bodyText}
+        />
       </animated.View>
     </View>
   )
