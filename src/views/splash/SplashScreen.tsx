@@ -1,9 +1,14 @@
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
+import { animated, useSpring } from '@react-spring/native'
 
 export const SplashScreen = () => {
   const { width } = useWindowDimensions()
+  const springs = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  })
   const imgWidth = width // - 50
   return (
     <View
@@ -13,19 +18,19 @@ export const SplashScreen = () => {
         alignItems: 'center',
       }}
     >
-      <View
+      <animated.View
         style={{
           width: imgWidth,
           height: imgWidth,
-          // borderRadius: 38,
           overflow: 'hidden',
+          ...springs,
         }}
       >
         <Image
           source={images.player1}
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
         />
-      </View>
+      </animated.View>
       <H1
         mt="$8"
         fontFamily="Protomolecule"
