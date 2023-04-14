@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
+import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
 import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
@@ -40,7 +41,7 @@ export const SplashScreen = () => {
           config: config.slow,
           onRest: () => setShowFeed(true),
         })
-      }, 2000) // Fade out after 2 seconds
+      }, 5000)
 
       return () => clearTimeout(timer) // Clean up the timeout when component is unmounted
     }
@@ -70,7 +71,7 @@ export const SplashScreen = () => {
             textShadowOffset={{ width: 0, height: 0 }}
             textShadowRadius={15}
           >
-            RECEIVING TRANSMISSION
+            <TerminalText text="RECEIVING TRANSMISSION" />
           </H1>
         </animated.View>
       </View>
