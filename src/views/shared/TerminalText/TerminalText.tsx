@@ -7,39 +7,28 @@ const AnimatedText = animated(Text)
 export const TerminalText = ({ text, delay = 100 }) => {
   const [visibleText, setVisibleText] = useState('')
   const [cursorVisible, setCursorVisible] = useState(true)
-  const [delayElapsed, setDelayElapsed] = useState(false)
+
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      setVisibleText((prevText) => {
+        if (prevText.length < text.length) {
+          return text.slice(0, prevText.length + 1)
+        } else {
+          clearInterval(typingInterval)
+        }
+      })
+    }, delay)
+
+    return () => clearInterval(typingInterval)
+  }, [text, delay])
 
   useEffect(() => {
     const cursorBlinkInterval = setInterval(() => {
       setCursorVisible((prevVisible) => !prevVisible)
     }, 500)
 
-    setTimeout(() => {
-      setDelayElapsed(true)
-    }, 2000)
-
-    return () => {
-      clearInterval(cursorBlinkInterval)
-    }
+    return () => clearInterval(cursorBlinkInterval)
   }, [])
-
-  useEffect(() => {
-    if (delayElapsed) {
-      const typingInterval = setInterval(() => {
-        setVisibleText((prevText) => {
-          if (prevText.length < text.length) {
-            return text.slice(0, prevText.length + 1)
-          } else {
-            clearInterval(typingInterval)
-          }
-        })
-      }, delay)
-
-      return () => {
-        clearInterval(typingInterval)
-      }
-    }
-  }, [text, delay, delayElapsed])
 
   const cursorOpacity = useSpring({
     opacity: cursorVisible ? 1 : 0,
@@ -48,8 +37,8 @@ export const TerminalText = ({ text, delay = 100 }) => {
 
   return (
     <View style={styles.container}>
-      <AnimatedText style={[styles.cursor, cursorOpacity]}>|</AnimatedText>
       <Text style={styles.text}>{visibleText}</Text>
+      <AnimatedText style={[styles.cursor, cursorOpacity]}>|</AnimatedText>
     </View>
   )
 }
