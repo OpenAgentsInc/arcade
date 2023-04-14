@@ -1,6 +1,9 @@
-import { View } from 'react-native'
-import { Stack, YStack } from 'tamagui'
+import { Image, View } from 'react-native'
+import { XStack, YStack } from 'tamagui'
+import { Text } from 'views/shared'
+import { images } from 'views/theme'
 import { LinearGradient } from '@tamagui/linear-gradient'
+import { MoreHorizontal } from '@tamagui/lucide-icons'
 
 export const SplashFeed = () => {
   return (
@@ -12,7 +15,7 @@ export const SplashFeed = () => {
           width: '100%',
           height: 200,
           borderRadius: 30,
-          opacity: 0.5,
+          // opacity: 0.5,
           borderColor: '#888',
           borderWidth: 2,
         }}
@@ -31,6 +34,20 @@ export const SplashFeed = () => {
             borderRadius: 30,
           }}
         />
+        <XStack f={1} jc="space-between" zIndex={9999} width="100%">
+          <XStack ai="center">
+            <Image
+              source={images.eve}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 40,
+              }}
+            />
+            <Text text="EVE" style={{ color: 'white' }} />
+          </XStack>
+          <MoreHorizontal size={30} color="white" />
+        </XStack>
       </View>
     </YStack>
   )

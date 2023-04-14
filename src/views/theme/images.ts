@@ -1,4 +1,5 @@
 export const images = {
+  eve: require('../../../assets/images/eve-avatar.png'),
   player1: require('../../../assets/images/player1a.png'),
   // tab images
   guilds: require('../../../assets/images/guild.png'),
