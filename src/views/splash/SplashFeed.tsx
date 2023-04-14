@@ -21,8 +21,9 @@ export const SplashFeed = () => {
             </View>
           </View>
           <></>
-          {/* <MoreHorizontal size={30} color="white" /> */}
         </View>
+        <Text style={styles.bodyText}>WELCOME, PLAYER.</Text>
+        <Text style={styles.bodyText}>WHAT IS YOUR NAME?</Text>
       </View>
     </View>
   )
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 9000,
+    zIndex: 0,
     borderRadius: 30,
   },
   header: {
@@ -83,5 +84,14 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 14,
     fontWeight: '400',
+  },
+  bodyText: {
+    fontFamily: 'Protomolecule',
+    fontSize: 24,
+    color: 'white',
+    textShadowColor: 'cyan',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+    marginTop: 20,
   },
 })
