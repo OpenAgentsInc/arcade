@@ -4,6 +4,7 @@ import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
 import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
+import { SplashFeed } from './SplashFeed'
 
 export const SplashScreen = () => {
   const { height, width } = useWindowDimensions()
@@ -12,6 +13,7 @@ export const SplashScreen = () => {
   const toggleReverse = () => setReverse(!reverse)
 
   const [showTransmission, setShowTransmission] = useState(false)
+  const [showFeed, setShowFeed] = useState(false)
 
   const spring = useSpring({
     from: { opacity: 0 },
@@ -33,12 +35,20 @@ export const SplashScreen = () => {
     if (showTransmission) {
       api.start({ opacity: 1, delay: 300, config: config.molasses })
       const timer = setTimeout(() => {
-        api.start({ opacity: 0, config: config.molasses })
+        api.start({
+          opacity: 0,
+          config: config.molasses,
+          onRest: () => setShowFeed(true),
+        })
       }, 2000) // Fade out after 2 seconds
 
       return () => clearTimeout(timer) // Clean up the timeout when component is unmounted
     }
   }, [showTransmission, api])
+
+  if (showFeed) {
+    return <SplashFeed />
+  }
 
   if (showTransmission) {
     return (
