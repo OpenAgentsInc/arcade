@@ -1,39 +1,21 @@
 import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
-import { animated, config, useSprings } from '@react-spring/native'
+import { animated, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 
 export const SplashScreen = () => {
   const { width } = useWindowDimensions()
   const imgWidth = width
 
-  const springs = useSprings(3, [
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
+  const spring = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: {
+      friction: 400,
+      tension: 200,
     },
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
-    },
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: {
-        friction: 400,
-        tension: 200,
-      },
-    },
-  ])
+  })
 
   return (
     <View
@@ -45,7 +27,7 @@ export const SplashScreen = () => {
     >
       <animated.View
         style={{
-          ...springs[0],
+          ...spring,
           width: imgWidth,
           height: imgWidth,
           overflow: 'hidden',
@@ -67,7 +49,7 @@ export const SplashScreen = () => {
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
         />
       </animated.View>
-      <animated.View style={springs[1]}>
+      <animated.View style={spring}>
         <H1
           mt="$8"
           fontFamily="Protomolecule"
@@ -81,7 +63,7 @@ export const SplashScreen = () => {
           arcade
         </H1>
       </animated.View>
-      <animated.View style={springs[2]}>
+      <animated.View style={spring}>
         <Button
           size="$6"
           borderRadius={38}
