@@ -1,11 +1,18 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { images } from 'views/theme'
+import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 
 export const SplashFeed = () => {
+  const springStyles = useSpring({
+    from: { opacity: 0, marginTop: 100 },
+    to: { opacity: 1, marginTop: 0 },
+    config: config.molasses,
+  })
+
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
+      <animated.View style={[styles.innerContainer, springStyles]}>
         <LinearGradient
           colors={['transparent', 'rgba(0, 0, 0, 0.9)']}
           start={{ x: 0.0, y: 0.0 }}
@@ -22,9 +29,9 @@ export const SplashFeed = () => {
           </View>
           <></>
         </View>
-        <Text style={styles.bodyText}>WELCOME, PLAYER.</Text>
+        <Text style={styles.bodyText}>WELCOME PLAYER.</Text>
         <Text style={styles.bodyText}>WHAT IS YOUR NAME?</Text>
-      </View>
+      </animated.View>
     </View>
   )
 }

@@ -33,11 +33,11 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     if (showTransmission) {
-      api.start({ opacity: 1, delay: 300, config: config.molasses })
+      api.start({ opacity: 1, delay: 200, config: config.molasses })
       const timer = setTimeout(() => {
         api.start({
           opacity: 0,
-          config: config.molasses,
+          config: config.slow,
           onRest: () => setShowFeed(true),
         })
       }, 2000) // Fade out after 2 seconds
