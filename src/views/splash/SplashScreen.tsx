@@ -2,6 +2,7 @@ import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { images } from 'views/theme'
 import { animated, config, useSprings } from '@react-spring/native'
+import { LinearGradient } from '@tamagui/linear-gradient'
 
 export const SplashScreen = () => {
   const { width } = useWindowDimensions()
@@ -50,6 +51,17 @@ export const SplashScreen = () => {
           overflow: 'hidden',
         }}
       >
+        <LinearGradient
+          colors={['transparent', 'transparent', '#000']}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9000,
+          }}
+        />
         <Image
           source={images.player1}
           style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
