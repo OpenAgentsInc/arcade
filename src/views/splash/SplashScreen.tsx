@@ -74,6 +74,9 @@ export const SplashScreen = () => {
           fontSize={86}
           lineHeight={100}
           letterSpacing={4}
+          textShadowColor="#00ffff"
+          textShadowOffset={{ width: 0, height: 0 }}
+          textShadowRadius={15}
         >
           arcade
         </H1>
