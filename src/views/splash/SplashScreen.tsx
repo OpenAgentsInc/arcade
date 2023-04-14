@@ -58,7 +58,7 @@ export const SplashScreen = () => {
           flex: 1,
           backgroundColor: 'black',
           paddingTop: height * 0.3,
-          paddingHorizontal: 25,
+          paddingHorizontal: 46,
           // alignItems: 'center',
         }}
       >
