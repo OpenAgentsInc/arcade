@@ -1,8 +1,6 @@
-import { Image, StyleSheet, View } from 'react-native'
-import { Text } from 'views/shared'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { images } from 'views/theme'
 import { LinearGradient } from '@tamagui/linear-gradient'
-import { MoreHorizontal } from '@tamagui/lucide-icons'
 
 export const SplashFeed = () => {
   return (
@@ -17,9 +15,13 @@ export const SplashFeed = () => {
         <View style={styles.header}>
           <View style={styles.profile}>
             <Image source={images.eve} style={styles.image} />
-            <Text style={styles.text}>EVE</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>Eve</Text>
+              <Text style={styles.timestamp}>Just now</Text>
+            </View>
           </View>
-          <MoreHorizontal size={30} color="white" />
+          <></>
+          {/* <MoreHorizontal size={30} color="white" /> */}
         </View>
       </View>
     </View>
@@ -38,10 +40,10 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#474747',
     width: '100%',
-    height: 200,
+    height: 220,
     borderRadius: 30,
-    borderColor: '#888',
-    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
   },
   gradient: {
     position: 'absolute',
@@ -64,11 +66,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  textContainer: {
+    marginLeft: 15,
   },
   text: {
     color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  timestamp: {
+    color: '#999',
+    fontSize: 14,
+    fontWeight: '400',
   },
 })
