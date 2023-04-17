@@ -1,5 +1,13 @@
 // Color names per http://chir.ag/projects/name-that-color
 export const palette = {
+  backgroundPrimary: '#121212',
+  textPrimary: '#FFFFFF',
+  accentCyan: '#00FFFF',
+  accentOrange: '#FFA500',
+  secondaryText: '#A5A5A5',
+  divider: '#3A3A3A',
+  disabled: '#5E5E5E',
+
   almostBlack: '#070A0D',
   darkGray: '#101418',
 
