@@ -9,7 +9,8 @@
     "test": "jest --watchAll",
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
-    "submit:ios": "eas submit -p ios"
+    "submit:ios": "eas submit -p ios",
+    "t": "tsc --noEmit"
   },
   "jest": {
     "preset": "jest-expo"
