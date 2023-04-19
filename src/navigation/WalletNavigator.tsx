@@ -1,6 +1,7 @@
 import { ReceiveZapScreen } from 'views/wallet/ReceiveZapScreen'
 import { SendZapScreen } from 'views/wallet/SendZapScreen'
 import { ShareAndEarnScreen } from 'views/wallet/ShareAndEarnScreen'
+import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const Stack = createNativeStackNavigator()
