@@ -1,5 +1,5 @@
+import { CreateAccountScreen } from 'views/auth/CreateAccountScreen'
 import { LoginScreen } from 'views/auth/LoginScreen'
-import { CreateAccountScreen } from 'views/onboarding/CreateAccountScreen'
 import { SplashScreen } from 'views/splash/SplashScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
