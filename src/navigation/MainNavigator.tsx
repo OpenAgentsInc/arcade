@@ -1,5 +1,4 @@
 import { AddCommentScreen } from 'views/feed/AddCommentScreen'
-// import { MainFeedScreen } from 'views/feed/MainFeedScreen'
 import { PostDetailScreen } from 'views/feed/PostDetailScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
