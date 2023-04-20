@@ -19,14 +19,18 @@ export const MainFeedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SearchBar />
+      <SearchBar placeholder="Search" onChangeText={() => {}} />
       <FlatList
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
       />
-      <CreatePostButton />
+      <CreatePostButton
+        onPress={() => {
+          // Navigate to the create post screen
+        }}
+      />
     </View>
   )
 }
