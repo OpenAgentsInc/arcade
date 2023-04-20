@@ -25,7 +25,7 @@ export const stackOptions = ({
       fontFamily: typography.secondary,
     },
     headerLeft: () =>
-      route.name === 'ProfileScreen' ? (
+      route.name === 'WalletScreen' || route.name === 'ProfileScreen' ? (
         <NavButton onPress={() => navigation.goBack()} />
       ) : (
         <TouchableOpacity
@@ -53,11 +53,17 @@ export const stackOptions = ({
           </Avatar>
         </TouchableOpacity>
       ),
-    headerRight: () => (
-      <View style={{ marginRight: 16 }}>
-        <Ionicons name="ios-wallet-outline" size={24} color="#777" />
-      </View>
-    ),
+    headerRight: () =>
+      route.name === 'WalletScreen' ? (
+        <></>
+      ) : (
+        <TouchableOpacity
+          style={{ marginRight: 16 }}
+          onPress={() => navigation.navigate('WalletScreen')}
+        >
+          <Ionicons name="ios-wallet-outline" size={24} color="#777" />
+        </TouchableOpacity>
+      ),
     // headerLeft: () =>
     //   route.name !== 'streamhome' &&
     //   route.name !== 'Contacts' &&

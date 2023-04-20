@@ -42,7 +42,7 @@ export const MainNavigator = () => {
       <Stack.Screen
         name="WalletScreen"
         component={WalletScreen}
-        options={{ title: 'Wallet' }}
+        options={stackOptions}
       />
       <Stack.Screen
         name="NotificationsScreen"
