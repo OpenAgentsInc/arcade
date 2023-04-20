@@ -5,13 +5,12 @@ import { palette } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
 import { CreatePostButton } from './components/CreatePostButton'
 import { PostItem } from './components/PostItem'
-import { SearchBar } from './components/SearchBar'
 
 export const MainFeedScreen = () => {
   const { setOptions } = useNavigation()
   useEffect(() => {
     setOptions({
-      headerTitle: '',
+      headerTitle: 'Feed',
     })
   }, [])
 
@@ -27,7 +26,7 @@ export const MainFeedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SearchBar placeholder="Search" onChangeText={() => {}} />
+      {/* <SearchBar placeholder="Search" onChangeText={() => {}} /> */}
       <FlatList
         data={posts}
         renderItem={renderItem}
