@@ -1,12 +1,11 @@
-import { BlankScreen } from 'views/dev'
-import { FeedScreen } from 'views/feed/FeedScreen'
-import { ProfileScreen } from 'views/profile/ProfileScreen'
+import { MainFeedScreen } from 'views/feed/MainFeedScreen'
+import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
+import { UserProfileScreen } from 'views/profile/UserProfileScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { hideHeaderOptions } from './navigation-utilities'
-import { stackOptions } from './stackOptions'
-import { StreamNavigator } from './StreamNavigator'
+import { PostNavigator } from './PostNavigator'
 
 const Tab = createBottomTabNavigator()
 
@@ -14,33 +13,33 @@ export const TabNavigator = () => {
   return (
     <Tab.Navigator
       detachInactiveScreens={false}
-      initialRouteName="feed"
+      initialRouteName="MainFeedScreen"
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen
-        name="feed"
-        component={FeedScreen}
+        name="MainFeedScreen"
+        component={MainFeedScreen}
         options={hideHeaderOptions}
       />
       <Tab.Screen
-        name="inbox"
-        component={StreamNavigator}
-        options={hideHeaderOptions}
-      />
-      <Tab.Screen
-        name="Contacts"
-        component={BlankScreen}
-        options={stackOptions}
-      />
-      <Tab.Screen
-        name="Wallet"
+        name="WalletScreen"
         component={WalletScreen}
-        options={stackOptions}
+        options={hideHeaderOptions}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={stackOptions}
+        name="NotificationsScreen"
+        component={NotificationsScreen}
+        options={hideHeaderOptions}
+      />
+      <Tab.Screen
+        name="UserProfileScreen"
+        component={UserProfileScreen}
+        options={hideHeaderOptions}
+      />
+      <Tab.Screen
+        name="PostNavigator"
+        component={PostNavigator}
+        options={hideHeaderOptions}
       />
     </Tab.Navigator>
   )
