@@ -78,7 +78,7 @@ export const presets = {
    */
   description: { ...SECONDARY, marginBottom: spacing[5] - 2 } as TextStyle,
 
-  descriptionSlim: { ...SECONDARY },
+  descriptionSlim: { ...SECONDARY, fontFamily: typography.secondary },
 
   /**
    * Labels that appear on forms above the inputs or on buttons.

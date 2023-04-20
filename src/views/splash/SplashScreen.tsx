@@ -3,12 +3,14 @@ import { Image, useWindowDimensions, View } from 'react-native'
 import { Button, H1, Paragraph, Text } from 'tamagui'
 import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
+import { useNavigation } from '@react-navigation/native'
 import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { SplashFeed } from './SplashFeed'
 
 export const SplashScreen = () => {
   const { height, width } = useWindowDimensions()
+  const navigation = useNavigation<any>()
 
   const [reverse, setReverse] = useState(false)
   const toggleReverse = () => setReverse(!reverse)
@@ -59,7 +61,6 @@ export const SplashScreen = () => {
           backgroundColor: 'black',
           paddingTop: height * 0.3,
           paddingHorizontal: 46,
-          // alignItems: 'center',
         }}
       >
         <animated.View style={transmissionSpring}>
@@ -161,6 +162,7 @@ export const SplashScreen = () => {
             shadowRadius: 20,
             elevation: 10, // For Android
           }}
+          onPress={() => navigation.navigate('LoginScreen')}
         >
           <Paragraph fontFamily="Protomolecule" fontSize={18} color="$color11">
             Login

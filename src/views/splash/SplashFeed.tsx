@@ -1,3 +1,5 @@
+import { useAuthed } from 'lib/hooks/useAuthed'
+import { useEffect } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
@@ -10,6 +12,14 @@ export const SplashFeed = () => {
     to: { opacity: 1, marginTop: 0 },
     config: config.molasses,
   })
+
+  const { login } = useAuthed()
+
+  useEffect(() => {
+    setTimeout(() => {
+      login()
+    }, 5000)
+  }, [])
 
   return (
     <View style={styles.container}>

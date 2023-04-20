@@ -9,21 +9,23 @@
  */
 
 import { chatClient, useStreamChatTheme } from 'lib/hooks'
+import { AuthProvider, useAuthed } from 'lib/hooks/useAuthed'
 import { Chat, OverlayProvider } from 'stream-chat-expo'
-import { SplashScreen } from 'views/splash/SplashScreen'
 import { NavigationContainer } from '@react-navigation/native'
+import { AuthNavigator } from './AuthNavigator'
+import { MainNavigator } from './MainNavigator'
 import { navigationRef } from './navigation-utilities'
-import { RootStack } from './RootStack'
 import { NavigationProps } from './types'
 
 export const RootNavigator = (props: NavigationProps) => {
-  const authed = false
+  const { authed } = useAuthed()
+  console.log('authed:', authed)
   const theme = useStreamChatTheme()
   return (
     <NavigationContainer ref={navigationRef} {...props}>
       <OverlayProvider value={{ style: theme }}>
         <Chat client={chatClient}>
-          {authed ? <RootStack /> : <SplashScreen />}
+          {authed ? <MainNavigator /> : <AuthNavigator />}
         </Chat>
       </OverlayProvider>
     </NavigationContainer>

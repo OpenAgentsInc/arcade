@@ -17,7 +17,7 @@ function NavButtonImage({ preset }: { preset: string }) {
     <Ionicons
       name="chevron-back"
       size={26}
-      color="cyan"
+      color="white"
       style={{ marginTop: -4, marginLeft: -8, opacity: 0.6 }}
     />
   )

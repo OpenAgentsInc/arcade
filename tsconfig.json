@@ -16,5 +16,6 @@
       "services/*": ["src/services/*"],
       "views/*": ["src/views/*"]
     }
-  }
+  },
+  "exclude": ["src/navigation/old"]
 }

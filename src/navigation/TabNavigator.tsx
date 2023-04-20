@@ -1,11 +1,14 @@
+import { BlankScreen } from 'views/dev'
 import { MainFeedScreen } from 'views/feed/MainFeedScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
+import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { hideHeaderOptions } from './navigation-utilities'
 import { PostNavigator } from './PostNavigator'
+import { stackOptions } from './stackOptions'
 
 const Tab = createBottomTabNavigator()
 
@@ -19,28 +22,39 @@ export const TabNavigator = () => {
       <Tab.Screen
         name="MainFeedScreen"
         component={MainFeedScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
       />
       <Tab.Screen
+        name="Discover"
+        component={BlankScreen}
+        options={stackOptions}
+        // options={hideHeaderOptions}
+      />
+      <Tab.Screen
+        name="Contacts"
+        component={BlankScreen}
+        options={stackOptions}
+      />
+      {/* <Tab.Screen
         name="WalletScreen"
         component={WalletScreen}
         options={hideHeaderOptions}
+      /> */}
+      <Tab.Screen
+        name="Notifications"
+        component={BlankScreen}
+        options={stackOptions}
       />
       <Tab.Screen
-        name="NotificationsScreen"
-        component={NotificationsScreen}
-        options={hideHeaderOptions}
+        name="Messages"
+        component={BlankScreen}
+        options={stackOptions}
       />
-      <Tab.Screen
-        name="UserProfileScreen"
-        component={UserProfileScreen}
-        options={hideHeaderOptions}
-      />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="PostNavigator"
         component={PostNavigator}
         options={hideHeaderOptions}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

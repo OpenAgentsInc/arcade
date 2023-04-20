@@ -1,17 +1,25 @@
+import { useEffect } from 'react'
 import {
     Avatar, Button, Image, Paragraph, Text, useWindowDimensions, XStack, YStack
 } from 'tamagui'
 import { LinearGradient } from 'tamagui/linear-gradient'
 import { Screen } from 'views/shared'
+import { useNavigation } from '@react-navigation/native'
 import { MessageSquare, Repeat, Zap } from '@tamagui/lucide-icons'
 
 export const ProfileScreen = () => {
   const { width } = useWindowDimensions()
+  const { setOptions } = useNavigation()
+  useEffect(() => {
+    setOptions({
+      headerTitle: 'nikki',
+    })
+  }, [])
   return (
     <Screen preset="scrollStack">
       <YStack width={width} bg="$color8" height={110}>
         <Image
-          src="https://source.unsplash.com/random/800x606"
+          src="https://loremflickr.com/640/260"
           width={width}
           height={110}
         />

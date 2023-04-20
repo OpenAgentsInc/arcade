@@ -1,14 +1,22 @@
+import { useEffect } from 'react'
 import { useWindowDimensions, View } from 'react-native'
 import { Screen, Text } from 'views/shared'
 import { SvgIcon } from 'views/shared/svg-icon'
 import { spacing } from 'views/theme'
+import { useNavigation } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { PaymentDetail } from './components/payment-detail'
 import { WalletDock } from './components/wallet-dock'
 
 export const WalletScreen = () => {
   const balance = 0
-  const { width, height } = useWindowDimensions()
+  const { width } = useWindowDimensions()
+  const { setOptions } = useNavigation()
+  useEffect(() => {
+    setOptions({
+      headerTitle: 'Wallet',
+    })
+  }, [])
   const payments = null
   return (
     <Screen
