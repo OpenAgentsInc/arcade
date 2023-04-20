@@ -72,9 +72,9 @@ export const useStreamChatTheme = () => {
             white_smoke: '#F2F2F2',
             white_snow: '#FCFCFC',
           },
-    imageGallery: {
-      blurType: colorScheme === 'dark' ? 'dark' : 'light',
-    },
+    // imageGallery: {
+    //   blurType: colorScheme === 'dark' ? 'dark' : 'light',
+    // },
     spinner: {
       height: 15,
       width: 15,
