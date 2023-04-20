@@ -1,12 +1,20 @@
-// src/views/feed/MainFeedScreen.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { palette } from 'views/theme'
+// src/views/feed/MainFeedScreen.tsx
+import { useNavigation } from '@react-navigation/native'
 import { CreatePostButton } from './components/CreatePostButton'
 import { PostItem } from './components/PostItem'
 import { SearchBar } from './components/SearchBar'
 
 export const MainFeedScreen = () => {
+  const { setOptions } = useNavigation()
+  useEffect(() => {
+    setOptions({
+      headerTitle: '',
+    })
+  }, [])
+
   // Replace this with the actual data from your backend or state management
   const posts = [
     /* ... */
