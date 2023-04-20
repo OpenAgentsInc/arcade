@@ -4,7 +4,7 @@
     "slug": "arc",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon.jpg",
     "scheme": "arcade",
     "userInterfaceStyle": "dark",
     "splash": {
