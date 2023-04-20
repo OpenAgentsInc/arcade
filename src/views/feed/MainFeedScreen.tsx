@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: palette.almostBlack,
+    alignItems: 'flex-end',
+    paddingRight: 10,
   },
   listContent: {
     padding: 10,

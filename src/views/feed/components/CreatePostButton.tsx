@@ -6,7 +6,11 @@ import { FontAwesome } from '@expo/vector-icons'
 
 export const CreatePostButton = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
       <FontAwesome name="plus" size={24} color={palette.white} />
     </TouchableOpacity>
   )
@@ -14,12 +18,13 @@ export const CreatePostButton = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: palette.backgroundPrimary,
+    backgroundColor: palette.arwesFade,
     borderRadius: 50,
     width: 56,
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
+    marginRight: 12,
   },
 })
