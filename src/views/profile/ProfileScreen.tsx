@@ -19,7 +19,7 @@ export const ProfileScreen = () => {
     <Screen preset="scrollStack">
       <YStack width={width} bg="$color8" height={110}>
         <Image
-          src="https://source.unsplash.com/random/800x606"
+          src="https://loremflickr.com/640/260"
           width={width}
           height={110}
         />

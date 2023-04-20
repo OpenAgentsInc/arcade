@@ -9,15 +9,9 @@ export const LoginScreen = () => {
   const navigation = useNavigation<any>()
   const { authed, login } = useAuthed()
 
-  useEffect(() => {
-    console.log('whattttt', authed)
-  }, [authed])
-
   const handleLogin = () => {
     // Perform login logic here, then navigate to MainFeedScreen
     login()
-    console.log('???')
-    // navigation.navigate('TabNavigator')
   }
 
   return (
