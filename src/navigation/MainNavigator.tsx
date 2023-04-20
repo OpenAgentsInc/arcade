@@ -1,9 +1,11 @@
 import { AddCommentScreen } from 'views/feed/AddCommentScreen'
 import { PostDetailScreen } from 'views/feed/PostDetailScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
+import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { stackOptions } from './stackOptions'
 import { TabNavigator } from './TabNavigator'
 
 const Stack = createNativeStackNavigator()
@@ -25,6 +27,12 @@ export const MainNavigator = () => {
         name="AddCommentScreen"
         component={AddCommentScreen}
         options={{ title: 'Add Comment' }}
+      />
+      <Stack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        // options={{ title: 'User Profile' }}
+        options={stackOptions}
       />
       <Stack.Screen
         name="UserProfileScreen"

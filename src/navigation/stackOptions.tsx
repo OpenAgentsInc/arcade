@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Avatar } from 'tamagui'
 import { NavButton } from 'views/shared'
 import { color, typography } from 'views/theme'
@@ -24,31 +24,35 @@ export const stackOptions = ({
     headerTitleStyle: {
       fontFamily: typography.secondary,
     },
-    headerLeft: () => (
-      <View
-        style={
-          {
-            // width: 34,
-            // height: 34,
-            // backgroundColor: '#555',
-            // borderRadius: 17,
-            // marginLeft: 20,
+    headerLeft: () =>
+      route.name === 'ProfileScreen' ? (
+        <NavButton onPress={() => navigation.goBack()} />
+      ) : (
+        <TouchableOpacity
+          style={
+            {
+              // width: 34,
+              // height: 34,
+              // backgroundColor: '#555',
+              // borderRadius: 17,
+              // marginLeft: 20,
+            }
           }
-        }
-      >
-        <Avatar
-          circular
-          size={36}
-          // mt={-60}
-          ml="$4"
-          borderWidth={0}
-          borderColor="$color3"
+          onPress={() => navigation.navigate('ProfileScreen')}
         >
-          <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
-          <Avatar.Fallback bc="$background" />
-        </Avatar>
-      </View>
-    ),
+          <Avatar
+            circular
+            size={36}
+            // mt={-60}
+            ml="$4"
+            borderWidth={0}
+            borderColor="$color3"
+          >
+            <Avatar.Image src="https://i.pravatar.cc/150?img=23" />
+            <Avatar.Fallback bc="$background" />
+          </Avatar>
+        </TouchableOpacity>
+      ),
     headerRight: () => (
       <View style={{ marginRight: 16 }}>
         <Ionicons name="ios-wallet-outline" size={24} color="#777" />
