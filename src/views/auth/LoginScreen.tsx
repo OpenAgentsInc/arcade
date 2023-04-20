@@ -1,5 +1,5 @@
 import { useAuthed } from 'lib/hooks/useAuthed'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import { palette } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -7,11 +7,16 @@ import { useNavigation } from '@react-navigation/native'
 export const LoginScreen = () => {
   const [accessKey, setAccessKey] = useState('')
   const navigation = useNavigation<any>()
-  const { login } = useAuthed()
+  const { authed, login } = useAuthed()
+
+  useEffect(() => {
+    console.log('whattttt', authed)
+  }, [authed])
 
   const handleLogin = () => {
     // Perform login logic here, then navigate to MainFeedScreen
     login()
+    console.log('???')
     // navigation.navigate('TabNavigator')
   }
 

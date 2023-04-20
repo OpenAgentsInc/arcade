@@ -9,7 +9,7 @@
  */
 
 import { chatClient, useStreamChatTheme } from 'lib/hooks'
-import { useAuthed } from 'lib/hooks/useAuthed'
+import { AuthProvider, useAuthed } from 'lib/hooks/useAuthed'
 import { Chat, OverlayProvider } from 'stream-chat-expo'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthNavigator } from './AuthNavigator'
