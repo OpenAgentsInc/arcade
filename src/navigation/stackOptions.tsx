@@ -54,7 +54,7 @@ export const stackOptions = ({
         </TouchableOpacity>
       ),
     headerRight: () =>
-      route.name === 'WalletScreen' ? (
+      route.name === 'ProfileScreen' || route.name === 'WalletScreen' ? (
         <></>
       ) : (
         <TouchableOpacity

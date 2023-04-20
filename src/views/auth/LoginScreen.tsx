@@ -1,7 +1,7 @@
 import { useAuthed } from 'lib/hooks/useAuthed'
 import React, { useEffect, useState } from 'react'
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import { palette } from 'views/theme'
+import { palette, typography } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
 
 export const LoginScreen = () => {
@@ -28,7 +28,7 @@ export const LoginScreen = () => {
         onChangeText={setAccessKey}
         value={accessKey}
         placeholder="Enter access key"
-        placeholderTextColor={palette.metallic}
+        placeholderTextColor={'#555'}
         secureTextEntry
       />
       <Button onPress={handleLogin} title="Login" />
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: palette.black,
   },
   title: {
+    fontFamily: typography.bold,
     fontSize: 24,
     color: palette.white,
     marginBottom: 20,
@@ -53,8 +54,8 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: palette.darkGray,
     color: palette.white,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
     borderRadius: 5,
     marginBottom: 10,
   },
