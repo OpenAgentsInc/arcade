@@ -1,5 +1,7 @@
+import { BlankScreen } from 'views/dev'
 import { MainFeedScreen } from 'views/feed/MainFeedScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
+import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
@@ -22,25 +24,35 @@ export const TabNavigator = () => {
         options={hideHeaderOptions}
       />
       <Tab.Screen
+        name="Discover"
+        component={BlankScreen}
+        options={hideHeaderOptions}
+      />
+      <Tab.Screen
+        name="Contacts"
+        component={BlankScreen}
+        options={hideHeaderOptions}
+      />
+      {/* <Tab.Screen
         name="WalletScreen"
         component={WalletScreen}
         options={hideHeaderOptions}
-      />
+      /> */}
       <Tab.Screen
         name="NotificationsScreen"
-        component={NotificationsScreen}
+        component={BlankScreen}
         options={hideHeaderOptions}
       />
       <Tab.Screen
-        name="UserProfileScreen"
-        component={UserProfileScreen}
+        name="inbox"
+        component={BlankScreen}
         options={hideHeaderOptions}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="PostNavigator"
         component={PostNavigator}
         options={hideHeaderOptions}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }
