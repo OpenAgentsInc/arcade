@@ -21,10 +21,10 @@ export const stackOptions = ({
     headerTitleStyle: {
       fontFamily: typography.secondary,
     },
-    headerLeft: () =>
-      route.name !== 'streamhome' &&
-      route.name !== 'Contacts' &&
-      route.name !== 'Wallet' &&
-      route.name !== 'Profile' && <NavButton onPress={navigation.goBack} />,
+    // headerLeft: () =>
+    //   route.name !== 'streamhome' &&
+    //   route.name !== 'Contacts' &&
+    //   route.name !== 'Wallet' &&
+    //   route.name !== 'Profile' && <NavButton onPress={navigation.goBack} />,
   }
 }

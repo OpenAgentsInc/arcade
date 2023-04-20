@@ -4,7 +4,7 @@ import { color, spacing } from 'views/theme'
 import { Text } from '../Text'
 
 const CONTAINER: ViewStyle = {
-  borderRadius: 1,
+  borderRadius: 3,
   backgroundColor: color.highlight,
   shadowOffset: {
     height: 0,
@@ -16,6 +16,8 @@ const CONTAINER: ViewStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   height: spacing[3],
+  marginTop: -1,
+  marginLeft: 4,
   paddingHorizontal: 2,
   minWidth: spacing[4],
 }

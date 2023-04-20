@@ -8,6 +8,7 @@ import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { hideHeaderOptions } from './navigation-utilities'
 import { PostNavigator } from './PostNavigator'
+import { stackOptions } from './stackOptions'
 
 const Tab = createBottomTabNavigator()
 
@@ -21,17 +22,18 @@ export const TabNavigator = () => {
       <Tab.Screen
         name="MainFeedScreen"
         component={MainFeedScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
       />
       <Tab.Screen
         name="Discover"
         component={BlankScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
+        // options={hideHeaderOptions}
       />
       <Tab.Screen
         name="Contacts"
         component={BlankScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
       />
       {/* <Tab.Screen
         name="WalletScreen"
@@ -39,14 +41,14 @@ export const TabNavigator = () => {
         options={hideHeaderOptions}
       /> */}
       <Tab.Screen
-        name="NotificationsScreen"
+        name="Notifications"
         component={BlankScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
       />
       <Tab.Screen
-        name="inbox"
+        name="Messages"
         component={BlankScreen}
-        options={hideHeaderOptions}
+        options={stackOptions}
       />
       {/* <Tab.Screen
         name="PostNavigator"
