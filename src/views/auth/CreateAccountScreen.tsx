@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, TextInput } from 'views/shared'
+import { Button, StyleSheet, TextInput, View } from 'react-native'
 import { palette } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
 
@@ -9,7 +8,7 @@ export const CreateAccountScreen = () => {
   const [displayName, setDisplayName] = useState('')
   const [shortBio, setShortBio] = useState('')
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   const handleContinue = () => {
     // Implement your account creation logic here
@@ -41,7 +40,7 @@ export const CreateAccountScreen = () => {
       <Button
         title="Go back"
         onPress={() => navigation.navigate('SplashScreen')}
-        style={styles.goBackButton}
+        // style={styles.goBackButton}
       />
     </View>
   )

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 
 export const LoginScreen = () => {
   const [accessKey, setAccessKey] = useState('')
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   const handleLogin = () => {
     // Perform login logic here, then navigate to MainFeedScreen
