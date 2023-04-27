@@ -5,6 +5,7 @@ import {
 // import { JumpingTransition } from 'react-native-reanimated'
 import { color, images } from 'views/theme'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
 import { SafeAreaView } from '../safe-area-view'
 // import { SvgIcon } from '../svg-icon'
 import { Badge } from './badge'
@@ -71,6 +72,7 @@ const iconTabStyle: ImageStyle = {
 }
 
 const ACTIVE_ICONS: any = {
+  Settings: <Settings size={32} color="white" />,
   MainFeedScreen: <Ionicons name="ios-home-outline" size={32} color="white" />,
   Discover: <Ionicons name="ios-search-outline" size={32} color="white" />,
   map: <Image source={images.mapActive} style={iconTabStyle} />,
@@ -94,6 +96,7 @@ const ACTIVE_ICONS: any = {
 }
 
 const ICONS: any = {
+  Settings: <Settings size={32} color="#777" />,
   MainFeedScreen: <Ionicons name="ios-home-outline" size={32} color="#777" />,
   Discover: <Ionicons name="ios-search-outline" size={32} color="#777" />,
   map: <Image source={images.map} style={iconTabStyle} />,

@@ -20,10 +20,15 @@ export const TabNavigator = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen
+        name="Messages"
+        component={BlankScreen}
+        options={stackOptions}
+      />
+      {/* <Tab.Screen
         name="MainFeedScreen"
         component={MainFeedScreen}
         options={stackOptions}
-      />
+      /> */}
       <Tab.Screen
         name="Discover"
         component={BlankScreen}
@@ -35,21 +40,22 @@ export const TabNavigator = () => {
         component={BlankScreen}
         options={stackOptions}
       />
+      <Tab.Screen
+        name="Settings"
+        component={BlankScreen}
+        options={stackOptions}
+      />
       {/* <Tab.Screen
         name="WalletScreen"
         component={WalletScreen}
         options={hideHeaderOptions}
       /> */}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Notifications"
         component={BlankScreen}
         options={stackOptions}
-      />
-      <Tab.Screen
-        name="Messages"
-        component={BlankScreen}
-        options={stackOptions}
-      />
+      /> */}
+
       {/* <Tab.Screen
         name="PostNavigator"
         component={PostNavigator}
