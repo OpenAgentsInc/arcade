@@ -1,16 +1,11 @@
 import * as React from 'react'
-import {
-    Animated, Image, ImageStyle, TouchableOpacity, View, ViewStyle
-} from 'react-native'
-// import { JumpingTransition } from 'react-native-reanimated'
-import { color, images } from 'views/theme'
-import { FontAwesome5, Ionicons } from '@expo/vector-icons'
-import { Globe, MessageCircle, Settings } from '@tamagui/lucide-icons'
+import { Animated, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { color } from 'views/theme'
+import { Ionicons } from '@expo/vector-icons'
+import { Settings } from '@tamagui/lucide-icons'
 import { SafeAreaView } from '../safe-area-view'
-// import { SvgIcon } from '../svg-icon'
 import { Badge } from './badge'
 
-// static styles
 const SAFE_AREA: ViewStyle = {
   backgroundColor: color.tabbar,
 }
@@ -20,8 +15,6 @@ const CONTAINER: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'center',
   minHeight: 49,
-  // borderTopColor: color.palette.farmerOutline,
-  // borderWidth: 1,
 }
 
 const TAB: ViewStyle = {
@@ -55,86 +48,26 @@ const ACTIVE_INDICATOR: ViewStyle = {
   height: 4,
   width: 4,
   borderRadius: 2,
-  backgroundColor: color.palette.arwes, // color.highlight,
+  backgroundColor: color.palette.arwes,
   shadowOffset: {
     width: 0,
     height: 0,
   },
   shadowOpacity: 0.9,
   shadowRadius: 2,
-  shadowColor: 'cyan', //color.highlight,
-}
-
-const iconTabStyle: ImageStyle = {
-  height: 28,
-  width: 26,
-  resizeMode: 'contain',
+  shadowColor: 'cyan',
 }
 
 const ACTIVE_ICONS: any = {
-  Settings: <Settings size={32} color="white" />,
-  MainFeedScreen: <Ionicons name="ios-home-outline" size={32} color="white" />,
-  Discover: <Ionicons name="ios-search-outline" size={32} color="white" />,
-  map: <Image source={images.mapActive} style={iconTabStyle} />,
-  service: <Image source={images.serviceActive} style={iconTabStyle} />,
-  // inbox: <Image source={images.inboxActive} style={iconTabStyle} />,
-  guild: <Image source={images.guildsActive} style={iconTabStyle} />,
-  menu: <Image source={images.profileActive} style={iconTabStyle} />,
-  // wallet: <SvgIcon active={true} />,
-  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
-  WalletScreen: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
-  history: <Ionicons name="ios-list-circle-outline" size={32} color="white" />,
-  send: (
-    <Ionicons name="md-arrow-forward-circle-outline" size={32} color="white" />
-  ),
-  Notifications: (
-    <Ionicons name="ios-notifications-outline" size={32} color="white" />
-  ),
-  settings: <Ionicons name="ios-settings-sharp" size={32} color="white" />,
-  UserProfileScreen: <Ionicons name="person-outline" size={32} color="white" />,
   Contacts: <Ionicons name="people-outline" size={32} color="white" />,
+  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
+  Settings: <Settings size={32} color="white" />,
 }
 
 const ICONS: any = {
-  Settings: <Settings size={32} color="#777" />,
-  MainFeedScreen: <Ionicons name="ios-home-outline" size={32} color="#777" />,
-  Discover: <Ionicons name="ios-search-outline" size={32} color="#777" />,
-  map: <Image source={images.map} style={iconTabStyle} />,
-  service: <Image source={images.service} style={iconTabStyle} />,
-  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
-  guild: <Image source={images.guilds} style={iconTabStyle} />,
-  menu: <Image source={images.profile} style={iconTabStyle} />,
-  // wallet: <SvgIcon active={false} />,
-  WalletScreen: <Ionicons name="ios-wallet-outline" size={32} color="#777" />,
-  Notifications: (
-    <Ionicons name="ios-notifications-outline" size={32} color="#777" />
-  ),
-  history: (
-    <Ionicons
-      name="ios-list-circle-outline"
-      size={32}
-      color={color.palette.blueBell}
-    />
-  ),
-  send: (
-    <Ionicons
-      name="md-arrow-forward-circle-outline"
-      size={32}
-      color={color.palette.blueBell}
-    />
-  ),
-  settings: (
-    <Ionicons
-      name="ios-settings-sharp"
-      size={32}
-      color={color.palette.blueBell}
-    />
-  ),
-  UserProfileScreen: <Ionicons name="person-outline" size={32} color="#777" />,
   Contacts: <Ionicons name="people-outline" size={32} color="#777" />,
-  // menu: (
-  //   <Ionicons name='person-outline' size={32} color={color.palette.blueBell} />
-  // ),
+  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
+  Settings: <Settings size={32} color="#777" />,
 }
 
 export const Tab = (props: any) => {
