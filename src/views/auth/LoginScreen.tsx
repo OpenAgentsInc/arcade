@@ -15,7 +15,7 @@ export const LoginScreen = () => {
         <YStack alignItems="center" w="100%" mt={isWeb ? '12%' : '15%'}>
           <H2>Login</H2>
           <Paragraph mt="$3" mb="$5" opacity={0.7}>
-            Enter your account key to log in:
+            Enter your access key:
           </Paragraph>
           <Stack alignItems="center" width="100%">
             <Input
