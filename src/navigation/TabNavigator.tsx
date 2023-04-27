@@ -3,6 +3,7 @@ import { MainFeedScreen } from 'views/feed/MainFeedScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
 import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
+import { SettingsScreen } from 'views/settings/SettingsScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -42,7 +43,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Settings"
-        component={BlankScreen}
+        component={SettingsScreen}
         options={stackOptions}
       />
       {/* <Tab.Screen
