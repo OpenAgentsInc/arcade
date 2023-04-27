@@ -23,7 +23,14 @@ export const LogoutDialog = (props) => {
   }
 
   return (
-    <Button {...props} w="100%" bg="$color2" size="$5" onPress={onClickLogout}>
+    <Button
+      {...props}
+      w="100%"
+      bg="$color2"
+      size="$5"
+      onPress={onClickLogout}
+      color="$color11"
+    >
       Log out
     </Button>
   )

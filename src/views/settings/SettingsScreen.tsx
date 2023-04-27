@@ -3,8 +3,8 @@ import { nip19 } from 'nostr-tools'
 import { useStore } from 'stores'
 import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
 import { LogoutDialog, Screen } from 'views/shared'
+import { palette } from 'views/theme'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
-import { ThemePicker } from './ThemePicker'
 
 export const SettingsScreen = () => {
   const publicKey = useStore((s) => s.user.publicKey)
@@ -26,38 +26,43 @@ export const SettingsScreen = () => {
   }
 
   return (
-    <Screen>
-      <YStack alignItems="center" m="$4">
-        <YGroup
-          als="center"
-          bordered
-          w="100%"
-          size="$5"
-          maxWidth={isWeb ? '50%' : '100%'}
-          separator={<Separator />}
-        >
-          <ListItem
-            hoverTheme
-            pressTheme
-            title="Public Account ID"
-            subTitle={npubkey}
-            icon={User}
-            iconAfter={ClipboardIcon}
-            onPress={copyPublicKey}
-          />
-          <ListItem
-            hoverTheme
-            pressTheme
-            title="Secret Access Key"
-            subTitle={maskedNsec}
-            icon={Key}
-            iconAfter={ClipboardIcon}
-            onPress={copyPrivateKey}
-          />
-        </YGroup>
-        <ThemePicker />
-        <LogoutDialog mt="$6" w={200} />
-      </YStack>
-    </Screen>
+    <YStack
+      alignItems="center"
+      p="$4"
+      justifyContent="space-between"
+      f={1}
+      height="100%"
+      bg="$color1"
+    >
+      <YGroup
+        als="center"
+        bordered
+        w="100%"
+        size="$5"
+        maxWidth={isWeb ? '50%' : '100%'}
+        separator={<Separator />}
+      >
+        <ListItem
+          hoverTheme
+          pressTheme
+          title="Public Account ID"
+          subTitle={npubkey}
+          icon={User}
+          iconAfter={ClipboardIcon}
+          onPress={copyPublicKey}
+        />
+        <ListItem
+          hoverTheme
+          pressTheme
+          title="Secret Access Key"
+          subTitle={maskedNsec}
+          icon={Key}
+          iconAfter={ClipboardIcon}
+          onPress={copyPrivateKey}
+        />
+      </YGroup>
+      {/* <ThemePicker /> */}
+      <LogoutDialog mt="$6" w={200} />
+    </YStack>
   )
 }
