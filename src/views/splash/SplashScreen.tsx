@@ -127,7 +127,8 @@ export const SplashScreen = () => {
       </animated.View>
       <animated.View style={spring}>
         <Button
-          onPress={toggleReverse}
+          onPress={() => navigation.navigate('CreateAccountScreen')}
+          // onPress={toggleReverse}
           size="$6"
           borderRadius={38}
           color="black"
