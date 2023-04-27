@@ -122,12 +122,13 @@ export const SplashScreen = () => {
           textShadowOffset={{ width: 0, height: 0 }}
           textShadowRadius={15}
         >
-          arcade
+          arcaDE
         </H1>
       </animated.View>
       <animated.View style={spring}>
         <Button
-          onPress={toggleReverse}
+          onPress={() => navigation.navigate('CreateAccountScreen')}
+          // onPress={toggleReverse}
           size="$6"
           borderRadius={38}
           color="black"

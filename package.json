@@ -10,7 +10,8 @@
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
     "submit:ios": "eas submit -p ios",
-    "t": "tsc --noEmit"
+    "t": "tsc --noEmit",
+    "postinstall": "npx patch-package"
   },
   "jest": {
     "preset": "jest-expo"
@@ -20,6 +21,7 @@
     "@expo-google-fonts/lexend": "^0.2.3",
     "@expo-google-fonts/titillium-web": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
+    "@noble/secp256k1": "1.7.0",
     "@react-native-community/netinfo": "9.3.7",
     "@react-native-community/slider": "4.4.2",
     "@react-navigation/bottom-tabs": "6.5.7",
@@ -35,10 +37,13 @@
     "@tamagui/theme-base": "1.11.2",
     "@tamagui/themes": "1.11.2",
     "babel-plugin-transform-inline-environment-variables": "0.4.4",
+    "bech32": "1.1.4",
     "burnt": "0.10.0",
+    "date-fns": "2.29.3",
     "expo": "~48.0.10",
     "expo-av": "~13.2.1",
     "expo-clipboard": "~4.1.2",
+    "expo-crypto": "~12.2.1",
     "expo-document-picker": "~11.2.2",
     "expo-file-system": "~15.2.2",
     "expo-font": "~11.1.1",
@@ -49,6 +54,7 @@
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
     "expo-media-library": "~15.2.3",
+    "expo-secure-store": "~12.1.1",
     "expo-sharing": "~11.2.2",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
@@ -58,6 +64,7 @@
     "lodash": "^4.17.21",
     "luxon": "3.3.0",
     "moment": "^2.29.4",
+    "nostr-tools": "1.8.1",
     "ramda": "0.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -81,7 +88,8 @@
     "react-native-tab-view": "3.3.0",
     "react-native-web": "~0.18.10",
     "stream-chat-expo": "^5.12.1",
-    "tamagui": "1.11.2"
+    "tamagui": "1.11.2",
+    "text-encoding-polyfill": "0.6.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -93,5 +101,8 @@
     "react-test-renderer": "18.2.0",
     "typescript": "^4.9.4"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "@noble/secp256k1": "1.7.0"
+  }
 }

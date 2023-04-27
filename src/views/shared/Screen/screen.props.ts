@@ -34,7 +34,7 @@ export interface ScreenProps {
   /**
    * One of the different types of presets.
    */
-  preset: ScreenPresets
+  preset?: ScreenPresets
 
   /**
    * A component which will dodge the keyboard. It will remained
