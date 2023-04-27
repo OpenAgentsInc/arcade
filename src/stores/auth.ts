@@ -23,14 +23,16 @@ export const initialState: AuthState = {
 }
 
 export const login = async (set: any): Promise<AuthState> => {
+  console.log('Attempting...')
   const privateKey = generatePrivateKey() // `sk` is a hex string
+  console.log('Hmmm')
   const publicKey = getPublicKey(privateKey) // `pk` is a hex string
 
   const apiToken: string | null = null
 
   try {
-    await storage.setItem(HEX_PUBKEY_STORAGE_KEY, publicKey)
-    await storage.setItem(HEX_PRIVKEY_STORAGE_KEY, privateKey)
+    await storage.setItem(storage.HEX_PUBKEY_STORAGE_KEY, publicKey)
+    await storage.setItem(storage.HEX_PRIVKEY_STORAGE_KEY, privateKey)
     console.log(hexToBech32('nsec', privateKey))
     console.log('Keys saved to local storage')
     set({
@@ -58,9 +60,9 @@ export const login = async (set: any): Promise<AuthState> => {
 
 export const logout = async (): Promise<AuthState> => {
   console.log('Logging out...')
-  await storage.removeItem(HEX_PUBKEY_STORAGE_KEY)
-  await storage.removeItem(HEX_PRIVKEY_STORAGE_KEY)
-  await storage.removeItem(API_TOKEN_STORAGE_KEY)
+  await storage.removeItem(storage.HEX_PUBKEY_STORAGE_KEY)
+  await storage.removeItem(storage.HEX_PRIVKEY_STORAGE_KEY)
+  await storage.removeItem(storage.API_TOKEN_STORAGE_KEY)
   console.log('Removed keys and apitoken from storage.')
   return initialState
 }
