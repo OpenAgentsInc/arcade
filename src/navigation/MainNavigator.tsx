@@ -3,6 +3,7 @@ import { PostDetailScreen } from 'views/feed/PostDetailScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
 import { ProfileScreen } from 'views/profile/ProfileScreen'
 import { UserProfileScreen } from 'views/profile/UserProfileScreen'
+import { RelaysScreen } from 'views/relay/RelaysScreen'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { stackOptions } from './stackOptions'
@@ -31,8 +32,13 @@ export const MainNavigator = () => {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        // options={{ title: 'User Profile' }}
         options={stackOptions}
+      />
+      <Stack.Screen
+        name="Relays"
+        component={RelaysScreen}
+        options={stackOptions}
+        // options={{ title: 'Relays' }}
       />
       <Stack.Screen
         name="UserProfileScreen"

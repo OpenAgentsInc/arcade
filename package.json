@@ -87,6 +87,7 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-tab-view": "3.3.0",
     "react-native-web": "~0.18.10",
+    "safe-stable-stringify": "2.4.2",
     "stream-chat-expo": "^5.12.1",
     "tamagui": "1.11.2",
     "text-encoding-polyfill": "0.6.7"

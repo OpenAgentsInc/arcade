@@ -64,10 +64,7 @@ export const stackOptions = ({
     //       <Ionicons name="ios-wallet-outline" size={24} color="#777" />
     //     </TouchableOpacity>
     //   ),
-    // headerLeft: () =>
-    //   route.name !== 'streamhome' &&
-    //   route.name !== 'Contacts' &&
-    //   route.name !== 'Wallet' &&
-    //   route.name !== 'Profile' && <NavButton onPress={navigation.goBack} />,
+    headerLeft: () =>
+      route.name == 'Relays' && <NavButton onPress={navigation.goBack} />,
   }
 }

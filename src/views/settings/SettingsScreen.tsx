@@ -1,13 +1,16 @@
 import * as Clipboard from 'expo-clipboard'
 import { nip19 } from 'nostr-tools'
 import { useStore } from 'stores'
-import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
+import { Button, isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
 import { LogoutDialog } from 'views/shared'
+import { useNavigation } from '@react-navigation/native'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 
 export const SettingsScreen = () => {
   const publicKey = useStore((s) => s.user.publicKey)
   const privateKey = useStore((s) => s.user.privateKey)
+
+  const { navigate } = useNavigation<any>()
 
   const npubkey = nip19.npubEncode(publicKey)
   const nseckey = nip19.nsecEncode(privateKey)
@@ -60,7 +63,19 @@ export const SettingsScreen = () => {
           onPress={copyPrivateKey}
         />
       </YGroup>
-      <LogoutDialog mt="$6" w={200} />
+      <YStack width="100%" mb="$4">
+        <Button
+          size="$5"
+          mt="$6"
+          w="100%"
+          color="$color12"
+          bg="$color6"
+          onPress={() => navigate('Relays')}
+        >
+          Manage relays
+        </Button>
+        <LogoutDialog mt="$6" w={200} />
+      </YStack>
     </YStack>
   )
 }
