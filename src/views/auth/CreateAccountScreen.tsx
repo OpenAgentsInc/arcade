@@ -32,10 +32,10 @@ export const CreateAccountScreen = () => {
   }, [username, displayName, about])
 
   return (
-    <Screen>
-      <BackButton mt={Platform.OS === 'ios' ? 75 : 25} ml={20} />
+    <Screen preset="fixed">
+      <BackButton mt={40} ml={20} />
       <YStack px="$4" alignItems="center" f={1}>
-        <YStack alignItems="center" w="100%" mt={15}>
+        <YStack alignItems="center" w="100%" mt={25}>
           <H2 mb="$4">Create Account</H2>
 
           <YStack space="$3" alignItems="center" width={300}>
@@ -100,6 +100,7 @@ export const CreateAccountScreen = () => {
               w="100%"
               iconAfter={ChevronsRight}
               onPress={handleSubmit}
+              color="$color12"
             >
               Create
             </Button>

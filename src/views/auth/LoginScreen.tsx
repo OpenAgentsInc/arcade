@@ -1,56 +1,38 @@
-import { useAuthed } from 'lib/hooks/useAuthed'
-import React, { useEffect, useState } from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import { palette, typography } from 'views/theme'
-import { useNavigation } from '@react-navigation/native'
+import * as React from 'react'
+import { useStore } from 'stores'
+import { H2, Input, isWeb, Paragraph, Stack, YStack } from 'tamagui'
+import { BackButton, Screen } from 'views/shared'
 
 export const LoginScreen = () => {
-  const [accessKey, setAccessKey] = useState('')
-  const navigation = useNavigation<any>()
-  const { authed, login } = useAuthed()
+  const loginWithNsec = useStore((s) => s.loginWithNsec)
 
-  const handleLogin = () => {
-    // Perform login logic here, then navigate to MainFeedScreen
-    login()
-  }
+  const [nsec, setNsec] = React.useState('')
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setAccessKey}
-        value={accessKey}
-        placeholder="Enter access key"
-        placeholderTextColor={'#555'}
-        secureTextEntry
-      />
-      <Button onPress={handleLogin} title="Login" />
-      <Button onPress={() => navigation.goBack()} title="Go Back" />
-    </View>
+    <Screen preset="fixed">
+      <BackButton mt={40} ml={20} />
+      <YStack px="$4" alignItems="center" f={1}>
+        <YStack alignItems="center" w="100%" mt={isWeb ? '12%' : '15%'}>
+          <H2>Login</H2>
+          <Paragraph mt="$3" mb="$5" opacity={0.7}>
+            Enter your account key to log in:
+          </Paragraph>
+          <Stack alignItems="center" width="100%">
+            <Input
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="nsec1..."
+              alignSelf="center"
+              width={300}
+              value={nsec}
+              onChangeText={(text) => {
+                setNsec(text)
+                loginWithNsec(text)
+              }}
+            />
+          </Stack>
+        </YStack>
+      </YStack>
+    </Screen>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: palette.black,
-  },
-  title: {
-    fontFamily: typography.bold,
-    fontSize: 24,
-    color: palette.white,
-    marginBottom: 20,
-  },
-  input: {
-    width: '80%',
-    backgroundColor: palette.darkGray,
-    color: palette.white,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-})
