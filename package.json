@@ -10,7 +10,8 @@
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
     "submit:ios": "eas submit -p ios",
-    "t": "tsc --noEmit"
+    "t": "tsc --noEmit",
+    "postinstall": "npx patch-package"
   },
   "jest": {
     "preset": "jest-expo"
@@ -20,6 +21,7 @@
     "@expo-google-fonts/lexend": "^0.2.3",
     "@expo-google-fonts/titillium-web": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
+    "@noble/secp256k1": "1.7.0",
     "@react-native-community/netinfo": "9.3.7",
     "@react-native-community/slider": "4.4.2",
     "@react-navigation/bottom-tabs": "6.5.7",
