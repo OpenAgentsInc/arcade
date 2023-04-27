@@ -81,7 +81,7 @@ const ACTIVE_ICONS: any = {
   guild: <Image source={images.guildsActive} style={iconTabStyle} />,
   menu: <Image source={images.profileActive} style={iconTabStyle} />,
   // wallet: <SvgIcon active={true} />,
-  Messages: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
+  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
   WalletScreen: <Ionicons name="ios-wallet-outline" size={32} color="white" />,
   history: <Ionicons name="ios-list-circle-outline" size={32} color="white" />,
   send: (
@@ -101,7 +101,7 @@ const ICONS: any = {
   Discover: <Ionicons name="ios-search-outline" size={32} color="#777" />,
   map: <Image source={images.map} style={iconTabStyle} />,
   service: <Image source={images.service} style={iconTabStyle} />,
-  Messages: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
+  Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
   guild: <Image source={images.guilds} style={iconTabStyle} />,
   menu: <Image source={images.profile} style={iconTabStyle} />,
   // wallet: <SvgIcon active={false} />,
