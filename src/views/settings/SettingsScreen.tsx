@@ -2,8 +2,7 @@ import * as Clipboard from 'expo-clipboard'
 import { nip19 } from 'nostr-tools'
 import { useStore } from 'stores'
 import { isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
-import { LogoutDialog, Screen } from 'views/shared'
-import { palette } from 'views/theme'
+import { LogoutDialog } from 'views/shared'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
 
 export const SettingsScreen = () => {
@@ -61,7 +60,6 @@ export const SettingsScreen = () => {
           onPress={copyPrivateKey}
         />
       </YGroup>
-      {/* <ThemePicker /> */}
       <LogoutDialog mt="$6" w={200} />
     </YStack>
   )
