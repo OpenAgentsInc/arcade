@@ -1,4 +1,4 @@
-import { useStore } from 'app/stores'
+import { useStore } from 'stores'
 
 export const useMessages = () => {
   const messages = useStore((s) => s.messages)

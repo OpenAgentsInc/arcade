@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 
-import { Channel, ChatMessage } from 'app/stores/chat'
+import { Channel, ChatMessage } from 'stores/chat'
 
 export const handleEvent = (
   event: any,

@@ -1,7 +1,7 @@
-import { formatTimestamp, truncateString } from 'app/lib/utils'
-import { useStore } from 'app/stores'
-import { ChatMessage } from 'app/stores/chat'
+import { formatTimestamp, truncateString } from 'lib/utils'
 import { Image, View } from 'react-native'
+import { useStore } from 'stores'
+import { ChatMessage } from 'stores/chat'
 import { Paragraph, XStack, YStack } from 'tamagui'
 import { useUserMetadata } from './useUserMetadata'
 

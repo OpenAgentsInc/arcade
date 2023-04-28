@@ -7,6 +7,7 @@ import { SettingsScreen } from 'views/settings/SettingsScreen'
 import { TabBar } from 'views/shared'
 import { WalletScreen } from 'views/wallet/WalletScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { ChatNavigator } from './ChatNavigator'
 import { hideHeaderOptions } from './navigation-utilities'
 import { PostNavigator } from './PostNavigator'
 import { stackOptions } from './stackOptions'
@@ -25,7 +26,11 @@ export const TabNavigator = () => {
         component={BlankScreen}
         options={stackOptions}
       />
-      <Tab.Screen name="Chats" component={BlankScreen} options={stackOptions} />
+      <Tab.Screen
+        name="Chats"
+        component={ChatNavigator}
+        options={stackOptions}
+      />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}

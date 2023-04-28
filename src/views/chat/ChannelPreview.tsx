@@ -1,7 +1,7 @@
-import { generateRandomPlacekitten, isValidImageUrl } from 'app/lib/utils'
-import { Channel } from 'app/stores/chat'
+import { generateRandomPlacekitten, isValidImageUrl } from 'lib/utils'
 import React, { useState } from 'react'
 import { Image, View } from 'react-native'
+import { Channel } from 'stores/chat'
 import { Button, Paragraph } from 'tamagui'
 
 interface ChannelPreviewProps {

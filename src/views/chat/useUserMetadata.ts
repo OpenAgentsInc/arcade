@@ -1,4 +1,4 @@
-import { useStore } from 'app/stores'
+import { useStore } from 'stores'
 
 export const useUserMetadata = (pubkey: string) => {
   const userMetadata = useStore((s) => s.userMetadata)

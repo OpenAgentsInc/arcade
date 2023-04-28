@@ -19,9 +19,10 @@ export function ChatNavigator() {
         options={{
           title: 'Channels',
           animation: 'slide_from_right',
-          header: ({ options }) => (
-            <NavHeader options={options} title={options.title} />
-          ),
+          headerShown: false,
+          // header: ({ options }) => (
+          //   <NavHeader options={options} title={options.title} />
+          // ),
         }}
       />
       <Stack.Screen
