@@ -23,9 +23,7 @@ export const initialState: AuthState = {
 }
 
 export const login = async (set: any): Promise<AuthState> => {
-  console.log('Attempting...')
   const privateKey = generatePrivateKey() // `sk` is a hex string
-  console.log('Hmmm')
   const publicKey = getPublicKey(privateKey) // `pk` is a hex string
 
   const apiToken: string | null = null

@@ -1,6 +1,6 @@
-// import * as Crypto from 'expo-crypto'
-import * as storage from 'app/lib/storage'
 import axios from 'axios'
+// import * as Crypto from 'expo-crypto'
+import * as storage from 'lib/storage'
 import { randomFourLetterString } from 'lib/utils'
 import * as secp256k1 from '@noble/secp256k1'
 import { API_URL } from './url'

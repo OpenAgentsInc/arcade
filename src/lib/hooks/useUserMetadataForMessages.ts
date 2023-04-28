@@ -1,6 +1,6 @@
-import { ChannelMessage } from 'app/stores/types'
 import { SimplePool } from 'nostr-tools'
-import { useState, useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { ChannelMessage } from 'stores/types'
 import { generateRandomPlacekitten } from '../utils'
 
 const relays = [
