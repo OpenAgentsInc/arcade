@@ -8,9 +8,7 @@
  * https://reactnavigation.org/docs/modal
  */
 
-import { chatClient, useStreamChatTheme } from 'lib/hooks'
 import { useAuthed } from 'lib/hooks/useAuthed'
-import { Chat, OverlayProvider } from 'stream-chat-expo'
 import { YStack } from 'tamagui'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthNavigator } from './AuthNavigator'
@@ -20,17 +18,12 @@ import { NavigationProps } from './types'
 
 export const RootNavigator = (props: NavigationProps) => {
   const authed = useAuthed()
-  const theme = useStreamChatTheme()
-  if (!authed) {
+  if (authed === null) {
     return <YStack f={1} bg="$black" />
   }
   return (
     <NavigationContainer ref={navigationRef} {...props}>
-      <OverlayProvider value={{ style: theme }}>
-        <Chat client={chatClient}>
-          {authed ? <MainNavigator /> : <AuthNavigator />}
-        </Chat>
-      </OverlayProvider>
+      {authed ? <MainNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   )
 }
