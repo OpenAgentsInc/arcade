@@ -1,3 +1,5 @@
+import { useNostr } from 'lib/hooks'
+import { useEffect } from 'react'
 import { BlankScreen } from 'views/dev'
 import { MainFeedScreen } from 'views/feed/MainFeedScreen'
 import { NotificationsScreen } from 'views/notifications/NotificationsScreen'
@@ -15,6 +17,11 @@ import { stackOptions } from './stackOptions'
 const Tab = createBottomTabNavigator()
 
 export const TabNavigator = () => {
+  const nostr = useNostr()
+  useEffect(() => {
+    if (!nostr) return
+    nostr.setupInitialSubscriptions()
+  }, [nostr])
   return (
     <Tab.Navigator
       detachInactiveScreens={false}
