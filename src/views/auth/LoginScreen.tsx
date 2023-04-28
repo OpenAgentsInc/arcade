@@ -22,6 +22,7 @@ export const LoginScreen = () => {
               autoCapitalize="none"
               autoCorrect={false}
               placeholder="nsec1..."
+              spellCheck={false}
               alignSelf="center"
               width={300}
               value={nsec}
