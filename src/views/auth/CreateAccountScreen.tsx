@@ -56,6 +56,9 @@ export const CreateAccountScreen = () => {
                 onChangeText={(text) => {
                   setUsername(text)
                 }}
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
               />
             </YStack>
 
@@ -74,6 +77,9 @@ export const CreateAccountScreen = () => {
                 width="100%"
                 value={displayName}
                 onChangeText={(text) => setDisplayName(text)}
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
               />
             </YStack>
 
@@ -92,6 +98,9 @@ export const CreateAccountScreen = () => {
                 width="100%"
                 value={about}
                 onChangeText={(text) => setAbout(text)}
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
               />
             </YStack>
             <Button
