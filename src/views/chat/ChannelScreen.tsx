@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import { Channel } from 'stores/chat'
+import { YStack } from 'tamagui'
 import { Screen } from 'views/shared'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -30,10 +31,10 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
       </Screen>
     )
   return (
-    <Screen>
-      {/* <MessageList channelId={channel.id} /> */}
+    <YStack backgroundColor="#000" f={1}>
+      <MessageList channelId={channel.id} />
       <MessageInput channelId={channel.id} />
-    </Screen>
+    </YStack>
   )
 }
 

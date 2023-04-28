@@ -120,7 +120,7 @@ export class Nostr {
     return this.subscribe([
       {
         kinds: [42],
-        limit: 30,
+        limit: 10,
         '#e': [channelId],
       },
     ])
