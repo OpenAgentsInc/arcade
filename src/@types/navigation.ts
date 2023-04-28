@@ -1,6 +1,6 @@
-import { Channel } from 'app/stores/chat'
+import { Channel } from 'stores/chat'
 
-type StackNavigatorParams = {
+export type StackNavigatorParams = {
   home: undefined
   create: undefined
   login: undefined

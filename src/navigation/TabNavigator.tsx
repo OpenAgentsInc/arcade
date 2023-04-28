@@ -25,7 +25,7 @@ export const TabNavigator = () => {
   return (
     <Tab.Navigator
       detachInactiveScreens={false}
-      initialRouteName="MainFeedScreen"
+      initialRouteName="Chats"
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen

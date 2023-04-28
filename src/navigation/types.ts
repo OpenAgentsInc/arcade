@@ -29,3 +29,10 @@ export type StreamNavigatorParamList = {
     }
   }
 }
+
+export type StackNavigatorParams = {
+  home: undefined
+  create: undefined
+  login: undefined
+  channel: { channel: Channel }
+}

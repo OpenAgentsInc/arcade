@@ -1,10 +1,10 @@
+import { StackNavigatorParams } from 'navigation/types'
 import { useRef } from 'react'
 import { Channel } from 'stores/chat'
 import { Separator } from 'tamagui'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
-import { StackNavigatorParams } from '@types/navigation'
 import { ChannelPreview } from './ChannelPreview'
 import { useChannels } from './useChannels'
 

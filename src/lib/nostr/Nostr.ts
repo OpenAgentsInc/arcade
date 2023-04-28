@@ -76,14 +76,10 @@ export class Nostr {
   }
 
   public setupInitialSubscriptions() {
-    console.log('Trying to set up...')
     const sub = this.relayPool.sub(initialSubscriptions, this.relays)
     const chatActions = useStore.getState().chatActions
     const addEvent = useStore.getState().addEvent
-    // console.log('Where we is?', addEvent)
-
     sub.onevent((event: NostrEvent) => {
-      console.log('An event.', event.id)
       handleEvent(event, {
         addChannel: chatActions.addChannel,
         addEvent,
