@@ -36,7 +36,7 @@ export const Message: React.FC<Props> = ({ message }) => {
         elevation={'$2'}
         flexGrow={1}
         flexShrink={1}
-        bg={isCurrentUser ? '$backgroundStrong' : '$color4'}
+        bg={isCurrentUser ? 'rgba(0,100,100,0.4)' : '$color4'}
         borderTopLeftRadius={10}
         borderTopRightRadius={10}
         borderBottomRightRadius={isCurrentUser ? 0 : 10}
@@ -66,7 +66,7 @@ export const Message: React.FC<Props> = ({ message }) => {
         </Paragraph>
         <Paragraph
           mt={1}
-          color="$color8"
+          color="$color10"
           lineHeight={14}
           fontSize={10}
           textAlign="right"
