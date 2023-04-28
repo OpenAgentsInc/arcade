@@ -7,6 +7,7 @@
     "icon": "./assets/images/icon.jpg",
     "scheme": "arcade",
     "userInterfaceStyle": "dark",
+    "backgroundColor": "#000000",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
