@@ -2,6 +2,7 @@ import { Channel } from 'stores/chat'
 import { ChannelScreen, ChannelsScreen } from 'views/chat'
 import { NavHeader } from 'views/shared'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { stackOptions } from './stackOptions'
 
 const Stack = createNativeStackNavigator<{
   // todo: fix the dupe w @types
@@ -16,24 +17,26 @@ export function ChatNavigator() {
       <Stack.Screen
         name="channels"
         component={ChannelsScreen}
-        options={{
-          title: 'Channels',
-          animation: 'slide_from_right',
-          headerShown: false,
-          // header: ({ options }) => (
-          //   <NavHeader options={options} title={options.title} />
-          // ),
-        }}
+        options={stackOptions}
+        // options={{
+        //   title: 'Channels',
+        //   animation: 'slide_from_right',
+        //   // headerShown: false,
+        //   header: ({ options }) => (
+        //     <NavHeader options={options} title={options.title} />
+        //   ),
+        // }}
       />
       <Stack.Screen
         name="channel"
         component={ChannelScreen}
-        options={{
-          animation: 'slide_from_right',
-          header: ({ options }) => (
-            <NavHeader options={options} title={options.title} />
-          ),
-        }}
+        options={stackOptions}
+        // options={{
+        //   animation: 'slide_from_right',
+        //   header: ({ options }) => (
+        //     <NavHeader options={options} title={options.title} />
+        //   ),
+        // }}
       />
     </Stack.Navigator>
   )

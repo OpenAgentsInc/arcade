@@ -22,7 +22,7 @@ export const ChannelPreview = ({ channel, onPress }: ChannelPreviewProps) => {
     <Button
       onPress={onPress}
       key={channel?.id ?? 'asdf'}
-      bg="$color2"
+      bg="$color1"
       borderRadius={0}
       borderWidth={0}
     >

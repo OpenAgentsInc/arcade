@@ -17,7 +17,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
   const { channel } = route.params
   const { setOptions } = useNavigation()
 
-  useUserMetadataForChannel(channel?.id ?? '')
+  // useUserMetadataForChannel(channel?.id ?? '')
 
   useEffect(() => {
     setOptions({ title: channel?.metadata.name ?? 'Unnamed Channel' })
@@ -31,7 +31,7 @@ export const ChannelScreen = ({ navigation, route }: ChannelScreenProps) => {
     )
   return (
     <Screen>
-      <MessageList channelId={channel.id} />
+      {/* <MessageList channelId={channel.id} /> */}
       <MessageInput channelId={channel.id} />
     </Screen>
   )

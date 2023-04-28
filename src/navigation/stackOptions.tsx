@@ -65,6 +65,8 @@ export const stackOptions = ({
     //     </TouchableOpacity>
     //   ),
     headerLeft: () =>
-      route.name == 'Relays' && <NavButton onPress={navigation.goBack} />,
+      (route.name == 'channel' || route.name == 'Relays') && (
+        <NavButton onPress={navigation.goBack} />
+      ),
   }
 }

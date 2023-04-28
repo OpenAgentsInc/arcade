@@ -36,7 +36,7 @@ export const TabNavigator = () => {
       <Tab.Screen
         name="Chats"
         component={ChatNavigator}
-        options={stackOptions}
+        options={hideHeaderOptions}
       />
       <Tab.Screen
         name="Settings"
