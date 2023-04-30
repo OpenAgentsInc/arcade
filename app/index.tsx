@@ -6,8 +6,8 @@ export default function () {
       <Text
         color="#fff"
         ff="Protomolecule"
-        fontSize={54}
-        textShadowColor="#fff"
+        fontSize={60}
+        textShadowColor="cyan"
         textShadowRadius={14}
       >
         arcaDE
