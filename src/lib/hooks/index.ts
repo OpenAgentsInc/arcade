@@ -1,5 +1,4 @@
 export * from './useCachedResources'
-export * from './useChatClient'
 export * from './useStreamChatTheme'
 export * from './useAuthed'
 export * from './useChannelMessages'
