@@ -1,5 +1,6 @@
 module.exports = function (api) {
   api.cache(true)
+
   return {
     presets: ['babel-preset-expo'],
     plugins: [
@@ -43,7 +44,9 @@ module.exports = function (api) {
           },
         },
       ],
-      'react-native-reanimated/plugin', // Must be listed last
+      require.resolve('expo-router/babel'),
+      // '@babel/plugin-proposal-export-namespace-from',
+      // 'react-native-reanimated/plugin', // Must be listed last
     ],
   }
 }
