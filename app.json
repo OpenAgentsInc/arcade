@@ -19,7 +19,7 @@
     },
     "ios": {
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "19",
+      "buildNumber": "20",
       "config": {
         "usesNonExemptEncryption": false
       },
