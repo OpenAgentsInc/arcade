@@ -1,6 +1,6 @@
 # Arcade
 
-A [Nostr](https://github.com/nostr-protocol/nostr) chat app for Android & iOS.
+A [Nostr](https://github.com/nostr-protocol/nostr) chat app for Android, iOS & web.
 
 ![arcadeskyline](https://user-images.githubusercontent.com/14167547/229741634-735d487a-ab88-4061-aa75-d27e7b432f43.jpeg)
 
