@@ -5,6 +5,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>arcaDE</Text>
+      <Text style={styles.subtitle}>LAUNCHING MAY 2023</Text>
       <Stack.Screen options={{ title: 'Arcade' }} />
     </View>
   )
@@ -25,5 +26,13 @@ const styles = StyleSheet.create({
     fontSize: 60,
     textShadowColor: 'cyan',
     textShadowRadius: 14,
+  },
+  subtitle: {
+    color: '#fff',
+    fontFamily: 'Protomolecule',
+    fontSize: 20,
+    textShadowColor: 'cyan',
+    textShadowRadius: 14,
+    marginTop: 20,
   },
 })
