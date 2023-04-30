@@ -18,16 +18,17 @@ export default function Layout() {
       </Head>
       <Stack
         screenOptions={{
-          headerStyle: {
-            backgroundColor: '#000',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'Protomolecule',
-            fontSize: 20,
-            // textShadowColor: 'cyan',
-            // textShadowRadius: 14,
-          },
+          headerShown: false,
+          // headerStyle: {
+          //   backgroundColor: '#000',
+          // },
+          // headerTintColor: '#fff',
+          // headerTitleStyle: {
+          //   fontFamily: 'Protomolecule',
+          //   fontSize: 20,
+          //   // textShadowColor: 'cyan',
+          //   // textShadowRadius: 14,
+          // },
         }}
       >
         <Slot />
