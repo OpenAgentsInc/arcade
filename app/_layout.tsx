@@ -16,21 +16,7 @@ export default function Layout() {
         <meta name="description" content="Unstoppable chat" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          // headerStyle: {
-          //   backgroundColor: '#000',
-          // },
-          // headerTintColor: '#fff',
-          // headerTitleStyle: {
-          //   fontFamily: 'Protomolecule',
-          //   fontSize: 20,
-          //   // textShadowColor: 'cyan',
-          //   // textShadowRadius: 14,
-          // },
-        }}
-      >
+      <Stack screenOptions={{ headerShown: false }}>
         <Slot />
       </Stack>
     </>
