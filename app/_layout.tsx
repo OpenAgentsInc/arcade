@@ -1,4 +1,5 @@
 import { Slot, SplashScreen, Stack } from 'expo-router'
+import Head from 'expo-router/head'
 import { useCachedResources } from 'lib/hooks/useCachedResources'
 
 export default function Layout() {
@@ -10,6 +11,11 @@ export default function Layout() {
 
   return (
     <>
+      <Head>
+        <title>Arcade</title>
+        <meta name="description" content="Unstoppable chat" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+      </Head>
       <Stack
         screenOptions={{
           headerStyle: {
