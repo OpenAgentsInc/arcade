@@ -7,6 +7,7 @@
     "android": "TAMAGUI_TARGET=native expo start --android",
     "ios": "TAMAGUI_TARGET=native expo start --ios",
     "web": "TAMAGUI_TARGET=native expo start --web",
+    "build:web": "TAMAGUI_TARGET=web npx expo export --platform web",
     "test": "jest --watchAll",
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
