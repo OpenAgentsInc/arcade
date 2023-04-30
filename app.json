@@ -16,7 +16,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "arcade.labs.arc",
-      "buildNumber": "17",
+      "buildNumber": "19",
       "config": {
         "usesNonExemptEncryption": false
       },
