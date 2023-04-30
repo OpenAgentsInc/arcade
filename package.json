@@ -1,6 +1,7 @@
 {
   "name": "thearcadeapp",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "start": "TAMAGUI_TARGET=native expo start",
     "android": "TAMAGUI_TARGET=native expo start --android",
@@ -82,7 +83,6 @@
     "react-native-mmkv": "^2.5.1",
     "react-native-pager-view": "6.1.2",
     "react-native-quick-sqlite": "^4.0.8",
-    "react-native-reanimated": "~2.14.4",
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
     "react-native-share": "^7.9.1",
@@ -91,7 +91,6 @@
     "react-native-tab-view": "3.3.0",
     "react-native-web": "~0.18.10",
     "safe-stable-stringify": "2.4.2",
-    "stream-chat-expo": "^5.12.1",
     "tamagui": "1.11.2",
     "text-encoding-polyfill": "0.6.7"
   },
@@ -107,6 +106,12 @@
   },
   "private": true,
   "resolutions": {
-    "@noble/secp256k1": "1.7.0"
+    "@noble/secp256k1": "1.7.0",
+    "metro": "^0.73.7",
+    "metro-resolver": "^0.73.7"
+  },
+  "overrides": {
+    "metro": "^0.73.7",
+    "metro-resolver": "^0.73.7"
   }
 }
