@@ -3680,6 +3680,15 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
+alby-js-sdk@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/alby-js-sdk/-/alby-js-sdk-1.6.0.tgz#e4a8c54b3a3f841bfb372452839bc2dace2a649b"
+  integrity sha512-utKiIVBYU+d94gvFY/j3rM6X2jw2nZ6tDFheLEbxBbWtsLIkTLSiG8EDlT5NY20gqs43GpQlrRsOZLhlZ+byFQ==
+  dependencies:
+    cross-fetch "^3.1.5"
+    crypto-js "^4.1.1"
+    nostr-tools "^1.10.0"
+
 anser@^1.4.9:
   version "1.4.10"
   resolved "https://registry.yarnpkg.com/anser/-/anser-1.4.10.tgz#befa3eddf282684bd03b63dcda3927aef8c2e35b"
@@ -4745,6 +4754,11 @@ crypt@0.0.2, crypt@~0.0.1:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto-random-string@^1.0.0:
   version "1.0.0"
@@ -8064,7 +8078,7 @@ nostr-tools@1.8.1:
     "@scure/bip39" "^1.1.1"
     prettier "^2.8.4"
 
-nostr-tools@^1.1.0:
+nostr-tools@^1.1.0, nostr-tools@^1.10.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/nostr-tools/-/nostr-tools-1.10.1.tgz#b52043b3031f4314478d0a3bfaa8ffb9cc4f98a0"
   integrity sha512-zgTYJeuZQ3CDASsmBEcB5i6V6l0IaA6cjnll6OVik3FoZcvbCaL7yP8I40hYnOIi3KlJykV7jEF9fn8h1NzMnA==
