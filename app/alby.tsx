@@ -1,7 +1,12 @@
+import { webln } from 'alby-js-sdk'
 import { Stack } from 'expo-router'
+import { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 export default function Alby() {
+  useEffect(() => {
+    console.log(webln)
+  }, [])
   return (
     <View style={styles.container}>
       <Text style={styles.title}>alby test</Text>
