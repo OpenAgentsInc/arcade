@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router'
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 
-export default function Home() {
+export default function Login() {
   return (
     <View style={styles.container}>
       <Link href="/">
