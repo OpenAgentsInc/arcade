@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import React, { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 
@@ -7,6 +8,7 @@ function Box(props) {
   // Set up state for the hovered and active state
   const [hovered, setHover] = useState(false)
   const [active, setActive] = useState(false)
+  // const router = useRouter()
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => (mesh.current.rotation.x += delta))
   // Return view, these are regular three.js elements expressed in JSX
@@ -15,7 +17,10 @@ function Box(props) {
       {...props}
       ref={mesh}
       scale={active ? 1.5 : 1}
-      onClick={(event) => setActive(!active)}
+      onClick={(event) => {
+        setActive(!active)
+        // router.push('/login')
+      }}
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}
     >
@@ -28,6 +33,7 @@ function Box(props) {
 export const BackgroundCanvas = () => {
   return (
     <Canvas>
+      <color attach="background" args={['#000']} />
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       <Box position={[-1.2, 0, 0]} />
