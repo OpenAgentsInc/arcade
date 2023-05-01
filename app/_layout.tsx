@@ -1,7 +1,8 @@
 import { Slot, SplashScreen, Stack } from 'expo-router'
 import { useCachedResources } from 'lib/hooks'
-import { StatusBar, View } from 'react-native'
-import { TamaguiProvider, Theme } from 'tamagui'
+import { StatusBar } from 'react-native'
+import { TamaguiProvider } from 'tamagui'
+import { BackgroundCanvas } from 'views/three/BackgroundCanvas'
 import { config } from '../tamagui.config'
 
 export default function Layout() {
@@ -13,9 +14,10 @@ export default function Layout() {
 
   return (
     <TamaguiProvider config={config}>
-      <Theme name="dark">
+      <BackgroundCanvas />
+      {/* <Theme name="dark">
         <Slot />
-      </Theme>
+      </Theme> */}
       <StatusBar barStyle="light-content" />
     </TamaguiProvider>
   )
