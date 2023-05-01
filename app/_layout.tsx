@@ -1,7 +1,7 @@
 import { Slot, SplashScreen, Stack } from 'expo-router'
 import { useCachedResources } from 'lib/hooks'
 import { StatusBar } from 'react-native'
-import { TamaguiProvider } from 'tamagui'
+import { TamaguiProvider, Theme } from 'tamagui'
 import { BackgroundCanvas } from 'views/three/BackgroundCanvas'
 import { config } from '../tamagui.config'
 
