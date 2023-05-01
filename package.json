@@ -98,7 +98,8 @@
     "safe-stable-stringify": "2.4.2",
     "tamagui": "1.11.2",
     "text-encoding-polyfill": "0.6.7",
-    "three": "0.152.2"
+    "three": "0.152.2",
+    "zustand": "^3.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
