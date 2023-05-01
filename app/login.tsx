@@ -1,11 +1,20 @@
 import { Stack } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>arcaDE</Text>
-      <Text style={styles.subtitle}>LOGIN</Text>
+      <Text style={styles.title}>LOGIN</Text>
+      <TextInput
+        placeholder="Enter access key"
+        style={{
+          backgroundColor: '#444',
+          padding: 12,
+          marginTop: 15,
+          borderRadius: 10,
+        }}
+        autoFocus
+      />
       <Stack.Screen options={{ title: 'Arcade | Login' }} />
     </View>
   )
@@ -26,13 +35,5 @@ const styles = StyleSheet.create({
     fontSize: 60,
     textShadowColor: 'cyan',
     textShadowRadius: 14,
-  },
-  subtitle: {
-    color: '#fff',
-    fontFamily: 'Protomolecule',
-    fontSize: 20,
-    textShadowColor: 'cyan',
-    textShadowRadius: 14,
-    marginTop: 20,
   },
 })
