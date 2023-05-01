@@ -1,18 +1,16 @@
-import { StackNavigatorParams } from 'navigation/types'
 import { useRef } from 'react'
 import { Channel } from 'stores/chat'
 import { Separator } from 'tamagui'
-import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list'
 import { ChannelPreview } from './ChannelPreview'
 import { useChannels } from './useChannels'
+import { useRouter } from 'expo-router'
 
 export const ChannelList = () => {
+  const router = useRouter()
   const channels = useChannels()
+
   const flashListRef = useRef<FlashList<Channel>>(null)
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<StackNavigatorParams>>()
 
   const renderItem = ({ index }: ListRenderItemInfo<Channel>) => {
     const channel = channels[index]
@@ -25,7 +23,10 @@ export const ChannelList = () => {
           console.log(
             `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}, ${channel.metadata.about}}`
           )
-          navigate('channel', { channel })
+          router.push({
+            pathname: '/channels/[id]',
+            params: { id: channel.id, name: channel.metadata.name },
+          })
         }}
       />
     )

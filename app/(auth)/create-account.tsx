@@ -4,8 +4,11 @@ import { useStore } from 'stores'
 import { Button, H2, Input, Label, YStack } from 'tamagui'
 import { BackButton, Screen } from 'views/shared'
 import { ChevronsRight } from '@tamagui/lucide-icons'
+import { useRouter } from 'expo-router'
 
 export default function CreateAccount() {
+  const router = useRouter()
+
   const [username, setUsername] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [about, setAbout] = useState('')
@@ -29,6 +32,8 @@ export default function CreateAccount() {
       return
     }
     signup(username, displayName, about)
+    // redirect back
+    router.push('/')
   }, [username, displayName, about])
 
   return (

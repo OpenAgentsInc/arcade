@@ -7,11 +7,13 @@ import { animated, config, useSpring } from '@react-spring/native'
 import { LinearGradient } from '@tamagui/linear-gradient'
 import { SplashFeed } from 'views/splash/SplashFeed'
 
-import { useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import { useAuthed } from 'lib/hooks'
 
-export default function Home() {
+export default function Page() {
   const router = useRouter()
+  const authed = useAuthed()
+
   const { height, width } = useWindowDimensions()
 
   const [reverse, setReverse] = useState(false)
@@ -35,6 +37,13 @@ export default function Home() {
   const [transmissionSpring, api] = useSpring(() => ({
     opacity: 0,
   }))
+
+  // redirect to chats screen when user logged
+  useFocusEffect(() => {
+    if (authed) {
+      router.replace('/channels')
+    }
+  })
 
   useEffect(() => {
     if (showTransmission) {
