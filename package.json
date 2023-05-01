@@ -32,6 +32,7 @@
     "@react-navigation/native-stack": "6.9.12",
     "@react-navigation/stack": "6.3.2",
     "@react-spring/native": "9.7.2",
+    "@react-spring/web": "^9.7.2",
     "@shopify/flash-list": "1.4.0",
     "@tamagui/babel-plugin": "1.11.2",
     "@tamagui/font-inter": "1.11.2",
