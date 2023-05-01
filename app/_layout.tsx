@@ -1,28 +1,22 @@
 import { Slot, SplashScreen, Stack } from 'expo-router'
-import { useCachedResources } from 'lib/hooks/useCachedResources'
-import { View } from 'react-native'
-import { Header } from 'views/web/Header'
+import { useCachedResources } from 'lib/hooks'
+import { StatusBar, View } from 'react-native'
+import { TamaguiProvider, Theme } from 'tamagui'
+import { config } from '../tamagui.config'
 
 export default function Layout() {
   const loaded = useCachedResources()
 
+  if (!loaded) {
+    return <SplashScreen />
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'black',
-        height: '100%',
-        width: '100%',
-      }}
-    >
-      {loaded ? (
-        <Stack screenOptions={{ headerShown: false }}>
-          <Header />
-          <Slot />
-        </Stack>
-      ) : (
-        <SplashScreen />
-      )}
-    </View>
+    <TamaguiProvider config={config}>
+      <Theme name="dark">
+        <Slot />
+      </Theme>
+      <StatusBar barStyle="light-content" />
+    </TamaguiProvider>
   )
 }
