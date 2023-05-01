@@ -1,5 +1,5 @@
 import { Nostr } from 'lib/nostr'
-import { create } from 'zustand'
+import create from 'zustand'
 import { createAuthStore } from './auth'
 import { createChatStore } from './chat'
 import { createEventsStore } from './event'
