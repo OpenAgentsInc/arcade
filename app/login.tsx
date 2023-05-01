@@ -1,9 +1,12 @@
-import { Stack } from 'expo-router'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Link, Stack } from 'expo-router'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 
 export default function Home() {
   return (
     <View style={styles.container}>
+      <Link href="/">
+        <Button title="Back" />
+      </Link>
       <Text style={styles.title}>LOGIN</Text>
       <TextInput
         placeholder="Enter access key"
