@@ -71,7 +71,7 @@ export default function Page() {
           w="100%"
           color="$color12"
           bg="$color6"
-          onPress={() => router.push('/settings/relays')}
+          onPress={() => router.push('/home/settings/relays')}
         >
           Manage relays
         </Button>

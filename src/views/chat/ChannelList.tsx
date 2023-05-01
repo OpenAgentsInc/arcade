@@ -24,7 +24,7 @@ export const ChannelList = () => {
             `Clicked channel: ${channel.metadata.name} with picture: ${channel.metadata.picture}, ${channel.metadata.about}}`
           )
           router.push({
-            pathname: '/channels/[id]',
+            pathname: '/home/channels/[id]',
             params: { id: channel.id, name: channel.metadata.name },
           })
         }}

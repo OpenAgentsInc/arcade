@@ -41,7 +41,7 @@ export default function Page() {
   // redirect to chats screen when user logged
   useFocusEffect(() => {
     if (authed) {
-      router.replace('/channels')
+      router.replace('/home/channels')
     }
   })
 

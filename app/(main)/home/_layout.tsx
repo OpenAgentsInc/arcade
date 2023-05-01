@@ -32,20 +32,21 @@ export default function MainLayout() {
       <Tabs.Screen
         name="contacts"
         options={{
-          href: '/contacts',
+          href: '/home/contacts',
+          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="channels"
         options={{
-          href: '/channels',
+          href: '/home/channels',
           headerShown: false,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          href: '/settings',
+          href: '/home/settings',
           headerShown: false,
         }}
       />
