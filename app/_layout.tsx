@@ -14,8 +14,28 @@ export default function Layout() {
 
   return (
     <View style={{ height: '100vh' }}>
-      <Slot />
-      <BackgroundCanvas />
+      <View
+        style={{
+          flex: 1,
+          height: '100vh',
+          width: '100vw',
+          position: 'absolute',
+          zIndex: 1000,
+        }}
+      >
+        <Slot />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          height: '100vh',
+          width: '100vw',
+          position: 'absolute',
+          zIndex: 1,
+        }}
+      >
+        <BackgroundCanvas />
+      </View>
     </View>
   )
 

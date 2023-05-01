@@ -25,7 +25,7 @@ function Box(props) {
       onPointerOut={(event) => setHover(false)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'cyan'} />
     </mesh>
   )
 }
@@ -34,10 +34,10 @@ export const BackgroundCanvas = () => {
   return (
     <Canvas>
       <color attach="background" args={['#000']} />
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
+      <ambientLight intensity={0.05} />
+      <pointLight position={[10, 10, 10]} intensity={0.4} />
+      <Box position={[-3.2, 0, 0]} />
+      <Box position={[3.2, 0, 0]} />
     </Canvas>
   )
 }
