@@ -5,13 +5,13 @@ import { Button, isWeb, ListItem, Separator, YGroup, YStack } from 'tamagui'
 import { LogoutDialog } from 'views/shared'
 import { useNavigation } from '@react-navigation/native'
 import { Clipboard as ClipboardIcon, Key, User } from '@tamagui/lucide-icons'
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 
 export default function Page() {
+  const router = useRouter()
+
   const publicKey = useStore((s) => s.user.publicKey)
   const privateKey = useStore((s) => s.user.privateKey)
-
-  const { navigate } = useNavigation<any>()
 
   const npubkey = nip19.npubEncode(publicKey)
   const nseckey = nip19.nsecEncode(privateKey)
@@ -71,7 +71,7 @@ export default function Page() {
           w="100%"
           color="$color12"
           bg="$color6"
-          onPress={() => navigate('Relays')}
+          onPress={() => router.push('/settings/relays')}
         >
           Manage relays
         </Button>

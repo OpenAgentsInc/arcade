@@ -39,12 +39,14 @@ export default function MainLayout() {
         name="channels"
         options={{
           href: '/channels',
+          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           href: '/settings',
+          headerShown: false,
         }}
       />
     </Tabs>
