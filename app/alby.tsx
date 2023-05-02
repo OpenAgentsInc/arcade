@@ -9,12 +9,10 @@ declare global {
   }
 }
 
-const testInvoice =
-  'lnbc210n1pj9qupqpp5h50wqjvqsmfe2cvde7yu43vgknz6g7ky402pz9hhun6t0e4z7nvqdq5g9kxy7fqd9h8vmmfvdjscqzzsxqyz5vqsp5dgdxv5mpd6tne0x2fqncecty5d294ha3je7utd0gp7zg6rmpnsjs9qyyssq49gkcwh0xru2w7gvzrfhmlgetn3vwmdhpwwpfjef99dueylandpyy8npndjl6l0k8w0vrljg7rfu9rezgxfp5uy256l80fe3n2llz7qpnyyerr'
-
 export default function Alby() {
   const nwcURL = useRef('')
   const [address, onChangeAddress] = useState('')
+  const [message, setMessage] = useState('Zap')
 
   async function initAlby() {
     const nwc: any = webln.NostrWebLNProvider.withNewSecret()
@@ -25,14 +23,39 @@ export default function Alby() {
     await nwc.initNWC()
   }
 
-  async function zap() {
-    const nwc = new webln.NostrWebLNProvider({
-      nostrWalletConnectUrl: nwcURL.current,
-    })
-    await nwc.enable()
+  function getInvoiceFromAddress(address: string) {
+    const addrRegex = /\S+@\S+\.\S+/
+    if (addrRegex.test(address)) {
+      return fetch(
+        `https://lnaddressproxy.getalby.com/generate-invoice?ln=${address}&amount=21000&comment=test`
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          return json.invoice.pr
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      console.log('lightning address not valid')
+    }
+  }
 
-    const response: any = await nwc.sendPayment(testInvoice)
-    console.info(`payment successful, the preimage is ${response.preimage}`)
+  async function sendZap() {
+    setMessage('Processing...')
+    const invoice = await getInvoiceFromAddress(address)
+
+    if (invoice) {
+      const nwc = new webln.NostrWebLNProvider({
+        nostrWalletConnectUrl: nwcURL.current,
+      })
+      await nwc.enable()
+
+      const response: any = await nwc.sendPayment(invoice)
+      setMessage(`payment successful, the preimage is ${response.preimage}`)
+    } else {
+      setMessage('invoice invalid')
+    }
   }
 
   useEffect(() => {
@@ -48,7 +71,7 @@ export default function Alby() {
         value={address}
         placeholder="lightning address..."
       />
-      <Button onPress={zap} title="Zap" />
+      <Button onPress={sendZap} title={message} />
       <Stack.Screen options={{ title: 'Alby Test' }} />
     </View>
   )
