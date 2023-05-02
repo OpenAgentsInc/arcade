@@ -52,7 +52,10 @@ export default function Alby() {
       await nwc.enable()
 
       const response: any = await nwc.sendPayment(invoice)
-      setMessage(`payment successful, the preimage is ${response.preimage}`)
+      if (response?.preimage) {
+        nwc.close()
+        setMessage(`payment successful, the preimage is ${response.preimage}`)
+      }
     } else {
       setMessage('invoice invalid')
     }
