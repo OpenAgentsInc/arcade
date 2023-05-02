@@ -1,34 +1,54 @@
 import { webln } from 'alby-js-sdk'
 import { Stack } from 'expo-router'
-import { useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { useEffect, useRef, useState } from 'react'
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+
+declare global {
+  interface Window {
+    webln: any
+  }
+}
+
+const testInvoice =
+  'lnbc210n1pj9qupqpp5h50wqjvqsmfe2cvde7yu43vgknz6g7ky402pz9hhun6t0e4z7nvqdq5g9kxy7fqd9h8vmmfvdjscqzzsxqyz5vqsp5dgdxv5mpd6tne0x2fqncecty5d294ha3je7utd0gp7zg6rmpnsjs9qyyssq49gkcwh0xru2w7gvzrfhmlgetn3vwmdhpwwpfjef99dueylandpyy8npndjl6l0k8w0vrljg7rfu9rezgxfp5uy256l80fe3n2llz7qpnyyerr'
 
 export default function Alby() {
-  async function connectToAlby() {
-    // if (!window.webln) {
-    try {
-      const nostrWalletConnectUrl = 'https://arcade.chat/nwc-test' // Replace this with your own NWC url loading mechanism
-      console.log('so')
-      const nwc = new webln.NostrWebLNProvider({ nostrWalletConnectUrl })
-      console.log(nwc)
-      await nwc.enable()
-      console.log('?')
-      window.webln = nwc
-    } catch (error) {
-      console.error('Error connecting to Alby wallet:', error)
-      // Handle errors and inform the user about the connection issue
-    }
-    // } else {
-    //   console.log('got webln', window.webln)
-    // }
+  const nwcURL = useRef('')
+  const [address, onChangeAddress] = useState('')
+
+  async function initAlby() {
+    const nwc: any = webln.NostrWebLNProvider.withNewSecret()
+    nwcURL.current = nwc.getNostrWalletConnectUrl({
+      name: 'Arcade',
+      returnTo: document.location.toString(),
+    })
+    await nwc.initNWC()
   }
+
+  async function zap() {
+    const nwc = new webln.NostrWebLNProvider({
+      nostrWalletConnectUrl: nwcURL.current,
+    })
+    await nwc.enable()
+
+    const response: any = await nwc.sendPayment(testInvoice)
+    console.info(`payment successful, the preimage is ${response.preimage}`)
+  }
+
   useEffect(() => {
-    console.log(webln)
-    connectToAlby()
+    initAlby()
   }, [])
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>alby test</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeAddress}
+        value={address}
+        placeholder="lightning address..."
+      />
+      <Button onPress={zap} title="Zap" />
       <Stack.Screen options={{ title: 'Alby Test' }} />
     </View>
   )
@@ -57,5 +77,12 @@ const styles = StyleSheet.create({
     textShadowColor: 'cyan',
     textShadowRadius: 14,
     marginTop: 20,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: 'white',
   },
 })
