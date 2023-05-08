@@ -13,12 +13,12 @@ export default function Layout() {
   }
 
   return (
-    <View style={{ height: '100vh' }}>
+    <View style={{ height: '100%' }}>
       <View
         style={{
           flex: 1,
-          height: '100vh',
-          width: '100vw',
+          height: '100%',
+          width: '100%',
           position: 'absolute',
           zIndex: 1000,
         }}
@@ -28,8 +28,8 @@ export default function Layout() {
       <View
         style={{
           flex: 1,
-          height: '100vh',
-          width: '100vw',
+          height: '100%',
+          width: '100%',
           position: 'absolute',
           zIndex: 1,
         }}
