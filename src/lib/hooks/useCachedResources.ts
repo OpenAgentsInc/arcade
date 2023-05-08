@@ -24,11 +24,6 @@ export const useCachedResources = () => {
     TitilliumWeb_900Black,
   })
 
-  const [interLoaded] = Font.useFonts({
-    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
-    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-  })
-
   const [protomoleculeLoaded] = Font.useFonts({
     Protomolecule: fonts.protomolecule,
   })
@@ -55,5 +50,5 @@ export const useCachedResources = () => {
     loadResourcesAndDataAsync()
   }, [])
 
-  return isLoadingComplete && loaded && interLoaded && protomoleculeLoaded
+  return isLoadingComplete && loaded && protomoleculeLoaded
 }
