@@ -1,9 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
 import {
-  API_TOKEN_STORAGE_KEY,
-  HEX_PRIVKEY_STORAGE_KEY,
-  HEX_PUBKEY_STORAGE_KEY,
+    HEX_PRIVKEY_STORAGE_KEY, HEX_PUBKEY_STORAGE_KEY
 } from './storage-constants'
 
 export async function getItem(key: string): Promise<string | null> {
@@ -34,7 +31,6 @@ export async function removeItem(key: string): Promise<void> {
 
 export async function getKeys() {
   return {
-    apiToken: await getItem(API_TOKEN_STORAGE_KEY),
     publicKey: await getItem(HEX_PUBKEY_STORAGE_KEY),
     privateKey: await getItem(HEX_PRIVKEY_STORAGE_KEY),
   }

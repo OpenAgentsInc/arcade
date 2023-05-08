@@ -1,11 +1,9 @@
-import { getApiToken } from 'lib/api'
 import { saveNewUserMetadata } from 'lib/nostr/saveNewUserMetadata'
 import * as storage from 'lib/storage'
 import { hexToBech32 } from 'lib/utils'
 import { generatePrivateKey, getPublicKey, nip19 } from 'nostr-tools'
 
 export interface AuthState {
-  apiToken: string | null
   isLoggedIn: boolean
   user: {
     publicKey: string
@@ -14,7 +12,6 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  apiToken: null,
   isLoggedIn: false,
   user: {
     publicKey: '',
@@ -26,15 +23,12 @@ export const login = async (set: any): Promise<AuthState> => {
   const privateKey = generatePrivateKey() // `sk` is a hex string
   const publicKey = getPublicKey(privateKey) // `pk` is a hex string
 
-  const apiToken: string | null = null
-
   try {
     await storage.setItem(storage.HEX_PUBKEY_STORAGE_KEY, publicKey)
     await storage.setItem(storage.HEX_PRIVKEY_STORAGE_KEY, privateKey)
     console.log(hexToBech32('nsec', privateKey))
     console.log('Keys saved to local storage')
     set({
-      apiToken,
       isLoggedIn: true,
       user: { publicKey, privateKey },
     })
@@ -47,7 +41,6 @@ export const login = async (set: any): Promise<AuthState> => {
   }
 
   return {
-    apiToken: null,
     isLoggedIn: true,
     user: {
       publicKey,
@@ -60,13 +53,11 @@ export const logout = async (): Promise<AuthState> => {
   console.log('Logging out...')
   await storage.removeItem(storage.HEX_PUBKEY_STORAGE_KEY)
   await storage.removeItem(storage.HEX_PRIVKEY_STORAGE_KEY)
-  await storage.removeItem(storage.API_TOKEN_STORAGE_KEY)
-  console.log('Removed keys and apitoken from storage.')
+  console.log('Removed keys from storage.')
   return initialState
 }
 
 export const createAuthStore = (set: any, get: any) => ({
-  apiToken: initialState.apiToken,
   isLoggedIn: initialState.isLoggedIn,
   user: initialState.user,
   login: async () => set(await login(set)), // yuck
@@ -74,7 +65,6 @@ export const createAuthStore = (set: any, get: any) => ({
     if (!nsec.startsWith('nsec1') || nsec.length < 60) {
       return
     }
-    let apiToken: string | null = null
     try {
       const { data } = nip19.decode(nsec)
       const privateKey = data as string
@@ -82,9 +72,7 @@ export const createAuthStore = (set: any, get: any) => ({
       await storage.setItem(storage.HEX_PUBKEY_STORAGE_KEY, publicKey)
       await storage.setItem(storage.HEX_PRIVKEY_STORAGE_KEY, privateKey)
       console.log('Keys saved to local storage')
-      apiToken = await getApiToken({ privateKey, publicKey })
       set({
-        apiToken,
         isLoggedIn: true,
         user: { name: '', publicKey, privateKey },
       })
@@ -114,11 +102,7 @@ export const createAuthStore = (set: any, get: any) => ({
       username,
     })
 
-    // Auth user to API
-    const apitoken = await getApiToken({ publicKey, privateKey })
-
-    set({ apiToken: apitoken, user: { publicKey, privateKey } })
-    console.log('API token set and saved.')
+    set({ user: { publicKey, privateKey } })
   },
 })
 
