@@ -1,6 +1,18 @@
+import { hexToBech32 } from 'lib/utils'
+import { generatePrivateKey, getPublicKey } from 'nostr-tools'
+import { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 export const PlaceholderSplash = () => {
+  useEffect(() => {
+    console.log('Testing key gen...')
+    const privateKey = generatePrivateKey()
+    const publicKey = getPublicKey(privateKey)
+    const npub = hexToBech32('npub', publicKey)
+    console.log('npub:', npub)
+    const nsec = hexToBech32('nsec', privateKey)
+    console.log('nsec:', nsec)
+  }, [])
   return (
     <View style={styles.container}>
       <Text style={styles.title}>arcaDE</Text>
