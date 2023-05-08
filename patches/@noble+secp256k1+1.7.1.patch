@@ -1,8 +1,8 @@
 diff --git a/node_modules/@noble/secp256k1/lib/index.js b/node_modules/@noble/secp256k1/lib/index.js
-index e207e74..da07368 100644
+index 33a0843..6189ba3 100644
 --- a/node_modules/@noble/secp256k1/lib/index.js
 +++ b/node_modules/@noble/secp256k1/lib/index.js
-@@ -1092,12 +1092,13 @@ exports.utils = {
+@@ -1135,12 +1135,13 @@ exports.utils = {
          if (crypto.web) {
              return crypto.web.getRandomValues(new Uint8Array(bytesLength));
          }
@@ -20,4 +20,4 @@ index e207e74..da07368 100644
 +            }
          }
      },
-     randomPrivateKey: () => {
+     randomPrivateKey: () => exports.utils.hashToPrivateKey(exports.utils.randomBytes(groupLen + 8)),

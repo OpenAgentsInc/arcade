@@ -1,16 +1,22 @@
-import { webln } from 'alby-js-sdk'
-import { useSearchParams } from 'expo-router'
+import { hexToBech32 } from 'lib/utils'
+import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 import { useEffect } from 'react'
-import { Stack } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 
-export default function Page() {
-  const { address }: any = useSearchParams()
-
+export const PlaceholderSplash = () => {
+  useEffect(() => {
+    console.log('Testing key gen...')
+    const privateKey = generatePrivateKey()
+    const publicKey = getPublicKey(privateKey)
+    const npub = hexToBech32('npub', publicKey)
+    console.log('npub:', npub)
+    const nsec = hexToBech32('nsec', privateKey)
+    console.log('nsec:', nsec)
+  }, [])
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>zap {address}</Text>
-      <Stack.Screen options={{ title: 'Send zap to ' + address }} />
+      <Text style={styles.title}>arcaDE</Text>
+      <Text style={styles.subtitle}>CommErcE 2.0</Text>
     </View>
   )
 }
