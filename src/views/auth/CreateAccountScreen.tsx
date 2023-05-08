@@ -1,9 +1,60 @@
-import { useCallback, useState } from 'react'
-import { Alert, Platform } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import {
+    Alert, Platform, StyleSheet, Text, TextInput, View
+} from 'react-native'
 import { useStore } from 'stores'
-import { Button, H2, Input, Label, YStack } from 'tamagui'
-import { BackButton, Screen } from 'views/shared'
-import { ChevronsRight } from '@tamagui/lucide-icons'
+import { BackButton, Button, Screen } from 'views/shared'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backButton: {
+    marginTop: 40,
+    marginLeft: 20,
+  },
+  formContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  formItemContainer: {
+    width: '100%',
+  },
+  label: {
+    alignSelf: 'flex-start',
+    width: '100%',
+    fontWeight: 'bold',
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 10,
+  },
+  button: {
+    marginTop: 20,
+    width: '100%',
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: '#4169E1',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+})
 
 export const CreateAccountScreen = () => {
   const [username, setUsername] = useState('')
@@ -13,7 +64,6 @@ export const CreateAccountScreen = () => {
 
   const handleSubmit = useCallback(() => {
     const regex = /^[a-zA-Z_\-0-9]+$/
-    // const accountId = user.publicKey ? hexToNpub(user.publicKey) : '-'
     if (username.length < 3) {
       Alert.alert(
         'Username too short',
@@ -33,89 +83,52 @@ export const CreateAccountScreen = () => {
 
   return (
     <Screen preset="fixed">
-      <BackButton mt={40} ml={20} />
-      <YStack px="$4" alignItems="center" f={1}>
-        <YStack alignItems="center" w="100%" mt={25}>
-          <H2 mb="$4">Create Account</H2>
-
-          <YStack space="$3" alignItems="center" width={300}>
-            <YStack width="100%">
-              <Label
-                htmlFor="username"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                Username
-              </Label>
-              <Input
-                id="username"
-                placeholder="satoshi"
-                width="100%"
-                value={username}
-                onChangeText={(text) => {
-                  setUsername(text)
-                }}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-
-            <YStack width="100%">
-              <Label
-                htmlFor="displayname"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                Display Name
-              </Label>
-              <Input
-                id="displayname"
-                placeholder="Satoshi Nakamoto"
-                width="100%"
-                value={displayName}
-                onChangeText={(text) => setDisplayName(text)}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-
-            <YStack width="100%">
-              <Label
-                htmlFor="about"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                About
-              </Label>
-              <Input
-                id="about"
-                placeholder="Creator(s) of Bitcoin."
-                width="100%"
-                value={about}
-                onChangeText={(text) => setAbout(text)}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-            <Button
-              size="$5"
-              mt="$6"
-              w="100%"
-              iconAfter={ChevronsRight}
-              onPress={handleSubmit}
-              color="$color12"
-            >
-              Create
-            </Button>
-          </YStack>
-        </YStack>
-      </YStack>
+      <BackButton style={styles.backButton} />
+      <View style={styles.container}>
+        <Text>Create Account</Text>
+        <View style={styles.formContainer}>
+          <View style={styles.formItemContainer}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="satoshi"
+              value={username}
+              onChangeText={(text) => setUsername(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.formItemContainer}>
+            <Text style={styles.label}>Display Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Satoshi Nakamoto"
+              value={displayName}
+              onChangeText={(text) => setDisplayName(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.formItemContainer}>
+            <Text style={styles.label}>About</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Creator(s) of Bitcoin."
+              value={about}
+              onChangeText={(text) => setAbout(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+          </View>
+          <Button style={styles.button} onPress={handleSubmit}>
+            {/* <ChevronsRight size={24} color="#FFFFFF" /> */}
+            <Text style={styles.buttonText}>Create</Text>
+          </Button>
+        </View>
+      </View>
     </Screen>
   )
 }

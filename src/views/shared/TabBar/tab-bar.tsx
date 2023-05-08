@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Animated, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { color } from 'views/theme'
 import { Ionicons } from '@expo/vector-icons'
-import { Settings } from '@tamagui/lucide-icons'
+// import { Settings } from '@tamagui/lucide-icons'
 import { SafeAreaView } from '../safe-area-view'
 import { Badge } from './badge'
 
@@ -61,13 +61,13 @@ const ACTIVE_INDICATOR: ViewStyle = {
 const ACTIVE_ICONS: any = {
   Contacts: <Ionicons name="people-outline" size={32} color="white" />,
   Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="white" />,
-  Settings: <Settings size={32} color="white" />,
+  // Settings: <Settings size={32} color="white" />,
 }
 
 const ICONS: any = {
   Contacts: <Ionicons name="people-outline" size={32} color="#777" />,
   Chats: <Ionicons name="ios-chatbubbles-outline" size={32} color="#777" />,
-  Settings: <Settings size={32} color="#777" />,
+  // Settings: <Settings size={32} color="#777" />,
 }
 
 export const Tab = (props: any) => {

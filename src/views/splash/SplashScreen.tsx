@@ -1,12 +1,75 @@
-import { useEffect, useState } from 'react'
-import { Image, useWindowDimensions, View } from 'react-native'
-import { Button, H1, Paragraph, Text } from 'tamagui'
+import { LinearGradient } from 'expo-linear-gradient'
+import React, { useEffect, useState } from 'react'
+import {
+    Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View
+} from 'react-native'
 import { TerminalText } from 'views/shared'
 import { images } from 'views/theme'
 import { useNavigation } from '@react-navigation/native'
 import { animated, config, useSpring } from '@react-spring/native'
-import { LinearGradient } from '@tamagui/linear-gradient'
 import { SplashFeed } from './SplashFeed'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    alignItems: 'center',
+  },
+  imageContainer: {
+    width: '100%',
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  headingContainer: {
+    marginTop: 48,
+    alignItems: 'center',
+  },
+  heading: {
+    fontFamily: 'Protomolecule',
+    fontSize: 86,
+    lineHeight: 100,
+    letterSpacing: 4,
+    color: 'white',
+    textShadowColor: '#00ffff',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 15,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 72,
+  },
+  button: {
+    width: '90%',
+    borderRadius: 38,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    elevation: 10,
+    shadowColor: '#00ffff',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+  },
+  buttonText: {
+    fontFamily: 'Protomolecule',
+    fontSize: 24,
+    color: 'black',
+  },
+  loginButton: {
+    backgroundColor: '#222',
+    minWidth: '80%',
+  },
+  loginButtonText: {
+    fontFamily: 'Protomolecule',
+    fontSize: 18,
+    color: '#7B7B7B',
+  },
+})
 
 export const SplashScreen = () => {
   const { height, width } = useWindowDimensions()
@@ -50,19 +113,13 @@ export const SplashScreen = () => {
   }, [showTransmission, api])
 
   if (showFeed) {
-    return <SplashFeed />
+    return <></>
+    // return <SplashFeed />
   }
 
   if (showTransmission) {
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'black',
-          paddingTop: height * 0.3,
-          paddingHorizontal: 46,
-        }}
-      >
+      <View style={styles.container}>
         <animated.View style={transmissionSpring}>
           <TerminalText
             text="RECEIVING TRANSMISSION"
@@ -80,19 +137,13 @@ export const SplashScreen = () => {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'black',
-        alignItems: 'center',
-      }}
-    >
+    <View style={styles.container}>
       <animated.View
         style={{
           ...spring,
+          ...styles.imageContainer,
           width,
           height: width,
-          overflow: 'hidden',
         }}
       >
         <LinearGradient
@@ -106,69 +157,24 @@ export const SplashScreen = () => {
             zIndex: 9000,
           }}
         />
-        <Image
-          source={images.player1}
-          style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-        />
+        <Image source={images.player1} style={styles.image} />
       </animated.View>
-      <animated.View style={spring}>
-        <H1
-          mt="$8"
-          fontFamily="Protomolecule"
-          fontSize={86}
-          lineHeight={100}
-          letterSpacing={4}
-          textShadowColor="#00ffff"
-          textShadowOffset={{ width: 0, height: 0 }}
-          textShadowRadius={15}
-        >
-          arcaDE
-        </H1>
+      <animated.View style={{ ...spring, ...styles.headingContainer }}>
+        <Text style={styles.heading}>arcaDE</Text>
       </animated.View>
-      <animated.View style={spring}>
-        <Button
+      <animated.View style={{ ...spring, ...styles.buttonContainer }}>
+        <TouchableOpacity
           onPress={() => navigation.navigate('CreateAccountScreen')}
-          // onPress={toggleReverse}
-          size="$6"
-          borderRadius={38}
-          color="black"
-          backgroundColor="#00ffff"
-          mt="$9"
-          pressStyle={{ opacity: 0.8 }}
-          minWidth={width - 40}
-          style={{
-            shadowColor: '#00ffff',
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 1,
-            shadowRadius: 20,
-            elevation: 10, // For Android
-          }}
+          style={{ ...styles.button, backgroundColor: '#00ffff' }}
         >
-          <Text fontFamily="Protomolecule" fontSize={24} color="black">
-            EntEr
-          </Text>
-        </Button>
-        <Button
-          size="$4"
-          borderRadius={38}
-          color="white"
-          backgroundColor="#222"
-          mt="$6"
-          pressStyle={{ opacity: 0.8 }}
-          minWidth={width - 140}
-          style={{
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.4,
-            shadowRadius: 20,
-            elevation: 10, // For Android
-          }}
+          <Text style={styles.buttonText}>EntEr</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => navigation.navigate('LoginScreen')}
+          style={{ ...styles.button, ...styles.loginButton }}
         >
-          <Paragraph fontFamily="Protomolecule" fontSize={18} color="$color11">
-            Login
-          </Paragraph>
-        </Button>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
       </animated.View>
     </View>
   )

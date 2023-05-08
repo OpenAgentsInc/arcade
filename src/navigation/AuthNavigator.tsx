@@ -12,7 +12,7 @@ export const AuthNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
       <Stack.Screen
         name="CreateAccountScreen"
         component={CreateAccountScreen}
