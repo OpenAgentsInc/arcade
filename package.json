@@ -32,7 +32,6 @@
     "@react-spring/web": "^9.7.2",
     "@react-three/fiber": "8.13.0",
     "@shopify/flash-list": "1.4.0",
-    "alby-js-sdk": "1.6.0",
     "axios": "^1.4.0",
     "babel-plugin-transform-inline-environment-variables": "0.4.4",
     "bech32": "1.1.4",
