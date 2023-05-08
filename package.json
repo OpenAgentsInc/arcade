@@ -20,7 +20,7 @@
     "@expo-google-fonts/lexend": "^0.2.3",
     "@expo-google-fonts/titillium-web": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
-    "@noble/secp256k1": "1.7.0",
+    "@noble/secp256k1": "1.7.1",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-native-community/netinfo": "9.3.7",
     "@react-native-community/slider": "4.4.2",
@@ -100,7 +100,7 @@
   },
   "private": true,
   "resolutions": {
-    "@noble/secp256k1": "1.7.0",
+    "@noble/secp256k1": "1.7.1",
     "metro": "^0.73.7",
     "metro-resolver": "^0.73.7"
   },
