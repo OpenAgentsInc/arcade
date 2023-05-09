@@ -1,37 +1,32 @@
-module.exports = function (api) {
-  api.cache(true)
-
-  return {
-    presets: ['babel-preset-expo'],
-    plugins: [
-      [
-        'module-resolver',
+/** @type {import('@babel/core').TransformOptions['plugins']} */
+const plugins = [
+  [
+    /** Enables baseUrl: "./" option in tsconfig.json to work @see https://github.com/entwicklerstube/babel-plugin-root-import */
+    "babel-plugin-root-import",
+    {
+      paths: [
         {
-          root: ['./src'],
-          extensions: [
-            '.ios.ts',
-            '.android.ts',
-            '.ts',
-            '.ios.tsx',
-            '.android.tsx',
-            '.tsx',
-            '.jsx',
-            '.js',
-            '.json',
-            '.stories.tsx',
-          ],
-          alias: {
-            i18n: './src/i18n',
-            lib: './src/lib',
-            navigation: './src/navigation',
-            services: './src/services',
-            stores: './src/stores',
-            views: './src/views',
-          },
+          rootPathPrefix: "app/",
+          rootPathSuffix: "app",
+        },
+        {
+          rootPathPrefix: "assets/",
+          rootPathSuffix: "assets",
         },
       ],
-      // '@babel/plugin-proposal-export-namespace-from',
-      'react-native-reanimated/plugin', // Must be listed last
-    ],
-  }
+    },
+  ],
+  /** react-native-reanimated web support @see https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/#web */
+  "@babel/plugin-proposal-export-namespace-from",
+  /** NOTE: This must be last in the plugins @see https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/#babel-plugin */
+  "react-native-reanimated/plugin",
+]
+
+/** @type {import('@babel/core').TransformOptions} */
+module.exports = {
+  presets: ["babel-preset-expo"],
+  env: {
+    production: {},
+  },
+  plugins,
 }

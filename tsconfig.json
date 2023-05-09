@@ -1,22 +1,23 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "module": "es2015",
+    "moduleResolution": "node",
     "noImplicitAny": false,
-    "baseUrl": "./",
-    "paths": {
-      "@types/*": ["src/@types/*"],
-      "i18n": ["src/i18n"],
-      "i18n/*": ["src/i18n/*"],
-      "lib": ["src/lib"],
-      "lib/*": ["src/lib/*"],
-      "stores/*": ["src/stores/*"],
-      "stores": ["src/stores"],
-      "navigation": ["src/navigation"],
-      "navigation/*": ["src/navigation/*"],
-      "services/*": ["src/services/*"],
-      "views/*": ["src/views/*"]
-    }
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "sourceMap": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./"
   },
-  "exclude": ["src/navigation/old"]
+  "exclude": ["node_modules"],
+  "include": ["index.js", "App.js", "app", "test", "*.js"],
+  "extends": "expo/tsconfig.base"
 }
