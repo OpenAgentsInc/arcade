@@ -51,7 +51,11 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Chats",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon
+              icon="MessageCircle"
+              color={focused ? colors.tint : inactiveIconColor}
+              size={30}
+            />
           ),
         }}
       />
@@ -62,7 +66,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="Rss" color={focused ? colors.tint : inactiveIconColor} size={30} />
           ),
         }}
       />
@@ -73,7 +77,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Create",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="PlusCircle" color={focused ? colors.tint : inactiveIconColor} size={30} />
           ),
         }}
       />
@@ -83,7 +87,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Discover",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="Search" color={focused ? colors.tint : inactiveIconColor} size={30} />
           ),
         }}
       />
@@ -94,7 +98,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={30} />
           ),
         }}
       />
@@ -117,5 +121,3 @@ const $tabBarLabel: TextStyle = {
   lineHeight: 16,
   flex: 1,
 }
-
-// @demo remove-file
