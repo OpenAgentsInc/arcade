@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const SplashScreen = () => {
+export const HomeScreen = () => {
   const { height, width } = useWindowDimensions()
   const navigation = useNavigation<any>()
 
