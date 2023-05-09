@@ -9,11 +9,12 @@ import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type DemoTabParamList = {
-  DemoCommunity: undefined
-  DemoShowroom: { queryIndex?: string; itemIndex?: string }
+  Home: undefined
+  Feed: undefined
+  Create: undefined
   Discover: undefined
-  DemoDebug: undefined
-  DemoPodcastList: undefined
+  Profile: undefined
+  // DemoShowroom: { queryIndex?: string; itemIndex?: string }
 }
 
 /**
@@ -46,22 +47,17 @@ export function TabNavigator() {
       }}
     >
       <Tab.Screen
-        name="DemoShowroom"
+        name="Home"
         component={BlankScreen}
         options={{
-          tabBarLabel: "Chats",
+          tabBarLabel: "Home",
           tabBarIcon: ({ focused }) => (
-            <Icon
-              icon="MessageCircle"
-              color={focused ? colors.tint : inactiveIconColor}
-              size={30}
-            />
+            <Icon icon="Home" color={focused ? colors.tint : inactiveIconColor} size={30} />
           ),
         }}
       />
-
       <Tab.Screen
-        name="DemoCommunity"
+        name="Feed"
         component={BlankScreen}
         options={{
           tabBarLabel: "Feed",
@@ -72,7 +68,7 @@ export function TabNavigator() {
       />
 
       <Tab.Screen
-        name="DemoPodcastList"
+        name="Create"
         component={BlankScreen}
         options={{
           tabBarLabel: "Create",
@@ -93,7 +89,7 @@ export function TabNavigator() {
       />
 
       <Tab.Screen
-        name="DemoDebug"
+        name="Profile"
         component={BlankScreen}
         options={{
           tabBarLabel: "Profile",
