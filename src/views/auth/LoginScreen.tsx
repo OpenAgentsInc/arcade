@@ -1,3 +1,4 @@
+import { Lock } from 'lucide-react-native'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { useStore } from 'stores'
@@ -13,7 +14,9 @@ export const LoginScreen = () => {
         <View style={{ width: '100%', marginTop: 15 }}>
           <Text style={styles.headerText}>EntEr accEss kEy</Text>
           <View style={styles.textInputContainer}>
+            <Lock size={24} color="#6C7275" style={styles.icon} />
             <TextInput
+              autoFocus
               autoCapitalize="none"
               autoCorrect={false}
               placeholder="nsec1..."
@@ -24,6 +27,7 @@ export const LoginScreen = () => {
                 setNsec(text)
                 loginWithNsec(text)
               }}
+              style={styles.input}
             />
           </View>
         </View>
@@ -34,7 +38,7 @@ export const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   backButton: {
-    marginTop: 40,
+    marginTop: 20,
     marginLeft: 20,
     zIndex: 9999,
   },
@@ -47,15 +51,25 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#fefefe',
     marginBottom: 32,
-    marginTop: 80,
+    marginTop: 100,
     fontFamily: 'Protomolecule',
     textAlign: 'center',
   },
   textInputContainer: {
-    // alignItems: 'center',
     width: '100%',
     backgroundColor: '#232627',
     padding: 16,
     borderRadius: 12,
+    position: 'relative',
+  },
+  icon: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+  },
+  input: {
+    paddingLeft: 40, // to make space for the icon
+    color: '#E8ECEF',
+    fontFamily: 'Inter_400Regular',
   },
 })
