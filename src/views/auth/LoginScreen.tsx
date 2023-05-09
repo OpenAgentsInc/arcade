@@ -12,7 +12,7 @@ export const LoginScreen = () => {
       <BackButton style={styles.backButton} />
       <View style={styles.container}>
         <View style={{ width: '100%', marginTop: 15 }}>
-          <Text style={styles.headerText}>EntEr accEss kEy</Text>
+          <Text style={styles.headerText}>EntEr AccEss kEy</Text>
           <View style={styles.textInputContainer}>
             <Lock size={24} color="#6C7275" style={styles.icon} />
             <TextInput
