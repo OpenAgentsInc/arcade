@@ -17,7 +17,7 @@ export function ErrorDetails(props: ErrorDetailsProps) {
       contentContainerStyle={$contentContainer}
     >
       <View style={$topSection}>
-        {/* <Icon icon="ladybug" size={64} /> */}
+        <Icon icon="ladybug" size={64} />
         <Text style={$heading} preset="subheading" tx="errorScreen.title" />
         <Text tx="errorScreen.friendlySubtitle" />
       </View>
