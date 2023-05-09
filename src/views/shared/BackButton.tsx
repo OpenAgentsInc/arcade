@@ -1,12 +1,12 @@
-// import { Button } from 'tamagui'
+import { ChevronLeft } from 'lucide-react-native'
+import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-
-// import { ChevronLeft } from '@tamagui/lucide-icons'
 
 export const BackButton = (props) => {
   const { goBack } = useNavigation()
   return (
-    <></>
-    // <Button icon={ChevronLeft} onPress={() => goBack()} circular {...props} />
+    <TouchableOpacity onPress={() => goBack()} activeOpacity={0.8}>
+      <ChevronLeft size={36} color="white" {...props} />
+    </TouchableOpacity>
   )
 }
