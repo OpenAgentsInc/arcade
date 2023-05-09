@@ -1,9 +1,9 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Screen, Text } from "app/components"
+import { Button, Screen, Text } from "app/components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
 
@@ -18,6 +18,18 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   return (
     <Screen preset="fixed" style={$root} contentContainerStyle={$screenContent}>
       <Text text="arcaDe" preset="heading" style={$arcade} />
+      <View style={{ width: "80%", maxWidth: 300, marginTop: 30 }}>
+        <Button
+          preset="reversed"
+          text="Enter"
+          onPress={() => console.log("Start")}
+          style={{
+            borderWidth: 1,
+            borderColor: "#555",
+            backgroundColor: "transparent",
+          }}
+        />
+      </View>
     </Screen>
   )
 })
@@ -26,7 +38,11 @@ const $root: ViewStyle = {
   flex: 1,
 }
 
-const $screenContent: ViewStyle = { justifyContent: "center", flex: 1, alignItems: "center" }
+const $screenContent: ViewStyle = {
+  justifyContent: "center",
+  flex: 1,
+  alignItems: "center",
+}
 
 const $arcade: TextStyle = {
   fontSize: 50,
