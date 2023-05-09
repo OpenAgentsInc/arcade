@@ -37,9 +37,6 @@
       "icon": "./assets/images/app-icon-ios.png",
       "supportsTablet": true,
       "bundleIdentifier": "arcade.labs.arc",
-      "config": {
-        "usesNonExemptEncryption": false
-      },
       "splash": {
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
