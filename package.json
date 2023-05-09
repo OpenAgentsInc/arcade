@@ -25,7 +25,10 @@
     "expo:start": "expo start",
     "expo:android": "expo start --android",
     "expo:ios": "expo start --ios",
-    "expo:web": "expo start --web"
+    "expo:web": "expo start --web",
+    "build:ios": "eas build -p ios",
+    "build:android": "eas build -p android",
+    "submit:ios": "eas submit -p ios"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
