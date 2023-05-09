@@ -16,6 +16,7 @@ export const customFontsToLoad = {
   spaceGroteskMedium,
   spaceGroteskSemiBold,
   spaceGroteskBold,
+  protomolecule: require("../../assets/fonts/Protomolecule.otf"),
 }
 
 const fonts = {
@@ -48,6 +49,9 @@ const fonts = {
   monospace: {
     // Android only font.
     normal: "monospace",
+  },
+  protomolecule: {
+    normal: "protomolecule",
   },
 }
 
