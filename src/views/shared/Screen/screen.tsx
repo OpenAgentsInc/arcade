@@ -82,13 +82,16 @@ const ChatroomScreen = (props: any) => {
 function ScreenWithoutScrolling(props: ScreenProps) {
   const preset = presets[props.preset] || presets.fixed
   const style = { ...preset.nonScroll, ...props.style }
+  // const style = { ...preset.nonScroll, ...props.style }
 
   return (
     <View style={style}>
       {props.unsafe ? (
         props.children
       ) : (
-        <SafeAreaView style={{ ...style, paddingHorizontal: 0 }}>
+        <SafeAreaView
+          style={{ ...style, paddingHorizontal: 0, paddingBottom: 0 }}
+        >
           {props.children}
         </SafeAreaView>
       )}

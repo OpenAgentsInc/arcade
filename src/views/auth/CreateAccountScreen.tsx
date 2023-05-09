@@ -1,6 +1,8 @@
 import { User } from 'lucide-react-native'
 import React, { useCallback, useState } from 'react'
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+    Alert, StyleSheet, Text, TextInput, TouchableOpacity, View
+} from 'react-native'
 import { useStore } from 'stores'
 import { BackButton, Button, Screen } from 'views/shared'
 
@@ -82,15 +84,35 @@ export const CreateAccountScreen = () => {
             />
           </View>
         </View>
-        <Button style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          style={{ ...styles.button, ...styles.loginButton }}
+        >
+          <Text style={styles.loginButtonText}>ContinuE</Text>
+        </TouchableOpacity>
+        {/* <Button style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Create</Text>
-        </Button>
+        </Button> */}
       </View>
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
+  loginButton: {
+    backgroundColor: '#222',
+    minWidth: '80%',
+    shadowColor: '#7B7B7B',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3, // Decrease the opacity of the shadow
+    shadowRadius: 20,
+    marginTop: 10,
+  },
+  loginButtonText: {
+    fontFamily: 'Protomolecule',
+    fontSize: 18,
+    color: '#7B7B7B',
+  },
   container: {
     alignItems: 'center',
   },
