@@ -1,3 +1,4 @@
+import { User } from 'lucide-react-native'
 import React, { useCallback, useState } from 'react'
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useStore } from 'stores'
@@ -31,46 +32,55 @@ export const CreateAccountScreen = () => {
   return (
     <Screen style={styles.container}>
       <BackButton style={styles.backButton} />
-      <Text style={styles.headerText}>CrEAtE Account</Text>
+      <Text style={styles.headerText}>CrEatE Account</Text>
       <View style={styles.formContainer}>
         <View style={styles.formItemContainer}>
           <Text style={styles.label}>Username</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="satoshi"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-            spellCheck={false}
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholderTextColor="#6C7275"
-          />
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="satoshi"
+              value={username}
+              onChangeText={(text) => setUsername(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
         </View>
         <View style={styles.formItemContainer}>
           <Text style={styles.label}>Display Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Satoshi Nakamoto"
-            value={displayName}
-            onChangeText={(text) => setDisplayName(text)}
-            spellCheck={false}
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholderTextColor="#6C7275"
-          />
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Satoshi Nakamoto"
+              value={displayName}
+              onChangeText={(text) => setDisplayName(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
         </View>
         <View style={styles.formItemContainer}>
           <Text style={styles.label}>About</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Creator(s) of Bitcoin."
-            value={about}
-            onChangeText={(text) => setAbout(text)}
-            spellCheck={false}
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholderTextColor="#6C7275"
-          />
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Creator(s) of Bitcoin."
+              value={about}
+              onChangeText={(text) => setAbout(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
         </View>
         <Button style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Create</Text>
@@ -91,10 +101,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 32,
-    color: '#fefefe',
+    color: '#fff',
     marginTop: 100,
     fontFamily: 'Protomolecule',
     textAlign: 'center',
+    marginBottom: 24,
   },
   formContainer: {
     width: '100%',
@@ -116,7 +127,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
   },
-  input: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     width: '100%',
     height: 40,
     borderColor: '#6C7275',
@@ -124,7 +137,16 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    marginBottom: 16,
+  },
+  input: {
+    flex: 1,
+    paddingLeft: 10, // to make space for the icon
     color: '#fff',
+    fontFamily: 'Inter_400Regular',
+  },
+  icon: {
+    marginRight: 10,
   },
   button: {
     marginTop: 20,
