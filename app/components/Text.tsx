@@ -97,7 +97,12 @@ const $presets = {
 
   bold: [$baseStyle, $fontWeightStyles.bold] as StyleProp<TextStyle>,
 
-  heading: [$baseStyle, $sizeStyles.xxl, $fontWeightStyles.bold] as StyleProp<TextStyle>,
+  heading: [
+    $baseStyle,
+    $sizeStyles.xxl,
+    $fontWeightStyles.bold,
+    { fontFamily: typography.fonts.protomolecule.normal },
+  ] as StyleProp<TextStyle>,
 
   subheading: [$baseStyle, $sizeStyles.lg, $fontWeightStyles.medium] as StyleProp<TextStyle>,
 
