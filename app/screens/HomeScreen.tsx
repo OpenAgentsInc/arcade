@@ -16,7 +16,7 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (
-    <Screen preset="scroll" style={$root} contentContainerStyle={$screenContent}>
+    <Screen preset="fixed" style={$root} contentContainerStyle={$screenContent}>
       <Text text="arcaDe" preset="heading" style={$arcade} />
     </Screen>
   )
