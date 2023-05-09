@@ -17,7 +17,7 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   // const navigation = useNavigation()
   return (
     <Screen preset="scroll" style={$root} contentContainerStyle={$screenContent}>
-      <Text text="Arcade" preset="heading" />
+      <Text text="arcaDe" preset="heading" />
     </Screen>
   )
 })
