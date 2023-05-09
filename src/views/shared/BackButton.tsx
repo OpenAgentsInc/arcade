@@ -6,7 +6,7 @@ export const BackButton = (props) => {
   const { goBack } = useNavigation()
   return (
     <TouchableOpacity onPress={() => goBack()} activeOpacity={0.8}>
-      <ChevronLeft size={36} color="white" {...props} />
+      <ChevronLeft size={36} color="#6C7275" {...props} />
     </TouchableOpacity>
   )
 }

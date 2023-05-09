@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     shadowColor: '#00ffff',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
-    shadowRadius: 20,
+    shadowRadius: 10,
   },
   buttonText: {
     fontFamily: 'Protomolecule',
@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: '#222',
     minWidth: '80%',
+    shadowColor: '#7B7B7B',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3, // Decrease the opacity of the shadow
+    shadowRadius: 20,
+    marginTop: 10,
   },
   loginButtonText: {
     fontFamily: 'Protomolecule',
@@ -162,10 +167,16 @@ export const SplashScreen = () => {
       <animated.View style={{ ...spring, ...styles.headingContainer }}>
         <Text style={styles.heading}>arcaDE</Text>
       </animated.View>
-      <animated.View style={{ ...spring, ...styles.buttonContainer }}>
+      <animated.View
+        style={{ ...spring, ...styles.buttonContainer, width: '90%' }}
+      >
         <TouchableOpacity
           onPress={() => navigation.navigate('CreateAccountScreen')}
-          style={{ ...styles.button, backgroundColor: '#00ffff' }}
+          style={{
+            ...styles.button,
+            backgroundColor: '#00ffff',
+            width: '90%',
+          }}
         >
           <Text style={styles.buttonText}>EntEr</Text>
         </TouchableOpacity>
