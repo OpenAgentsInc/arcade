@@ -12,6 +12,7 @@ import { useColorScheme } from "react-native"
 import * as Screens from "app/screens"
 import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { TabNavigator } from "./TabNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -27,10 +28,8 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
-  // 🔥 Your screens go here
   Home: undefined
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  Tabs: undefined
 }
 
 /**
@@ -50,9 +49,8 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/** 🔥 Your screens go here */}
       <Stack.Screen name="Home" component={Screens.HomeScreen} />
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      <Stack.Screen name="Tabs" component={TabNavigator} />
     </Stack.Navigator>
   )
 })

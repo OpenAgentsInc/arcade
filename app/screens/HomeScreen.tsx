@@ -2,9 +2,9 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { AppStackScreenProps } from "app/navigators"
+import { AppStackParamList, AppStackScreenProps } from "app/navigators"
 import { Button, Screen, Text } from "app/components"
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
 
 interface HomeScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Home">> {}
@@ -14,7 +14,7 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   // const { someStore, anotherStore } = useStores()
 
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const { navigate } = useNavigation<any>()
   return (
     <Screen preset="fixed" style={$root} contentContainerStyle={$screenContent}>
       <Text text="arcaDe" preset="heading" style={$arcade} />
@@ -22,7 +22,7 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
         <Button
           preset="reversed"
           text="Enter"
-          onPress={() => console.log("Start")}
+          onPress={() => navigate("Tabs")}
           style={{
             borderWidth: 1,
             borderColor: "#555",
