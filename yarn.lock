@@ -6217,6 +6217,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lucide-react-native@^0.214.0:
+  version "0.214.0"
+  resolved "https://registry.yarnpkg.com/lucide-react-native/-/lucide-react-native-0.214.0.tgz#d978bdf1f0a7c774f492e0162c7700aa19cd208e"
+  integrity sha512-xFq9tDhKnC/PVA29LPWGFShqVJO3YdpyiUo6r3d4rSDax9YkIdsM7yCe7XaKXHe4TNasnPyLBuAdxVkOELrHgg==
+
 luxon@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.3.0.tgz#d73ab5b5d2b49a461c47cedbc7e73309b4805b48"

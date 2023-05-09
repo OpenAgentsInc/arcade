@@ -9,7 +9,6 @@
  */
 
 import { useAuthed } from 'lib/hooks/useAuthed'
-import { YStack } from 'tamagui'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthNavigator } from './AuthNavigator'
 import { MainNavigator } from './MainNavigator'
@@ -19,11 +18,12 @@ import { NavigationProps } from './types'
 export const RootNavigator = (props: NavigationProps) => {
   const authed = useAuthed()
   if (authed === null) {
-    return <YStack f={1} bg="$black" />
+    return <></>
   }
   return (
     <NavigationContainer ref={navigationRef} {...props}>
-      {authed ? <MainNavigator /> : <AuthNavigator />}
+      <AuthNavigator />
+      {/* {authed ? <MainNavigator /> : <AuthNavigator />} */}
     </NavigationContainer>
   )
 }

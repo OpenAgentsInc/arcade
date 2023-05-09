@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react'
-import { Alert, Platform } from 'react-native'
+import { User } from 'lucide-react-native'
+import React, { useCallback, useState } from 'react'
+import {
+    Alert, StyleSheet, Text, TextInput, TouchableOpacity, View
+} from 'react-native'
 import { useStore } from 'stores'
-import { Button, H2, Input, Label, YStack } from 'tamagui'
-import { BackButton, Screen } from 'views/shared'
-import { ChevronsRight } from '@tamagui/lucide-icons'
+import { BackButton, Button, Screen } from 'views/shared'
 
 export const CreateAccountScreen = () => {
   const [username, setUsername] = useState('')
@@ -13,7 +14,6 @@ export const CreateAccountScreen = () => {
 
   const handleSubmit = useCallback(() => {
     const regex = /^[a-zA-Z_\-0-9]+$/
-    // const accountId = user.publicKey ? hexToNpub(user.publicKey) : '-'
     if (username.length < 3) {
       Alert.alert(
         'Username too short',
@@ -32,90 +32,156 @@ export const CreateAccountScreen = () => {
   }, [username, displayName, about])
 
   return (
-    <Screen preset="fixed">
-      <BackButton mt={40} ml={20} />
-      <YStack px="$4" alignItems="center" f={1}>
-        <YStack alignItems="center" w="100%" mt={25}>
-          <H2 mb="$4">Create Account</H2>
-
-          <YStack space="$3" alignItems="center" width={300}>
-            <YStack width="100%">
-              <Label
-                htmlFor="username"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                Username
-              </Label>
-              <Input
-                id="username"
-                placeholder="satoshi"
-                width="100%"
-                value={username}
-                onChangeText={(text) => {
-                  setUsername(text)
-                }}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-
-            <YStack width="100%">
-              <Label
-                htmlFor="displayname"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                Display Name
-              </Label>
-              <Input
-                id="displayname"
-                placeholder="Satoshi Nakamoto"
-                width="100%"
-                value={displayName}
-                onChangeText={(text) => setDisplayName(text)}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-
-            <YStack width="100%">
-              <Label
-                htmlFor="about"
-                alignSelf="flex-start"
-                width="100%"
-                role="heading"
-              >
-                About
-              </Label>
-              <Input
-                id="about"
-                placeholder="Creator(s) of Bitcoin."
-                width="100%"
-                value={about}
-                onChangeText={(text) => setAbout(text)}
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-              />
-            </YStack>
-            <Button
-              size="$5"
-              mt="$6"
-              w="100%"
-              iconAfter={ChevronsRight}
-              onPress={handleSubmit}
-              color="$color12"
-            >
-              Create
-            </Button>
-          </YStack>
-        </YStack>
-      </YStack>
+    <Screen style={styles.container}>
+      <BackButton style={styles.backButton} />
+      <Text style={styles.headerText}>CrEatE Account</Text>
+      <View style={styles.formContainer}>
+        <View style={styles.formItemContainer}>
+          <Text style={styles.label}>Username</Text>
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="satoshi"
+              value={username}
+              onChangeText={(text) => setUsername(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
+        </View>
+        <View style={styles.formItemContainer}>
+          <Text style={styles.label}>Display Name</Text>
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Satoshi Nakamoto"
+              value={displayName}
+              onChangeText={(text) => setDisplayName(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
+        </View>
+        <View style={styles.formItemContainer}>
+          <Text style={styles.label}>About</Text>
+          <View style={styles.inputContainer}>
+            <User size={20} color="#6C7275" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Creator(s) of Bitcoin."
+              value={about}
+              onChangeText={(text) => setAbout(text)}
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholderTextColor="#6C7275"
+            />
+          </View>
+        </View>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          style={{ ...styles.button, ...styles.loginButton }}
+        >
+          <Text style={styles.loginButtonText}>ContinuE</Text>
+        </TouchableOpacity>
+        {/* <Button style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Create</Text>
+        </Button> */}
+      </View>
     </Screen>
   )
 }
+
+const styles = StyleSheet.create({
+  loginButton: {
+    backgroundColor: '#222',
+    minWidth: '80%',
+    shadowColor: '#7B7B7B',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3, // Decrease the opacity of the shadow
+    shadowRadius: 20,
+    marginTop: 10,
+  },
+  loginButtonText: {
+    fontFamily: 'Protomolecule',
+    fontSize: 18,
+    color: '#7B7B7B',
+  },
+  container: {
+    alignItems: 'center',
+  },
+  backButton: {
+    marginTop: 20,
+    marginLeft: 20,
+    zIndex: 9999,
+  },
+  headerText: {
+    fontSize: 32,
+    color: '#fff',
+    marginTop: 100,
+    fontFamily: 'Protomolecule',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  formContainer: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  formItemContainer: {
+    width: '100%',
+    marginBottom: 16,
+  },
+  label: {
+    alignSelf: 'flex-start',
+    width: '100%',
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    height: 40,
+    borderColor: '#6C7275',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 16,
+  },
+  input: {
+    flex: 1,
+    paddingLeft: 10, // to make space for the icon
+    color: '#fff',
+    fontFamily: 'Inter_400Regular',
+  },
+  icon: {
+    marginRight: 10,
+  },
+  button: {
+    marginTop: 20,
+    width: '100%',
+    height: 40,
+    borderRadius: 4,
+    backgroundColor: '#4169E1',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+})

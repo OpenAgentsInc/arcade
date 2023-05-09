@@ -1,6 +1,6 @@
 import { CreateAccountScreen } from 'views/auth/CreateAccountScreen'
 import { LoginScreen } from 'views/auth/LoginScreen'
-import { SplashScreen } from 'views/splash/SplashScreen'
+import { HomeScreen } from 'views/splash/HomeScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const Stack = createNativeStackNavigator()
@@ -8,10 +8,10 @@ const Stack = createNativeStackNavigator()
 export const AuthNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SplashScreen"
+      initialRouteName="HomeScreen"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen
         name="CreateAccountScreen"
