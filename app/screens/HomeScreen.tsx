@@ -16,8 +16,8 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (
-    <Screen style={$root} preset="scroll">
-      <Text text="home" />
+    <Screen preset="scroll" style={$root} contentContainerStyle={$screenContent}>
+      <Text text="Arcade" />
     </Screen>
   )
 })
@@ -25,3 +25,5 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
 const $root: ViewStyle = {
   flex: 1,
 }
+
+const $screenContent: ViewStyle = { justifyContent: "center", flex: 1, alignItems: "center" }
