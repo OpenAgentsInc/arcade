@@ -1,9 +1,9 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle, ImageStyle, TextStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Screen, Text } from "app/components"
+import { AutoImage, Button, Screen, Text, TextField } from "app/components"
 import { spacing, colors } from "app/theme"
 import { ChevronDownIcon, PlusIcon, SearchIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
@@ -57,6 +57,8 @@ const DumpMessages = [
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
+    const [toggleSearch, setToggleSearch] = useState(false)
+
     // Pull in one of our MST stores
     // const { someStore, anotherStore } = useStores()
 
@@ -106,8 +108,22 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
           <View style={$main}>
             <View style={$mainHeader}>
               <Text text="Messages" preset="bold" size="lg" />
-              <SearchIcon style={{ color: colors.palette.cyan800 }} />
+              <Button
+                onPress={() => setToggleSearch((prev) => !prev)}
+                LeftAccessory={() => (
+                  <SearchIcon width={20} height={20} style={{ color: colors.palette.cyan800 }} />
+                )}
+                style={$searchButton}
+                pressedStyle={$searchButtonPressed}
+              />
             </View>
+            {toggleSearch && (
+              <TextField
+                placeholder="Search..."
+                placeholderTextColor={colors.palette.cyan500}
+                inputWrapperStyle={$searchField}
+              />
+            )}
             <View style={$filter}>
               <Text text="Active Contacts" preset="default" />
               <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
@@ -223,6 +239,25 @@ const $mainHeader: ViewStyle = {
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "space-between",
+}
+
+const $searchButton: ViewStyle = {
+  padding: 0,
+  margin: 0,
+  backgroundColor: "transparent",
+  borderWidth: 0,
+  minHeight: 0,
+}
+
+const $searchButtonPressed: ViewStyle = {
+  backgroundColor: colors.palette.cyan900,
+}
+
+const $searchField: ViewStyle = {
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $messsages: ViewStyle = {
