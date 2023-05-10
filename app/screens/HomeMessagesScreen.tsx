@@ -3,9 +3,9 @@ import { observer } from "mobx-react-lite"
 import { View, ViewStyle, ImageStyle, TextStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Screen, Text } from "app/components"
+import { AutoImage, Button, Screen, Text } from "app/components"
 import { spacing, colors } from "app/theme"
-import { PlusIcon } from "lucide-react-native"
+import { ChevronDownIcon, PlusIcon, SearchIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -64,14 +64,12 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     // const navigation = useNavigation()
 
     return (
-      <Screen contentContainerStyle={$root} preset="scroll" safeAreaEdges={["top"]}>
+      <Screen contentContainerStyle={$root} preset="fixed" safeAreaEdges={["top"]}>
         <View style={[$root, $container]}>
           <View style={$sidebar}>
             <View style={$pinList}>
-              <View style={$channel}>
-                <View style={$dms} />
-              </View>
-              <View style={$channel}>
+              <View style={$dms} />
+              <View>
                 <AutoImage
                   source={{ uri: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp" }}
                   style={$channelImage}
@@ -79,30 +77,40 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
               </View>
             </View>
             <View style={$divider} />
-            <View style={$channelList}>
-              {DumpChannels.map((uri, i) => (
-                <View key={i} style={$channel}>
-                  <AutoImage
-                    source={{
-                      uri,
-                    }}
-                    style={$channelImage}
-                  />
-                </View>
-              ))}
-              <View style={$channel}>
-                <View style={$addChannelButton}>
-                  <PlusIcon style={{ color: colors.text }} />
-                </View>
-              </View>
+            <View>
+              <FlashList
+                data={DumpChannels}
+                renderItem={({ item }) => (
+                  <View style={$channelItem}>
+                    <AutoImage
+                      source={{
+                        uri: item,
+                      }}
+                      style={$channelImage}
+                    />
+                  </View>
+                )}
+                ListFooterComponent={() => (
+                  <View>
+                    <Button
+                      onPress={() => alert("Create a new channel")}
+                      LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
+                      style={$channelButton}
+                    />
+                  </View>
+                )}
+                estimatedItemSize={50}
+              />
             </View>
           </View>
           <View style={$main}>
-            <View>
-              <Text text="Messages" size="xl" preset="heading" />
+            <View style={$mainHeader}>
+              <Text text="Messages" preset="bold" size="lg" />
+              <SearchIcon style={{ color: colors.palette.cyan800 }} />
             </View>
-            <View style={$activeContacts}>
+            <View style={$filter}>
               <Text text="Active Contacts" preset="default" />
+              <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
             </View>
             <View style={$messsages}>
               <FlashList
@@ -114,8 +122,13 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
                       style={$messageItemAvatar}
                     />
                     <View>
-                      <Text text={item.name} preset="bold" />
-                      <Text text={item.content} size="xs" numberOfLines={1} style={$messageItemContent} />
+                      <Text text={item.name} preset="bold" style={$messageItemName} />
+                      <Text
+                        text={item.content}
+                        size="xs"
+                        numberOfLines={1}
+                        style={$messageItemContent}
+                      />
                     </View>
                   </View>
                 )}
@@ -142,6 +155,7 @@ const $sidebar: ViewStyle = {
   width: 72,
   height: "100%",
   flexShrink: 0,
+  alignItems: "center",
 }
 
 const $main: ViewStyle = {
@@ -150,63 +164,65 @@ const $main: ViewStyle = {
   gap: spacing.small,
   width: "100%",
   height: "100%",
-  paddingHorizontal: spacing.small,
+  paddingHorizontal: spacing.tiny,
 }
 
 const $pinList: ViewStyle = {
-  gap: spacing.extraSmall,
+  gap: spacing.small,
 }
 
 const $divider: ViewStyle = {
   width: "50%",
   height: 2,
-  backgroundColor: colors.tint,
+  backgroundColor: colors.palette.cyan500,
   borderRadius: 2,
-  marginVertical: spacing.extraSmall,
+  marginVertical: spacing.small,
   alignSelf: "center",
 }
 
-const $channelList: ViewStyle = {
-  flex: 1,
-  gap: spacing.extraSmall,
-}
-
 const $dms: ViewStyle = {
-  backgroundColor: colors.tint,
+  backgroundColor: colors.palette.cyan400,
   borderRadius: 100,
   width: 50,
   height: 50,
 }
 
-const $channel: ViewStyle = {
-  alignItems: "center",
-  justifyContent: "center",
+const $channelItem: ViewStyle = {
+  marginBottom: spacing.small,
 }
 
 const $channelImage: ImageStyle = {
-  backgroundColor: colors.tint,
+  backgroundColor: colors.palette.cyan100,
   borderRadius: 100,
   width: 50,
   height: 50,
 }
 
-const $addChannelButton: ViewStyle = {
-  backgroundColor: "cyan",
-  alignItems: "center",
-  justifyContent: "center",
+const $channelButton: ViewStyle = {
+  backgroundColor: colors.palette.cyan500,
+  borderWidth: 0,
   borderRadius: 100,
   width: 50,
   height: 50,
+  minHeight: 50,
 }
 
-const $activeContacts: ViewStyle = {
+const $filter: ViewStyle = {
   paddingHorizontal: spacing.small,
   height: 40,
-  alignItems: "flex-start",
-  justifyContent: "center",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
   borderWidth: 1,
-  borderColor: colors.tint,
+  borderColor: colors.palette.cyan900,
   borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
+}
+
+const $mainHeader: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
 }
 
 const $messsages: ViewStyle = {
@@ -214,8 +230,9 @@ const $messsages: ViewStyle = {
   paddingVertical: spacing.extraSmall,
   paddingHorizontal: spacing.small,
   borderWidth: 1,
-  borderColor: colors.tint,
+  borderColor: colors.palette.cyan500,
   borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $messageItem: ViewStyle = {
@@ -232,7 +249,12 @@ const $messageItemAvatar: ImageStyle = {
   marginRight: spacing.small,
 }
 
+const $messageItemName: TextStyle = {
+  lineHeight: 0,
+}
+
 const $messageItemContent: TextStyle = {
   width: 200,
-  color: colors.textDim,
+  lineHeight: 0,
+  color: colors.palette.cyan700,
 }

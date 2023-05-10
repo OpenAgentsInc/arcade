@@ -29,7 +29,7 @@ export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScre
 
 const Tab = createBottomTabNavigator<DemoTabParamList>()
 
-const inactiveIconColor = colors.textDim
+const inactiveIconColor = colors.palette.cyan950
 
 export function TabNavigator() {
   const { bottom } = useSafeAreaInsets()
@@ -44,6 +44,7 @@ export function TabNavigator() {
         tabBarInactiveTintColor: colors.text,
         tabBarLabelStyle: $tabBarLabel,
         tabBarItemStyle: $tabBarItem,
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
@@ -52,7 +53,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="Home" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="Home" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />
@@ -62,7 +63,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="Rss" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="Rss" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />
@@ -73,7 +74,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Create",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="PlusCircle" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="PlusCircle" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />
@@ -83,7 +84,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Discover",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="Search" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="Search" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />
