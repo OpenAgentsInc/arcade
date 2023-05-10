@@ -29,7 +29,7 @@ export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScre
 
 const Tab = createBottomTabNavigator<DemoTabParamList>()
 
-const inactiveIconColor = colors.palette.cyan950
+const inactiveIconColor = colors.palette.cyan800
 
 export function TabNavigator() {
   const { bottom } = useSafeAreaInsets()
