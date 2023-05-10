@@ -27,7 +27,7 @@ interface SidebarItem {
 
 interface ScreenWithSidebarProps {
   sidebarItems: SidebarItem[]
-  content: ReactElement[]
+  content: Array<{ name: string; description: string; data: ReactElement[] }>
 }
 
 export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ sidebarItems, content }) => {
