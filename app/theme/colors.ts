@@ -1,7 +1,7 @@
 // TODO: write documentation for colors and palette in own markdown file and add links from here
 
 const palette = {
-  almostBlack: "#141718",
+  almostBlack: "#030303",
 
   neutral100: "#FFFFFF",
   neutral200: "#F4F2F1",
@@ -32,10 +32,22 @@ const palette = {
   accent400: "#FBC878",
   accent500: "#FFBB50",
 
+  cyan50: "#ecfeff",
+  cyan100: "#cffafe",
+  cyan200: "#a5f3fc",
+  cyan300: "#67e8f9",
+  cyan400: "#22d3ee",
+  cyan500: "#06b6d4",
+  cyan600: "#0891b2",
+  cyan700: "#0e7490",
+  cyan800: "#155e75",
+  cyan900: "#164e63",
+  cyan950: "#083344",
+
   angry100: "#F2D6CD",
   angry500: "#C03403",
 
-  overlay20: "rgba(25, 16, 21, 0.2)",
+  overlay20: "rgba(69, 210, 255, 0.11)",
   overlay50: "rgba(25, 16, 21, 0.5)",
 } as const
 
