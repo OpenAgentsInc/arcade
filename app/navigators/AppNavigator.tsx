@@ -30,6 +30,7 @@ import { TabNavigator } from "./TabNavigator"
 export type AppStackParamList = {
   Home: undefined
   Tabs: undefined
+  HomeMessages: undefined
 }
 
 /**
