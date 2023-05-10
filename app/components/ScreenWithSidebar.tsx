@@ -18,7 +18,7 @@ import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
 
-const logo = require("../../../assets/images/logo.png")
+const logo = require("../../assets/images/logo.png")
 
 interface SidebarItem {
   name: string
@@ -120,13 +120,13 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ sidebarItems, co
           renderSectionFooter={() => <View style={$demoUseCasesSpacer} />}
           ListHeaderComponent={
             <View style={$heading}>
-              <Text preset="heading" text="Placeholder" />
+              <Text preset="subheading" text="Placeholder" />
             </View>
           }
           renderSectionHeader={({ section }) => {
             return (
               <View>
-                <Text preset="heading" style={$demoItemName}>
+                <Text preset="subheading" style={$demoItemName}>
                   {section.name}
                 </Text>
                 <Text style={$demoItemDescription}>{section.description}</Text>
