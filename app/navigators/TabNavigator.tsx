@@ -1,5 +1,6 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
+import { TestDrawerScreen } from "app/screens/TestDrawerScreen"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -59,7 +60,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name="Feed"
-        component={BlankScreen}
+        component={TestDrawerScreen}
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ focused }) => (
