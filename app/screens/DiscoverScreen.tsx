@@ -32,6 +32,7 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
             text="Listing"
             LeftAccessory={() => <PackageSearchIcon color={colors.palette.cyan500} />}
             style={$button}
+            onPress={() => navigate("Listing")}
           />
           <Button
             text="Radar"

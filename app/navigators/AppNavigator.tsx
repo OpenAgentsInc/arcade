@@ -33,6 +33,7 @@ export type AppStackParamList = {
   HomeMessages: undefined
   Discover: undefined
   Chat: undefined
+  Listing: undefined
 }
 
 /**
@@ -54,6 +55,7 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Screens.HomeScreen} />
       <Stack.Screen name="Chat" component={Screens.ChatScreen} />
+      <Stack.Screen name="Listing" component={Screens.ListingScreen} />
       <Stack.Screen name="Tabs" component={TabNavigator} />
     </Stack.Navigator>
   )
