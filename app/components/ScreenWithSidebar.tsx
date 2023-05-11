@@ -77,13 +77,8 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
       renderNavigationView={() => (
         <View style={[$drawer, $drawerInsets]}>
           <View style={$pinList}>
-            <View style={$dms} />
-            <View>
-              <AutoImage
-                source={{ uri: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp" }}
-                style={$channelImage}
-              />
-            </View>
+            <Button onPress={() => navigate("Home")} style={$dms} />
+            <Button onPress={() => navigate("Discover")} style={$dms} />
           </View>
           <View style={$divider} />
           <View style={$channelList}>
@@ -144,9 +139,11 @@ const $pinList: ViewStyle = {
 
 const $dms: ViewStyle = {
   backgroundColor: colors.palette.cyan400,
+  borderWidth: 0,
   borderRadius: 100,
   width: 50,
   height: 50,
+  minHeight: 50,
 }
 
 const $divider: ViewStyle = {
