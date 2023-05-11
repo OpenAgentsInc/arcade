@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, SendIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker"
 // import { useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -18,15 +18,15 @@ function createRandomMessage() {
     name: faker.name.firstName(),
     content: faker.lorem.sentence(),
     picture: faker.image.avatar(),
-  };
+  }
 }
 
 const createMessages = (num = 50) => {
-  return Array.from({ length: num }, createRandomMessage);
-};
+  return Array.from({ length: num }, createRandomMessage)
+}
 
 export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
 
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
@@ -56,12 +56,12 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() {
   }, [])
 
   useEffect(() => {
-    const messages: any = createMessages(50);
-    setData(messages);
-  }, []);
+    const messages: any = createMessages(50)
+    setData(messages)
+  }, [])
 
   return (
-    <Screen style={$root} preset="fixed" safeAreaEdges={['bottom']}>
+    <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
       <View style={$container}>
         <View style={$main}>
           <FlashList
@@ -74,11 +74,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() {
                 />
                 <View style={$messageItemContentWrapper}>
                   <Text text={item.name} preset="bold" style={$messageItemName} />
-                  <Text
-                    text={item.content}
-                    size="xs"
-                    style={$messageItemContent}
-                  />
+                  <Text text={item.content} size="xs" style={$messageItemContent} />
                 </View>
               </View>
             )}
@@ -188,5 +184,5 @@ const $messageItemName: TextStyle = {
 }
 
 const $messageItemContent: TextStyle = {
-  color: '#fff'
+  color: "#fff",
 }

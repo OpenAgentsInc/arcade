@@ -1,13 +1,13 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { View, ViewStyle, ImageStyle, TextStyle } from "react-native"
+import { View, ViewStyle, ImageStyle, TextStyle, Pressable } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Text } from "app/components"
 import { spacing, colors } from "app/theme"
 import { ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { ScreenWithSidebar } from "app/components/ScreenWithSidebar"
 // import { useStores } from "app/models"
 
@@ -53,7 +53,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     // const { someStore, anotherStore } = useStores()
 
     // Pull in navigation via hook
-    // const { navigate } = useNavigation<any>()
+    const { navigate } = useNavigation<any>()
 
     return (
       <ScreenWithSidebar title={"Messages"}>
@@ -67,7 +67,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
               <FlashList
                 data={DumpMessages}
                 renderItem={({ item }) => (
-                  <View style={$messageItem}>
+                  <Pressable onPress={() => navigate('Chat')} style={$messageItem}>
                     <AutoImage
                       source={{ uri: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
                       style={$messageItemAvatar}
@@ -81,7 +81,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
                         style={$messageItemContent}
                       />
                     </View>
-                  </View>
+                  </Pressable>
                 )}
                 estimatedItemSize={50}
               />
