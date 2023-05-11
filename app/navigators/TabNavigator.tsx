@@ -1,11 +1,10 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
-import { TestDrawerScreen } from "app/screens/TestDrawerScreen"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { HomeMessagesScreen, BlankScreen } from "../screens"
+import { BlankScreen, DiscoverScreen, FeedScreen, HomeMessagesScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -60,7 +59,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name="Feed"
-        component={TestDrawerScreen}
+        component={FeedScreen}
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ focused }) => (
@@ -81,7 +80,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name="Discover"
-        component={BlankScreen}
+        component={DiscoverScreen}
         options={{
           tabBarLabel: "Discover",
           tabBarIcon: ({ focused }) => (

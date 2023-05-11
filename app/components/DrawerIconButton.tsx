@@ -20,14 +20,6 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 export function DrawerIconButton(props: DrawerIconButtonProps) {
   const { open, progress, ...PressableProps } = props
 
-  const animatedContainerStyles = useAnimatedStyle(() => {
-    const translateX = interpolate(progress.value, [0, 1], [0, isRTL ? 60 : -60])
-
-    return {
-      transform: [{ translateX }],
-    }
-  })
-
   const animatedTopBarStyles = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(progress.value, [0, 1], [colors.text, colors.tint])
     const marginStart = interpolate(progress.value, [0, 1], [0, -11.5])
@@ -75,7 +67,7 @@ export function DrawerIconButton(props: DrawerIconButtonProps) {
   }, [open, progress])
 
   return (
-    <AnimatedPressable {...PressableProps} style={[$container, animatedContainerStyles]}>
+    <AnimatedPressable {...PressableProps} style={$container}>
       <Animated.View style={[$topBar, animatedTopBarStyles]} />
 
       <Animated.View style={[$middleBar, animatedMiddleBarStyles]} />
