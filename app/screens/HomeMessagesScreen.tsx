@@ -7,7 +7,7 @@ import { AutoImage, Button, Screen, Text, TextField } from "app/components"
 import { spacing, colors } from "app/theme"
 import { ChevronDownIcon, PlusIcon, SearchIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
 
 interface HomeMessagesScreenProps
@@ -63,7 +63,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     // const { someStore, anotherStore } = useStores()
 
     // Pull in navigation via hook
-    // const navigation = useNavigation()
+    const { navigate } = useNavigation<any>()
 
     return (
       <Screen contentContainerStyle={$root} preset="fixed" safeAreaEdges={["top"]}>
@@ -83,14 +83,14 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
               <FlashList
                 data={DumpChannels}
                 renderItem={({ item }) => (
-                  <View style={$channelItem}>
+                  <Button onPress={() => navigate("Chat")} style={$channelItem}>
                     <AutoImage
                       source={{
                         uri: item,
                       }}
                       style={$channelImage}
                     />
-                  </View>
+                  </Button>
                 )}
                 ListFooterComponent={() => (
                   <View>

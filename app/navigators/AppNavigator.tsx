@@ -31,6 +31,7 @@ export type AppStackParamList = {
   Home: undefined
   Tabs: undefined
   HomeMessages: undefined
+  Chat: undefined
 }
 
 /**
