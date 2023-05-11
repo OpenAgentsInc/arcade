@@ -5,10 +5,9 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { BlankScreen } from "../screens"
+import { BlankScreen, HomeMessagesScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { HomeNavigator } from "./HomeNavigator"
 
 export type DemoTabParamList = {
   Home: undefined
@@ -51,7 +50,7 @@ export function TabNavigator() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeNavigator}
+        component={HomeMessagesScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ focused }) => (
