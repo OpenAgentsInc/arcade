@@ -4,7 +4,7 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { BlankScreen, DiscoverScreen, HomeMessagesScreen } from "../screens"
+import { BlankScreen, DiscoverScreen, FeedScreen, HomeMessagesScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -59,7 +59,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name="Feed"
-        component={BlankScreen}
+        component={FeedScreen}
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ focused }) => (

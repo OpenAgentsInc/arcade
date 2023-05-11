@@ -8,7 +8,7 @@ import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
 import { FlashList } from "@shopify/flash-list"
-import { PlusIcon } from "lucide-react-native"
+import { CompassIcon, HomeIcon, PlusIcon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 
 interface ScreenWithSidebarProps {
@@ -77,8 +77,16 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
       renderNavigationView={() => (
         <View style={[$drawer, $drawerInsets]}>
           <View style={$pinList}>
-            <Button onPress={() => navigate("Home")} style={$dms} />
-            <Button onPress={() => navigate("Discover")} style={$dms} />
+            <Button
+              onPress={() => navigate("Home")}
+              style={$pinItem}
+              LeftAccessory={() => <HomeIcon color='#fff' />}
+            />
+            <Button
+              onPress={() => navigate("Discover")}
+              style={$pinItem}
+              LeftAccessory={() => <CompassIcon color='#fff' />}
+            />
           </View>
           <View style={$divider} />
           <View style={$channelList}>
@@ -137,7 +145,7 @@ const $pinList: ViewStyle = {
   gap: spacing.small,
 }
 
-const $dms: ViewStyle = {
+const $pinItem: ViewStyle = {
   backgroundColor: colors.palette.cyan400,
   borderWidth: 0,
   borderRadius: 100,
@@ -178,7 +186,7 @@ const $channelImage: ImageStyle = {
 }
 
 const $channelButton: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
+  backgroundColor: colors.palette.cyan900,
   borderWidth: 0,
   borderRadius: 100,
   width: 50,
