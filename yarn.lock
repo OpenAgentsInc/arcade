@@ -3171,9 +3171,9 @@ application-config-path@^0.1.0:
   resolved "https://registry.yarnpkg.com/application-config-path/-/application-config-path-0.1.1.tgz#8b5ac64ff6afdd9bd70ce69f6f64b6998f5f756e"
   integrity sha512-zy9cHePtMP0YhwG+CfHm0bgwdnga2X3gZexpdCwEj//dpb+TKajtiC8REEUJUSq6Ab4f9cgNy2l8ObXzCXFkEw==
 
-"arclib@https://github.com/reyamir/arclib#downgrade-yarn":
+"arclib@https://github.com/ArcadeLabsInc/arclib":
   version "0.1.0"
-  resolved "https://github.com/reyamir/arclib#6e7090c88f6b7d40d859ea5df3efa2609f8bd937"
+  resolved "https://github.com/ArcadeLabsInc/arclib#06f5c2ee3b7b93dc76cdf222457686b612ac85fe"
   dependencies:
     isomorphic-unfetch "^4.0.2"
     nostr-tools "^1.10.1"
