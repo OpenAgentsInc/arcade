@@ -28,6 +28,7 @@
     "expo:web": "expo start --web",
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
+    "build:android:apk": "eas build -p android --profile preview",
     "submit:ios": "eas submit -p ios"
   },
   "overrides": {

@@ -6,26 +6,20 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "TAMAGUI_TARGET": "native"
-      },
       "ios": {
         "resourceClass": "m-medium"
       }
     },
     "preview": {
       "distribution": "internal",
-      "env": {
-        "TAMAGUI_TARGET": "native"
-      },
       "ios": {
         "resourceClass": "m-medium"
+      },
+      "android": {
+        "buildType": "apk"
       }
     },
     "production": {
-      "env": {
-        "TAMAGUI_TARGET": "native"
-      },
       "ios": {
         "resourceClass": "m-medium"
       }

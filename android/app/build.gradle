@@ -118,8 +118,8 @@ android {
         applicationId "arcade.labs.arc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 31
+        versionName "0.1.0"
     }
 
     splits {
@@ -173,7 +173,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
-    
+
     // RN BootSplash
     implementation("androidx.core:core-splashscreen:1.0.0")
 
