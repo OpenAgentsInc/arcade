@@ -3587,7 +3587,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.1, base64-js@^1.5.1:
+base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.0, base64-js@^1.3.1, base64-js@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -5566,6 +5566,13 @@ expo-constants@~14.2.0, expo-constants@~14.2.1:
     "@expo/config" "~8.0.0"
     uuid "^3.3.2"
 
+expo-crypto@~12.2.1:
+  version "12.2.2"
+  resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-12.2.2.tgz#e930c77a44aa1816e9e3063a0dd43c6477cc8787"
+  integrity sha512-83SZju/l0UL4n+Dgt+T1csiySa0gwCeE6BKKHzlO+4lJ6B8xXZ5ypu97ttWATBsqcpF/bj1RmYPbfbKsZ+4ixA==
+  dependencies:
+    base64-js "^1.3.0"
+
 expo-device@~5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-5.2.1.tgz#2962abdb9682e5b991a82836667f2e7d7103d9ef"
@@ -5807,11 +5814,6 @@ fast-xml-parser@^4.0.12:
   integrity sha512-DLzIPtQqmvmdq3VUKR7T6omPK/VCRNqgFlGtbESfyhcH2R4I8EzK1/K6E8PkRCK2EabWrUHK32NjYRbEFnnz0Q==
   dependencies:
     strnum "^1.0.5"
-
-fastestsmallesttextencoderdecoder@^1.0.22:
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/fastestsmallesttextencoderdecoder/-/fastestsmallesttextencoderdecoder-1.0.22.tgz#59b47e7b965f45258629cc6c127bf783281c5e93"
-  integrity sha512-Pb8d48e+oIuY4MaM64Cd7OW1gt4nxCHs7/ddPPZ/Ic3sg8yVGM7O9wDvZ7us6ScaUupzM+pfBolwtYhN1IxBIw==
 
 fastq@^1.6.0:
   version "1.15.0"
@@ -11944,6 +11946,11 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
+
+text-encoding-polyfill@0.6.7:
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/text-encoding-polyfill/-/text-encoding-polyfill-0.6.7.tgz#4d27de0153e4c86eb2631ffd74c2f3f57969a9ec"
+  integrity sha512-/DZ1XJqhbqRkCop6s9ZFu8JrFRwmVuHg4quIRm+ziFkR3N3ec6ck6yBvJ1GYeEQZhLVwRW0rZE+C3SSJpy0RTg==
 
 text-table@^0.2.0:
   version "0.2.0"
