@@ -9,8 +9,6 @@ import { ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenWithSidebar } from "app/components/ScreenWithSidebar"
-import { ArcadeIdentity, NostrPool } from "arclib"
-import { nip19, generatePrivateKey } from "nostr-tools"
 // import { useStores } from "app/models"
 
 interface HomeMessagesScreenProps
@@ -56,13 +54,6 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     // Pull in navigation via hook
     const { navigate } = useNavigation<any>()
-
-    const priv = generatePrivateKey()
-    const nsec = nip19.nsecEncode(priv)
-    const ident = new ArcadeIdentity(nsec, "", "")
-
-    const pool = new NostrPool(ident)
-    console.log(pool)
 
     return (
       <ScreenWithSidebar title={"Messages"}>

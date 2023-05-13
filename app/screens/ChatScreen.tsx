@@ -9,6 +9,8 @@ import { SearchIcon, SendIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { faker } from "@faker-js/faker"
+import { ArcadeIdentity, NostrPool } from "arclib"
+import { generatePrivateKey, nip19 } from "nostr-tools"
 // import { useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -25,21 +27,35 @@ const createMessages = (num = 50) => {
   return Array.from({ length: num }, createRandomMessage)
 }
 
-export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() {
+export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
+  route,
+}: {
+  route: any
+}) {
   const [data, setData] = useState([])
 
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+  // Get route params
+  const { id, name } = route.params
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  // Init relay pool
+  const priv = generatePrivateKey()
+  const nsec = nip19.nsecEncode(priv)
+  const ident = new ArcadeIdentity(nsec, "", "")
+
+  const pool = new NostrPool(ident)
+  pool.setRelays(["wss://relay.damus.io"])
+
+  console.log(id);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       header: () => (
         <Header
-          title="#general"
+          title={name}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
