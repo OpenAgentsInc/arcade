@@ -43,7 +43,7 @@
     "@react-navigation/native-stack": "^6.0.2",
     "@shopify/flash-list": "^1.4.3",
     "apisauce": "2.1.5",
-    "arclib": "https://github.com/ArcadeLabsInc/arclib#06f5c2e",
+    "arclib": "https://github.com/ArcadeLabsInc/arclib",
     "assert": "^1.1.1",
     "date-fns": "^2.29.2",
     "expo": "^48.0.15",
