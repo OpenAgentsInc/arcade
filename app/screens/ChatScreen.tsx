@@ -1,17 +1,16 @@
-import React, { FC, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Button, Header, Screen, Text, TextField } from "app/components"
+import { Header, Screen } from "app/components"
 import { useNavigation } from "@react-navigation/native"
-import { SearchIcon, SendIcon, UsersIcon } from "lucide-react-native"
+import { SearchIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
-import { FlashList } from "@shopify/flash-list"
-import { ArcadeIdentity, NostrPool } from "arclib"
-import { generatePrivateKey, nip19 } from "nostr-tools"
-import { User } from "app/components/User"
-// import { useStores } from "app/models"
+import { useStores } from "app/models"
+import { Messages } from "app/components/Messages"
+import { MessageForm } from "app/components/MessageForm"
+import { RelayContext } from "app/components/RelayProvider"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -20,29 +19,16 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  const [data, setData] = useState([])
-  const [message, setMessage] = useState("")
+  const pool: any = useContext(RelayContext);
 
   // Get route params
   const { id, name } = route.params
 
+  // Channel store
+  const { channelStore } = useStores()
+
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
-
-  // Init relay pool
-  const priv = generatePrivateKey()
-  const nsec = nip19.nsecEncode(priv)
-
-  const ident = useMemo(() => new ArcadeIdentity(nsec, "", ""), [])
-  const pool = useMemo(() => new NostrPool(ident), [])
-
-  const sendMessage = async () => {
-    const event = await pool.send({ content: message, tags: [["e", id, "", "root"]], kind: 42 })
-    if (event) {
-      // reset state
-      setMessage("")
-    }
-  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -66,56 +52,25 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [])
 
   useEffect(() => {
-    async function init() {
-      await pool.setRelays(["wss://relay.damus.io"])
-      const events = await pool.list([
-        {
-          "#e": [id],
-          kinds: [42],
-          since: Math.round(new Date().getTime() / 1000) - 24 * 3600, // 24 hours ago
-          limit: 20,
-        },
-      ])
-      setData(events)
+    let isMounted = true
+
+    if (isMounted) {
+      channelStore.fetchMessages(pool, id)
     }
 
-    init().catch(console.error)
-  }, [pool])
+    return () => {
+      isMounted = false
+    }
+  }, [route])
 
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
       <View style={$container}>
         <View style={$main}>
-          <FlashList
-            data={data}
-            renderItem={({ item }) => (
-              <View style={$messageItem}>
-                <User pubkey={item.pubkey} />
-                <View style={$messageContentWrapper}>
-                  <Text text={item.content} style={$messageContent} />
-                </View>
-              </View>
-            )}
-            estimatedItemSize={100}
-            inverted={true}
-          />
+          <Messages />
         </View>
         <View style={$form}>
-          <TextField
-            placeholder="Message"
-            placeholderTextColor={colors.palette.cyan500}
-            style={$input}
-            inputWrapperStyle={$inputWrapper}
-            value={message}
-            onChangeText={setMessage}
-            RightAccessory={() => (
-              <Button
-                onPress={() => sendMessage()}
-                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
-                style={$sendButton}
-              />
-            )}
-          />
+          <MessageForm channelID={id} />
         </View>
       </View>
     </Screen>
@@ -145,50 +100,4 @@ const $main: ViewStyle = {
 const $form: ViewStyle = {
   flexShrink: 0,
   paddingTop: spacing.small,
-}
-
-const $inputWrapper: ViewStyle = {
-  padding: 0,
-  alignItems: "center",
-  backgroundColor: "transparent",
-  borderWidth: 0,
-  gap: spacing.extraSmall,
-}
-
-const $input: ViewStyle = {
-  width: "100%",
-  height: 45,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: 100,
-  backgroundColor: colors.palette.overlay20,
-  paddingHorizontal: spacing.medium,
-  paddingVertical: 0,
-  marginVertical: 0,
-  marginHorizontal: 0,
-  alignSelf: "center",
-}
-
-const $sendButton: ViewStyle = {
-  width: 45,
-  height: 45,
-  minHeight: 45,
-  backgroundColor: colors.palette.cyan500,
-  borderRadius: 100,
-  borderWidth: 0,
-  flexShrink: 0,
-}
-
-const $messageItem: ViewStyle = {
-  flex: 1,
-  paddingVertical: spacing.extraSmall,
-}
-
-const $messageContentWrapper: ViewStyle = {
-  paddingLeft: 48,
-  marginTop: -24,
-}
-
-const $messageContent: TextStyle = {
-  color: "#fff",
 }
