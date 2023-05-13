@@ -1,11 +1,11 @@
-import React, { FC } from "react"
+import React, { FC, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Button, Screen } from "app/components"
+import { Button, Header, Screen } from "app/components"
 import { colors, spacing } from "app/theme"
-import { HomeIcon, PackageSearchIcon, RadioIcon } from "lucide-react-native"
+import { PackageSearchIcon, RadioIcon, User2Icon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
 
@@ -16,23 +16,38 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
   // const { someStore, anotherStore } = useStores()
 
   // Pull in navigation via hook
-  const { navigate } = useNavigation<any>()
+  const navigation = useNavigation<any>()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      header: () => (
+        <Header
+          title="Discover"
+          titleStyle={{ color: colors.palette.cyan400 }}
+          leftIcon="back"
+          leftIconColor={colors.palette.cyan400}
+          onLeftPress={() => navigation.goBack()}
+        />
+      ),
+    })
+  }, [])
 
   return (
-    <Screen style={$root} preset="fixed" safeAreaEdges={["top"]}>
+    <Screen style={$root} preset="fixed">
       <View style={[$root, $container]}>
         <View style={$content}>
           <Button
-            text="Home"
-            LeftAccessory={() => <HomeIcon color={colors.palette.cyan500} />}
+            text="Channels"
+            LeftAccessory={() => <User2Icon color={colors.palette.cyan500} />}
             style={$button}
-            onPress={() => navigate("Home")}
+            onPress={() => navigation.navigate("Channels")}
           />
           <Button
             text="Listing"
             LeftAccessory={() => <PackageSearchIcon color={colors.palette.cyan500} />}
             style={$button}
-            onPress={() => navigate("Listing")}
+            onPress={() => navigation.navigate("Listing")}
           />
           <Button
             text="Radar"
@@ -57,20 +72,17 @@ const $container: ViewStyle = {
 
 const $content: ViewStyle = {
   flex: 1,
-  paddingVertical: spacing.extraSmall,
+  gap: spacing.medium,
+}
+
+const $button: ViewStyle = {
   paddingHorizontal: spacing.small,
+  paddingVertical: 0,
+  gap: spacing.extraSmall,
   borderWidth: 1,
   borderColor: colors.palette.cyan500,
   borderRadius: spacing.small / 2,
   backgroundColor: colors.palette.overlay20,
-}
-
-const $button: ViewStyle = {
-  borderWidth: 0,
-  borderRadius: 0,
-  backgroundColor: "transparent",
-  paddingHorizontal: 0,
-  paddingVertical: 0,
-  gap: spacing.extraSmall,
-  alignSelf: "flex-start",
+  width: "100%",
+  justifyContent: "flex-start",
 }
