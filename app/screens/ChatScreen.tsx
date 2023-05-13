@@ -1,31 +1,19 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, Screen, Text, TextField } from "app/components"
+import { Button, Header, Screen, Text, TextField } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, SendIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { faker } from "@faker-js/faker"
 import { ArcadeIdentity, NostrPool } from "arclib"
 import { generatePrivateKey, nip19 } from "nostr-tools"
+import { User } from "app/components/User"
 // import { useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
-
-function createRandomMessage() {
-  return {
-    name: faker.name.firstName(),
-    content: faker.lorem.sentence(),
-    picture: faker.image.avatar(),
-  }
-}
-
-const createMessages = (num = 50) => {
-  return Array.from({ length: num }, createRandomMessage)
-}
 
 export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   route,
@@ -33,6 +21,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   route: any
 }) {
   const [data, setData] = useState([])
+  const [message, setMessage] = useState("")
 
   // Get route params
   const { id, name } = route.params
@@ -43,12 +32,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   // Init relay pool
   const priv = generatePrivateKey()
   const nsec = nip19.nsecEncode(priv)
-  const ident = new ArcadeIdentity(nsec, "", "")
 
-  const pool = new NostrPool(ident)
-  pool.setRelays(["wss://relay.damus.io"])
+  const ident = useMemo(() => new ArcadeIdentity(nsec, "", ""), [])
+  const pool = useMemo(() => new NostrPool(ident), [])
 
-  console.log(id);
+  const sendMessage = async () => {
+    const event = await pool.send({ content: message, tags: [["e", id, "", "root"]], kind: 42 })
+    if (event) {
+      // reset state
+      setMessage("")
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -72,9 +66,21 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [])
 
   useEffect(() => {
-    const messages: any = createMessages(50)
-    setData(messages)
-  }, [])
+    async function init() {
+      await pool.setRelays(["wss://relay.damus.io"])
+      const events = await pool.list([
+        {
+          "#e": [id],
+          kinds: [42],
+          since: Math.round(new Date().getTime() / 1000) - 24 * 3600, // 24 hours ago
+          limit: 20,
+        },
+      ])
+      setData(events)
+    }
+
+    init().catch(console.error)
+  }, [pool])
 
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
@@ -84,13 +90,9 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             data={data}
             renderItem={({ item }) => (
               <View style={$messageItem}>
-                <AutoImage
-                  source={{ uri: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
-                  style={$messageItemAvatar}
-                />
-                <View style={$messageItemContentWrapper}>
-                  <Text text={item.name} preset="bold" style={$messageItemName} />
-                  <Text text={item.content} size="xs" style={$messageItemContent} />
+                <User pubkey={item.pubkey} />
+                <View style={$messageContentWrapper}>
+                  <Text text={item.content} style={$messageContent} />
                 </View>
               </View>
             )}
@@ -104,9 +106,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             placeholderTextColor={colors.palette.cyan500}
             style={$input}
             inputWrapperStyle={$inputWrapper}
+            value={message}
+            onChangeText={setMessage}
             RightAccessory={() => (
               <Button
-                onPress={() => alert("Send message")}
+                onPress={() => sendMessage()}
                 LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
                 style={$sendButton}
               />
@@ -177,28 +181,14 @@ const $sendButton: ViewStyle = {
 
 const $messageItem: ViewStyle = {
   flex: 1,
-  flexDirection: "row",
-  alignItems: "flex-start",
-  gap: spacing.extraSmall,
   paddingVertical: spacing.extraSmall,
 }
 
-const $messageItemAvatar: ImageStyle = {
-  width: 36,
-  height: 36,
-  borderRadius: 100,
-  flexShrink: 0,
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
 }
 
-const $messageItemContentWrapper: ViewStyle = {
-  flex: 1,
-}
-
-const $messageItemName: TextStyle = {
-  lineHeight: 0,
-  color: colors.palette.cyan700,
-}
-
-const $messageItemContent: TextStyle = {
+const $messageContent: TextStyle = {
   color: "#fff",
 }

@@ -3,6 +3,7 @@
 // Both do essentially the same thing.
 
 import "text-encoding-polyfill"
+import "react-native-url-polyfill/auto"
 import App from "./app/app.tsx"
 import React from "react"
 import { AppRegistry } from "react-native"
