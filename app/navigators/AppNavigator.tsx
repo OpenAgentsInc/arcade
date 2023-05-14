@@ -35,6 +35,7 @@ export type AppStackParamList = {
   Chat: undefined
   Listing: undefined
   Feed: undefined
+  Channels: undefined
 }
 
 /**
@@ -58,6 +59,7 @@ const AppStack = observer(function AppStack() {
       <Stack.Screen name="Chat" component={Screens.ChatScreen} />
       <Stack.Screen name="Listing" component={Screens.ListingScreen} />
       <Stack.Screen name="Feed" component={Screens.FeedScreen} />
+      <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
       <Stack.Screen name="Tabs" component={TabNavigator} />
     </Stack.Navigator>
   )

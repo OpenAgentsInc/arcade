@@ -16,13 +16,19 @@ interface ScreenWithSidebarProps {
   children: React.ReactNode
 }
 
-// #TODO: Replace with real data
-const DumpChannels = [
-  "https://ui-avatars.com/api/?name=a1&background=random&size=200",
-  "https://ui-avatars.com/api/?name=a2&background=random&size=200",
-  "https://ui-avatars.com/api/?name=a3&background=random&size=200",
-  "https://ui-avatars.com/api/?name=a4&background=random&size=200",
-  "https://ui-avatars.com/api/?name=a5&background=random&size=200",
+const DEFAULT_CHANNELS = [
+  {
+    id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+    name: "Arcade Open R&D",
+    picture: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp",
+    about: "A place to discuss the future of Arcade Open R&D",
+  },
+  {
+    id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+    name: "Arcade Exchange Test",
+    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+    about: "",
+  },
 ]
 
 export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children }) => {
@@ -80,26 +86,26 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
             <Button
               onPress={() => navigate("Home")}
               style={$pinItem}
-              LeftAccessory={() => <HomeIcon color='#fff' />}
+              LeftAccessory={() => <HomeIcon color="#fff" />}
             />
             <Button
               onPress={() => navigate("Discover")}
               style={$pinItem}
-              LeftAccessory={() => <CompassIcon color='#fff' />}
+              LeftAccessory={() => <CompassIcon color="#fff" />}
             />
           </View>
           <View style={$divider} />
           <View style={$channelList}>
             <FlashList
-              data={DumpChannels}
+              data={DEFAULT_CHANNELS}
               renderItem={({ item }) => (
                 <Button
-                  onPress={() => navigate("Chat")}
+                  onPress={() => navigate("Chat", { id: item.id, name: item.name })}
                   style={$channelItem}
                   LeftAccessory={() => (
                     <AutoImage
                       source={{
-                        uri: item,
+                        uri: item.picture,
                       }}
                       style={$channelImage}
                     />
@@ -108,7 +114,7 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
               )}
               ListFooterComponent={() => (
                 <Button
-                  onPress={() => alert("Create a new channel")}
+                  onPress={() => alert("Coming Soon!")}
                   LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
                   style={$channelButton}
                 />

@@ -9,43 +9,23 @@ import { ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenWithSidebar } from "app/components/ScreenWithSidebar"
-import { ArcadeIdentity, NostrPool } from "arclib"
-import { nip19, generatePrivateKey } from "nostr-tools"
 // import { useStores } from "app/models"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}
 
-const DumpMessages = [
+const DEFAULT_CHANNELS = [
   {
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "Satoshi Nakamoto",
-    content: "#bitcoin",
+    id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+    name: "Arcade Open R&D",
+    picture: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp",
+    about: "A place to discuss the future of Arcade Open R&D",
   },
   {
+    id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+    name: "Arcade Exchange Test",
     picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "Design Review Chat",
-    content: "Document",
-  },
-  {
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "R4IN80W",
-    content: "That is how you do it!",
-  },
-  {
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "480 Design",
-    content: "Check out this new claymorphism design!",
-  },
-  {
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "help! I'm in the hole",
-    content: "🎉",
-  },
-  {
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    name: "Pleb",
-    content: "You: GM!",
+    about: "",
   },
 ]
 
@@ -57,26 +37,19 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     // Pull in navigation via hook
     const { navigate } = useNavigation<any>()
 
-    const priv = generatePrivateKey()
-    const nsec = nip19.nsecEncode(priv)
-    const ident = new ArcadeIdentity(nsec, "", "")
-
-    const pool = new NostrPool(ident)
-    console.log(pool)
-
     return (
       <ScreenWithSidebar title={"Messages"}>
         <View style={[$root, $container]}>
           <View style={$main}>
             <View style={$filter}>
-              <Text text="Active Contacts" preset="default" />
+              <Text text="Channels" preset="default" />
               <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
             </View>
             <View style={$messsages}>
               <FlashList
-                data={DumpMessages}
+                data={DEFAULT_CHANNELS}
                 renderItem={({ item }) => (
-                  <Pressable onPress={() => navigate("Chat")} style={$messageItem}>
+                  <Pressable onPress={() => navigate("Chat", { id: item.id, name: item.name })} style={$messageItem}>
                     <AutoImage
                       source={{ uri: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
                       style={$messageItemAvatar}
@@ -84,7 +57,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
                     <View>
                       <Text text={item.name} preset="bold" style={$messageItemName} />
                       <Text
-                        text={item.content}
+                        text={item.about || "No description"}
                         size="xs"
                         numberOfLines={1}
                         style={$messageItemContent}
