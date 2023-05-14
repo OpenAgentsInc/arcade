@@ -1,16 +1,19 @@
-import React, { FC, useContext, useEffect, useLayoutEffect } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen } from "app/components"
+import { Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
-import { Messages } from "app/components/Messages"
 import { MessageForm } from "app/components/MessageForm"
 import { RelayContext } from "app/components/RelayProvider"
+import Nip28Channel from "arclib/src/channel"
+import { User } from "app/components/User"
+import { FlashList } from "@shopify/flash-list"
+import { delay } from "app/utils/delay"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -19,7 +22,10 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  const pool: any = useContext(RelayContext);
+  const pool: any = useContext(RelayContext)
+  const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
+  const [loading, setLoading] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   // Get route params
   const { id, name } = route.params
@@ -51,26 +57,46 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     })
   }, [])
 
+  async function manualRefresh() {
+    setRefreshing(true)
+    await Promise.all([channelStore.fetchMessages(nip28, id), delay(750)])
+    setRefreshing(false)
+  }
+
   useEffect(() => {
-    let isMounted = true
-
-    if (isMounted) {
-      channelStore.fetchMessages(pool, id)
-    }
-
-    return () => {
-      isMounted = false
-    }
-  }, [route])
+    // loading
+    setLoading(true)
+    // fetch messages
+    channelStore.reset()
+    channelStore.fetchMessages(nip28, id)
+    // done
+    setLoading(false)
+  }, [id, channelStore])
 
   return (
     <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
       <View style={$container}>
         <View style={$main}>
-          <Messages />
+          <FlashList
+            data={channelStore.messages.slice()}
+            extraData={channelStore.messages}
+            renderItem={({ item }) => (
+              <View style={$messageItem}>
+                <User pubkey={item.pubkey} />
+                <View style={$messageContentWrapper}>
+                  <Text text={item.content} style={$messageContent} />
+                </View>
+              </View>
+            )}
+            ListEmptyComponent={loading ? <Text text="Loading..." /> : <Text text="No messages" />}
+            estimatedItemSize={100}
+            inverted={true}
+            refreshing={refreshing}
+            onRefresh={manualRefresh}
+          />
         </View>
         <View style={$form}>
-          <MessageForm channelID={id} />
+          <MessageForm channel={nip28} channelID={id} />
         </View>
       </View>
     </Screen>
@@ -100,4 +126,18 @@ const $main: ViewStyle = {
 const $form: ViewStyle = {
   flexShrink: 0,
   paddingTop: spacing.small,
+}
+
+const $messageItem: ViewStyle = {
+  flex: 1,
+  paddingVertical: spacing.extraSmall,
+}
+
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
+}
+
+const $messageContent: TextStyle = {
+  color: "#fff",
 }

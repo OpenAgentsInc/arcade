@@ -1,24 +1,22 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { ViewStyle } from "react-native"
 import { Button, TextField } from "app/components"
 import { SendIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
-import { RelayContext } from "./RelayProvider"
+import { useStores } from "app/models"
 
-export function MessageForm({ channelID }: { channelID: string }) {
-  const pool: any = useContext(RelayContext);
+export function MessageForm({ channel, channelID, replyTo }: { channel: any, channelID: string, replyTo?: string }) {
   const [message, setMessage] = useState("")
+  const { channelStore } = useStores()
 
   const sendMessage = async () => {
-    const event = await pool.send({
-      content: message,
-      tags: [["e", channelID, "", "root"]],
-      kind: 42,
-    })
+    const event = await channel.send(channelID, message, replyTo || null)
     if (event) {
       // reset state
       setMessage("")
-      // log
+      // add event to channel store
+      channelStore.addMessage(event)
+      // log, todo: remove
       console.log('published event to channel:', channelID)
     }
   }
@@ -31,6 +29,7 @@ export function MessageForm({ channelID }: { channelID: string }) {
       inputWrapperStyle={$inputWrapper}
       value={message}
       onChangeText={setMessage}
+      onSubmitEditing={sendMessage}
       autoCapitalize="none"
       RightAccessory={() => (
         <Button

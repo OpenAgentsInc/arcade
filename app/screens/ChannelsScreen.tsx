@@ -45,6 +45,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
   useEffect(() => {
     async function initChannels() {
       const res = await listChannels(pool)
+      // update data state
       setData((prev) => [...prev, ...res])
     }
 
@@ -76,6 +77,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
                 style={$item}
               />
             )}
+            ListEmptyComponent={<Text text="Loading..." />}
             estimatedItemSize={300}
           />
         </View>

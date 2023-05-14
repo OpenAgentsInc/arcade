@@ -1,4 +1,4 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageStoreModel } from "./MessageStore"
 
@@ -9,20 +9,24 @@ export const ChannelStoreModel = types
   .model("ChannelStore")
   .props({
     messages: types.array(MessageStoreModel),
+    join: types.array(types.reference(MessageStoreModel)),
   })
   .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    get allMessages() {
+      return self.messages
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    async fetchMessages(pool: any, id: string) {
-      const events = await pool.list([
-        {
-          "#e": [id],
-          kinds: [42],
-          since: Math.round(new Date().getTime() / 1000) - 24 * 3600, // 24 hours ago
-          limit: 20,
-        },
-      ])
+    async fetchMessages(channel: any, id: string) {
+      const events = await channel.list(id)
       self.setProp("messages", events)
+    },
+    addMessage(event: any) {
+      self.messages.unshift(event)
+    },
+    reset() {
+      applySnapshot(self, { messages: [] })
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
