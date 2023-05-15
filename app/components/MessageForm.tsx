@@ -1,10 +1,10 @@
-import React, { useRef, useMemo, useCallback } from "react"
-import { View, ViewStyle } from "react-native"
+import React, { useRef, useMemo, useCallback, useState } from "react"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { Button, TextField, Text } from "app/components"
 import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet"
+import { BottomSheetModal, BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 
 export function MessageForm({
@@ -18,6 +18,9 @@ export function MessageForm({
 }) {
   // channel messages store
   const { channelStore } = useStores()
+
+  // offer type
+  const [type, setType] = useState("buy")
 
   // bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -37,10 +40,10 @@ export function MessageForm({
     }
 
     // create offer and add offer to tags if present
-    if (data.offerFrom && data.offerTo && data.offerAmount && data.offerRate && data.offerPayment) {
+    if (data.offerCurrency && data.offerAmount && data.offerRate && data.offerPayment) {
       const offer = {
-        from: data.offerFrom,
-        to: data.offerTo,
+        from: type === "buy" ? data.offerCurrency : "BTC",
+        to: type === "buy" ? "BTC" : data.offerCurrency,
         amount: data.offerAmount,
         rate: data.offerRate,
         payment: data.offerPayment,
@@ -68,8 +71,7 @@ export function MessageForm({
     <Formik
       initialValues={{
         message: "",
-        offerFrom: "",
-        offerTo: "",
+        offerCurrency: "",
         offerAmount: "",
         offerRate: "",
         offerPayment: "",
@@ -111,37 +113,74 @@ export function MessageForm({
             backgroundStyle={$modal}
           >
             <BottomSheetView style={$modalContent}>
-              <Text preset="bold" size="lg" text="Create a trade request" />
-              <View>
-                <TextField
-                  label="From"
-                  onChangeText={handleChange("offerFrom")}
-                  onBlur={handleBlur("offerFrom")}
-                  value={values.offerFrom}
-                />
-                <TextField
-                  label="To"
-                  onChangeText={handleChange("offerTo")}
-                  onBlur={handleBlur("offerTo")}
-                  value={values.offerTo}
-                />
-                <TextField
-                  label="Amount"
-                  onChangeText={handleChange("offerAmount")}
-                  onBlur={handleBlur("offerAmount")}
-                  value={values.offerAmount}
-                />
-                <TextField
-                  label="Rate"
-                  onChangeText={handleChange("offerRate")}
-                  onBlur={handleBlur("offerRate")}
-                  value={values.offerRate}
-                />
-                <TextField
-                  label="Payment Methods"
-                  onChangeText={handleChange("offerPayment")}
-                  onBlur={handleBlur("offerPayment")}
-                  value={values.offerPayment}
+              <Text preset="bold" size="lg" text="Create a trade request" style={$modalHeader} />
+              <View style={$modalForm}>
+                <View style={$buttonGroup}>
+                  <Button
+                    text="Buy"
+                    textStyle={$switchText}
+                    style={[$switch, type === "buy" && $switchActive]}
+                    pressedStyle={$switchActive}
+                    onPress={() => setType("buy")}
+                  />
+                  <Button
+                    text="Sell"
+                    textStyle={$switchText}
+                    style={[$switch, type === "sell" && $switchActive]}
+                    pressedStyle={$switchActive}
+                    onPress={() => setType("sell")}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Currency" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    placeholder="USD"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("offerCurrency")}
+                    onBlur={handleBlur("offerCurrency")}
+                    value={values.offerAmount}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Amount" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    inputMode="numeric"
+                    placeholder="0.00"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("offerAmount")}
+                    onBlur={handleBlur("offerAmount")}
+                    value={values.offerAmount}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Rate" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    inputMode="numeric"
+                    placeholder="0.00"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("offerRate")}
+                    onBlur={handleBlur("offerRate")}
+                    value={values.offerRate}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Payment Methods" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    placeholder="PayPal, Venmo, Cash App"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("offerPayment")}
+                    onBlur={handleBlur("offerPayment")}
+                    value={values.offerPayment}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <Button
+                  text="Create offer"
+                  style={$createOfferButton}
+                  pressedStyle={$createOfferButtonActive}
                 />
               </View>
             </BottomSheetView>
@@ -200,7 +239,79 @@ const $modal: ViewStyle = {
   borderColor: colors.palette.cyan500,
 }
 
+const $modalHeader: ViewStyle = {
+  alignSelf: "center",
+}
+
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
+}
+
+const $modalForm: ViewStyle = {
+  flex: 1,
+  flexDirection: "column",
+  gap: spacing.medium,
+}
+
+const $buttonGroup: ViewStyle = {
+  flexDirection: "row",
+  marginTop: spacing.medium,
+  borderWidth: 0,
+  backgroundColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  gap: spacing.tiny,
+}
+
+const $switch: ViewStyle = {
+  flex: 1,
+  width: "100%",
+  borderRadius: spacing.extraSmall,
+  backgroundColor: "transparent",
+  borderWidth: 0,
+  minHeight: 36,
+  height: 36,
+  paddingHorizontal: 0,
+  paddingVertical: 0,
+}
+
+const $switchText: TextStyle = {
+  lineHeight: 20,
+}
+
+const $switchActive: ViewStyle = {
+  backgroundColor: colors.palette.cyan500,
+}
+
+const $formInputGroup: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.tiny,
+}
+
+const $formInput: ViewStyle = {
+  width: "100%",
+  height: 44,
+  minHeight: 44,
+  backgroundColor: "transparent",
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+  borderRadius: spacing.extraSmall,
+  paddingHorizontal: spacing.small,
+}
+
+const $formInputText: TextStyle = {
+  color: colors.text,
+}
+
+const $createOfferButton: ViewStyle = {
+  width: "100%",
+  height: 44,
+  minHeight: 44,
+  backgroundColor: colors.palette.cyan500,
+  borderWidth: 0,
+  borderRadius: spacing.extraSmall,
+}
+
+const $createOfferButtonActive: ViewStyle = {
+  backgroundColor: colors.palette.cyan600,
 }
