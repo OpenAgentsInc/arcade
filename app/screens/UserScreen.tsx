@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Header, Screen, Text } from "app/components"
+import { AutoImage, Button, Header, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
@@ -27,7 +27,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={""}
+          title="Profile"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -90,7 +90,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             />
             <Text
               preset="default"
-              size="xs"
+              size="sm"
               text={profile?.nip05 || "Loading..."}
               style={$userNip05}
             />
@@ -98,6 +98,10 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           <View style={$userAbout}>
             <Text preset="default" text={profile?.about || "Loading..."} />
           </View>
+        </View>
+        <View style={$buttonGroup}>
+          <Button text="Message" style={$profileButton} />
+          <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
         </View>
       </View>
     </Screen>
@@ -139,10 +143,23 @@ const $userName: TextStyle = {
 }
 
 const $userNip05: TextStyle = {
-  lineHeight: 16,
-  color: colors.palette.cyan800,
+  lineHeight: 18,
+  color: colors.palette.cyan600,
 }
 
 const $userAbout: ViewStyle = {
   marginTop: spacing.small,
+}
+
+const $buttonGroup: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.small,
+  marginVertical: spacing.medium,
+}
+
+const $profileButton: ViewStyle = {
+  flex: 1,
+  width: "100%",
+  backgroundColor: "transparent",
+  borderColor: colors.palette.cyan500,
 }
