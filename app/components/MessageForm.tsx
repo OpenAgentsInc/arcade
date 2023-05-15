@@ -19,8 +19,10 @@ export function MessageForm({
   // channel messages store
   const { channelStore } = useStores()
 
-  // offer type
+  // offer
   const [type, setType] = useState("buy")
+  const [attachOffer, setAttachOffer] = useState(false)
+  const formikRef = useRef(null)
 
   // bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -28,6 +30,13 @@ export function MessageForm({
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present()
+  }, [])
+
+  const handleAttachOffer = useCallback(() => {
+    // toggle attach offer
+    setAttachOffer(true)
+    // close bottom sheet
+    bottomSheetModalRef.current?.close()
   }, [])
 
   const createEvent = async (data) => {
@@ -60,6 +69,9 @@ export function MessageForm({
     })
 
     if (event) {
+      // reset form
+      formikRef.current?.resetForm()
+      setAttachOffer(false)
       // add event to channel store
       channelStore.addMessage(event)
       // log, todo: remove
@@ -69,9 +81,10 @@ export function MessageForm({
 
   return (
     <Formik
+      innerRef={formikRef}
       initialValues={{
         message: "",
-        offerCurrency: "",
+        offerCurrency: "USD",
         offerAmount: "",
         offerRate: "",
         offerPayment: "",
@@ -92,9 +105,13 @@ export function MessageForm({
             LeftAccessory={() => (
               <Button
                 onPress={() => handlePresentModalPress()}
-                LeftAccessory={() => (
-                  <Store width={18} height={18} style={{ color: colors.palette.cyan600 }} />
-                )}
+                LeftAccessory={() =>
+                  attachOffer ? (
+                    <View style={$attachedOffer} />
+                  ) : (
+                    <Store width={18} height={18} style={{ color: colors.palette.cyan600 }} />
+                  )
+                }
                 style={$listingButton}
               />
             )}
@@ -110,6 +127,7 @@ export function MessageForm({
             ref={bottomSheetModalRef}
             index={1}
             snapPoints={snapPoints}
+            enablePanDownToClose={true}
             backgroundStyle={$modal}
           >
             <BottomSheetView style={$modalContent}>
@@ -138,7 +156,7 @@ export function MessageForm({
                     placeholderTextColor={colors.palette.cyan800}
                     onChangeText={handleChange("offerCurrency")}
                     onBlur={handleBlur("offerCurrency")}
-                    value={values.offerAmount}
+                    value={values.offerCurrency}
                     style={[$formInput, $formInputText]}
                   />
                 </View>
@@ -181,6 +199,7 @@ export function MessageForm({
                   text="Create offer"
                   style={$createOfferButton}
                   pressedStyle={$createOfferButtonActive}
+                  onPress={() => handleAttachOffer()}
                 />
               </View>
             </BottomSheetView>
@@ -314,4 +333,11 @@ const $createOfferButton: ViewStyle = {
 
 const $createOfferButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
+}
+
+const $attachedOffer: ViewStyle = {
+  width: 18,
+  height: 18,
+  borderRadius: 18,
+  backgroundColor: colors.palette.cyan200,
 }
