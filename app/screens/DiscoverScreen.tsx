@@ -50,9 +50,10 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
             onPress={() => navigation.navigate("Listing")}
           />
           <Button
-            text="Radar"
+            text="Nearby"
             LeftAccessory={() => <RadioIcon color={colors.palette.cyan500} />}
             style={$button}
+            onPress={() => navigation.navigate("Nearby")}
           />
         </View>
       </View>
