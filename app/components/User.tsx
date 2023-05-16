@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { AutoImage, Text } from "app/components"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
+import { useNavigation } from "@react-navigation/native"
 
 export function User({ pubkey }: { pubkey: string }) {
   const [profile, setProfile] = useState(null)
+
+  const navigation = useNavigation<any>()
 
   useEffect(() => {
     async function fetchProfile() {
@@ -30,7 +33,7 @@ export function User({ pubkey }: { pubkey: string }) {
   }, [])
 
   return (
-    <View style={$user}>
+    <Pressable onPress={() => navigation.navigate("User", { id: pubkey })} style={$user}>
       <AutoImage
         source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$userAvatar}
@@ -41,7 +44,7 @@ export function User({ pubkey }: { pubkey: string }) {
         size="xs"
         style={$userName}
       />
-    </View>
+    </Pressable>
   )
 }
 
@@ -50,6 +53,7 @@ const $user: ViewStyle = {
   flexDirection: "row",
   alignItems: "flex-start",
   gap: spacing.extraSmall,
+  zIndex: 10,
 }
 
 const $userAvatar: ImageStyle = {

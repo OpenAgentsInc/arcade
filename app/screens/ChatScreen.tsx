@@ -14,6 +14,8 @@ import Nip28Channel from "arclib/src/channel"
 import { User } from "app/components/User"
 import { FlashList } from "@shopify/flash-list"
 import { delay } from "app/utils/delay"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import { ChatOffer } from "app/components/ChatOffer"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -74,32 +76,45 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [id, channelStore])
 
   return (
-    <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
-      <View style={$container}>
-        <View style={$main}>
-          <FlashList
-            data={channelStore.messages.slice()}
-            extraData={channelStore.messages}
-            renderItem={({ item }) => (
-              <View style={$messageItem}>
-                <User pubkey={item.pubkey} />
-                <View style={$messageContentWrapper}>
-                  <Text text={item.content} style={$messageContent} />
+    <BottomSheetModalProvider>
+      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
+        <View style={$container}>
+          <View style={$main}>
+            <FlashList
+              data={channelStore.allMessages}
+              extraData={channelStore.messages}
+              renderItem={({ item }) => (
+                <View style={$messageItem}>
+                  <User pubkey={item.pubkey} />
+                  <View style={$messageContentWrapper}>
+                    <Text text={item.content} style={$messageContent} />
+                    <ChatOffer tags={item.tags} />
+                  </View>
                 </View>
-              </View>
-            )}
-            ListEmptyComponent={loading ? <Text text="Loading..." /> : <Text text="No messages" />}
-            estimatedItemSize={100}
-            inverted={true}
-            refreshing={refreshing}
-            onRefresh={manualRefresh}
-          />
+              )}
+              ListEmptyComponent={
+                loading ? (
+                  <View style={$emptyState}>
+                    <Text text="Loading..." />
+                  </View>
+                ) : (
+                  <View style={$emptyState}>
+                    <Text text="No messages..." />
+                  </View>
+                )
+              }
+              estimatedItemSize={100}
+              inverted={true}
+              refreshing={refreshing}
+              onRefresh={manualRefresh}
+            />
+          </View>
+          <View style={$form}>
+            <MessageForm pool={pool} channelID={id} />
+          </View>
         </View>
-        <View style={$form}>
-          <MessageForm channel={nip28} channelID={id} />
-        </View>
-      </View>
-    </Screen>
+      </Screen>
+    </BottomSheetModalProvider>
   )
 })
 
@@ -140,4 +155,10 @@ const $messageContentWrapper: ViewStyle = {
 
 const $messageContent: TextStyle = {
   color: "#fff",
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  transform: [{ scaleY: -1 }],
+  paddingVertical: spacing.medium,
 }

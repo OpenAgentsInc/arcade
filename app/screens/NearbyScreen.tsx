@@ -6,16 +6,16 @@ import { AppStackScreenProps } from "app/navigators"
 import { Card, Header, Screen, Text, Button } from "app/components"
 import { spacing, colors } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { SearchIcon, PlusCircleIcon, ChevronDownIcon } from "lucide-react-native"
+import { SearchIcon, PlusCircleIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { RelayContext } from "app/components/RelayProvider"
 import Nip28Channel from "arclib/src/channel"
 import { delay } from "app/utils/delay"
 
-interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
+interface NearbyScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 
-export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
+export const NearbyScreen: FC<NearbyScreenProps> = observer(function NearbyScreen() {
   const pool: any = useContext(RelayContext)
   const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
 
@@ -34,7 +34,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
       headerShown: true,
       header: () => (
         <Header
-          title="Listing"
+          title="Nearby"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -69,16 +69,6 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
   return (
     <Screen style={$root} preset="scroll">
       <View style={[$root, $container]}>
-        <View style={$filters}>
-          <View style={$filter}>
-            <Text text="New York, NY" preset="default" />
-            <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
-          </View>
-          <View style={$filter}>
-            <Text text="USD/BTC" preset="default" />
-            <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
-          </View>
-        </View>
         <View style={$content}>
           <FlashList
             data={channelStore.listing}
@@ -139,26 +129,6 @@ const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
   paddingHorizontal: spacing.medium,
-}
-
-const $filters: ViewStyle = {
-  flex: 1,
-  flexDirection: "row",
-  justifyContent: "space-between",
-  gap: spacing.small,
-}
-
-const $filter: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  flex: 1,
-  height: 40,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: spacing.small / 2,
-  backgroundColor: colors.palette.overlay20,
 }
 
 const $content: ViewStyle = {
