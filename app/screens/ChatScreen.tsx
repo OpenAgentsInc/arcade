@@ -81,7 +81,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.messages.slice()}
+              data={channelStore.allMessages}
               extraData={channelStore.messages}
               renderItem={({ item }) => (
                 <View style={$messageItem}>

@@ -14,7 +14,10 @@ export const ChannelStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get allMessages() {
-      return self.messages
+      return self.messages.slice()
+    },
+    get listing() {
+      return self.messages.filter((m) => m.tags.find((t) => t[0] === "a"))
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -27,7 +30,7 @@ export const ChannelStoreModel = types
     },
     reset() {
       applySnapshot(self, { messages: [] })
-    }
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface ChannelStore extends Instance<typeof ChannelStoreModel> {}

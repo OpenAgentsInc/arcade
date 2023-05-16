@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -7,37 +7,24 @@ import { Card, Header, Screen, Text, Button } from "app/components"
 import { spacing, colors } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, PlusCircleIcon, ChevronDownIcon } from "lucide-react-native"
-import { faker } from "@faker-js/faker"
 import { FlashList } from "@shopify/flash-list"
-// import { useStores } from "app/models"
+import { useStores } from "app/models"
+import { RelayContext } from "app/components/RelayProvider"
+import Nip28Channel from "arclib/src/channel"
+import { delay } from "app/utils/delay"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 
-function createRandomOffer() {
-  return {
-    market: "BTC/" + faker.finance.currencyCode(),
-    price: faker.finance.amount(29000, 35000, 2, "", true),
-    limits:
-      faker.datatype.number({ min: 1, max: 10, precision: 0.01 }) +
-      " - " +
-      faker.datatype.number({ min: 1, max: 10, precision: 0.01 }),
-    amount: faker.finance.amount(),
-    method: "Bank transfer",
-    rep: faker.datatype.number({ min: 10, max: 99 }),
-    seller: faker.internet.email(),
-    action: faker.helpers.arrayElement(["Buy", "Sell"]),
-  }
-}
-
-const createOffers = (num = 50) => {
-  return Array.from({ length: num }, createRandomOffer)
-}
-
 export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
-  const [data, setData] = useState([])
+  const pool: any = useContext(RelayContext)
+  const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
 
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+  const [channel] = useState("d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b")
+  const [loading, setLoading] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+
+  // Channel store
+  const { channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -63,10 +50,21 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     })
   }, [])
 
+  async function manualRefresh() {
+    setRefreshing(true)
+    await Promise.all([channelStore.fetchMessages(nip28, channel), delay(750)])
+    setRefreshing(false)
+  }
+
   useEffect(() => {
-    const offers: any = createOffers(50)
-    setData(offers)
-  }, [])
+    // loading
+    setLoading(true)
+    // fetch messages
+    channelStore.reset()
+    channelStore.fetchMessages(nip28, channel)
+    // done
+    setLoading(false)
+  }, [channel, channelStore])
 
   return (
     <Screen style={$root} preset="scroll">
@@ -83,22 +81,43 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
         </View>
         <View style={$content}>
           <FlashList
-            data={data}
-            renderItem={({ item }) => (
-              <Card
-                preset="reversed"
-                RightComponent={<Button text={item.action} style={$itemButton} />}
-                heading={item.market}
-                ContentComponent={
-                  <View>
-                    <Text text={"Price: " + item.price} />
-                    <Text text={"Amount: " + item.amount} />
-                  </View>
-                }
-                style={$item}
-              />
-            )}
+            data={channelStore.listing}
+            extraData={channelStore.listing}
+            renderItem={({ item }) => {
+              const a = item.tags.find((tag) => tag["0"] === "a")
+              const offer = JSON.parse(a[1])
+              const type = offer.from === "BTC" ? "Sell" : "Buy"
+
+              return (
+                <Card
+                  preset="reversed"
+                  RightComponent={<Button text={type} style={$itemButton} />}
+                  heading={item.content}
+                  ContentComponent={
+                    <View>
+                      <Text text={`Amount: ${offer.amount}`} />
+                      <Text text={`Rate: ${offer.rate}`} />
+                      <Text text={`Payment: ${offer.payment}`} />
+                    </View>
+                  }
+                  style={$item}
+                />
+              )
+            }}
+            ListEmptyComponent={
+              loading ? (
+                <View style={$emptyState}>
+                  <Text text="Loading..." />
+                </View>
+              ) : (
+                <View style={$emptyState}>
+                  <Text text="No listings..." />
+                </View>
+              )
+            }
             estimatedItemSize={300}
+            refreshing={refreshing}
+            onRefresh={manualRefresh}
           />
         </View>
       </View>
@@ -155,14 +174,19 @@ const $item: ViewStyle = {
   borderColor: colors.palette.cyan500,
   borderRadius: spacing.small / 2,
   backgroundColor: colors.palette.overlay20,
-  shadowColor: 'transparent',
+  shadowColor: "transparent",
 }
 
 const $itemButton: ViewStyle = {
-  backgroundColor: 'transparent',
+  backgroundColor: "transparent",
   borderWidth: 0,
   paddingHorizontal: 0,
   paddingVertical: 0,
   height: 30,
   minHeight: 30,
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  paddingVertical: spacing.medium,
 }
