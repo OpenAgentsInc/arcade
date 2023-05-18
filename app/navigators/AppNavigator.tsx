@@ -13,6 +13,7 @@ import * as Screens from "app/screens"
 import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
+import { AuthNavigator } from "./AuthNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -28,6 +29,9 @@ import { TabNavigator } from "./TabNavigator"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
+  Auth: undefined
+  Login: undefined
+  CreateAccount: undefined
   Home: undefined
   Tabs: undefined
   HomeMessages: undefined
@@ -65,6 +69,7 @@ const AppStack = observer(function AppStack() {
       <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
       <Stack.Screen name="User" component={Screens.UserScreen} />
       <Stack.Screen name="Tabs" component={TabNavigator} />
+      <Stack.Screen name="Auth" component={AuthNavigator} />
     </Stack.Navigator>
   )
 })

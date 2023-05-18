@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { UserStoreModel } from "./UserStore"
 import { ChannelStoreModel } from "./ChannelStore"
 import { MessageStoreModel } from "./MessageStore"
 
@@ -6,6 +7,7 @@ import { MessageStoreModel } from "./MessageStore"
  * A RootStore model.
  */
 export const RootStoreModel = types.model("RootStore").props({
+  userStore: types.optional(UserStoreModel, {} as any),
   channelStore: types.optional(ChannelStoreModel, {} as any),
   messageStore: types.optional(MessageStoreModel, {} as any),
 })
