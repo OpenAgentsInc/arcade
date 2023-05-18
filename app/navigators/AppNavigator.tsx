@@ -44,6 +44,7 @@ export type AppStackParamList = {
   Channels: undefined
   User: undefined
   Profile: undefined
+  EditProfile: undefined
   Nearby: undefined
 }
 
@@ -78,6 +79,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Feed" component={Screens.FeedScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
+          <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />

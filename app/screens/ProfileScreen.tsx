@@ -32,7 +32,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
-              <EditIcon size={20} color={colors.palette.cyan400} />
+              <Pressable onPress={() => navigation.navigate("EditProfile")}>
+                <EditIcon size={20} color={colors.palette.cyan400} />
+              </Pressable>
               <Pressable onPress={() => userStore.logout()}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
