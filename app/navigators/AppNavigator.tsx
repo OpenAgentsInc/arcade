@@ -14,6 +14,7 @@ import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
+import { useStores } from "app/models"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -30,9 +31,9 @@ import { AuthNavigator } from "./AuthNavigator"
  */
 export type AppStackParamList = {
   Auth: undefined
+  Home: undefined
   Login: undefined
   CreateAccount: undefined
-  Home: undefined
   Tabs: undefined
   HomeMessages: undefined
   Discover: undefined
@@ -59,17 +60,25 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
+  const {
+    userStore: { isLoggedIn },
+  } = useStores()
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Screens.HomeScreen} />
-      <Stack.Screen name="Chat" component={Screens.ChatScreen} />
-      <Stack.Screen name="Listing" component={Screens.ListingScreen} />
-      <Stack.Screen name="Nearby" component={Screens.NearbyScreen} />
-      <Stack.Screen name="Feed" component={Screens.FeedScreen} />
-      <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
-      <Stack.Screen name="User" component={Screens.UserScreen} />
-      <Stack.Screen name="Tabs" component={TabNavigator} />
-      <Stack.Screen name="Auth" component={AuthNavigator} />
+      {isLoggedIn ? (
+        <>
+          <Stack.Screen name="Tabs" component={TabNavigator} />
+          <Stack.Screen name="Chat" component={Screens.ChatScreen} />
+          <Stack.Screen name="Listing" component={Screens.ListingScreen} />
+          <Stack.Screen name="Nearby" component={Screens.NearbyScreen} />
+          <Stack.Screen name="Feed" component={Screens.FeedScreen} />
+          <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
+          <Stack.Screen name="User" component={Screens.UserScreen} />
+        </>
+      ) : (
+        <Stack.Screen name="Auth" component={AuthNavigator} />
+      )}
     </Stack.Navigator>
   )
 })

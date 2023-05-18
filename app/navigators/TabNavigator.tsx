@@ -95,7 +95,7 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />

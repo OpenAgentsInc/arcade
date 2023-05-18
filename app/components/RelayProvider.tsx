@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useMemo } from "react"
 import { ArcadeIdentity, NostrPool } from "arclib"
-import { generatePrivateKey, nip19 } from "nostr-tools"
+import { useStores } from "app/models"
+import { nip19 } from "nostr-tools"
 
-const DEFAULT_RELAYS = [
+export const DEFAULT_RELAYS = [
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
   "wss://nostr.mutinywallet.com",
@@ -12,19 +13,23 @@ const DEFAULT_RELAYS = [
 export const RelayContext = createContext({})
 
 export default function RelayProvider({ children }: { children: React.ReactNode }) {
-  const priv = useMemo(() => generatePrivateKey(), [])
-  const nsec = nip19.nsecEncode(priv)
+  const {
+    userStore: { privkey },
+  } = useStores()
 
-  const ident = useMemo(() => new ArcadeIdentity(nsec, "", ""), [])
-  const pool = useMemo(() => new NostrPool(ident), [])
+  const nsec = useMemo(() => (privkey ? nip19.nsecEncode(privkey) : null), [privkey])
+  const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
+  const pool = useMemo(() => (ident ? new NostrPool(ident) : null), [ident])
 
   useEffect(() => {
     async function initRelays() {
-      await pool.setRelays(DEFAULT_RELAYS) 
+      await pool.setRelays(DEFAULT_RELAYS)
     }
 
-    initRelays().catch(console.error);
-  }, [])
+    if (nsec) {
+      initRelays().catch(console.error)
+    }
+  }, [pool, nsec])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
 }
