@@ -7,7 +7,6 @@ export const DEFAULT_RELAYS = [
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
   "wss://nostr.mutinywallet.com",
-  "wss://relay.damus.io",
 ]
 
 export const RelayContext = createContext({})

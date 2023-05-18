@@ -71,7 +71,7 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
 
     useEffect(() => {
       async function fetchOffers() {
-        const data = await pool.list([{ "#e": [listingId], kind: 42 }])
+        const data = await pool.list([{ "#e": [listingId], kinds: [42] }])
         setData(data)
       }
 
