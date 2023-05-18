@@ -31,7 +31,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title="Create Account"
+            title=""
             titleStyle={{ color: colors.palette.cyan400 }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
@@ -54,7 +54,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <>
-              <Text text="Create Profile" preset="heading" size="lg" style={$title} />
+              <Text text="Create Profile" preset="heading" size="xl" style={$title} />
               <TextField
                 label="Display Name"
                 style={$input}
@@ -84,10 +84,8 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 value={values.about}
                 autoCapitalize="none"
                 autoFocus={false}
-                multiline={true}
-                numberOfLines={3}
               />
-              <Button text="Enter" onPress={() => handleSubmit()} style={$button} />
+              <Button text="Continue" onPress={() => handleSubmit()} style={$button} />
             </>
           )}
         </Formik>
@@ -109,7 +107,7 @@ const $container: ViewStyle = {
 
 const $title: TextStyle = {
   textAlign: "center",
-  marginBottom: spacing.medium,
+  marginBottom: spacing.massive,
 }
 
 const $inputWrapper: ViewStyle = {
@@ -139,6 +137,7 @@ const $button: ViewStyle = {
   backgroundColor: colors.palette.cyan500,
   borderWidth: 0,
   width: "100%",
+  marginTop: spacing.small,
   marginBottom: spacing.small,
   height: 50,
   minHeight: 50,

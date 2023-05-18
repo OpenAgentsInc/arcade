@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Header, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
-import { EditIcon } from "lucide-react-native"
+import { EditIcon, LogOutIcon } from "lucide-react-native"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -33,6 +33,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           RightActionComponent={
             <View style={$headerRightActions}>
               <EditIcon size={20} color={colors.palette.cyan400} />
+              <Pressable onPress={() => userStore.logout()}>
+                <LogOutIcon size={20} color={colors.palette.cyan400} />
+              </Pressable>
             </View>
           }
         />

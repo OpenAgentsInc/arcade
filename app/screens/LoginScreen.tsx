@@ -33,7 +33,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
       headerShown: true,
       header: () => (
         <Header
-          title="Login"
+          title=""
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -46,7 +46,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   return (
     <Screen style={$root} preset="scroll" contentContainerStyle={$container}>
       <View>
-        <Text text="Enter access key" preset="heading" size="lg" style={$title} />
+        <Text text="Enter access key" preset="heading" size="xl" style={$title} />
         <TextField
           secureTextEntry={true}
           placeholder="nsec..."
@@ -77,7 +77,7 @@ const $container: ViewStyle = {
 
 const $title: TextStyle = {
   textAlign: "center",
-  marginBottom: spacing.medium,
+  marginBottom: spacing.massive,
 }
 
 const $inputWrapper: ViewStyle = {
@@ -107,6 +107,7 @@ const $button: ViewStyle = {
   backgroundColor: colors.palette.cyan500,
   borderWidth: 0,
   width: "100%",
+  marginTop: spacing.small,
   marginBottom: spacing.small,
   height: 50,
   minHeight: 50,
