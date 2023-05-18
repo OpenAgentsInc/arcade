@@ -39,6 +39,7 @@ export type AppStackParamList = {
   Discover: undefined
   Chat: undefined
   Listing: undefined
+  ListingDetail: undefined
   Feed: undefined
   Channels: undefined
   User: undefined
@@ -72,6 +73,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
+          <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Nearby" component={Screens.NearbyScreen} />
           <Stack.Screen name="Feed" component={Screens.FeedScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />

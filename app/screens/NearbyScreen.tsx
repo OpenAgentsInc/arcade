@@ -27,7 +27,7 @@ export const NearbyScreen: FC<NearbyScreenProps> = observer(function NearbyScree
   const { channelStore } = useStores()
 
   // Pull in navigation via hook
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -89,6 +89,13 @@ export const NearbyScreen: FC<NearbyScreenProps> = observer(function NearbyScree
                       <Text text={`Rate: ${offer.rate}`} />
                       <Text text={`Payment: ${offer.payment}`} />
                     </View>
+                  }
+                  onPress={() =>
+                    navigation.navigate("ListingDetail", {
+                      channelId: channel,
+                      listingId: item.id,
+                      listingDetail: item.tags,
+                    })
                   }
                   style={$item}
                 />

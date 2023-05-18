@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text } from "app/components"
@@ -81,14 +81,24 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.allMessages}
+              data={channelStore.ignoreOffers}
               extraData={channelStore.messages}
               renderItem={({ item }) => (
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <Text text={item.content} style={$messageContent} />
-                    <ChatOffer tags={item.tags} />
+                    <Text text={item.content || "empty message"} style={$messageContent} />
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate("ListingDetail", {
+                          channelId: id,
+                          listingId: item.id,
+                          listingDetail: item.tags,
+                        })
+                      }
+                    >
+                      <ChatOffer tags={item.tags} />
+                    </Pressable>
                   </View>
                 </View>
               )}

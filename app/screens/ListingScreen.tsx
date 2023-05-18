@@ -27,7 +27,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
   const { channelStore } = useStores()
 
   // Pull in navigation via hook
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -99,6 +99,13 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
                       <Text text={`Rate: ${offer.rate}`} />
                       <Text text={`Payment: ${offer.payment}`} />
                     </View>
+                  }
+                  onPress={() =>
+                    navigation.navigate("ListingDetail", {
+                      channelId: channel,
+                      listingId: item.id,
+                      listingDetail: item.tags,
+                    })
                   }
                   style={$item}
                 />

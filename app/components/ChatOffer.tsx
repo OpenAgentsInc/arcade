@@ -45,6 +45,7 @@ const $container: ViewStyle = {
   borderColor: colors.palette.cyan500,
   borderRadius: spacing.tiny,
   padding: spacing.small,
+  minHeight: 150,
 }
 
 const $item: ViewStyle = {

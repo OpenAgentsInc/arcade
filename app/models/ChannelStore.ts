@@ -19,6 +19,9 @@ export const ChannelStoreModel = types
     get listing() {
       return self.messages.filter((m) => m.tags.find((t) => t[0] === "a"))
     },
+    get ignoreOffers() {
+      return self.messages.filter((m) => m.tags.find((t) => t[0] === "e" && t[3] !== "reply"))
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     async fetchMessages(channel: any, id: string) {
