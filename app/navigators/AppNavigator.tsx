@@ -42,6 +42,7 @@ export type AppStackParamList = {
   Feed: undefined
   Channels: undefined
   User: undefined
+  Profile: undefined
   Nearby: undefined
 }
 
