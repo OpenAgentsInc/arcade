@@ -31,6 +31,29 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
     // Pull in navigation via hook
     const navigation = useNavigation<any>()
 
+    // accept offer
+    const acceptOffer = async (offerId: string, ownerPubkey: string) => {
+      // create tags
+      const tags = [
+        ["e", channelId, "", "root"],
+        ["e", listingId, "", "reply"],
+        ["e", offerId, "", "accepted"],
+        ["p", ownerPubkey, ""],
+      ]
+
+      // publish event
+      const event = await pool.send({
+        content: "accepted",
+        tags,
+        kind: 42,
+      })
+
+      if (event) {
+        // log, todo: remove
+        console.log("published accepted event to offer:", listingId)
+      }
+    }
+
     useLayoutEffect(() => {
       navigation.setOptions({
         headerShown: true,
@@ -70,7 +93,15 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                     return (
                       <Card
                         preset="reversed"
-                        RightComponent={<Button text="Accept" style={$itemButton} />}
+                        RightComponent={
+                          userStore.pubkey === item.pubkey && (
+                            <Button
+                              text="Accept"
+                              onPress={() => acceptOffer(item.id, item.pubkey)}
+                              style={$itemButton}
+                            />
+                          )
+                        }
                         ContentComponent={
                           <View>
                             <UserOffer pubkey={item.pubkey} />
