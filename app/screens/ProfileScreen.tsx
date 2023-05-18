@@ -1,23 +1,21 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, Screen, Text } from "app/components"
+import { AutoImage, Header, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
+import { useStores } from "app/models"
+import { EditIcon, LogOutIcon } from "lucide-react-native"
 
-interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
+interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
-export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
-  route,
-}: {
-  route: any
-}) {
+export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const [profile, setProfile] = useState(null)
 
-  // Get route params
-  const { id } = route.params
+  // Pull in one of our MST stores
+  const { userStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -32,6 +30,16 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <View style={$headerRightActions}>
+              <Pressable onPress={() => navigation.navigate("EditProfile")}>
+                <EditIcon size={20} color={colors.palette.cyan400} />
+              </Pressable>
+              <Pressable onPress={() => userStore.logout()}>
+                <LogOutIcon size={20} color={colors.palette.cyan400} />
+              </Pressable>
+            </View>
+          }
         />
       ),
     })
@@ -42,7 +50,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       let response
 
       try {
-        response = await fetch(`https://rbr.bio/${id}/metadata.json`)
+        response = await fetch(`https://rbr.bio/${userStore.pubkey}/metadata.json`)
       } catch (error) {
         console.log("There was an error", error)
       }
@@ -57,7 +65,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
     }
 
     fetchProfile().catch(console.error)
-  }, [id])
+  }, [userStore.pubkey])
 
   return (
     <Screen style={$root} preset="scroll">
@@ -99,10 +107,6 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text preset="default" text={profile?.about || "Loading..."} />
           </View>
         </View>
-        <View style={$buttonGroup}>
-          <Button text="Message" style={$profileButton} />
-          <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
-        </View>
       </View>
     </Screen>
   )
@@ -110,6 +114,12 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
 const $root: ViewStyle = {
   flex: 1,
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $container: ViewStyle = {
@@ -150,17 +160,4 @@ const $userNip05: TextStyle = {
 
 const $userAbout: ViewStyle = {
   marginTop: spacing.small,
-}
-
-const $buttonGroup: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.small,
-  marginVertical: spacing.medium,
-}
-
-const $profileButton: ViewStyle = {
-  flex: 1,
-  width: "100%",
-  backgroundColor: "transparent",
-  borderColor: colors.palette.cyan500,
 }

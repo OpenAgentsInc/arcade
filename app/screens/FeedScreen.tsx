@@ -1,39 +1,23 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, View, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Card, Header, Screen, Text } from "app/components"
+import { Card, Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { SearchIcon, PlusCircleIcon } from "lucide-react-native"
-import { faker } from "@faker-js/faker"
 import { FlashList } from "@shopify/flash-list"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
+import { RelayContext } from "app/components/RelayProvider"
+import { UserFeed } from "app/components/UserFeed"
 
 interface FeedScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Feed">> {}
 
-function createRandomFeed() {
-  return {
-    name: faker.name.firstName(),
-    content: faker.lorem.paragraph(),
-    image: faker.image.imageUrl(300, 300),
-  }
-}
-
-const createFeeds = (num = 50) => {
-  return Array.from({ length: num }, createRandomFeed)
-}
+const date = Math.round(new Date().getTime() / 1000) - 3 * 3600
 
 export const FeedScreen: FC<FeedScreenProps> = observer(function FeedScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
+  const pool: any = useContext(RelayContext)
   const [data, setData] = useState([])
-
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -60,8 +44,12 @@ export const FeedScreen: FC<FeedScreenProps> = observer(function FeedScreen() {
   }, [])
 
   useEffect(() => {
-    const feeds: any = createFeeds(20)
-    setData(feeds)
+    async function fetchFeeds() {
+      const data = await pool.list([{ kinds: [1], limit: 10, since: date }])
+      setData(data)
+    }
+
+    fetchFeeds().catch(console.error)
   }, [])
 
   return (
@@ -70,26 +58,26 @@ export const FeedScreen: FC<FeedScreenProps> = observer(function FeedScreen() {
         <View style={$content}>
           <FlashList
             data={data}
+            extraData={data}
             renderItem={({ item }) => (
               <Card
                 preset="reversed"
-                LeftComponent={
-                  <AutoImage
-                    source={{ uri: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
-                    style={$itemAvatar}
-                  />
-                }
-                heading={item.name}
-                HeadingTextProps={{size: "md", preset: "bold"}}
                 ContentComponent={
                   <View>
-                    <Text text={item.content} />
-                    <AutoImage source={{ uri: item.image }} />
+                    <UserFeed pubkey={item.pubkey} />
+                    <View style={$itemContent}>
+                      <Text text={item.content} />
+                    </View>
                   </View>
                 }
                 style={$item}
               />
             )}
+            ListEmptyComponent={
+              <View style={$emptyState}>
+                <Text text="Loading..." />
+              </View>
+            }
             estimatedItemSize={300}
           />
         </View>
@@ -121,12 +109,15 @@ const $content: ViewStyle = {
 const $item: ViewStyle = {
   borderWidth: 0,
   borderRadius: 0,
-  backgroundColor: 'transparent',
-  paddingVertical: spacing.large,
+  backgroundColor: "transparent",
+  paddingBottom: spacing.large,
 }
 
-const $itemAvatar: ImageStyle = {
-  width: 44,
-  height: 44,
-  borderRadius: 100,
+const $itemContent: ViewStyle = {
+  paddingLeft: 48,
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  paddingVertical: spacing.medium,
 }

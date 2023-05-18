@@ -4,7 +4,13 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { BlankScreen, DiscoverScreen, FeedScreen, HomeMessagesScreen } from "../screens"
+import {
+  BlankScreen,
+  DiscoverScreen,
+  FeedScreen,
+  HomeMessagesScreen,
+  ProfileScreen,
+} from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -67,7 +73,6 @@ export function TabNavigator() {
           ),
         }}
       />
-
       <Tab.Screen
         name="Create"
         component={BlankScreen}
@@ -88,14 +93,13 @@ export function TabNavigator() {
           ),
         }}
       />
-
       <Tab.Screen
         name="Profile"
-        component={BlankScreen}
+        component={ProfileScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={30} />
+            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />
