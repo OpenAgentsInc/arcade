@@ -71,7 +71,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     setLoading(true)
     // fetch messages
     channelStore.reset()
-    channelStore.fetchMessages(channel, id)
+    channelStore.fetchMessages(channel, id).catch(console.error)
     // done
     setLoading(false)
   }, [id, channelStore])
