@@ -4,17 +4,17 @@ import { Button, TextField, Text } from "app/components"
 import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
-import { BottomSheetModal, BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet"
+import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 
 export function MessageForm({
-  pool,
-  channelID,
-  replyTo,
+  channel,
+  listings,
+  channelId,
 }: {
-  pool: any
-  channelID: string
-  replyTo?: string
+  channel: any
+  listings: any
+  channelId: string
 }) {
   // channel messages store
   const { channelStore } = useStores()
@@ -22,11 +22,13 @@ export function MessageForm({
   // offer
   const [type, setType] = useState("buy")
   const [attachOffer, setAttachOffer] = useState(false)
+
+  // formik
   const formikRef = useRef(null)
 
   // bottom sheet
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ["50%", "75%", "90%"], [])
+  const snapPoints = useMemo(() => ["50%", "75%", "100%"], [])
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present()
@@ -40,42 +42,49 @@ export function MessageForm({
   }, [])
 
   const createEvent = async (data) => {
-    // create tags
-    const tags = [["e", channelID, "", "root"]]
+    // send message
+    if (data.message && !attachOffer) {
+      // publish event
+      const event = await channel.send(channelId, data.message)
 
-    // add reply to tag if present
-    if (replyTo) {
-      tags.push(["e", replyTo, "", "reply"])
-    }
-
-    // create offer and add offer to tags if present
-    if (data.offerCurrency && data.offerAmount && data.offerRate && data.offerPayment) {
-      const offer = {
-        from: type === "buy" ? data.offerCurrency : "BTC",
-        to: type === "buy" ? "BTC" : data.offerCurrency,
-        amount: data.offerAmount,
-        rate: data.offerRate,
-        payment: data.offerPayment,
+      if (event) {
+        // reset form
+        formikRef.current?.resetForm()
+        // reset attach offer state
+        setAttachOffer(false)
+        // add event to channel store
+        channelStore.addMessage(event)
+        // log, todo: remove
+        console.log("published event to channel:", channelId)
       }
-
-      tags.push(["a", JSON.stringify(offer), "", "offer"])
     }
+    // send listing
+    if (!data.message && attachOffer) {
+      // publish event
+      const listing = await listings.post({
+        type: "l1",
+        action: type,
+        item: "bitcoin",
+        content: data.content,
+        amt: data.amt,
+        min_amt: data.min_amt,
+        payments: [data.payments],
+        currency: data.currency,
+        price: data.price,
+        expiration: data.expiration,
+        geohash: data.geohash,
+      })
 
-    // publish event
-    const event = await pool.send({
-      content: data.message,
-      tags,
-      kind: 42,
-    })
-
-    if (event) {
-      // reset form
-      formikRef.current?.resetForm()
-      setAttachOffer(false)
-      // add event to channel store
-      channelStore.addMessage(event)
-      // log, todo: remove
-      console.log("published event to channel:", channelID)
+      if (listing) {
+        // reset form
+        formikRef.current?.resetForm()
+        // reset attach offer state
+        setAttachOffer(false)
+        // add event to channel store
+        channelStore.addMessage(listing)
+        // log, todo: remove
+        console.log("published listing to channel:", channelId)
+      }
     }
   }
 
@@ -83,11 +92,14 @@ export function MessageForm({
     <Formik
       innerRef={formikRef}
       initialValues={{
-        message: "",
-        offerCurrency: "USD",
-        offerAmount: "",
-        offerRate: "",
-        offerPayment: "",
+        content: "",
+        price: "",
+        currency: "",
+        amt: "",
+        min_amt: "",
+        payments: "",
+        expiration: "",
+        geohash: "",
       }}
       onSubmit={(values) => createEvent(values)}
     >
@@ -98,9 +110,9 @@ export function MessageForm({
             placeholderTextColor={colors.palette.cyan500}
             style={$input}
             inputWrapperStyle={$inputWrapper}
-            onChangeText={handleChange("message")}
-            onBlur={handleBlur("message")}
-            value={values.message}
+            onChangeText={handleChange("content")}
+            onBlur={handleBlur("content")}
+            value={values.content}
             autoCapitalize="none"
             LeftAccessory={() => (
               <Button
@@ -130,7 +142,7 @@ export function MessageForm({
             enablePanDownToClose={true}
             backgroundStyle={$modal}
           >
-            <BottomSheetView style={$modalContent}>
+            <BottomSheetScrollView style={$modalContent}>
               <Text preset="bold" size="lg" text="Create a trade request" style={$modalHeader} />
               <View style={$modalForm}>
                 <View style={$buttonGroup}>
@@ -150,13 +162,25 @@ export function MessageForm({
                   />
                 </View>
                 <View style={$formInputGroup}>
+                  <Text text="Price" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    inputMode="numeric"
+                    placeholder="29000"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("price")}
+                    onBlur={handleBlur("price")}
+                    value={values.price}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
                   <Text text="Currency" preset="default" size="sm" />
                   <BottomSheetTextInput
-                    placeholder="USD"
+                    placeholder="USD, EUR, etc."
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("offerCurrency")}
-                    onBlur={handleBlur("offerCurrency")}
-                    value={values.offerCurrency}
+                    onChangeText={handleChange("currency")}
+                    onBlur={handleBlur("currency")}
+                    value={values.currency}
                     style={[$formInput, $formInputText]}
                   />
                 </View>
@@ -166,32 +190,54 @@ export function MessageForm({
                     inputMode="numeric"
                     placeholder="0.00"
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("offerAmount")}
-                    onBlur={handleBlur("offerAmount")}
-                    value={values.offerAmount}
+                    onChangeText={handleChange("amt")}
+                    onBlur={handleBlur("amt")}
+                    value={values.amt}
                     style={[$formInput, $formInputText]}
                   />
                 </View>
                 <View style={$formInputGroup}>
-                  <Text text="Rate" preset="default" size="sm" />
+                  <Text text="Min. Amount" preset="default" size="sm" />
                   <BottomSheetTextInput
                     inputMode="numeric"
                     placeholder="0.00"
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("offerRate")}
-                    onBlur={handleBlur("offerRate")}
-                    value={values.offerRate}
+                    onChangeText={handleChange("min_amt")}
+                    onBlur={handleBlur("min_amt")}
+                    value={values.min_amt}
                     style={[$formInput, $formInputText]}
                   />
                 </View>
                 <View style={$formInputGroup}>
                   <Text text="Payment Methods" preset="default" size="sm" />
                   <BottomSheetTextInput
-                    placeholder="PayPal, Venmo, Cash App"
+                    placeholder="PayPal, Venmo, Cash App,..."
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("offerPayment")}
-                    onBlur={handleBlur("offerPayment")}
-                    value={values.offerPayment}
+                    onChangeText={handleChange("payments")}
+                    onBlur={handleBlur("payments")}
+                    value={values.payments}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Expiration" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    placeholder="1h, 12h, ..."
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("expiration")}
+                    onBlur={handleBlur("expiration")}
+                    value={values.expiration}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
+                <View style={$formInputGroup}>
+                  <Text text="Geohash" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    placeholder="testing only, will be removed"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("geohash")}
+                    onBlur={handleBlur("geoash")}
+                    value={values.geohash}
                     style={[$formInput, $formInputText]}
                   />
                 </View>
@@ -202,7 +248,7 @@ export function MessageForm({
                   onPress={() => handleAttachOffer()}
                 />
               </View>
-            </BottomSheetView>
+            </BottomSheetScrollView>
           </BottomSheetModal>
         </>
       )}
@@ -265,6 +311,7 @@ const $modalHeader: ViewStyle = {
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
+  marginBottom: spacing.extraLarge,
 }
 
 const $modalForm: ViewStyle = {

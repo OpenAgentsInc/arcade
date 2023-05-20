@@ -17,10 +17,10 @@ export const ChannelStoreModel = types
       return self.messages.slice()
     },
     get listing() {
-      return self.messages.filter((m) => m.tags.find((t) => t[0] === "a"))
+      return self.messages.filter((m) => m.tags.find((t) => t[0] === "x" && t[1] === "listing"))
     },
     get ignoreOffers() {
-      return self.messages.filter((m) => m.tags.find((t) => t[0] === "e" && t[3] !== "reply"))
+      return self.messages.filter((m) => m.tags.find((t) => t[1] !== "offer"))
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({

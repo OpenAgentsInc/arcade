@@ -3,23 +3,24 @@ import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Card, Header, Screen, Text, Button } from "app/components"
+import { Card, Header, Screen, Text, RelayContext, ListingItem } from "app/components"
 import { spacing, colors } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, PlusCircleIcon, ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { RelayContext } from "app/components/RelayProvider"
-import Nip28Channel from "arclib/src/channel"
 import { delay } from "app/utils/delay"
+import Nip28Channel from "arclib/src/channel"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 
+// #TODO: replace with real channel id
+const groupId = "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b"
+
 export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
   const pool: any = useContext(RelayContext)
-  const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
+  const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
 
-  const [channel] = useState("d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b")
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
 
@@ -52,7 +53,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(nip28, channel), delay(750)])
+    await Promise.all([channelStore.fetchMessages(channel, groupId), delay(750)])
     setRefreshing(false)
   }
 
@@ -61,7 +62,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     setLoading(true)
     // fetch messages
     channelStore.reset()
-    channelStore.fetchMessages(nip28, channel)
+    channelStore.fetchMessages(channel, groupId)
     // done
     setLoading(false)
   }, [channel, channelStore])
@@ -84,20 +85,12 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
             data={channelStore.listing}
             extraData={channelStore.listing}
             renderItem={({ item }) => {
-              const a = item.tags.find((tag) => tag["0"] === "a")
-              const offer = JSON.parse(a[1])
-              const type = offer.from === "BTC" ? "Sell" : "Buy"
-
               return (
                 <Card
                   preset="reversed"
-                  RightComponent={<Button text={type} style={$itemButton} />}
-                  heading={item.content}
                   ContentComponent={
                     <View>
-                      <Text text={`Amount: ${offer.amount}`} />
-                      <Text text={`Rate: ${offer.rate}`} />
-                      <Text text={`Payment: ${offer.payment}`} />
+                      <ListingItem tags={item.tags} />
                     </View>
                   }
                   onPress={() =>
@@ -174,23 +167,13 @@ const $content: ViewStyle = {
 
 const $item: ViewStyle = {
   flex: 1,
-  paddingVertical: spacing.extraSmall,
-  paddingHorizontal: spacing.small,
-  marginBottom: spacing.small,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan500,
-  borderRadius: spacing.small / 2,
-  backgroundColor: colors.palette.overlay20,
-  shadowColor: "transparent",
-}
-
-const $itemButton: ViewStyle = {
-  backgroundColor: "transparent",
-  borderWidth: 0,
-  paddingHorizontal: 0,
   paddingVertical: 0,
-  height: 30,
-  minHeight: 30,
+  paddingHorizontal: 0,
+  marginBottom: spacing.small,
+  borderWidth: 0,
+  borderRadius: 0,
+  backgroundColor: "transparent",
+  shadowColor: "transparent",
 }
 
 const $emptyState: ViewStyle = {
