@@ -77,7 +77,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   return (
     <BottomSheetModalProvider>
-      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
+      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
         <View style={$container}>
           <View style={$main}>
             <FlashList

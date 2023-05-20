@@ -4,7 +4,7 @@ import { Button, TextField, Text } from "app/components"
 import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
-import { BottomSheetModal, BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet"
+import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 
 export function MessageForm({
@@ -130,7 +130,7 @@ export function MessageForm({
             enablePanDownToClose={true}
             backgroundStyle={$modal}
           >
-            <BottomSheetView style={$modalContent}>
+            <BottomSheetScrollView style={$modalContent}>
               <Text preset="bold" size="lg" text="Create a trade request" style={$modalHeader} />
               <View style={$modalForm}>
                 <View style={$buttonGroup}>
@@ -202,7 +202,7 @@ export function MessageForm({
                   onPress={() => handleAttachOffer()}
                 />
               </View>
-            </BottomSheetView>
+            </BottomSheetScrollView>
           </BottomSheetModal>
         </>
       )}

@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, ViewStyle } from "react-native"
+import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, Button, TextField } from "app/components"
@@ -75,7 +75,14 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
   }, [userStore.pubkey])
 
   return (
-    <Screen style={$root} preset="scroll" contentContainerStyle={$container}>
+    <Screen
+      style={$root}
+      preset="scroll"
+      contentContainerStyle={$container}
+      safeAreaEdges={["bottom"]}
+      keyboardOffset={120}
+      KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+    >
       <Formik
         innerRef={formikRef}
         enableReinitialize={true}
@@ -90,7 +97,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
         onSubmit={(values) => updateProfile(values)}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <>
+          <View>
             <Text text="Update Profile" preset="heading" size="xl" style={$title} />
             <TextField
               label="Display Name"
@@ -100,7 +107,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               onBlur={handleBlur("displayName")}
               value={values.displayName}
               autoCapitalize="none"
-              autoFocus={true}
+              autoFocus={false}
             />
             <TextField
               label="Name"
@@ -153,7 +160,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               autoFocus={false}
             />
             <Button text="Continue" onPress={() => handleSubmit()} style={$button} />
-          </>
+          </View>
         )}
       </Formik>
     </Screen>
