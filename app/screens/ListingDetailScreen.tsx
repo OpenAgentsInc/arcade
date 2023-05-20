@@ -1,29 +1,43 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Card, Header, Screen, Text, Button } from "app/components"
+import {
+  Card,
+  Header,
+  Screen,
+  Text,
+  Button,
+  UserOffer,
+  OfferForm,
+  RelayContext,
+  ListingItem,
+  ListingOfferItem,
+} from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { ChatOffer } from "app/components/ChatOffer"
-import { RelayContext } from "app/components/RelayProvider"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import { OfferForm } from "app/components/OfferForm"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
-import { UserOffer } from "app/components/UserOffer"
+import { ArcadeListings } from "arclib"
+import Nip28Channel from "arclib/src/channel"
 
 interface ListingDetailScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ListingDetail">> {}
 
 export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
   function ListingDetailScreen({ route }: { route: any }) {
-    const pool: any = useContext(RelayContext)
-    const [data, setData] = useState([])
-
     // Get route params
     const { channelId, listingId, listingDetail } = route.params
+
+    // init relaypool
+    const pool: any = useContext(RelayContext)
+    const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+    const listings = useMemo(() => new ArcadeListings(channel, channelId), [channel, channelId])
+
+    // init data state
+    const [data, setData] = useState([])
 
     // User store
     const { userStore } = useStores()
@@ -71,19 +85,19 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
 
     useEffect(() => {
       async function fetchOffers() {
-        const data = await pool.list([{ "#e": [listingId], kinds: [42] }])
+        const data = await listings.listOffers(listingId)
         setData(data)
       }
 
       fetchOffers().catch(console.error)
-    }, [listingId])
+    }, [listings])
 
     return (
       <BottomSheetModalProvider>
         <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
           <View style={$container}>
             <View style={$main}>
-              <ChatOffer tags={listingDetail} />
+              <ListingItem tags={listingDetail} />
               <View style={$offerContainer}>
                 <Text preset="bold" size="lg" text="Offers" />
                 <FlashList
@@ -105,16 +119,16 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                         ContentComponent={
                           <View>
                             <UserOffer pubkey={item.pubkey} />
+                            <ListingOfferItem data={item} />
                           </View>
                         }
-                        FooterComponent={<Text text={item.content} />}
                         style={$item}
                       />
                     )
                   }}
                   ListEmptyComponent={
                     <View style={$emptyState}>
-                      <Text text="Loading..." />
+                      <Text text="No offers..." />
                     </View>
                   }
                   estimatedItemSize={200}
@@ -122,12 +136,7 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
               </View>
             </View>
             <View style={$form}>
-              <OfferForm
-                pool={pool}
-                channelId={channelId}
-                listingId={listingId}
-                pubkey={userStore.pubkey}
-              />
+              <OfferForm listings={listings} listingId={listingId} />
             </View>
           </View>
         </Screen>

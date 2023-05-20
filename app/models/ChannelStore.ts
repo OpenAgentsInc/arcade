@@ -28,6 +28,10 @@ export const ChannelStoreModel = types
       const events = await channel.list(id)
       self.setProp("messages", events)
     },
+    async fetchListings(listings: any) {
+      const events = await listings.list()
+      self.setProp("messages", events)
+    },
     addMessage(event: any) {
       self.messages.unshift(event)
     },

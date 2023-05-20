@@ -3,19 +3,16 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text } from "app/components"
+import { Header, Screen, Text, RelayContext, User, MessageForm, ListingItem } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
-import { MessageForm } from "app/components/MessageForm"
-import { RelayContext } from "app/components/RelayProvider"
-import Nip28Channel from "arclib/src/channel"
-import { User } from "app/components/User"
 import { FlashList } from "@shopify/flash-list"
 import { delay } from "app/utils/delay"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import { ChatOffer } from "app/components/ChatOffer"
+import { ArcadeListings } from "arclib"
+import Nip28Channel from "arclib/src/channel"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -24,13 +21,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  const pool: any = useContext(RelayContext)
-  const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
-  const [loading, setLoading] = useState(false)
-  const [refreshing, setRefreshing] = useState(false)
-
   // Get route params
   const { id, name } = route.params
+
+  // init relaypool
+  const pool: any = useContext(RelayContext)
+  const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+  const listings = useMemo(() => new ArcadeListings(channel, id), [channel, id])
+
+  // screen states
+  const [loading, setLoading] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   // Channel store
   const { channelStore } = useStores()
@@ -61,7 +62,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(nip28, id), delay(750)])
+    await Promise.all([channelStore.fetchMessages(channel, id), delay(750)])
     setRefreshing(false)
   }
 
@@ -70,7 +71,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     setLoading(true)
     // fetch messages
     channelStore.reset()
-    channelStore.fetchMessages(nip28, id)
+    channelStore.fetchMessages(channel, id)
     // done
     setLoading(false)
   }, [id, channelStore])
@@ -97,7 +98,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                         })
                       }
                     >
-                      <ChatOffer tags={item.tags} />
+                      <ListingItem tags={item.tags} />
                     </Pressable>
                   </View>
                 </View>
@@ -120,7 +121,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             />
           </View>
           <View style={$form}>
-            <MessageForm pool={pool} channelID={id} />
+            <MessageForm channel={channel} listings={listings} channelId={id} />
           </View>
         </View>
       </Screen>

@@ -3,23 +3,26 @@ import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Card, Header, Screen, Text, Button } from "app/components"
+import { Card, Header, Screen, Text, Button, RelayContext } from "app/components"
 import { spacing, colors } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, PlusCircleIcon, ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { RelayContext } from "app/components/RelayProvider"
-import Nip28Channel from "arclib/src/channel"
 import { delay } from "app/utils/delay"
+import { ArcadeListings } from "arclib"
+import Nip28Channel from "arclib/src/channel"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 
+// #TODO: replace with real channel id
+const groupId = "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b"
+
 export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
   const pool: any = useContext(RelayContext)
-  const nip28 = useMemo(() => new Nip28Channel(pool), [pool])
+  const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+  const listings = useMemo(() => new ArcadeListings(channel, groupId), [channel, groupId])
 
-  const [channel] = useState("d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b")
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
 
@@ -52,7 +55,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(nip28, channel), delay(750)])
+    await Promise.all([channelStore.fetchListings(listings), delay(750)])
     setRefreshing(false)
   }
 
@@ -61,10 +64,10 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     setLoading(true)
     // fetch messages
     channelStore.reset()
-    channelStore.fetchMessages(nip28, channel)
+    channelStore.fetchListings(listings)
     // done
     setLoading(false)
-  }, [channel, channelStore])
+  }, [listings, channelStore])
 
   return (
     <Screen style={$root} preset="scroll">
