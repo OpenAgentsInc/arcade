@@ -4,6 +4,8 @@ import { useStores } from "app/models"
 import { nip19 } from "nostr-tools"
 
 export const DEFAULT_RELAYS = [
+  "wss://relay.arcade.city",
+  "wss://arc1.arcadelabs.co",
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
   "wss://nostr.mutinywallet.com",
