@@ -39,8 +39,9 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
     // init data state
     const [data, setData] = useState([])
 
-    // User store
+    // Stores
     const { userStore } = useStores()
+    const { channelStore } = useStores()
 
     // Pull in navigation via hook
     const navigation = useNavigation<any>()
@@ -88,13 +89,20 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
         const data = await listings.listOffers(listingId)
         setData(data)
       }
-
       fetchOffers().catch(console.error)
-    }, [listings])
+
+      // listing new messages
+      pool.addEventCallback((event) => {
+        channelStore.addMessage(event)
+      })
+      pool.start([
+        { "#e": [listingId], "#x": ["offer"], kinds: [42], since: Math.floor(Date.now() / 1000) },
+      ])
+    }, [])
 
     return (
       <BottomSheetModalProvider>
-        <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]}>
+        <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
           <View style={$container}>
             <View style={$main}>
               <ListingItem tags={listingDetail} />
@@ -102,7 +110,6 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                 <Text preset="bold" size="lg" text="Offers" />
                 <FlashList
                   data={data}
-                  extraData={data}
                   renderItem={({ item }) => {
                     return (
                       <Card

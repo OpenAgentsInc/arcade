@@ -35,12 +35,11 @@ export function ListingOfferItem({ data }: { data: any }) {
 }
 
 const $container: ViewStyle = {
-  marginTop: spacing.tiny,
-  backgroundColor: colors.palette.cyan950,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan500,
-  borderRadius: spacing.tiny,
-  padding: spacing.small,
+  backgroundColor: "transparent",
+  borderWidth: 0,
+  marginTop: spacing.small,
+  padding: 0,
+  width: "100%",
   minHeight: 200,
 }
 

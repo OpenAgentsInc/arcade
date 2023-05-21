@@ -19,8 +19,10 @@ export const ChannelStoreModel = types
     get listing() {
       return self.messages.filter((m) => m.tags.find((t) => t[0] === "x" && t[1] === "listing"))
     },
-    get ignoreOffers() {
-      return self.messages.filter((m) => m.tags.find((t) => t[1] !== "offer"))
+    get sortedAndIgnoreOffers() {
+      const filterOffers = self.messages.filter((m) => m.tags.find((t) => t[1] !== "offer"))
+      const sorted = filterOffers.sort((a, b) => b.created_at - a.created_at)
+      return sorted
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
