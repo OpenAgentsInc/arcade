@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -9,7 +9,6 @@ import { SearchIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
-import { delay } from "app/utils/delay"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { ArcadeListings } from "arclib"
 import Nip28Channel from "arclib/src/channel"
@@ -28,10 +27,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   const pool: any = useContext(RelayContext)
   const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
   const listings = useMemo(() => new ArcadeListings(channel, id), [channel, id])
-
-  // screen states
-  const [loading, setLoading] = useState(false)
-  const [refreshing, setRefreshing] = useState(false)
 
   // Channel store
   const { channelStore } = useStores()
@@ -60,21 +55,16 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     })
   }, [])
 
-  async function manualRefresh() {
-    setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(channel, id), delay(750)])
-    setRefreshing(false)
-  }
-
   useEffect(() => {
-    // loading
-    setLoading(true)
     // fetch messages
     channelStore.reset()
     channelStore.fetchMessages(channel, id).catch(console.error)
-    // done
-    setLoading(false)
-  }, [id, channelStore])
+    // listing new messages
+    pool.addEventCallback((event) => {
+      channelStore.addMessage(event)
+    })
+    pool.start([{ "#e": [id], kinds: [42], since: Math.floor(Date.now() / 1000) }])
+  }, [id])
 
   return (
     <BottomSheetModalProvider>
@@ -82,8 +72,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.ignoreOffers}
-              extraData={channelStore.messages}
+              data={channelStore.sortedAndIgnoreOffers}
               renderItem={({ item }) => (
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
@@ -104,20 +93,12 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 </View>
               )}
               ListEmptyComponent={
-                loading ? (
-                  <View style={$emptyState}>
-                    <Text text="Loading..." />
-                  </View>
-                ) : (
-                  <View style={$emptyState}>
-                    <Text text="No messages..." />
-                  </View>
-                )
+                <View style={$emptyState}>
+                  <Text text="Loading..." />
+                </View>
               }
               estimatedItemSize={100}
               inverted={true}
-              refreshing={refreshing}
-              onRefresh={manualRefresh}
             />
           </View>
           <View style={$form}>

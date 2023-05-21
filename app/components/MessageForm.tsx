@@ -3,7 +3,6 @@ import { TextStyle, View, ViewStyle } from "react-native"
 import { Button, TextField, Text } from "app/components"
 import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
-import { useStores } from "app/models"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 
@@ -16,9 +15,6 @@ export function MessageForm({
   listings: any
   channelId: string
 }) {
-  // channel messages store
-  const { channelStore } = useStores()
-
   // offer
   const [type, setType] = useState("buy")
   const [attachOffer, setAttachOffer] = useState(false)
@@ -51,8 +47,6 @@ export function MessageForm({
         formikRef.current?.resetForm()
         // reset attach offer state
         setAttachOffer(false)
-        // add event to channel store
-        channelStore.addMessage(message)
         // log, todo: remove
         console.log("published event to channel:", channelId)
       }
@@ -71,8 +65,6 @@ export function MessageForm({
         expiration: data.expiration,
         geohash: data.geohash,
       })
-
-      console.log(listing)
 
       if (listing) {
         // reset form
@@ -109,8 +101,7 @@ export function MessageForm({
             inputWrapperStyle={$inputWrapper}
             onChangeText={handleChange("content")}
             onBlur={handleBlur("content")}
-            value={!attachOffer ? values.content : "Offer attached"}
-            editable={!attachOffer}
+            value={values.content}
             autoCapitalize="none"
             LeftAccessory={() => (
               <Button
