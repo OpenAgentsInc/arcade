@@ -42,25 +42,22 @@ export function MessageForm({
   }, [])
 
   const createEvent = async (data) => {
-    // send message
-    if (data.message && !attachOffer) {
-      // publish event
-      const event = await channel.send(channelId, data.message)
+    if (!attachOffer) {
+      // send message
+      const message = await channel.send(channelId, data.content)
 
-      if (event) {
+      if (message) {
         // reset form
         formikRef.current?.resetForm()
         // reset attach offer state
         setAttachOffer(false)
         // add event to channel store
-        channelStore.addMessage(event)
+        channelStore.addMessage(message)
         // log, todo: remove
         console.log("published event to channel:", channelId)
       }
-    }
-    // send listing
-    if (!data.message && attachOffer) {
-      // publish event
+    } else {
+      // send listing
       const listing = await listings.post({
         type: "l1",
         action: type,
@@ -75,13 +72,13 @@ export function MessageForm({
         geohash: data.geohash,
       })
 
+      console.log(listing)
+
       if (listing) {
         // reset form
         formikRef.current?.resetForm()
         // reset attach offer state
         setAttachOffer(false)
-        // add event to channel store
-        channelStore.addMessage(listing)
         // log, todo: remove
         console.log("published listing to channel:", channelId)
       }
@@ -112,7 +109,8 @@ export function MessageForm({
             inputWrapperStyle={$inputWrapper}
             onChangeText={handleChange("content")}
             onBlur={handleBlur("content")}
-            value={values.content}
+            value={!attachOffer ? values.content : "Offer attached"}
+            editable={!attachOffer}
             autoCapitalize="none"
             LeftAccessory={() => (
               <Button
