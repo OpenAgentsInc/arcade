@@ -95,7 +95,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
                   }
                   onPress={() =>
                     navigation.navigate("ListingDetail", {
-                      channelId: channel,
+                      channelId: groupId,
                       listingId: item.id,
                       listingDetail: item.tags,
                     })
