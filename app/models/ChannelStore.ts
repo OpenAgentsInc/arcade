@@ -21,7 +21,7 @@ export const ChannelStoreModel = types
     },
     get sortedAndIgnoreOffers() {
       const filterOffers = self.messages.filter((m) => m.tags.find((t) => t[1] !== "offer"))
-      const sorted = filterOffers.sort((a, b) => b.created_at - a.created_at)
+      const sorted = filterOffers.slice().sort((a, b) => b.created_at - a.created_at)
       return sorted
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -1,15 +1,20 @@
-import React, { useRef, useMemo, useCallback, useState } from "react"
+import React, { useRef, useMemo, useCallback } from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
-import { Button, TextField, Text } from "app/components"
-import { SendIcon, Store } from "lucide-react-native"
+import { Button, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
+import { StoreIcon } from "lucide-react-native"
 
-export function OfferForm({ listings, listingId }: { listings: any; listingId: string }) {
-  // offer
-  const [attachOffer, setAttachOffer] = useState(false)
-
+export function OfferForm({
+  setData,
+  listings,
+  listingId,
+}: {
+  setData: any
+  listings: any
+  listingId: string
+}) {
   // formik
   const formikRef = useRef(null)
 
@@ -21,87 +26,58 @@ export function OfferForm({ listings, listingId }: { listings: any; listingId: s
     bottomSheetModalRef.current?.present()
   }, [])
 
-  const handleAttachOffer = useCallback(() => {
-    // toggle attach offer
-    setAttachOffer(true)
-    // close bottom sheet
-    bottomSheetModalRef.current?.close()
-  }, [])
-
   const createEvent = async (data) => {
-    // send offer
-    if (attachOffer) {
-      // publish event
-      const listing = await listings.postOffer({
-        type: "o1",
-        listing_id: listingId,
-        item: "bitcoin",
-        content: data.content,
-        amt: data.amt,
-        payments: [data.payments],
-        currency: data.currency,
-        price: data.price,
-        expiration: data.expiration,
-        geohash: data.geohash,
-      })
+    const offer = {
+      content: data.content,
+      amt: data.amt,
+      payments: [data.payments],
+      currency: data.currency,
+      price: data.price,
+      expiration: data.expiration,
+      geohash: data.geohash,
+    }
 
-      if (listing) {
-        // reset form
-        formikRef.current?.resetForm()
-        // reset attach offer state
-        setAttachOffer(false)
-        // log, todo: remove
-        console.log("published offer to listing:", listingId)
-      }
+    // publish event
+    const event = await listings.postOffer({
+      type: "o1",
+      listing_id: listingId,
+      item: "bitcoin",
+      ...offer,
+    })
+
+    if (event) {
+      // update parent data
+      setData((prevData) => [{ ...event, ...offer }, ...prevData])
+      // reset form
+      formikRef.current?.resetForm()
+      // close bottom sheet
+      bottomSheetModalRef.current?.close()
+      // log, todo: remove
+      console.log("published offer to listing:", listingId)
     }
   }
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={{
-        content: "",
-        price: "",
-        currency: "",
-        amt: "",
-        payments: "",
-        expiration: "",
-        geohash: "",
-      }}
-      onSubmit={(values) => createEvent(values)}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
-        <>
-          <TextField
-            placeholder="Message"
-            placeholderTextColor={colors.palette.cyan500}
-            style={$input}
-            inputWrapperStyle={$inputWrapper}
-            onChangeText={handleChange("content")}
-            onBlur={handleBlur("content")}
-            value={values.content}
-            autoCapitalize="none"
-            LeftAccessory={() => (
-              <Button
-                onPress={() => handlePresentModalPress()}
-                LeftAccessory={() =>
-                  attachOffer ? (
-                    <View style={$attachedOffer} />
-                  ) : (
-                    <Store width={18} height={18} style={{ color: colors.palette.cyan600 }} />
-                  )
-                }
-                style={$listingButton}
-              />
-            )}
-            RightAccessory={() => (
-              <Button
-                onPress={() => handleSubmit()}
-                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
-                style={$sendButton}
-              />
-            )}
-          />
+    <>
+      <Button
+        onPress={() => handlePresentModalPress()}
+        LeftAccessory={() => <StoreIcon style={{ color: colors.text }} />}
+        style={$sendButton}
+      />
+      <Formik
+        innerRef={formikRef}
+        initialValues={{
+          content: "",
+          price: "",
+          currency: "",
+          amt: "",
+          payments: "",
+          expiration: "1 hour",
+          geohash: "",
+        }}
+        onSubmit={(values) => createEvent(values)}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
           <BottomSheetModal
             ref={bottomSheetModalRef}
             index={1}
@@ -110,7 +86,7 @@ export function OfferForm({ listings, listingId }: { listings: any; listingId: s
             backgroundStyle={$modal}
           >
             <BottomSheetScrollView style={$modalContent}>
-              <Text preset="bold" size="lg" text="Create a trade request" style={$modalHeader} />
+              <Text preset="bold" size="lg" text="Create a offer" style={$modalHeader} />
               <View style={$modalForm}>
                 <View style={$formInputGroup}>
                   <Text text="Price" preset="default" size="sm" />
@@ -180,61 +156,30 @@ export function OfferForm({ listings, listingId }: { listings: any; listingId: s
                     style={[$formInput, $formInputText]}
                   />
                 </View>
+                <View style={$formInputGroup}>
+                  <Text text="Message" preset="default" size="sm" />
+                  <BottomSheetTextInput
+                    placeholder="Yo"
+                    placeholderTextColor={colors.palette.cyan800}
+                    onChangeText={handleChange("content")}
+                    onBlur={handleBlur("content")}
+                    value={values.content}
+                    style={[$formInput, $formInputText]}
+                  />
+                </View>
                 <Button
                   text="Create offer"
                   style={$createOfferButton}
                   pressedStyle={$createOfferButtonActive}
-                  onPress={() => handleAttachOffer()}
+                  onPress={() => handleSubmit()}
                 />
               </View>
             </BottomSheetScrollView>
           </BottomSheetModal>
-        </>
-      )}
-    </Formik>
+        )}
+      </Formik>
+    </>
   )
-}
-
-const $inputWrapper: ViewStyle = {
-  padding: 0,
-  alignItems: "center",
-  backgroundColor: "transparent",
-  borderWidth: 0,
-  gap: spacing.extraSmall,
-}
-
-const $input: ViewStyle = {
-  width: "100%",
-  height: 45,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: 100,
-  backgroundColor: colors.palette.overlay20,
-  paddingHorizontal: spacing.medium,
-  paddingVertical: 0,
-  marginVertical: 0,
-  marginHorizontal: 0,
-  alignSelf: "center",
-}
-
-const $listingButton: ViewStyle = {
-  width: 24,
-  height: 24,
-  minHeight: 24,
-  backgroundColor: "transparent",
-  borderRadius: 100,
-  borderWidth: 0,
-  flexShrink: 0,
-}
-
-const $sendButton: ViewStyle = {
-  width: 45,
-  height: 45,
-  minHeight: 45,
-  backgroundColor: colors.palette.cyan500,
-  borderRadius: 100,
-  borderWidth: 0,
-  flexShrink: 0,
 }
 
 const $modal: ViewStyle = {
@@ -292,9 +237,15 @@ const $createOfferButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
 }
 
-const $attachedOffer: ViewStyle = {
-  width: 18,
-  height: 18,
-  borderRadius: 18,
-  backgroundColor: colors.palette.cyan200,
+const $sendButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
+  backgroundColor: colors.palette.cyan400,
+  borderRadius: 100,
+  borderWidth: 0,
+  flexShrink: 0,
+  position: "absolute",
+  bottom: spacing.large,
+  right: spacing.large,
 }

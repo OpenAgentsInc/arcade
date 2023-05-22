@@ -59,12 +59,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     // fetch messages
     channelStore.reset()
     channelStore.fetchMessages(channel, id).catch(console.error)
+
     // listing new messages
+    pool.start([{ "#e": [id], kinds: [42], since: Math.floor(Date.now() / 1000) }])
     pool.addEventCallback((event) => {
       channelStore.addMessage(event)
     })
-    pool.start([{ "#e": [id], kinds: [42], since: Math.floor(Date.now() / 1000) }])
-  }, [id])
+
+    return () => {
+      pool.stop()
+    }
+  }, [id, channel])
 
   return (
     <BottomSheetModalProvider>
