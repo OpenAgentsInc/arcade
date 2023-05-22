@@ -7,5 +7,7 @@ import { LogBox } from "react-native"
 // prettier-ignore
 LogBox.ignoreLogs([
   "Require cycle:",
-  "FlashList"
+  "FlashList",
+  "Cannot read property",
+  "nostr-tools:"
 ])
