@@ -41,7 +41,6 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
 
     // Stores
     const { userStore } = useStores()
-    const { channelStore } = useStores()
 
     // Pull in navigation via hook
     const navigation = useNavigation<any>()
@@ -90,19 +89,11 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
         setData(data)
       }
       fetchOffers().catch(console.error)
-
-      // listing new messages
-      pool.addEventCallback((event) => {
-        channelStore.addMessage(event)
-      })
-      pool.start([
-        { "#e": [listingId], "#x": ["offer"], kinds: [42], since: Math.floor(Date.now() / 1000) },
-      ])
-    }, [])
+    }, [listings])
 
     return (
       <BottomSheetModalProvider>
-        <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
+        <Screen style={$root} preset="scroll" keyboardOffset={120}>
           <View style={$container}>
             <View style={$main}>
               <ListingItem tags={listingDetail} />
@@ -142,11 +133,10 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                 />
               </View>
             </View>
-            <View style={$form}>
-              <OfferForm listings={listings} listingId={listingId} />
-            </View>
           </View>
         </Screen>
+
+        <OfferForm setData={setData} listings={listings} listingId={listingId} />
       </BottomSheetModalProvider>
     )
   },
@@ -168,11 +158,6 @@ const $main: ViewStyle = {
 const $offerContainer: ViewStyle = {
   marginVertical: spacing.small,
   flex: 1,
-}
-
-const $form: ViewStyle = {
-  flexShrink: 0,
-  paddingTop: spacing.small,
 }
 
 const $item: ViewStyle = {
