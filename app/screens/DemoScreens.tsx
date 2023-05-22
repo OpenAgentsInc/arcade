@@ -1,16 +1,8 @@
 import { Header, Screen, Text, Button } from "app/components"
 import { useNavigation } from "@react-navigation/native"
-import { colors, spacing } from "app/theme"
+import { colors } from "app/theme"
 import { useLayoutEffect, useState } from "react"
-import { View, ViewStyle, SectionList, FlatList } from "react-native"
-import { BlankScreen as BitcoinTradingScreen } from "./BlankScreen"
-import { BlankScreen as RidesharingScreen } from "./BlankScreen"
-import { BlankScreen as FoodDeliveryScreen } from "./BlankScreen"
-import { BlankScreen as EventTicketsScreen } from "./BlankScreen"
-import { BlankScreen as RentalsScreen } from "./BlankScreen"
-import { BlankScreen as GoodsMarketplaceScreen } from "./BlankScreen"
-import { BlankScreen as PeerLendingScreen } from "./BlankScreen"
-import { BlankScreen as DonationsScreen } from "./BlankScreen"
+import { View, ViewStyle, SectionList } from "react-native"
 
 export const DemoScreens = () => {
   const navigation = useNavigation<any>()
@@ -36,59 +28,44 @@ export const DemoScreens = () => {
     {
       id: 1,
       name: "Peer-to-peer bitcoin trading",
+      route: "BitcoinTrading",
     },
     {
       id: 2,
       name: "Ridesharing",
+      route: "Ridesharing",
     },
     {
       id: 3,
       name: "Food delivery",
+      route: "FoodDelivery",
     },
     {
       id: 4,
       name: "Event tickets",
+      route: "EventTickets",
     },
     {
       id: 5,
       name: "Homestay/short-term rental",
+      route: "Rentals",
     },
     {
       id: 6,
       name: "Handcrafted goods marketplace",
+      route: "GoodsMarketplace",
     },
     {
       id: 7,
       name: "Peer-to-peer lending",
+      route: "PeerLending",
     },
     {
       id: 8,
       name: "Charitable donations",
+      route: "Donations",
     },
   ]
-
-  const renderScreen = (screenId: number) => {
-    console.log(screenId)
-    switch (screenId) {
-      case 1:
-        return <BitcoinTradingScreen />
-      case 2:
-        console.log("rijosdiaosidfj")
-        return <RidesharingScreen />
-      case 3:
-        return <FoodDeliveryScreen />
-      case 4:
-        return <EventTicketsScreen />
-      case 5:
-        return <RentalsScreen />
-      case 6:
-        return <GoodsMarketplaceScreen />
-      case 7:
-        return <PeerLendingScreen />
-      case 8:
-        return <DonationsScreen />
-    }
-  }
 
   return (
     <Screen style={$root}>
@@ -98,11 +75,14 @@ export const DemoScreens = () => {
         renderSectionHeader={({ section: { title } }) => <Text text={title} preset="heading" />}
         renderItem={({ item }) => (
           <View style={{ marginVertical: 10 }}>
-            <Button text={item.name} onPress={() => setSelectedScreen(item.id)} preset="reversed" />
+            <Button
+              text={item.name}
+              onPress={() => navigation.navigate(item.route)}
+              preset="reversed"
+            />
           </View>
         )}
       />
-      <View>{renderScreen(selectedScreen)}</View>
     </Screen>
   )
 }

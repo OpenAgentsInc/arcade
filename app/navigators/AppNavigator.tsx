@@ -15,6 +15,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
+import { DemoNavigator } from "./DemoNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -81,7 +82,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
-          <Stack.Screen name="Demos" component={Screens.DemoScreens} />
+          <Stack.Screen name="Demos" component={DemoNavigator} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />
