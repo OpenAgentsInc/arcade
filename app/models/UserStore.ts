@@ -11,6 +11,7 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
+    payments: "bc1qxe584u98eu040mltfg0z2znndr5jq6a40l0np8",
     isLoggedIn: false,
   })
   .actions(withSetPropAction)

@@ -30,7 +30,7 @@ export function OfferForm({
     const offer = {
       content: data.content,
       amt: data.amt,
-      payments: [data.payments],
+      payment: [data.payment],
       currency: data.currency,
       price: data.price,
       expiration: data.expiration,
@@ -71,7 +71,7 @@ export function OfferForm({
           price: "",
           currency: "",
           amt: "",
-          payments: "",
+          payment: "",
           expiration: "1 hour",
           geohash: "",
         }}
@@ -128,9 +128,9 @@ export function OfferForm({
                   <BottomSheetTextInput
                     placeholder="PayPal, Venmo, Cash App,..."
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("payments")}
-                    onBlur={handleBlur("payments")}
-                    value={values.payments}
+                    onChangeText={handleChange("payment")}
+                    onBlur={handleBlur("payment")}
+                    value={values.payment}
                     style={[$formInput, $formInputText]}
                   />
                 </View>

@@ -20,7 +20,8 @@ export default function RelayProvider({ children }: { children: React.ReactNode 
 
   const nsec = useMemo(() => (privkey ? nip19.nsecEncode(privkey) : null), [privkey])
   const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
-  const pool = useMemo(() => (ident ? new NostrPool(ident) : null), [ident])
+
+  const pool = new NostrPool(ident)
 
   useEffect(() => {
     async function initRelays() {

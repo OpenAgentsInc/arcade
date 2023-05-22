@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native"
 import { SearchIcon, PlusCircleIcon, ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { delay } from "app/utils/delay"
 import Nip28Channel from "arclib/src/channel"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
@@ -20,9 +19,6 @@ const groupId = "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3
 export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
   const pool: any = useContext(RelayContext)
   const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
-
-  const [loading, setLoading] = useState(false)
-  const [refreshing, setRefreshing] = useState(false)
 
   // Channel store
   const { channelStore } = useStores()
@@ -51,21 +47,10 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     })
   }, [])
 
-  async function manualRefresh() {
-    setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(channel, groupId), delay(750)])
-    setRefreshing(false)
-  }
-
   useEffect(() => {
-    // loading
-    setLoading(true)
-    // fetch messages
     channelStore.reset()
     channelStore.fetchMessages(channel, groupId)
-    // done
-    setLoading(false)
-  }, [channel, channelStore])
+  }, [channel, groupId, channelStore])
 
   return (
     <Screen style={$root} preset="scroll">
@@ -90,12 +75,13 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
                   preset="reversed"
                   ContentComponent={
                     <View>
-                      <ListingItem tags={item.tags} />
+                      <ListingItem listingId={item.id} tags={item.tags} />
                     </View>
                   }
                   onPress={() =>
                     navigation.navigate("ListingDetail", {
                       channelId: groupId,
+                      ownerPubkey: item.pubkey,
                       listingId: item.id,
                       listingDetail: item.tags,
                     })
@@ -105,19 +91,11 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
               )
             }}
             ListEmptyComponent={
-              loading ? (
-                <View style={$emptyState}>
-                  <Text text="Loading..." />
-                </View>
-              ) : (
-                <View style={$emptyState}>
-                  <Text text="No listings..." />
-                </View>
-              )
+              <View style={$emptyState}>
+                <Text text="Loading..." />
+              </View>
             }
             estimatedItemSize={300}
-            refreshing={refreshing}
-            onRefresh={manualRefresh}
           />
         </View>
       </View>

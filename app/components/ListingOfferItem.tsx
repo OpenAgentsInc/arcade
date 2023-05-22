@@ -28,7 +28,7 @@ export function ListingOfferItem({ data }: { data: any }) {
       </View>
       <View style={$item}>
         <Text text="Payment" preset="bold" style={$title} />
-        <Text text={data.payments} />
+        <Text text={data.payment} />
       </View>
     </View>
   )

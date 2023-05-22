@@ -59,7 +59,7 @@ export function MessageForm({
         content: data.content,
         amt: data.amt,
         min_amt: data.min_amt,
-        payments: [data.payments],
+        payment: [data.payment],
         currency: data.currency,
         price: data.price,
         expiration: data.expiration,
@@ -86,7 +86,7 @@ export function MessageForm({
         currency: "",
         amt: "",
         min_amt: "",
-        payments: "",
+        payment: "",
         expiration: "",
         geohash: "",
       }}
@@ -202,9 +202,9 @@ export function MessageForm({
                   <BottomSheetTextInput
                     placeholder="PayPal, Venmo, Cash App,..."
                     placeholderTextColor={colors.palette.cyan800}
-                    onChangeText={handleChange("payments")}
-                    onBlur={handleBlur("payments")}
-                    value={values.payments}
+                    onChangeText={handleChange("payment")}
+                    onBlur={handleBlur("payment")}
+                    value={values.payment}
                     style={[$formInput, $formInputText]}
                   />
                 </View>

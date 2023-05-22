@@ -1,9 +1,13 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Text } from "./Text"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
+import { RelayContext } from "./RelayProvider"
+import { UserOffer } from "./UserOffer"
 
-export function ListingItem({ tags }: { tags: any }) {
+export function ListingItem({ listingId, tags }: { listingId: string; tags: any }) {
+  const pool: any = useContext(RelayContext)
+
   const isListing = tags.find((item) => item[0] === "x" && item[1] === "listing")
   const hasData = tags.find((item) => item[0] === "data")
 
@@ -12,6 +16,19 @@ export function ListingItem({ tags }: { tags: any }) {
   }
 
   const data = JSON.parse(hasData[1] || "[]")
+  const [final, setFinal] = useState(null)
+
+  useEffect(() => {
+    async function fetchAccept() {
+      const result = await pool.list([
+        { kinds: [42], "#e": [listingId], "#x": ["final"], limit: 10, since: 0 },
+      ])
+      if (data) {
+        setFinal(result[0])
+      }
+    }
+    fetchAccept().catch(console.error)
+  }, [isListing, hasData])
 
   return (
     <View style={$container}>
@@ -46,6 +63,14 @@ export function ListingItem({ tags }: { tags: any }) {
       <View style={$item}>
         <Text text="Payment" preset="bold" style={$title} />
         <Text text={data.payments} />
+      </View>
+      <View>
+        {final && (
+          <>
+            <Text text="Payed by: " preset="bold" style={$title} />
+            <UserOffer pubkey={final.pubkey} />
+          </>
+        )}
       </View>
     </View>
   )

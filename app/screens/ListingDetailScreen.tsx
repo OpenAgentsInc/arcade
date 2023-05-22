@@ -14,6 +14,8 @@ import {
   RelayContext,
   ListingItem,
   ListingOfferItem,
+  ListingOfferAccept,
+  DEFAULT_RELAYS,
 } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
@@ -29,7 +31,7 @@ interface ListingDetailScreenProps
 export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
   function ListingDetailScreen({ route }: { route: any }) {
     // Get route params
-    const { channelId, listingId, listingDetail } = route.params
+    const { channelId, ownerPubkey, listingId, listingDetail } = route.params
 
     // init relaypool
     const pool: any = useContext(RelayContext)
@@ -46,23 +48,24 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
     const navigation = useNavigation<any>()
 
     // accept offer
-    const acceptOffer = async (offerId: string, ownerPubkey: string) => {
+    const acceptOffer = async (offerId: string, offerPubkey) => {
       // create tags
       const tags = [
-        ["e", channelId, "", "root"],
-        ["e", listingId, "", "reply"],
-        ["e", offerId, "", "accepted"],
-        ["p", ownerPubkey, ""],
+        ["e", channelId, DEFAULT_RELAYS[0], "root"],
+        ["e", offerId, DEFAULT_RELAYS[0], "reply"],
+        ["x", "accept"],
+        ["p", offerPubkey, DEFAULT_RELAYS[0]],
       ]
 
       // publish event
       const event = await pool.send({
-        content: "accepted",
+        content: userStore.payments,
         tags,
         kind: 42,
       })
 
       if (event) {
+        console.log(event)
         // log, todo: remove
         console.log("published accepted event to offer:", listingId)
       }
@@ -96,7 +99,7 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
         <Screen style={$root} preset="scroll" keyboardOffset={120}>
           <View style={$container}>
             <View style={$main}>
-              <ListingItem tags={listingDetail} />
+              <ListingItem listingId={listingId} tags={listingDetail} />
               <View style={$offerContainer}>
                 <Text preset="bold" size="lg" text="Offers" />
                 <FlashList
@@ -106,7 +109,7 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                       <Card
                         preset="reversed"
                         RightComponent={
-                          userStore.pubkey === item.pubkey && (
+                          userStore.pubkey === ownerPubkey && (
                             <Button
                               text="Accept"
                               onPress={() => acceptOffer(item.id, item.pubkey)}
@@ -118,6 +121,14 @@ export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
                           <View>
                             <UserOffer pubkey={item.pubkey} />
                             <ListingOfferItem data={item} />
+                            {userStore.pubkey === item.pubkey && (
+                              <ListingOfferAccept
+                                channelId={channelId}
+                                listingId={listingId}
+                                offerId={item.id}
+                                ownerPubkey={ownerPubkey}
+                              />
+                            )}
                           </View>
                         }
                         style={$item}
