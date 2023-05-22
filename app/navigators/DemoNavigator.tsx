@@ -22,8 +22,8 @@ export const DemoNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="DemoScreens" component={DemoScreens} />
       <Stack.Screen name="BitcoinTrading" component={Screens.BitcoinTradingScreen} />
-      {/* <Stack.Screen name="Ridesharing" component={Screens.RidesharingScreen} />
-      <Stack.Screen name="FoodDelivery" component={Screens.FoodDeliveryScreen} />
+      <Stack.Screen name="Ridesharing" component={Screens.RidesharingScreen} />
+      {/* <Stack.Screen name="FoodDelivery" component={Screens.FoodDeliveryScreen} />
       <Stack.Screen name="EventTickets" component={Screens.EventTicketsScreen} />
       <Stack.Screen name="Rentals" component={Screens.RentalsScreen} />
       <Stack.Screen name="GoodsMarketplace" component={Screens.GoodsMarketplaceScreen} />

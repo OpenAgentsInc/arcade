@@ -8,8 +8,6 @@ export function BitcoinTradingScreen() {
   const [isChartExpanded, setIsChartExpanded] = useState(false)
   const navigation = useNavigation<any>()
 
-  console.log(isChartExpanded)
-
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
