@@ -11,13 +11,15 @@
     "splash": {
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
-      "backgroundColor": "#191015"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "dark",
     "backgroundColor": "#000000",
     "android": {
@@ -30,7 +32,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-android-universal.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#000000"
       }
     },
     "ios": {
@@ -40,7 +42,7 @@
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#000000"
       }
     },
     "web": {
@@ -48,7 +50,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-web.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#000000"
       }
     },
     "extra": {
@@ -56,6 +58,8 @@
         "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
       }
     },
-    "plugins": ["expo-localization"]
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

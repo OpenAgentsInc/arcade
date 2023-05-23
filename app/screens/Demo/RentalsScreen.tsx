@@ -37,7 +37,7 @@ export const RentalsScreen = observer(function RentalsScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Rentals"
+          title="Short-Term Rentals"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}

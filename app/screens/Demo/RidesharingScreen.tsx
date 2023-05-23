@@ -39,7 +39,7 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Ride Sharing"
+          title="Ridesharing"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
