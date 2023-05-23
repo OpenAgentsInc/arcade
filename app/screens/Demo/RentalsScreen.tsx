@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card } from "app/compone
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { SendIcon } from "lucide-react-native"
+import { MapIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 import MapView from "react-native-maps"
 
@@ -42,6 +42,11 @@ export const RentalsScreen = observer(function RentalsScreen() {
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <Pressable onPress={() => navigation.navigate("RentalMap")} style={$headerRightActions}>
+              <MapIcon size={20} color={colors.palette.cyan400} />
+            </Pressable>
+          }
         />
       ),
     })
@@ -137,6 +142,12 @@ const $container: ViewStyle = {
 
 const $main: ViewStyle = {
   flex: 1,
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $form: ViewStyle = {
