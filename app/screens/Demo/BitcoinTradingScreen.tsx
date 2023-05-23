@@ -75,35 +75,37 @@ export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
                   preset="reversed"
                   ContentComponent={
                     <View style={$cardContent}>
-                      <View style={$cardMetadata}>
+                      <View style={$cardHeading}>
                         <Text
                           text={item.metadata.action + " BTC"}
                           preset="bold"
                           style={$cardTitle}
                         />
+                      </View>
+                      <View style={$cardMetadata}>
                         <View style={$cardRow}>
-                          <Text text="Price:" />
-                          <Text text={item.metadata.price + " sats"} style={$cardSubtitle} />
+                          <Text text="Price:" style={$cardSubtitle} />
+                          <Text text={item.metadata.price + " sats"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Currency:" />
-                          <Text text={item.metadata.currency} style={$cardSubtitle} />
+                          <Text text="Currency:" style={$cardSubtitle} />
+                          <Text text={item.metadata.currency} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Amount:" />
-                          <Text text={item.metadata.amt} style={$cardSubtitle} />
+                          <Text text="Amount:" style={$cardSubtitle} />
+                          <Text text={item.metadata.amt + " BTC"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Expiration:" />
-                          <Text text={item.metadata.expiration} style={$cardSubtitle} />
+                          <Text text="Expiration:" style={$cardSubtitle} />
+                          <Text text={item.metadata.expiration} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Payment methods:" />
-                          <Text text={item.metadata.payment} style={$cardSubtitle} />
+                          <Text text="Payment methods:" style={$cardSubtitle} />
+                          <Text text={item.metadata.payment} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Reputation:" />
-                          <Text text={item.metadata.reputation + "%"} style={$cardSubtitle} />
+                          <Text text="Reputation:" style={$cardSubtitle} />
+                          <Text text={item.metadata.reputation + "%"} />
                         </View>
                       </View>
                     </View>
@@ -210,7 +212,7 @@ const $card: ViewStyle = {
   flex: 1,
   paddingVertical: 0,
   paddingHorizontal: 0,
-  marginTop: spacing.small,
+  marginTop: spacing.extraSmall,
   marginBottom: spacing.small,
   borderWidth: 1,
   borderColor: colors.palette.cyan800,
@@ -222,7 +224,13 @@ const $card: ViewStyle = {
 
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
+}
+
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
 }
 
 const $cardTitle: TextStyle = {
