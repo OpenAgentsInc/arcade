@@ -61,7 +61,7 @@ export const DemoScreens = () => {
     {
       id: 8,
       name: "Charitable donations",
-      route: "Donation",
+      route: "Charity",
     },
   ]
 

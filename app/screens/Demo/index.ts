@@ -1,5 +1,6 @@
 export * from "./BitcoinTradingScreen"
 export * from "./RidesharingScreen"
+export * from "./CharityScreen"
 export * from "./DonationScreen"
 export * from "./RentalsScreen"
 export * from "./GoodsMarketplaceScreen"
