@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { ListIcon, SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, ListIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 
 function createRandomMessage() {
@@ -79,20 +79,29 @@ export const FoodDeliveryScreen = observer(function FoodDeliveryScreen() {
                   ContentComponent={
                     <View style={$cardContent}>
                       <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
-                      <View style={$cardMetadata}>
+                      <View style={$cardHeading}>
                         <Text text={item.metadata.name} preset="bold" style={$cardTitle} />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
+                          />
+                        </Pressable>
+                      </View>
+                      <View style={$cardMetadata}>
                         <View style={$cardRow}>
-                          <Text text="Delivery time:" />
-                          <Text text={item.metadata.deliveryTime + " mins"} style={$cardSubtitle} />
+                          <Text text="Delivery time:" style={$cardSubtitle} />
+                          <Text text={item.metadata.deliveryTime + " mins"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Arcade Score:" />
-                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                          <Text text="Arcade Score:" style={$cardSubtitle} />
+                          <Text text={item.metadata.rating + "/5"} />
                         </View>
                         <View>
-                          <Text text="Menu:" />
+                          <Text text="Menu:" style={$cardSubtitle} />
                           {item.metadata.menu.map((item: string, index: number) => (
-                            <Text key={index} text={"- " + item} style={$cardSubtitle} />
+                            <Text key={index} text={"- " + item} />
                           ))}
                         </View>
                       </View>
@@ -216,9 +225,18 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
 }
 
 const $cardImage: ImageStyle = {
@@ -237,10 +255,9 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  paddingBottom: spacing.small,
+  padding: spacing.small,
 }
