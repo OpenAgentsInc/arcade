@@ -85,7 +85,7 @@ export const EventTicketsScreen = observer(function EventTicketsScreen() {
                           <Text text={item.event.price + " sats"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Remain tickets:" style={$cardSubtitle} />
+                          <Text text="Remaining tickets:" style={$cardSubtitle} />
                           <Text text={item.event.availableTickets} />
                         </View>
                         <View>
