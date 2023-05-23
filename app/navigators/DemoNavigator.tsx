@@ -8,6 +8,7 @@ export type DemoStackParamList = {
   BitcoinTrading: undefined
   Ridesharing: undefined
   FoodDelivery: undefined
+  Restaurants: undefined
   EventTickets: undefined
   EventTicketDetail: undefined
   Rentals: undefined
@@ -27,6 +28,7 @@ export const DemoNavigator = () => {
       <Stack.Screen name="Rentals" component={Screens.RentalsScreen} />
       <Stack.Screen name="GoodsMarketplace" component={Screens.GoodsMarketplaceScreen} />
       <Stack.Screen name="FoodDelivery" component={Screens.FoodDeliveryScreen} />
+      <Stack.Screen name="Restaurants" component={Screens.RestaurantsScreen} />
       <Stack.Screen name="EventTickets" component={Screens.EventTicketsScreen} />
       <Stack.Screen name="EventTicketDetail" component={Screens.EventTicketDetailScreen} />
       <Stack.Screen name="PeerLending" component={Screens.PeerLendingScreen} />

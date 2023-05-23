@@ -103,7 +103,7 @@ export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
                         </View>
                         <View style={$cardRow}>
                           <Text text="Reputation:" />
-                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                          <Text text={item.metadata.reputation + "%"} style={$cardSubtitle} />
                         </View>
                       </View>
                     </View>

@@ -1,23 +1,29 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { Screen, Header, TextField, Text, Card, AutoImage } from "app/components"
+import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
-import { FilterIcon } from "lucide-react-native"
-import { faker } from "@faker-js/faker"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
+import { ListIcon, SendIcon } from "lucide-react-native"
+import { faker } from "@faker-js/faker"
 
-function createRandomRestaurant() {
+function createRandomMessage() {
   return {
-    image: faker.image.food(100, 100, true),
-    name: faker.company.name(),
-    deliveryTime: faker.datatype.number({ min: 10, max: 60 }),
+    pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
+    content: "Today menu",
+    metadata: {
+      image: faker.image.food(500, 500, true),
+      name: faker.company.name(),
+      deliveryTime: faker.datatype.number({ min: 10, max: 60 }),
+      menu: ["Pizza", "Pasta", "Burger", "Salad", "Soup", "Sandwich", "Sushi", "Dessert", "Drink"],
+      rating: faker.datatype.number({ min: 1, max: 5 }),
+    },
   }
 }
 
-const createRestaurants = (num = 50) => {
-  return Array.from({ length: num }, createRandomRestaurant)
+const createMessages = (num = 50) => {
+  return Array.from({ length: num }, createRandomMessage)
 }
 
 export const FoodDeliveryScreen = observer(function FoodDeliveryScreen() {
@@ -30,80 +36,141 @@ export const FoodDeliveryScreen = observer(function FoodDeliveryScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Food Devlivery"
+          title="Food Delivery"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <Pressable
+              onPress={() => navigation.navigate("Restaurants")}
+              style={$headerRightActions}
+            >
+              <ListIcon size={20} color={colors.palette.cyan400} />
+            </Pressable>
+          }
         />
       ),
     })
   }, [])
 
   useEffect(() => {
-    const restaurants: any = createRestaurants(20)
-    setData(restaurants)
+    const messages: any = createMessages(20)
+    setData(messages)
   }, [])
 
   return (
-    <Screen preset="scroll" style={$root} contentContainerStyle={$container}>
-      <View style={$filters}>
-        <TextField
-          placeholder="Search for food"
-          placeholderTextColor={colors.palette.cyan600}
-          style={$searchInput}
-          inputWrapperStyle={$searchInputWrapper}
-          autoCapitalize="none"
-          autoFocus={false}
-        />
-        <Pressable style={$filter}>
-          <FilterIcon width={20} height={20} style={{ color: colors.palette.cyan400 }} />
-        </Pressable>
-      </View>
-      <View style={$content}>
+    <Screen
+      preset="fixed"
+      contentContainerStyle={$container}
+      safeAreaEdges={["bottom"]}
+      keyboardOffset={120}
+    >
+      <View style={$main}>
         <FlashList
           data={data}
-          renderItem={({ item }) => {
-            return (
-              <Card
-                preset="reversed"
-                heading={item.name}
-                headingStyle={{ marginTop: spacing.extraSmall, color: colors.palette.cyan400 }}
-                content={"Est. delivery time: " + item.deliveryTime + " min"}
-                LeftComponent={<AutoImage source={{ uri: item.image }} style={$cardImage} />}
-                style={$card}
-              />
-            )
-          }}
+          renderItem={({ item }) => (
+            <Pressable style={$messageItem}>
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <Text text={item.content || "empty message"} style={$messageContent} />
+                <Card
+                  preset="reversed"
+                  ContentComponent={
+                    <View style={$cardContent}>
+                      <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
+                      <View style={$cardMetadata}>
+                        <Text text={item.metadata.name} preset="bold" style={$cardTitle} />
+                        <View style={$cardRow}>
+                          <Text text="Delivery time:" />
+                          <Text text={item.metadata.deliveryTime + " mins"} style={$cardSubtitle} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Arcade Score:" />
+                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                        </View>
+                        <View>
+                          <Text text="Menu:" />
+                          {item.metadata.menu.map((item: string, index: number) => (
+                            <Text key={index} text={"- " + item} style={$cardSubtitle} />
+                          ))}
+                        </View>
+                      </View>
+                    </View>
+                  }
+                  style={$card}
+                />
+              </View>
+            </Pressable>
+          )}
           ListEmptyComponent={
             <View style={$emptyState}>
               <Text text="Loading..." />
             </View>
           }
-          estimatedItemSize={300}
+          estimatedItemSize={120}
+          inverted={true}
+        />
+      </View>
+      <View style={$form}>
+        <TextField
+          placeholder="Message"
+          placeholderTextColor={colors.palette.cyan500}
+          style={$input}
+          inputWrapperStyle={$inputWrapper}
+          autoCapitalize="none"
+          RightAccessory={() => (
+            <Button
+              LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+              style={$sendButton}
+            />
+          )}
         />
       </View>
     </Screen>
   )
 })
 
-const $root: ViewStyle = {
-  flex: 1,
-}
-
 const $container: ViewStyle = {
+  flex: 1,
   paddingHorizontal: spacing.medium,
 }
 
-const $filters: ViewStyle = {
+const $main: ViewStyle = {
   flex: 1,
-  flexDirection: "row",
-  flexWrap: "wrap",
-  gap: spacing.small,
 }
 
-const $searchInputWrapper: ViewStyle = {
-  width: 306,
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
+}
+
+const $form: ViewStyle = {
+  paddingTop: spacing.small,
+}
+
+const $messageItem: ViewStyle = {
+  flex: 1,
+  paddingVertical: spacing.extraSmall,
+}
+
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
+}
+
+const $messageContent: TextStyle = {
+  color: "#fff",
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  transform: [{ scaleY: -1 }],
+  paddingVertical: spacing.medium,
+}
+
+const $inputWrapper: ViewStyle = {
   padding: 0,
   alignItems: "center",
   backgroundColor: "transparent",
@@ -111,47 +178,35 @@ const $searchInputWrapper: ViewStyle = {
   gap: spacing.extraSmall,
 }
 
-const $searchInput: ViewStyle = {
+const $input: ViewStyle = {
   width: "100%",
-  height: 40,
+  height: 45,
   borderWidth: 1,
-  borderColor: colors.palette.cyan800,
-  borderRadius: spacing.extraSmall,
+  borderColor: colors.palette.cyan900,
+  borderRadius: 100,
   backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.medium,
   paddingVertical: 0,
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
-  marginBottom: spacing.small,
 }
 
-const $filter: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  width: 40,
-  height: 40,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: spacing.small / 2,
-  backgroundColor: colors.palette.overlay20,
-}
-
-const $emptyState: ViewStyle = {
-  alignSelf: "center",
-  paddingVertical: spacing.medium,
-}
-
-const $content: ViewStyle = {
-  marginTop: spacing.extraSmall,
+const $sendButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
+  backgroundColor: colors.palette.cyan500,
+  borderRadius: 100,
+  borderWidth: 0,
+  flexShrink: 0,
 }
 
 const $card: ViewStyle = {
   flex: 1,
   paddingVertical: 0,
   paddingHorizontal: 0,
+  marginTop: spacing.small,
   marginBottom: spacing.small,
   borderWidth: 1,
   borderColor: colors.palette.cyan800,
@@ -161,7 +216,31 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.small,
+}
+
 const $cardImage: ImageStyle = {
-  borderTopLeftRadius: spacing.tiny,
-  borderBottomLeftRadius: spacing.tiny,
+  borderTopRightRadius: spacing.tiny,
+  width: "100%",
+  height: 200,
+}
+
+const $cardTitle: TextStyle = {
+  color: colors.palette.cyan500,
+}
+
+const $cardRow: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.tiny,
+}
+
+const $cardSubtitle: TextStyle = {
+  color: colors.palette.cyan700,
+}
+
+const $cardMetadata: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingBottom: spacing.small,
 }
