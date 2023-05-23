@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card } from "app/compone
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { MapIcon, SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, MapIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 import MapView from "react-native-maps"
 
@@ -85,8 +85,17 @@ export const RentalsScreen = observer(function RentalsScreen() {
                           longitudeDelta: 0.0121,
                         }}
                       />
-                      <View style={$cardMetadata}>
+                      <View style={$cardHeading}>
                         <Text text={item.metadata.description} style={$cardTitle} />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
+                          />
+                        </Pressable>
+                      </View>
+                      <View style={$cardMetadata}>
                         <View style={$cardRow}>
                           <Text text="Availability:" />
                           <Text text={item.metadata.availability} style={$cardSubtitle} />
@@ -222,7 +231,16 @@ const $card: ViewStyle = {
 
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
+}
+
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
 }
 
 const $map: ImageStyle = {
@@ -241,10 +259,9 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  paddingBottom: spacing.small,
+  padding: spacing.small,
 }

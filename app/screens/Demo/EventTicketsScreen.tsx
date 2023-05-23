@@ -76,19 +76,21 @@ export const EventTicketsScreen = observer(function EventTicketsScreen() {
                   ContentComponent={
                     <View style={$cardContent}>
                       <AutoImage source={{ uri: item.event.image }} style={$cardImage} />
-                      <View>
-                        <Text text={item.event.name} size="lg" preset="bold" style={$cardTitle} />
+                      <View style={$cardHeading}>
+                        <Text text={item.event.name} preset="bold" style={$cardTitle} />
+                      </View>
+                      <View style={$cardMetadata}>
                         <View style={$cardRow}>
-                          <Text text="Price:" />
-                          <Text text={item.event.price + " sats"} style={$cardSubtitle} />
+                          <Text text="Price:" style={$cardSubtitle} />
+                          <Text text={item.event.price + " sats"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Remain tickets:" />
-                          <Text text={item.event.availableTickets} style={$cardSubtitle} />
+                          <Text text="Remain tickets:" style={$cardSubtitle} />
+                          <Text text={item.event.availableTickets} />
                         </View>
                         <View>
-                          <Text text="Location:" />
-                          <Text text={item.event.location} style={$cardSubtitle} />
+                          <Text text="Location:" style={$cardSubtitle} />
+                          <Text text={item.event.location} />
                         </View>
                       </View>
                     </View>
@@ -216,10 +218,18 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: 0,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
-  paddingBottom: spacing.small,
 }
 
 const $cardImage: ImageStyle = {
@@ -251,5 +261,9 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
+}
+
+const $cardMetadata: ViewStyle = {
+  paddingVertical: spacing.small,
 }

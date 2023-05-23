@@ -249,7 +249,7 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {

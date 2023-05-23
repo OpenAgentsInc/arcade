@@ -70,20 +70,17 @@ export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen()
                   ContentComponent={
                     <View style={$cardContent}>
                       <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
+                      <View style={$cardHeading}>
+                        <Text text={item.metadata.name} preset="bold" style={$cardTitle} />
+                      </View>
                       <View style={$cardMetadata}>
-                        <Text
-                          text={item.metadata.name}
-                          size="lg"
-                          preset="bold"
-                          style={$cardTitle}
-                        />
                         <View>
-                          <Text text="Description:" />
-                          <Text text={item.metadata.description} style={$cardSubtitle} />
+                          <Text text="Description:" style={$cardSubtitle} />
+                          <Text text={item.metadata.description} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Arcade Score:" />
-                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                          <Text text="Arcade Score:" style={$cardSubtitle} />
+                          <Text text={item.metadata.rating + "/5"} />
                         </View>
                       </View>
                     </View>
@@ -202,7 +199,16 @@ const $card: ViewStyle = {
 
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
+}
+
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
 }
 
 const $cardImage: ImageStyle = {
@@ -221,10 +227,9 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  paddingBottom: spacing.small,
+  padding: spacing.small,
 }

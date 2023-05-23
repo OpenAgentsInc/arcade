@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card } from "app/compone
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 
 function createRandomMessage() {
@@ -72,23 +72,32 @@ export const PeerLendingScreen = observer(function PeerLendingScreen() {
                   preset="reversed"
                   ContentComponent={
                     <View style={$cardContent}>
-                      <View style={$cardMetadata}>
+                      <View style={$cardHeading}>
                         <Text text="Loan Offer" preset="bold" style={$cardTitle} />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
+                          />
+                        </Pressable>
+                      </View>
+                      <View style={$cardMetadata}>
                         <View style={$cardRow}>
-                          <Text text="Loan amount:" />
-                          <Text text={item.metadata.loanAmount + " sats"} style={$cardSubtitle} />
+                          <Text text="Loan amount:" style={$cardSubtitle} />
+                          <Text text={item.metadata.loanAmount + " sats"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Interest rate:" />
-                          <Text text={item.metadata.interestRate + "%"} style={$cardSubtitle} />
+                          <Text text="Interest rate:" style={$cardSubtitle} />
+                          <Text text={item.metadata.interestRate + "%"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Duration:" />
-                          <Text text={item.metadata.duration + " month"} style={$cardSubtitle} />
+                          <Text text="Duration:" style={$cardSubtitle} />
+                          <Text text={item.metadata.duration + " month"} />
                         </View>
                         <View>
-                          <Text text="Purpose:" />
-                          <Text text={item.metadata.purpose} style={$cardSubtitle} />
+                          <Text text="Purpose:" style={$cardSubtitle} />
+                          <Text text={item.metadata.purpose} />
                         </View>
                       </View>
                     </View>
@@ -207,7 +216,16 @@ const $card: ViewStyle = {
 
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
+}
+
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
 }
 
 const $cardTitle: TextStyle = {
@@ -220,7 +238,7 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {
