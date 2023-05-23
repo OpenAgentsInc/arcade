@@ -3,7 +3,7 @@ import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import { SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
@@ -64,7 +64,10 @@ export const EventTicketsScreen = observer(function EventTicketsScreen() {
         <FlashList
           data={data}
           renderItem={({ item }) => (
-            <View style={$messageItem}>
+            <Pressable
+              onPress={() => navigation.navigate("EventTicketDetail", { name: item.event.name })}
+              style={$messageItem}
+            >
               <User pubkey={item.pubkey} />
               <View style={$messageContentWrapper}>
                 <Text text={item.content || "empty message"} style={$messageContent} />
@@ -104,7 +107,7 @@ export const EventTicketsScreen = observer(function EventTicketsScreen() {
                   style={$card}
                 />
               </View>
-            </View>
+            </Pressable>
           )}
           ListEmptyComponent={
             <View style={$emptyState}>

@@ -5,7 +5,14 @@ import { Screen, Header, Text } from "app/components"
 import { observer } from "mobx-react-lite"
 import { ViewStyle } from "react-native"
 
-export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
+export const EventTicketDetailScreen = observer(function EventTicketDetailScreen({
+  route,
+}: {
+  route: any
+}) {
+  // Get route params
+  const { name } = route.params
+
   const navigation = useNavigation<any>()
 
   useLayoutEffect(() => {
@@ -13,7 +20,7 @@ export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Bitcoin Trading"
+          title={name}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -25,7 +32,7 @@ export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
 
   return (
     <Screen preset="fixed" contentContainerStyle={$container}>
-      <Text text="TODO" />
+      <Text text="Checkout" />
     </Screen>
   )
 })
