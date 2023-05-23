@@ -15,7 +15,7 @@ export const RentalsScreen = observer(function RentalsScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Ride Sharing"
+          title="Rentals"
           titleStyle={{ color: colors.palette.cyan400 }}
           LeftActionComponent={
             <Pressable onPress={() => navigation.goBack()} style={$backButton}>

@@ -1,26 +1,26 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { Screen, Header, Text, TextField, Card, AutoImage } from "app/components"
+import { Screen, Header, TextField, Text, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
+import { FilterIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 import { FlashList } from "@shopify/flash-list"
 
-function createRandomProduct() {
+function createRandomRestaurant() {
   return {
-    image: faker.image.technics(100, 100, true),
-    price: faker.commerce.price(),
-    name: faker.commerce.productName(),
-    location: faker.address.city(),
+    image: faker.image.food(100, 100, true),
+    name: faker.company.name(),
+    deliveryTime: faker.datatype.number({ min: 10, max: 60 }),
   }
 }
 
-const createProducts = (num = 50) => {
-  return Array.from({ length: num }, createRandomProduct)
+const createRestaurants = (num = 50) => {
+  return Array.from({ length: num }, createRandomRestaurant)
 }
 
-export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen() {
+export const FoodDeliveryScreen = observer(function FoodDeliveryScreen() {
   const navigation = useNavigation<any>()
 
   const [data, setData] = useState([])
@@ -30,7 +30,7 @@ export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen()
       headerShown: true,
       header: () => (
         <Header
-          title="Goods Marketplace"
+          title="Food Devlivery"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -41,38 +41,24 @@ export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen()
   }, [])
 
   useEffect(() => {
-    const products: any = createProducts(20)
-    setData(products)
+    const restaurants: any = createRestaurants(20)
+    setData(restaurants)
   }, [])
 
   return (
     <Screen preset="scroll" style={$root} contentContainerStyle={$container}>
-      <View>
+      <View style={$filters}>
         <TextField
-          placeholder="Search for goods"
+          placeholder="Search for food"
           placeholderTextColor={colors.palette.cyan600}
           style={$searchInput}
           inputWrapperStyle={$searchInputWrapper}
           autoCapitalize="none"
           autoFocus={false}
         />
-        <View style={$tags}>
-          <Pressable style={$tag}>
-            <Text text="Art" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Clothing" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Jewelry" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Furnishings" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Home decor" />
-          </Pressable>
-        </View>
+        <Pressable style={$filter}>
+          <FilterIcon width={20} height={20} style={{ color: colors.palette.cyan400 }} />
+        </Pressable>
       </View>
       <View style={$content}>
         <FlashList
@@ -83,9 +69,7 @@ export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen()
                 preset="reversed"
                 heading={item.name}
                 headingStyle={{ marginTop: spacing.extraSmall, color: colors.palette.cyan400 }}
-                content={"Price: " + item.price + " sats"}
-                footer={"Location: " + item.location}
-                footerStyle={{ marginTop: spacing.small, color: colors.palette.cyan700 }}
+                content={"Est. delivery time: " + item.deliveryTime + " min"}
                 LeftComponent={<AutoImage source={{ uri: item.image }} style={$cardImage} />}
                 style={$card}
               />
@@ -111,7 +95,15 @@ const $container: ViewStyle = {
   paddingHorizontal: spacing.medium,
 }
 
+const $filters: ViewStyle = {
+  flex: 1,
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: spacing.small,
+}
+
 const $searchInputWrapper: ViewStyle = {
+  width: 306,
   padding: 0,
   alignItems: "center",
   backgroundColor: "transparent",
@@ -134,20 +126,17 @@ const $searchInput: ViewStyle = {
   marginBottom: spacing.small,
 }
 
-const $tags: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.extraSmall,
-}
-
-const $tag: ViewStyle = {
-  backgroundColor: colors.palette.cyan900,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan800,
-  paddingVertical: spacing.micro,
+const $filter: ViewStyle = {
   paddingHorizontal: spacing.small,
+  width: 40,
+  height: 40,
+  flexDirection: "row",
   alignItems: "center",
-  alignSelf: "center",
-  borderRadius: 100,
+  justifyContent: "center",
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $emptyState: ViewStyle = {
@@ -156,7 +145,7 @@ const $emptyState: ViewStyle = {
 }
 
 const $content: ViewStyle = {
-  marginTop: spacing.large,
+  marginTop: spacing.extraSmall,
 }
 
 const $card: ViewStyle = {
