@@ -12,7 +12,7 @@ export type DemoStackParamList = {
   Rentals: undefined
   GoodsMarketplace: undefined
   PeerLending: undefined
-  Donations: undefined
+  Donation: undefined
 }
 
 const Stack = createNativeStackNavigator<DemoStackParamList>()
@@ -27,8 +27,8 @@ export const DemoNavigator = () => {
       <Stack.Screen name="EventTickets" component={Screens.EventTicketsScreen} />
       <Stack.Screen name="Rentals" component={Screens.RentalsScreen} />
       <Stack.Screen name="GoodsMarketplace" component={Screens.GoodsMarketplaceScreen} />
-      <Stack.Screen name="PeerLending" component={Screens.PeerLendingScreen} />
-      <Stack.Screen name="Donations" component={Screens.DonationsScreen} /> */}
+      <Stack.Screen name="PeerLending" component={Screens.PeerLendingScreen} /> */}
+      <Stack.Screen name="Donation" component={Screens.DonationScreen} />
     </Stack.Navigator>
   )
 }
