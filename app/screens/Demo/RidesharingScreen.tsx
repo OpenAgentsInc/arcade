@@ -1,93 +1,173 @@
 import { useNavigation } from "@react-navigation/native"
-import { FlashList } from "@shopify/flash-list"
-import { colors } from "app/theme"
-import { Option, Star, XIcon } from "lucide-react-native"
-import React, { useState, useEffect } from "react"
-import { View, StyleSheet } from "react-native"
-import { Screen, Header, Button, Text, Toggle, Icon } from "../../components"
+import { colors, spacing } from "app/theme"
+import React, { useLayoutEffect, useMemo, useRef } from "react"
+import { Pressable, View, ViewStyle } from "react-native"
+import { Screen, Header, TextField, Button, Text } from "app/components"
+import { observer } from "mobx-react-lite"
+import BottomSheet from "@gorhom/bottom-sheet"
+import { ArrowLeftIcon } from "lucide-react-native"
 
-export function RidesharingScreen() {
-  const [isListExpanded, setIsListExpanded] = useState(false)
+export const RidesharingScreen = observer(function RidesharingScreen() {
   const navigation = useNavigation<any>()
 
-  useEffect(() => {
+  const bottomSheetRef = useRef<BottomSheet>(null)
+  const snapPoints = useMemo(() => ["25%", "50%"], [])
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       header: () => (
         <Header
-          title="Ridesharing"
+          title="Ride Sharing"
           titleStyle={{ color: colors.palette.cyan400 }}
-          leftIcon="back"
-          leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => navigation.goBack()}
-          // rightIcon={isListExpanded ? <XIcon /> : <Option />}
-          // rightIcon={isListExpanded ? "close" : "options"}
-          rightIcon="Option"
-          rightIconColor={colors.palette.cyan400}
-          onRightPress={() => setIsListExpanded(!isListExpanded)}
+          LeftActionComponent={
+            <Pressable onPress={() => navigation.goBack()} style={$backButton}>
+              <ArrowLeftIcon size={24} color={colors.palette.cyan400} />
+            </Pressable>
+          }
+          containerStyle={$header}
         />
       ),
     })
-  }, [isListExpanded])
-
-  const rides = [
-    { id: 1, driver: "Jenny", rating: 5, time: "3 mins", price: "$5" },
-    { id: 2, driver: "Mark", rating: 3.5, time: "5 mins", price: "$7" },
-    { id: 3, driver: "Sara", rating: 4.5, time: "10 mins", price: "$10" },
-  ]
+  }, [])
 
   return (
-    <Screen>
-      <View style={styles.content}>
-        <Text preset="subheading">Request a ride</Text>
-        <Button text="I need a ride" preset="reversed" />
-        {isListExpanded && (
-          <View style={styles.expandedContent}>
-            <FlashList
-              data={rides}
-              estimatedItemSize={100}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.item}>
-                  <Text preset="subheading">{item.driver}</Text>
-                  <View style={styles.rating}>
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <Star
-                        key={n}
-                        // icon={n <= item.rating ? "star" : "staro"}
-                        color={colors.palette.primary400}
-                      />
-                    ))}
-                  </View>
-                  <Text preset="subheading">{item.time}</Text>
-                  <Text preset="subheading">{item.price}</Text>
-                </View>
-              )}
-            />
-          </View>
-        )}
+    <Screen preset="fixed" style={$root}>
+      <View style={$map} />
+      <View style={$floating}>
+        <TextField
+          placeholder="Search for a location"
+          placeholderTextColor={colors.palette.cyan600}
+          style={$input}
+          inputWrapperStyle={$inputWrapper}
+          autoCapitalize="none"
+          autoFocus={false}
+        />
+        <View style={$tags}>
+          <Pressable style={$tag}>
+            <Text text="Exchange" />
+          </Pressable>
+          <Pressable style={$tag}>
+            <Text text="Driver" />
+          </Pressable>
+          <Pressable style={$tag}>
+            <Text text="Event" />
+          </Pressable>
+        </View>
       </View>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        backgroundStyle={$modal}
+        handleIndicatorStyle={$modalIndicator}
+      >
+        <View style={$modalContent}>
+          <TextField
+            label="Select a location"
+            placeholder="1300 Market St, San Francisco, CA 94103"
+            placeholderTextColor={colors.palette.cyan600}
+            style={$input}
+            inputWrapperStyle={$inputWrapper}
+            autoCapitalize="none"
+            autoFocus={false}
+          />
+          <Button text="Confirm" style={$button} pressedStyle={$buttonPressed} />
+        </View>
+      </BottomSheet>
     </Screen>
   )
+})
+
+const $root: ViewStyle = {
+  flex: 1,
 }
 
-const styles = StyleSheet.create({
-  content: {
-    padding: 10,
-  },
-  expandedContent: {
-    marginTop: 10,
-    flex: 1,
-    height: 400,
-    width: 400,
-  },
-  item: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 5,
-  },
-  rating: {
-    flexDirection: "row",
-    marginLeft: 10,
-  },
-})
+const $header: ViewStyle = {
+  position: "absolute",
+  backgroundColor: "transparent",
+}
+
+const $backButton: ViewStyle = {
+  paddingLeft: spacing.medium,
+}
+
+const $map: ViewStyle = {
+  width: "100%",
+  height: "100%",
+  backgroundColor: "#000",
+}
+
+const $modal: ViewStyle = {
+  backgroundColor: colors.palette.cyan950,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+}
+
+const $modalIndicator: ViewStyle = {
+  backgroundColor: colors.palette.cyan300,
+}
+
+const $modalContent: ViewStyle = {
+  padding: spacing.medium,
+}
+
+const $inputWrapper: ViewStyle = {
+  padding: 0,
+  alignItems: "center",
+  backgroundColor: "transparent",
+  borderWidth: 0,
+  gap: spacing.extraSmall,
+}
+
+const $input: ViewStyle = {
+  width: "100%",
+  height: 50,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan800,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.overlay20,
+  paddingHorizontal: spacing.medium,
+  paddingVertical: 0,
+  marginVertical: 0,
+  marginHorizontal: 0,
+  alignSelf: "center",
+  marginBottom: spacing.small,
+}
+
+const $button: ViewStyle = {
+  width: "100%",
+  height: 44,
+  minHeight: 44,
+  backgroundColor: colors.palette.cyan500,
+  borderWidth: 0,
+  borderRadius: spacing.extraSmall,
+}
+
+const $buttonPressed: ViewStyle = {
+  backgroundColor: colors.palette.cyan600,
+}
+
+const $floating: ViewStyle = {
+  position: "absolute",
+  top: 120,
+  alignSelf: "center",
+  width: "100%",
+  paddingHorizontal: spacing.medium,
+}
+
+const $tags: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.extraSmall,
+}
+
+const $tag: ViewStyle = {
+  backgroundColor: colors.palette.cyan800,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan700,
+  paddingVertical: spacing.micro,
+  paddingHorizontal: spacing.small,
+  alignItems: "center",
+  alignSelf: "center",
+  borderRadius: 100,
+}
