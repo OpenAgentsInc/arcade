@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { SendIcon } from "lucide-react-native"
+import { GlobeIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 
 function createRandomMessage() {
@@ -42,6 +42,14 @@ export const CharityScreen = observer(function CharityScreen() {
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <Pressable
+              onPress={() => navigation.navigate("CharityBrowse")}
+              style={$headerRightActions}
+            >
+              <GlobeIcon size={20} color={colors.palette.cyan400} />
+            </Pressable>
+          }
         />
       ),
     })
@@ -133,6 +141,12 @@ const $container: ViewStyle = {
 
 const $main: ViewStyle = {
   flex: 1,
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $form: ViewStyle = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Dimensions, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { AutoImage, Button, Header, Screen, Text, TextField } from "app/components"
+import { AutoImage, Button, Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { faker } from "@faker-js/faker"
@@ -22,7 +22,7 @@ const createItems = (num = 4) => {
   return Array.from({ length: num }, createRandomItem)
 }
 
-export const DonationScreen = observer(function DonationScreen() {
+export const CharityBrowseScreen = observer(function CharityBrowseScreen() {
   const navigation = useNavigation<any>()
 
   // get window width
@@ -36,18 +36,11 @@ export const DonationScreen = observer(function DonationScreen() {
       headerShown: true,
       header: () => (
         <Header
+          title="Charitable Donations"
+          titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
-          RightActionComponent={
-            <TextField
-              placeholder="Search..."
-              style={$searchInput}
-              inputWrapperStyle={$searchWrapper}
-              autoCapitalize="none"
-              autoFocus={false}
-            />
-          }
         />
       ),
     })
@@ -110,31 +103,6 @@ const $root: ViewStyle = {
 
 const $container: ViewStyle = {
   paddingHorizontal: spacing.medium - 2,
-}
-
-const $searchWrapper: ViewStyle = {
-  width: 300,
-  height: 35,
-  padding: 0,
-  alignItems: "center",
-  backgroundColor: "transparent",
-  borderWidth: 0,
-  gap: spacing.extraSmall,
-}
-
-const $searchInput: ViewStyle = {
-  width: "100%",
-  height: 35,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.overlay20,
-  paddingHorizontal: spacing.medium,
-  paddingVertical: 0,
-  marginVertical: 0,
-  marginHorizontal: 0,
-  alignSelf: "center",
-  marginBottom: spacing.small,
 }
 
 const $sliderWrapper: ViewStyle = {
