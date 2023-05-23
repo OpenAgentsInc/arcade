@@ -5,10 +5,10 @@ import { Screen, Header, Text, User, TextField, Button, Card } from "app/compone
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 import dayjs from "dayjs"
-import MapView from "react-native-maps"
+import MapView, { Marker } from "react-native-maps"
 
 function createRandomMessage() {
   return {
@@ -81,33 +81,47 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
                           latitudeDelta: 0.015,
                           longitudeDelta: 0.0121,
                         }}
-                      />
-                      <View style={$cardMetadata}>
-                        <Text text="Ride Request" size="lg" preset="bold" style={$cardTitle} />
-                        <View style={$cardRow}>
-                          <Text text="Vehicle:" />
-                          <Text text={item.metadata.vehicle} style={$cardSubtitle} />
-                        </View>
-                        <View style={$cardRow}>
-                          <Text text="Time:" />
-                          <Text
-                            text={dayjs(item.metadata.date).format("d M h:mm A")}
-                            style={$cardSubtitle}
+                      >
+                        <Marker
+                          title={item.metadata.location}
+                          key={item.pubkey}
+                          coordinate={{
+                            latitude: 37.78825,
+                            longitude: -122.4324,
+                          }}
+                        />
+                      </MapView>
+                      <View style={$cardHeading}>
+                        <Text text="Ride Request" preset="bold" style={$cardTitle} />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
                           />
+                        </Pressable>
+                      </View>
+                      <View style={$cardMetadata}>
+                        <View style={$cardRow}>
+                          <Text text="Vehicle:" style={$cardSubtitle} />
+                          <Text text={item.metadata.vehicle} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Price:" />
-                          <Text text={item.metadata.price} style={$cardSubtitle} />
+                          <Text text="Time:" style={$cardSubtitle} />
+                          <Text text={dayjs(item.metadata.date).format("d M h:mm A")} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Arcade Score:" />
-                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                          <Text text="Price:" style={$cardSubtitle} />
+                          <Text text={item.metadata.price} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Arcade Score:" style={$cardSubtitle} />
+                          <Text text={item.metadata.rating + "/5"} />
                         </View>
                         <View>
-                          <Text text="Location:" />
+                          <Text text="Location:" style={$cardSubtitle} />
                           <Text
                             text={item.metadata.location + " - " + item.metadata.miles + " miles"}
-                            style={$cardSubtitle}
                           />
                         </View>
                       </View>
@@ -225,9 +239,18 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
 const $cardContent: ViewStyle = {
   flexDirection: "column",
-  gap: spacing.small,
 }
 
 const $map: ImageStyle = {
@@ -246,10 +269,9 @@ const $cardRow: ViewStyle = {
 }
 
 const $cardSubtitle: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan600,
 }
 
 const $cardMetadata: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  paddingBottom: spacing.small,
+  padding: spacing.small,
 }
