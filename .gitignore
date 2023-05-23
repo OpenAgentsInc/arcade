@@ -85,3 +85,5 @@ web-build/
 
 # Configurations
 !env.js
+android/app/gradle.properties
+ios/Secrets.xconfig

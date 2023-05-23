@@ -12,7 +12,7 @@
 import "./i18n"
 import "./utils/ignoreWarnings"
 import { useFonts } from "expo-font"
-import React from "react"
+import { React, useEffect} from "react"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 import * as Linking from "expo-linking"
 import { useInitialRootStore } from "./models"
@@ -23,6 +23,16 @@ import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
 import RelayProvider from "./components/RelayProvider"
+
+// breez
+import BuildConfig from 'react-native-build-config';
+import { 
+    defaultConfig,
+    EnvironmentType,
+    initServices,
+    sendPayment,
+    start 
+} from "@breeztech/react-native-breez-sdk";
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
@@ -101,6 +111,24 @@ function App(props: AppProps) {
     prefixes: [prefix],
     config,
   }
+
+  const payInvoice = async (bolt11: string, sats?: number) => {
+    // Pay invoice
+    const payment = await sendPayment(bolt11, sats)
+  }
+
+  useEffect(() => {
+    const asyncFn = async () => {
+        const config = await defaultConfig(EnvironmentType.PRODUCTION)
+        // Set the apiKey from the gradle or xcode build
+        config.apiKey = BuildConfig.BREEZ_API_KEY
+         // Initialize Breez SDK
+        await initServices(config, deviceKey, deviceCert, seed)
+        await start()
+    }
+
+    asyncFn()
+  }, [])
 
   // otherwise, we're ready to render the app
   return (
