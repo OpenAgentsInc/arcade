@@ -83,7 +83,6 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
         <View style={$content}>
           <FlashList
             data={channelStore.listing}
-            extraData={channelStore.listing}
             renderItem={({ item }) => {
               return (
                 <Card

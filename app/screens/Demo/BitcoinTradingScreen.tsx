@@ -1,14 +1,39 @@
 import { useNavigation } from "@react-navigation/native"
-import { colors } from "app/theme"
-import React, { useState, useEffect } from "react"
-import { Text, View, StyleSheet } from "react-native"
-import { Screen, Header, Icon, Toggle } from "../../components"
+import { colors, spacing } from "app/theme"
+import React, { useEffect, useLayoutEffect, useState } from "react"
+import { Screen, Header, Text, User, TextField, Button, Card } from "app/components"
+import { observer } from "mobx-react-lite"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { FlashList } from "@shopify/flash-list"
+import { ArrowRightIcon, SendIcon } from "lucide-react-native"
+import { faker } from "@faker-js/faker"
 
-export function BitcoinTradingScreen() {
-  const [isChartExpanded, setIsChartExpanded] = useState(false)
+function createRandomMessage() {
+  return {
+    pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
+    content: faker.lorem.sentence(5),
+    metadata: {
+      action: faker.helpers.arrayElement(["Buy", "Sell"]),
+      price: faker.commerce.price(),
+      currency: faker.finance.currencyCode(),
+      amt: faker.datatype.number({ min: 0.1, max: 50 }),
+      expiration: "1 hour",
+      payment: faker.helpers.arrayElement(["Paypal", "Cash App", "Venmo"]),
+      reputation: faker.datatype.number({ min: 1, max: 100 }),
+    },
+  }
+}
+
+const createMessages = (num = 50) => {
+  return Array.from({ length: num }, createRandomMessage)
+}
+
+export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
   const navigation = useNavigation<any>()
 
-  useEffect(() => {
+  const [data, setData] = useState([])
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       header: () => (
@@ -18,40 +43,215 @@ export function BitcoinTradingScreen() {
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
-          rightIcon="bell"
-          RightActionComponent={
-            <Toggle
-              value={isChartExpanded}
-              onValueChange={setIsChartExpanded}
-              variant="switch"
-              label="Expand chart"
-            />
-          }
         />
       ),
     })
-  }, [isChartExpanded])
+  }, [])
+
+  useEffect(() => {
+    const messages: any = createMessages(20)
+    setData(messages)
+  }, [])
 
   return (
-    <Screen>
-      {/* Chart component */}
-      <Text>Chart goes here</Text>
-
-      {isChartExpanded && (
-        <View style={styles.expandedContent}>
-          {/* Order form */}
-          <Text>Order form goes here</Text>
-        </View>
-      )}
+    <Screen
+      preset="fixed"
+      contentContainerStyle={$container}
+      safeAreaEdges={["bottom"]}
+      keyboardOffset={120}
+    >
+      <View style={$main}>
+        <FlashList
+          data={data}
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() => navigation.navigate("EventTicketDetail", { name: item.event.name })}
+              style={$messageItem}
+            >
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <Text text={item.content || "empty message"} style={$messageContent} />
+                <Card
+                  preset="reversed"
+                  ContentComponent={
+                    <View style={$cardContent}>
+                      <View style={$cardHeading}>
+                        <Text
+                          text={item.metadata.action + " BTC"}
+                          preset="bold"
+                          style={$cardTitle}
+                        />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
+                          />
+                        </Pressable>
+                      </View>
+                      <View style={$cardMetadata}>
+                        <View style={$cardRow}>
+                          <Text text="Price:" style={$cardSubtitle} />
+                          <Text text={item.metadata.price + " " + item.metadata.currency} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Amount:" style={$cardSubtitle} />
+                          <Text text={item.metadata.amt + " BTC"} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Expiration:" style={$cardSubtitle} />
+                          <Text text={item.metadata.expiration} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Payment methods:" style={$cardSubtitle} />
+                          <Text text={item.metadata.payment} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Reputation:" style={$cardSubtitle} />
+                          <Text text={item.metadata.reputation + "%"} />
+                        </View>
+                      </View>
+                    </View>
+                  }
+                  style={$card}
+                />
+              </View>
+            </Pressable>
+          )}
+          ListEmptyComponent={
+            <View style={$emptyState}>
+              <Text text="Loading..." />
+            </View>
+          }
+          estimatedItemSize={120}
+          inverted={true}
+        />
+      </View>
+      <View style={$form}>
+        <TextField
+          placeholder="Message"
+          placeholderTextColor={colors.palette.cyan500}
+          style={$input}
+          inputWrapperStyle={$inputWrapper}
+          autoCapitalize="none"
+          RightAccessory={() => (
+            <Button
+              LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+              style={$sendButton}
+            />
+          )}
+        />
+      </View>
     </Screen>
   )
+})
+
+const $container: ViewStyle = {
+  flex: 1,
+  paddingHorizontal: spacing.medium,
 }
 
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-  },
-  expandedContent: {
-    padding: 10,
-  },
-})
+const $main: ViewStyle = {
+  flex: 1,
+}
+
+const $form: ViewStyle = {
+  paddingTop: spacing.small,
+}
+
+const $messageItem: ViewStyle = {
+  flex: 1,
+  paddingVertical: spacing.extraSmall,
+}
+
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
+}
+
+const $messageContent: TextStyle = {
+  color: "#fff",
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  transform: [{ scaleY: -1 }],
+  paddingVertical: spacing.medium,
+}
+
+const $inputWrapper: ViewStyle = {
+  padding: 0,
+  alignItems: "center",
+  backgroundColor: "transparent",
+  borderWidth: 0,
+  gap: spacing.extraSmall,
+}
+
+const $input: ViewStyle = {
+  width: "100%",
+  height: 45,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: 100,
+  backgroundColor: colors.palette.overlay20,
+  paddingHorizontal: spacing.medium,
+  paddingVertical: 0,
+  marginVertical: 0,
+  marginHorizontal: 0,
+  alignSelf: "center",
+}
+
+const $sendButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
+  backgroundColor: colors.palette.cyan500,
+  borderRadius: 100,
+  borderWidth: 0,
+  flexShrink: 0,
+}
+
+const $card: ViewStyle = {
+  flex: 1,
+  paddingVertical: 0,
+  paddingHorizontal: 0,
+  marginTop: spacing.extraSmall,
+  marginBottom: spacing.small,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan800,
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.overlay20,
+  shadowColor: "transparent",
+  overflow: "hidden",
+}
+
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+}
+
+const $cardHeading: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingVertical: spacing.extraSmall,
+  borderBottomWidth: 1,
+  borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
+const $cardTitle: TextStyle = {
+  color: colors.palette.cyan500,
+}
+
+const $cardRow: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.tiny,
+}
+
+const $cardSubtitle: TextStyle = {
+  color: colors.palette.cyan600,
+}
+
+const $cardMetadata: ViewStyle = {
+  padding: spacing.small,
+}

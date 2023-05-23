@@ -1,26 +1,22 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { Screen, Header, Text, User, TextField, Button, Card } from "app/components"
+import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { ArrowRightIcon, SendIcon } from "lucide-react-native"
+import { SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
-import dayjs from "dayjs"
-import MapView, { Marker } from "react-native-maps"
 
 function createRandomMessage() {
   return {
     pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
-    content: faker.lorem.paragraph(1),
+    content: "I want to sell",
     metadata: {
-      date: faker.date.soon(),
-      vehicle: faker.vehicle.vehicle(),
-      location: faker.address.streetAddress(),
-      miles: faker.datatype.number(100),
-      price: faker.finance.amount(100, 1000, 2),
-      rating: faker.datatype.number(5),
+      image: faker.image.abstract(500, 500, true),
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      rating: faker.datatype.number({ min: 1, max: 5 }),
     },
   }
 }
@@ -29,7 +25,7 @@ const createMessages = (num = 50) => {
   return Array.from({ length: num }, createRandomMessage)
 }
 
-export const RidesharingScreen = observer(function RidesharingScreen() {
+export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen() {
   const navigation = useNavigation<any>()
 
   const [data, setData] = useState([])
@@ -39,7 +35,7 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Ride Sharing"
+          title="Goods Marketplace"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -73,56 +69,18 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
                   preset="reversed"
                   ContentComponent={
                     <View style={$cardContent}>
-                      <MapView
-                        style={$map}
-                        region={{
-                          latitude: 37.78825,
-                          longitude: -122.4324,
-                          latitudeDelta: 0.015,
-                          longitudeDelta: 0.0121,
-                        }}
-                      >
-                        <Marker
-                          title={item.metadata.location}
-                          key={item.pubkey}
-                          coordinate={{
-                            latitude: 37.78825,
-                            longitude: -122.4324,
-                          }}
-                        />
-                      </MapView>
+                      <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
                       <View style={$cardHeading}>
-                        <Text text="Ride Request" preset="bold" style={$cardTitle} />
-                        <Pressable>
-                          <ArrowRightIcon
-                            width={20}
-                            height={20}
-                            style={{ color: colors.palette.cyan500 }}
-                          />
-                        </Pressable>
+                        <Text text={item.metadata.name} preset="bold" style={$cardTitle} />
                       </View>
                       <View style={$cardMetadata}>
-                        <View style={$cardRow}>
-                          <Text text="Vehicle:" style={$cardSubtitle} />
-                          <Text text={item.metadata.vehicle} />
-                        </View>
-                        <View style={$cardRow}>
-                          <Text text="Time:" style={$cardSubtitle} />
-                          <Text text={dayjs(item.metadata.date).format("d M h:mm A")} />
-                        </View>
-                        <View style={$cardRow}>
-                          <Text text="Price:" style={$cardSubtitle} />
-                          <Text text={item.metadata.price} />
+                        <View>
+                          <Text text="Description:" style={$cardSubtitle} />
+                          <Text text={item.metadata.description} />
                         </View>
                         <View style={$cardRow}>
                           <Text text="Arcade Score:" style={$cardSubtitle} />
                           <Text text={item.metadata.rating + "/5"} />
-                        </View>
-                        <View>
-                          <Text text="Location:" style={$cardSubtitle} />
-                          <Text
-                            text={item.metadata.location + " - " + item.metadata.miles + " miles"}
-                          />
                         </View>
                       </View>
                     </View>
@@ -239,6 +197,10 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+}
+
 const $cardHeading: ViewStyle = {
   paddingHorizontal: spacing.small,
   paddingVertical: spacing.extraSmall,
@@ -249,11 +211,7 @@ const $cardHeading: ViewStyle = {
   alignItems: "center",
 }
 
-const $cardContent: ViewStyle = {
-  flexDirection: "column",
-}
-
-const $map: ImageStyle = {
+const $cardImage: ImageStyle = {
   borderTopRightRadius: spacing.tiny,
   width: "100%",
   height: 200,

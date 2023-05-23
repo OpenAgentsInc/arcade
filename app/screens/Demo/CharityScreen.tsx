@@ -1,26 +1,24 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { Screen, Header, Text, User, TextField, Button, Card } from "app/components"
+import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { ArrowRightIcon, SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, GlobeIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
-import dayjs from "dayjs"
-import MapView, { Marker } from "react-native-maps"
 
 function createRandomMessage() {
   return {
     pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
-    content: faker.lorem.paragraph(1),
+    content: "please help",
     metadata: {
-      date: faker.date.soon(),
-      vehicle: faker.vehicle.vehicle(),
-      location: faker.address.streetAddress(),
-      miles: faker.datatype.number(100),
-      price: faker.finance.amount(100, 1000, 2),
-      rating: faker.datatype.number(5),
+      image: faker.image.business(500, 500, true),
+      mission: faker.lorem.sentence(5),
+      location: faker.address.city(),
+      goal: faker.datatype.number({ min: 100000, max: 10000000 }),
+      payment: faker.helpers.arrayElement(["Paypal", "Cash App", "Venmo"]),
+      score: faker.datatype.number({ min: 1, max: 5 }),
     },
   }
 }
@@ -29,7 +27,7 @@ const createMessages = (num = 50) => {
   return Array.from({ length: num }, createRandomMessage)
 }
 
-export const RidesharingScreen = observer(function RidesharingScreen() {
+export const CharityScreen = observer(function CharityScreen() {
   const navigation = useNavigation<any>()
 
   const [data, setData] = useState([])
@@ -39,11 +37,19 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
       headerShown: true,
       header: () => (
         <Header
-          title="Ride Sharing"
+          title="Charitable Donations"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <Pressable
+              onPress={() => navigation.navigate("CharityBrowse")}
+              style={$headerRightActions}
+            >
+              <GlobeIcon size={20} color={colors.palette.cyan400} />
+            </Pressable>
+          }
         />
       ),
     })
@@ -73,26 +79,9 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
                   preset="reversed"
                   ContentComponent={
                     <View style={$cardContent}>
-                      <MapView
-                        style={$map}
-                        region={{
-                          latitude: 37.78825,
-                          longitude: -122.4324,
-                          latitudeDelta: 0.015,
-                          longitudeDelta: 0.0121,
-                        }}
-                      >
-                        <Marker
-                          title={item.metadata.location}
-                          key={item.pubkey}
-                          coordinate={{
-                            latitude: 37.78825,
-                            longitude: -122.4324,
-                          }}
-                        />
-                      </MapView>
+                      <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
                       <View style={$cardHeading}>
-                        <Text text="Ride Request" preset="bold" style={$cardTitle} />
+                        <Text text={item.metadata.mission} preset="bold" style={$cardTitle} />
                         <Pressable>
                           <ArrowRightIcon
                             width={20}
@@ -103,26 +92,20 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
                       </View>
                       <View style={$cardMetadata}>
                         <View style={$cardRow}>
-                          <Text text="Vehicle:" style={$cardSubtitle} />
-                          <Text text={item.metadata.vehicle} />
+                          <Text text="Location:" style={$cardSubtitle} />
+                          <Text text={item.metadata.location} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Time:" style={$cardSubtitle} />
-                          <Text text={dayjs(item.metadata.date).format("d M h:mm A")} />
+                          <Text text="Goal:" style={$cardSubtitle} />
+                          <Text text={item.metadata.goal + " sats"} />
                         </View>
                         <View style={$cardRow}>
-                          <Text text="Price:" style={$cardSubtitle} />
-                          <Text text={item.metadata.price} />
+                          <Text text="Payment:" style={$cardSubtitle} />
+                          <Text text={item.metadata.payment} />
                         </View>
                         <View style={$cardRow}>
                           <Text text="Arcade Score:" style={$cardSubtitle} />
-                          <Text text={item.metadata.rating + "/5"} />
-                        </View>
-                        <View>
-                          <Text text="Location:" style={$cardSubtitle} />
-                          <Text
-                            text={item.metadata.location + " - " + item.metadata.miles + " miles"}
-                          />
+                          <Text text={item.metadata.score + "/5"} />
                         </View>
                       </View>
                     </View>
@@ -167,6 +150,12 @@ const $container: ViewStyle = {
 
 const $main: ViewStyle = {
   flex: 1,
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $form: ViewStyle = {
@@ -239,6 +228,10 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+}
+
 const $cardHeading: ViewStyle = {
   paddingHorizontal: spacing.small,
   paddingVertical: spacing.extraSmall,
@@ -249,11 +242,7 @@ const $cardHeading: ViewStyle = {
   alignItems: "center",
 }
 
-const $cardContent: ViewStyle = {
-  flexDirection: "column",
-}
-
-const $map: ImageStyle = {
+const $cardImage: ImageStyle = {
   borderTopRightRadius: spacing.tiny,
   width: "100%",
   height: 200,

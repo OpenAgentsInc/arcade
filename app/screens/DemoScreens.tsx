@@ -1,7 +1,7 @@
+import React, { useLayoutEffect } from "react"
 import { Header, Screen, Text, Button } from "app/components"
 import { useNavigation } from "@react-navigation/native"
-import { colors } from "app/theme"
-import { useLayoutEffect, useState } from "react"
+import { colors, spacing } from "app/theme"
 import { View, ViewStyle, SectionList } from "react-native"
 
 export const DemoScreens = () => {
@@ -21,8 +21,6 @@ export const DemoScreens = () => {
       ),
     })
   }, [])
-
-  const [selectedScreen, setSelectedScreen] = useState(1)
 
   const screens = [
     {
@@ -63,7 +61,7 @@ export const DemoScreens = () => {
     {
       id: 8,
       name: "Charitable donations",
-      route: "Donations",
+      route: "Charity",
     },
   ]
 
@@ -74,14 +72,16 @@ export const DemoScreens = () => {
         keyExtractor={(item) => item.id.toString()}
         renderSectionHeader={({ section: { title } }) => <Text text={title} preset="heading" />}
         renderItem={({ item }) => (
-          <View style={{ marginVertical: 10 }}>
+          <View>
             <Button
               text={item.name}
               onPress={() => navigation.navigate(item.route)}
               preset="reversed"
+              style={$button}
             />
           </View>
         )}
+        style={$container}
       />
     </Screen>
   )
@@ -89,4 +89,21 @@ export const DemoScreens = () => {
 
 const $root: ViewStyle = {
   flex: 1,
+}
+
+const $container: ViewStyle = {
+  paddingHorizontal: spacing.medium - 2,
+}
+
+const $button: ViewStyle = {
+  marginBottom: spacing.small,
+  paddingHorizontal: spacing.small,
+  paddingVertical: 0,
+  gap: spacing.extraSmall,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+  borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
+  width: "100%",
+  justifyContent: "flex-start",
 }
