@@ -27,7 +27,7 @@ export const DemoNavigator = () => {
       <Stack.Screen name="GoodsMarketplace" component={Screens.GoodsMarketplaceScreen} />
       <Stack.Screen name="FoodDelivery" component={Screens.FoodDeliveryScreen} />
       <Stack.Screen name="EventTickets" component={Screens.EventTicketsScreen} />
-      {/* <Stack.Screen name="PeerLending" component={Screens.PeerLendingScreen} /> */}
+      <Stack.Screen name="PeerLending" component={Screens.PeerLendingScreen} />
       <Stack.Screen name="Donation" component={Screens.DonationScreen} />
     </Stack.Navigator>
   )
