@@ -1,18 +1,38 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
-import React, { useLayoutEffect, useMemo, useRef } from "react"
-import { Pressable, View, ViewStyle } from "react-native"
-import { Screen, Header, TextField, Button, Text } from "app/components"
+import React, { useEffect, useLayoutEffect, useState } from "react"
+import { Screen, Header, Text, User, TextField, Button, Card } from "app/components"
 import { observer } from "mobx-react-lite"
-import BottomSheet from "@gorhom/bottom-sheet"
-import { ArrowLeftIcon } from "lucide-react-native"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { FlashList } from "@shopify/flash-list"
+import { SendIcon } from "lucide-react-native"
+import { faker } from "@faker-js/faker"
+import dayjs from "dayjs"
 import MapView from "react-native-maps"
+
+function createRandomMessage() {
+  return {
+    pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
+    content: faker.lorem.paragraph(1),
+    metadata: {
+      date: faker.date.soon(),
+      vehicle: faker.vehicle.vehicle(),
+      location: faker.address.streetAddress(),
+      miles: faker.datatype.number(100),
+      price: faker.finance.amount(100, 1000, 2),
+      rating: faker.datatype.number(5),
+    },
+  }
+}
+
+const createMessages = (num = 50) => {
+  return Array.from({ length: num }, createRandomMessage)
+}
 
 export const RidesharingScreen = observer(function RidesharingScreen() {
   const navigation = useNavigation<any>()
 
-  const bottomSheetRef = useRef<BottomSheet>(null)
-  const snapPoints = useMemo(() => ["25%", "50%"], [])
+  const [data, setData] = useState([])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,105 +41,145 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
         <Header
           title="Ride Sharing"
           titleStyle={{ color: colors.palette.cyan400 }}
-          LeftActionComponent={
-            <Pressable onPress={() => navigation.goBack()} style={$backButton}>
-              <ArrowLeftIcon size={24} color={colors.palette.cyan400} />
-            </Pressable>
-          }
-          containerStyle={$header}
+          leftIcon="back"
+          leftIconColor={colors.palette.cyan400}
+          onLeftPress={() => navigation.goBack()}
         />
       ),
     })
   }, [])
 
+  useEffect(() => {
+    const messages: any = createMessages(20)
+    setData(messages)
+  }, [])
+
   return (
-    <Screen preset="fixed" style={$root}>
-      <View>
-        <MapView
-          style={$map}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
+    <Screen
+      preset="fixed"
+      contentContainerStyle={$container}
+      safeAreaEdges={["bottom"]}
+      keyboardOffset={120}
+    >
+      <View style={$main}>
+        <FlashList
+          data={data}
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() => navigation.navigate("EventTicketDetail", { name: item.event.name })}
+              style={$messageItem}
+            >
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <Text text={item.content || "empty message"} style={$messageContent} />
+                <Card
+                  preset="reversed"
+                  ContentComponent={
+                    <View style={$cardContent}>
+                      <MapView
+                        style={$map}
+                        region={{
+                          latitude: 37.78825,
+                          longitude: -122.4324,
+                          latitudeDelta: 0.015,
+                          longitudeDelta: 0.0121,
+                        }}
+                      />
+                      <View style={$cardMetadata}>
+                        <Text text="Ride Request" size="lg" preset="bold" style={$cardTitle} />
+                        <View style={$cardRow}>
+                          <Text text="Vehicle:" />
+                          <Text text={item.metadata.vehicle} style={$cardSubtitle} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Time:" />
+                          <Text
+                            text={dayjs(item.metadata.date).format("d M h:mm A")}
+                            style={$cardSubtitle}
+                          />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Price:" />
+                          <Text text={item.metadata.price} style={$cardSubtitle} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Arcade Score:" />
+                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                        </View>
+                        <View>
+                          <Text text="Location:" />
+                          <Text
+                            text={item.metadata.location + " - " + item.metadata.miles + " miles"}
+                            style={$cardSubtitle}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  }
+                  style={$card}
+                />
+              </View>
+            </Pressable>
+          )}
+          ListEmptyComponent={
+            <View style={$emptyState}>
+              <Text text="Loading..." />
+            </View>
+          }
+          estimatedItemSize={120}
+          inverted={true}
         />
       </View>
-      <View style={$floating}>
+      <View style={$form}>
         <TextField
-          placeholder="Search for a location"
-          placeholderTextColor={colors.palette.cyan600}
-          style={$floaingInput}
+          placeholder="Message"
+          placeholderTextColor={colors.palette.cyan500}
+          style={$input}
           inputWrapperStyle={$inputWrapper}
           autoCapitalize="none"
-          autoFocus={false}
+          RightAccessory={() => (
+            <Button
+              LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+              style={$sendButton}
+            />
+          )}
         />
-        <View style={$tags}>
-          <Pressable style={$tag}>
-            <Text text="Exchange" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Driver" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Event" />
-          </Pressable>
-        </View>
       </View>
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={0}
-        snapPoints={snapPoints}
-        backgroundStyle={$modal}
-        handleIndicatorStyle={$modalIndicator}
-      >
-        <View style={$modalContent}>
-          <TextField
-            label="Select a location"
-            placeholder="1300 Market St, San Francisco, CA 94103"
-            placeholderTextColor={colors.palette.cyan600}
-            style={$modalInput}
-            inputWrapperStyle={$inputWrapper}
-            autoCapitalize="none"
-            autoFocus={false}
-          />
-          <Button text="Confirm" style={$button} pressedStyle={$buttonPressed} />
-        </View>
-      </BottomSheet>
     </Screen>
   )
 })
 
-const $root: ViewStyle = {
+const $container: ViewStyle = {
+  flex: 1,
+  paddingHorizontal: spacing.medium,
+}
+
+const $main: ViewStyle = {
   flex: 1,
 }
 
-const $header: ViewStyle = {
-  position: "absolute",
-  backgroundColor: "transparent",
+const $form: ViewStyle = {
+  paddingTop: spacing.small,
 }
 
-const $backButton: ViewStyle = {
-  paddingLeft: spacing.medium,
+const $messageItem: ViewStyle = {
+  flex: 1,
+  paddingVertical: spacing.extraSmall,
 }
 
-const $map: ViewStyle = {
-  width: "100%",
-  height: "100%",
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
 }
 
-const $modal: ViewStyle = {
-  backgroundColor: colors.palette.cyan950,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan500,
+const $messageContent: TextStyle = {
+  color: "#fff",
 }
 
-const $modalIndicator: ViewStyle = {
-  backgroundColor: colors.palette.cyan300,
-}
-
-const $modalContent: ViewStyle = {
-  padding: spacing.medium,
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  transform: [{ scaleY: -1 }],
+  paddingVertical: spacing.medium,
 }
 
 const $inputWrapper: ViewStyle = {
@@ -130,69 +190,69 @@ const $inputWrapper: ViewStyle = {
   gap: spacing.extraSmall,
 }
 
-const $modalInput: ViewStyle = {
+const $input: ViewStyle = {
   width: "100%",
-  height: 50,
+  height: 45,
   borderWidth: 1,
-  borderColor: colors.palette.cyan800,
-  borderRadius: spacing.extraSmall,
+  borderColor: colors.palette.cyan900,
+  borderRadius: 100,
   backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.medium,
   paddingVertical: 0,
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
-  marginBottom: spacing.small,
 }
 
-const $button: ViewStyle = {
-  width: "100%",
-  height: 44,
-  minHeight: 44,
+const $sendButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
   backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
-  borderRadius: spacing.extraSmall,
-}
-
-const $buttonPressed: ViewStyle = {
-  backgroundColor: colors.palette.cyan600,
-}
-
-const $floating: ViewStyle = {
-  position: "absolute",
-  top: 120,
-  alignSelf: "center",
-  width: "100%",
-  paddingHorizontal: spacing.medium,
-}
-
-const $floaingInput: ViewStyle = {
-  width: "100%",
-  height: 50,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan700,
-  borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.cyan800,
-  paddingHorizontal: spacing.medium,
-  paddingVertical: 0,
-  marginVertical: 0,
-  marginHorizontal: 0,
-  alignSelf: "center",
-  marginBottom: spacing.small,
-}
-
-const $tags: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.extraSmall,
-}
-
-const $tag: ViewStyle = {
-  backgroundColor: colors.palette.cyan800,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan700,
-  paddingVertical: spacing.micro,
-  paddingHorizontal: spacing.small,
-  alignItems: "center",
-  alignSelf: "center",
   borderRadius: 100,
+  borderWidth: 0,
+  flexShrink: 0,
+}
+
+const $card: ViewStyle = {
+  flex: 1,
+  paddingVertical: 0,
+  paddingHorizontal: 0,
+  marginTop: spacing.small,
+  marginBottom: spacing.small,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan800,
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.overlay20,
+  shadowColor: "transparent",
+  overflow: "hidden",
+}
+
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.small,
+}
+
+const $map: ImageStyle = {
+  borderTopRightRadius: spacing.tiny,
+  width: "100%",
+  height: 200,
+}
+
+const $cardTitle: TextStyle = {
+  color: colors.palette.cyan500,
+}
+
+const $cardRow: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.tiny,
+}
+
+const $cardSubtitle: TextStyle = {
+  color: colors.palette.cyan700,
+}
+
+const $cardMetadata: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingBottom: spacing.small,
 }
