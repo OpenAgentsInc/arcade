@@ -7,13 +7,14 @@ import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import { SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
+import dayjs from "dayjs"
 
 function createRandomMessage() {
   return {
     pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
     content: faker.lorem.paragraph(1),
     event: {
-      image: faker.image.fashion(100, 100, true),
+      image: faker.image.fashion(500, 500, true),
       name: faker.company.name(),
       date: faker.date.soon(),
       location: faker.address.streetAddress(),
@@ -67,21 +68,38 @@ export const EventTicketsScreen = observer(function EventTicketsScreen() {
               <User pubkey={item.pubkey} />
               <View style={$messageContentWrapper}>
                 <Text text={item.content || "empty message"} style={$messageContent} />
-
                 <Card
                   preset="reversed"
-                  heading={item.event.name}
-                  headingStyle={{ marginTop: spacing.extraSmall, color: colors.palette.cyan400 }}
                   ContentComponent={
-                    <View>
-                      <Text text={item.event.date.toString()} />
-                      <Text text={item.event.availableTickets} />
-                      <Text text={"Price: " + item.event.price + " sats"} />
+                    <View style={$cardContent}>
+                      <AutoImage source={{ uri: item.event.image }} style={$cardImage} />
+                      <View>
+                        <Text text={item.event.name} size="lg" preset="bold" style={$cardTitle} />
+                        <View style={$cardRow}>
+                          <Text text="Price:" />
+                          <Text text={item.event.price + " sats"} style={$cardSubtitle} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Remain tickets:" />
+                          <Text text={item.event.availableTickets} style={$cardSubtitle} />
+                        </View>
+                        <View>
+                          <Text text="Location:" />
+                          <Text text={item.event.location} style={$cardSubtitle} />
+                        </View>
+                      </View>
                     </View>
                   }
-                  footer={item.event.location}
                   LeftComponent={
-                    <AutoImage source={{ uri: item.event.image }} style={$cardImage} />
+                    <View style={$cardTime}>
+                      <Text
+                        text={dayjs(item.event.date).format("d")}
+                        preset="bold"
+                        size="xl"
+                        style={$cardDay}
+                      />
+                      <Text text={dayjs(item.event.date).format("MMM")} />
+                    </View>
                   }
                   style={$card}
                 />
@@ -195,9 +213,40 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.small,
+  paddingBottom: spacing.small,
+}
+
 const $cardImage: ImageStyle = {
-  borderTopLeftRadius: spacing.tiny,
-  borderBottomLeftRadius: spacing.tiny,
-  height: "100%",
+  borderTopRightRadius: spacing.tiny,
+  width: "100%",
+  height: 200,
   resizeMode: "cover",
+}
+
+const $cardTime: ViewStyle = {
+  flexDirection: "column",
+  alignItems: "center",
+  paddingTop: spacing.small,
+  paddingLeft: spacing.small,
+}
+
+const $cardDay: TextStyle = {
+  fontWeight: "bold",
+  color: colors.palette.cyan500,
+}
+
+const $cardTitle: TextStyle = {
+  color: colors.palette.cyan500,
+}
+
+const $cardRow: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.tiny,
+}
+
+const $cardSubtitle: TextStyle = {
+  color: colors.palette.cyan700,
 }
