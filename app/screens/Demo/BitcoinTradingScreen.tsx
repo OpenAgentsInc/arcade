@@ -5,7 +5,7 @@ import { Screen, Header, Text, User, TextField, Button, Card } from "app/compone
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
-import { SendIcon } from "lucide-react-native"
+import { ArrowRightIcon, SendIcon } from "lucide-react-native"
 import { faker } from "@faker-js/faker"
 
 function createRandomMessage() {
@@ -81,15 +81,18 @@ export const BitcoinTradingScreen = observer(function BitcoinTradingScreen() {
                           preset="bold"
                           style={$cardTitle}
                         />
+                        <Pressable>
+                          <ArrowRightIcon
+                            width={20}
+                            height={20}
+                            style={{ color: colors.palette.cyan500 }}
+                          />
+                        </Pressable>
                       </View>
                       <View style={$cardMetadata}>
                         <View style={$cardRow}>
                           <Text text="Price:" style={$cardSubtitle} />
-                          <Text text={item.metadata.price + " sats"} />
-                        </View>
-                        <View style={$cardRow}>
-                          <Text text="Currency:" style={$cardSubtitle} />
-                          <Text text={item.metadata.currency} />
+                          <Text text={item.metadata.price + " " + item.metadata.currency} />
                         </View>
                         <View style={$cardRow}>
                           <Text text="Amount:" style={$cardSubtitle} />
@@ -231,6 +234,9 @@ const $cardHeading: ViewStyle = {
   paddingVertical: spacing.extraSmall,
   borderBottomWidth: 1,
   borderColor: colors.palette.cyan800,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
 }
 
 const $cardTitle: TextStyle = {
