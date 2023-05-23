@@ -65,10 +65,7 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
         <FlashList
           data={data}
           renderItem={({ item }) => (
-            <Pressable
-              onPress={() => navigation.navigate("EventTicketDetail", { name: item.event.name })}
-              style={$messageItem}
-            >
+            <Pressable style={$messageItem}>
               <User pubkey={item.pubkey} />
               <View style={$messageContentWrapper}>
                 <Text text={item.content || "empty message"} style={$messageContent} />

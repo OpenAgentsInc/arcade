@@ -1,23 +1,28 @@
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { Screen, Header, Text, TextField, Card, AutoImage } from "app/components"
+import { Screen, Header, Text, User, TextField, Button, Card, AutoImage } from "app/components"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
-import { faker } from "@faker-js/faker"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { FlashList } from "@shopify/flash-list"
+import { SendIcon } from "lucide-react-native"
+import { faker } from "@faker-js/faker"
 
-function createRandomProduct() {
+function createRandomMessage() {
   return {
-    image: faker.image.technics(100, 100, true),
-    price: faker.commerce.price(),
-    name: faker.commerce.productName(),
-    location: faker.address.city(),
+    pubkey: "126103bfddc8df256b6e0abfd7f3797c80dcc4ea88f7c2f87dd4104220b4d65f",
+    content: "I want to sell",
+    metadata: {
+      image: faker.image.abstract(500, 500, true),
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      rating: faker.datatype.number({ min: 1, max: 5 }),
+    },
   }
 }
 
-const createProducts = (num = 50) => {
-  return Array.from({ length: num }, createRandomProduct)
+const createMessages = (num = 50) => {
+  return Array.from({ length: num }, createRandomMessage)
 }
 
 export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen() {
@@ -41,77 +46,115 @@ export const GoodsMarketplaceScreen = observer(function GoodsMarketplaceScreen()
   }, [])
 
   useEffect(() => {
-    const products: any = createProducts(20)
-    setData(products)
+    const messages: any = createMessages(20)
+    setData(messages)
   }, [])
 
   return (
-    <Screen preset="scroll" style={$root} contentContainerStyle={$container}>
-      <View>
-        <TextField
-          placeholder="Search for goods"
-          placeholderTextColor={colors.palette.cyan600}
-          style={$searchInput}
-          inputWrapperStyle={$searchInputWrapper}
-          autoCapitalize="none"
-          autoFocus={false}
-        />
-        <View style={$tags}>
-          <Pressable style={$tag}>
-            <Text text="Art" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Clothing" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Jewelry" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Furnishings" />
-          </Pressable>
-          <Pressable style={$tag}>
-            <Text text="Home decor" />
-          </Pressable>
-        </View>
-      </View>
-      <View style={$content}>
+    <Screen
+      preset="fixed"
+      contentContainerStyle={$container}
+      safeAreaEdges={["bottom"]}
+      keyboardOffset={120}
+    >
+      <View style={$main}>
         <FlashList
           data={data}
-          renderItem={({ item }) => {
-            return (
-              <Card
-                preset="reversed"
-                heading={item.name}
-                headingStyle={{ marginTop: spacing.extraSmall, color: colors.palette.cyan400 }}
-                content={"Price: " + item.price + " sats"}
-                footer={"Location: " + item.location}
-                footerStyle={{ marginTop: spacing.small, color: colors.palette.cyan700 }}
-                LeftComponent={<AutoImage source={{ uri: item.image }} style={$cardImage} />}
-                style={$card}
-              />
-            )
-          }}
+          renderItem={({ item }) => (
+            <Pressable style={$messageItem}>
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <Text text={item.content || "empty message"} style={$messageContent} />
+                <Card
+                  preset="reversed"
+                  ContentComponent={
+                    <View style={$cardContent}>
+                      <AutoImage source={{ uri: item.metadata.image }} style={$cardImage} />
+                      <View style={$cardMetadata}>
+                        <Text
+                          text={item.metadata.name}
+                          size="lg"
+                          preset="bold"
+                          style={$cardTitle}
+                        />
+                        <View>
+                          <Text text="Description:" />
+                          <Text text={item.metadata.description} style={$cardSubtitle} />
+                        </View>
+                        <View style={$cardRow}>
+                          <Text text="Arcade Score:" />
+                          <Text text={item.metadata.rating + "/5"} style={$cardSubtitle} />
+                        </View>
+                      </View>
+                    </View>
+                  }
+                  style={$card}
+                />
+              </View>
+            </Pressable>
+          )}
           ListEmptyComponent={
             <View style={$emptyState}>
               <Text text="Loading..." />
             </View>
           }
-          estimatedItemSize={300}
+          estimatedItemSize={120}
+          inverted={true}
+        />
+      </View>
+      <View style={$form}>
+        <TextField
+          placeholder="Message"
+          placeholderTextColor={colors.palette.cyan500}
+          style={$input}
+          inputWrapperStyle={$inputWrapper}
+          autoCapitalize="none"
+          RightAccessory={() => (
+            <Button
+              LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+              style={$sendButton}
+            />
+          )}
         />
       </View>
     </Screen>
   )
 })
 
-const $root: ViewStyle = {
-  flex: 1,
-}
-
 const $container: ViewStyle = {
+  flex: 1,
   paddingHorizontal: spacing.medium,
 }
 
-const $searchInputWrapper: ViewStyle = {
+const $main: ViewStyle = {
+  flex: 1,
+}
+
+const $form: ViewStyle = {
+  paddingTop: spacing.small,
+}
+
+const $messageItem: ViewStyle = {
+  flex: 1,
+  paddingVertical: spacing.extraSmall,
+}
+
+const $messageContentWrapper: ViewStyle = {
+  paddingLeft: 48,
+  marginTop: -24,
+}
+
+const $messageContent: TextStyle = {
+  color: "#fff",
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  transform: [{ scaleY: -1 }],
+  paddingVertical: spacing.medium,
+}
+
+const $inputWrapper: ViewStyle = {
   padding: 0,
   alignItems: "center",
   backgroundColor: "transparent",
@@ -119,50 +162,35 @@ const $searchInputWrapper: ViewStyle = {
   gap: spacing.extraSmall,
 }
 
-const $searchInput: ViewStyle = {
+const $input: ViewStyle = {
   width: "100%",
-  height: 40,
+  height: 45,
   borderWidth: 1,
-  borderColor: colors.palette.cyan800,
-  borderRadius: spacing.extraSmall,
+  borderColor: colors.palette.cyan900,
+  borderRadius: 100,
   backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.medium,
   paddingVertical: 0,
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
-  marginBottom: spacing.small,
 }
 
-const $tags: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.extraSmall,
-}
-
-const $tag: ViewStyle = {
-  backgroundColor: colors.palette.cyan900,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan800,
-  paddingVertical: spacing.micro,
-  paddingHorizontal: spacing.small,
-  alignItems: "center",
-  alignSelf: "center",
+const $sendButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
+  backgroundColor: colors.palette.cyan500,
   borderRadius: 100,
-}
-
-const $emptyState: ViewStyle = {
-  alignSelf: "center",
-  paddingVertical: spacing.medium,
-}
-
-const $content: ViewStyle = {
-  marginTop: spacing.large,
+  borderWidth: 0,
+  flexShrink: 0,
 }
 
 const $card: ViewStyle = {
   flex: 1,
   paddingVertical: 0,
   paddingHorizontal: 0,
+  marginTop: spacing.small,
   marginBottom: spacing.small,
   borderWidth: 1,
   borderColor: colors.palette.cyan800,
@@ -172,7 +200,31 @@ const $card: ViewStyle = {
   overflow: "hidden",
 }
 
+const $cardContent: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.small,
+}
+
 const $cardImage: ImageStyle = {
-  borderTopLeftRadius: spacing.tiny,
-  borderBottomLeftRadius: spacing.tiny,
+  borderTopRightRadius: spacing.tiny,
+  width: "100%",
+  height: 200,
+}
+
+const $cardTitle: TextStyle = {
+  color: colors.palette.cyan500,
+}
+
+const $cardRow: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.tiny,
+}
+
+const $cardSubtitle: TextStyle = {
+  color: colors.palette.cyan700,
+}
+
+const $cardMetadata: ViewStyle = {
+  paddingHorizontal: spacing.small,
+  paddingBottom: spacing.small,
 }
