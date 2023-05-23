@@ -6,6 +6,7 @@ import { Screen, Header, TextField, Button, Text } from "app/components"
 import { observer } from "mobx-react-lite"
 import BottomSheet from "@gorhom/bottom-sheet"
 import { ArrowLeftIcon } from "lucide-react-native"
+import MapView from "react-native-maps"
 
 export const RidesharingScreen = observer(function RidesharingScreen() {
   const navigation = useNavigation<any>()
@@ -33,12 +34,22 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
 
   return (
     <Screen preset="fixed" style={$root}>
-      <View style={$map} />
+      <View>
+        <MapView
+          style={$map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        />
+      </View>
       <View style={$floating}>
         <TextField
           placeholder="Search for a location"
           placeholderTextColor={colors.palette.cyan600}
-          style={$input}
+          style={$floaingInput}
           inputWrapperStyle={$inputWrapper}
           autoCapitalize="none"
           autoFocus={false}
@@ -67,7 +78,7 @@ export const RidesharingScreen = observer(function RidesharingScreen() {
             label="Select a location"
             placeholder="1300 Market St, San Francisco, CA 94103"
             placeholderTextColor={colors.palette.cyan600}
-            style={$input}
+            style={$modalInput}
             inputWrapperStyle={$inputWrapper}
             autoCapitalize="none"
             autoFocus={false}
@@ -95,7 +106,6 @@ const $backButton: ViewStyle = {
 const $map: ViewStyle = {
   width: "100%",
   height: "100%",
-  backgroundColor: "#000",
 }
 
 const $modal: ViewStyle = {
@@ -120,7 +130,7 @@ const $inputWrapper: ViewStyle = {
   gap: spacing.extraSmall,
 }
 
-const $input: ViewStyle = {
+const $modalInput: ViewStyle = {
   width: "100%",
   height: 50,
   borderWidth: 1,
@@ -154,6 +164,21 @@ const $floating: ViewStyle = {
   alignSelf: "center",
   width: "100%",
   paddingHorizontal: spacing.medium,
+}
+
+const $floaingInput: ViewStyle = {
+  width: "100%",
+  height: 50,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan700,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.cyan800,
+  paddingHorizontal: spacing.medium,
+  paddingVertical: 0,
+  marginVertical: 0,
+  marginHorizontal: 0,
+  alignSelf: "center",
+  marginBottom: spacing.small,
 }
 
 const $tags: ViewStyle = {
