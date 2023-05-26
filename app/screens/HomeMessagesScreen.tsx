@@ -5,7 +5,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Text } from "app/components"
 import { spacing, colors } from "app/theme"
-import { ChevronDownIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenWithSidebar } from "app/components/ScreenWithSidebar"
@@ -31,20 +30,12 @@ const DEFAULT_CHANNELS = [
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
-    // Pull in one of our MST stores
-    // const { someStore, anotherStore } = useStores()
-
-    // Pull in navigation via hook
     const { navigate } = useNavigation<any>()
 
     return (
       <ScreenWithSidebar title={"Messages"}>
         <View style={[$root, $container]}>
           <View style={$main}>
-            <View style={$filter}>
-              <Text text="Channels" preset="default" />
-              <ChevronDownIcon style={{ color: colors.palette.cyan800 }} />
-            </View>
             <View style={$messsages}>
               <FlashList
                 data={DEFAULT_CHANNELS}
@@ -92,18 +83,6 @@ const $main: ViewStyle = {
   width: "100%",
   height: "100%",
   paddingHorizontal: spacing.tiny,
-}
-
-const $filter: ViewStyle = {
-  paddingHorizontal: spacing.small,
-  height: 40,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: spacing.small / 2,
-  backgroundColor: colors.palette.overlay20,
 }
 
 const $messsages: ViewStyle = {

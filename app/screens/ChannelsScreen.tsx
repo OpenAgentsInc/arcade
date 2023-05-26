@@ -6,11 +6,9 @@ import { AppStackScreenProps } from "app/navigators"
 import { Card, Header, Screen, Text, Button } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
-import { SearchIcon, PlusCircleIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
 import { RelayContext } from "app/components/RelayProvider"
 import { listChannels } from "arclib"
-// import { useStores } from "app/models"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
@@ -31,12 +29,6 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
-          RightActionComponent={
-            <View style={$headerRightActions}>
-              <SearchIcon size={20} color={colors.palette.cyan400} />
-              <PlusCircleIcon size={20} color={colors.palette.cyan400} />
-            </View>
-          }
         />
       ),
     })
@@ -88,12 +80,6 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
 
 const $root: ViewStyle = {
   flex: 1,
-}
-
-const $headerRightActions: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.medium,
-  paddingRight: spacing.medium,
 }
 
 const $container: ViewStyle = {
