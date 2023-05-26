@@ -7,6 +7,8 @@ require File.join(File.dirname(`cd #{pod_folder} && node --print "require.resolv
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
+pod 'simdjson', path: '../node_modules/@nozbe/simdjson', modular_headers: true
+
 production = ENV["PRODUCTION"] == "1"
 ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '1' : '0'
 

@@ -320,7 +320,7 @@
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/plugin-syntax-class-static-block" "^7.14.5"
 
-"@babel/plugin-proposal-decorators@^7.12.9":
+"@babel/plugin-proposal-decorators@^7.12.9", "@babel/plugin-proposal-decorators@^7.21.0":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-decorators/-/plugin-proposal-decorators-7.21.0.tgz#70e0c89fdcd7465c97593edb8f628ba6e4199d63"
   integrity sha512-MfgX49uRrFUTL/HvWtmx3zmpyzMMr4MTj3d527MLlr/4RTT9G/ytFFP7qet2uM2Ve03b+BkpWUpK+lRXnQ+v9w==
@@ -1043,6 +1043,13 @@
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
+
+"@babel/runtime@7.21.0":
+  version "7.21.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
+  integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
+  dependencies:
+    regenerator-runtime "^0.13.11"
 
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.21.0", "@babel/runtime@^7.8.4":
   version "7.21.5"
@@ -1940,10 +1947,20 @@
   resolved "https://registry.yarnpkg.com/@nozbe/simdjson/-/simdjson-1.0.0.tgz#9327962214c98e046bea44d0d56a70e10d9d7ce8"
   integrity sha512-lm/MNUneznK65NNbmvawOn+OFYMjeBga+xEBACda4hTpZBnJhIgfLIxpYvx40sIeihRX0v7WiEB7VwQO9FIMAg==
 
+"@nozbe/simdjson@3.1.0-wmelon1", "@nozbe/simdjson@^3.1.0-wmelon1":
+  version "3.1.0-wmelon1"
+  resolved "https://registry.yarnpkg.com/@nozbe/simdjson/-/simdjson-3.1.0-wmelon1.tgz#e02048b41d2b3662ddf1dc8c979a3a36fd389dfb"
+  integrity sha512-PQaHHQyvASrcrfzqkZ4ona43m0UjN81NuTWt6rJkOUePGDjxc8MNp2Q7jcod1CIdTsXJ13wRWeFbquwNfhpIQQ==
+
 "@nozbe/sqlite@3.36.0":
   version "3.36.0"
   resolved "https://registry.yarnpkg.com/@nozbe/sqlite/-/sqlite-3.36.0.tgz#80a46f8cb4a502a068ec1a5bef665dd65350ea7c"
   integrity sha512-wKTFGvgf5V+bYlhXdukOWKH0XgdG0NmUQwLWG7w5Yk4EUeQS29D5uWPCeWT1Ac/NzDKuHsYP6KVOJDbJSauAAg==
+
+"@nozbe/sqlite@3.40.1":
+  version "3.40.1"
+  resolved "https://registry.yarnpkg.com/@nozbe/sqlite/-/sqlite-3.40.1.tgz#4218074ce8c87c859465dd2db28cd4b2fc7192b9"
+  integrity sha512-uKJOW4sQi3neCmgKhqLr0IJKlb2y5q2p05U5CEDJrCxSyD2uVYvSdh7IMrPjF4sWtzc/Lnk462M4vde7Dn5NSw==
 
 "@nozbe/watermelondb@<0.26.0":
   version "0.25.5"
@@ -1959,10 +1976,31 @@
     rxjs "^7.4.0"
     sql-escape-string "^1.1.0"
 
+"@nozbe/watermelondb@^0.26.0":
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/@nozbe/watermelondb/-/watermelondb-0.26.0.tgz#0b7472a0b885a51237529c9cabc6227aec6c227e"
+  integrity sha512-MIbCIE7Djyn5gNmO6OtAmf7IJHuFq2biKSDzK2ymMhHSJE5L5QjZPnrv3UFoGdTfEPUUGfi/87gwWwZecGiT3A==
+  dependencies:
+    "@babel/runtime" "7.21.0"
+    "@nozbe/simdjson" "3.1.0-wmelon1"
+    "@nozbe/sqlite" "3.40.1"
+    "@nozbe/with-observables" "^1.5.0-2"
+    hoist-non-react-statics "^3.3.2"
+    lokijs "npm:@nozbe/lokijs@1.5.12-wmelon6"
+    rxjs "^7.8.0"
+    sql-escape-string "^1.1.0"
+
 "@nozbe/with-observables@1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.4.1.tgz#e24680e57ae235e53db6ed7600494d7d0a8d36c2"
   integrity sha512-xsYrSeSzelFiWF/BXFZW+khFAqJdet22Egt6nhVLHGF2GmYbV5kxv8om0Wh2om4OXK6IM0UAU3pwk+nX5GLsUw==
+  dependencies:
+    hoist-non-react-statics "^3.3.2"
+
+"@nozbe/with-observables@^1.5.0-2":
+  version "1.5.0-3"
+  resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.5.0-3.tgz#8d8efe49b25364829e621f53b31fca9a53bbf3a2"
+  integrity sha512-csb86XQSvc0/gATFHE6xecZ0Eb6iWg4aYk8To8vtvczXT8B5C0gk/MqjzDHNU9Rm7/DK1aYqxOI9DfvPIM/bZQ==
   dependencies:
     hoist-non-react-statics "^3.3.2"
 
@@ -2385,6 +2423,13 @@
   integrity sha512-OPwQlEdg40HAj5KNF8WW6q2KG4Z+cBCZb3m4ninfTZKaBmbIJodviQsDBoYMPHkOyJJMHnOJo5j2+LKDOhOACg==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
+
+"@skam22/watermelondb-expo-plugin@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@skam22/watermelondb-expo-plugin/-/watermelondb-expo-plugin-1.0.1.tgz#74dbc8da0f43884cd5ea42aa916ad8298438eab9"
+  integrity sha512-fd+QP8/4VowfbY+7JA1oTGm1R59VI4LSkShWIpEvu1m5O9bqYl9IiDRR2NY57gEyEY3tnDs/ZXAd/aeNqvVH8Q==
+  dependencies:
+    expo "^48.0.16"
 
 "@tootallnate/once@2":
   version "2.0.0"
@@ -3080,7 +3125,7 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.0, ajv@^8.9.0:
+ajv@^8.0.0, ajv@^8.11.0, ajv@^8.9.0:
   version "8.12.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
   integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
@@ -3235,9 +3280,9 @@ application-config-path@^0.1.0:
   resolved "https://registry.yarnpkg.com/application-config-path/-/application-config-path-0.1.1.tgz#8b5ac64ff6afdd9bd70ce69f6f64b6998f5f756e"
   integrity sha512-zy9cHePtMP0YhwG+CfHm0bgwdnga2X3gZexpdCwEj//dpb+TKajtiC8REEUJUSq6Ab4f9cgNy2l8ObXzCXFkEw==
 
-"arclib@https://github.com/ArcadeLabsInc/arclib":
+"arclib@https://github.com/ArcadeLabsInc/arclib#sync-events-to-db":
   version "0.1.0"
-  resolved "https://github.com/ArcadeLabsInc/arclib#34d1cf45bb2f6129eac9e7eae4fae6534655237c"
+  resolved "https://github.com/ArcadeLabsInc/arclib#8d2e46a52954b7cae5d00e95c2d6b9df232ab954"
   dependencies:
     "@babel/plugin-proposal-class-static-block" "^7.21.0"
     "@nozbe/watermelondb" "<0.26.0"
@@ -5629,6 +5674,14 @@ expo-asset@~8.9.1:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
+expo-build-properties@~0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/expo-build-properties/-/expo-build-properties-0.6.0.tgz#164e45c9008464a75bc54c74cf251901d924b141"
+  integrity sha512-J9129dDhZp9Av/RctdpGUaC8eMgFcfKpmBpvwstr/2jKL5aaH8noJP1xbXw/xrDXmGm+YyjhVzRJjLbf0qAmJA==
+  dependencies:
+    ajv "^8.11.0"
+    semver "^7.3.5"
+
 expo-constants@~14.2.0, expo-constants@~14.2.1:
   version "14.2.1"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-14.2.1.tgz#b5b6b8079d2082c31ccf2cbc7cf97a0e83c229c3"
@@ -5730,7 +5783,7 @@ expo-status-bar@~1.4.4:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.4.4.tgz#6874ccfda5a270d66f123a9f220735a76692d114"
   integrity sha512-5DV0hIEWgatSC3UgQuAZBoQeaS9CqeWRZ3vzBR9R/+IUD87Adbi4FGhU10nymRqFXOizGsureButGZIXPs7zEA==
 
-expo@^48.0.15:
+expo@^48.0.15, expo@^48.0.16:
   version "48.0.17"
   resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.17.tgz#000773a2675e5bf95688a84fbc625c105f8b8af9"
   integrity sha512-5T1CsMUlfI+xFB89GOU+/xtSSbSBBFVTqwgheAU0cQolfbs+YyJCMTKU5vN45N5OK+ym7p/LKPa6DQAxYPF8YQ==
@@ -11065,7 +11118,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^7.4.0:
+rxjs@^7.4.0, rxjs@^7.8.0:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
