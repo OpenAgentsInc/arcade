@@ -15,4 +15,5 @@ function IgniteApp() {
 }
 
 AppRegistry.registerComponent("arcade", () => IgniteApp)
+AppRegistry.registerComponent("main", () => IgniteApp)
 export default App
