@@ -42,6 +42,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.2",
     "@shopify/flash-list": "^1.4.3",
+    "@shopify/react-native-skia": "0.1.172",
     "apisauce": "2.1.5",
     "arclib": "https://github.com/ArcadeLabsInc/arclib",
     "assert": "^1.1.1",
