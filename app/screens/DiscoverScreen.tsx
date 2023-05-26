@@ -5,17 +5,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Button, Header, Screen } from "app/components"
 import { colors, spacing } from "app/theme"
-import { PackageSearchIcon, RadioIcon, User2Icon, Star } from "lucide-react-native"
+import { PackageSearchIcon, User2Icon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
 
 interface DiscoverScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Discover">> {}
 
 export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function DiscoverScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
-  // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   useLayoutEffect(() => {
@@ -48,18 +43,6 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
             LeftAccessory={() => <PackageSearchIcon color={colors.palette.cyan500} />}
             style={$button}
             onPress={() => navigation.navigate("Listing")}
-          />
-          <Button
-            text="Nearby"
-            LeftAccessory={() => <RadioIcon color={colors.palette.cyan500} />}
-            style={$button}
-            onPress={() => navigation.navigate("Nearby")}
-          />
-          <Button
-            text="Demo Screens"
-            LeftAccessory={() => <Star color={colors.palette.cyan500} />}
-            style={$button}
-            onPress={() => navigation.navigate("Demos")}
           />
         </View>
       </View>

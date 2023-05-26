@@ -356,8 +356,6 @@ PODS:
     - glog
   - react-native-get-random-values (1.9.0):
     - React-Core
-  - react-native-maps (1.7.1):
-    - React-Core
   - react-native-safe-area-context (4.5.0):
     - RCT-Folly
     - RCTRequired
@@ -451,8 +449,6 @@ PODS:
   - RNBootSplash (4.5.0):
     - React-Core
   - RNCAsyncStorage (1.17.11):
-    - React-Core
-  - RNCPicker (2.4.10):
     - React-Core
   - RNFlashList (1.4.3):
     - React-Core
@@ -553,7 +549,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
-  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -570,7 +565,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -661,8 +655,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
-  react-native-maps:
-    :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -695,8 +687,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
-  RNCPicker:
-    :path: "../node_modules/@react-native-picker/picker"
   RNFlashList:
     :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
@@ -756,7 +746,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 9885f6f94d231b95a739ef7bb50536fb87ce7539
   React-logger: 3f8ebad1be1bf3299d1ab6d7f971802d7395c7ef
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
-  react-native-maps: 667f9b975549c6fa9b1631bf859440f68ebd3b8f
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
   React-perflogger: 2d505bbe298e3b7bacdd9e542b15535be07220f6
   React-RCTActionSheet: 0e96e4560bd733c9b37efbf68f5b1a47615892fb
@@ -773,7 +762,6 @@ SPEC CHECKSUMS:
   ReactCommon: dbfbe2f7f3c5ce4ce44f43f2fd0d5950d1eb67c5
   RNBootSplash: 364ec0f6a61d96bce40e8630d80d949c214a5749
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
-  RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
   RNFlashList: ade81b4e928ebd585dd492014d40fb8d0e848aab
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNReanimated: cc5e3aa479cb9170bcccf8204291a6950a3be128

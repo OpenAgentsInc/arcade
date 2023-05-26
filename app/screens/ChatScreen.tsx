@@ -5,7 +5,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, RelayContext, User, MessageForm, ListingItem } from "app/components"
 import { useNavigation } from "@react-navigation/native"
-import { SearchIcon, UsersIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
@@ -44,12 +43,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
-          RightActionComponent={
-            <View style={$headerRightActions}>
-              <UsersIcon size={20} color={colors.palette.cyan400} />
-              <SearchIcon size={20} color={colors.palette.cyan400} />
-            </View>
-          }
         />
       ),
     })
@@ -123,12 +116,6 @@ const $container: ViewStyle = {
   height: "100%",
   justifyContent: "space-between",
   paddingHorizontal: spacing.medium,
-}
-
-const $headerRightActions: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.medium,
-  paddingRight: spacing.medium,
 }
 
 const $main: ViewStyle = {
