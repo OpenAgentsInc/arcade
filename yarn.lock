@@ -3330,7 +3330,7 @@ application-config-path@^0.1.0:
 
 "arclib@https://github.com/ArcadeLabsInc/arclib#sync-events-to-db":
   version "0.1.0"
-  resolved "https://github.com/ArcadeLabsInc/arclib#51b1589c32656b480b3faebf8323d6517695a97d"
+  resolved "https://github.com/ArcadeLabsInc/arclib#d76358a175a3496d2e97e09f7a229ed9db142a01"
   dependencies:
     "@babel/plugin-proposal-class-static-block" "^7.21.0"
     "@nozbe/watermelondb" "<0.26.0"
