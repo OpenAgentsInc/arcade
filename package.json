@@ -28,7 +28,8 @@
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
     "build:android:apk": "eas build -p android --profile preview",
-    "submit:ios": "eas submit -p ios"
+    "submit:ios": "eas submit -p ios",
+    "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
@@ -42,7 +43,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.2",
     "@shopify/flash-list": "^1.4.3",
-    "@shopify/react-native-skia": "0.1.172",
+    "@shopify/react-native-skia": "0.1.193",
     "apisauce": "2.1.5",
     "arclib": "https://github.com/ArcadeLabsInc/arclib",
     "assert": "^1.1.1",
