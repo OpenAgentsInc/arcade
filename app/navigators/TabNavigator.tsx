@@ -5,9 +5,7 @@ import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
 import {
-  BlankScreen,
   DiscoverScreen,
-  FeedScreen,
   HomeMessagesScreen,
   ProfileScreen,
 } from "../screens"
@@ -20,7 +18,6 @@ export type DemoTabParamList = {
   Create: undefined
   Discover: undefined
   Profile: undefined
-  // DemoShowroom: { queryIndex?: string; itemIndex?: string }
 }
 
 /**
@@ -64,32 +61,12 @@ export function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Feed"
-        component={FeedScreen}
-        options={{
-          tabBarLabel: "Feed",
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="Rss" color={focused ? colors.tint : inactiveIconColor} size={24} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Create"
-        component={BlankScreen}
-        options={{
-          tabBarLabel: "Create",
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="PlusCircle" color={focused ? colors.tint : inactiveIconColor} size={24} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Discover"
         component={DiscoverScreen}
         options={{
           tabBarLabel: "Discover",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="Search" color={focused ? colors.tint : inactiveIconColor} size={24} />
+            <Icon icon="Globe" color={focused ? colors.tint : inactiveIconColor} size={24} />
           ),
         }}
       />

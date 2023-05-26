@@ -15,7 +15,6 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
-import { DemoNavigator } from "./DemoNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -41,13 +40,11 @@ export type AppStackParamList = {
   Chat: undefined
   Listing: undefined
   ListingDetail: undefined
-  Feed: undefined
   Channels: undefined
   User: undefined
   Profile: undefined
   EditProfile: undefined
   Nearby: undefined
-  Demos: undefined
 }
 
 /**
@@ -78,11 +75,9 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Nearby" component={Screens.NearbyScreen} />
-          <Stack.Screen name="Feed" component={Screens.FeedScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
-          <Stack.Screen name="Demos" component={DemoNavigator} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />
