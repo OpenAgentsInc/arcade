@@ -9,6 +9,10 @@ const options = [
   { label: "Book", iconName: "book" },
   { label: "Calendar", iconName: "calendar" },
   { label: "Camera", iconName: "camera" },
+  { label: "Charts", iconName: "barschart" },
+  { label: "Book", iconName: "book" },
+  { label: "Calendar", iconName: "calendar" },
+  { label: "Camera", iconName: "camera" },
 ]
 
 export const CascadeDemo = () => {
