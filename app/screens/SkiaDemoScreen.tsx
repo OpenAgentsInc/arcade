@@ -25,6 +25,7 @@ function App() {
   const rotateY = useSharedValue(0)
 
   const font = useFont(customFontsToLoad.protomolecule, 66)
+  const font2 = useFont(customFontsToLoad.spaceGroteskBold, 24)
 
   const gesture = Gesture.Pan()
     .onBegin((event) => {
@@ -84,7 +85,8 @@ function App() {
         >
           <Canvas style={{ flex: 1, margin: 10, zIndex: 400 }}>
             {/* <Fill color="black" /> */}
-            <Text x={36} y={100} text="arcaDE" font={font} color="white" />
+            <Text x={36} y={100} text="arcaDE" font={font} color="cyan" />
+            <Text x={126} y={144} text="Test." font={font2} color="white" />
           </Canvas>
           <View
             style={{
