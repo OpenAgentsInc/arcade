@@ -11,8 +11,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
-import { BackgroundGradient } from "../components/BackgroundGradient"
-import json from "../../assets/top.json"
+import { BackgroundGradient } from "app/components/BackgroundGradient"
+import json from "../../../assets/top.json"
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window")
 const HEIGHT = 256

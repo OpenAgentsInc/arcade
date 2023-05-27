@@ -9,7 +9,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
-import { BackgroundGradient } from "../components/BackgroundGradient"
+import { BackgroundGradient } from "../../components/BackgroundGradient"
 import { Canvas, Text, useFont, Fill } from "@shopify/react-native-skia"
 import { customFontsToLoad } from "app/theme"
 
