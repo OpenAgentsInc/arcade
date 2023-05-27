@@ -1,3 +1,5 @@
+import { Canvas, Text, useFont, Fill } from "@shopify/react-native-skia"
+import { customFontsToLoad } from "app/theme"
 import { StatusBar } from "expo-status-bar"
 import React from "react"
 import { Dimensions, StyleSheet, View } from "react-native"
@@ -21,6 +23,8 @@ const CARD_WIDTH = WIDTH - 5
 function App() {
   const rotateX = useSharedValue(0)
   const rotateY = useSharedValue(0)
+
+  const font = useFont(customFontsToLoad.protomolecule, 66)
 
   const gesture = Gesture.Pan()
     .onBegin((event) => {
@@ -78,6 +82,10 @@ function App() {
             rStyle,
           ]}
         >
+          <Canvas style={{ flex: 1, margin: 10, zIndex: 400 }}>
+            {/* <Fill color="black" /> */}
+            <Text x={36} y={100} text="arcaDE" font={font} color="white" />
+          </Canvas>
           <View
             style={{
               position: "absolute",
