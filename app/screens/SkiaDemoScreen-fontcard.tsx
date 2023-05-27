@@ -1,7 +1,7 @@
 import { Canvas, Text, useFont, Fill } from "@shopify/react-native-skia"
 import { customFontsToLoad } from "app/theme"
 import { StatusBar } from "expo-status-bar"
-import React, { useEffect } from "react"
+import React from "react"
 import { Dimensions, StyleSheet, View } from "react-native"
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler"
 import Animated, {
@@ -12,7 +12,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 import { BackgroundGradient } from "../components/BackgroundGradient"
-import json from "../../assets/top.json"
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window")
 const HEIGHT = 256
@@ -22,66 +21,6 @@ const CARD_HEIGHT = HEIGHT - 5
 const CARD_WIDTH = WIDTH - 5
 
 function App() {
-  // console.log("JSON:", json)
-
-  function countEventKinds(eventsJson: any) {
-    const counts = { 40: 0, 41: 0, 42: 0 }
-    console.log(eventsJson)
-    console.log("------")
-    console.log(typeof eventsJson)
-
-    // for (const event of eventsJson) {
-    // counts[event.ev.kind]++
-    // console.log(event)
-    // console.log("----")
-    // }
-    // for (const kind in eventsJson) {
-    // const event = eventsJson[kind]
-    // counts[event.ev.kind]++
-    // }
-    return counts
-  }
-
-  function parseAndExtract(data) {
-    let result = []
-
-    // Loop through each key in the data object
-    for (let key in data) {
-      // Check if the "ev" property exists and is an object
-      if (data[key].ev && typeof data[key].ev === "object") {
-        // Try to parse the "content" property as JSON
-        // console.log("data[key]", data[key])
-
-        // If the event kind is 42, it's a message
-        if (data[key].ev.kind === 42) {
-          console.log("message: " + data[key].ev.content)
-        }
-
-        // try {
-        //   let content = JSON.parse(data[key].ev.content)
-        //   console.log(content)
-
-        //   // Check if the "message" property exists in the parsed content
-        //   if (content.message) {
-        //     // If it does, push it to the result array
-        //     result.push(content.message)
-        //   }
-        // } catch (e) {
-        //   // If the "content" property couldn't be parsed as JSON, just ignore it
-        //   console.log("ignoring")
-        //   continue
-        // }
-      }
-    }
-
-    return result
-  }
-
-  useEffect(() => {
-    const result = parseAndExtract(json)
-    console.log("result:", result)
-  }, [])
-
   const rotateX = useSharedValue(0)
   const rotateY = useSharedValue(0)
 
