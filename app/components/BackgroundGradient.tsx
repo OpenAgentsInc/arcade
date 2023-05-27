@@ -45,7 +45,7 @@ const BackgroundGradient: React.FC<BackgroundGradientProps> = React.memo(({ widt
       >
         <SweepGradient
           c={vec((width + canvasPadding) / 2, (height + canvasPadding) / 2)}
-          colors={["cyan", "magenta", "yellow", "cyan"]}
+          colors={["cyan", "rgb(0,248,248)", "rgb(0,248,248)", "cyan"]}
         />
         <BlurMask blur={skValue} style={"solid"} />
       </RoundedRect>
