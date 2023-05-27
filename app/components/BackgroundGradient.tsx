@@ -3,12 +3,16 @@ import {
   Canvas,
   RoundedRect,
   SweepGradient,
+  Text,
+  useFont,
   useSharedValueEffect,
   useValue,
   vec,
 } from "@shopify/react-native-skia"
+import { customFontsToLoad } from "app/theme"
 import React, { useEffect } from "react"
 import { useSharedValue, withRepeat, withTiming } from "react-native-reanimated"
+import { View } from "react-native"
 
 type BackgroundGradientProps = {
   width: number
@@ -19,6 +23,8 @@ const BackgroundGradient: React.FC<BackgroundGradientProps> = React.memo(({ widt
   const canvasPadding = 40
   const rValue = useSharedValue(0)
   const skValue = useValue(0)
+  const fontSize = 60
+  const font = useFont(customFontsToLoad.protomolecule, fontSize)
 
   useEffect(() => {
     rValue.value = withRepeat(withTiming(10, { duration: 2000 }), -1, true)
