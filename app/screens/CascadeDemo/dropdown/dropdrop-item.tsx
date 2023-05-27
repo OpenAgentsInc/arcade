@@ -13,6 +13,7 @@ import { typography } from "app/theme"
 
 type DropdownOptionType = {
   label: string
+  description: string
   iconName: string
 }
 
@@ -41,17 +42,19 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
     itemHeight,
     label,
     iconName,
+    description,
   }) => {
     // Creating a shared value that keeps track of the scale of the item when it's tapped
     const tapGestureScale = useSharedValue(1)
 
+    console.log(description)
     const onTouchStart = useCallback(() => {
       tapGestureScale.value = withTiming(0.95)
     }, [tapGestureScale])
 
     const onTouchEnd = useCallback(() => {
       tapGestureScale.value = withTiming(1)
-      onPress && onPress({ label, isHeader, iconName })
+      onPress && onPress({ label, description, isHeader, iconName })
     }, [tapGestureScale, onPress, label, isHeader, iconName])
 
     // Calculating the background color of the item based on its index
@@ -130,7 +133,10 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
             {/* @ts-ignore */}
             <AntDesign name={iconName} color={"white"} size={20} />
           </View>
-          <Text style={styles.title}>{label}</Text>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.title}>{label}</Text>
+            <Text style={styles.title}>{description}</Text>
+          </View>
           <View
             style={{
               flex: 1,
