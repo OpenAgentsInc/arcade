@@ -7,6 +7,8 @@ require File.join(File.dirname(`cd #{pod_folder} && node --print "require.resolv
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
+pod 'WatermelonDB', path: '../node_modules/@nozbe/watermelondb', modular_headers: true
+pod 'React-jsi', path: '../node_modules/react-native/ReactCommon/jsi', modular_headers: true
 pod 'simdjson', path: '../node_modules/@nozbe/simdjson', modular_headers: true
 
 production = ENV["PRODUCTION"] == "1"
@@ -81,7 +83,7 @@ target 'arcade' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
     File.delete("./.xcode.env.local") if File.exist?("./.xcode.env.local")
-  
+
     # This is necessary for Xcode 14, because it signs resource bundles by default
     # when building for devices.
     installer.target_installation_results.pod_target_installation_results
