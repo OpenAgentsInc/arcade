@@ -21,20 +21,20 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
     >
       <View>
         <Text text="arcaDE" preset="heading" style={$arcade} />
-        <View>
-          <Button
-            text="Enter"
-            onPress={() => navigate("Login")}
-            style={$mainButton}
-            pressedStyle={$mainButton}
-          />
-          <Button
-            text="Create Account"
-            onPress={() => navigate("CreateAccount")}
-            style={$button}
-            pressedStyle={$button}
-          />
-        </View>
+      </View>
+      <View>
+        <Button
+          text="Enter"
+          onPress={() => navigate("Login")}
+          style={$mainButton}
+          pressedStyle={$mainButton}
+        />
+        <Button
+          text="Create Account"
+          onPress={() => navigate("CreateAccount")}
+          style={$button}
+          pressedStyle={$button}
+        />
       </View>
     </Screen>
   )
@@ -47,14 +47,15 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
+  justifyContent: "space-between",
   paddingHorizontal: spacing.medium,
 }
 
 const $arcade: TextStyle = {
-  fontSize: 65,
+  fontSize: 75,
   lineHeight: 100,
   letterSpacing: 4,
+  marginTop: "55%",
   color: "white",
   textShadowColor: "#00ffff",
   textShadowOffset: { width: 0, height: 0 },
