@@ -44,7 +44,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       initDMS().catch(console.error)
-    }, [pool])
+    }, [dms])
 
     return (
       <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>

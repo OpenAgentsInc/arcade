@@ -19,10 +19,12 @@ export default function RelayProvider({ children }: { children: React.ReactNode 
     userStore: { privkey },
   } = useStores()
 
-  const db = useMemo(() => connectDb(), [])
+  const db: any = useMemo(() => connectDb(), [])
   const nsec = useMemo(() => (privkey ? nip19.nsecEncode(privkey) : null), [privkey])
   const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
   const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [ident])
+
+  if (!pool.db) throw Error
 
   useEffect(() => {
     async function initRelays() {

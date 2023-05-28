@@ -3394,9 +3394,9 @@ application-config-path@^0.1.0:
   resolved "https://registry.yarnpkg.com/application-config-path/-/application-config-path-0.1.1.tgz#8b5ac64ff6afdd9bd70ce69f6f64b6998f5f756e"
   integrity sha512-zy9cHePtMP0YhwG+CfHm0bgwdnga2X3gZexpdCwEj//dpb+TKajtiC8REEUJUSq6Ab4f9cgNy2l8ObXzCXFkEw==
 
-"arclib@https://github.com/ArcadeLabsInc/arclib#sync-events-to-db":
+"arclib@https://github.com/ArcadeLabsInc/arclib":
   version "0.1.0"
-  resolved "https://github.com/ArcadeLabsInc/arclib#7993a6b7e570de4d5ae7164fd81488c6ea5becd6"
+  resolved "https://github.com/ArcadeLabsInc/arclib#da82a015f7db8b28063fc71c7580427f8010890b"
   dependencies:
     "@babel/plugin-proposal-class-static-block" "^7.21.0"
     "@nozbe/watermelondb" "<0.26.0"

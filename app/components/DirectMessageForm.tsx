@@ -25,6 +25,7 @@ export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string 
       onSubmitEditing={() => submit()}
       value={value}
       autoCapitalize="none"
+      autoCorrect={false}
       RightAccessory={() => (
         <Button
           onPress={() => submit()}

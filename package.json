@@ -49,7 +49,7 @@
     "@shopify/react-native-skia": "0.1.193",
     "@skam22/watermelondb-expo-plugin": "^1.0.1",
     "apisauce": "2.1.5",
-    "arclib": "https://github.com/ArcadeLabsInc/arclib#sync-events-to-db",
+    "arclib": "https://github.com/ArcadeLabsInc/arclib",
     "assert": "^1.1.1",
     "date-fns": "^2.29.2",
     "expo": "^48.0.15",
