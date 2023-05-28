@@ -15,12 +15,7 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
   const { navigate } = useNavigation<any>()
 
   return (
-    <Screen
-      style={$root}
-      preset="scroll"
-      safeAreaEdges={["top"]}
-      contentContainerStyle={$container}
-    >
+    <Screen style={$root} preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$container}>
       <View>
         <Text text="arcaDe" preset="heading" style={$arcade} />
         <View>
