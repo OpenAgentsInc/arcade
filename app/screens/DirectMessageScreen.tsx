@@ -47,7 +47,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       async function initDMS() {
-        const list = await dms.list({ authors: [id] }, true)
+        const list = await dms.list({}, true)
         // update state
         setData(list.reverse())
       }
