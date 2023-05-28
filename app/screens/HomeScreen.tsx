@@ -22,8 +22,18 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
       <View>
         <Text text="arcaDE" preset="heading" style={$arcade} />
         <View>
-          <Button text="Enter" onPress={() => navigate("Login")} style={$mainButton} />
-          <Button text="Create Account" onPress={() => navigate("CreateAccount")} style={$button} />
+          <Button
+            text="Enter"
+            onPress={() => navigate("Login")}
+            style={$mainButton}
+            pressedStyle={$mainButton}
+          />
+          <Button
+            text="Create Account"
+            onPress={() => navigate("CreateAccount")}
+            style={$button}
+            pressedStyle={$button}
+          />
         </View>
       </View>
     </Screen>
@@ -54,13 +64,14 @@ const $arcade: TextStyle = {
 }
 
 const $mainButton: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
+  backgroundColor: "black", // colors.palette.cyan500,
+  borderWidth: 1,
   width: "100%",
   marginBottom: spacing.small,
+  borderColor: colors.palette.cyan500,
 }
 
 const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan900,
-  borderColor: colors.palette.cyan500,
+  backgroundColor: "black", // colors.palette.cyan900,
+  borderColor: colors.palette.cyan900,
 }
