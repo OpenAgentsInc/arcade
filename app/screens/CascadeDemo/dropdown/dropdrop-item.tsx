@@ -135,7 +135,7 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
           </View>
           <View style={{ flexDirection: "column" }}>
             <Text style={styles.title}>{label}</Text>
-            <Text style={styles.title}>{description}</Text>
+            <Text style={styles.description}>{description}</Text>
           </View>
           <View
             style={{
@@ -192,6 +192,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 1.2,
     fontFamily: typography.primary.medium,
+  },
+  description: {
+    color: "rgba(255,255,255,0.5)",
+    fontSize: 12,
+    letterSpacing: 1.2,
+    fontFamily: typography.primary.normal,
+    marginTop: 2,
   },
 })
 
