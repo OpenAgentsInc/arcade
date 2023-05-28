@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Button, Screen, Text } from "app/components"
+import { Button, Screen, Spotlight, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 
@@ -19,12 +19,23 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
       safeAreaEdges={["top", "bottom"]}
       contentContainerStyle={$container}
     >
+      <Spotlight />
       <View>
         <Text text="arcaDE" preset="heading" style={$arcade} />
-        <View>
-          <Button text="Enter" onPress={() => navigate("Login")} style={$mainButton} />
-          <Button text="Create Account" onPress={() => navigate("CreateAccount")} style={$button} />
-        </View>
+      </View>
+      <View>
+        <Button
+          text="Enter"
+          onPress={() => navigate("Login")}
+          style={$mainButton}
+          pressedStyle={$mainButton}
+        />
+        <Button
+          text="Create Account"
+          onPress={() => navigate("CreateAccount")}
+          style={$button}
+          pressedStyle={$button}
+        />
       </View>
     </Screen>
   )
@@ -37,30 +48,32 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
+  justifyContent: "space-between",
   paddingHorizontal: spacing.medium,
 }
 
 const $arcade: TextStyle = {
-  fontSize: 65,
+  fontSize: 75,
   lineHeight: 100,
   letterSpacing: 4,
+  marginTop: "55%",
   color: "white",
   textShadowColor: "#00ffff",
   textShadowOffset: { width: 0, height: 0 },
-  textShadowRadius: 15,
+  textShadowRadius: 4,
   textAlign: "center",
   marginBottom: spacing.massive,
 }
 
 const $mainButton: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
+  backgroundColor: "black", // colors.palette.cyan500,
+  borderWidth: 1,
   width: "100%",
   marginBottom: spacing.small,
+  borderColor: colors.palette.cyan500,
 }
 
 const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan900,
-  borderColor: colors.palette.cyan500,
+  backgroundColor: "black", // colors.palette.cyan900,
+  borderColor: colors.palette.cyan900,
 }
