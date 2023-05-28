@@ -54,8 +54,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     channelStore.fetchMessages(channel, id).catch(console.error)
 
     // listing new messages
-    pool.start([{ "#e": [id], kinds: [42], since: Math.floor(Date.now() / 1000) }])
-    pool.addEventCallback((event) => {
+    listings.sub((event) => {
       channelStore.addMessage(event)
     })
 
