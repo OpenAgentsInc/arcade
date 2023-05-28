@@ -61,7 +61,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     }
 
     async function subscribe() {
-      return await channel.sub(id, (event: any) => handleNewMessage(event), {
+      return await channel.sub(id, handleNewMessage, {
         since: Math.floor(Date.now() / 1000),
       })
     }
@@ -74,8 +74,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     subscribe().catch(console.error)
 
     return () => {
-      console.log("unsubscribing...")
-      pool.close()
+      console.log("unsubscribe")
+      pool.unsub(handleNewMessage)
       // clear channel store
       channelStore.reset()
     }
