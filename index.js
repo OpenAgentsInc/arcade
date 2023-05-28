@@ -2,6 +2,7 @@
 // If you use Expo (`yarn expo:start`), the entry point is ./App.js instead.
 // Both do essentially the same thing.
 
+import "isomorphic-webcrypto"
 import "text-encoding-polyfill"
 import "react-native-url-polyfill/auto"
 import "react-native-get-random-values"

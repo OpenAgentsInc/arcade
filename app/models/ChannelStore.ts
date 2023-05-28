@@ -27,7 +27,7 @@ export const ChannelStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     async fetchMessages(channel: any, id: string) {
-      const events = await channel.list(id)
+      const events = await channel.list(id, true)
       self.setProp("messages", events)
     },
     addMessage(event: any) {

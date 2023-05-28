@@ -3,13 +3,20 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, RelayContext, User, MessageForm, ListingItem } from "app/components"
+import {
+  Header,
+  Screen,
+  Text,
+  RelayContext,
+  User,
+  ChannelMessageForm,
+  ListingItem,
+} from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import { ArcadeListings } from "arclib"
 import Nip28Channel from "arclib/src/channel"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -25,7 +32,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   // init relaypool
   const pool: any = useContext(RelayContext)
   const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
-  const listings = useMemo(() => new ArcadeListings(channel, id), [channel, id])
 
   // Channel store
   const { channelStore } = useStores()
@@ -49,19 +55,31 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [])
 
   useEffect(() => {
-    // fetch messages
-    channelStore.reset()
-    channelStore.fetchMessages(channel, id).catch(console.error)
-
-    // listing new messages
-    listings.sub((event) => {
+    function handleNewMessage(event) {
+      console.log("new message", event)
       channelStore.addMessage(event)
-    })
+    }
+
+    async function subscribe() {
+      return await channel.sub(id, (event: any) => handleNewMessage(event), {
+        since: Math.floor(Date.now() / 1000),
+      })
+    }
+
+    // fetch all channel messages
+    channelStore.fetchMessages(channel, id)
+
+    // subscribe for new messages
+    console.log("subscribing...")
+    subscribe().catch(console.error)
 
     return () => {
-      pool.stop()
+      console.log("unsubscribing...")
+      pool.close()
+      // clear channel store
+      channelStore.reset()
     }
-  }, [id, channel])
+  }, [route, channel])
 
   return (
     <BottomSheetModalProvider>
@@ -99,7 +117,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             />
           </View>
           <View style={$form}>
-            <MessageForm channel={channel} listings={listings} channelId={id} />
+            <ChannelMessageForm channel={channel} channelId={id} />
           </View>
         </View>
       </Screen>
