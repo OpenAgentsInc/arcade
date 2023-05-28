@@ -1,4 +1,8 @@
+import { useNavigation } from "@react-navigation/native"
+import { Header } from "app/components"
+import { colors } from "app/theme"
 import { StatusBar } from "expo-status-bar"
+import { useLayoutEffect } from "react"
 import { StyleSheet, View } from "react-native"
 import { Dropdown } from "./dropdown"
 
@@ -38,6 +42,23 @@ const options = [
 ]
 
 export const CascadeDemo = () => {
+  const navigation = useNavigation<any>()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      header: () => (
+        <Header
+          title="Cascade Demo"
+          titleStyle={{ color: colors.palette.cyan400 }}
+          leftIcon="back"
+          leftIconColor={colors.palette.cyan400}
+          onLeftPress={() => navigation.goBack()}
+        />
+      ),
+    })
+  }, [])
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
