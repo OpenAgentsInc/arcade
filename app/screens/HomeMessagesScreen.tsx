@@ -91,7 +91,7 @@ const $main: ViewStyle = {
 const $messsages: ViewStyle = {
   flex: 1,
   paddingVertical: spacing.extraSmall,
-  paddingHorizontal: spacing.small,
+  // paddingHorizontal: spacing.small,
 }
 
 const $messageItem: ViewStyle = {
@@ -113,7 +113,7 @@ const $messageItemName: TextStyle = {
 }
 
 const $messageItemContent: TextStyle = {
-  width: 200,
+  width: 240,
   lineHeight: 0,
-  color: colors.palette.cyan700,
+  color: "rgba(255,255,255,0.5)",
 }
