@@ -76,6 +76,7 @@ const Dropdown: React.FC<DropdownProps> = React.memo(
               label={option.label}
               description={option.description}
               iconName={option.iconName}
+              picture={option.picture ?? undefined}
               onPress={onPickDropdownItem}
               progress={progress}
               isHeader={index === 0}

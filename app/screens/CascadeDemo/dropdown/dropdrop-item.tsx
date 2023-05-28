@@ -6,7 +6,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
-import { StyleSheet, Text, View } from "react-native"
+import { Image, StyleSheet, Text, View } from "react-native"
 import Color from "color"
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
 import { typography } from "app/theme"
@@ -15,6 +15,7 @@ type DropdownOptionType = {
   label: string
   description: string
   iconName: string
+  picture?: string
 }
 
 type DropdownItemProps = {
@@ -29,6 +30,7 @@ type DropdownItemProps = {
   itemHeight: number
   maxDropDownHeight: number
   optionsLength: number
+  picture?: string
 } & DropdownOptionType
 
 const DropdownItem: React.FC<DropdownItemProps> = React.memo(
@@ -43,6 +45,7 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
     label,
     iconName,
     description,
+    picture,
   }) => {
     // Creating a shared value that keeps track of the scale of the item when it's tapped
     const tapGestureScale = useSharedValue(1)
@@ -121,6 +124,8 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
       }
     }, [])
 
+    console.log("picture", picture)
+
     return (
       <Animated.View
         onTouchStart={onTouchStart}
@@ -129,9 +134,16 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
       >
         <Animated.View style={[styles.content, rContentStyle]}>
           <View style={styles.iconBox}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore */}
-            <AntDesign name={iconName} color={"white"} size={20} />
+            {picture ? (
+              <Image source={{ uri: picture }} style={styles.image} />
+            ) : (
+              <>
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                <AntDesign name={iconName} color={"white"} size={20} />
+              </>
+            )}
+            {/* <AntDesign name={iconName} color={"white"} size={20} /> */}
           </View>
           <View style={{ flexDirection: "column" }}>
             <Text style={styles.title}>{label}</Text>
@@ -199,6 +211,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1.2,
     fontFamily: typography.primary.normal,
     marginTop: 2,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
   },
 })
 

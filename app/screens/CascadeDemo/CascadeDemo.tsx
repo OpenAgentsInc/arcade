@@ -5,7 +5,12 @@ import { Dropdown } from "./dropdown"
 // Defining the options to be passed down to the Dropdown component (except the header option)
 // All the iconName values are from the expo/vector-icons package (AntDesign)
 const options = [
-  { label: "Amethyst Users", description: "A place to discuss", iconName: "message1" },
+  {
+    label: "Amethyst Users",
+    description: "A place to discuss",
+    iconName: "message1",
+    picture: "https://picsum.photos/200",
+  },
   { label: "Book Club", description: "A place to discuss books", iconName: "message1" },
   { label: "Uncle Jim", description: "Secret chat", iconName: "lock" },
   { label: "Trade talk", description: "Let's chat about stuff", iconName: "message1" },
