@@ -8,13 +8,15 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import Nip04Manager from "arclib/src/private"
+import { useStores } from "app/models"
+import { nip04 } from "nostr-tools"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
-    // Get route params
+    const { userStore } = useStores()
     const { id } = route.params
     const pool: any = useContext(RelayContext)
 
@@ -38,9 +40,12 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     useEffect(() => {
       async function initDMS() {
-        const dms = new Nip04Manager(pool)
-        const list = await dms.list({ authors: [id] }, true)
-        console.log(dms, list)
+        // const dms = new Nip04Manager(pool)
+        // const list = await dms.list({ authors: [id] }, true)
+        const list = await pool.list(
+          [{ kinds: [4], authors: [id], "#p": [userStore.pubkey] }],
+          true,
+        )
         // update state
         setData(list)
       }

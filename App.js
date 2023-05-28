@@ -1,5 +1,7 @@
 // This is the entry point if you run `yarn expo:start`
 // If you run `yarn ios` or `yarn android`, it'll use ./index.js instead.
+
+import "isomorphic-webcrypto"
 import "text-encoding-polyfill"
 import "react-native-url-polyfill/auto"
 import "react-native-get-random-values"
