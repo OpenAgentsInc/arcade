@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, Screen, Text } from "app/components"
+import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
@@ -14,6 +14,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 }: {
   route: any
 }) {
+  const pool: any = useContext(RelayContext)
   const [profile, setProfile] = useState(null)
 
   // Get route params
@@ -39,20 +40,10 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   useEffect(() => {
     async function fetchProfile() {
-      let response
-
-      try {
-        response = await fetch(`https://rbr.bio/${id}/metadata.json`)
-      } catch (error) {
-        console.log("There was an error", error)
-      }
-
-      if (response.ok) {
-        const json = await response.json()
-        const metadata = JSON.parse(json.content)
-        setProfile(metadata)
-      } else {
-        console.log(`HTTP Response Code: ${response?.status}`)
+      const list = await pool.list([{ kinds: [0], authors: [id] }], true)
+      if (list.length > 0) {
+        const content = JSON.parse(list[0].content)
+        setProfile(content)
       }
     }
 
@@ -100,7 +91,11 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           </View>
         </View>
         <View style={$buttonGroup}>
-          <Button text="Message" style={$profileButton} />
+          <Button
+            text="Message"
+            style={$profileButton}
+            onPress={() => navigation.navigate("DirectMessage", { id })}
+          />
           <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
         </View>
       </View>

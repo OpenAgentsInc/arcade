@@ -40,7 +40,10 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
               <FlashList
                 data={DEFAULT_CHANNELS}
                 renderItem={({ item }) => (
-                  <Pressable onPress={() => navigate("Chat", { id: item.id, name: item.name })} style={$messageItem}>
+                  <Pressable
+                    onPress={() => navigate("Chat", { id: item.id, name: item.name })}
+                    style={$messageItem}
+                  >
                     <AutoImage
                       source={{ uri: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
                       style={$messageItemAvatar}
@@ -88,11 +91,7 @@ const $main: ViewStyle = {
 const $messsages: ViewStyle = {
   flex: 1,
   paddingVertical: spacing.extraSmall,
-  paddingHorizontal: spacing.small,
-  borderWidth: 1,
-  borderColor: colors.palette.cyan500,
-  borderRadius: spacing.small / 2,
-  backgroundColor: colors.palette.overlay20,
+  // paddingHorizontal: spacing.small,
 }
 
 const $messageItem: ViewStyle = {
@@ -114,7 +113,7 @@ const $messageItemName: TextStyle = {
 }
 
 const $messageItemContent: TextStyle = {
-  width: 200,
+  width: 240,
   lineHeight: 0,
-  color: colors.palette.cyan700,
+  color: "rgba(255,255,255,0.5)",
 }

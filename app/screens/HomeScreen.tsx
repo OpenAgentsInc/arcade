@@ -6,23 +6,21 @@ import { AppStackScreenProps } from "app/navigators"
 import { Button, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
-// import { useStores } from "app/models"
 
 interface HomeScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Home">> {}
 
 export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
-  // Pull in navigation via hook
   const { navigate } = useNavigation<any>()
 
   return (
     <Screen
       style={$root}
-      preset="scroll"
-      safeAreaEdges={["top"]}
+      preset="fixed"
+      safeAreaEdges={["top", "bottom"]}
       contentContainerStyle={$container}
     >
       <View>
-        <Text text="arcaDe" preset="heading" style={$arcade} />
+        <Text text="arcaDE" preset="heading" style={$arcade} />
         <View>
           <Button text="Enter" onPress={() => navigate("Login")} style={$mainButton} />
           <Button text="Create Account" onPress={() => navigate("CreateAccount")} style={$button} />
@@ -44,7 +42,7 @@ const $container: ViewStyle = {
 }
 
 const $arcade: TextStyle = {
-  fontSize: 50,
+  fontSize: 65,
   lineHeight: 100,
   letterSpacing: 4,
   color: "white",
