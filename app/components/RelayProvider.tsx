@@ -24,8 +24,6 @@ export default function RelayProvider({ children }: { children: React.ReactNode 
   const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
   const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [ident])
 
-  if (!pool.db) throw Error
-
   useEffect(() => {
     async function initRelays() {
       await pool.setRelays(DEFAULT_RELAYS)
