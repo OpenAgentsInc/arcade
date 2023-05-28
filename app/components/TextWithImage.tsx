@@ -7,8 +7,11 @@ const parseText = (text, textStyle, imageStyle) => {
     if (word) {
         try {
           new URL(word);
-          // if no error is thrown, then the word is a valid URL
-          return <Image key={index} style={imageStyle} source={{ uri: word }} />;
+          if ([".jpg", ".png", ".jpeg"].some((suff)=>word.endsWith(suff))) {
+            return <Image key={index} style={imageStyle} source={{ uri: word }} />;
+          } else {
+            return <Text key={index} style={textStyle}>{word} </Text>;
+          }
         } catch (e) {
           // if an error is thrown, then the word is not a valid URL
           return <Text key={index} style={textStyle}>{word} </Text>;
@@ -27,7 +30,7 @@ const screenWidth = Dimensions.get('window').width/1.3;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     flexWrap: 'wrap',
   },
   text: {

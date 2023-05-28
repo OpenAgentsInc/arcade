@@ -18,6 +18,7 @@ import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import Nip28Channel from "arclib/src/channel"
+import TextWithImage from 'app/components/TextWithImage';
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -92,7 +93,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <Text text={item.content || "empty message"} style={$messageContent} />
+                    <TextWithImage text={item.content || "empty message"} textStyle={$messageContent} />
                     <Pressable
                       onPress={() =>
                         navigation.navigate("ListingDetail", {
