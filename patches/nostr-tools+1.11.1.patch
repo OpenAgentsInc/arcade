@@ -1,0 +1,20 @@
+diff --git a/node_modules/nostr-tools/lib/nostr.bundle.js b/node_modules/nostr-tools/lib/nostr.bundle.js
+index b32d933..c792f1f 100644
+--- a/node_modules/nostr-tools/lib/nostr.bundle.js
++++ b/node_modules/nostr-tools/lib/nostr.bundle.js
+@@ -1,4 +1,5 @@
+ "use strict";
++import crypto from 'isomorphic-webcrypto'
+ var NostrTools = (() => {
+   var __create = Object.create;
+   var __defProp = Object.defineProperty;
+diff --git a/node_modules/nostr-tools/lib/nostr.cjs.js b/node_modules/nostr-tools/lib/nostr.cjs.js
+index a08bfb3..be4516a 100644
+--- a/node_modules/nostr-tools/lib/nostr.cjs.js
++++ b/node_modules/nostr-tools/lib/nostr.cjs.js
+@@ -1,4 +1,5 @@
+ "use strict";
++import crypto from 'isomorphic-webcrypto'
+ var __defProp = Object.defineProperty;
+ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+ var __getOwnPropNames = Object.getOwnPropertyNames;
