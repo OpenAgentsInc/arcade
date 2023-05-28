@@ -1,25 +1,23 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, RelayContext, Screen, Text, User } from "app/components"
+import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import Nip04Manager from "arclib/src/private"
-import { useStores } from "app/models"
-import { nip04 } from "nostr-tools"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
-    const { userStore } = useStores()
     const { id } = route.params
     const pool: any = useContext(RelayContext)
 
+    const dms = useMemo(() => new Nip04Manager(pool), [pool])
     const [data, setData] = useState([])
     const navigation = useNavigation<any>()
 
@@ -40,12 +38,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     useEffect(() => {
       async function initDMS() {
-        // const dms = new Nip04Manager(pool)
-        // const list = await dms.list({ authors: [id] }, true)
-        const list = await pool.list(
-          [{ kinds: [4], authors: [id], "#p": [userStore.pubkey] }],
-          true,
-        )
+        const list = await dms.list({ authors: [id] }, true)
         // update state
         setData(list)
       }
@@ -76,7 +69,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               inverted={true}
             />
           </View>
-          <View style={$form}></View>
+          <View style={$form}>
+            <DirectMessageForm dms={dms} replyTo={id} />
+          </View>
         </View>
       </Screen>
     )

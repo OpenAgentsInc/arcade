@@ -3,7 +3,15 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, RelayContext, User, MessageForm, ListingItem } from "app/components"
+import {
+  Header,
+  Screen,
+  Text,
+  RelayContext,
+  User,
+  ChannelMessageForm,
+  ListingItem,
+} from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
@@ -99,7 +107,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             />
           </View>
           <View style={$form}>
-            <MessageForm channel={channel} listings={listings} channelId={id} />
+            <ChannelMessageForm channel={channel} listings={listings} channelId={id} />
           </View>
         </View>
       </Screen>

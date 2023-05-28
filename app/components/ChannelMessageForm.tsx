@@ -6,7 +6,7 @@ import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 
-export function MessageForm({
+export function ChannelMessageForm({
   channel,
   listings,
   channelId,
