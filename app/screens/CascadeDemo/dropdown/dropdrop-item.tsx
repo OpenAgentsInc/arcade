@@ -123,8 +123,6 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
       }
     }, [])
 
-    console.log("picture", picture)
-
     return (
       <Animated.View
         onTouchStart={onTouchStart}

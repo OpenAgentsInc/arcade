@@ -9,5 +9,6 @@ LogBox.ignoreLogs([
   "Require cycle:",
   "FlashList",
   "Cannot read property",
-  "nostr-tools:"
+  "nostr-tools:",
+  "[🍉] The writer"
 ])
