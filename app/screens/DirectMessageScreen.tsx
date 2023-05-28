@@ -10,6 +10,7 @@ import { FlashList } from "@shopify/flash-list"
 import Nip04Manager from "arclib/src/private"
 import { useStores } from "app/models"
 import { nip04 } from "nostr-tools"
+import TextWithImage from 'app/components/TextWithImage';
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -79,7 +80,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <Text text={item.content || "empty message"} style={item.pubkey==id ? $messageContent: $messageContentMine} />
+                    <TextWithImage text={item.content || "empty message"} textStyle={item.pubkey==id ? $messageContent: $messageContentMine} />
                   </View>
                 </View>
               )}
