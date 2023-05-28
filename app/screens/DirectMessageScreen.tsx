@@ -8,6 +8,8 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import Nip04Manager from "arclib/src/private"
+import { useStores } from "app/models"
+import { nip04 } from "nostr-tools"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -15,11 +17,12 @@ interface DirectMessageScreenProps
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
     const { id } = route.params
+    const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
 
     const dms = useMemo(() => new Nip04Manager(pool), [pool])
+    const { userStore } = useStores()
     const [data, setData] = useState([])
-    const navigation = useNavigation<any>()
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -37,13 +40,29 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     }, [])
 
     useEffect(() => {
+      async function handleNewMessage(event) {
+        console.log("new message", event)
+        event.content = await nip04.decrypt(userStore.privkey, event.pubkey, event.content)
+        setData((prev) => [event, ...prev])
+      }
+
       async function initDMS() {
         const list = await dms.list({ authors: [id] }, true)
         // update state
-        setData(list)
+        setData(list.reverse())
       }
 
+      // fetch direct messages
       initDMS().catch(console.error)
+
+      // subscribe for new messages
+      console.log("subscribing...")
+      dms.sub(handleNewMessage, { since: Math.floor(Date.now() / 1000) })
+
+      return () => {
+        console.log("unsubscribing...")
+        pool.close()
+      }
     }, [dms])
 
     return (
