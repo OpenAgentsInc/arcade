@@ -40,14 +40,18 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     }, [])
 
     useEffect(() => {
+      const seen = new Set()
+
       async function handleNewMessage(event) {
+        if (seen.has(event.id)) 
+            return
+        seen.add(event.id)
         console.log("new message", event)
-        event.content = await nip04.decrypt(userStore.privkey, event.pubkey, event.content)
         setData((prev) => [event, ...prev])
       }
 
       async function initDMS() {
-        const list = await dms.list({}, true)
+        const list = await dms.list({}, true, id)
         // update state
         setData(list.reverse())
       }
@@ -57,7 +61,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
       // subscribe for new messages
       console.log("subscribing...")
-      dms.sub(handleNewMessage, { since: Math.floor(Date.now() / 1000) })
+      dms.sub(handleNewMessage, { since: Math.floor(Date.now() / 1000) }, undefined, id)
 
       return () => {
         console.log("unsubscribing...")
@@ -75,7 +79,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <Text text={item.content || "empty message"} style={$messageContent} />
+                    <Text text={item.content || "empty message"} style={item.pubkey==id ? $messageContent: $messageContentMine} />
                   </View>
                 </View>
               )}
@@ -126,8 +130,13 @@ const $messageContentWrapper: ViewStyle = {
   marginTop: -24,
 }
 
+// from someone else
 const $messageContent: TextStyle = {
   color: "#fff",
+}
+
+const $messageContentMine: TextStyle = {
+  color: colors.palette.cyan400,
 }
 
 const $emptyState: ViewStyle = {

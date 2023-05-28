@@ -3396,7 +3396,7 @@ application-config-path@^0.1.0:
 
 "arclib@https://github.com/ArcadeLabsInc/arclib":
   version "0.1.0"
-  resolved "https://github.com/ArcadeLabsInc/arclib#da82a015f7db8b28063fc71c7580427f8010890b"
+  resolved "https://github.com/ArcadeLabsInc/arclib#c4f06edd7a6f042d249e98973719a897129da501"
   dependencies:
     "@babel/plugin-proposal-class-static-block" "^7.21.0"
     "@nozbe/watermelondb" "<0.26.0"
