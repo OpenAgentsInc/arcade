@@ -61,7 +61,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
       return () => {
         console.log("unsubscribing...")
-        pool.close()
+        pool.unsub(handleNewMessage)
       }
     }, [dms])
 
