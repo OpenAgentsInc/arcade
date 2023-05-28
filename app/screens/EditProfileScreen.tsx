@@ -96,7 +96,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
         }}
         onSubmit={(values) => updateProfile(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, submitForm, values }) => (
           <View>
             <Text text="Update Profile" preset="heading" size="xl" style={$title} />
             <TextField
@@ -159,7 +159,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               autoCapitalize="none"
               autoFocus={false}
             />
-            <Button text="Continue" onPress={() => handleSubmit()} style={$button} />
+            <Button text="Continue" onPress={() => submitForm()} style={$button} />
           </View>
         )}
       </Formik>
