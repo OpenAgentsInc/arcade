@@ -7,14 +7,34 @@ import { Dropdown } from "./dropdown"
 const options = [
   {
     label: "Amethyst Users",
-    description: "A place to discuss",
+    description: "A place to discuss Amethyst",
     iconName: "message1",
     picture: "https://picsum.photos/200",
   },
-  { label: "Book Club", description: "A place to discuss books", iconName: "message1" },
-  { label: "Uncle Jim", description: "Secret chat", iconName: "lock" },
-  { label: "Trade talk", description: "Let's chat about stuff", iconName: "message1" },
-  { label: "Susie", description: "Secret chat", iconName: "lock" },
+  {
+    label: "Book Club",
+    description: "A place to discuss books",
+    iconName: "message1",
+    picture: "https://picsum.photos/201",
+  },
+  {
+    label: "Uncle Jim",
+    description: "Secret chat",
+    iconName: "lock",
+    picture: "https://i.pravatar.cc/150?img=17",
+  },
+  {
+    label: "Trade talk",
+    description: "Let's chat about stuff",
+    iconName: "message1",
+    picture: "https://picsum.photos/202",
+  },
+  {
+    label: "Susie",
+    description: "Secret chat",
+    iconName: "lock",
+    picture: "https://i.pravatar.cc/150?img=45",
+  },
 ]
 
 export const CascadeDemo = () => {
@@ -23,7 +43,7 @@ export const CascadeDemo = () => {
       <StatusBar style="light" />
       <Dropdown
         options={options}
-        header={{ label: "Channels", description: "List of channels", iconName: "wechat" }}
+        header={{ label: "Channels", description: "List of channels", iconName: "message1" }}
         onPick={(val) => {
           console.log({
             val,

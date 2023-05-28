@@ -50,7 +50,6 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
     // Creating a shared value that keeps track of the scale of the item when it's tapped
     const tapGestureScale = useSharedValue(1)
 
-    console.log(description)
     const onTouchStart = useCallback(() => {
       tapGestureScale.value = withTiming(0.95)
     }, [tapGestureScale])
@@ -216,6 +215,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "rgba(248,248,248,0.2)",
   },
 })
 
