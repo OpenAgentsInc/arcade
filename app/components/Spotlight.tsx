@@ -11,7 +11,7 @@ export const Spotlight = () => {
   return (
     <Canvas style={StyleSheet.absoluteFill}>
       <Circle cx={c.x} cy={c.y} r={r}>
-        <RadialGradient c={c} r={r} colors={["rgba(0, 22, 59, 0.5)", "rgba(0, 0, 0, 1)"]} />
+        <RadialGradient c={c} r={r} colors={["rgba(0, 42, 59, 0.5)", "rgba(0, 0, 0, 1)"]} />
       </Circle>
     </Canvas>
   )

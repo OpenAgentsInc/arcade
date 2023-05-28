@@ -60,7 +60,7 @@ const $arcade: TextStyle = {
   color: "white",
   textShadowColor: "#00ffff",
   textShadowOffset: { width: 0, height: 0 },
-  textShadowRadius: 15,
+  textShadowRadius: 4,
   textAlign: "center",
   marginBottom: spacing.massive,
 }
