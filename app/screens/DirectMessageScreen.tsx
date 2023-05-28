@@ -46,8 +46,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       async function handleNewMessage(event) {
         if (seen.has(event.id)) 
             return
-        console.log("new message", event)
         seen.add(event.id)
+        console.log("new message", event)
         setData((prev) => [event, ...prev])
       }
 
