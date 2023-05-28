@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 14'",
     "android": "react-native run-android --active-arch-only",
     "compile": "tsc --noEmit -p . --pretty",
     "format": "prettier --write \"app/**/*.{js,jsx,json,md,ts,tsx}\"",
@@ -28,7 +28,8 @@
     "build:ios": "eas build -p ios",
     "build:android": "eas build -p android",
     "build:android:apk": "eas build -p android --profile preview",
-    "submit:ios": "eas submit -p ios"
+    "submit:ios": "eas submit -p ios",
+    "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
@@ -45,6 +46,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.2",
     "@shopify/flash-list": "^1.4.3",
+    "@shopify/react-native-skia": "0.1.193",
     "@skam22/watermelondb-expo-plugin": "^1.0.1",
     "apisauce": "2.1.5",
     "arclib": "https://github.com/ArcadeLabsInc/arclib#sync-events-to-db",
