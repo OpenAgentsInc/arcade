@@ -42,7 +42,7 @@ const $container: ViewStyle = {
 }
 
 const $arcade: TextStyle = {
-  fontSize: 50,
+  fontSize: 65,
   lineHeight: 100,
   letterSpacing: 4,
   color: "white",
