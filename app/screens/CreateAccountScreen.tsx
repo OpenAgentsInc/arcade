@@ -52,7 +52,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
           }}
           onSubmit={(values) => signup(values)}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          {({ handleChange, handleBlur, submitForm, values }) => (
             <>
               <Text text="Create Profile" preset="heading" size="xl" style={$title} />
               <TextField
@@ -85,7 +85,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 autoCapitalize="none"
                 autoFocus={false}
               />
-              <Button text="Continue" onPress={() => handleSubmit()} style={$button} />
+              <Button text="Continue" onPress={() => submitForm()} style={$button} />
             </>
           )}
         </Formik>

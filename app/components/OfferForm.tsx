@@ -77,7 +77,7 @@ export function OfferForm({
         }}
         onSubmit={(values) => createEvent(values)}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, submitForm, values }) => (
           <BottomSheetModal
             ref={bottomSheetModalRef}
             index={1}
@@ -171,7 +171,7 @@ export function OfferForm({
                   text="Create offer"
                   style={$createOfferButton}
                   pressedStyle={$createOfferButtonActive}
-                  onPress={() => handleSubmit()}
+                  onPress={() => submitForm()}
                 />
               </View>
             </BottomSheetScrollView>
