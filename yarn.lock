@@ -3338,10 +3338,11 @@ application-config-path@^0.1.0:
 
 "arclib@https://github.com/ArcadeLabsInc/arclib#sync-events-to-db":
   version "0.1.0"
-  resolved "https://github.com/ArcadeLabsInc/arclib#d76358a175a3496d2e97e09f7a229ed9db142a01"
+  resolved "https://github.com/ArcadeLabsInc/arclib#7993a6b7e570de4d5ae7164fd81488c6ea5becd6"
   dependencies:
     "@babel/plugin-proposal-class-static-block" "^7.21.0"
     "@nozbe/watermelondb" "<0.26.0"
+    async-mutex "^0.4.0"
     isomorphic-unfetch "^4.0.2"
     nostr-tools "^1.10.1"
     websocket-polyfill "^0.0.3"
@@ -3517,6 +3518,13 @@ async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
+
+async-mutex@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/async-mutex/-/async-mutex-0.4.0.tgz#ae8048cd4d04ace94347507504b3cf15e631c25f"
+  integrity sha512-eJFZ1YhRR8UN8eBLoNzcDPcy/jqjsg6I1AP+KvWQX80BqOSW1oJPJXDylPUEeMr2ZQvHgnQ//Lp6f3RQ1zI7HA==
+  dependencies:
+    tslib "^2.4.0"
 
 async@^3.2.2:
   version "3.2.4"

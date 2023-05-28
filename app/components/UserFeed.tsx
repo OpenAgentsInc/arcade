@@ -29,7 +29,7 @@ export function UserFeed({ pubkey }: { pubkey: string }) {
       }
     }
 
-    fetchProfile().catch(console.error)
+    // fetchProfile().catch(console.error)
   }, [])
 
   return (

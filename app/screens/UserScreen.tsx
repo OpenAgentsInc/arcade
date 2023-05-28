@@ -56,7 +56,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       }
     }
 
-    fetchProfile().catch(console.error)
+    // fetchProfile().catch(console.error)
   }, [id])
 
   return (
@@ -100,7 +100,11 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           </View>
         </View>
         <View style={$buttonGroup}>
-          <Button text="Message" style={$profileButton} />
+          <Button
+            text="Message"
+            style={$profileButton}
+            onPress={() => navigation.navigate("DirectMessage", { id })}
+          />
           <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
         </View>
       </View>
