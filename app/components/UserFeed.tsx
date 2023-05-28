@@ -1,36 +1,26 @@
-import React, { useEffect, useState } from "react"
-import { AutoImage, Text } from "app/components"
+import React, { useContext, useEffect, useState } from "react"
+import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
 
 export function UserFeed({ pubkey }: { pubkey: string }) {
+  const pool: any = useContext(RelayContext)
   const [profile, setProfile] = useState(null)
-
   const navigation = useNavigation<any>()
 
   useEffect(() => {
     async function fetchProfile() {
-      let response
-
-      try {
-        response = await fetch(`https://rbr.bio/${pubkey}/metadata.json`)
-      } catch (error) {
-        console.log("There was an error", error)
-      }
-
-      if (response.ok) {
-        const json = await response.json()
-        const metadata = JSON.parse(json.content)
-        setProfile(metadata)
-      } else {
-        console.log(`HTTP Response Code: ${response?.status}`)
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+      if (list.length > 0) {
+        const content = JSON.parse(list[0].content)
+        setProfile(content)
       }
     }
 
     fetchProfile().catch(console.error)
-  }, [])
+  }, [pubkey])
 
   return (
     <Pressable onPress={() => navigation.navigate("User", { id: pubkey })} style={$user}>

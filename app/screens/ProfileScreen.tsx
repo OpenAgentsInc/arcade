@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Header, Screen, Text } from "app/components"
+import { AutoImage, Header, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
@@ -12,6 +12,7 @@ import { EditIcon, LogOutIcon } from "lucide-react-native"
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
+  const pool: any = useContext(RelayContext)
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores
@@ -47,20 +48,10 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
 
   useEffect(() => {
     async function fetchProfile() {
-      let response
-
-      try {
-        response = await fetch(`https://rbr.bio/${userStore.pubkey}/metadata.json`)
-      } catch (error) {
-        console.log("There was an error", error)
-      }
-
-      if (response.ok) {
-        const json = await response.json()
-        const metadata = JSON.parse(json.content)
-        setProfile(metadata)
-      } else {
-        console.log(`HTTP Response Code: ${response?.status}`)
+      const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
+      if (list.length > 0) {
+        const content = JSON.parse(list[0].content)
+        setProfile(content)
       }
     }
 

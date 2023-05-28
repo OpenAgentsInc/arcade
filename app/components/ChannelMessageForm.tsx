@@ -5,18 +5,13 @@ import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
+import { ArcadeListings } from "arclib"
 
-export function MessageForm({
-  channel,
-  listings,
-  channelId,
-}: {
-  channel: any
-  listings: any
-  channelId: string
-}) {
+export function ChannelMessageForm({ channel, channelId }: { channel: any; channelId: string }) {
+  const listings = useMemo(() => new ArcadeListings(channel, channelId), [channel, channelId])
+
   // offer
-  const [type, setType] = useState("buy")
+  const [type, setType] = useState<any>("buy")
   const [attachOffer, setAttachOffer] = useState(false)
 
   // formik
@@ -38,6 +33,8 @@ export function MessageForm({
   }, [])
 
   const createEvent = async (data) => {
+    if (data.content === "") return alert("Please enter a message")
+
     if (!attachOffer) {
       // send message
       const message = await channel.send(channelId, data.content)
@@ -92,7 +89,7 @@ export function MessageForm({
       }}
       onSubmit={(values) => createEvent(values)}
     >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+      {({ handleChange, handleBlur, submitForm, values }) => (
         <>
           <TextField
             placeholder="Message"
@@ -101,8 +98,10 @@ export function MessageForm({
             inputWrapperStyle={$inputWrapper}
             onChangeText={handleChange("content")}
             onBlur={handleBlur("content")}
+            onSubmitEditing={() => submitForm()}
             value={values.content}
             autoCapitalize="none"
+            autoCorrect={false}
             LeftAccessory={() => (
               <Button
                 onPress={() => handlePresentModalPress()}
@@ -118,7 +117,7 @@ export function MessageForm({
             )}
             RightAccessory={() => (
               <Button
-                onPress={() => handleSubmit()}
+                onPress={() => submitForm()}
                 LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
                 style={$sendButton}
               />
