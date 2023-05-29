@@ -26,14 +26,14 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
       </View>
       <View>
         <Button
-          text="Enter"
-          onPress={() => navigate("Login")}
+          text="Create Account"
+          onPress={() => navigate("CreateAccount")}
           style={$mainButton}
           pressedStyle={$mainButton}
         />
         <Button
-          text="Create Account"
-          onPress={() => navigate("CreateAccount")}
+          text="Login"
+          onPress={() => navigate("Login")}
           style={$button}
           pressedStyle={$button}
         />
@@ -70,7 +70,7 @@ const $mainButton: ViewStyle = {
   backgroundColor: "rgba(0,0,0,0.5)", // "black", // colors.palette.cyan500,
   borderWidth: 1,
   width: "100%",
-  marginBottom: spacing.small,
+  marginBottom: spacing.medium,
   borderColor: colors.palette.cyan500,
 }
 

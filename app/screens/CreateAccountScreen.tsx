@@ -59,7 +59,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
         >
           {({ handleChange, handleBlur, submitForm, values }) => (
             <>
-              <Text text="Create Profile" preset="subheading" size="xl" style={$title} />
+              <Text text="Create Account" preset="subheading" size="xl" style={$title} />
               <TextField
                 label="Display Name"
                 style={$input}
