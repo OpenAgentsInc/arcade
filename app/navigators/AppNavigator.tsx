@@ -27,6 +27,7 @@ export type AppStackParamList = {
   EditProfile: undefined
   CascadeDemo: undefined
   DirectMessage: undefined
+  CreateChannel: undefined
 }
 
 const exitRoutes = Config.exitRoutes
@@ -52,6 +53,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
+          <Stack.Screen name="CreateChannel" component={Screens.CreateChannelScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
           <Stack.Screen name="CascadeDemo" component={Screens.CascadeDemo} />

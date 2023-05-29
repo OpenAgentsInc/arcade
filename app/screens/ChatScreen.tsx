@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle, Alert } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -18,7 +18,8 @@ import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import Nip28Channel from "arclib/src/channel"
-import TextWithImage from 'app/components/TextWithImage';
+import TextWithImage from "app/components/TextWithImage"
+import { LogOutIcon } from "lucide-react-native"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -34,22 +35,46 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   const pool: any = useContext(RelayContext)
   const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
 
-  // Channel store
-  const { channelStore } = useStores()
+  // Store
+  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const leaveJoinedChannel = () => {
+    Alert.alert("Confirm leave channel", "Are you sure?", [
+      {
+        text: "Cancel",
+      },
+      {
+        text: "Confirm",
+        onPress: () => {
+          // update state
+          userStore.leaveChannel(id)
+          // redirect back
+          navigation.goBack()
+        },
+      },
+    ])
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       header: () => (
         <Header
-          title={name}
+          title={name || "No name"}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          RightActionComponent={
+            <View style={$headerRightActions}>
+              <Pressable onPress={() => leaveJoinedChannel()}>
+                <LogOutIcon size={20} color={colors.palette.cyan400} />
+              </Pressable>
+            </View>
+          }
         />
       ),
     })
@@ -93,7 +118,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <TextWithImage text={item.content || "empty message"} textStyle={$messageContent} />
+                    <TextWithImage
+                      text={item.content || "empty message"}
+                      textStyle={$messageContent}
+                      imageStyle={undefined}
+                    />
                     <Pressable
                       onPress={() =>
                         navigation.navigate("ListingDetail", {
@@ -128,6 +157,12 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
 const $root: ViewStyle = {
   flex: 1,
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $container: ViewStyle = {
