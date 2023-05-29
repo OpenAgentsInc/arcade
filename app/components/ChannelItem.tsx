@@ -29,7 +29,7 @@ export function ChannelItem({ id }: { id: string }) {
         style={$messageItemAvatar}
       />
       <View>
-        <Text text={metadata?.name} preset="bold" style={$messageItemName} />
+        <Text text={metadata?.name || "No name"} preset="bold" style={$messageItemName} />
         <Text
           text={metadata?.about || "No description"}
           size="xs"

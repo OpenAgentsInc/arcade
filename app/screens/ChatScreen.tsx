@@ -18,7 +18,7 @@ import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import Nip28Channel from "arclib/src/channel"
-import TextWithImage from 'app/components/TextWithImage';
+import TextWithImage from "app/components/TextWithImage"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -45,7 +45,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={name}
+          title={name || "No name"}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -93,7 +93,10 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <TextWithImage text={item.content || "empty message"} textStyle={$messageContent} />
+                    <TextWithImage
+                      text={item.content || "empty message"}
+                      textStyle={$messageContent}
+                    />
                     <Pressable
                       onPress={() =>
                         navigation.navigate("ListingDetail", {
