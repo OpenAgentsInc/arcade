@@ -67,7 +67,7 @@ const $arcade: TextStyle = {
 }
 
 const $mainButton: ViewStyle = {
-  backgroundColor: "black", // colors.palette.cyan500,
+  backgroundColor: "rgba(0,0,0,0.5)", // "black", // colors.palette.cyan500,
   borderWidth: 1,
   width: "100%",
   marginBottom: spacing.small,
@@ -75,6 +75,6 @@ const $mainButton: ViewStyle = {
 }
 
 const $button: ViewStyle = {
-  backgroundColor: "black", // colors.palette.cyan900,
+  backgroundColor: "rgba(0,0,0,0.5)", // colors.palette.cyan900,
   borderColor: colors.palette.cyan900,
 }
