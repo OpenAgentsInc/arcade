@@ -109,11 +109,10 @@ const $input: ViewStyle = {
 }
 
 const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
+  backgroundColor: "transparent",
+  borderColor: colors.palette.cyan900,
   width: "100%",
-  marginTop: spacing.small,
-  marginBottom: spacing.small,
+  marginVertical: spacing.medium,
   height: 50,
   minHeight: 50,
 }
