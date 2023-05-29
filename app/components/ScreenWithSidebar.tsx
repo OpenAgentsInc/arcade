@@ -114,7 +114,7 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
               )}
               ListFooterComponent={() => (
                 <Button
-                  onPress={() => alert("Coming Soon!")}
+                  onPress={() => navigate("CreateChannel")}
                   LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
                   style={$channelButton}
                 />

@@ -22,7 +22,6 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
             <View style={$messsages}>
               <FlashList
                 data={userStore.channels}
-                extraData={userStore.channels}
                 renderItem={({ item }) => <ChannelItem id={item} />}
                 estimatedItemSize={50}
               />

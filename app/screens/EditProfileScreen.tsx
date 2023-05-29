@@ -76,7 +76,6 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   return (
     <Screen
-      style={$root}
       preset="scroll"
       contentContainerStyle={$container}
       safeAreaEdges={["bottom"]}
@@ -166,10 +165,6 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
     </Screen>
   )
 })
-
-const $root: ViewStyle = {
-  flex: 1,
-}
 
 const $container: ViewStyle = {
   flex: 1,
