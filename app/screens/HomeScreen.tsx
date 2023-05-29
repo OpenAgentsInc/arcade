@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Button, Screen, Spotlight, Text } from "app/components"
+import { Button, CityBackground, Screen, Spotlight, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 
@@ -19,7 +19,8 @@ export const HomeScreen: FC<HomeScreenProps> = observer(function HomeScreen() {
       safeAreaEdges={["top", "bottom"]}
       contentContainerStyle={$container}
     >
-      <Spotlight />
+      <CityBackground />
+      {/* <Spotlight /> */}
       <View>
         <Text text="arcaDE" preset="heading" style={$arcade} />
       </View>
