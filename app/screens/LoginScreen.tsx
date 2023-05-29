@@ -44,9 +44,14 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   }, [])
 
   return (
-    <Screen style={$root} preset="scroll" contentContainerStyle={$container}>
+    <Screen
+      style={$root}
+      safeAreaEdges={["bottom"]}
+      preset="scroll"
+      contentContainerStyle={$container}
+    >
       <View>
-        <Text text="Enter access key" preset="heading" size="xl" style={$title} />
+        <Text text="Enter access key" preset="subheading" size="xl" style={$title} />
         <TextField
           secureTextEntry={true}
           placeholder="nsec..."
@@ -71,13 +76,13 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
   paddingHorizontal: spacing.medium,
 }
 
 const $title: TextStyle = {
   textAlign: "center",
-  marginBottom: spacing.massive,
+  marginTop: spacing.medium,
+  marginBottom: spacing.huge,
 }
 
 const $inputWrapper: ViewStyle = {
