@@ -9,7 +9,6 @@ export const ChannelStoreModel = types
   .model("ChannelStore")
   .props({
     messages: types.array(MessageStoreModel),
-    join: types.array(types.reference(MessageStoreModel)),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -27,7 +26,11 @@ export const ChannelStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     async fetchMessages(channel: any, id: string) {
-      const events = await channel.list(id, {}, true)
+      const events = await channel.list(
+        id,
+        { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
+        true,
+      )
       self.setProp("messages", events)
     },
     addMessage(event: any) {

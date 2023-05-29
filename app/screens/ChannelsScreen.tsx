@@ -9,15 +9,25 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { RelayContext } from "app/components/RelayProvider"
 import { listChannels } from "arclib"
+import { useStores } from "app/models"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
   const pool: any = useContext(RelayContext)
+  const { userStore } = useStores()
+
   const [data, setData] = useState([])
 
   // Pull in navigation via hook
   const navigation: any = useNavigation()
+
+  const joinChannel = (item: any) => {
+    // update state
+    userStore.joinChannel(item.id)
+    // redirect to channel
+    navigation.navigate("Chat", { id: item.id, name: item.name })
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,11 +64,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
               <Card
                 preset="reversed"
                 RightComponent={
-                  <Button
-                    onPress={() => navigation.navigate("Chat", { id: item.id, name: item.name })}
-                    text="Join"
-                    style={$itemButton}
-                  />
+                  <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
                 }
                 heading={item.name}
                 ContentComponent={
