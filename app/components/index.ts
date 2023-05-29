@@ -1,6 +1,7 @@
 export * from "./AutoImage"
 export * from "./Button"
 export * from "./Card"
+export * from "./CityBackground"
 export * from "./Header"
 export * from "./Icon"
 export * from "./ListItem"

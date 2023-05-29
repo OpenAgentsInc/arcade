@@ -44,9 +44,14 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   }, [])
 
   return (
-    <Screen style={$root} preset="scroll" contentContainerStyle={$container}>
+    <Screen
+      style={$root}
+      safeAreaEdges={["bottom"]}
+      preset="scroll"
+      contentContainerStyle={$container}
+    >
       <View>
-        <Text text="Enter access key" preset="heading" size="xl" style={$title} />
+        <Text text="Enter access key" preset="subheading" size="xl" style={$title} />
         <TextField
           secureTextEntry={true}
           placeholder="nsec..."
@@ -58,7 +63,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
           autoCapitalize="none"
           autoFocus={true}
         />
-        <Button text="Enter" onPress={login} style={$button} />
+        <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />
       </View>
     </Screen>
   )
@@ -71,13 +76,13 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
   paddingHorizontal: spacing.medium,
 }
 
 const $title: TextStyle = {
   textAlign: "center",
-  marginBottom: spacing.massive,
+  marginTop: spacing.medium,
+  marginBottom: spacing.huge,
 }
 
 const $inputWrapper: ViewStyle = {
@@ -104,11 +109,10 @@ const $input: ViewStyle = {
 }
 
 const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
+  backgroundColor: "transparent",
+  borderColor: colors.palette.cyan900,
   width: "100%",
-  marginTop: spacing.small,
-  marginBottom: spacing.small,
+  marginVertical: spacing.medium,
   height: 50,
   minHeight: 50,
 }

@@ -42,7 +42,12 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     }, [])
 
     return (
-      <Screen style={$root} preset="scroll" contentContainerStyle={$container}>
+      <Screen
+        style={$root}
+        safeAreaEdges={["bottom"]}
+        preset="scroll"
+        contentContainerStyle={$container}
+      >
         <Formik
           innerRef={formikRef}
           initialValues={{
@@ -54,7 +59,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
         >
           {({ handleChange, handleBlur, submitForm, values }) => (
             <>
-              <Text text="Create Profile" preset="heading" size="xl" style={$title} />
+              <Text text="Create Account" preset="subheading" size="xl" style={$title} />
               <TextField
                 label="Display Name"
                 style={$input}
@@ -85,7 +90,12 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 autoCapitalize="none"
                 autoFocus={false}
               />
-              <Button text="Continue" onPress={() => submitForm()} style={$button} />
+              <Button
+                text="Continue"
+                onPress={() => submitForm()}
+                style={$button}
+                pressedStyle={$button}
+              />
             </>
           )}
         </Formik>
@@ -101,13 +111,13 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
   paddingHorizontal: spacing.medium,
 }
 
 const $title: TextStyle = {
   textAlign: "center",
-  marginBottom: spacing.massive,
+  marginTop: spacing.medium,
+  marginBottom: spacing.huge,
 }
 
 const $inputWrapper: ViewStyle = {
@@ -134,11 +144,10 @@ const $input: ViewStyle = {
 }
 
 const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
+  backgroundColor: "transparent",
+  borderColor: colors.palette.cyan900,
   width: "100%",
-  marginTop: spacing.small,
-  marginBottom: spacing.small,
+  marginVertical: spacing.medium,
   height: 50,
   minHeight: 50,
 }
