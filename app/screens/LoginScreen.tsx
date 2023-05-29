@@ -63,7 +63,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
           autoCapitalize="none"
           autoFocus={true}
         />
-        <Button text="Enter" onPress={login} style={$button} />
+        <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />
       </View>
     </Screen>
   )

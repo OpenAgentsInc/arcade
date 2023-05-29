@@ -90,7 +90,12 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 autoCapitalize="none"
                 autoFocus={false}
               />
-              <Button text="Continue" onPress={() => submitForm()} style={$button} />
+              <Button
+                text="Continue"
+                onPress={() => submitForm()}
+                style={$button}
+                pressedStyle={$button}
+              />
             </>
           )}
         </Formik>
