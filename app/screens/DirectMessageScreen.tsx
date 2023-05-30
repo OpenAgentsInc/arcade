@@ -7,10 +7,8 @@ import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
+import TextWithImage from "app/components/TextWithImage"
 import Nip04Manager from "arclib/src/private"
-import { useStores } from "app/models"
-import { nip04 } from "nostr-tools"
-import TextWithImage from 'app/components/TextWithImage';
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -22,7 +20,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const pool: any = useContext(RelayContext)
 
     const dms = useMemo(() => new Nip04Manager(pool), [pool])
-    const { userStore } = useStores()
     const [data, setData] = useState([])
 
     useLayoutEffect(() => {
@@ -44,8 +41,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       const seen = new Set()
 
       async function handleNewMessage(event) {
-        if (seen.has(event.id)) 
-            return
+        if (seen.has(event.id)) return
         seen.add(event.id)
         console.log("new message", event)
         setData((prev) => [event, ...prev])
@@ -80,7 +76,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
                   <View style={$messageContentWrapper}>
-                    <TextWithImage text={item.content || "empty message"} textStyle={item.pubkey==id ? $messageContent: $messageContentMine} />
+                    <TextWithImage
+                      text={item.content || "empty message"}
+                      textStyle={item.pubkey === id ? $messageContent : $messageContentMine}
+                      imageStyle={undefined}
+                    />
                   </View>
                 </View>
               )}

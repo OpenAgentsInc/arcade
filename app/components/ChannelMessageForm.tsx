@@ -5,7 +5,7 @@ import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { ArcadeListings } from "arclib"
+import { ArcadeListings } from "arclib/src"
 
 export function ChannelMessageForm({ channel, channelId }: { channel: any; channelId: string }) {
   const listings = useMemo(() => new ArcadeListings(channel, channelId), [channel, channelId])

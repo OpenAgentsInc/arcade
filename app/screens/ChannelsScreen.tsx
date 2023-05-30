@@ -8,10 +8,10 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { RelayContext } from "app/components/RelayProvider"
-import { listChannels } from "arclib"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
+import { listChannels } from "arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
@@ -55,7 +55,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
 
   useEffect(() => {
     async function initChannels() {
-      const res = await listChannels(pool)
+      const res = await listChannels(pool, true)
       // update data state
       setData((prev) => [...prev, ...res])
     }
