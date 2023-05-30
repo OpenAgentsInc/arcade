@@ -17,9 +17,9 @@ import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import Nip28Channel from "arclib/src/channel"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon } from "lucide-react-native"
+import Nip28Channel from "arclib/src/channel"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 

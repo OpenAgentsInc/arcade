@@ -7,8 +7,8 @@ import { Header, RelayContext, Screen, Text, TextField, Button } from "app/compo
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
-import Nip28Channel from "arclib/src/channel"
 import { useStores } from "app/models"
+import Nip28Channel from "arclib/src/channel"
 
 interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}

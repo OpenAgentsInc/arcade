@@ -1,7 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
-import { ArcadeIdentity, NostrPool } from "arclib"
+import { ArcadeIdentity, NostrPool } from "arclib/src"
 
 /**
  * Model description here for TypeScript hints.

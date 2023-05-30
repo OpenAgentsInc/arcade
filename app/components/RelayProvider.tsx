@@ -1,8 +1,7 @@
 import React, { createContext, useEffect, useMemo } from "react"
-import { ArcadeIdentity, NostrPool } from "arclib"
 import { useStores } from "app/models"
 import { nip19 } from "nostr-tools"
-import { connectDb } from "arclib/src/db"
+import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
 
 export const DEFAULT_RELAYS = [
   "wss://relay.arcade.city",
