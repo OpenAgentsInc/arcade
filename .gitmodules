@@ -1,0 +1,3 @@
+[submodule "packages/arclib"]
+	path = packages/arclib
+	url = https://github.com/ArcadeLabsInc/arclib

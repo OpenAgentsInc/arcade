@@ -2,6 +2,9 @@
   "name": "thearcadeapp",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "arclib"
+  ],
   "scripts": {
     "start": "react-native start",
     "ios": "react-native run-ios --simulator='iPhone 14'",
@@ -49,7 +52,6 @@
     "@shopify/react-native-skia": "^0.1.193",
     "@skam22/watermelondb-expo-plugin": "^1.0.1",
     "apisauce": "2.1.5",
-    "arclib": "https://github.com/ArcadeLabsInc/arclib",
     "assert": "^1.1.1",
     "date-fns": "^2.29.2",
     "expo": "^48.0.15",
