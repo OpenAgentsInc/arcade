@@ -55,7 +55,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
 
   useEffect(() => {
     async function initChannels() {
-      const res = await listChannels(pool)
+      const res = await listChannels(pool, true)
       // update data state
       setData((prev) => [...prev, ...res])
     }
