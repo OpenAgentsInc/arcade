@@ -35,3 +35,6 @@ function run(command) {
 }
 
 run("yarn xcode:env")
+
+// init submodule
+run("git submodule update --init")
