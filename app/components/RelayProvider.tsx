@@ -8,6 +8,7 @@ export const DEFAULT_RELAYS = [
   "wss://arc1.arcadelabs.co",
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
+  "wss://relay.damus.io",
 ]
 
 export const RelayContext = createContext({})
