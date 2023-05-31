@@ -6,6 +6,12 @@
  * have to remember these extra steps.
  */
 
+// init submodule
+run("git submodule update --init")
+
+// update submodule
+run("git submodule update --remote --merge")
+
 // Patch any packages that need patching
 run("npx patch-package")
 
@@ -35,6 +41,3 @@ function run(command) {
 }
 
 run("yarn xcode:env")
-
-// init submodule
-run("git submodule update --init")
