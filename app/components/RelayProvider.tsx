@@ -21,10 +21,9 @@ export const RelayProvider = observer(function RelayProvider({
   children: React.ReactNode
 }) {
   if (!db) throw new Error("cannot initialized db")
-  console.log("connected to db:", db)
 
   const {
-    userStore: { privkey },
+    userStore: { privkey, metadata, isNewUser, clearNewUser },
   } = useStores()
 
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
@@ -35,11 +34,18 @@ export const RelayProvider = observer(function RelayProvider({
 
     async function initRelays() {
       await pool.setRelays(DEFAULT_RELAYS)
+      if (isNewUser) {
+        console.log("creating user...")
+        pool.send({
+          content: metadata,
+          tags: [],
+          kind: 0,
+        })
+        clearNewUser()
+      }
     }
     initRelays().catch(console.error)
   }, [pool])
-
-  console.log(pool)
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
 })
