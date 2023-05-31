@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useMemo } from "react"
 import { useStores } from "app/models"
-import { nip19 } from "nostr-tools"
 import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
 
 export const DEFAULT_RELAYS = [
@@ -8,30 +7,32 @@ export const DEFAULT_RELAYS = [
   "wss://arc1.arcadelabs.co",
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
-  "wss://nostr.mutinywallet.com",
 ]
 
 export const RelayContext = createContext({})
 
+const db: any = connectDb();
+
 export default function RelayProvider({ children }: { children: React.ReactNode }) {
+  if (!db) throw new Error('cannot initialized db');
+  console.log('connected to db:', db)
+
   const {
     userStore: { privkey },
   } = useStores()
 
-  const db: any = useMemo(() => connectDb(), [])
-  const nsec = useMemo(() => (privkey ? nip19.nsecEncode(privkey) : null), [privkey])
-  const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
-  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [ident])
+  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
+  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [privkey, ident])
 
   useEffect(() => {
+    if (!privkey) return;
+
     async function initRelays() {
+      if(!pool) throw new Error("relaypool is not initialized")
       await pool.setRelays(DEFAULT_RELAYS)
     }
-
-    if (nsec) {
-      initRelays().catch(console.error)
-    }
-  }, [pool, nsec])
+    initRelays().catch(console.error)
+  }, [pool])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
 }
