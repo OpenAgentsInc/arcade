@@ -44,6 +44,8 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setProfile(content)
+      } else {
+        alert("relay return nothing")
       }
     }
 
