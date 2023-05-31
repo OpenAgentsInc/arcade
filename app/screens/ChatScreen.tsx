@@ -108,7 +108,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       // clear channel store
       channelStore.reset()
     }
-  }, [route, channel])
+  }, [route, userStore, channel])
 
   return (
     <BottomSheetModalProvider>

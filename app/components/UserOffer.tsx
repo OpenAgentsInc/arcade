@@ -16,6 +16,8 @@ export function UserOffer({ pubkey }: { pubkey: string }) {
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setProfile(content)
+      } else {
+        console.log("user profile not found", pubkey)
       }
     }
 

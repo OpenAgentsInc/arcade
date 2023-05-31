@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useMemo } from "react"
 import { useStores } from "app/models"
 import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
+import { observer } from "mobx-react-lite"
 
 export const DEFAULT_RELAYS = [
   "wss://relay.arcade.city",
@@ -11,28 +12,33 @@ export const DEFAULT_RELAYS = [
 
 export const RelayContext = createContext({})
 
-const db: any = connectDb();
+const db: any = connectDb()
 
-export default function RelayProvider({ children }: { children: React.ReactNode }) {
-  if (!db) throw new Error('cannot initialized db');
-  console.log('connected to db:', db)
+export const RelayProvider = observer(function RelayProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  if (!db) throw new Error("cannot initialized db")
+  console.log("connected to db:", db)
 
   const {
     userStore: { privkey },
   } = useStores()
 
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
-  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [privkey, ident])
+  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [privkey])
 
   useEffect(() => {
-    if (!privkey) return;
+    if (!pool) return
 
     async function initRelays() {
-      if(!pool) throw new Error("relaypool is not initialized")
       await pool.setRelays(DEFAULT_RELAYS)
     }
     initRelays().catch(console.error)
   }, [pool])
 
+  console.log(pool)
+
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
-}
+})

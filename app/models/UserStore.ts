@@ -39,14 +39,15 @@ export const UserStoreModel = types
       self.setProp("isLoggedIn", true)
 
       // publish
-      const ident = new ArcadeIdentity(nsec, "", "")
-      const pool = new NostrPool(ident)
-      await pool.setRelays(["wss://relay.damus.io"])
-      await pool.send({
+      const tempIdent = new ArcadeIdentity(nsec, "", "")
+      const tempPool = new NostrPool(tempIdent)
+      await tempPool.setRelays(["wss://relay.damus.io"])
+      await tempPool.send({
         content: JSON.stringify({ display_name: displayName, name: username, about }),
         tags: [],
         kind: 0,
       })
+      tempPool.close()
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {

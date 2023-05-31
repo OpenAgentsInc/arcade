@@ -16,10 +16,17 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const logout = () => {
+    // clear user store
+    userStore.logout()
+    // clear channel store
+    channelStore.reset()
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,7 +43,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               <Pressable onPress={() => navigation.navigate("EditProfile")}>
                 <EditIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
-              <Pressable onPress={() => userStore.logout()}>
+              <Pressable onPress={() => logout()}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
             </View>
