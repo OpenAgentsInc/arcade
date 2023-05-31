@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ScreenWithSidebar, ChannelItem } from "app/components"
+import { ScreenWithSidebar, ChannelItem, Text } from "app/components"
 import { spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
@@ -24,6 +24,11 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
                 data={userStore.channels.slice()}
                 keyExtractor={(item) => item}
                 renderItem={({ item }) => <ChannelItem id={item} />}
+                ListEmptyComponent={
+                  <View style={$emptyState}>
+                    <Text text="No channel..." />
+                  </View>
+                }
                 estimatedItemSize={50}
               />
             </View>
@@ -57,4 +62,9 @@ const $messsages: ViewStyle = {
   flex: 1,
   paddingVertical: spacing.extraSmall,
   // paddingHorizontal: spacing.small,
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  paddingVertical: spacing.medium,
 }

@@ -1,37 +1,51 @@
 import React, { createContext, useEffect, useMemo } from "react"
 import { useStores } from "app/models"
-import { nip19 } from "nostr-tools"
 import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
+import { observer } from "mobx-react-lite"
 
 export const DEFAULT_RELAYS = [
   "wss://relay.arcade.city",
   "wss://arc1.arcadelabs.co",
   "wss://welcome.nostr.wine",
   "wss://relay.nostr.band/all",
-  "wss://nostr.mutinywallet.com",
+  "wss://relay.damus.io",
 ]
 
 export const RelayContext = createContext({})
 
-export default function RelayProvider({ children }: { children: React.ReactNode }) {
+const db: any = connectDb()
+
+export const RelayProvider = observer(function RelayProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  if (!db) throw new Error("cannot initialized db")
+
   const {
-    userStore: { privkey },
+    userStore: { privkey, metadata, isNewUser, clearNewUser },
   } = useStores()
 
-  const db: any = useMemo(() => connectDb(), [])
-  const nsec = useMemo(() => (privkey ? nip19.nsecEncode(privkey) : null), [privkey])
-  const ident = useMemo(() => (nsec ? new ArcadeIdentity(nsec, "", "") : null), [nsec])
-  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [ident])
+  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
+  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [privkey])
 
   useEffect(() => {
+    if (!pool) return
+
     async function initRelays() {
       await pool.setRelays(DEFAULT_RELAYS)
+      if (isNewUser) {
+        console.log("creating user...")
+        pool.send({
+          content: metadata,
+          tags: [],
+          kind: 0,
+        })
+        clearNewUser()
+      }
     }
-
-    if (nsec) {
-      initRelays().catch(console.error)
-    }
-  }, [pool, nsec])
+    initRelays().catch(console.error)
+  }, [pool])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
-}
+})

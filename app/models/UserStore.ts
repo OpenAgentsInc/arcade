@@ -1,7 +1,6 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
-import { ArcadeIdentity, NostrPool } from "arclib/src"
 
 /**
  * Model description here for TypeScript hints.
@@ -11,7 +10,9 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
+    metadata: "",
     isLoggedIn: false,
+    isNewUser: false,
     channels: types.optional(types.array(types.string), [
       "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", // Arcade Open R&D
       "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", // Arcade Exchange Test
@@ -32,21 +33,12 @@ export const UserStoreModel = types
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
-      const nsec = nip19.nsecEncode(privkey)
 
       self.setProp("pubkey", pubkey)
       self.setProp("privkey", privkey)
       self.setProp("isLoggedIn", true)
-
-      // publish
-      const ident = new ArcadeIdentity(nsec, "", "")
-      const pool = new NostrPool(ident)
-      await pool.setRelays(["wss://relay.damus.io"])
-      await pool.send({
-        content: JSON.stringify({ display_name: displayName, name: username, about }),
-        tags: [],
-        kind: 0,
-      })
+      self.setProp("isNewUser", true)
+      self.setProp("metadata", JSON.stringify({display_name: displayName, username, about}))
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
@@ -74,6 +66,9 @@ export const UserStoreModel = types
 
       console.log("Removed keys from storage.")
     },
+    clearNewUser() {
+      self.setProp("isNewUser", false)
+    }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface UserStore extends Instance<typeof UserStoreModel> {}

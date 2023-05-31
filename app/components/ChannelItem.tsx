@@ -16,6 +16,8 @@ export function ChannelItem({ id }: { id: string }) {
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setMetadata(content)
+      } else {
+        console.log("channel metadata not found", id)
       }
     }
 
