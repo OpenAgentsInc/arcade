@@ -11,20 +11,21 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import { listChannels } from "arclib/src"
+import { ChannelInfo, ChannelManager } from "arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
   const pool: any = useContext(RelayContext)
   const { userStore } = useStores()
-
-  const [data, setData] = useState([])
+  const mgr = new ChannelManager(pool)
+  const [dat, setData] = useState([])
+  const data: ChannelInfo[] = dat
 
   // Pull in navigation via hook
   const navigation: any = useNavigation()
 
-  const joinChannel = (item: any) => {
+  const joinChannel = (item: ChannelInfo) => {
     // update state
     userStore.joinChannel(item.id)
     // redirect to channel
@@ -55,9 +56,9 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
 
   useEffect(() => {
     async function initChannels() {
-      const res = await listChannels(pool, true)
-      // update data state
-      setData((prev) => [...prev, ...res])
+      const res = await mgr.listChannels(true)
+      console.log("data is ", res)
+      setData(res)
     }
 
     initChannels().catch(console.error)
@@ -71,15 +72,15 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
             data={data}
             renderItem={({ item }) => {
               // no name or short channel name, mostly spam
-              if (!item.name || item.name.length < 4) {
+              if (!item.name) {
                 return null
               }
               // invalid image url, mark as spam
-              if (!isImage(item.picture)) {
+              if (!isImage(item.picture) && !item.is_private) {
                 return null
               }
               // user joined channel, skip
-              if (userStore.channels.includes(item.id)) {
+              if (userStore.channels.find(el=>el["id"] == item.id)) {
                 return null
               }
               return (
@@ -90,7 +91,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
                       <View style={$itemContent}>
                         <AutoImage
                           source={{
-                            uri: item?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+                            uri: item.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
                           }}
                           style={$itemImage}
                         />
@@ -135,6 +136,7 @@ const $container: ViewStyle = {
 
 const $content: ViewStyle = {
   paddingTop: spacing.medium,
+  flex: 1
 }
 
 const $itemWrapper: ViewStyle = {

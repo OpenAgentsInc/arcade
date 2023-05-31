@@ -4,7 +4,7 @@ import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
-export function ChannelItem({ id }: { id: string }) {
+export function ChannelItem({ id, privkey }: { id: string, privkey?: string }) {
   const pool: any = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
 

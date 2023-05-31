@@ -5,10 +5,10 @@ import { SendIcon, Store } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { ArcadeListings } from "arclib/src"
+import { ArcadeListings, ChannelManager } from "arclib/src"
 
-export function ChannelMessageForm({ channel, channelId }: { channel: any; channelId: string }) {
-  const listings = useMemo(() => new ArcadeListings(channel, channelId), [channel, channelId])
+export function ChannelMessageForm({ channel, channelId, privkey }: { channel: ChannelManager; channelId: string, privkey?: string }) {
+  const listings = useMemo(() => new ArcadeListings(channel.nip28, channelId), [channel, channelId])
 
   // offer
   const [type, setType] = useState<any>("buy")
@@ -37,7 +37,7 @@ export function ChannelMessageForm({ channel, channelId }: { channel: any; chann
 
     if (!attachOffer) {
       // send message
-      const message = await channel.send(channelId, data.content)
+      const message = await channel.send({channel_id: channelId, content: data.content, is_private: !!privkey})
 
       if (message) {
         // reset form

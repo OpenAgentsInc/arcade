@@ -1,3 +1,4 @@
+import { ChannelManager } from "arclib/src"
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageStoreModel } from "./MessageStore"
@@ -25,12 +26,12 @@ export const ChannelStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    async fetchMessages(channel: any, id: string) {
-      const events = await channel.list(
-        id,
-        { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
-        true,
-      )
+    async fetchMessages(channel: ChannelManager, id: string, privkey: string) {
+      const events = await channel.list({
+        channel_id: id,
+        filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
+        db_only: true,
+      })
       self.setProp("messages", events)
     },
     addMessage(event: any) {

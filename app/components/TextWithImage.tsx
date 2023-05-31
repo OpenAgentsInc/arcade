@@ -33,14 +33,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  text: {
-    fontSize: 14,
-    color: "#fff"
-  },
   image: {
     width: screenWidth,
     height: screenWidth, // keeping aspect ratio 1:1, adjust this if your images have different aspect ratios
     resizeMode: 'contain', // this will ensure the image scales and fits within the given dimensions
+  },
+  text: {
+    color: "#fff",
+    fontSize: 14
   },
 });
 

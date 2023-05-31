@@ -19,7 +19,7 @@ import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon } from "lucide-react-native"
-import Nip28Channel from "arclib/src/channel"
+import { ChannelManager } from "arclib/src"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -29,11 +29,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   route: any
 }) {
   // Get route params
-  const { id, name } = route.params
+  const { id, name, privkey } = route.params
 
   // init relaypool
   const pool: any = useContext(RelayContext)
-  const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+  const channel: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
 
   // Store
   const { userStore, channelStore } = useStores()
@@ -87,13 +87,13 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     }
 
     async function subscribe() {
-      return await channel.sub(id, handleNewMessage, {
-        since: Math.floor(Date.now() / 1000),
-      })
+      return await channel.sub({channel_id: id, callback: handleNewMessage, filter: {
+        since: Math.floor(Date.now() / 1000), privkey: privkey
+      }})
     }
 
     // fetch all channel messages
-    channelStore.fetchMessages(channel, id)
+    channelStore.fetchMessages(channel, id, privkey)
 
     // subscribe for new messages
     console.log("subscribing...")
@@ -147,7 +147,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             />
           </View>
           <View style={$form}>
-            <ChannelMessageForm channel={channel} channelId={id} />
+            <ChannelMessageForm channel={channel} channelId={id} privkey={privkey} />
           </View>
         </View>
       </Screen>

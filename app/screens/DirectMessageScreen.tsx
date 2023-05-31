@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import TextWithImage from "app/components/TextWithImage"
-import Nip04Manager from "arclib/src/private"
+import { PrivateMessageManager } from "arclib/src/private"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -19,7 +19,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
 
-    const dms = useMemo(() => new Nip04Manager(pool), [pool])
+    const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
 
     useLayoutEffect(() => {

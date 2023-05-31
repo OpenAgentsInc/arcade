@@ -12,22 +12,21 @@ export const UserStoreModel = types
     pubkey: "",
     privkey: "",
     isLoggedIn: false,
-    channels: types.optional(types.array(types.string), [
-      "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", // Arcade Open R&D
-      "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", // Arcade Exchange Test
-    ]),
+    channels: types.optional(types.array(types.map(types.string)), [
+      {id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", "privkey": ""}, // Arcade Open R&D
+      {id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", "privkey": ""} // Arcade Exchange Test
+  ]),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(id: string) {
-      self.channels.push(id)
+    joinChannel(id: string, privkey?: string) {
+      self.channels[id] = {privkey}
     },
     leaveChannel(id: string) {
-      const index = self.channels.indexOf(id)
-      if (index !== -1) {
-        self.channels.splice(index, 1)
-      }
+      const index = self.channels.findIndex(el=>el.id == id)
+      if (index !== -1) 
+      self.channels.splice(index, 1)
     },
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()

@@ -3,12 +3,12 @@ import { observer } from "mobx-react-lite"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, RelayContext, Screen, Text, TextField, Button } from "app/components"
+import { Header, RelayContext, Screen, Text, TextField, Button, Toggle } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
-import Nip28Channel from "arclib/src/channel"
+import { ChannelManager, ChannelInfo } from "arclib/src"
 
 interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
@@ -16,7 +16,7 @@ interface CreateChannelScreenProps
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
   function CreateChannelScreen() {
     const pool: any = useContext(RelayContext)
-    const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+    const channel: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
 
     const { userStore } = useStores()
     const formikRef = useRef(null)
@@ -26,17 +26,17 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     const createChannel = async (data: any) => {
       try {
-        const result = await channel.create(data)
-        if (result) {
-          console.log("created channel: ", result)
-          const metadata = JSON.parse(result.content)
+        let result: ChannelInfo;
+        let channel_id: string 
+          const info = await channel.create(data);
+          console.log("created channel: ", info)
           // add created channel to user store
-          userStore.joinChannel(result.id)
+          userStore.joinChannel(info.id, info.privkey)
           // redirect to channel
-          navigation.navigate("Chat", { id: result.id, name: metadata.name })
-        }
-      } catch {
-        alert("Error, please check information again")
+          navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+      } catch (e) {
+        console.log("error", e)
+        alert(`Error, please check information again: ${e}`)
       }
     }
 
@@ -68,10 +68,11 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             name: "",
             picture: "",
             about: "",
+            is_private: false,
           }}
           onSubmit={(values) => createChannel(values)}
         >
-          {({ handleChange, handleBlur, submitForm, values }) => (
+          {({ handleChange, handleBlur, submitForm, values, setFieldValue }) => (
             <View>
               <Text text="Create Channel" preset="heading" size="xl" style={$title} />
               <TextField
@@ -103,6 +104,12 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
                 value={values.about}
                 autoCapitalize="none"
                 autoFocus={false}
+              />
+              <Toggle
+                label="Private channel"
+                variant="switch"
+                onPress={()=>setFieldValue("is_private", !values.is_private)}
+                value={values.is_private}
               />
               <Button text="Create" onPress={() => submitForm()} style={$button} />
             </View>
