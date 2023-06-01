@@ -4,11 +4,7 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import {
-  DiscoverScreen,
-  HomeMessagesScreen,
-  ProfileScreen,
-} from "../screens"
+import { DiscoverScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 

@@ -7,7 +7,15 @@ import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@
 import { Formik } from "formik"
 import { ArcadeListings, ChannelManager } from "arclib/src"
 
-export function ChannelMessageForm({ channel, channelId, privkey }: { channel: ChannelManager; channelId: string, privkey?: string }) {
+export function ChannelMessageForm({
+  channel,
+  channelId,
+  privkey,
+}: {
+  channel: ChannelManager
+  channelId: string
+  privkey?: string
+}) {
   const listings = useMemo(() => new ArcadeListings(channel.nip28, channelId), [channel, channelId])
 
   // offer
@@ -33,11 +41,15 @@ export function ChannelMessageForm({ channel, channelId, privkey }: { channel: C
   }, [])
 
   const createEvent = async (data) => {
-    if (data.content === "") return alert("Please enter a message")
+    if (data.content === "") return
 
     if (!attachOffer) {
       // send message
-      const message = await channel.send({channel_id: channelId, content: data.content, is_private: !!privkey})
+      const message = await channel.send({
+        channel_id: channelId,
+        content: data.content,
+        is_private: !!privkey,
+      })
 
       if (message) {
         // reset form

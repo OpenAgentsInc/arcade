@@ -31,6 +31,7 @@ export const ChannelStoreModel = types
         channel_id: id,
         filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
         db_only: true,
+        privkey,
       })
       self.setProp("messages", events)
     },

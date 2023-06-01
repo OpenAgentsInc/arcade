@@ -8,7 +8,7 @@ export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string 
   const [value, setValue] = useState("")
 
   const submit = async () => {
-    if (!value) alert("Please enter a message")
+    if (!value) return
     // send message
     dms.send(replyTo, value)
     // reset state

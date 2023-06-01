@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
-import { ChannelManager, ChannelInfo } from "arclib/src"
+import { ChannelManager } from "arclib/src"
 
 interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
@@ -26,14 +26,12 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     const createChannel = async (data: any) => {
       try {
-        let result: ChannelInfo;
-        let channel_id: string 
-          const info = await channel.create(data);
-          console.log("created channel: ", info)
-          // add created channel to user store
-          userStore.joinChannel(info.id, info.privkey)
-          // redirect to channel
-          navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+        const info = await channel.create(data)
+        console.log("created channel: ", info)
+        // add created channel to user store
+        userStore.joinChannel(info.id, info.privkey)
+        // redirect to channel
+        navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
       } catch (e) {
         console.log("error", e)
         alert(`Error, please check information again: ${e}`)
@@ -108,7 +106,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
               <Toggle
                 label="Private channel"
                 variant="switch"
-                onPress={()=>setFieldValue("is_private", !values.is_private)}
+                onPress={() => setFieldValue("is_private", !values.is_private)}
                 value={values.is_private}
               />
               <Button text="Create" onPress={() => submitForm()} style={$button} />

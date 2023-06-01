@@ -90,10 +90,15 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
     async function subscribe() {
       // stop loading
-      setLoading(false);
-      return await channel.sub({channel_id: id, callback: handleNewMessage, filter: {
-        since: Math.floor(Date.now() / 1000)
-      }, privkey})
+      setLoading(false)
+      return await channel.sub({
+        channel_id: id,
+        callback: handleNewMessage,
+        filter: {
+          since: Math.floor(Date.now() / 1000),
+        },
+        privkey,
+      })
     }
 
     // fetch all channel messages

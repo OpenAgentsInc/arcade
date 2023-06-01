@@ -29,13 +29,13 @@ export const SkiaDemoScreen = () => {
         <BackgroundGradient width={WIDTH} height={HEIGHT} />
         <View
           style={{
-              height: CARD_HEIGHT,
-              width: CARD_WIDTH,
-              backgroundColor: "black",
-              position: "absolute",
-              borderRadius: 20,
-              zIndex: 300,
-            }}
+            height: CARD_HEIGHT,
+            width: CARD_WIDTH,
+            backgroundColor: "black",
+            position: "absolute",
+            borderRadius: 20,
+            zIndex: 300,
+          }}
         >
           <Canvas style={{ flex: 1, margin: 10, zIndex: 400 }}>
             <Fill color="black" />

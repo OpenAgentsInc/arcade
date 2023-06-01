@@ -80,7 +80,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
                 return null
               }
               // user joined channel, skip
-              if (userStore.channels.find(el=>el["id"] == item.id)) {
+              if (userStore.channels.find((el) => el.id === item.id)) {
                 return null
               }
               return (
@@ -136,7 +136,7 @@ const $container: ViewStyle = {
 
 const $content: ViewStyle = {
   paddingTop: spacing.medium,
-  flex: 1
+  flex: 1,
 }
 
 const $itemWrapper: ViewStyle = {
