@@ -22,11 +22,22 @@ const plugins = [
       alias: {
         arclib: "./packages/arclib/",
       },
+      extensions: [
+            '.js',
+            '.jsx',
+            '.ts',
+            '.tsx',
+            '.android.js',
+            '.android.tsx',
+            '.ios.js',
+            '.ios.tsx',
+          ],
     },
   ],
-  ["@babel/plugin-proposal-decorators", { legacy: true }],
+  ["@babel/plugin-proposal-decorators", { legacy: true, loose: true }],
   /** react-native-reanimated web support @see https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/#web */
   "@babel/plugin-proposal-export-namespace-from",
+  ["@babel/plugin-proposal-private-methods", {loose: true}],
   /** NOTE: This must be last in the plugins @see https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/#babel-plugin */
   "react-native-reanimated/plugin",
 ]
@@ -36,6 +47,7 @@ module.exports = {
   presets: ["babel-preset-expo"],
   env: {
     production: {},
+    test: {"plugins": ["@babel/plugin-transform-modules-commonjs"]},
   },
   plugins,
 }
