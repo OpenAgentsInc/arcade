@@ -54,7 +54,7 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
             text="Contact Picker (Screen) Demo"
             LeftAccessory={() => <Contact2Icon color={colors.palette.cyan500} />}
             style={$button}
-            onPress={() => navigation.navigate("ContactPicer")}
+            onPress={() => navigation.navigate("ContactPicker")}
           />
         </View>
       </View>
