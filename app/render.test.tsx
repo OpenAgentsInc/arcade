@@ -1,8 +1,8 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React from "react"
+import { render } from "@testing-library/react"
+import App from "./App"
 
-test('renders', async () => {
-  const hss = async () => {}
-  render(<App hideSplashScreen={hss} />);
-});
+test("renders", () => {
+  render(<App hideSplashScreen={() => {}} />)
+})

@@ -2,6 +2,8 @@
 import * as ReactNative from "react-native"
 import mockFile from "./mockFile"
 
+import { TextEncoder, TextDecoder } from 'util';
+
 global.navigator = {
   userAgent: 'node.js',
   geolocation: {
@@ -10,8 +12,6 @@ global.navigator = {
     }
   }
 }
-
-import { TextEncoder, TextDecoder } from 'util';
 Object.assign(global, { TextDecoder, TextEncoder });
 
 
