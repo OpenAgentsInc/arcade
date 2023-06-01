@@ -1,6 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
+import { NostrPool } from "arclib/src"
 
 /**
  * Model description here for TypeScript hints.
@@ -10,6 +11,7 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
+    contacts: types.optional(types.array(types.string), []),
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
@@ -65,6 +67,17 @@ export const UserStoreModel = types
       self.setProp("isLoggedIn", false)
 
       console.log("Removed keys from storage.")
+    },
+    async fetchContacts(pool: NostrPool) {
+      if (!self.pubkey) throw new Error("pubkey not found")
+      
+      const contacts = []
+      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
+      for (const item of result[0].tags) {
+        contacts.push(item[1]);
+      }
+      
+      self.setProp("contacts", contacts)
     },
     clearNewUser() {
       self.setProp("isNewUser", false)
