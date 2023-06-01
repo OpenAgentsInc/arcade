@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { delay } from "app/utils/delay"
-import Nip28Channel from "arclib/src/channel"
+import { Nip28Channel } from "arclib/src"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 

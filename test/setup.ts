@@ -2,6 +2,8 @@
 import * as ReactNative from "react-native"
 import mockFile from "./mockFile"
 
+import { TextEncoder, TextDecoder } from 'util';
+
 // libraries to mock
 jest.doMock("react-native", () => {
   // Extend ReactNative
@@ -33,6 +35,8 @@ jest.mock("i18n-js", () => ({
     return `${key} ${JSON.stringify(params)}`
   },
 }))
+
+Object.assign(global, { TextDecoder, TextEncoder });
 
 declare const tron // eslint-disable-line @typescript-eslint/no-unused-vars
 

@@ -1,3 +1,7 @@
+/* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
+import React from "react"
+
 import { Image, StyleSheet, View } from "react-native"
 
 export const CityBackground = () => {

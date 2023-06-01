@@ -89,8 +89,8 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
         progress.value < 0.5 ? collapsedBackgroundColor : expandedBackgroundColor
 
       return {
-        bottom: bottom,
-        backgroundColor: backgroundColor,
+        bottom,
+        backgroundColor,
         zIndex: optionsLength - index,
         transform: [
           {
@@ -105,7 +105,7 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
     const rContentStyle = useAnimatedStyle(() => {
       const opacity = interpolate(progress.value, [0, 1], [isHeader ? 1 : 0, 1])
       return {
-        opacity: opacity,
+        opacity,
       }
     }, [])
 
@@ -169,52 +169,52 @@ const DropdownItem: React.FC<DropdownItemProps> = React.memo(
 )
 
 const styles = StyleSheet.create({
-  item: {
-    width: "80%",
-    position: "absolute",
-    borderRadius: 10,
-    padding: 15,
-  },
-  content: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconBox: {
-    height: "80%",
-    aspectRatio: 1,
-    backgroundColor: "#0C0C0C",
-    marginRight: 12,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   arrowBox: {
+    alignItems: "center",
     height: "80%",
     justifyContent: "center",
-    alignItems: "center",
     marginRight: 5,
   },
-  title: {
-    color: "white",
-    textTransform: "uppercase",
-    fontSize: 16,
-    letterSpacing: 1.2,
-    fontFamily: typography.primary.medium,
+  content: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
   },
   description: {
     color: "rgba(255,255,255,0.5)",
+    fontFamily: typography.primary.normal,
     fontSize: 12,
     letterSpacing: 1.2,
-    fontFamily: typography.primary.normal,
     marginTop: 2,
   },
+  iconBox: {
+    alignItems: "center",
+    aspectRatio: 1,
+    backgroundColor: "#0C0C0C",
+    borderRadius: 10,
+    height: "80%",
+    justifyContent: "center",
+    marginRight: 12,
+  },
   image: {
-    width: "100%",
-    height: "100%",
+    borderColor: "rgba(248,248,248,0.2)",
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "rgba(248,248,248,0.2)",
+    height: "100%",
+    width: "100%",
+  },
+  item: {
+    borderRadius: 10,
+    padding: 15,
+    position: "absolute",
+    width: "80%",
+  },
+  title: {
+    color: "white",
+    fontFamily: typography.primary.medium,
+    fontSize: 16,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
   },
 })
 

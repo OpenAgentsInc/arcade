@@ -22,12 +22,14 @@ const DEFAULT_CHANNELS = [
     name: "Arcade Open R&D",
     picture: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp",
     about: "A place to discuss the future of Arcade Open R&D",
+    privkey: "",
   },
   {
     id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
     name: "Arcade Exchange Test",
     picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
     about: "",
+    privkey: "",
   },
 ]
 
@@ -100,7 +102,9 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
               data={DEFAULT_CHANNELS}
               renderItem={({ item }) => (
                 <Button
-                  onPress={() => navigate("Chat", { id: item.id, name: item.name })}
+                  onPress={() =>
+                    navigate("Chat", { id: item.id, name: item.name, privkey: item.privkey })
+                  }
                   style={$channelItem}
                   LeftAccessory={() => (
                     <AutoImage

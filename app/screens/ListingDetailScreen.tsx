@@ -20,8 +20,7 @@ import { useNavigation } from "@react-navigation/native"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
-import { ArcadeListings } from "arclib/src"
-import Nip28Channel from "arclib/src/channel"
+import { ArcadeListings, Nip28Channel } from "arclib/src"
 
 interface ListingDetailScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ListingDetail">> {}

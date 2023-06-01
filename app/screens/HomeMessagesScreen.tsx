@@ -22,8 +22,8 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
             <View style={$messsages}>
               <FlashList
                 data={userStore.channels.slice()}
-                keyExtractor={(item) => item}
-                renderItem={({ item }) => <ChannelItem id={item} />}
+                keyExtractor={(item: any) => item.id}
+                renderItem={({ item }) => <ChannelItem id={item.id} privkey={item.privkey} />}
                 ListEmptyComponent={
                   <View style={$emptyState}>
                     <Text text="No channel..." />

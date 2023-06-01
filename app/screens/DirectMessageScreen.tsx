@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import TextWithImage from "app/components/TextWithImage"
-import PrivateMessageManager from "arclib/src/private"
+import { PrivateMessageManager } from "arclib/src/private"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}

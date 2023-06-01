@@ -4,7 +4,7 @@ import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
-export function ChannelItem({ id }: { id: string }) {
+export function ChannelItem({ id, privkey }: { id: string; privkey?: string }) {
   const pool: any = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
 
@@ -25,7 +25,10 @@ export function ChannelItem({ id }: { id: string }) {
   }, [id])
 
   return (
-    <Pressable onPress={() => navigate("Chat", { id, name: metadata?.name })} style={$messageItem}>
+    <Pressable
+      onPress={() => navigate("Chat", { id, name: metadata?.name, privkey })}
+      style={$messageItem}
+    >
       <AutoImage
         source={{ uri: metadata?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$messageItemAvatar}

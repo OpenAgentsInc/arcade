@@ -141,7 +141,7 @@
     "react-test-renderer": "18.2.0",
     "reactotron-core-client": "^2.8.10",
     "regenerator-runtime": "^0.13.4",
-    "ts-jest": "29",
+    "ts-jest": "^29.1.0",
     "typescript": "^4.8.4"
   },
   "resolutions": {
@@ -156,6 +156,7 @@
   },
   "eslintConfig": {
     "root": true,
+    "ignorePatterns": ["**/SkiaDemo/**/*.tsx", "**/CascadeDemo/**/*.tsx"],
     "parser": "@typescript-eslint/parser",
     "extends": [
       "plugin:@typescript-eslint/recommended",

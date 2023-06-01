@@ -43,10 +43,10 @@ function App() {
   }
 
   function parseAndExtract(data) {
-    let result = []
+    const result = []
 
     // Loop through each key in the data object
-    for (let key in data) {
+    for (const key in data) {
       // Check if the "ev" property exists and is an object
       if (data[key].ev && typeof data[key].ev === "object") {
         // Try to parse the "content" property as JSON
@@ -198,10 +198,10 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
+    flex: 1,
+    justifyContent: "center",
   },
 })
 
