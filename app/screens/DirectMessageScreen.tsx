@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app/components"
@@ -21,6 +21,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -51,6 +52,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         const list = await dms.list({}, true, id)
         // update state
         setData(list.reverse())
+        // stop loading
+        setLoading(false)
       }
 
       // fetch direct messages
@@ -64,7 +67,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         console.log("unsubscribing...")
         pool.unsub(handleNewMessage)
       }
-    }, [dms])
+    }, [id, dms])
 
     return (
       <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
@@ -85,9 +88,15 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                 </View>
               )}
               ListEmptyComponent={
-                <View style={$emptyState}>
-                  <Text text="Loading..." />
-                </View>
+                loading ? (
+                  <View style={$emptyState}>
+                    <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+                  </View>
+                ) : (
+                  <View style={$emptyState}>
+                    <Text text="No message..." />
+                  </View>
+                )
               }
               estimatedItemSize={100}
               inverted={true}

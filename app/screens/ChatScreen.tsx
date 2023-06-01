@@ -1,6 +1,6 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle, Alert } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle, Alert, ActivityIndicator } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -40,6 +40,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const [loading, setLoading] = useState(true)
 
   const leaveJoinedChannel = () => {
     Alert.alert("Confirm leave channel", "Are you sure?", [
@@ -87,16 +89,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     }
 
     async function subscribe() {
+      // stop loading
+      setLoading(false);
       return await channel.sub({channel_id: id, callback: handleNewMessage, filter: {
-        since: Math.floor(Date.now() / 1000), privkey: privkey
-      }})
+        since: Math.floor(Date.now() / 1000)
+      }, privkey})
     }
 
     // fetch all channel messages
     channelStore.fetchMessages(channel, id, privkey)
 
     // subscribe for new messages
-    console.log("subscribing...")
     subscribe().catch(console.error)
 
     return () => {
@@ -105,7 +108,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       // clear channel store
       channelStore.reset()
     }
-  }, [route, channel])
+  }, [route, userStore, channel])
 
   return (
     <BottomSheetModalProvider>
@@ -138,9 +141,15 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 </View>
               )}
               ListEmptyComponent={
-                <View style={$emptyState}>
-                  <Text text="Loading..." />
-                </View>
+                loading ? (
+                  <View style={$emptyState}>
+                    <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+                  </View>
+                ) : (
+                  <View style={$emptyState}>
+                    <Text text="No message..." />
+                  </View>
+                )
               }
               estimatedItemSize={100}
               inverted={true}

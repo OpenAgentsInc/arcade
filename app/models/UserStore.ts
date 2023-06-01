@@ -1,7 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
-import { ArcadeIdentity, NostrPool } from "arclib/src"
+import { NostrPool } from "arclib/src"
 
 /**
  * Model description here for TypeScript hints.
@@ -11,41 +11,34 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
+    contacts: types.optional(types.array(types.string), []),
+    metadata: "",
     isLoggedIn: false,
+    isNewUser: false,
     channels: types.optional(types.array(types.map(types.string)), [
-      {id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", "privkey": ""}, // Arcade Open R&D
-      {id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", "privkey": ""} // Arcade Exchange Test
-  ]),
+      { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
+      { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange Test
+    ]),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string, privkey?: string) {
-      self.channels[id] = {privkey}
+      self.channels[id] = { privkey }
     },
     leaveChannel(id: string) {
-      const index = self.channels.findIndex(el=>el.id == id)
-      if (index !== -1) 
-      self.channels.splice(index, 1)
+      const index = self.channels.findIndex((el: any) => el.id === id)
+      if (index !== -1) self.channels.splice(index, 1)
     },
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
-      const nsec = nip19.nsecEncode(privkey)
 
       self.setProp("pubkey", pubkey)
       self.setProp("privkey", privkey)
       self.setProp("isLoggedIn", true)
-
-      // publish
-      const ident = new ArcadeIdentity(nsec, "", "")
-      const pool = new NostrPool(ident)
-      await pool.setRelays(["wss://relay.damus.io"])
-      await pool.send({
-        content: JSON.stringify({ display_name: displayName, name: username, about }),
-        tags: [],
-        kind: 0,
-      })
+      self.setProp("isNewUser", true)
+      self.setProp("metadata", JSON.stringify({ display_name: displayName, username, about }))
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
@@ -72,6 +65,21 @@ export const UserStoreModel = types
       self.setProp("isLoggedIn", false)
 
       console.log("Removed keys from storage.")
+    },
+    async fetchContacts(pool: NostrPool) {
+      if (!self.pubkey) throw new Error("pubkey not found")
+
+      const contacts = []
+      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
+
+      for (const item of result[0].tags) {
+        contacts.push(item[1])
+      }
+
+      self.setProp("contacts", contacts)
+    },
+    clearNewUser() {
+      self.setProp("isNewUser", false)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

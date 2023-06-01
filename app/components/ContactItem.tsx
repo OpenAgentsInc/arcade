@@ -1,67 +1,64 @@
 import React, { useContext, useEffect, useState } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
-import { useNavigation } from "@react-navigation/native"
+import { shortenKey } from "app/utils/shortenKey"
 
-export function ChannelItem({ id, privkey }: { id: string, privkey?: string }) {
+export function ContactItem({ pubkey }: { pubkey: string }) {
   const pool: any = useContext(RelayContext)
-  const { navigate } = useNavigation<any>()
-
   const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {
     async function fetchProfile() {
-      const list = await pool.list([{ kinds: [40], ids: [id] }], true)
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setMetadata(content)
       } else {
-        console.log("channel metadata not found", id)
+        console.log("channel metadata not found", pubkey)
       }
     }
 
     fetchProfile().catch(console.error)
-  }, [id])
+  }, [pubkey])
 
   return (
-    <Pressable onPress={() => navigate("Chat", { id, name: metadata?.name })} style={$messageItem}>
+    <View style={$item}>
       <AutoImage
         source={{ uri: metadata?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
-        style={$messageItemAvatar}
+        style={$itemAvatar}
       />
       <View>
-        <Text text={metadata?.name || "No name"} preset="bold" style={$messageItemName} />
         <Text
-          text={metadata?.about || "No description"}
-          size="xs"
-          numberOfLines={1}
-          style={$messageItemContent}
+          text={metadata?.display_name || metadata?.name || "Loading..."}
+          preset="bold"
+          style={$itemName}
         />
+        <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
       </View>
-    </Pressable>
+    </View>
   )
 }
 
-const $messageItem: ViewStyle = {
+const $item: ViewStyle = {
   flex: 1,
   flexDirection: "row",
   alignItems: "center",
   paddingVertical: spacing.extraSmall,
 }
 
-const $messageItemAvatar: ImageStyle = {
+const $itemAvatar: ImageStyle = {
   width: 44,
   height: 44,
   borderRadius: 100,
   marginRight: spacing.small,
 }
 
-const $messageItemName: TextStyle = {
+const $itemName: TextStyle = {
   lineHeight: 0,
 }
 
-const $messageItemContent: TextStyle = {
+const $itemContent: TextStyle = {
   width: 240,
   lineHeight: 0,
   color: "rgba(255,255,255,0.5)",

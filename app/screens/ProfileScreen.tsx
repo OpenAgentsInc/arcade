@@ -3,11 +3,12 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Header, RelayContext, Screen, Text } from "app/components"
+import { AutoImage, Header, RelayContext, Screen, Text, ContactItem } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { EditIcon, LogOutIcon } from "lucide-react-native"
+import { FlashList } from "@shopify/flash-list"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -16,10 +17,17 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const logout = () => {
+    // clear user store
+    userStore.logout()
+    // clear channel store
+    channelStore.reset()
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,7 +44,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               <Pressable onPress={() => navigation.navigate("EditProfile")}>
                 <EditIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
-              <Pressable onPress={() => userStore.logout()}>
+              <Pressable onPress={() => logout()}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
             </View>
@@ -48,13 +56,17 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
 
   useEffect(() => {
     async function fetchProfile() {
+      // fetch user profile
       const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setProfile(content)
+      } else {
+        alert("relay return nothing")
       }
+      // fetch user contact list
+      userStore.fetchContacts(pool)
     }
-
     fetchProfile().catch(console.error)
   }, [userStore.pubkey])
 
@@ -71,32 +83,48 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         />
       </View>
       <View style={$container}>
-        <View style={$avatar}>
-          <AutoImage
-            source={{
-              uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-            }}
-            style={$image}
-          />
-        </View>
         <View>
+          <View style={$avatar}>
+            <AutoImage
+              source={{
+                uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+              }}
+              style={$image}
+            />
+          </View>
           <View>
-            <Text
-              preset="bold"
-              size="lg"
-              text={profile?.display_name || "Loading..."}
-              style={$userName}
-            />
-            <Text
-              preset="default"
-              size="sm"
-              text={profile?.nip05 || "Loading..."}
-              style={$userNip05}
-            />
+            <View>
+              <Text
+                preset="bold"
+                size="lg"
+                text={profile?.display_name || "Loading..."}
+                style={$userName}
+              />
+              <Text
+                preset="default"
+                size="sm"
+                text={profile?.nip05 || "Loading..."}
+                style={$userNip05}
+              />
+            </View>
+            <View style={$userAbout}>
+              <Text preset="default" text={profile?.about || "Loading..."} />
+            </View>
           </View>
-          <View style={$userAbout}>
-            <Text preset="default" text={profile?.about || "Loading..."} />
-          </View>
+        </View>
+        <View style={$contacts}>
+          <Text text="Contacts" size="lg" preset="bold" />
+          <FlashList
+            data={userStore.contacts.slice()}
+            keyExtractor={(item) => item}
+            renderItem={({ item }) => <ContactItem pubkey={item} />}
+            ListEmptyComponent={
+              <View style={$emptyState}>
+                <Text text="No contact..." />
+              </View>
+            }
+            estimatedItemSize={50}
+          />
         </View>
       </View>
     </Screen>
@@ -151,4 +179,13 @@ const $userNip05: TextStyle = {
 
 const $userAbout: ViewStyle = {
   marginTop: spacing.small,
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  paddingVertical: spacing.medium,
+}
+
+const $contacts: ViewStyle = {
+  marginTop: spacing.large,
 }
