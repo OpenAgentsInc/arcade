@@ -67,7 +67,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
       // fetch user contact list
       userStore.fetchContacts(pool)
     }
-
     fetchProfile().catch(console.error)
   }, [userStore.pubkey])
 

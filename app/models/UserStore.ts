@@ -73,6 +73,7 @@ export const UserStoreModel = types
       
       const contacts = []
       const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
+
       for (const item of result[0].tags) {
         contacts.push(item[1]);
       }

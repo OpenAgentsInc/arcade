@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
-import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
 
 export function ContactItem({ pubkey }: { pubkey: string }) {
   const pool: any = useContext(RelayContext)
-  const { navigate } = useNavigation<any>()
-
   const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {
@@ -26,20 +23,20 @@ export function ContactItem({ pubkey }: { pubkey: string }) {
   }, [pubkey])
 
   return (
-    <Pressable onPress={() => navigate("DirectMessage", { id: pubkey })} style={$item}>
+    <View style={$item}>
       <AutoImage
         source={{ uri: metadata?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$itemAvatar}
       />
       <View>
         <Text
-          text={metadata?.display_name || metadata?.name || metadata?.username}
+          text={metadata?.display_name || metadata?.name || "Loading..."}
           preset="bold"
           style={$itemName}
         />
         <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
       </View>
-    </Pressable>
+    </View>
   )
 }
 
