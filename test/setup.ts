@@ -1,6 +1,7 @@
 // we always make sure 'react-native' gets included first
 import * as ReactNative from "react-native"
 import mockFile from "./mockFile"
+import 'react-native-gesture-handler/jestSetup';
 
 import { TextEncoder, TextDecoder } from 'util';
 
