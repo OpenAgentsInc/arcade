@@ -17,21 +17,19 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     return (
       <ScreenWithSidebar title={"Messages"}>
-        <View style={[$root, $container]}>
-          <View style={$main}>
-            <View style={$messsages}>
-              <FlashList
-                data={userStore.channels.slice()}
-                keyExtractor={(item: any) => item.id}
-                renderItem={({ item }) => <ChannelItem id={item.id} privkey={item.privkey} />}
-                ListEmptyComponent={
-                  <View style={$emptyState}>
-                    <Text text="No channel..." />
-                  </View>
-                }
-                estimatedItemSize={50}
-              />
-            </View>
+        <View style={$main}>
+          <View style={$messsages}>
+            <FlashList
+              data={userStore.channels.slice()}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <ChannelItem id={item.id} privkey={item.privkey} />}
+              ListEmptyComponent={
+                <View style={$emptyState}>
+                  <Text text="No channel..." />
+                </View>
+              }
+              estimatedItemSize={50}
+            />
           </View>
         </View>
       </ScreenWithSidebar>
@@ -39,29 +37,18 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   },
 )
 
-const $root: ViewStyle = {
-  flex: 1,
-}
-
-const $container: ViewStyle = {
-  flexDirection: "row",
-  flexWrap: "wrap",
-  paddingHorizontal: spacing.medium - 2,
-}
-
 const $main: ViewStyle = {
   flex: 1,
   flexDirection: "column",
   gap: spacing.small,
   width: "100%",
   height: "100%",
-  paddingHorizontal: spacing.tiny,
+  paddingHorizontal: spacing.medium,
 }
 
 const $messsages: ViewStyle = {
   flex: 1,
   paddingVertical: spacing.extraSmall,
-  // paddingHorizontal: spacing.small,
 }
 
 const $emptyState: ViewStyle = {

@@ -17,10 +17,13 @@ export const UserStoreModel = types
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
-    channels: types.optional(types.array(types.map(types.string)), [
-      { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
-      { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange Test
-    ]),
+    channels: types.optional(
+      types.array(types.model({ id: types.string, privkey: types.string })),
+      [
+        { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
+        { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange Test
+      ],
+    ),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
