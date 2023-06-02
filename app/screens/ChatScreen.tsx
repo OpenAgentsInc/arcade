@@ -124,7 +124,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               data={channelStore.allMessages}
               renderItem={({ item }) => (
                 <View style={$messageItem}>
-                  <User pubkey={item.pubkey} />
+                  <User pubkey={item.pubkey} createdAt={item.created_at} />
                   <View style={$messageContentWrapper}>
                     <TextWithImage
                       text={item.content || "empty message"}

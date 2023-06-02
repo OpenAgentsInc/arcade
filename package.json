@@ -58,6 +58,7 @@
     "apisauce": "2.1.5",
     "assert": "^1.1.1",
     "date-fns": "^2.29.2",
+    "dayjs": "^1.11.7",
     "expo": "^48.0.15",
     "expo-application": "~5.1.1",
     "expo-build-properties": "~0.6.0",
