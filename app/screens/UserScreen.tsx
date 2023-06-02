@@ -7,6 +7,8 @@ import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/compo
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
+import { useUserContacts } from "app/utils/useUserContacts"
+import { arrayToNIP02 } from "app/utils/nip02"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -16,13 +18,33 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   route: any
 }) {
   const pool: any = useContext(RelayContext)
+  const contacts = useUserContacts()
+
   const [profile, setProfile] = useState(null)
+  const [followed, setFollowed] = useState(false)
 
   // Get route params
   const { id } = route.params
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const followUser = () => {
+    if (!followed) {
+      const newFollows = [...contacts, id]
+      const nip02 = arrayToNIP02(newFollows)
+
+      console.log("follow: ", id)
+      pool.send({
+        content: "",
+        tags: nip02,
+        kind: 3,
+      })
+      setFollowed(true)
+    } else {
+      alert("Not implemented yet")
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,6 +67,9 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setProfile(content)
+        if (contacts.includes(id)) {
+          setFollowed(true)
+        }
       } else {
         alert("relay return nothing")
       }
@@ -97,7 +122,11 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             style={$profileButton}
             onPress={() => navigation.navigate("DirectMessage", { id })}
           />
-          <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
+          <Button
+            text={followed ? "Unfollow" : "Follow"}
+            onPress={() => followUser()}
+            style={$profileButton}
+          />
         </View>
       </View>
     </Screen>
