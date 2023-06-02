@@ -116,7 +116,11 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <FlashList
             data={userStore.contacts.slice()}
             keyExtractor={(item) => item}
-            renderItem={({ item }) => <ContactItem pubkey={item} />}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => navigation.navigate("DirectMessage", { item })}>
+                <ContactItem pubkey={item} />
+              </Pressable>
+            )}
             ListEmptyComponent={
               <View style={$emptyState}>
                 <Text text="No contact..." />
