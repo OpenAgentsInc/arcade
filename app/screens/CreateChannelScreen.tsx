@@ -27,11 +27,24 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
     const createChannel = async (data: any) => {
       try {
         const info = await channel.create(data)
+        await channel.setMeta(info.id, data.is_private, data)
+
         console.log("created channel: ", info)
+
         // add created channel to user store
         userStore.joinChannel(info.id, info.privkey)
-        // redirect to channel
-        navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+
+        if (data.is_private) {
+          // redirect to invite screen
+          navigation.navigate("ContactPicker", {
+            id: info.id,
+            name: info.name,
+            privkey: info.privkey,
+          })
+        } else {
+          // redirect to created channel screen
+          navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+        }
       } catch (e) {
         console.log("error", e)
         alert(`Error, please check information again: ${e}`)

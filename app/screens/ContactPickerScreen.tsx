@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Alert, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -9,14 +9,19 @@ import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { CheckCircle2Icon } from "lucide-react-native"
+import { EncChannel } from "arclib/src"
 
 interface ContactPickerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {}
 
 export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
-  function ContactPickerScreen() {
+  function ContactPickerScreen({ route }: { route: any }) {
+    const { id, name, privkey } = route.params
+
     const pool: any = useContext(RelayContext)
-    const navigation = useNavigation()
+    const encrypted: any = useMemo(() => new EncChannel(pool), [])
+
+    const navigation = useNavigation<any>()
     const { userStore } = useStores()
 
     const [selected, setSelected] = useState([])
@@ -35,8 +40,11 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
         },
         {
           text: "Confirm",
-          onPress: () => {
-            console.log(selected)
+          onPress: async () => {
+            // invite
+            await encrypted.invite({ members: selected })
+            // redirect to channel
+            navigation.navigate("Chat", { id, name, privkey })
           },
         },
       ])
@@ -47,7 +55,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title="Choose contact"
+            title="Invite some people"
             titleStyle={{ color: colors.palette.cyan400 }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
