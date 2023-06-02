@@ -18,7 +18,7 @@ import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
-import { LogOutIcon } from "lucide-react-native"
+import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "arclib/src"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -72,6 +72,13 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
+              {privkey && (
+                <Pressable
+                  onPress={() => navigation.navigate("ContactPicker", { id, name, privkey })}
+                >
+                  <UserPlusIcon size={20} color={colors.palette.cyan400} />
+                </Pressable>
+              )}
               <Pressable onPress={() => leaveJoinedChannel()}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
@@ -113,7 +120,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       // clear channel store
       channelStore.reset()
     }
-  }, [route, userStore, channel])
+  }, [id, channel])
 
   return (
     <BottomSheetModalProvider>
@@ -121,10 +128,10 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.sortedAndIgnoreOffers}
+              data={channelStore.allMessages}
               renderItem={({ item }) => (
                 <View style={$messageItem}>
-                  <User pubkey={item.pubkey} />
+                  <User pubkey={item.pubkey} createdAt={item.created_at} />
                   <View style={$messageContentWrapper}>
                     <TextWithImage
                       text={item.content || "empty message"}

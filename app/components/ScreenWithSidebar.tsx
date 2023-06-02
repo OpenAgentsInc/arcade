@@ -1,13 +1,12 @@
 import React, { FC, useRef, useState } from "react"
-import { ImageStyle, Platform, View, ViewStyle } from "react-native"
+import { Platform, Pressable, View, ViewStyle } from "react-native"
 import { DrawerLayout, DrawerState } from "react-native-gesture-handler"
 import { useSharedValue, withTiming } from "react-native-reanimated"
-import { AutoImage, Button, Header, Screen } from "./"
+import { Button, Header, Screen } from "./"
 import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
-import { FlashList } from "@shopify/flash-list"
 import { CompassIcon, HomeIcon, PlusIcon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 
@@ -15,23 +14,6 @@ interface ScreenWithSidebarProps {
   title: string
   children: React.ReactNode
 }
-
-const DEFAULT_CHANNELS = [
-  {
-    id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-    name: "Arcade Open R&D",
-    picture: "https://void.cat/d/MsqUKXXC4SxDfmT2KiHovJ.webp",
-    about: "A place to discuss the future of Arcade Open R&D",
-    privkey: "",
-  },
-  {
-    id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
-    name: "Arcade Exchange Test",
-    picture: "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-    about: "",
-    privkey: "",
-  },
-]
 
 export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children }) => {
   const [open, setOpen] = useState(false)
@@ -98,32 +80,10 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
           </View>
           <View style={$divider} />
           <View style={$channelList}>
-            <FlashList
-              data={DEFAULT_CHANNELS}
-              renderItem={({ item }) => (
-                <Button
-                  onPress={() =>
-                    navigate("Chat", { id: item.id, name: item.name, privkey: item.privkey })
-                  }
-                  style={$channelItem}
-                  LeftAccessory={() => (
-                    <AutoImage
-                      source={{
-                        uri: item.picture,
-                      }}
-                      style={$channelImage}
-                    />
-                  )}
-                />
-              )}
-              ListFooterComponent={() => (
-                <Button
-                  onPress={() => navigate("CreateChannel")}
-                  LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
-                  style={$channelButton}
-                />
-              )}
-              estimatedItemSize={50}
+            <Button
+              onPress={() => navigate("CreateChannel")}
+              LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
+              style={$channelButton}
             />
           </View>
         </View>
@@ -133,12 +93,25 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
         <Header
           title={title}
           LeftActionComponent={<DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />}
+          RightActionComponent={
+            <View style={$headerRightActions}>
+              <Pressable onPress={() => navigate("CreateChannel")}>
+                <PlusIcon size={20} color="#fff" />
+              </Pressable>
+            </View>
+          }
           safeAreaEdges={[]}
         />
         {children}
       </Screen>
     </DrawerLayout>
   )
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $screenContainer: ViewStyle = {
@@ -176,27 +149,8 @@ const $channelList: ViewStyle = {
   flex: 1,
 }
 
-const $channelItem: ViewStyle = {
-  marginBottom: spacing.small,
-  paddingHorizontal: 0,
-  paddingVertical: 0,
-  width: 50,
-  height: 50,
-  minHeight: 50,
-  backgroundColor: "transparent",
-  borderWidth: 0,
-  alignSelf: "center",
-}
-
-const $channelImage: ImageStyle = {
-  backgroundColor: colors.palette.cyan100,
-  borderRadius: 100,
-  width: 50,
-  height: 50,
-}
-
 const $channelButton: ViewStyle = {
-  backgroundColor: colors.palette.cyan900,
+  backgroundColor: colors.palette.cyan700,
   borderWidth: 0,
   borderRadius: 100,
   width: 50,

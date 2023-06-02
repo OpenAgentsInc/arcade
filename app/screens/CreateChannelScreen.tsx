@@ -26,12 +26,29 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     const createChannel = async (data: any) => {
       try {
-        const info = await channel.create(data)
-        console.log("created channel: ", info)
-        // add created channel to user store
-        userStore.joinChannel(info.id, info.privkey)
-        // redirect to channel
-        navigation.navigate("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+        if (!data.name) {
+          alert("Channel name is required")
+        } else {
+          const info = await channel.create(data)
+          await channel.setMeta(info.id, data.is_private, data)
+
+          console.log("created channel: ", info)
+
+          // add created channel to user store
+          userStore.joinChannel(info.id, info.privkey)
+
+          if (data.is_private) {
+            // redirect to invite screen
+            navigation.replace("ContactPicker", {
+              id: info.id,
+              name: info.name,
+              privkey: info.privkey,
+            })
+          } else {
+            // redirect to created channel screen
+            navigation.replace("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+          }
+        }
       } catch (e) {
         console.log("error", e)
         alert(`Error, please check information again: ${e}`)
@@ -53,7 +70,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     return (
       <Screen
-        preset="scroll"
+        preset="fixed"
         contentContainerStyle={$container}
         safeAreaEdges={["bottom"]}
         keyboardOffset={120}
@@ -105,6 +122,9 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
               />
               <Toggle
                 label="Private channel"
+                inputOuterStyle={$toggle}
+                inputInnerStyle={$toggleInner}
+                inputDetailStyle={$toggleDetail}
                 variant="switch"
                 onPress={() => setFieldValue("is_private", !values.is_private)}
                 value={values.is_private}
@@ -121,7 +141,6 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 const $container: ViewStyle = {
   flex: 1,
   flexDirection: "column",
-  justifyContent: "center",
   paddingHorizontal: spacing.medium,
 }
 
@@ -153,11 +172,27 @@ const $input: ViewStyle = {
   marginBottom: spacing.small,
 }
 
+const $toggle: ViewStyle = {
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.overlay20,
+}
+
+const $toggleInner: ViewStyle = {
+  backgroundColor: colors.palette.cyan800,
+}
+
+const $toggleDetail: any = {
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.cyan500,
+}
+
 const $button: ViewStyle = {
   backgroundColor: colors.palette.cyan500,
   borderWidth: 0,
   width: "100%",
-  marginTop: spacing.small,
+  marginTop: spacing.large,
   marginBottom: spacing.small,
   height: 50,
   minHeight: 50,

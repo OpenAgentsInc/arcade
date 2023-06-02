@@ -1,27 +1,27 @@
-import React, { useContext, useEffect, useState } from "react"
-import { AutoImage, RelayContext, Text } from "app/components"
+import React, { useEffect, useState } from "react"
+import { AutoImage, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
-export function ChannelItem({ id, privkey }: { id: string; privkey?: string }) {
-  const pool: any = useContext(RelayContext)
+export function ChannelItem({
+  channel,
+  id,
+  privkey,
+}: {
+  channel: any
+  id: string
+  privkey?: string
+}) {
   const { navigate } = useNavigation<any>()
-
   const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {
-    async function fetchProfile() {
-      const list = await pool.list([{ kinds: [40], ids: [id] }], true)
-      if (list.length > 0) {
-        const content = JSON.parse(list[0].content)
-        setMetadata(content)
-      } else {
-        console.log("channel metadata not found", id)
-      }
+    async function fetchMetadata() {
+      const result = await channel.getMeta(id, privkey, true)
+      setMetadata(result)
     }
-
-    fetchProfile().catch(console.error)
+    fetchMetadata().catch(console.error)
   }, [id])
 
   return (
@@ -65,7 +65,7 @@ const $messageItemName: TextStyle = {
 }
 
 const $messageItemContent: TextStyle = {
-  width: 240,
+  maxWidth: 300,
   lineHeight: 0,
   color: "rgba(255,255,255,0.5)",
 }

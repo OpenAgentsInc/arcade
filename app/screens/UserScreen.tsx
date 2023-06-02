@@ -6,6 +6,9 @@ import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
+import { shortenKey } from "app/utils/shortenKey"
+import { useUserContacts } from "app/utils/useUserContacts"
+import { arrayToNIP02 } from "app/utils/nip02"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -15,13 +18,33 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   route: any
 }) {
   const pool: any = useContext(RelayContext)
+  const contacts = useUserContacts()
+
   const [profile, setProfile] = useState(null)
+  const [followed, setFollowed] = useState(false)
 
   // Get route params
   const { id } = route.params
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const followUser = () => {
+    if (!followed) {
+      const newFollows = [...contacts, id]
+      const nip02 = arrayToNIP02(newFollows)
+
+      console.log("follow: ", id)
+      pool.send({
+        content: "",
+        tags: nip02,
+        kind: 3,
+      })
+      setFollowed(true)
+    } else {
+      alert("Not implemented yet")
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -44,6 +67,9 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setProfile(content)
+        if (contacts.includes(id)) {
+          setFollowed(true)
+        }
       } else {
         alert("relay return nothing")
       }
@@ -57,9 +83,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       <View style={$cover}>
         <AutoImage
           source={{
-            uri:
-              profile?.banner ||
-              "https://pbs.twimg.com/profile_banners/1216165042472620034/1670567469/1500x500",
+            uri: profile?.banner || "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg",
           }}
           style={$image}
         />
@@ -68,7 +92,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         <View style={$avatar}>
           <AutoImage
             source={{
-              uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+              uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
             }}
             style={$image}
           />
@@ -84,12 +108,12 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="default"
               size="sm"
-              text={profile?.nip05 || "Loading..."}
+              text={profile?.nip05 || shortenKey(id)}
               style={$userNip05}
             />
           </View>
           <View style={$userAbout}>
-            <Text preset="default" text={profile?.about || "Loading..."} />
+            <Text preset="default" text={profile?.about || "No bio"} />
           </View>
         </View>
         <View style={$buttonGroup}>
@@ -98,7 +122,11 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             style={$profileButton}
             onPress={() => navigation.navigate("DirectMessage", { id })}
           />
-          <Button text="Follow" onPress={() => alert("Coming soon!")} style={$profileButton} />
+          <Button
+            text={followed ? "Unfollow" : "Follow"}
+            onPress={() => followUser()}
+            style={$profileButton}
+          />
         </View>
       </View>
     </Screen>
