@@ -1,4 +1,3 @@
-import SecureStore from "expo-secure-store"
 import { load, loadString, save, saveString, clear, remove } from "./storage"
 
 test("save/load val", async () => {

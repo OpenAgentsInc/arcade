@@ -8,9 +8,9 @@ const utf8Decoder = new TextDecoder()
 
 async function appKey(): Promise<Uint8Array> {
     try {
-        const appk_b64 = await SecureStore.getItemAsync("appk")
-        if (appk_b64 && appk_b64.length) {
-            return Uint8Array.from(Buffer.from(appk_b64, "base64"))
+        const appkB64 = await SecureStore.getItemAsync("appk")
+        if (appkB64 && appkB64.length) {
+            return Uint8Array.from(Buffer.from(appkB64, "base64"))
         }
     } catch {
     }
