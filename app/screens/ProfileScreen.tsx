@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { EditIcon, LogOutIcon } from "lucide-react-native"
 import { FlashList } from "@shopify/flash-list"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -75,9 +76,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
       <View style={$cover}>
         <AutoImage
           source={{
-            uri:
-              profile?.banner ||
-              "https://pbs.twimg.com/profile_banners/1216165042472620034/1670567469/1500x500",
+            uri: profile?.banner || "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg",
           }}
           style={$image}
         />
@@ -87,7 +86,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <View style={$avatar}>
             <AutoImage
               source={{
-                uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+                uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
               }}
               style={$image}
             />
@@ -103,12 +102,12 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               <Text
                 preset="default"
                 size="sm"
-                text={profile?.nip05 || "Loading..."}
+                text={profile?.nip05 || shortenKey(userStore.pubkey)}
                 style={$userNip05}
               />
             </View>
             <View style={$userAbout}>
-              <Text preset="default" text={profile?.about || "Loading..."} />
+              <Text preset="default" text={profile?.about || "No bio"} />
             </View>
           </View>
         </View>

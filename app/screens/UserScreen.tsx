@@ -6,6 +6,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -57,9 +58,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       <View style={$cover}>
         <AutoImage
           source={{
-            uri:
-              profile?.banner ||
-              "https://pbs.twimg.com/profile_banners/1216165042472620034/1670567469/1500x500",
+            uri: profile?.banner || "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg",
           }}
           style={$image}
         />
@@ -68,7 +67,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         <View style={$avatar}>
           <AutoImage
             source={{
-              uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+              uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
             }}
             style={$image}
           />
@@ -84,12 +83,12 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="default"
               size="sm"
-              text={profile?.nip05 || "Loading..."}
+              text={profile?.nip05 || shortenKey(id)}
               style={$userNip05}
             />
           </View>
           <View style={$userAbout}>
-            <Text preset="default" text={profile?.about || "Loading..."} />
+            <Text preset="default" text={profile?.about || "No bio"} />
           </View>
         </View>
         <View style={$buttonGroup}>
