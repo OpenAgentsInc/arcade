@@ -44,7 +44,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
             // invite
             await encrypted.invite({ members: selected })
             // redirect to channel
-            navigation.navigate("Chat", { id, name, privkey })
+            navigation.replace("Chat", { id, name, privkey })
           },
         },
       ])

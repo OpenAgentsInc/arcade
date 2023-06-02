@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from "react"
-import { Platform, View, ViewStyle } from "react-native"
+import { Platform, Pressable, View, ViewStyle } from "react-native"
 import { DrawerLayout, DrawerState } from "react-native-gesture-handler"
 import { useSharedValue, withTiming } from "react-native-reanimated"
 import { Button, Header, Screen } from "./"
@@ -93,12 +93,25 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
         <Header
           title={title}
           LeftActionComponent={<DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />}
+          RightActionComponent={
+            <View style={$headerRightActions}>
+              <Pressable onPress={() => navigate("CreateChannel")}>
+                <PlusIcon size={20} color="#fff" />
+              </Pressable>
+            </View>
+          }
           safeAreaEdges={[]}
         />
         {children}
       </Screen>
     </DrawerLayout>
   )
+}
+
+const $headerRightActions: ViewStyle = {
+  flexDirection: "row",
+  gap: spacing.medium,
+  paddingRight: spacing.medium,
 }
 
 const $screenContainer: ViewStyle = {
