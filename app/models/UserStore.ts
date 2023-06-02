@@ -29,7 +29,7 @@ export const UserStoreModel = types
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string, privkey?: string) {
-      self.channels[id] = { privkey }
+      self.channels.push({ id, privkey })
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: any) => el.id === id)

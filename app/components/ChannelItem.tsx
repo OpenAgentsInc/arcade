@@ -5,8 +5,6 @@ import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 
 export function ChannelItem({ id, privkey }: { id: string; privkey?: string }) {
-  console.log(id)
-
   const pool: any = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
 

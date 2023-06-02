@@ -113,7 +113,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       // clear channel store
       channelStore.reset()
     }
-  }, [route, userStore, channel])
+  }, [id, channel])
 
   return (
     <BottomSheetModalProvider>
@@ -121,7 +121,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.sortedAndIgnoreOffers}
+              data={channelStore.allMessages}
               renderItem={({ item }) => (
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} />
