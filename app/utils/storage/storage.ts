@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import * as SecureStore from 'expo-secure-store';
 
 /**
  * Loads a string from storage.
@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
  */
 export async function loadString(key: string): Promise<string | null> {
   try {
-    return await AsyncStorage.getItem(key)
+    return await SecureStore.getItemAsync(key)
   } catch {
     // not sure why this would fail... even reading the RN docs I'm unclear
     return null
@@ -22,7 +22,7 @@ export async function loadString(key: string): Promise<string | null> {
  */
 export async function saveString(key: string, value: string): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(key, value)
+    await SecureStore.setItemAsync(key, value)
     return true
   } catch {
     return false
@@ -36,7 +36,7 @@ export async function saveString(key: string, value: string): Promise<boolean> {
  */
 export async function load(key: string): Promise<unknown | null> {
   try {
-    const almostThere = await AsyncStorage.getItem(key)
+    const almostThere = await SecureStore.getItemAsync(key)
     return JSON.parse(almostThere)
   } catch {
     return null
@@ -51,7 +51,7 @@ export async function load(key: string): Promise<unknown | null> {
  */
 export async function save(key: string, value: unknown): Promise<boolean> {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(value))
+    await SecureStore.setItemAsync(key, JSON.stringify(value))
     return true
   } catch {
     return false
@@ -65,7 +65,7 @@ export async function save(key: string, value: unknown): Promise<boolean> {
  */
 export async function remove(key: string): Promise<void> {
   try {
-    await AsyncStorage.removeItem(key)
+    await SecureStore.deleteItemAsync(key)
   } catch {}
 }
 
@@ -73,7 +73,5 @@ export async function remove(key: string): Promise<void> {
  * Burn it all to the ground.
  */
 export async function clear(): Promise<void> {
-  try {
-    await AsyncStorage.clear()
-  } catch {}
+    console.log("secure store has no clear function")
 }

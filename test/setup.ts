@@ -5,6 +5,10 @@ import 'react-native-gesture-handler/jestSetup';
 
 import { TextEncoder, TextDecoder } from 'util';
 
+declare global {
+  let __TEST__
+}
+
 global.navigator = {
   userAgent: 'node.js',
   geolocation: {
@@ -72,6 +76,13 @@ global.setImmediate = jest.useRealTimers;
 declare const tron // eslint-disable-line @typescript-eslint/no-unused-vars
 
 jest.useFakeTimers()
-declare global {
-  let __TEST__
-}
+
+
+jest.mock('expo-secure-store', () => {
+  return {
+      setItemAsync: jest.fn(),
+      getItemAsync: jest.fn(),
+      deleteItemAsync: jest.fn()
+ }
+});
+
