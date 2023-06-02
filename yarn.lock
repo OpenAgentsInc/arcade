@@ -8664,9 +8664,9 @@ isomorphic-unfetch@^4.0.2:
     node-fetch "^3.2.0"
     unfetch "^5.0.0"
 
-isomorphic-webcrypto@^2.3.8, "isomorphic-webcrypto@https://github.com/reyamir/isomorphic-webcrypto":
+isomorphic-webcrypto@^2.3.8, "isomorphic-webcrypto@https://github.com/earonesty/isomorphic-webcrypto":
   version "2.3.8"
-  resolved "https://github.com/reyamir/isomorphic-webcrypto#d8167b01825c300527a37e90dbf7d71360a0757b"
+  resolved "https://github.com/earonesty/isomorphic-webcrypto#c95dcdebfc544be194874e3e62b7b668025f58a4"
   dependencies:
     "@peculiar/webcrypto" "^1.0.22"
     asmcrypto.js "^0.22.0"

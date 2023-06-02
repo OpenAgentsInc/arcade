@@ -50,6 +50,14 @@ jest.mock(
   },
 );
 
+jest.mock(
+  'isomorphic-webcrypto',
+  () => {
+    return jest.requireActual(
+      'isomorphic-webcrypto/src/index.js',
+    );
+  },
+);
 
 jest.mock('expo-linking', () => {
     const module: typeof import('expo-linking') = {
@@ -77,12 +85,12 @@ declare const tron // eslint-disable-line @typescript-eslint/no-unused-vars
 
 jest.useFakeTimers()
 
-
 jest.mock('expo-secure-store', () => {
+  const s = []
   return {
-      setItemAsync: jest.fn(),
-      getItemAsync: jest.fn(),
-      deleteItemAsync: jest.fn()
+      setItemAsync: (k, v) => {s[k]=v},
+      getItemAsync: (k) => {return s[k]},
+      deleteItemAsync: (k) => {delete s[k]}
  }
 });
 

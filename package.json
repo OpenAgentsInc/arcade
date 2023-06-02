@@ -75,7 +75,7 @@
     "expo-status-bar": "~1.4.4",
     "formik": "^2.2.9",
     "i18n-js": "3.9.2",
-    "isomorphic-webcrypto": "https://github.com/reyamir/isomorphic-webcrypto",
+    "isomorphic-webcrypto": "https://github.com/earonesty/isomorphic-webcrypto",
     "lucide-react-native": "0.214.0",
     "mobx": "6.6.0",
     "mobx-react-lite": "3.4.0",

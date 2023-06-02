@@ -1,40 +1,19 @@
 import SecureStore from "expo-secure-store"
 import { load, loadString, save, saveString, clear, remove } from "./storage"
 
-// fixtures
-const VALUE_OBJECT = { x: 1 }
-const VALUE_STRING = JSON.stringify(VALUE_OBJECT)
-
-console.log(SecureStore)
-
-beforeEach(() => (SecureStore.getItemAsync as jest.Mock).mockReturnValue(Promise.resolve(VALUE_STRING)))
-afterEach(() => jest.clearAllMocks())
-
-test("load", async () => {
-  const value = await load("something")
-  expect(value).toEqual(JSON.parse(VALUE_STRING))
-})
-
-test("loadString", async () => {
-  const value = await loadString("something")
-  expect(value).toEqual(VALUE_STRING)
-})
-
-test("save", async () => {
-  await save("something", VALUE_OBJECT)
-  expect(SecureStore.setItemAsync).toHaveBeenCalledWith("something", VALUE_STRING)
-})
-
-test("saveString", async () => {
-  await saveString("something", VALUE_STRING)
-  expect(SecureStore.setItemAsync).toHaveBeenCalledWith("something", VALUE_STRING)
-})
-
-test("remove", async () => {
-  await remove("something")
-  expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("something")
-})
-
-test("clear", async () => {
+test("save/load val", async () => {
+  await save("some1", {a:2})
+  const value = await load("some1")
+  expect(value).toEqual({a:2})
   await clear()
+  expect(await load("some1")).toBe(null)
 })
+
+test("save/load str", async () => {
+  await saveString("some2", "str")
+  const value = await loadString("some2")
+  expect(value).toEqual("str")
+  await remove("some2")
+  expect(await loadString("some2")).toBe(null)
+})
+
