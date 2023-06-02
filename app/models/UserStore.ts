@@ -17,16 +17,23 @@ export const UserStoreModel = types
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
-    channels: types.optional(types.array(types.map(types.string)), [
-      { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
-      { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange Test
-    ]),
+    channels: types.optional(
+      types.array(types.model({ id: types.string, privkey: types.string })),
+      [
+        { id: "57a5a14ed061ebfdb559a53689dc5f17df2820d6d63d642502ed9d1c25cfcd85", privkey: "" }, // Arcade Open R&D
+        { id: "96e6e41921f530c9bf380db5e56ba0b7f02ffd9dd1c8aa052f7c60163be392e2", privkey: "" }, // Arcade Exchange
+        {
+          id: "49bd604b86cd143e211a513c140f05157775c9d53d2a676a9f370160404450d3",
+          privkey: "12ac825a570264bf8b246a858f2a80cc068102004b4358942591d9c0119bbf22",
+        }, // Arcade Encrypted
+      ],
+    ),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string, privkey?: string) {
-      self.channels[id] = { privkey }
+      self.channels.push({ id, privkey: privkey || "" })
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: any) => el.id === id)
