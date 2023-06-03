@@ -28,9 +28,8 @@ jobs:
         run: yarn lint
 
       - name: Run Test and Report Coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          package-manager: yarn
-          test-script: yarn test --forceExit --json --outputFile=report.json
-          skip-step: install
-          base-coverage-file: report.json
+        uses: willcaul/jest-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          test-command: yarn test --forceExit
