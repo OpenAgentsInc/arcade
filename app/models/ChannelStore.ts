@@ -14,10 +14,7 @@ export const ChannelStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get allMessages() {
-      return self.messages
-        .slice()
-        .slice()
-        .sort((a, b) => b.created_at - a.created_at)
+      return self.messages.slice().sort((a, b) => b.created_at - a.created_at)
     },
     get listing() {
       return self.messages.filter((m) => m.tags.find((t) => t[0] === "x" && t[1] === "listing"))
