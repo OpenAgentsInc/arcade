@@ -31,5 +31,7 @@ jobs:
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           package-manager: yarn
-          test-script: yarn test --forceExit
+          test-script: yarn test --forceExit --json --outputFile=report.json
           skip-step: install
+          coverage-file: report.json
+          base-coverage-file: report.json
