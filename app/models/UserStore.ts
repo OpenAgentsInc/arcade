@@ -1,4 +1,4 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
 
@@ -39,11 +39,13 @@ export const UserStoreModel = types
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
 
-      self.setProp("pubkey", pubkey)
-      self.setProp("privkey", privkey)
-      self.setProp("isLoggedIn", true)
-      self.setProp("isNewUser", true)
-      self.setProp("metadata", JSON.stringify({ display_name: displayName, username, about }))
+      applySnapshot(self, {
+        pubkey,
+        privkey,
+        isLoggedIn: true,
+        isNewUser: true,
+        metadata: JSON.stringify({ display_name: displayName, username, about }),
+      })
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
@@ -63,13 +65,14 @@ export const UserStoreModel = types
       }
     },
     async logout() {
-      console.log("Logging out...")
-
-      self.setProp("pubkey", "")
-      self.setProp("privkey", "")
-      self.setProp("isLoggedIn", false)
-
-      console.log("Removed keys from storage.")
+      console.log("log out...")
+      applySnapshot(self, {
+        pubkey: "",
+        privkey: "",
+        isLoggedIn: false,
+        isNewUser: false,
+        contacts: [],
+      })
     },
     async fetchContacts(pool: NostrPool) {
       if (!self.pubkey) throw new Error("pubkey not found")

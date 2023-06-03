@@ -17,8 +17,9 @@ export function User({ pubkey, createdAt }: { pubkey: string; createdAt?: number
   useEffect(() => {
     async function fetchProfile() {
       const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
-      if (list.length > 0) {
-        const content = JSON.parse(list[0].content)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        const content = JSON.parse(latest.content)
         setProfile(content)
       } else {
         console.log("user profile not found", pubkey)

@@ -6,8 +6,6 @@ import { observer } from "mobx-react-lite"
 export const DEFAULT_RELAYS = [
   "wss://relay.arcade.city",
   "wss://arc1.arcadelabs.co",
-  "wss://welcome.nostr.wine",
-  "wss://relay.nostr.band/all",
   "wss://relay.damus.io",
 ]
 
@@ -36,11 +34,12 @@ export const RelayProvider = observer(function RelayProvider({
       await pool.setRelays(DEFAULT_RELAYS)
       if (isNewUser) {
         console.log("creating user...")
-        pool.send({
+        const res = await pool.send({
           content: metadata,
           tags: [],
           kind: 0,
         })
+        console.log('created:', res)
         clearNewUser()
       }
     }
