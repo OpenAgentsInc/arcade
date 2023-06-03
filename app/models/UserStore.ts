@@ -1,4 +1,4 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
 import * as SecureStore from 'expo-secure-store';
@@ -27,12 +27,8 @@ export const UserStoreModel = types
     channels: types.optional(
       types.array(types.model({ id: types.string, privkey: types.string })),
       [
-        { id: "57a5a14ed061ebfdb559a53689dc5f17df2820d6d63d642502ed9d1c25cfcd85", privkey: "" }, // Arcade Open R&D
-        { id: "96e6e41921f530c9bf380db5e56ba0b7f02ffd9dd1c8aa052f7c60163be392e2", privkey: "" }, // Arcade Exchange
-        {
-          id: "49bd604b86cd143e211a513c140f05157775c9d53d2a676a9f370160404450d3",
-          privkey: "12ac825a570264bf8b246a858f2a80cc068102004b4358942591d9c0119bbf22",
-        }, // Arcade Encrypted
+        { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
+        { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange
       ],
     ),
   })
@@ -62,15 +58,16 @@ export const UserStoreModel = types
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
-
-      self.setProp("pubkey", pubkey)
-      self.setProp("privkey", privkey)
-      await secureSet("privkey", privkey)
       const meta = { display_name: displayName, username, about }
+      applySnapshot(self, {
+        pubkey,
+        privkey,
+        isLoggedIn: true,
+        isNewUser: true,
+        metadata: JSON.stringify(meta),
+      })
+      await secureSet("privkey", privkey)
       await storage.save("meta", meta)
-      self.setProp("isLoggedIn", true)
-      self.setProp("isNewUser", true)
-      self.setProp("metadata", JSON.stringify(meta))
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
@@ -91,15 +88,14 @@ export const UserStoreModel = types
       }
     },
     async logout() {
-      console.log("Logging out...")
-      
       await secureDel("privkey")
-
-      self.setProp("pubkey", "")
-      self.setProp("privkey", "")
-      self.setProp("isLoggedIn", false)
-
-      console.log("Removed keys from storage.")
+      applySnapshot(self, {
+        pubkey: "",
+        privkey: "",
+        isLoggedIn: false,
+        isNewUser: false,
+        contacts: [],
+      })
     },
     async fetchContacts(pool: NostrPool) {
       if (!self.pubkey) throw new Error("pubkey not found")

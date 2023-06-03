@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { delay } from "app/utils/delay"
-import { Nip28Channel } from "arclib/src"
+import { ChannelManager } from "arclib/src"
 
 interface ListingScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Listing">> {}
 
@@ -18,7 +18,7 @@ const groupId = "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3
 
 export const ListingScreen: FC<ListingScreenProps> = observer(function ListingScreen() {
   const pool: any = useContext(RelayContext)
-  const channel: any = useMemo(() => new Nip28Channel(pool), [pool])
+  const channel: any = useMemo(() => new ChannelManager(pool), [pool])
 
   const [loading, setLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
@@ -46,7 +46,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(channel, groupId), delay(750)])
+    await Promise.all([channelStore.fetchMessages(channel, groupId, ''), delay(750)])
     setRefreshing(false)
   }
 
@@ -54,10 +54,13 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     // loading
     setLoading(true)
     // fetch messages
-    channelStore.reset()
-    channelStore.fetchMessages(channel, groupId)
+    channelStore.fetchMessages(channel, groupId, '')
     // done
     setLoading(false)
+
+    return () => {
+      channelStore.reset()
+    }
   }, [channel, channelStore])
 
   return (

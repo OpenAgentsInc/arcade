@@ -54,20 +54,13 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   useEffect(() => {
     async function fetchProfile() {
-      let response
-
-      try {
-        response = await fetch(`https://rbr.bio/${userStore.pubkey}/metadata.json`)
-      } catch (error) {
-        console.log("There was an error", error)
-      }
-
-      if (response.ok) {
-        const json = await response.json()
-        const metadata = JSON.parse(json.content)
-        setProfile(metadata)
+      const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        const content = JSON.parse(latest.content)
+        setProfile(content)
       } else {
-        console.log(`HTTP Response Code: ${response?.status}`)
+        console.log("user profile not found", userStore.pubkey)
       }
     }
 
@@ -86,7 +79,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
         innerRef={formikRef}
         enableReinitialize={true}
         initialValues={{
-          displayName: profile?.display_name || "",
+          display_name: profile?.display_name || "",
           name: profile?.name || "",
           username: profile?.username || "",
           picture: profile?.picture || "",
@@ -102,9 +95,9 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               label="Display Name"
               style={$input}
               inputWrapperStyle={$inputWrapper}
-              onChangeText={handleChange("displayName")}
-              onBlur={handleBlur("displayName")}
-              value={values.displayName}
+              onChangeText={handleChange("display_name")}
+              onBlur={handleBlur("display_name")}
+              value={values.display_name}
               autoCapitalize="none"
               autoFocus={false}
             />
