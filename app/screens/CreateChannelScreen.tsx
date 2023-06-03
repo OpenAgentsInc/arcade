@@ -89,7 +89,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
         >
           {({ handleChange, handleBlur, submitForm, values, setFieldValue }) => (
             <View>
-              <Text text="Create Channel" preset="heading" size="xl" style={$title} />
+              <Text text="Create Channel" preset="subheading" size="xl" style={$title} />
               <TextField
                 label="Channel name"
                 style={$input}
