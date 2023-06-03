@@ -64,8 +64,9 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   useEffect(() => {
     async function fetchProfile() {
       const list = await pool.list([{ kinds: [0], authors: [id] }], true)
-      if (list.length > 0) {
-        const content = JSON.parse(list[0].content)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        const content = JSON.parse(latest.content)
         setProfile(content)
         if (contacts.includes(id)) {
           setFollowed(true)

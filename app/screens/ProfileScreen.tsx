@@ -59,8 +59,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     async function fetchProfile() {
       // fetch user profile
       const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
-      if (list.length > 0) {
-        const content = JSON.parse(list[0].content)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        const content = JSON.parse(latest.content)
         setProfile(content)
       } else {
         alert("relay return nothing")
