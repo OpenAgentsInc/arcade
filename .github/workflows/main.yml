@@ -33,5 +33,4 @@ jobs:
           package-manager: yarn
           test-script: yarn test --forceExit --json --outputFile=report.json
           skip-step: install
-          coverage-file: report.json
           base-coverage-file: report.json
