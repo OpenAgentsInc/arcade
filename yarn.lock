@@ -6784,7 +6784,7 @@ expo-constants@~14.2.0, expo-constants@~14.2.1:
     "@expo/config" "~8.0.0"
     uuid "^3.3.2"
 
-expo-crypto@*, expo-crypto@~12.2.1:
+expo-crypto@*, expo-crypto@^12.2.2, expo-crypto@~12.2.1:
   version "12.2.2"
   resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-12.2.2.tgz#e930c77a44aa1816e9e3063a0dd43c6477cc8787"
   integrity sha512-83SZju/l0UL4n+Dgt+T1csiySa0gwCeE6BKKHzlO+4lJ6B8xXZ5ypu97ttWATBsqcpF/bj1RmYPbfbKsZ+4ixA==
@@ -8659,7 +8659,7 @@ isomorphic-unfetch@^4.0.2:
     node-fetch "^3.2.0"
     unfetch "^5.0.0"
 
-"isomorphic-webcrypto@https://github.com/reyamir/isomorphic-webcrypto":
+isomorphic-webcrypto@^2.3.8, "isomorphic-webcrypto@https://github.com/reyamir/isomorphic-webcrypto":
   version "2.3.8"
   resolved "https://github.com/reyamir/isomorphic-webcrypto#d8167b01825c300527a37e90dbf7d71360a0757b"
   dependencies:
