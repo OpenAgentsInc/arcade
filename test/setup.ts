@@ -5,6 +5,10 @@ import 'react-native-gesture-handler/jestSetup';
 
 import { TextEncoder, TextDecoder } from 'util';
 
+declare global {
+  let __TEST__
+}
+
 global.navigator = {
   userAgent: 'node.js',
   geolocation: {
@@ -46,6 +50,14 @@ jest.mock(
   },
 );
 
+jest.mock(
+  'isomorphic-webcrypto',
+  () => {
+    return jest.requireActual(
+      'isomorphic-webcrypto/src/index.js',
+    );
+  },
+);
 
 jest.mock('expo-linking', () => {
     const module: typeof import('expo-linking') = {
@@ -72,6 +84,13 @@ global.setImmediate = jest.useRealTimers;
 declare const tron // eslint-disable-line @typescript-eslint/no-unused-vars
 
 jest.useFakeTimers()
-declare global {
-  let __TEST__
-}
+
+jest.mock('expo-secure-store', () => {
+  const s = []
+  return {
+      setItemAsync: (k, v) => {s[k]=v},
+      getItemAsync: (k) => {return s[k]},
+      deleteItemAsync: (k) => {delete s[k]}
+ }
+});
+
