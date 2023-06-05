@@ -111,6 +111,7 @@ export const UserStoreModel = types
         privkey: "",
         isLoggedIn: false,
         isNewUser: false,
+        channels: [],
         contacts: [],
       })
     },

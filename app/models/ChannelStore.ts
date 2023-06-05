@@ -1,11 +1,4 @@
-import {
-  Instance,
-  SnapshotIn,
-  SnapshotOut,
-  types,
-  applySnapshot,
-  resolveIdentifier,
-} from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, types, resolveIdentifier } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { Channel, ChannelModel } from "./Channel"
 
@@ -25,14 +18,24 @@ export const ChannelStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     createDefaultChannels() {
-      self.channels.push({
-        id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-        privkey: "",
-      })
-      self.channels.push({
-        id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
-        privkey: "",
-      })
+      const item1 = self.channels.findIndex(
+        (el: any) => el.id === "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+      )
+      if (item1 === -1) {
+        self.channels.push({
+          id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+          privkey: "",
+        })
+      }
+      const item2 = self.channels.findIndex(
+        (el: any) => el.id === "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+      )
+      if (item2 === -1) {
+        self.channels.push({
+          id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+          privkey: "",
+        })
+      }
     },
     create(meta: Channel) {
       const item = self.channels.findIndex((el: any) => el.id === meta.id)
@@ -44,9 +47,6 @@ export const ChannelStoreModel = types
           about: meta.about,
         })
       }
-    },
-    reset() {
-      applySnapshot(self, { channels: [] })
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

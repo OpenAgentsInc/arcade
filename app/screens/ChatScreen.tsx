@@ -12,6 +12,7 @@ import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "arclib/src"
 import { Channel, Message, useStores } from "app/models"
+import { getSnapshot } from "mobx-state-tree"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -38,7 +39,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => channelStore.channel(id), [id])
-  const lastMessage = channel.allMessages[0]
 
   // screen state
   const [loading, setLoading] = useState(true)
@@ -60,6 +60,16 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     ])
   }
 
+  const back = () => {
+    const messages = getSnapshot(channel.messages)
+    const lastMessage = messages.slice(-1)[0]
+    if (lastMessage) {
+      // update last message
+      channel.updateLastMessage(lastMessage.content, lastMessage.created_at)
+    }
+    navigation.goBack()
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -69,7 +79,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => navigation.goBack()}
+          onLeftPress={() => back()}
           RightActionComponent={
             <View style={$headerRightActions}>
               {channel.privkey && (
@@ -121,8 +131,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     subscribe().catch(console.error)
 
     return function cleanup() {
-      // update last message
-      channel.updateLastMessage(lastMessage.content, lastMessage.created_at)
       console.log("unsubscribe")
       pool.unsub(handleNewMessage)
     }

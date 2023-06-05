@@ -17,7 +17,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores
-  const { userStore, channelStore } = useStores()
+  const { userStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -25,8 +25,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   const logout = () => {
     // clear user store
     userStore.logout()
-    // clear channel store
-    channelStore.reset()
   }
 
   useLayoutEffect(() => {
