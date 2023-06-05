@@ -26,7 +26,8 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
         <View style={$main}>
           <View style={$messsages}>
             <FlashList
-              data={channels}
+              data={channels.slice()}
+              extraData={{ extraDataForMobX: channels.length > 0 ? channels[0].lastMessage : "" }}
               keyExtractor={(item: { id: string }) => item.id}
               renderItem={({ item }: { item: any }) => (
                 <ChannelItem channelManager={channelManager} channel={item} />

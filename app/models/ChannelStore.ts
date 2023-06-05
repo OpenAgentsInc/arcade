@@ -35,7 +35,15 @@ export const ChannelStoreModel = types
       })
     },
     create(meta: Channel) {
-      self.channels.push({ id: meta.id, name: meta.name, picture: meta.picture, about: meta.about })
+      const item = self.channels.findIndex((el: any) => el === meta.id)
+      if (item === -1) {
+        self.channels.push({
+          id: meta.id,
+          name: meta.name,
+          picture: meta.picture,
+          about: meta.about,
+        })
+      }
     },
     reset() {
       applySnapshot(self, { channels: [] })

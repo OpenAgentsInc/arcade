@@ -14,7 +14,9 @@ export const ChannelModel = types
     picture: types.optional(types.string, ""),
     about: types.optional(types.string, ""),
     privkey: types.optional(types.string, ""),
-    messages: types.array(MessageModel),
+    lastMessage: types.optional(types.string, ""),
+    lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
+    messages: types.optional(types.array(MessageModel), []),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -48,8 +50,12 @@ export const ChannelModel = types
     addMessage(event: any) {
       self.messages.unshift(event)
     },
+    updateLastMessage(content: string, time: number) {
+      self.setProp("lastMessage", content)
+      self.setProp("lastMessageAt", time)
+    },
     reset() {
-      applySnapshot(self, { messages: [] })
+      applySnapshot(self, { ...self, messages: [] })
     },
   }))
 

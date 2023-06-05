@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle, Alert, ActivityIndicator } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -11,7 +11,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "arclib/src"
-import { Message, useStores } from "app/models"
+import { Channel, Message, useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -37,7 +37,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   const { id } = route.params
 
   // get channel by using resolver identifier
-  const channel: any = channelStore.channel(id)
+  const channel: Channel = useMemo(() => channelStore.channel(id), [id])
+  const lastMessage = channel.allMessages[0]
 
   // screen state
   const [loading, setLoading] = useState(true)
@@ -113,10 +114,15 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       })
     }
 
+    // fetch messages
+    channel.fetchMessages(channelManager)
+
     // subscribe for new messages
     subscribe().catch(console.error)
 
-    return () => {
+    return function cleanup() {
+      // update last message
+      channel.updateLastMessage(lastMessage.content, lastMessage.created_at)
       console.log("unsubscribe")
       pool.unsub(handleNewMessage)
     }
