@@ -14,12 +14,12 @@ import {
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
-import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "arclib/src"
+import { Message } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -29,14 +29,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   route: any
 }) {
   // Get route params
-  const { id, name, privkey } = route.params
+  const { channel } = route.params
 
   // init relaypool
   const pool: any = useContext(RelayContext)
-  const channel: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
-
-  // Store
-  const { userStore, channelStore } = useStores()
+  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -52,7 +49,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         text: "Confirm",
         onPress: () => {
           // update state
-          userStore.leaveChannel(id)
+          // userStore.leaveChannel(id)
           // redirect back
           navigation.goBack()
         },
@@ -65,16 +62,22 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={name || "No name"}
+          title={channel.name || "No name"}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
-              {privkey && (
+              {channel.privkey && (
                 <Pressable
-                  onPress={() => navigation.navigate("ContactPicker", { id, name, privkey })}
+                  onPress={() =>
+                    navigation.navigate("ContactPicker", {
+                      id: channel.id,
+                      name: channel.name,
+                      privkey: channel.privkey,
+                    })
+                  }
                 >
                   <UserPlusIcon size={20} color={colors.palette.cyan400} />
                 </Pressable>
@@ -92,24 +95,24 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   useEffect(() => {
     function handleNewMessage(event) {
       console.log("new message", event)
-      channelStore.addMessage(event)
+      channel.addMessage(event)
     }
 
     async function subscribe() {
       // stop loading
       setLoading(false)
       return await channel.sub({
-        channel_id: id,
+        channel_id: channel.id,
         callback: handleNewMessage,
         filter: {
           since: Math.floor(Date.now() / 1000),
         },
-        privkey,
+        privkey: channel.privkey,
       })
     }
 
     // fetch all channel messages
-    channelStore.fetchMessages(channel, id, privkey)
+    channel.fetchMessages(channelManager)
 
     // subscribe for new messages
     subscribe().catch(console.error)
@@ -118,9 +121,9 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       console.log("unsubscribe")
       pool.unsub(handleNewMessage)
       // clear channel store
-      channelStore.reset()
+      // channel.reset()
     }
-  }, [id, channel])
+  }, [channel])
 
   return (
     <BottomSheetModalProvider>
@@ -128,8 +131,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channelStore.allMessages}
-              renderItem={({ item }) => (
+              data={channel.allMessages}
+              renderItem={({ item }: { item: Message }) => (
                 <View style={$messageItem}>
                   <User pubkey={item.pubkey} createdAt={item.created_at} />
                   <View style={$messageContentWrapper}>
@@ -141,7 +144,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                     <Pressable
                       onPress={() =>
                         navigation.navigate("ListingDetail", {
-                          channelId: id,
+                          channelId: channel.id,
                           listingId: item.id,
                           listingDetail: item.tags,
                         })
@@ -168,7 +171,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             />
           </View>
           <View style={$form}>
-            <ChannelMessageForm channel={channel} channelId={id} privkey={privkey} />
+            <ChannelMessageForm
+              channel={channelManager}
+              channelId={channel.id}
+              privkey={channel.privkey}
+            />
           </View>
         </View>
       </Screen>

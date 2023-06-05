@@ -15,19 +15,21 @@ interface HomeMessagesScreenProps
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const pool: any = useContext(RelayContext)
-    const channel = useMemo(() => new ChannelManager(pool), [pool])
+    const channelManager = useMemo(() => new ChannelManager(pool), [pool])
 
-    const { userStore } = useStores()
+    const {
+      userStore: { channels },
+    } = useStores()
 
     return (
       <ScreenWithSidebar title={"Home"}>
         <View style={$main}>
           <View style={$messsages}>
             <FlashList
-              data={userStore.channels.slice()}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ChannelItem channel={channel} id={item.id} privkey={item.privkey} />
+              data={channels}
+              keyExtractor={(item: { id: string }) => item.id}
+              renderItem={({ item }: { item: any }) => (
+                <ChannelItem channelManager={channelManager} channel={item} />
               )}
               ListEmptyComponent={
                 <View style={$emptyState}>

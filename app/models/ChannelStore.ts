@@ -1,7 +1,6 @@
-import { ChannelManager } from "arclib/src"
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, types, applySnapshot } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { MessageStoreModel } from "./MessageStore"
+import { ChannelModel } from "./Channel"
 
 /**
  * Model description here for TypeScript hints.
@@ -9,37 +8,23 @@ import { MessageStoreModel } from "./MessageStore"
 export const ChannelStoreModel = types
   .model("ChannelStore")
   .props({
-    messages: types.array(MessageStoreModel),
+    channels: types.array(ChannelModel),
   })
   .actions(withSetPropAction)
-  .views((self) => ({
-    get allMessages() {
-      return self.messages.slice().sort((a, b) => b.created_at - a.created_at)
-    },
-    get listing() {
-      return self.messages.filter((m) => m.tags.find((t) => t[0] === "x" && t[1] === "listing"))
-    },
-    get sortedAndIgnoreOffers() {
-      const filterOffers = self.messages.filter((m) => m.tags.find((t) => t[1] !== "offer"))
-      const sorted = filterOffers.slice().sort((a, b) => b.created_at - a.created_at)
-      return sorted
-    },
-  })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    async fetchMessages(channel: ChannelManager, id: string, privkey: string) {
-      const events = await channel.list({
-        channel_id: id,
-        filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
-        db_only: true,
-        privkey,
+    createDefaultChannels() {
+      self.channels.push({
+        id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+        privkey: "",
       })
-      self.setProp("messages", events)
-    },
-    addMessage(event: any) {
-      self.messages.unshift(event)
+      self.channels.push({
+        id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+        privkey: "",
+      })
     },
     reset() {
-      applySnapshot(self, { messages: [] })
+      applySnapshot(self, { channels: [] })
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

@@ -1,7 +1,7 @@
-import { MessageStoreModel } from "./MessageStore"
+import { MessageModel } from "./Message"
 
 test("can be created", () => {
-  const instance = MessageStoreModel.create({})
+  const instance = MessageModel.create({})
 
   expect(instance).toBeTruthy()
 })

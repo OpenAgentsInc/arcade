@@ -1,13 +1,19 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
-import * as SecureStore from 'expo-secure-store';
+import { ChannelModel } from "./Channel"
+import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
-async function secureSet(key, value) { return await SecureStore.setItemAsync(key, value);}
-async function secureGet(key) {return await SecureStore.getItemAsync(key);}
-async function secureDel(key) {return await SecureStore.deleteItemAsync(key);}
-
+async function secureSet(key, value) {
+  return await SecureStore.setItemAsync(key, value)
+}
+async function secureGet(key) {
+  return await SecureStore.getItemAsync(key)
+}
+async function secureDel(key) {
+  return await SecureStore.deleteItemAsync(key)
+}
 
 // @ts-ignore
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
@@ -24,17 +30,12 @@ export const UserStoreModel = types
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
-    channels: types.optional(
-      types.array(types.model({ id: types.string, privkey: types.string })),
-      [
-        { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
-        { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange
-      ],
-    ),
+    channels: types.array(types.reference(ChannelModel)),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
+    /*
     joinChannel(id: string, privkey?: string) {
       self.channels.push({ id, privkey: privkey || "" })
     },
@@ -42,18 +43,18 @@ export const UserStoreModel = types
       const index = self.channels.findIndex((el: any) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
+    */
     async afterCreate() {
-        const sec = await secureGet("privkey")
-        if (sec) {
-          self.setProp("privkey", sec)
-          const pubkey = await getPublicKey(sec)
-          const meta = storage.load("meta")
-          self.setProp("pubkey", pubkey)
-          self.setProp("isLoggedIn", true)
-          self.setProp("isNewUser", true)
-          self.setProp("metadata", JSON.stringify(meta))
-    
-        }
+      const sec = await secureGet("privkey")
+      if (sec) {
+        self.setProp("privkey", sec)
+        const pubkey = await getPublicKey(sec)
+        const meta = storage.load("meta")
+        self.setProp("pubkey", pubkey)
+        self.setProp("isLoggedIn", true)
+        self.setProp("isNewUser", false)
+        self.setProp("metadata", JSON.stringify(meta))
+      }
     },
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
@@ -65,6 +66,10 @@ export const UserStoreModel = types
         isLoggedIn: true,
         isNewUser: true,
         metadata: JSON.stringify(meta),
+        channels: [
+          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+        ],
       })
       await secureSet("privkey", privkey)
       await storage.save("meta", meta)
