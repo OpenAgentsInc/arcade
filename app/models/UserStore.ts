@@ -1,6 +1,13 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
+import * as SecureStore from 'expo-secure-store';
+import * as storage from "../utils/storage"
+
+async function secureSet(key, value) { return await SecureStore.setItemAsync(key, value);}
+async function secureGet(key) {return await SecureStore.getItemAsync(key);}
+async function secureDel(key) {return await SecureStore.deleteItemAsync(key);}
+
 
 // @ts-ignore
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
@@ -35,17 +42,32 @@ export const UserStoreModel = types
       const index = self.channels.findIndex((el: any) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
+    async afterCreate() {
+        const sec = await secureGet("privkey")
+        if (sec) {
+          self.setProp("privkey", sec)
+          const pubkey = await getPublicKey(sec)
+          const meta = storage.load("meta")
+          self.setProp("pubkey", pubkey)
+          self.setProp("isLoggedIn", true)
+          self.setProp("isNewUser", true)
+          self.setProp("metadata", JSON.stringify(meta))
+    
+        }
+    },
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
-
+      const meta = { display_name: displayName, username, about }
       applySnapshot(self, {
         pubkey,
         privkey,
         isLoggedIn: true,
         isNewUser: true,
-        metadata: JSON.stringify({ display_name: displayName, username, about }),
+        metadata: JSON.stringify(meta),
       })
+      await secureSet("privkey", privkey)
+      await storage.save("meta", meta)
     },
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
@@ -58,6 +80,7 @@ export const UserStoreModel = types
 
         self.setProp("pubkey", pubkey)
         self.setProp("privkey", privkey)
+        await secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
       } catch (e: any) {
         console.log(e)
@@ -65,7 +88,7 @@ export const UserStoreModel = types
       }
     },
     async logout() {
-      console.log("log out...")
+      await secureDel("privkey")
       applySnapshot(self, {
         pubkey: "",
         privkey: "",
@@ -77,7 +100,7 @@ export const UserStoreModel = types
     async fetchContacts(pool: NostrPool) {
       if (!self.pubkey) throw new Error("pubkey not found")
 
-      const contacts = []
+      const contacts: string[] = []
       const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
 
       for (const item of result[0].tags) {
