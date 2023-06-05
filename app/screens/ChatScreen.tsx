@@ -1,17 +1,9 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle, Alert, ActivityIndicator } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import {
-  Header,
-  Screen,
-  Text,
-  RelayContext,
-  User,
-  ChannelMessageForm,
-  ListingItem,
-} from "app/components"
+import { Header, Screen, Text, RelayContext, User, ChannelMessageForm } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
@@ -19,7 +11,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "arclib/src"
-import { Message } from "app/models"
+import { Message, useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -28,16 +20,26 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  // Get route params
-  const { channel } = route.params
-
   // init relaypool
   const pool: any = useContext(RelayContext)
-  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
+  const channelManager: ChannelManager = new ChannelManager(pool)
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
+  // Stores
+  const {
+    userStore: { leaveChannel },
+    channelStore,
+  } = useStores()
+
+  // route params
+  const { id } = route.params
+
+  // get channel by using resolver identifier
+  const channel: any = channelStore.channel(id)
+
+  // screen state
   const [loading, setLoading] = useState(true)
 
   const leaveJoinedChannel = () => {
@@ -49,7 +51,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         text: "Confirm",
         onPress: () => {
           // update state
-          // userStore.leaveChannel(id)
+          leaveChannel(id)
           // redirect back
           navigation.goBack()
         },
@@ -101,7 +103,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     async function subscribe() {
       // stop loading
       setLoading(false)
-      return await channel.sub({
+      return await channelManager.sub({
         channel_id: channel.id,
         callback: handleNewMessage,
         filter: {
@@ -111,19 +113,14 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       })
     }
 
-    // fetch all channel messages
-    channel.fetchMessages(channelManager)
-
     // subscribe for new messages
     subscribe().catch(console.error)
 
     return () => {
       console.log("unsubscribe")
       pool.unsub(handleNewMessage)
-      // clear channel store
-      // channel.reset()
     }
-  }, [channel])
+  }, [])
 
   return (
     <BottomSheetModalProvider>
@@ -141,17 +138,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                       textStyle={$messageContent}
                       imageStyle={undefined}
                     />
-                    <Pressable
-                      onPress={() =>
-                        navigation.navigate("ListingDetail", {
-                          channelId: channel.id,
-                          listingId: item.id,
-                          listingDetail: item.tags,
-                        })
-                      }
-                    >
-                      <ListingItem tags={item.tags} />
-                    </Pressable>
                   </View>
                 </View>
               )}
@@ -166,13 +152,14 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                   </View>
                 )
               }
+              removeClippedSubviews={true}
               estimatedItemSize={100}
               inverted={true}
             />
           </View>
           <View style={$form}>
             <ChannelMessageForm
-              channel={channelManager}
+              channelManager={channelManager}
               channelId={channel.id}
               privkey={channel.privkey}
             />

@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo } from "react"
+import React, { FC, useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -15,7 +15,7 @@ interface HomeMessagesScreenProps
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const pool: any = useContext(RelayContext)
-    const channelManager = useMemo(() => new ChannelManager(pool), [pool])
+    const channelManager = new ChannelManager(pool)
 
     const {
       userStore: { channels },

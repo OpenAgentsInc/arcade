@@ -19,15 +19,20 @@ export const ChannelItem = observer(function ChannelItem({
   channel: Channel
 }) {
   const { navigate } = useNavigation<any>()
-  const lastMessage = channel.messages.slice(-1)[0]
+  const lastMessage = channel?.messages?.slice(-1)[0]
 
   useEffect(() => {
-    if (channel.name) return // only fetch meta if channel name not present
-    channel.fetchMeta(channelManager)
-  }, [channel])
+    // only fetch meta if channel name not present
+    if (!channel.name) {
+      channel.fetchMeta(channelManager)
+    }
+    if (channel.messages.length < 1) {
+      channel.fetchMessages(channelManager)
+    }
+  }, [channel.name])
 
   return (
-    <Pressable onPress={() => navigate("Chat", { channel })} style={$messageItem}>
+    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={$messageItem}>
       <AutoImage
         source={{ uri: channel?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$messageAvatar}
@@ -36,7 +41,7 @@ export const ChannelItem = observer(function ChannelItem({
         <View style={$messageContentHeading}>
           <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
           <Text
-            text={lastMessage.created_at && dayjs().to(dayjs.unix(lastMessage.created_at), true)}
+            text={lastMessage?.created_at && dayjs().to(dayjs.unix(lastMessage.created_at), true)}
             style={$messageContentTime}
           />
         </View>

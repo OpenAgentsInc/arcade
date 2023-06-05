@@ -35,15 +35,13 @@ export const UserStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    /*
-    joinChannel(id: string, privkey?: string) {
-      self.channels.push({ id, privkey: privkey || "" })
+    joinChannel(id: string) {
+      self.channels.push(id)
     },
     leaveChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el.id === id)
+      const index = self.channels.findIndex((el: any) => el === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
-    */
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
@@ -87,6 +85,10 @@ export const UserStoreModel = types
         self.setProp("privkey", privkey)
         await secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
+        self.setProp("channels", [
+          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+        ])
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")

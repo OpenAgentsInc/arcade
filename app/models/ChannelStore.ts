@@ -1,6 +1,13 @@
-import { Instance, SnapshotIn, SnapshotOut, types, applySnapshot } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  types,
+  applySnapshot,
+  resolveIdentifier,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { ChannelModel } from "./Channel"
+import { Channel, ChannelModel } from "./Channel"
 
 /**
  * Model description here for TypeScript hints.
@@ -11,7 +18,11 @@ export const ChannelStoreModel = types
     channels: types.array(ChannelModel),
   })
   .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    channel(id: string) {
+      return resolveIdentifier(ChannelModel, self, id)
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     createDefaultChannels() {
       self.channels.push({
@@ -22,6 +33,9 @@ export const ChannelStoreModel = types
         id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
         privkey: "",
       })
+    },
+    create(meta: Channel) {
+      self.channels.push({ id: meta.id, name: meta.name, picture: meta.picture, about: meta.about })
     },
     reset() {
       applySnapshot(self, { channels: [] })
