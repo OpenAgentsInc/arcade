@@ -1,21 +1,32 @@
-import React, { FC, useLayoutEffect } from "react"
+import React, { FC, useContext, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ContactItem, Header, Screen, Text } from "app/components"
+import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useUserContacts } from "app/utils/useUserContacts"
+import { useStores } from "app/models"
 
 interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Contacts">> {}
 
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
+  const pool: any = useContext(RelayContext)
   const contacts = useUserContacts()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  // Stores
+  const {
+    userStore: { removeContact },
+  } = useStores()
+
+  const unfollow = (pubkey: string) => {
+    removeContact(pubkey, pool)
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,9 +49,12 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         data={contacts}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <Pressable onPress={() => navigation.navigate("DirectMessage", { item })}>
+          <View style={$item}>
             <ContactItem pubkey={item} />
-          </Pressable>
+            <Pressable onPress={() => unfollow(item)}>
+              <Text text="Unfollow" size="xs" />
+            </Pressable>
+          </View>
         )}
         ListEmptyComponent={
           <View style={$emptyState}>
@@ -56,6 +70,11 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
 const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.medium,
+}
+
+const $item: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
 }
 
 const $emptyState: ViewStyle = {

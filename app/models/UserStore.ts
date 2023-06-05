@@ -2,7 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-st
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
 import { ChannelModel } from "./Channel"
-import { ContactModel } from "./Contact"
+import { arrayToNIP02 } from "app/utils/nip02"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
@@ -119,13 +119,42 @@ export const UserStoreModel = types
 
       const contacts: string[] = []
       const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
+      const latest = result.slice(-1)[0]
 
-      if (result.length > 0) {
-        for (const item of result[0].tags) {
+      if (latest) {
+        for (const item of latest.tags) {
           contacts.push(item[1])
         }
 
         self.setProp("contacts", contacts)
+      }
+    },
+    addContact(pubkey: string, pool: NostrPool) {
+      const index = self.contacts.findIndex((el: any) => el === pubkey)
+      if (index === -1) {
+        self.contacts.push(pubkey)
+
+        const newFollows = [...self.contacts, pubkey]
+        const nip02 = arrayToNIP02(newFollows)
+
+        pool.send({
+          content: "",
+          tags: nip02,
+          kind: 3,
+        })
+      }
+    },
+    removeContact(pubkey: string, pool: NostrPool) {
+      const index = self.contacts.findIndex((el: any) => el === pubkey)
+      if (index !== -1) {
+        self.contacts.splice(index, 1)
+        const nip02 = arrayToNIP02(self.contacts)
+
+        pool.send({
+          content: "",
+          tags: nip02,
+          kind: 3,
+        })
       }
     },
     clearNewUser() {
