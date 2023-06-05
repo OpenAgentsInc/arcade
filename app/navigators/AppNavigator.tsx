@@ -28,6 +28,7 @@ export type AppStackParamList = {
   CascadeDemo: undefined
   DirectMessage: undefined
   CreateChannel: undefined
+  Contacts: undefined
   ContactPicker: undefined
 }
 
@@ -59,6 +60,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
           <Stack.Screen name="CascadeDemo" component={Screens.CascadeDemo} />
           <Stack.Screen name="DirectMessage" component={Screens.DirectMessageScreen} />
+          <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
           <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
         </>
       ) : (

@@ -2,6 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-st
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
 import { ChannelModel } from "./Channel"
+import { ContactModel } from "./Contact"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
@@ -26,14 +27,22 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
-    contacts: types.optional(types.array(types.string), []),
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
+    contacts: types.optional(types.array(types.string), []),
   })
   .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    get getChannels() {
+      const list = self.channels.slice().sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+      return list
+    },
+    get getContacts() {
+      return self.contacts.slice()
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string) {
       const index = self.channels.findIndex((el: any) => el === id)
@@ -109,13 +118,15 @@ export const UserStoreModel = types
       if (!self.pubkey) throw new Error("pubkey not found")
 
       const contacts: string[] = []
-      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
+      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
 
-      for (const item of result[0].tags) {
-        contacts.push(item[1])
+      if (result.length > 0) {
+        for (const item of result[0].tags) {
+          contacts.push(item[1])
+        }
+
+        self.setProp("contacts", contacts)
       }
-
-      self.setProp("contacts", contacts)
     },
     clearNewUser() {
       self.setProp("isNewUser", false)

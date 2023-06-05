@@ -3,12 +3,11 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Header, RelayContext, Screen, Text, ContactItem } from "app/components"
+import { AutoImage, Header, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { EditIcon, LogOutIcon } from "lucide-react-native"
-import { FlashList } from "@shopify/flash-list"
 import { shortenKey } from "app/utils/shortenKey"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
@@ -66,8 +65,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
       } else {
         alert("relay return nothing")
       }
-      // fetch user contact list
-      userStore.fetchContacts(pool)
     }
     fetchProfile().catch(console.error)
   }, [userStore.pubkey])
@@ -111,24 +108,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               <Text preset="default" text={profile?.about || "No bio"} />
             </View>
           </View>
-        </View>
-        <View style={$contacts}>
-          <Text text="Contacts" size="lg" preset="bold" />
-          <FlashList
-            data={userStore.contacts.slice()}
-            keyExtractor={(item) => item}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => navigation.navigate("DirectMessage", { item })}>
-                <ContactItem pubkey={item} />
-              </Pressable>
-            )}
-            ListEmptyComponent={
-              <View style={$emptyState}>
-                <Text text="No contact..." />
-              </View>
-            }
-            estimatedItemSize={50}
-          />
         </View>
       </View>
     </Screen>
@@ -183,13 +162,4 @@ const $userNip05: TextStyle = {
 
 const $userAbout: ViewStyle = {
   marginTop: spacing.small,
-}
-
-const $emptyState: ViewStyle = {
-  alignSelf: "center",
-  paddingVertical: spacing.medium,
-}
-
-const $contacts: ViewStyle = {
-  marginTop: spacing.large,
 }

@@ -1,7 +1,7 @@
 export function arrayToNIP02(arr: string[]) {
   const newArr = []
-  arr.forEach((item) => {
-    newArr.push(["p", item])
+  arr.forEach((item: any) => {
+    newArr.push(["p", item.pubkey])
   })
 
   return newArr

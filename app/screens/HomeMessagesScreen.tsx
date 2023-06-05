@@ -18,7 +18,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     const channelManager = new ChannelManager(pool)
 
     const {
-      userStore: { channels },
+      userStore: { channels, getChannels },
     } = useStores()
 
     return (
@@ -26,7 +26,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
         <View style={$main}>
           <View style={$messsages}>
             <FlashList
-              data={channels.slice()}
+              data={getChannels}
               extraData={{ extraDataForMobX: channels.length > 0 ? channels[0].lastMessage : "" }}
               keyExtractor={(item: { id: string }) => item.id}
               renderItem={({ item }: { item: any }) => (
