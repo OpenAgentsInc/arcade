@@ -26,10 +26,12 @@ jobs:
 
       - name: Lint
         run: yarn lint
+      
+      - name: Test
+        run: yarn test --forceExit --coverage --coverageDirectory='coverage'
 
-      - name: Run Test and Report Coverage
-        uses: willcaul/jest-github-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          test-command: yarn test --forceExit
+      - uses: actions/upload-artifact@v2  # upload test results
+        if: success() || failure()        # run this step even if previous step failed
+        with:
+          name: test-results
+          path: coverage
