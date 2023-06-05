@@ -45,6 +45,7 @@ export const ChannelStoreModel = types
           name: meta.name,
           picture: meta.picture,
           about: meta.about,
+          privkey: meta.privkey,
         })
       }
     },
