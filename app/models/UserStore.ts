@@ -1,13 +1,20 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "arclib/src"
-import * as SecureStore from 'expo-secure-store';
+import { ChannelModel } from "./Channel"
+import { arrayToNIP02 } from "app/utils/nip02"
+import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
-async function secureSet(key, value) { return await SecureStore.setItemAsync(key, value);}
-async function secureGet(key) {return await SecureStore.getItemAsync(key);}
-async function secureDel(key) {return await SecureStore.deleteItemAsync(key);}
-
+async function secureSet(key, value) {
+  return await SecureStore.setItemAsync(key, value)
+}
+async function secureGet(key) {
+  return await SecureStore.getItemAsync(key)
+}
+async function secureDel(key) {
+  return await SecureStore.deleteItemAsync(key)
+}
 
 // @ts-ignore
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
@@ -20,40 +27,42 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
-    contacts: types.optional(types.array(types.string), []),
     metadata: "",
     isLoggedIn: false,
     isNewUser: false,
-    channels: types.optional(
-      types.array(types.model({ id: types.string, privkey: types.string })),
-      [
-        { id: "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d", privkey: "" }, // Arcade Open R&D
-        { id: "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b", privkey: "" }, // Arcade Exchange
-      ],
-    ),
+    channels: types.array(types.reference(ChannelModel)),
+    contacts: types.optional(types.array(types.string), []),
   })
   .actions(withSetPropAction)
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views((self) => ({
+    get getChannels() {
+      const list = self.channels.slice().sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+      return list
+    },
+    get getContacts() {
+      return self.contacts.slice()
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(id: string, privkey?: string) {
-      self.channels.push({ id, privkey: privkey || "" })
+    joinChannel(id: string) {
+      const index = self.channels.findIndex((el: any) => el.id === id)
+      if (index === -1) self.channels.push(id)
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: any) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
     async afterCreate() {
-        const sec = await secureGet("privkey")
-        if (sec) {
-          self.setProp("privkey", sec)
-          const pubkey = await getPublicKey(sec)
-          const meta = storage.load("meta")
-          self.setProp("pubkey", pubkey)
-          self.setProp("isLoggedIn", true)
-          self.setProp("isNewUser", true)
-          self.setProp("metadata", JSON.stringify(meta))
-    
-        }
+      const sec = await secureGet("privkey")
+      if (sec) {
+        self.setProp("privkey", sec)
+        const pubkey = await getPublicKey(sec)
+        const meta = storage.load("meta")
+        self.setProp("pubkey", pubkey)
+        self.setProp("isLoggedIn", true)
+        self.setProp("isNewUser", false)
+        self.setProp("metadata", JSON.stringify(meta))
+      }
     },
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
@@ -65,6 +74,10 @@ export const UserStoreModel = types
         isLoggedIn: true,
         isNewUser: true,
         metadata: JSON.stringify(meta),
+        channels: [
+          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+        ],
       })
       await secureSet("privkey", privkey)
       await storage.save("meta", meta)
@@ -82,6 +95,10 @@ export const UserStoreModel = types
         self.setProp("privkey", privkey)
         await secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
+        self.setProp("channels", [
+          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
+          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+        ])
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
@@ -94,6 +111,7 @@ export const UserStoreModel = types
         privkey: "",
         isLoggedIn: false,
         isNewUser: false,
+        channels: [],
         contacts: [],
       })
     },
@@ -101,13 +119,44 @@ export const UserStoreModel = types
       if (!self.pubkey) throw new Error("pubkey not found")
 
       const contacts: string[] = []
-      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }], true)
+      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
+      const latest = result.slice(-1)[0]
 
-      for (const item of result[0].tags) {
-        contacts.push(item[1])
+      if (latest) {
+        for (const item of latest.tags) {
+          contacts.push(item[1])
+        }
+
+        self.setProp("contacts", contacts)
       }
+    },
+    addContact(pubkey: string, pool: NostrPool) {
+      const index = self.contacts.findIndex((el: any) => el === pubkey)
+      if (index === -1) {
+        self.contacts.push(pubkey)
 
-      self.setProp("contacts", contacts)
+        const newFollows = [...self.contacts, pubkey]
+        const nip02 = arrayToNIP02(newFollows)
+
+        pool.send({
+          content: "",
+          tags: nip02,
+          kind: 3,
+        })
+      }
+    },
+    removeContact(pubkey: string, pool: NostrPool) {
+      const index = self.contacts.findIndex((el: any) => el === pubkey)
+      if (index !== -1) {
+        self.contacts.splice(index, 1)
+        const nip02 = arrayToNIP02(self.contacts)
+
+        pool.send({
+          content: "",
+          tags: nip02,
+          kind: 3,
+        })
+      }
     },
     clearNewUser() {
       self.setProp("isNewUser", false)

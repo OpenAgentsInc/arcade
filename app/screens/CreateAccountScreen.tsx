@@ -17,12 +17,13 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     const formikRef = useRef(null)
 
     // Pull in one of our MST stores
-    const { userStore } = useStores()
+    const { userStore, channelStore } = useStores()
 
     // Pull in navigation via hook
     const navigation = useNavigation()
 
     const signup = (data: any) => {
+      channelStore.createDefaultChannels()
       userStore.signup(data.username, data.displayName, data.about)
     }
 

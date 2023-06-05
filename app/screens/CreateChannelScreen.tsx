@@ -1,4 +1,4 @@
-import React, { FC, useContext, useLayoutEffect, useMemo, useRef } from "react"
+import React, { FC, useContext, useLayoutEffect, useRef } from "react"
 import { observer } from "mobx-react-lite"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -16,9 +16,9 @@ interface CreateChannelScreenProps
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
   function CreateChannelScreen() {
     const pool: any = useContext(RelayContext)
-    const channel: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
+    const channelManager: ChannelManager = new ChannelManager(pool)
 
-    const { userStore } = useStores()
+    const { userStore, channelStore } = useStores()
     const formikRef = useRef(null)
 
     // Pull in navigation via hook
@@ -29,13 +29,16 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
         if (!data.name) {
           alert("Channel name is required")
         } else {
-          const info = await channel.create(data)
-          await channel.setMeta(info.id, data.is_private, data)
-
+          // broadcast channel to all relays
+          const info: any = await channelManager.create(data)
+          await channelManager.setMeta(info.id, data.is_private, data)
           console.log("created channel: ", info)
 
+          // create channel in local store
+          channelStore.create(info)
+
           // add created channel to user store
-          userStore.joinChannel(info.id, info.privkey)
+          userStore.joinChannel(info.id)
 
           if (data.is_private) {
             // redirect to invite screen
@@ -46,7 +49,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             })
           } else {
             // redirect to created channel screen
-            navigation.replace("Chat", { id: info.id, name: info.name, privkey: info.privkey })
+            navigation.replace("Chat", { id: info.id })
           }
         }
       } catch (e) {
