@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useCallback, useState } from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { Button, TextField, Text } from "app/components"
-import { SendIcon, Store } from "lucide-react-native"
+import { SendIcon, /* Store */ } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
@@ -29,9 +29,11 @@ export function ChannelMessageForm({
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["50%", "75%", "100%"], [])
 
+  /*
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
+  */
 
   const handleAttachOffer = useCallback(() => {
     // toggle attach offer
@@ -114,6 +116,7 @@ export function ChannelMessageForm({
             value={values.content}
             autoCapitalize="none"
             autoCorrect={false}
+            /*
             LeftAccessory={() => (
               <Button
                 onPress={() => handlePresentModalPress()}
@@ -127,6 +130,7 @@ export function ChannelMessageForm({
                 style={$listingButton}
               />
             )}
+            */
             RightAccessory={() => (
               <Button
                 onPress={() => submitForm()}
@@ -278,6 +282,7 @@ const $input: ViewStyle = {
   alignSelf: "center",
 }
 
+/*
 const $listingButton: ViewStyle = {
   width: 24,
   height: 24,
@@ -287,6 +292,7 @@ const $listingButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
 }
+*/
 
 const $sendButton: ViewStyle = {
   width: 45,
@@ -382,9 +388,11 @@ const $createOfferButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
 }
 
+/*
 const $attachedOffer: ViewStyle = {
   width: 18,
   height: 18,
   borderRadius: 18,
   backgroundColor: colors.palette.cyan200,
 }
+*/

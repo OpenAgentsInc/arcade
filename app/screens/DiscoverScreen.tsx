@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Button, Header, Screen } from "app/components"
 import { colors, spacing } from "app/theme"
-import { PackageSearchIcon, User2Icon } from "lucide-react-native"
+import { User2Icon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 
 interface DiscoverScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Discover">> {}
@@ -37,12 +37,6 @@ export const DiscoverScreen: FC<DiscoverScreenProps> = observer(function Discove
             LeftAccessory={() => <User2Icon color={colors.palette.cyan500} />}
             style={$button}
             onPress={() => navigation.navigate("Channels")}
-          />
-          <Button
-            text="Listing"
-            LeftAccessory={() => <PackageSearchIcon color={colors.palette.cyan500} />}
-            style={$button}
-            onPress={() => navigation.navigate("Listing")}
           />
         </View>
       </View>
