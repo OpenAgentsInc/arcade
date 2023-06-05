@@ -35,7 +35,7 @@ export const ChannelStoreModel = types
       })
     },
     create(meta: Channel) {
-      const item = self.channels.findIndex((el: any) => el === meta.id)
+      const item = self.channels.findIndex((el: any) => el.id === meta.id)
       if (item === -1) {
         self.channels.push({
           id: meta.id,

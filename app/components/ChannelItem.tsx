@@ -14,9 +14,11 @@ dayjs.extend(relativeTime)
 export const ChannelItem = observer(function ChannelItem({
   channelManager,
   channel,
+  manage,
 }: {
   channelManager: ChannelManager
   channel: Channel
+  manage?: boolean
 }) {
   const { navigate } = useNavigation<any>()
 
@@ -36,17 +38,28 @@ export const ChannelItem = observer(function ChannelItem({
       <View style={$messageContent}>
         <View style={$messageContentHeading}>
           <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
-          <Text
-            text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("HH:mm A")}
-            style={$messageContentTime}
-          />
+          {!manage && (
+            <Text
+              text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("HH:mm A")}
+              style={$messageContentTime}
+            />
+          )}
         </View>
-        <Text
-          text={channel.lastMessage || channel?.about || "No about"}
-          size="sm"
-          numberOfLines={1}
-          style={$messageContentAbout}
-        />
+        {manage ? (
+          <Text
+            text={channel?.about || "No about"}
+            size="sm"
+            numberOfLines={1}
+            style={$messageContentAbout}
+          />
+        ) : (
+          <Text
+            text={channel?.lastMessage || channel?.about || "No about"}
+            size="sm"
+            numberOfLines={1}
+            style={$messageContentAbout}
+          />
+        )}
       </View>
     </Pressable>
   )
@@ -85,7 +98,7 @@ const $messageContentName: TextStyle = {
 }
 
 const $messageContentAbout: TextStyle = {
-  maxWidth: 300,
+  maxWidth: 250,
   lineHeight: 0,
   color: "rgba(255,255,255,0.5)",
 }

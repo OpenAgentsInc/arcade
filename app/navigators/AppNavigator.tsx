@@ -30,6 +30,7 @@ export type AppStackParamList = {
   CreateChannel: undefined
   Contacts: undefined
   ContactPicker: undefined
+  ChannelManager: undefined
 }
 
 const exitRoutes = Config.exitRoutes
@@ -62,6 +63,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="DirectMessage" component={Screens.DirectMessageScreen} />
           <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
           <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
+          <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />

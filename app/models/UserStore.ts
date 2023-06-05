@@ -45,11 +45,11 @@ export const UserStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el === id)
+      const index = self.channels.findIndex((el: any) => el.id === id)
       if (index === -1) self.channels.push(id)
     },
     leaveChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el === id)
+      const index = self.channels.findIndex((el: any) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
     async afterCreate() {
