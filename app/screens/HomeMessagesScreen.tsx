@@ -1,4 +1,4 @@
-import React, { FC, useContext, useMemo } from "react"
+import React, { FC, useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -15,19 +15,22 @@ interface HomeMessagesScreenProps
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const pool: any = useContext(RelayContext)
-    const channel = useMemo(() => new ChannelManager(pool), [pool])
+    const channelManager = new ChannelManager(pool)
 
-    const { userStore } = useStores()
+    const {
+      userStore: { channels, getChannels },
+    } = useStores()
 
     return (
       <ScreenWithSidebar title={"Home"}>
         <View style={$main}>
           <View style={$messsages}>
             <FlashList
-              data={userStore.channels.slice()}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ChannelItem channel={channel} id={item.id} privkey={item.privkey} />
+              data={getChannels}
+              extraData={{ extraDataForMobX: channels.length > 0 ? channels[0].lastMessage : "" }}
+              keyExtractor={(item: { id: string }) => item.id}
+              renderItem={({ item }: { item: any }) => (
+                <ChannelItem channelManager={channelManager} channel={item} />
               )}
               ListEmptyComponent={
                 <View style={$emptyState}>

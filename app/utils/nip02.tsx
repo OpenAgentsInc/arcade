@@ -1,6 +1,6 @@
 export function arrayToNIP02(arr: string[]) {
   const newArr = []
-  arr.forEach((item) => {
+  arr.forEach((item: any) => {
     newArr.push(["p", item])
   })
 

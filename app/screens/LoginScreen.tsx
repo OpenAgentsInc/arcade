@@ -14,7 +14,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   const [nsec, setNsec] = useState("")
 
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -24,7 +24,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
     if (!nsec.startsWith("nsec1") || nsec.length < 60) {
       alert("Invalid nsec")
     }
-
+    channelStore.createDefaultChannels()
     userStore.loginWithNsec(nsec)
   }
 

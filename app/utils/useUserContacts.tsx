@@ -6,12 +6,12 @@ export function useUserContacts() {
   const pool: any = useContext(RelayContext)
 
   const {
-    userStore: { contacts, fetchContacts },
+    userStore: { getContacts, fetchContacts },
   } = useStores()
 
   useEffect(() => {
     fetchContacts(pool)
   }, [fetchContacts])
 
-  return contacts
+  return getContacts
 }

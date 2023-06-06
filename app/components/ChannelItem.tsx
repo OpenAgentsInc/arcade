@@ -1,50 +1,69 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { AutoImage, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
+import { Channel } from "app/models"
+import { ChannelManager } from "arclib/src"
+import { observer } from "mobx-react-lite"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
-export function ChannelItem({
+dayjs.extend(relativeTime)
+
+export const ChannelItem = observer(function ChannelItem({
+  channelManager,
   channel,
-  id,
-  privkey,
+  manage,
 }: {
-  channel: any
-  id: string
-  privkey?: string
+  channelManager: ChannelManager
+  channel: Channel
+  manage?: boolean
 }) {
   const { navigate } = useNavigation<any>()
-  const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {
-    async function fetchMetadata() {
-      const result = await channel.getMeta(id, privkey, true)
-      setMetadata(result)
+    // only fetch meta if channel name not present
+    if (!channel.name) {
+      channel.fetchMeta(channelManager)
     }
-    fetchMetadata().catch(console.error)
-  }, [id])
+  }, [channel.name])
 
   return (
-    <Pressable
-      onPress={() => navigate("Chat", { id, name: metadata?.name, privkey })}
-      style={$messageItem}
-    >
+    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={$messageItem}>
       <AutoImage
-        source={{ uri: metadata?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
-        style={$messageItemAvatar}
+        source={{ uri: channel?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        style={$messageAvatar}
       />
-      <View>
-        <Text text={metadata?.name || "No name"} preset="bold" style={$messageItemName} />
-        <Text
-          text={metadata?.about || "No description"}
-          size="xs"
-          numberOfLines={1}
-          style={$messageItemContent}
-        />
+      <View style={$messageContent}>
+        <View style={$messageContentHeading}>
+          <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
+          {!manage && (
+            <Text
+              text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("HH:mm A")}
+              style={$messageContentTime}
+            />
+          )}
+        </View>
+        {manage ? (
+          <Text
+            text={channel?.about || "No about"}
+            size="sm"
+            numberOfLines={1}
+            style={$messageContentAbout}
+          />
+        ) : (
+          <Text
+            text={channel?.lastMessage || channel?.about || "No about"}
+            size="sm"
+            numberOfLines={1}
+            style={$messageContentAbout}
+          />
+        )}
       </View>
     </Pressable>
   )
-}
+})
 
 const $messageItem: ViewStyle = {
   flex: 1,
@@ -53,19 +72,33 @@ const $messageItem: ViewStyle = {
   paddingVertical: spacing.extraSmall,
 }
 
-const $messageItemAvatar: ImageStyle = {
+const $messageAvatar: ImageStyle = {
   width: 44,
   height: 44,
   borderRadius: 100,
   marginRight: spacing.small,
 }
 
-const $messageItemName: TextStyle = {
+const $messageContent: ViewStyle = {
+  flex: 1,
+}
+
+const $messageContentHeading: ViewStyle = {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
+const $messageContentTime: TextStyle = {
+  color: "rgba(255,255,255,0.5)",
+}
+
+const $messageContentName: TextStyle = {
   lineHeight: 0,
 }
 
-const $messageItemContent: TextStyle = {
-  maxWidth: 300,
+const $messageContentAbout: TextStyle = {
+  maxWidth: 250,
   lineHeight: 0,
   color: "rgba(255,255,255,0.5)",
 }

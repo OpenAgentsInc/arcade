@@ -7,7 +7,7 @@ import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
-import { CompassIcon, HomeIcon, PlusIcon } from "lucide-react-native"
+import { CompassIcon, Contact2Icon, HomeIcon, LayoutListIcon, PlusIcon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 
 interface ScreenWithSidebarProps {
@@ -76,6 +76,16 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
               onPress={() => navigate("Discover")}
               style={$pinItem}
               LeftAccessory={() => <CompassIcon color="#fff" />}
+            />
+            <Button
+              onPress={() => navigate("Contacts")}
+              style={$pinItem}
+              LeftAccessory={() => <Contact2Icon color="#fff" />}
+            />
+            <Button
+              onPress={() => navigate("ChannelManager")}
+              style={$pinItem}
+              LeftAccessory={() => <LayoutListIcon color="#fff" />}
             />
           </View>
           <View style={$divider} />

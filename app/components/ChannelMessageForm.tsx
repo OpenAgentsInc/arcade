@@ -1,22 +1,22 @@
 import React, { useRef, useMemo, useCallback, useState } from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { Button, TextField, Text } from "app/components"
-import { SendIcon, Store } from "lucide-react-native"
+import { SendIcon /* Store */ } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { ArcadeListings, ChannelManager } from "arclib/src"
+import { ChannelManager } from "arclib/src"
 
 export function ChannelMessageForm({
-  channel,
+  channelManager,
   channelId,
   privkey,
 }: {
-  channel: ChannelManager
+  channelManager: ChannelManager
   channelId: string
-  privkey?: string
+  privkey: string
 }) {
-  const listings = useMemo(() => new ArcadeListings(channel.nip28, channelId), [channel, channelId])
+  // const listings = useMemo(() => new ArcadeListings(channel.nip28, channelId), [channel, channelId])
 
   // offer
   const [type, setType] = useState<any>("buy")
@@ -29,9 +29,11 @@ export function ChannelMessageForm({
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["50%", "75%", "100%"], [])
 
+  /*
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
+  */
 
   const handleAttachOffer = useCallback(() => {
     // toggle attach offer
@@ -45,7 +47,7 @@ export function ChannelMessageForm({
 
     if (!attachOffer) {
       // send message
-      const message = await channel.send({
+      const message = await channelManager.send({
         channel_id: channelId,
         content: data.content,
         is_private: !!privkey,
@@ -60,7 +62,7 @@ export function ChannelMessageForm({
         console.log("published event to channel:", channelId)
       }
     } else {
-      // send listing
+      /*
       const listing = await listings.post({
         type: "l1",
         action: type,
@@ -83,6 +85,7 @@ export function ChannelMessageForm({
         // log, todo: remove
         console.log("published listing to channel:", channelId)
       }
+      */
     }
   }
 
@@ -114,6 +117,7 @@ export function ChannelMessageForm({
             value={values.content}
             autoCapitalize="none"
             autoCorrect={false}
+            /*
             LeftAccessory={() => (
               <Button
                 onPress={() => handlePresentModalPress()}
@@ -127,6 +131,7 @@ export function ChannelMessageForm({
                 style={$listingButton}
               />
             )}
+            */
             RightAccessory={() => (
               <Button
                 onPress={() => submitForm()}
@@ -278,6 +283,7 @@ const $input: ViewStyle = {
   alignSelf: "center",
 }
 
+/*
 const $listingButton: ViewStyle = {
   width: 24,
   height: 24,
@@ -287,6 +293,7 @@ const $listingButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
 }
+*/
 
 const $sendButton: ViewStyle = {
   width: 45,
@@ -382,9 +389,11 @@ const $createOfferButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
 }
 
+/*
 const $attachedOffer: ViewStyle = {
   width: 18,
   height: 18,
   borderRadius: 18,
   backgroundColor: colors.palette.cyan200,
 }
+*/

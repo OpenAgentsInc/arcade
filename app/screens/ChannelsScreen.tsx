@@ -17,7 +17,7 @@ interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
   const pool: any = useContext(RelayContext)
-  const { userStore } = useStores()
+  const { userStore, channelStore } = useStores()
   const mgr = new ChannelManager(pool)
   const [dat, setData] = useState([])
   const data: ChannelInfo[] = dat
@@ -25,11 +25,13 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
   // Pull in navigation via hook
   const navigation: any = useNavigation()
 
-  const joinChannel = (item: ChannelInfo) => {
+  const joinChannel = (item: any) => {
+    // create channel in local store
+    channelStore.create(item)
     // update state
     userStore.joinChannel(item.id)
     // redirect to channel
-    navigation.navigate("Chat", { id: item.id, name: item.name })
+    navigation.navigate("Chat", { id: item.id })
   }
 
   useLayoutEffect(() => {
