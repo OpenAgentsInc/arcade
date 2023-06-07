@@ -1,8 +1,7 @@
 declare module "*.svg" {
   export const content: string
   const Component: React.FC<{
-    activeColor?: string
-    className?: string
+    style?: any
     height?: number
     width?: number
   }>
