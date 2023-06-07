@@ -12,7 +12,7 @@ export const HudNavigator = () => {
       <StatusBar style="light" />
       <View style={styles.bottomBar}>
         <Profile style={styles.logo} height={logoSize} width={logoSize} />
-        <Chat style={styles.logo} height={logoSize} width={logoSize} />
+        <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
         <Settings style={styles.logo} height={logoSize} width={logoSize} />
       </View>
     </View>
@@ -33,5 +33,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  logo: { color: "#888" },
+  logo: { color: "#777" },
+  logoActive: { color: "#fff" },
 })
