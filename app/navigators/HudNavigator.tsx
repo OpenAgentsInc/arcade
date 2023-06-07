@@ -6,9 +6,10 @@ export const HudNavigator = () => {
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
-      <View style={styles.bottomBar}></View>
-      <View style={{ marginTop: 140, marginLeft: 40, flex: 1 }}>
-        <Logo style={{ color: "#fff" }} height={40} width={40} />
+      <View style={styles.bottomBar}>
+        <Logo style={styles.logo} height={35} width={35} />
+        <Logo style={styles.logo} height={35} width={35} />
+        <Logo style={styles.logo} height={35} width={35} />
       </View>
     </View>
   )
@@ -19,9 +20,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "90%",
     height: 60,
-    backgroundColor: "#222",
+    backgroundColor: "#111",
     left: "5%",
     bottom: 70,
     borderRadius: 15,
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
   },
+  logo: { color: "#888" },
 })
