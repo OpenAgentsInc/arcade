@@ -9,9 +9,11 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
+import { HudNavigator } from "./HudNavigator"
 
 export type AppStackParamList = {
   Auth: undefined
+  Hud: undefined
   Home: undefined
   Login: undefined
   CreateAccount: undefined
@@ -66,7 +68,8 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
         </>
       ) : (
-        <Stack.Screen name="Auth" component={AuthNavigator} />
+        <Stack.Screen name="Hud" component={HudNavigator} />
+        // <Stack.Screen name="Auth" component={AuthNavigator} />
       )}
     </Stack.Navigator>
   )
