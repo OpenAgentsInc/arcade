@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-  logo: { color: "#777" },
+  logo: { color: "#666" },
   logoActive: { color: "#fff" },
 })
