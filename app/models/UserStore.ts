@@ -167,7 +167,8 @@ export const UserStoreModel = types
       }
     },
     addRelay(url: string) {
-      self.relays.push(url)
+      const index = self.relays.findIndex((el: any) => el === url)
+      if (index === -1) self.relays.push(url)
     },
     removeRelay(url: string) {
       const index = self.relays.findIndex((el: any) => el === url)
