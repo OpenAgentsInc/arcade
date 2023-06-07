@@ -4,6 +4,7 @@ import Chat from "../components/icons/chat.svg"
 import Profile from "../components/icons/profile.svg"
 import Settings from "../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { ChannelItem } from "app/components"
 
 export const HudNavigator = () => {
   const { bottom } = useSafeAreaInsets()
@@ -12,8 +13,9 @@ export const HudNavigator = () => {
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
         {/* create 15 ChannelDetail components */}
-        {Array.from(Array(15).keys()).map((i) => (
-          <ChannelDetail key={i} />
+        {Array.from(Array(3).keys()).map((i) => (
+          // <ChannelDetail key={i} />
+          <ChannelItem />
         ))}
       </ScrollView>
       <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
