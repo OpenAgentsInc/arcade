@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, View } from "react-native"
 import Contacts from "../components/icons/contacts.svg"
-import Chats from "../components/icons/chats.svg"
+import Chat from "../components/icons/chat.svg"
 import Profile from "../components/icons/profile.svg"
 
 export const HudNavigator = () => {
@@ -10,7 +10,7 @@ export const HudNavigator = () => {
       <StatusBar style="light" />
       <View style={styles.bottomBar}>
         <Contacts style={styles.logo} height={logoSize} width={logoSize} />
-        <Chats style={styles.logo} height={logoSize} width={logoSize} />
+        <Chat style={styles.logo} height={logoSize} width={logoSize} />
         <Profile style={styles.logo} height={logoSize} width={logoSize} />
       </View>
     </View>
