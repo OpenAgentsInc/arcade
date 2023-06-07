@@ -31,6 +31,8 @@ export type AppStackParamList = {
   Contacts: undefined
   ContactPicker: undefined
   ChannelManager: undefined
+  RelayManager: undefined
+  NotificationSetting: undefined
 }
 
 const exitRoutes = Config.exitRoutes
@@ -64,6 +66,8 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
           <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
+          <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
+          <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />

@@ -85,7 +85,7 @@ export const colors = {
   /**
    * A subtle color used for lines.
    */
-  separator: palette.neutral300,
+  separator: palette.cyan800,
   /**
    * Error messages.
    */
