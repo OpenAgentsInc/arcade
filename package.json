@@ -2,9 +2,6 @@
   "name": "thearcadeapp",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "nohoist": [
     "**/react"
   ],
@@ -70,6 +67,7 @@
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
     "expo-modules-core": "~1.2.3",
+    "expo-notifications": "~0.18.1",
     "expo-secure-store": "~12.1.1",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",

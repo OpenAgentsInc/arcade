@@ -11,7 +11,7 @@ module.exports = {
   transform: {
     '\\.[jt]sx?$': 'babel-jest'
   },
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.maestro/", "@react-native", "<rootDir>/packages/"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.maestro/", "@react-native", "<rootDir>/app/arclib"],
   testEnvironment: "jsdom",
   setupFiles: ["<rootDir>/test/setup.ts", "@shopify/react-native-skia/jestSetup.js"],
   transformIgnorePatterns: [

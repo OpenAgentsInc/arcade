@@ -34,7 +34,11 @@ export function useAutoImage(
   useLayoutEffect(() => {
     if (!remoteUri) return
 
-    Image.getSize(remoteUri, (w, h) => setRemoteImageDimensions([w, h]))
+    try {
+        Image.getSize(remoteUri, (w, h) => setRemoteImageDimensions([w, h]))
+    } catch (e) {
+        console.log(e)
+    }
   }, [remoteUri])
 
   if (Number.isNaN(remoteAspectRatio)) return [0, 0]

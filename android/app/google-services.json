@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1052617026792",
+    "project_id": "arcade-d095b",
+    "storage_bucket": "arcade-d095b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052617026792:android:f322b8b9f2c0af67226d5d",
+        "android_client_info": {
+          "package_name": "arcade.labs.arc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052617026792-5bgu8voa3jap8hl5m520if1a558dg2c6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgXK81KgnOGJksv0kXdLZNFcWgScUlDdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052617026792-5bgu8voa3jap8hl5m520if1a558dg2c6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
