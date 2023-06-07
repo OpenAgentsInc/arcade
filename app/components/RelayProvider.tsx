@@ -3,12 +3,6 @@ import { useStores } from "app/models"
 import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
 import { observer } from "mobx-react-lite"
 
-export const DEFAULT_RELAYS = [
-  "wss://relay.arcade.city",
-  "wss://arc1.arcadelabs.co",
-  "wss://relay.damus.io",
-]
-
 export const RelayContext = createContext({})
 
 const db: any = connectDb()
@@ -21,7 +15,7 @@ export const RelayProvider = observer(function RelayProvider({
   if (!db) throw new Error("cannot initialized db")
 
   const {
-    userStore: { privkey, metadata, isNewUser, clearNewUser },
+    userStore: { getRelays, privkey, metadata, isNewUser, clearNewUser },
   } = useStores()
 
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
@@ -31,7 +25,8 @@ export const RelayProvider = observer(function RelayProvider({
     if (!pool) return
 
     async function initRelays() {
-      await pool.setRelays(DEFAULT_RELAYS)
+      await pool.setRelays(getRelays)
+      console.log("connected to relays: ", getRelays)
       if (isNewUser) {
         console.log("creating user...")
         const res = await pool.send({
@@ -39,12 +34,12 @@ export const RelayProvider = observer(function RelayProvider({
           tags: [],
           kind: 0,
         })
-        console.log('created:', res)
+        console.log("created:", res)
         clearNewUser()
       }
     }
     initRelays().catch(console.error)
-  }, [pool])
+  }, [pool, getRelays])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
 })

@@ -33,6 +33,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         <Header
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
+          backgroundColor="transparent"
           onLeftPress={() => navigation.goBack()}
           containerStyle={$header}
         />
@@ -110,6 +111,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => navigation.navigate("RelayManager")}
               />
               <ListItem
                 text="Notification"
