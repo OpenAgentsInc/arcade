@@ -67,7 +67,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
           text: "Confirm",
           onPress: async () => {
             // remove from suggest list
-            const index = suggests.findIndex((el: any) => el === url)
+            const index = getRelays.findIndex((el: any) => el === url)
             if (index === -1) {
               addRelay(url)
             } else {
