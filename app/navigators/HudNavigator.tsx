@@ -3,13 +3,14 @@ import { StyleSheet, View } from "react-native"
 import Contacts from "../components/icons/contacts.svg"
 import Chat from "../components/icons/chat.svg"
 import Profile from "../components/icons/profile.svg"
+import UserPlus from "../components/icons/userplus.svg"
 
 export const HudNavigator = () => {
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
       <View style={styles.bottomBar}>
-        <Contacts style={styles.logo} height={logoSize} width={logoSize} />
+        <UserPlus style={styles.logo} height={logoSize} width={logoSize} />
         <Chat style={styles.logo} height={logoSize} width={logoSize} />
         <Profile style={styles.logo} height={logoSize} width={logoSize} />
       </View>
