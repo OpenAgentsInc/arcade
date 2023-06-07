@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, Header, ListItem, RelayContext, Screen, Text } from "app/components"
@@ -8,6 +8,7 @@ import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
+import { EditIcon } from "lucide-react-native"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -86,7 +87,12 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         </View>
         <View style={$sections}>
           <View>
-            <Text text="Account" preset="bold" style={$sectionHeading} />
+            <View style={$sectionHeadingButton}>
+              <Text text="Account" preset="bold" style={$sectionHeading} />
+              <Pressable onPress={() => navigation.navigate("EditProfile")}>
+                <EditIcon width={20} height={20} color={colors.palette.cyan500} />
+              </Pressable>
+            </View>
             <View style={$sectionData}>
               <View style={$sectionDataItem}>
                 <Text text={profile?.username || "No username"} />
@@ -229,6 +235,12 @@ const $sections: ViewStyle = {
 
 const $sectionHeading: TextStyle = {
   color: colors.palette.cyan600,
+}
+
+const $sectionHeadingButton: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
 }
 
 const $sectionData: ViewStyle = {
