@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 40,
   },
-  logo: { color: "#666" },
-  logoActive: { color: "#fff" },
+  logo: { color: "#155e75" },
+  logoActive: { color: "cyan" },
 })
