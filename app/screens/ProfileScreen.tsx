@@ -114,11 +114,12 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => navigation.navigate("RelayManager")}
               />
               <ListItem
-                text="Notification"
+                text="Notifications"
                 leftIcon="Bell"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => navigation.navigate("NotificationSetting")}
               />
               <ListItem
                 text="Data and Storage"

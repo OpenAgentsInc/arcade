@@ -167,6 +167,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
                 <Text text="Loading..." />
               </View>
             }
+            stickySectionHeadersEnabled={false}
           />
           <BottomSheetModal
             ref={bottomSheetModalRef}
