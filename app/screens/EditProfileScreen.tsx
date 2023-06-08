@@ -9,12 +9,15 @@ import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
+import { ProfileManager } from "app/arclib/src/profile"
+import { NostrPool } from "app/arclib/src"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
 
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
-  const pool: any = useContext(RelayContext)
+  const pool: NostrPool = useContext(RelayContext) as NostrPool
+  const profmgr = new ProfileManager(pool)
   const formikRef = useRef(null)
   const [profile, setProfile] = useState(null)
 
@@ -26,16 +29,13 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   // update profile
   const updateProfile = async (data: any) => {
-    const event = await pool.send({
-      content: JSON.stringify(data),
-      kind: 0,
-      tags: [],
-    })
-
-    if (event) {
-      console.log("published event: ", event)
+    try {
+      await profmgr.save(data, [])
+      console.log("published profile")
       // navigate back
       navigation.goBack()
+    } catch (e) {
+      alert(`Failed to save settings: ${e}`)
     }
   }
 
@@ -54,10 +54,8 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   useEffect(() => {
     async function fetchProfile() {
-      const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
-      const latest = list.slice(-1)[0]
-      if (latest) {
-        const content = JSON.parse(latest.content)
+      const content = await profmgr.load()
+      if (content) {
         setProfile(content)
       } else {
         console.log("user profile not found", userStore.pubkey)
@@ -85,6 +83,10 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           picture: profile?.picture || "",
           banner: profile?.banner || "",
           about: profile?.about || "",
+          privchat_push_enabled: profile?.privchat_push_enabled || false,
+          channel_push_enabled: profile?.channel_push_enabled || false,
+          buyoffer_push_enabled: profile?.buyoffer_push_enabled || false,
+          selloffer_push_enabled: profile?.selloffer_push_enabled || false,
         }}
         onSubmit={(values) => updateProfile(values)}
       >

@@ -1,11 +1,11 @@
 {
-  "name": "Arcade",
+  "name": "arcade",
   "displayName": "Arcade",
   "expo": {
     "name": "Arcade",
     "slug": "arc",
     "scheme": "arcade",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
     "splash": {
@@ -23,6 +23,7 @@
     "android": {
       "icon": "./assets/images/app-icon-android-legacy.png",
       "package": "arcade.labs.arc",
+      "googleServicesFile": "./android/app/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
         "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"

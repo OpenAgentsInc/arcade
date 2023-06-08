@@ -19,9 +19,6 @@ const plugins = [
   [
     "module-resolver",
     {
-      alias: {
-        arclib: "./packages/arclib/",
-      },
       extensions: [
             '.js',
             '.jsx',

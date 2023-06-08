@@ -1,4 +1,4 @@
-import React, { FC, useContext, useLayoutEffect } from "react"
+import React, { FC, useContext, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 
 interface ChannelManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ChannelManager">> {}
@@ -16,7 +16,7 @@ interface ChannelManagerScreenProps
 export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
   function ChannelManagerScreen() {
     const pool: any = useContext(RelayContext)
-    const channelManager = new ChannelManager(pool)
+    const channelManager = useMemo(() => new ChannelManager(pool), [pool])
 
     // Pull in one of our MST stores
     const {

@@ -2,9 +2,6 @@
   "name": "thearcadeapp",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "nohoist": [
     "**/react"
   ],
@@ -16,12 +13,12 @@
     "format": "prettier --write \"app/**/*.{js,jsx,json,md,ts,tsx}\"",
     "lint": "eslint index.js App.js app test --fix --ext .js,.ts,.tsx && npm run format",
     "patch": "patch-package",
+    "postinstall": "node ./bin/postInstall",
     "prepare": "cd node_modules/better-sqlite3 && yarn build-release",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:maestro": "maestro test .maestro/FavoritePodcast.yaml",
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081",
-    "postinstall": "node ./bin/postInstall",
     "bundle:ios": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios",
     "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "release:ios": "echo 'Not implemented yet: release:ios. Use Xcode. More info: https://reactnative.dev/docs/next/publishing-to-app-store'",
@@ -70,12 +67,13 @@
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
     "expo-modules-core": "~1.2.3",
+    "expo-notifications": "~0.18.1",
     "expo-secure-store": "~12.1.1",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
     "formik": "^2.2.9",
     "i18n-js": "3.9.2",
-    "isomorphic-webcrypto": "https://github.com/earonesty/isomorphic-webcrypto",
+    "isomorphic-webcrypto": "https://github.com/reyamir/isomorphic-webcrypto",
     "lucide-react-native": "0.214.0",
     "mobx": "6.6.0",
     "mobx-react-lite": "3.4.0",
@@ -165,7 +163,8 @@
     "root": true,
     "ignorePatterns": [
       "**/SkiaDemo/**/*.tsx",
-      "**/CascadeDemo/**/*.tsx"
+      "**/CascadeDemo/**/*.tsx",
+      "**/arclib/**/*.ts"
     ],
     "parser": "@typescript-eslint/parser",
     "extends": [

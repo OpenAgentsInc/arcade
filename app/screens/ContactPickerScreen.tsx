@@ -9,7 +9,7 @@ import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { CheckCircle2Icon } from "lucide-react-native"
-import { EncChannel } from "arclib/src"
+import { EncChannel } from "app/arclib/src"
 
 interface ContactPickerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {}

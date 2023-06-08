@@ -1,6 +1,6 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrPool } from "arclib/src"
+import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { arrayToNIP02 } from "app/utils/nip02"
 import * as SecureStore from "expo-secure-store"
@@ -32,6 +32,11 @@ export const UserStoreModel = types
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(types.string), []),
+    relays: types.optional(types.array(types.string), [
+      "wss://relay.arcade.city",
+      "wss://arc1.arcadelabs.co",
+      "wss://relay.damus.io",
+    ]),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -41,6 +46,9 @@ export const UserStoreModel = types
     },
     get getContacts() {
       return self.contacts.slice()
+    },
+    get getRelays() {
+      return self.relays.slice()
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -157,6 +165,14 @@ export const UserStoreModel = types
           kind: 3,
         })
       }
+    },
+    addRelay(url: string) {
+      const index = self.relays.findIndex((el: any) => el === url)
+      if (index === -1) self.relays.push(url)
+    },
+    removeRelay(url: string) {
+      const index = self.relays.findIndex((el: any) => el === url)
+      if (index !== -1) self.relays.splice(index, 1)
     },
     clearNewUser() {
       self.setProp("isNewUser", false)

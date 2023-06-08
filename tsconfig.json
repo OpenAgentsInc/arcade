@@ -15,10 +15,7 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "./",
-    "paths": {
-      "arclib/*": ["packages/arclib/*"]
-    }
+    "baseUrl": "./"
   },
   "exclude": ["node_modules"],
   "include": ["index.js", "App.js", "app", "test", "*.js", "*.d.ts"],
