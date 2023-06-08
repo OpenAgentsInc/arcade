@@ -3,17 +3,16 @@ import { observer } from "mobx-react-lite"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, Button, TextField } from "app/components"
+import { Header, Screen, Text, Button, TextField, Toggle } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
-import { Toggle } from "app/components"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { ProfileManager } from 'arclib/src/profile'
+import { ProfileManager } from 'app/arclib/src/profile'
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { NostrPool } from "arclib/src"
+import { NostrPool } from "app/arclib/src"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
@@ -83,7 +82,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
             
             const pushSettings = {
                pubkey: userStore.pubkey,
-               token: token, 
+               token, 
                push_enabled: data.push_enabled 
             }
 
@@ -100,9 +99,12 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
             // use replceable event
             await tmpPool.send({
               kind: 30199,
-              content: content,
+              content,
               tags: [["d", "arcade-push"]]
             })
+            
+            // close tmp pool
+            tmpPool.close()
           };
         
         console.log("published profile")

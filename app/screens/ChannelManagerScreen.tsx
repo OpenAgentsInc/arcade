@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 
 interface ChannelManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ChannelManager">> {}

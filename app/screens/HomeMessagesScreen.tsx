@@ -7,7 +7,7 @@ import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/componen
 import { spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}

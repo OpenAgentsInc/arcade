@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 
 interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}

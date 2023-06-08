@@ -1,6 +1,6 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrPool } from "arclib/src"
+import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { arrayToNIP02 } from "app/utils/nip02"
 import * as SecureStore from "expo-secure-store"

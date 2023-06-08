@@ -10,7 +10,7 @@ import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { getSnapshot } from "mobx-state-tree"
 

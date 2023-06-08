@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useMemo } from "react"
 import { useStores } from "app/models"
-import { connectDb, ArcadeIdentity, NostrPool } from "arclib/src"
+import { connectDb, ArcadeIdentity, NostrPool } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 
 export const RelayContext = createContext({})

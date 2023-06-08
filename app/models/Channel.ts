@@ -1,4 +1,4 @@
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
