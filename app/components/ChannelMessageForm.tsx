@@ -5,7 +5,7 @@ import { SendIcon /* Store */ } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { ChannelManager } from "arclib/src"
+import { ChannelManager } from "app/arclib/src"
 
 export function ChannelMessageForm({
   channelManager,

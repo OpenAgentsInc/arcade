@@ -7,59 +7,13 @@ import { Header, Screen, Text, Button, TextField } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
-import { Toggle } from "app/components"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { ProfileManager } from 'arclib/src/profile'
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import { NostrPool } from "arclib/src"
+import { ProfileManager } from "app/arclib/src/profile"
+import { NostrPool } from "app/arclib/src"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
-
-// good to have a few non-arcade backups
-const ARCADE_RELAYS = [
-  "wss://relay.arcade.city",
-  "wss://arc1.arcadelabs.co",
-  "wss://relay.damus.io",
-  "wss://nos.lol"
-]
-
-const ARCADE_PUBKEY = "c4899d1312a7ccf42cc4bfd0559826d20f7564293de4588cb8b089a574d71757"
-
-async function registerForPushNotifications() : Promise<string | null> {
-  let token: string;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return null;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-    return null;
-  }
-
-  if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-
 
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
   const pool: NostrPool = useContext(RelayContext) as NostrPool
@@ -76,42 +30,14 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
   // update profile
   const updateProfile = async (data: any) => {
     try {
-        await profmgr.save(data, ["push_enabled"])
-
-        if (data.push_enabled) {
-            const token = await registerForPushNotifications();
-            
-            const pushSettings = {
-               pubkey: userStore.pubkey,
-               token: token, 
-               push_enabled: data.push_enabled 
-            }
-
-            // maybe add this to arclib as "app encrypted settings" or something?
-            // not really arcade specific
-            // useful for other apps
-
-            const tmpPool = new NostrPool(pool.ident)
-            await tmpPool.setRelays(ARCADE_RELAYS)
-
-            // change to nip44 once that merges
-            const content = await pool.ident.nip04XEncrypt(pool.ident.privKey, ARCADE_PUBKEY, JSON.stringify(pushSettings));
-
-            // use replceable event
-            await tmpPool.send({
-              kind: 30199,
-              content: content,
-              tags: [["d", "arcade-push"]]
-            })
-          };
-        
-        console.log("published profile")
-        // navigate back
-        navigation.goBack()
-     } catch (e) {
-      alert(`Failed to save settings: ${e}`);
-     }
-   }
+      await profmgr.save(data, [])
+      console.log("published profile")
+      // navigate back
+      navigation.goBack()
+    } catch (e) {
+      alert(`Failed to save settings: ${e}`)
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -157,11 +83,14 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           picture: profile?.picture || "",
           banner: profile?.banner || "",
           about: profile?.about || "",
-          push_enabled: profile?.push_enabled || false,
+          privchat_push_enabled: profile?.privchat_push_enabled || false,
+          channel_push_enabled: profile?.channel_push_enabled || false,
+          buyoffer_push_enabled: profile?.buyoffer_push_enabled || false,
+          selloffer_push_enabled: profile?.selloffer_push_enabled || false,
         }}
         onSubmit={(values) => updateProfile(values)}
       >
-        {({ handleChange, handleBlur, submitForm, values, setFieldValue }) => (
+        {({ handleChange, handleBlur, submitForm, values }) => (
           <View>
             <Text text="Update Profile" preset="heading" size="xl" style={$title} />
             <TextField
@@ -224,15 +153,6 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               autoCapitalize="none"
               autoFocus={false}
             />
-            <Toggle
-                label="Enable Notifications"
-                inputOuterStyle={$toggle}
-                inputInnerStyle={$toggleInner}
-                inputDetailStyle={$toggleDetail}
-                variant="switch"
-                onPress={() => setFieldValue("push_enabled", !values.push_enabled)}
-                value={values.push_enabled}
-            />
             <Button text="Continue" onPress={() => submitForm()} style={$button} />
           </View>
         )}
@@ -285,20 +205,3 @@ const $button: ViewStyle = {
   height: 50,
   minHeight: 50,
 }
-
-const $toggle: ViewStyle = {
-  borderWidth: 1,
-  borderColor: colors.palette.cyan900,
-  borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.overlay20,
-}
-
-const $toggleInner: ViewStyle = {
-  backgroundColor: colors.palette.cyan800,
-}
-
-const $toggleDetail: any = {
-  borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.cyan500,
-}
-

@@ -11,7 +11,7 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import { ChannelInfo, ChannelManager } from "arclib/src"
+import { ChannelInfo, ChannelManager } from "app/arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
