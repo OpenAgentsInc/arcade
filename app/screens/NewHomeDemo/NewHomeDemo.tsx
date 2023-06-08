@@ -4,47 +4,10 @@ import Chat from "../../components/icons/chat.svg"
 import Profile from "../../components/icons/profile.svg"
 import Settings from "../../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import Animated, {
-  Easing,
-  FadeInDown,
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  withDelay,
-} from "react-native-reanimated"
-import { useEffect } from "react"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
 export const NewHomeDemo = () => {
   const { bottom } = useSafeAreaInsets()
-
-  const bottomBarAnimation = useSharedValue(0)
-  const bottomBarStyle = useAnimatedStyle(() => {
-    return {
-      // transform: [{ translateY: bottomBarAnimation.value }],
-      opacity: bottomBarAnimation.value === 0 ? 0 : 1,
-    }
-  })
-  const startAnimation = () => {
-    bottomBarAnimation.value = withDelay(
-      500, // Delay before the animation starts (in milliseconds)
-      withTiming(
-        -60, // The final position of the bottom bar (in this case, moving it up by 60 units)
-        {
-          duration: 1000, // Duration of the animation (in milliseconds)
-          easing: Easing.ease,
-        },
-      ),
-    )
-  }
-
-  // Trigger the animation when the component mounts
-  useEffect(() => {
-    startAnimation()
-  }, [])
-
-  useEffect(() => {
-    console.log(bottomBarStyle)
-  }, [bottomBarStyle])
 
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
