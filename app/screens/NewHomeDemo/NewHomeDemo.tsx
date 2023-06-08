@@ -4,9 +4,48 @@ import Chat from "../../components/icons/chat.svg"
 import Profile from "../../components/icons/profile.svg"
 import Settings from "../../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import Animated, {
+  Easing,
+  FadeInDown,
+  useSharedValue,
+  withTiming,
+  useAnimatedStyle,
+  withDelay,
+} from "react-native-reanimated"
+import { useEffect } from "react"
 
 export const NewHomeDemo = () => {
   const { bottom } = useSafeAreaInsets()
+
+  const bottomBarAnimation = useSharedValue(0)
+  const bottomBarStyle = useAnimatedStyle(() => {
+    return {
+      // transform: [{ translateY: bottomBarAnimation.value }],
+      opacity: bottomBarAnimation.value === 0 ? 0 : 1,
+    }
+  })
+  const startAnimation = () => {
+    bottomBarAnimation.value = withDelay(
+      500, // Delay before the animation starts (in milliseconds)
+      withTiming(
+        -60, // The final position of the bottom bar (in this case, moving it up by 60 units)
+        {
+          duration: 1000, // Duration of the animation (in milliseconds)
+          easing: Easing.ease,
+        },
+      ),
+    )
+  }
+
+  // Trigger the animation when the component mounts
+  useEffect(() => {
+    startAnimation()
+  }, [])
+
+  useEffect(() => {
+    console.log(bottomBarStyle)
+  }, [bottomBarStyle])
+
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
@@ -15,11 +54,13 @@ export const NewHomeDemo = () => {
           <ChannelDetail key={i} />
         ))}
       </ScrollView>
-      <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
-        <Profile style={styles.logo} height={logoSize} width={logoSize} />
-        <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
-        <Settings style={styles.logo} height={logoSize} width={logoSize} />
-      </View>
+      <Animated.View entering={FadeInDown}>
+        <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
+          <Profile style={styles.logo} height={logoSize} width={logoSize} />
+          <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
+          <Settings style={styles.logo} height={logoSize} width={logoSize} />
+        </View>
+      </Animated.View>
     </View>
   )
 }
