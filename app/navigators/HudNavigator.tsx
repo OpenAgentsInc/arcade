@@ -5,9 +5,18 @@ import Profile from "../components/icons/profile.svg"
 import Settings from "../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { ChannelItem } from "app/components"
+import { SplashScreen } from "app/screens/SplashScreen"
 
 export const HudNavigator = () => {
   const { bottom } = useSafeAreaInsets()
+
+  return (
+    <View style={{ backgroundColor: "black", flex: 1 }}>
+      <SplashScreen />
+      <StatusBar style="light" />
+    </View>
+  )
+
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
