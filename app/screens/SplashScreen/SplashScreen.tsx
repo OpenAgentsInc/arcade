@@ -1,9 +1,7 @@
-import { Dimensions, StyleSheet, View } from "react-native" // Image,
-import { SkiaDemoScreen } from "../SkiaDemo/SkiaDemoScreen"
+import { Dimensions, StyleSheet } from "react-native"
 import { Canvas, Blur, Image, ColorMatrix, useImage } from "@shopify/react-native-skia"
 
 export const SplashScreen = () => {
-  // return <SkiaDemoScreen />
   const image = useImage(require("./bootsplash_logo.png"))
 
   // Set variables for the screen width and height
@@ -26,12 +24,6 @@ export const SplashScreen = () => {
       </Image>
     </Canvas>
   )
-
-  // return (
-  //   <Canvas style={styles.container}>
-  //     <Image source={require("./bootsplash_logo.png")} />
-  //   </Canvas>
-  // )
 }
 
 const styles = StyleSheet.create({
