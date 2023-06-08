@@ -1,0 +1,20 @@
+diff --git a/node_modules/@react-native-community/cli-plugin-metro/node_modules/metro-file-map/src/watchers/NodeWatcher.js b/node_modules/@react-native-community/cli-plugin-metro/node_modules/metro-file-map/src/watchers/NodeWatcher.js
+index 69666ba..bfb8565 100644
+--- a/node_modules/@react-native-community/cli-plugin-metro/node_modules/metro-file-map/src/watchers/NodeWatcher.js
++++ b/node_modules/@react-native-community/cli-plugin-metro/node_modules/metro-file-map/src/watchers/NodeWatcher.js
+@@ -241,7 +241,14 @@ module.exports = class NodeWatcher extends EventEmitter {
+     const relativePath = path.join(path.relative(this.root, dir), file);
+     const registered = this._registered(fullPath);
+     try {
+-      const stat = await fsPromises.lstat(fullPath);
++      let stat
++      try {
++        stat = await fsPromises.lstat(fullPath);
++      } catch (e) {
++        if (e.code == 'EPERM')
++            return;
++        throw e;
++      }
+       if (stat.isDirectory()) {
+         // win32 emits usless change events on dirs.
+         if (event === "change") {

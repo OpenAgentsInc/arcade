@@ -85,3 +85,6 @@ web-build/
 
 # Configurations
 !env.js
+
+# vim
+*.swp
