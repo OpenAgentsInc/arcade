@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native"
 import { Canvas, Blur, Image, useImage } from "@shopify/react-native-skia"
+import { useEffect, useState } from "react"
 
 export const SplashScreen = () => {
   const image = useImage(require("./bootsplash_logo.png"))
@@ -7,11 +8,21 @@ export const SplashScreen = () => {
   const screenHeight = Dimensions.get("window").height
   const x = screenWidth / 2 - 106
   const y = screenHeight / 2 - 106
+  const [blur, setBlur] = useState(0)
+
+  useEffect(() => {
+    console.log(blur)
+    if (blur < 300) {
+      setTimeout(() => {
+        setBlur(blur + 2.75)
+      }, 20)
+    }
+  }, [blur])
 
   return (
     <Canvas style={styles.container}>
       <Image x={x} y={y} width={212} height={212} image={image} fit="cover">
-        <Blur blur={1} mode="clamp" />
+        <Blur blur={blur} mode="clamp" />
       </Image>
     </Canvas>
   )
