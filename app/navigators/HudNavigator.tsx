@@ -5,8 +5,8 @@ import Chat from "../components/icons/chat.svg"
 import Profile from "../components/icons/profile.svg"
 import Settings from "../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { ChannelItem } from "app/components"
 import { SplashScreen } from "app/screens/SplashScreen"
+import { AuthNavigator } from "."
 
 export const HudNavigator = () => {
   const { bottom } = useSafeAreaInsets()
@@ -33,12 +33,16 @@ export const HudNavigator = () => {
 
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
+      <AuthNavigator />
+    </View>
+  )
+
+  return (
+    <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
-        {/* create 15 ChannelDetail components */}
         {Array.from(Array(3).keys()).map((i) => (
           <ChannelDetail key={i} />
-          // <ChannelItem />
         ))}
       </ScrollView>
       <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
