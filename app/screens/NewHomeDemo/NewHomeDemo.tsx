@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { StatusBar } from "expo-status-bar"
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import Chat from "../../components/icons/chat.svg"
