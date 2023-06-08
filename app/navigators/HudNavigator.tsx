@@ -14,8 +14,8 @@ export const HudNavigator = () => {
       <ScrollView style={styles.list}>
         {/* create 15 ChannelDetail components */}
         {Array.from(Array(3).keys()).map((i) => (
-          // <ChannelDetail key={i} />
-          <ChannelItem />
+          <ChannelDetail key={i} />
+          // <ChannelItem />
         ))}
       </ScrollView>
       <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
