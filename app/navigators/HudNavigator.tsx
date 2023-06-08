@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { StatusBar } from "expo-status-bar"
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import Chat from "../components/icons/chat.svg"
@@ -9,13 +10,26 @@ import { SplashScreen } from "app/screens/SplashScreen"
 
 export const HudNavigator = () => {
   const { bottom } = useSafeAreaInsets()
+  const [showSplashScreen, setShowSplashScreen] = useState(true)
 
-  return (
-    <View style={{ backgroundColor: "black", flex: 1 }}>
-      <SplashScreen />
-      <StatusBar style="light" />
-    </View>
-  )
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setShowSplashScreen(false)
+    }, 2000)
+
+    return () => {
+      clearTimeout(timerId)
+    }
+  }, [])
+
+  if (showSplashScreen) {
+    return (
+      <View style={{ backgroundColor: "black", flex: 1 }}>
+        <SplashScreen />
+        <StatusBar style="light" />
+      </View>
+    )
+  }
 
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
@@ -68,7 +82,6 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "#111",
     borderRadius: 15,
-    // justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
     marginVertical: 10,
