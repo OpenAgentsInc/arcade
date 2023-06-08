@@ -33,7 +33,8 @@
     "build:android": "eas build -p android",
     "build:android:apk": "eas build -p android --profile preview",
     "submit:ios": "eas submit -p ios",
-    "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local"
+    "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local",
+    "icon:ios": "npx ignite-cli generate app-icon ios"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
