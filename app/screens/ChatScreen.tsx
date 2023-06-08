@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle, Alert, ActivityIndicator } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -12,7 +12,6 @@ import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
-import { getSnapshot } from "mobx-state-tree"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -23,7 +22,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }) {
   // init relaypool
   const pool: any = useContext(RelayContext)
-  const channelManager: ChannelManager = new ChannelManager(pool)
+  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -31,17 +30,14 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   // Stores
   const {
     userStore: { leaveChannel },
-    channelStore,
+    channelStore: { getChannel, setLoading, loading },
   } = useStores()
 
   // route params
   const { id } = route.params
 
   // get channel by using resolver identifier
-  const channel: Channel = useMemo(() => channelStore.channel(id), [id])
-
-  // screen state
-  const [loading, setLoading] = useState(true)
+  const channel: Channel = useMemo(() => getChannel(id), [id])
 
   const leaveJoinedChannel = () => {
     Alert.alert("Confirm leave channel", "Are you sure?", [
@@ -61,12 +57,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }
 
   const back = () => {
-    const messages = getSnapshot(channel.messages)
-    const lastMessage = messages.slice(-1)[0]
-    if (lastMessage) {
-      // update last message
-      channel.updateLastMessage(lastMessage.content, lastMessage.created_at)
-    }
+    // update last message
+    channel.updateLastMessage()
     navigation.goBack()
   }
 
@@ -112,6 +104,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     }
 
     async function subscribe() {
+      console.log("subscribe")
       // stop loading
       setLoading(false)
       return await channelManager.sub({
@@ -136,6 +129,21 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     }
   }, [])
 
+  const renderItem = useCallback(({ item }: { item: Message }) => {
+    return (
+      <View style={$messageItem}>
+        <User pubkey={item.pubkey} createdAt={item.created_at} />
+        <View style={$messageContentWrapper}>
+          <TextWithImage
+            text={item.content || "empty message"}
+            textStyle={$messageContent}
+            imageStyle={undefined}
+          />
+        </View>
+      </View>
+    )
+  }, [])
+
   return (
     <BottomSheetModalProvider>
       <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
@@ -143,18 +151,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           <View style={$main}>
             <FlashList
               data={channel.allMessages}
-              renderItem={({ item }: { item: Message }) => (
-                <View style={$messageItem}>
-                  <User pubkey={item.pubkey} createdAt={item.created_at} />
-                  <View style={$messageContentWrapper}>
-                    <TextWithImage
-                      text={item.content || "empty message"}
-                      textStyle={$messageContent}
-                      imageStyle={undefined}
-                    />
-                  </View>
-                </View>
-              )}
+              keyExtractor={(item) => item.id}
+              renderItem={renderItem}
               ListEmptyComponent={
                 loading ? (
                   <View style={$emptyState}>
@@ -167,7 +165,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                 )
               }
               removeClippedSubviews={true}
-              estimatedItemSize={100}
+              estimatedItemSize={60}
               inverted={true}
             />
           </View>

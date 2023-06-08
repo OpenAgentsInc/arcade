@@ -50,9 +50,12 @@ export const ChannelModel = types
     addMessage(event: any) {
       self.messages.unshift(event)
     },
-    updateLastMessage(content: string, time: number) {
-      self.setProp("lastMessage", content)
-      self.setProp("lastMessageAt", time)
+    updateLastMessage() {
+      const lastMessage = self.messages.slice(-1)[0]
+      if (lastMessage) {
+        self.setProp("lastMessage", lastMessage.content)
+        self.setProp("lastMessageAt", lastMessage.created_at)
+      }
     },
     reset() {
       applySnapshot(self, { ...self, messages: [] })
