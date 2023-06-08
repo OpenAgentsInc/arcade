@@ -11,13 +11,22 @@ export const SplashScreen = () => {
   const [blur, setBlur] = useState(0)
 
   useEffect(() => {
-    console.log(blur)
-    if (blur < 300) {
-      setTimeout(() => {
-        setBlur(blur + 2.75)
-      }, 20)
+    let timeoutId = null
+
+    const increaseBlur = () => {
+      if (blur < 300) {
+        setBlur((prevBlur) => prevBlur + 2)
+        timeoutId = setTimeout(increaseBlur, 20)
+      }
     }
-  }, [blur])
+
+    const timerId = setTimeout(increaseBlur, 500) // needs to be >= the app.tsx thing
+
+    return () => {
+      clearTimeout(timeoutId)
+      clearTimeout(timerId)
+    }
+  }, [])
 
   return (
     <Canvas style={styles.container}>
