@@ -14,12 +14,12 @@ export const NewHomeDemo = () => {
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
         {Array.from(Array(3).keys()).map((i) => (
-          <Animated.View key={i} entering={FadeInRight.delay(100 * i)}>
+          <Animated.View key={i} entering={FadeInDown.delay(100 * i).duration(800)}>
             <ChannelDetail />
           </Animated.View>
         ))}
       </ScrollView>
-      <Animated.View entering={FadeInDown.delay(1000)}>
+      <Animated.View entering={FadeInDown.delay(500).duration(1000)}>
         <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
           <Profile style={styles.logo} height={logoSize} width={logoSize} />
           <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
