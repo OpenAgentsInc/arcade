@@ -16,6 +16,7 @@ export const NewHomeDemo = () => {
       <ScrollView style={styles.list}>
         <Animated.View entering={FadeInDown.delay(100).duration(800)}>
           <ChannelDetail
+            image="https://placekitten.com/200/200"
             name="The Lobby"
             lastMessage="Hey I'm going to see how this works"
             lastMessageUsername="Jo"
@@ -25,6 +26,7 @@ export const NewHomeDemo = () => {
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(200).duration(800)}>
           <ChannelDetail
+            image="https://placekitten.com/200/200"
             name="Global Trade"
             lastMessage="WTB Bitcoin"
             lastMessageUsername="satoshi"
@@ -34,6 +36,7 @@ export const NewHomeDemo = () => {
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(300).duration(800)}>
           <ChannelDetail
+            image="https://pbs.twimg.com/profile_images/1666852684052279321/fW8mfTKs_400x400.jpg"
             name="Arcade Feedback"
             lastMessage="this is cool"
             lastMessageUsername="user123"
