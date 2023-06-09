@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar"
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
-import Chat from "../../components/icons/chat.svg"
-import Profile from "../../components/icons/profile.svg"
-import Settings from "../../components/icons/settings.svg"
+import { ScrollView, StyleSheet, View } from "react-native"
+import Chat from "app/components/icons/chat.svg"
+import Profile from "app/components/icons/profile.svg"
+import Settings from "app/components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import Animated, { FadeInDown, FadeInLeft, FadeInRight } from "react-native-reanimated"
+import Animated, { FadeInDown } from "react-native-reanimated"
+import { ChannelDetail } from "app/components/ChannelDetail"
 
 export const NewHomeDemo = () => {
   const { bottom } = useSafeAreaInsets()
@@ -30,18 +31,6 @@ export const NewHomeDemo = () => {
   )
 }
 
-const ChannelDetail = () => {
-  return (
-    <View style={styles.channelCard}>
-      <Image
-        source={{ uri: "https://placekitten.com/200/200" }}
-        style={{ width: 40, height: 40, borderRadius: 20, marginHorizontal: 10 }}
-      />
-      <Text style={styles.channelText}>Hello, this is a demo channel thing</Text>
-    </View>
-  )
-}
-
 const logoSize = 30
 const styles = StyleSheet.create({
   bottomBar: {
@@ -56,19 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
-  },
-  channelCard: {
-    width: "100%",
-    height: 60,
-    backgroundColor: "#111",
-    borderRadius: 15,
-    alignItems: "center",
-    flexDirection: "row",
-    marginVertical: 10,
-  },
-  channelText: {
-    color: "#999",
-    marginLeft: 20,
   },
   list: {
     flex: 1,
