@@ -5,11 +5,7 @@ import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-
-dayjs.extend(relativeTime)
 
 export const DirectMessageItem = observer(function DirectMessageItem({
   dm,
