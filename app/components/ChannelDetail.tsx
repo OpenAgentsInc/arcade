@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     // paddingVertical: spacing.extraSmall,
   },
   $messageAvatar: {
-    width: 44,
-    height: 44,
+    width: 50,
+    height: 50,
     borderRadius: 100,
     marginRight: spacing.small,
   },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   $messageContentTime: {
-    color: "rgba(255,255,255,0.5)",
+    color: "#7B7C7F",
   },
   $messageContentName: {
     lineHeight: 0,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   $messageContentAbout: {
     maxWidth: 250,
     lineHeight: 0,
-    color: "rgba(255,255,255,0.5)",
+    color: "#7B7C7F",
   },
   $unreadMessagesBadge: {
     backgroundColor: "#666",

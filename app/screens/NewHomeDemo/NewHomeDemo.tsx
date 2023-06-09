@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 2,
     marginTop: 40,
   },
   logo: { color: "#155e75" },
