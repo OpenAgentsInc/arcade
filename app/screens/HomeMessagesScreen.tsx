@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react"
+import React, { FC, useCallback, useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -8,6 +8,8 @@ import { spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { ChannelManager } from "app/arclib/src"
+import { useFocusEffect } from "@react-navigation/native"
+import { DirectMessageItem } from "app/components/DirectMessageItem"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}
@@ -18,20 +20,33 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     const channelManager = new ChannelManager(pool)
 
     const {
-      userStore: { channels, getChannels },
+      userStore: { getChannels, privMessages, fetchPrivMessages },
     } = useStores()
+
+    useFocusEffect(
+      useCallback(() => {
+        fetchPrivMessages(pool)
+      }, []),
+    )
+
+    const data = [...getChannels, ...privMessages]
+
+    const renderItem = useCallback(({ item }) => {
+      if (item.kind === 4) {
+        return <DirectMessageItem dm={item} pool={pool} />
+      } else {
+        return <ChannelItem channelManager={channelManager} channel={item} />
+      }
+    }, [])
 
     return (
       <ScreenWithSidebar title={"Home"}>
         <View style={$main}>
           <View style={$messsages}>
             <FlashList
-              data={getChannels}
-              extraData={{ extraDataForMobX: channels.length > 0 ? channels[0].lastMessage : "" }}
+              data={data}
               keyExtractor={(item: { id: string }) => item.id}
-              renderItem={({ item }: { item: any }) => (
-                <ChannelItem channelManager={channelManager} channel={item} />
-              )}
+              renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
                   <Text text="No channel..." />

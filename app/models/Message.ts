@@ -12,6 +12,7 @@ export const MessageModel = types
     content: types.string,
     tags: types.optional(types.array(types.array(types.string)), []),
     created_at: types.optional(types.number, Math.floor(Date.now() / 1000)),
+    kind: types.maybe(types.number),
     hide: types.optional(types.boolean, false),
     mute: types.optional(types.boolean, false),
   })
