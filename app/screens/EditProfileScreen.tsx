@@ -54,7 +54,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           // without the token, we can do nothing
           const pushSettings = {
              pubkey: userStore.pubkey,
-             token: token,
+             token,
              privchat_push_enabled: data.privchat_push_enabled,
              channel_push_enabled: data.channel_push_enabled,
              selloffer_push_enabled: data.selloffer_push_enabled,
@@ -71,7 +71,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           // use replceable event - send an encrypted copy of these settings to ARCADE
           await tmpPool.send({
             kind: 30199,
-            content: content,
+            content,
             tags: [["d", "arcade-push"]]
           })
 

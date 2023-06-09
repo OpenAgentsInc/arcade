@@ -44,66 +44,66 @@ export const ChannelDetail = (props: ChannelDetailProps) => {
 }
 
 const styles = StyleSheet.create({
-  $messageItem: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  $messageAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    borderWidth: 0.6,
-    borderColor: "#232324",
-    marginTop: 2,
-    marginRight: spacing.small,
-  },
-  $messageContent: {
-    flex: 1,
-  },
-  $messageContentHeading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  $messageContentTime: {
-    color: "#7B7C7F",
-  },
-  $messageContentName: {
-    lineHeight: 0,
-    color: "white",
-    fontWeight: "bold",
-  },
-  $messageUsername: {
-    marginTop: 2,
-    color: "white",
-  },
-  $messageContentAbout: {
-    maxWidth: 250,
-    lineHeight: 0,
-    marginTop: 1,
-    color: "#7B7C7F",
-  },
-  $unreadMessagesBadge: {
-    backgroundColor: "#666",
-    borderRadius: 100,
-    padding: 3,
-    minWidth: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  $unreadMessagesText: {
-    color: "#000",
-    fontSize: 12,
-  },
-  $messageContentRight: {
-    position: "absolute",
-    top: 25,
-    right: 0,
-  },
   $divider: {
     borderBottomColor: "#232324",
     borderBottomWidth: 1,
     // marginTop: spacing.small,
     marginVertical: 8,
+  },
+  $messageAvatar: {
+    borderColor: "#232324",
+    borderRadius: 100,
+    borderWidth: 0.6,
+    height: 50,
+    marginRight: spacing.small,
+    marginTop: 2,
+    width: 50,
+  },
+  $messageContent: {
+    flex: 1,
+  },
+  $messageContentAbout: {
+    color: "#7B7C7F",
+    lineHeight: 0,
+    marginTop: 1,
+    maxWidth: 250,
+  },
+  $messageContentHeading: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  $messageContentName: {
+    color: "white",
+    fontWeight: "bold",
+    lineHeight: 0,
+  },
+  $messageContentRight: {
+    position: "absolute",
+    right: 0,
+    top: 25,
+  },
+  $messageContentTime: {
+    color: "#7B7C7F",
+  },
+  $messageItem: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  $messageUsername: {
+    color: "white",
+    marginTop: 2,
+  },
+  $unreadMessagesBadge: {
+    alignItems: "center",
+    backgroundColor: "#666",
+    borderRadius: 100,
+    justifyContent: "center",
+    minWidth: 20,
+    padding: 3,
+  },
+  $unreadMessagesText: {
+    color: "#000",
+    fontSize: 12,
   },
 })
