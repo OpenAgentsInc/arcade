@@ -1,7 +1,8 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Pressable, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import * as Clipboard from 'expo-clipboard';
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, Header, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
@@ -83,7 +84,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             text={profile?.display_name || "Loading..."}
             style={$userName}
           />
+          <TouchableOpacity onPress={async () => await Clipboard.setStringAsync(userStore.pubkey)}>
           <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
+          </TouchableOpacity>
         </View>
         <View style={$sections}>
           <View>
