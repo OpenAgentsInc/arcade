@@ -6,7 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 dayjs.extend(relativeTime)
 
 type ChannelDetailProps = {
-  image: string
+  image: any
   name: string
   lastMessage: string
   lastMessageUsername: string
@@ -18,7 +18,7 @@ export const ChannelDetail = (props: ChannelDetailProps) => {
   const { image, name, lastMessage, lastMessageUsername, lastMessageTime, unreadCount } = props
   return (
     <Pressable style={styles.$messageItem} onPress={() => {}}>
-      <Image source={{ uri: image }} style={styles.$messageAvatar} />
+      <Image source={image} style={styles.$messageAvatar} />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName}>{name}</Text>
@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 100,
+    borderWidth: 0.6,
+    borderColor: "#232324",
     marginTop: 2,
     marginRight: spacing.small,
   },
