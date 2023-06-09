@@ -1,61 +1,106 @@
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Image, Pressable, StyleSheet, Text, View } from "react-native"
+import { spacing } from "app/theme"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+
+dayjs.extend(relativeTime)
 
 type ChannelDetailProps = {
   name: string
-  description: string
   lastMessage: string
   lastMessageUsername: string
-  lastMessageTime: string
+  lastMessageTime: number
+  unreadCount: number
 }
 
 export const ChannelDetail = (props: ChannelDetailProps) => {
-  const { name, description, lastMessage, lastMessageUsername, lastMessageTime } = props
+  const { name, lastMessage, lastMessageUsername, lastMessageTime, unreadCount } = props
   return (
-    <View style={styles.channelCard}>
-      <Image source={{ uri: "https://placekitten.com/200/200" }} style={styles.channelImage} />
-      <View style={styles.channelInfo}>
-        <Text style={styles.channelTitle}>{name}</Text>
-        <Text style={styles.channelDescription}>{description}</Text>
-        <Text style={styles.channelLastMessage}>
-          {lastMessageUsername + " - " + lastMessage + " "}
-          <Text style={styles.channelLastMessageTime}>{lastMessageTime}</Text>
+    <Pressable style={styles.$messageItem} onPress={() => {}}>
+      <Image source={{ uri: "https://placekitten.com/200/200" }} style={styles.$messageAvatar} />
+      <View style={styles.$messageContent}>
+        <View style={styles.$messageContentHeading}>
+          <Text style={styles.$messageContentName}>{name}</Text>
+          <Text style={styles.$messageContentTime}>
+            {dayjs.unix(lastMessageTime).format("h:mm A")}
+          </Text>
+        </View>
+        <View style={styles.$messageContentRight}>
+          <View style={styles.$unreadMessagesBadge}>
+            <Text style={styles.$unreadMessagesText}>{unreadCount}</Text>
+          </View>
+        </View>
+        <Text style={styles.$messageUsername} numberOfLines={1}>
+          {lastMessageUsername}
         </Text>
+        <Text style={styles.$messageContentAbout} numberOfLines={1}>
+          {lastMessage}
+        </Text>
+        <View style={styles.$divider} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
-  channelCard: {
+  $messageItem: {
+    flex: 1,
     flexDirection: "row",
-    width: "100%",
-    height: 60,
-    backgroundColor: "#111",
-    borderRadius: 15,
-    alignItems: "center",
-    marginVertical: 10,
+    // alignItems: "center",
+    // paddingVertical: spacing.extraSmall,
   },
-  channelDescription: {
-    color: "#666",
-    marginTop: 5,
+  $messageAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 100,
+    marginRight: spacing.small,
   },
-  channelImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginHorizontal: 10,
-  },
-  channelInfo: {
+  $messageContent: {
     flex: 1,
   },
-  channelTitle: {
+  $messageContentHeading: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  $messageContentTime: {
+    color: "rgba(255,255,255,0.5)",
+  },
+  $messageContentName: {
+    lineHeight: 0,
+    color: "white",
     fontWeight: "bold",
-    color: "#fff",
   },
-  channelLastMessage: {
-    color: "#999",
+  $messageUsername: {
+    marginTop: 2,
+    color: "white",
   },
-  channelLastMessageTime: {
-    color: "#555",
+  $messageContentAbout: {
+    maxWidth: 250,
+    lineHeight: 0,
+    color: "rgba(255,255,255,0.5)",
+  },
+  $unreadMessagesBadge: {
+    backgroundColor: "#666",
+    borderRadius: 100,
+    padding: 3,
+    minWidth: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  $unreadMessagesText: {
+    color: "#000",
+    fontSize: 12,
+  },
+  $messageContentRight: {
+    position: "absolute",
+    top: 25,
+    right: 0,
+  },
+  $divider: {
+    borderBottomColor: "#232324",
+    borderBottomWidth: 1,
+    // marginTop: spacing.small,
+    marginVertical: 8,
   },
 })
