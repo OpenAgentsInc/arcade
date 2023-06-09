@@ -14,11 +14,33 @@ export const NewHomeDemo = () => {
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
-        {Array.from(Array(3).keys()).map((i) => (
-          <Animated.View key={i} entering={FadeInDown.delay(100 * i).duration(800)}>
-            <ChannelDetail />
-          </Animated.View>
-        ))}
+        <Animated.View entering={FadeInDown.delay(100).duration(800)}>
+          <ChannelDetail
+            name="The Lobby"
+            description="Chat about whatever"
+            lastMessage="Hey I'm going to see how this works"
+            lastMessageUsername="Jo"
+            lastMessageTime="3 minutes ago"
+          />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(200).duration(800)}>
+          <ChannelDetail
+            name="Global Trade"
+            description="Buy, sell, trade."
+            lastMessage="WTB Bitcoin"
+            lastMessageUsername="satoshi"
+            lastMessageTime="16 minutes ago"
+          />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(300).duration(800)}>
+          <ChannelDetail
+            name="Arcade Feedback"
+            description="How can we improve?"
+            lastMessage="this is cool"
+            lastMessageUsername="user123"
+            lastMessageTime="48 minutes ago"
+          />
+        </Animated.View>
       </ScrollView>
       <Animated.View entering={FadeInDown.delay(500).duration(1000)}>
         <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>

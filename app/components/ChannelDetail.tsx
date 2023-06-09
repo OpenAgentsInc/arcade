@@ -1,14 +1,24 @@
 import { Image, StyleSheet, Text, View } from "react-native"
 
-export const ChannelDetail = () => {
+type ChannelDetailProps = {
+  name: string
+  description: string
+  lastMessage: string
+  lastMessageUsername: string
+  lastMessageTime: string
+}
+
+export const ChannelDetail = (props: ChannelDetailProps) => {
+  const { name, description, lastMessage, lastMessageUsername, lastMessageTime } = props
   return (
     <View style={styles.channelCard}>
       <Image source={{ uri: "https://placekitten.com/200/200" }} style={styles.channelImage} />
       <View style={styles.channelInfo}>
-        <Text style={styles.channelTitle}>Channel Name</Text>
+        <Text style={styles.channelTitle}>{name}</Text>
+        <Text style={styles.channelDescription}>{description}</Text>
         <Text style={styles.channelLastMessage}>
-          {"Last message from @username "}
-          <Text style={styles.channelLastMessageTime}>10m</Text>
+          {lastMessageUsername + " - " + lastMessage + " "}
+          <Text style={styles.channelLastMessageTime}>{lastMessageTime}</Text>
         </Text>
       </View>
     </View>
@@ -24,6 +34,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: "center",
     marginVertical: 10,
+  },
+  channelDescription: {
+    color: "#666",
+    marginTop: 5,
   },
   channelImage: {
     width: 50,
