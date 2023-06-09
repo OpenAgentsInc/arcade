@@ -9,10 +9,9 @@ import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
+import { registerForPushNotifications } from "app/utils/notification"
 import { ProfileManager } from "app/arclib/src/profile"
 import { NostrPool } from "app/arclib/src"
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 
 
 interface EditProfileScreenProps
@@ -27,38 +26,6 @@ const ARCADE_RELAYS = [
 ]
   
 const ARCADE_PUBKEY = "c4899d1312a7ccf42cc4bfd0559826d20f7564293de4588cb8b089a574d71757"
-
-async function registerForPushNotifications() : Promise<string | null> {
-  let token: string;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return null;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-    return null;
-  }
-
-  if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
 
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
   const pool: NostrPool = useContext(RelayContext) as NostrPool
