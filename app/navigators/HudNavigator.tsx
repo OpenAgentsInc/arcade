@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { StatusBar } from "expo-status-bar"
 import { View } from "react-native"
 import { SplashScreen } from "app/screens/SplashScreen"

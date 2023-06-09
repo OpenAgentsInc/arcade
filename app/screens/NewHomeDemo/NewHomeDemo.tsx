@@ -1,3 +1,4 @@
+import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { ScrollView, StyleSheet, View } from "react-native"
 import Chat from "app/components/icons/chat.svg"

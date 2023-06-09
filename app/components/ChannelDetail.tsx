@@ -1,3 +1,4 @@
+import React from "react"
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import { spacing } from "app/theme"
 import dayjs from "dayjs"
@@ -14,10 +15,21 @@ type ChannelDetailProps = {
   unreadCount: number
 }
 
+const colors = {
+  borderBottomColor: "#232324",
+  borderColor: "#232324",
+  messageContentAbout: "#7B7C7F",
+  messageContentName: "white",
+  messageContentTime: "#7B7C7F",
+  messageUsername: "white",
+  unreadMessagesBadge: "#666",
+  unreadMessagesText: "#000",
+}
+
 export const ChannelDetail = (props: ChannelDetailProps) => {
   const { image, name, lastMessage, lastMessageUsername, lastMessageTime, unreadCount } = props
   return (
-    <Pressable style={styles.$messageItem} onPress={() => {}}>
+    <Pressable style={styles.$messageItem}>
       <Image source={image} style={styles.$messageAvatar} />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
@@ -45,13 +57,12 @@ export const ChannelDetail = (props: ChannelDetailProps) => {
 
 const styles = StyleSheet.create({
   $divider: {
-    borderBottomColor: "#232324",
+    borderBottomColor: colors.borderBottomColor,
     borderBottomWidth: 1,
-    // marginTop: spacing.small,
     marginVertical: 8,
   },
   $messageAvatar: {
-    borderColor: "#232324",
+    borderColor: colors.borderColor,
     borderRadius: 100,
     borderWidth: 0.6,
     height: 50,
@@ -63,8 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   $messageContentAbout: {
-    color: "#7B7C7F",
-    lineHeight: 0,
+    color: colors.messageContentAbout,
     marginTop: 1,
     maxWidth: 250,
   },
@@ -74,9 +84,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   $messageContentName: {
-    color: "white",
+    color: colors.messageContentName,
     fontWeight: "bold",
-    lineHeight: 0,
   },
   $messageContentRight: {
     position: "absolute",
@@ -84,26 +93,26 @@ const styles = StyleSheet.create({
     top: 25,
   },
   $messageContentTime: {
-    color: "#7B7C7F",
+    color: colors.messageContentTime,
   },
   $messageItem: {
     flex: 1,
     flexDirection: "row",
   },
   $messageUsername: {
-    color: "white",
+    color: colors.messageUsername,
     marginTop: 2,
   },
   $unreadMessagesBadge: {
     alignItems: "center",
-    backgroundColor: "#666",
+    backgroundColor: colors.unreadMessagesBadge,
     borderRadius: 100,
     justifyContent: "center",
     minWidth: 20,
     padding: 3,
   },
   $unreadMessagesText: {
-    color: "#000",
+    color: colors.unreadMessagesText,
     fontSize: 12,
   },
 })

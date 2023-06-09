@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native"
 import { Canvas, Blur, Image, useImage } from "@shopify/react-native-skia"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 export const SplashScreen = () => {
   const image = useImage(require("./bootsplash_logo.png"))
@@ -40,7 +40,7 @@ export const SplashScreen = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#000",
     flex: 1,
     justifyContent: "center",
   },
