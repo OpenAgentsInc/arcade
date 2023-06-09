@@ -7,6 +7,7 @@ import * as Screens from "app/screens"
 import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
+import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
 import { HudNavigator } from "./HudNavigator"
 
@@ -71,7 +72,8 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
         </>
       ) : (
-        <Stack.Screen name="Hud" component={HudNavigator} />
+        // <Stack.Screen name="Hud" component={HudNavigator} />
+        <Stack.Screen name="Auth" component={AuthNavigator} />
       )}
     </Stack.Navigator>
   )
