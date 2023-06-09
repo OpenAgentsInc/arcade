@@ -46,13 +46,12 @@ const styles = StyleSheet.create({
   $messageItem: {
     flex: 1,
     flexDirection: "row",
-    // alignItems: "center",
-    // paddingVertical: spacing.extraSmall,
   },
   $messageAvatar: {
     width: 50,
     height: 50,
     borderRadius: 100,
+    marginTop: 2,
     marginRight: spacing.small,
   },
   $messageContent: {
@@ -78,6 +77,7 @@ const styles = StyleSheet.create({
   $messageContentAbout: {
     maxWidth: 250,
     lineHeight: 0,
+    marginTop: 1,
     color: "#7B7C7F",
   },
   $unreadMessagesBadge: {
