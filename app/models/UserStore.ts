@@ -6,6 +6,9 @@ import { arrayToNIP02 } from "app/utils/nip02"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
+// @ts-ignore
+import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
+
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
 }
@@ -15,9 +18,6 @@ async function secureGet(key) {
 async function secureDel(key) {
   return await SecureStore.deleteItemAsync(key)
 }
-
-// @ts-ignore
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 
 /**
  * Model description here for TypeScript hints.

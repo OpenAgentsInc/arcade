@@ -40,7 +40,7 @@ export const ChannelItem = observer(function ChannelItem({
           <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
           {!manage && (
             <Text
-              text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("HH:mm A")}
+              text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("h:mm A")}
               style={$messageContentTime}
             />
           )}

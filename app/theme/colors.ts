@@ -52,6 +52,7 @@ const palette = {
 } as const
 
 export const colors = {
+  black: "#000000",
   /**
    * The palette is available to use, but prefer using the name.
    * This is only included for rare, one-off cases. Try to use
