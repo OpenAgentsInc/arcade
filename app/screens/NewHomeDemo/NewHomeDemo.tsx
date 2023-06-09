@@ -17,7 +17,7 @@ export const NewHomeDemo = () => {
           <ChannelDetail key={i} />
         ))}
       </ScrollView>
-      <Animated.View entering={FadeInDown}>
+      <Animated.View entering={FadeInDown.delay(500)}>
         <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
           <Profile style={styles.logo} height={logoSize} width={logoSize} />
           <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
