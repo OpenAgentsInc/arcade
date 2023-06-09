@@ -7,6 +7,7 @@ import { NostrPool } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
 
 dayjs.extend(relativeTime)
 
@@ -19,6 +20,7 @@ export const DirectMessageItem = observer(function DirectMessageItem({
 }) {
   const { navigate } = useNavigation<any>()
   const [profile, setProfile] = useState(null)
+  const createdAt = formatCreatedAt(dm.created_at)
 
   useEffect(() => {
     async function fetchProfile() {
@@ -44,7 +46,7 @@ export const DirectMessageItem = observer(function DirectMessageItem({
       <View style={$messageContent}>
         <View style={$messageContentHeading}>
           <Text text={profile?.name || "Anon"} preset="bold" style={$messageContentName} />
-          <Text text={dayjs.unix(dm.created_at).format("HH:mm A")} style={$messageContentTime} />
+          <Text text={createdAt} style={$messageContentTime} />
         </View>
         <Text
           text={dm.content || "No message"}

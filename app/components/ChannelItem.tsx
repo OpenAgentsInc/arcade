@@ -8,6 +8,7 @@ import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
 
 dayjs.extend(relativeTime)
 
@@ -21,6 +22,7 @@ export const ChannelItem = observer(function ChannelItem({
   manage?: boolean
 }) {
   const { navigate } = useNavigation<any>()
+  const createdAt = formatCreatedAt(channel.lastMessageAt)
 
   useEffect(() => {
     // only fetch meta if channel name not present
@@ -38,12 +40,7 @@ export const ChannelItem = observer(function ChannelItem({
       <View style={$messageContent}>
         <View style={$messageContentHeading}>
           <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
-          {!manage && (
-            <Text
-              text={channel.lastMessageAt && dayjs.unix(channel.lastMessageAt).format("HH:mm A")}
-              style={$messageContentTime}
-            />
-          )}
+          {!manage && <Text text={createdAt} style={$messageContentTime} />}
         </View>
         {manage ? (
           <Text
