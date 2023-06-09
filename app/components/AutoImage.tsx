@@ -35,9 +35,9 @@ export function useAutoImage(
     if (!remoteUri) return
 
     try {
-        Image.getSize(remoteUri, (w, h) => setRemoteImageDimensions([w, h]))
+      Image.getSize(remoteUri, (w, h) => setRemoteImageDimensions([w, h]))
     } catch (e) {
-        console.log(e)
+      console.log(e)
     }
   }, [remoteUri])
 

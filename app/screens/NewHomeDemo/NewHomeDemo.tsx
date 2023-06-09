@@ -8,11 +8,21 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import Animated, { FadeInDown } from "react-native-reanimated"
 import { ChannelDetail } from "app/components/ChannelDetail"
 
+const colors = {
+  black: "black",
+  bottomBarBackground: "rgba(0,24,24,0.65)",
+  bottomBarBorder: "rgba(0,48,48,0.85)",
+  logo: "#155e75",
+  logoActive: "cyan",
+}
+
+const logoSize = 30
+
 export const NewHomeDemo = () => {
   const { bottom } = useSafeAreaInsets()
 
   return (
-    <View style={{ backgroundColor: "black", flex: 1 }}>
+    <View style={styles.container}>
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
         <Animated.View entering={FadeInDown.delay(100).duration(800)}>
@@ -57,12 +67,11 @@ export const NewHomeDemo = () => {
   )
 }
 
-const logoSize = 30
 const styles = StyleSheet.create({
   bottomBar: {
     alignItems: "center",
-    backgroundColor: "rgba(0,24,24,0.65)",
-    borderColor: "rgba(0,48,48,0.85)",
+    backgroundColor: colors.bottomBarBackground,
+    borderColor: colors.bottomBarBorder,
     borderRadius: 15,
     borderWidth: 1,
     flexDirection: "row",
@@ -72,12 +81,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "90%",
   },
+  container: {
+    backgroundColor: colors.black,
+    flex: 1,
+  },
   list: {
     flex: 1,
     marginTop: 40,
     paddingHorizontal: 2,
     paddingVertical: 10,
   },
-  logo: { color: "#155e75" },
-  logoActive: { color: "cyan" },
+  logo: { color: colors.logo },
+  logoActive: { color: colors.logoActive },
 })
