@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { StatusBar } from "expo-status-bar"
-import { View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { SplashScreen } from "app/screens/SplashScreen"
 import { NewHomeDemo } from "app/screens/NewHomeDemo"
+import { colors } from "app/theme"
 
 export const HudNavigator = () => {
   const [showSplashScreen, setShowSplashScreen] = useState(true)
@@ -19,7 +20,7 @@ export const HudNavigator = () => {
 
   if (showSplashScreen) {
     return (
-      <View style={{ backgroundColor: "black", flex: 1 }}>
+      <View style={styles.container}>
         <SplashScreen />
         <StatusBar style="light" />
       </View>
@@ -28,3 +29,7 @@ export const HudNavigator = () => {
 
   return <NewHomeDemo />
 }
+
+const styles = StyleSheet.create({
+  container: { backgroundColor: colors.black, flex: 1 },
+})

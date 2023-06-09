@@ -9,7 +9,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
-import { HudNavigator } from "./HudNavigator"
+// import { HudNavigator } from "./HudNavigator"
 
 export type AppStackParamList = {
   Auth: undefined
