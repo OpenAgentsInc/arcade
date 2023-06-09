@@ -35,7 +35,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       if (item.kind === 4) {
         return <DirectMessageItem dm={item} pool={pool} />
       } else {
-        return <ChannelItem channelManager={channelManager} channel={item} />
+        return <ChannelItem channel={item} channelManager={channelManager} />
       }
     }, [])
 

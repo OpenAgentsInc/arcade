@@ -44,12 +44,7 @@ export const DirectMessageItem = observer(function DirectMessageItem({
           <Text text={profile?.name || "Anon"} preset="bold" style={$messageContentName} />
           <Text text={createdAt} style={$messageContentTime} />
         </View>
-        <Text
-          text={dm.content || "No message"}
-          size="sm"
-          numberOfLines={1}
-          style={$messageContentAbout}
-        />
+        <Text text="[encrypted]" size="sm" numberOfLines={1} style={$messageContentAbout} />
       </View>
     </Pressable>
   )
