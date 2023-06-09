@@ -4,7 +4,7 @@ import Chat from "../../components/icons/chat.svg"
 import Profile from "../../components/icons/profile.svg"
 import Settings from "../../components/icons/settings.svg"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import Animated, { FadeInDown } from "react-native-reanimated"
+import Animated, { FadeInDown, FadeInLeft, FadeInRight } from "react-native-reanimated"
 
 export const NewHomeDemo = () => {
   const { bottom } = useSafeAreaInsets()
@@ -14,10 +14,12 @@ export const NewHomeDemo = () => {
       <StatusBar style="light" />
       <ScrollView style={styles.list}>
         {Array.from(Array(3).keys()).map((i) => (
-          <ChannelDetail key={i} />
+          <Animated.View key={i} entering={FadeInRight.delay(100 * i)}>
+            <ChannelDetail />
+          </Animated.View>
         ))}
       </ScrollView>
-      <Animated.View entering={FadeInDown.delay(500)}>
+      <Animated.View entering={FadeInDown.delay(1000)}>
         <View style={[styles.bottomBar, { bottom: bottom + 10 }]}>
           <Profile style={styles.logo} height={logoSize} width={logoSize} />
           <Chat style={styles.logoActive} height={logoSize} width={logoSize} />
