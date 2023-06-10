@@ -73,7 +73,8 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
               LeftAccessory={() => <HomeIcon color="#fff" />}
             /> */}
             <Button
-              onPress={() => navigate("Discover")}
+              onPress={() => navigate("Channels")}
+              // onPress={() => navigate("Discover")}
               style={$pinItem}
               LeftAccessory={() => <CompassIcon color="#fff" />}
             />
