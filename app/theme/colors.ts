@@ -2,6 +2,7 @@
 
 const palette = {
   almostBlack: "#030303",
+  white: "white",
 
   neutral100: "#FFFFFF",
   neutral200: "#F4F2F1",

@@ -27,20 +27,20 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     userStore.logout()
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      header: () => (
-        <Header
-          leftIcon="back"
-          leftIconColor={colors.palette.cyan400}
-          backgroundColor="transparent"
-          onLeftPress={() => navigation.goBack()}
-          containerStyle={$header}
-        />
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     header: () => (
+  //       <Header
+  //         leftIcon="back"
+  //         leftIconColor={colors.palette.cyan400}
+  //         backgroundColor="transparent"
+  //         onLeftPress={() => navigation.goBack()}
+  //         containerStyle={$header}
+  //       />
+  //     ),
+  //   })
+  // }, [])
 
   useEffect(() => {
     async function fetchProfile() {

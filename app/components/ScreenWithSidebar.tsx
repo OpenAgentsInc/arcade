@@ -103,13 +103,14 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
         <Header
           title={title}
           LeftActionComponent={<DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />}
-          RightActionComponent={
-            <View style={$headerRightActions}>
-              <Pressable onPress={() => navigate("CreateChannel")}>
-                <PlusIcon size={20} color="#fff" />
-              </Pressable>
-            </View>
-          }
+          titleStyle={{ color: colors.palette.white }}
+          // RightActionComponent={
+          //   <View style={$headerRightActions}>
+          //     <Pressable onPress={() => navigate("CreateChannel")}>
+          //       <PlusIcon size={20} color="#fff" />
+          //     </Pressable>
+          //   </View>
+          // }
           safeAreaEdges={[]}
         />
         {children}
