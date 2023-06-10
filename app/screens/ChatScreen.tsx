@@ -1,16 +1,16 @@
 import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle, Alert, ActivityIndicator } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle, Alert } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, RelayContext, User, ChannelMessageForm } from "app/components"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
-import { ChannelManager } from "app/arclib/src"
+import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -21,7 +21,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   route: any
 }) {
   // init relaypool
-  const pool: any = useContext(RelayContext)
+  const pool = useContext(RelayContext) as NostrPool
   const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
 
   // Pull in navigation via hook
@@ -30,7 +30,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   // Stores
   const {
     userStore: { leaveChannel },
-    channelStore: { getChannel, setLoading, loading },
+    channelStore: { getChannel },
   } = useStores()
 
   // route params
@@ -48,7 +48,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         text: "Confirm",
         onPress: () => {
           // update state
-          leaveChannel(id)
+          leaveChannel(channel.id)
           // redirect back
           navigation.goBack()
         },
@@ -59,6 +59,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   const back = () => {
     // update last message
     channel.updateLastMessage()
+    channel.reset()
     navigation.goBack()
   }
 
@@ -97,36 +98,38 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     })
   }, [])
 
+  useFocusEffect(
+    useCallback(() => {
+      function handleNewMessage(event: NostrEvent) {
+        console.log("new message", event)
+        channel.addMessage(event)
+      }
+
+      async function subscribe() {
+        console.log("subscribe")
+        return await channelManager.sub({
+          channel_id: channel.id,
+          callback: handleNewMessage,
+          filter: {
+            since: Math.floor(Date.now() / 1000),
+          },
+          privkey: channel.privkey,
+        })
+      }
+
+      // subscribe for new messages
+      subscribe().catch(console.error)
+
+      return () => {
+        console.log("unsubscribe")
+        pool.unsub(handleNewMessage)
+      }
+    }, []),
+  )
+
   useEffect(() => {
-    function handleNewMessage(event) {
-      console.log("new message", event)
-      channel.addMessage(event)
-    }
-
-    async function subscribe() {
-      console.log("subscribe")
-      // stop loading
-      setLoading(false)
-      return await channelManager.sub({
-        channel_id: channel.id,
-        callback: handleNewMessage,
-        filter: {
-          since: Math.floor(Date.now() / 1000),
-        },
-        privkey: channel.privkey,
-      })
-    }
-
     // fetch messages
     channel.fetchMessages(channelManager)
-
-    // subscribe for new messages
-    subscribe().catch(console.error)
-
-    return function cleanup() {
-      console.log("unsubscribe")
-      pool.unsub(handleNewMessage)
-    }
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Message }) => {
@@ -154,15 +157,9 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               keyExtractor={(item) => item.id}
               renderItem={renderItem}
               ListEmptyComponent={
-                loading ? (
-                  <View style={$emptyState}>
-                    <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
-                  </View>
-                ) : (
-                  <View style={$emptyState}>
-                    <Text text="No message..." />
-                  </View>
-                )
+                <View style={$emptyState}>
+                  <Text text="No message..." />
+                </View>
               }
               removeClippedSubviews={true}
               estimatedItemSize={60}

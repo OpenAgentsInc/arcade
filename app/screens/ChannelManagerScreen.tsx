@@ -3,12 +3,13 @@ import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ChannelItem, Header, RelayContext, Screen, Text } from "app/components"
+import { Header, RelayContext, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { ChannelManager } from "app/arclib/src"
+import { ChannelManagerItem } from "app/components/ChannelManagerItem"
 
 interface ChannelManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ChannelManager">> {}
@@ -53,7 +54,7 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={$item}>
-              <ChannelItem channelManager={channelManager} channel={item} manage={true} />
+              <ChannelManagerItem channelManager={channelManager} channel={item} />
               <Pressable onPress={() => leave(item.id)}>
                 <Text text="Leave" size="xs" />
               </Pressable>

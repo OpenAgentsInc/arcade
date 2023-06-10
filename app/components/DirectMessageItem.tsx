@@ -1,13 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { AutoImage } from "app/components"
 import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { Channel } from "app/models"
-import { ChannelManager } from "app/arclib/src"
+import { NostrPool } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import { shortenKey } from "app/utils/shortenKey"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -20,32 +18,44 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const ChannelItem = observer(function ChannelItem({
-  channelManager,
-  channel,
+export const DirectMessageItem = observer(function DirectMessageItem({
+  dm,
+  pool,
 }: {
-  channelManager: ChannelManager
-  channel: Channel
+  dm: any
+  pool: NostrPool
 }) {
   const { navigate } = useNavigation<any>()
-  const createdAt = formatCreatedAt(channel.lastMessageAt)
+  const [profile, setProfile] = useState(null)
+  const createdAt = formatCreatedAt(dm.created_at)
 
   useEffect(() => {
-    // only fetch meta if channel name not present
-    if (!channel.name) {
-      channel.fetchMeta(channelManager)
+    async function fetchProfile() {
+      const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        const content = JSON.parse(latest.content)
+        setProfile(content)
+      } else {
+        console.log("user profile not found", dm.pubkey)
+      }
     }
-  }, [channel.name])
+
+    fetchProfile().catch(console.error)
+  }, [dm.pubkey])
 
   return (
-    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
+    <Pressable
+      onPress={() => navigate("DirectMessage", { id: dm.pubkey })}
+      style={styles.$messageItem}
+    >
       <AutoImage
-        source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
       />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
-          <Text style={styles.$messageContentName}>{channel.name || "No name"}</Text>
+          <Text style={styles.$messageContentName}>{profile?.name || "No name"}</Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}>
@@ -55,16 +65,31 @@ export const ChannelItem = observer(function ChannelItem({
           </View>
           */}
         </View>
-        <Text style={styles.$messageUsername} numberOfLines={1}>
-          {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
-        </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
-          {channel.lastMessage || channel.about || "No about"}
+          {dm.content}
         </Text>
         <View style={styles.$divider} />
       </View>
     </Pressable>
   )
+
+  /*
+  return (
+    <Pressable onPress={() => navigate("DirectMessage", { id: dm.pubkey })} style={$messageItem}>
+      <AutoImage
+        source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        style={$messageAvatar}
+      />
+      <View style={$messageContent}>
+        <View style={$messageContentHeading}>
+          <Text text={profile?.name || "Anon"} preset="bold" style={$messageContentName} />
+          <Text text={createdAt} style={$messageContentTime} />
+        </View>
+        <Text text="[encrypted]" size="sm" numberOfLines={1} style={$messageContentAbout} />
+      </View>
+    </Pressable>
+  )
+  */
 })
 
 const styles = StyleSheet.create({
@@ -87,6 +112,7 @@ const styles = StyleSheet.create({
   },
   $messageContentAbout: {
     color: colors.messageContentAbout,
+    height: 30,
     marginTop: 1,
     maxWidth: 250,
   },
@@ -114,7 +140,6 @@ const styles = StyleSheet.create({
   $messageUsername: {
     color: colors.messageUsername,
     marginTop: 2,
-    maxWidth: 250,
   },
   $unreadMessagesBadge: {
     alignItems: "center",

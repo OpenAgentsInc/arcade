@@ -2,12 +2,11 @@ import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-st
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
+import { MessageModel } from "./Message"
 import { arrayToNIP02 } from "app/utils/nip02"
+import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
-
-// @ts-ignore
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -32,6 +31,7 @@ export const UserStoreModel = types
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(types.string), []),
+    privMessages: types.optional(types.array(MessageModel), []),
     relays: types.optional(types.array(types.string), [
       "wss://relay.arcade.city",
       "wss://arc1.arcadelabs.co",
@@ -41,7 +41,7 @@ export const UserStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get getChannels() {
-      const list = self.channels.slice().sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+      const list = self.channels.slice()
       return list
     },
     get getContacts() {
@@ -173,6 +173,16 @@ export const UserStoreModel = types
     removeRelay(url: string) {
       const index = self.relays.findIndex((el: any) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
+    },
+    async fetchPrivMessages(pool: NostrPool) {
+      const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
+      const uniqueList = [...new Map(list.map((item) => [item.pubkey, item])).values()]
+      for (const item of uniqueList) {
+        item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
+        // @ts-ignore
+        item.lastMessageAt = item.created_at
+      }
+      self.setProp("privMessages", uniqueList)
     },
     clearNewUser() {
       self.setProp("isNewUser", false)
