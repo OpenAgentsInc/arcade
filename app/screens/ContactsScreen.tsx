@@ -34,10 +34,11 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
       header: () => (
         <Header
           title="Contacts"
-          titleStyle={{ color: colors.palette.cyan400 }}
-          leftIcon="back"
-          leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => navigation.goBack()}
+          titleStyle={{ color: colors.palette.white }}
+          // rightIcon="Plus"
+          // leftIcon="back"
+          // leftIconColor={colors.palette.cyan400}
+          // onLeftPress={() => navigation.goBack()}
         />
       ),
     })
@@ -58,7 +59,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         )}
         ListEmptyComponent={
           <View style={$emptyState}>
-            <Text text="No contact..." />
+            <Text text="No contacts" style={{ color: colors.palette.gray }} />
           </View>
         }
         estimatedItemSize={50}
