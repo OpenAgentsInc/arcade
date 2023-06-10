@@ -96,7 +96,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
           )}
           ListEmptyComponent={
             <View style={$emptyState}>
-              <Text text="No contact..." />
+              <Text text="No contacts" />
             </View>
           }
           estimatedItemSize={50}

@@ -56,6 +56,7 @@ const AppStack = observer(function AppStack() {
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
+          <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
