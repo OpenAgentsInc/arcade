@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   emptyState: {
     alignSelf: "center",
     paddingVertical: spacing.medium,
-    transform: [{ scaleY: -1 }],
   },
   list: {
     // flex: 1,

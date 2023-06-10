@@ -9,7 +9,6 @@ export const ChannelStoreModel = types
   .model("ChannelStore")
   .props({
     channels: types.array(ChannelModel),
-    loading: true,
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -49,9 +48,6 @@ export const ChannelStoreModel = types
           privkey: meta.privkey,
         })
       }
-    },
-    setLoading(status: boolean) {
-      self.setProp("loading", status)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

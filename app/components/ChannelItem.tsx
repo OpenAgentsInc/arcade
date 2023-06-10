@@ -40,12 +40,12 @@ export const ChannelItem = observer(function ChannelItem({
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
       <AutoImage
-        source={{ uri: channel?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
       />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
-          <Text style={styles.$messageContentName}>{channel?.name || "No name"}</Text>
+          <Text style={styles.$messageContentName}>{channel.name || "No name"}</Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}>
@@ -57,7 +57,7 @@ export const ChannelItem = observer(function ChannelItem({
           {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
         </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
-          {channel?.lastMessage || channel?.about || "No about"}
+          {channel.lastMessage || channel.about || "No about"}
         </Text>
         <View style={styles.$divider} />
       </View>
