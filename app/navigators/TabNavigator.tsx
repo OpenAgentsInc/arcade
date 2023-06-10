@@ -6,19 +6,11 @@ import Profile from "app/components/icons/profile.svg"
 import Settings from "app/components/icons/settings.svg"
 import { StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon } from "../components"
-import { ContactsScreen, DiscoverScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
+import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 const logoSize = 30
-const colors2 = {
-  black: "black",
-  bottomBarBackground: "rgba(0,24,24,0.65)",
-  bottomBarBorder: "rgba(0,48,48,0.85)",
-  logo: "#155e75",
-  logoActive: "cyan",
-}
 
 export type DemoTabParamList = {
   Home: undefined
@@ -121,29 +113,29 @@ const $tabBarLabel: TextStyle = {
 }
 
 const styles = StyleSheet.create({
-  bottomBar: {
-    alignItems: "center",
-    backgroundColor: colors2.bottomBarBackground,
-    borderColor: colors2.bottomBarBorder,
-    borderRadius: 15,
-    borderWidth: 1,
-    flexDirection: "row",
-    height: 60,
-    justifyContent: "space-around",
-    left: "5%",
-    position: "absolute",
-    width: "90%",
-  },
-  container: {
-    backgroundColor: colors.black,
-    flex: 1,
-  },
-  list: {
-    flex: 1,
-    marginTop: 40,
-    paddingHorizontal: 2,
-    paddingVertical: 10,
-  },
+  // bottomBar: {
+  //   alignItems: "center",
+  //   backgroundColor: colors2.bottomBarBackground,
+  //   borderColor: colors2.bottomBarBorder,
+  //   borderRadius: 15,
+  //   borderWidth: 1,
+  //   flexDirection: "row",
+  //   height: 60,
+  //   justifyContent: "space-around",
+  //   left: "5%",
+  //   position: "absolute",
+  //   width: "90%",
+  // },
+  // container: {
+  //   backgroundColor: colors.black,
+  //   flex: 1,
+  // },
+  // list: {
+  //   flex: 1,
+  //   marginTop: 40,
+  //   paddingHorizontal: 2,
+  //   paddingVertical: 10,
+  // },
   logo: { color: inactiveIconColor },
   logoActive: { color: colors.tint },
 })

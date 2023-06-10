@@ -59,7 +59,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         )}
         ListEmptyComponent={
           <View style={$emptyState}>
-            <Text text="No contacts" style={{ color: "#7B7C7F" }} />
+            <Text text="No contacts" style={{ color: colors.palette.gray }} />
           </View>
         }
         estimatedItemSize={50}

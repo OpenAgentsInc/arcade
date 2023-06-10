@@ -1,9 +1,9 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, ListItem, RelayContext, Screen, Text } from "app/components"
+import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
@@ -26,21 +26,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     // clear user store
     userStore.logout()
   }
-
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerShown: true,
-  //     header: () => (
-  //       <Header
-  //         leftIcon="back"
-  //         leftIconColor={colors.palette.cyan400}
-  //         backgroundColor="transparent"
-  //         onLeftPress={() => navigation.goBack()}
-  //         containerStyle={$header}
-  //       />
-  //     ),
-  //   })
-  // }, [])
 
   useEffect(() => {
     async function fetchProfile() {
@@ -177,12 +162,12 @@ const $root: ViewStyle = {
   flex: 1,
 }
 
-const $header: ViewStyle = {
-  backgroundColor: "transparent",
-  position: "absolute",
-  top: 0,
-  left: 0,
-}
+// const $header: ViewStyle = {
+//   backgroundColor: "transparent",
+//   position: "absolute",
+//   top: 0,
+//   left: 0,
+// }
 
 const $container: ViewStyle = {
   height: "100%",
