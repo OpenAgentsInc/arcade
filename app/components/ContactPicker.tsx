@@ -41,7 +41,7 @@ export function ContactPicker() {
       )}
       ListEmptyComponent={
         <View style={$emptyState}>
-          <Text text="No contact..." />
+          <Text text="No contacts" />
         </View>
       }
       estimatedItemSize={50}

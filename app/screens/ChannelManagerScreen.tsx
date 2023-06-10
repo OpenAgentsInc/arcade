@@ -61,7 +61,7 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
           )}
           ListEmptyComponent={
             <View style={$emptyState}>
-              <Text text="No contact..." />
+              <Text text="No channels" />
             </View>
           }
           estimatedItemSize={50}
