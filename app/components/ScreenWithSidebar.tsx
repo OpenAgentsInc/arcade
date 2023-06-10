@@ -67,35 +67,35 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
       renderNavigationView={() => (
         <View style={[$drawer, $drawerInsets]}>
           <View style={$pinList}>
-            <Button
+            {/* <Button
               onPress={() => navigate("Home")}
               style={$pinItem}
               LeftAccessory={() => <HomeIcon color="#fff" />}
-            />
+            /> */}
             <Button
               onPress={() => navigate("Discover")}
               style={$pinItem}
               LeftAccessory={() => <CompassIcon color="#fff" />}
             />
-            <Button
+            {/* <Button
               onPress={() => navigate("Contacts")}
               style={$pinItem}
               LeftAccessory={() => <Contact2Icon color="#fff" />}
-            />
+            /> */}
             <Button
               onPress={() => navigate("ChannelManager")}
               style={$pinItem}
               LeftAccessory={() => <LayoutListIcon color="#fff" />}
             />
           </View>
-          <View style={$divider} />
+          {/* <View style={$divider} />
           <View style={$channelList}>
             <Button
               onPress={() => navigate("CreateChannel")}
               LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
               style={$channelButton}
             />
-          </View>
+          </View> */}
         </View>
       )}
     >
@@ -104,13 +104,13 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
           title={title}
           LeftActionComponent={<DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />}
           titleStyle={{ color: colors.palette.white }}
-          // RightActionComponent={
-          //   <View style={$headerRightActions}>
-          //     <Pressable onPress={() => navigate("CreateChannel")}>
-          //       <PlusIcon size={20} color="#fff" />
-          //     </Pressable>
-          //   </View>
-          // }
+          RightActionComponent={
+            <View style={$headerRightActions}>
+              <Pressable onPress={() => navigate("CreateChannel")}>
+                <PlusIcon size={20} color="#fff" />
+              </Pressable>
+            </View>
+          }
           safeAreaEdges={[]}
         />
         {children}
