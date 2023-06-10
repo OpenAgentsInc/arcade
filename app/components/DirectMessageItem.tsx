@@ -6,7 +6,6 @@ import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import { shortenKey } from "app/utils/shortenKey"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -60,13 +59,12 @@ export const DirectMessageItem = observer(function DirectMessageItem({
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}>
+          {/*
           <View style={styles.$unreadMessagesBadge}>
             <Text style={styles.$unreadMessagesText}>{1}</Text>
           </View>
+          */}
         </View>
-        <Text style={styles.$messageUsername} numberOfLines={1}>
-          {shortenKey(dm.pubkey)}
-        </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
           {dm.content}
         </Text>
@@ -114,6 +112,7 @@ const styles = StyleSheet.create({
   },
   $messageContentAbout: {
     color: colors.messageContentAbout,
+    height: 30,
     marginTop: 1,
     maxWidth: 250,
   },

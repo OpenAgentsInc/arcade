@@ -49,9 +49,11 @@ export const ChannelItem = observer(function ChannelItem({
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}>
+          {/*
           <View style={styles.$unreadMessagesBadge}>
             <Text style={styles.$unreadMessagesText}>{1}</Text>
           </View>
+          */}
         </View>
         <Text style={styles.$messageUsername} numberOfLines={1}>
           {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}

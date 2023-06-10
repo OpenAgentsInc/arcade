@@ -6,7 +6,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { ChannelManager } from "app/arclib/src"
+import { ChannelManager, NostrPool } from "app/arclib/src"
 import { useFocusEffect } from "@react-navigation/native"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
@@ -26,8 +26,8 @@ const colors = {
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
-    const pool: any = useContext(RelayContext)
-    const channelManager = new ChannelManager(pool)
+    const pool = useContext(RelayContext) as NostrPool
+    const channelManager = new ChannelManager(pool) as ChannelManager
 
     const {
       userStore: { getChannels, privMessages, fetchPrivMessages },
