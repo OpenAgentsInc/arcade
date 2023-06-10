@@ -1,74 +1,56 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Buffer } from "buffer";
-import crypto from "isomorphic-webcrypto";
+import { Buffer } from "buffer"
+import crypto from "isomorphic-webcrypto"
 
 const utf8Encoder = new TextEncoder()
 const utf8Decoder = new TextDecoder()
 
 async function appKey(): Promise<Uint8Array> {
-    try {
-        const appkB64 = await SecureStore.getItemAsync("appk")
-        if (appkB64 && appkB64.length) {
-            return Uint8Array.from(Buffer.from(appkB64, "base64"))
-        }
-    } catch {
+  try {
+    const appkB64 = await SecureStore.getItemAsync("appk")
+    if (appkB64 && appkB64.length) {
+      return Uint8Array.from(Buffer.from(appkB64, "base64"))
     }
+  } catch {}
 
-    const appk = new Uint8Array(32);
-    crypto.getRandomValues(appk)
-    await SecureStore.setItemAsync("appk", Buffer.from(appk).toString("base64"))
-    return appk
+  const appk = new Uint8Array(32)
+  crypto.getRandomValues(appk)
+  await SecureStore.setItemAsync("appk", Buffer.from(appk).toString("base64"))
+  return appk
 }
 
 async function toIv(key: string): Promise<Uint8Array> {
-    const data = utf8Encoder.encode(key);
-    const hash = await crypto.subtle.digest({name: "SHA-256"}, data);
-    return new Uint8Array(hash.slice(0, 16))
+  const data = utf8Encoder.encode(key)
+  const hash = await crypto.subtle.digest({ name: "SHA-256" }, data)
+  return new Uint8Array(hash.slice(0, 16))
 }
 
 async function encrypt(key: string, val: string) {
-    const iv = await toIv(key)
-    const appk = await appKey();
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      appk,
-      { name: 'AES-CBC' },
-      false,
-      ['encrypt']
-    );
-    
-    const plaintext = utf8Encoder.encode(val);
-    
-    const ciphertext = await crypto.subtle.encrypt(
-      { name: 'AES-CBC', iv },
-      cryptoKey,
-      plaintext
-    );
+  const iv = await toIv(key)
+  const appk = await appKey()
+  const cryptoKey = await crypto.subtle.importKey("raw", appk, { name: "AES-CBC" }, false, [
+    "encrypt",
+  ])
 
-    return Buffer.from(ciphertext).toString("base64")
+  const plaintext = utf8Encoder.encode(val)
+
+  const ciphertext = await crypto.subtle.encrypt({ name: "AES-CBC", iv }, cryptoKey, plaintext)
+
+  return Buffer.from(ciphertext).toString("base64")
 }
 
 async function decrypt(key: string, val: string) {
-    const iv = await toIv(key)
-    const appk = await appKey();
-    const ciphertext = Buffer.from(val, "base64")
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      appk,
-      { name: 'AES-CBC' },
-      false,
-      ['decrypt']
-    );
-    const plaintext = await crypto.subtle.decrypt(
-      { name: 'AES-CBC', iv },
-      cryptoKey,
-      ciphertext
-    );
-    const text = utf8Decoder.decode(plaintext);
-    return text
+  const iv = await toIv(key)
+  const appk = await appKey()
+  const ciphertext = Buffer.from(val, "base64")
+  const cryptoKey = await crypto.subtle.importKey("raw", appk, { name: "AES-CBC" }, false, [
+    "decrypt",
+  ])
+  const plaintext = await crypto.subtle.decrypt({ name: "AES-CBC", iv }, cryptoKey, ciphertext)
+  const text = utf8Decoder.decode(plaintext)
+  return text
 }
-
 
 /**
  * Loads a string from storage.
@@ -149,5 +131,5 @@ export async function remove(key: string): Promise<void> {
  * Burn it all to the ground.
  */
 export async function clear(): Promise<void> {
-    await AsyncStorage.clear()
+  await AsyncStorage.clear()
 }

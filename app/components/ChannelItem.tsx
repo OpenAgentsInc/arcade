@@ -36,7 +36,12 @@ export const ChannelItem = observer(function ChannelItem({
       <View style={$messageContent}>
         <View style={$messageContentHeading}>
           <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
-          {!manage && <Text text={createdAt} style={$messageContentTime} />}
+          {!manage && (
+            <Text
+              text={createdAt && createdAt}
+              style={$messageContentTime}
+            />
+          )}
         </View>
         {manage ? (
           <Text
