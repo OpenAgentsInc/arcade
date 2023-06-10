@@ -1,18 +1,30 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
 import React from "react"
-import { TextStyle, ViewStyle } from "react-native"
+import Chat from "app/components/icons/chat.svg"
+import Profile from "app/components/icons/profile.svg"
+import Settings from "app/components/icons/settings.svg"
+import { StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { DiscoverScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
+import { ContactsScreen, DiscoverScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+
+const logoSize = 30
+const colors2 = {
+  black: "black",
+  bottomBarBackground: "rgba(0,24,24,0.65)",
+  bottomBarBorder: "rgba(0,48,48,0.85)",
+  logo: "#155e75",
+  logoActive: "cyan",
+}
 
 export type DemoTabParamList = {
   Home: undefined
   Feed: undefined
   Create: undefined
-  Discover: undefined
+  Contacts: undefined
   Profile: undefined
 }
 
@@ -47,22 +59,30 @@ export function TabNavigator() {
       }}
     >
       <Tab.Screen
+        name="Contacts"
+        component={ContactsScreen}
+        options={{
+          tabBarLabel: "Contacts",
+          tabBarIcon: ({ focused }) => (
+            <Profile
+              style={focused ? styles.logoActive : styles.logo}
+              height={logoSize}
+              width={logoSize}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Home"
         component={HomeMessagesScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="Home" color={focused ? colors.tint : inactiveIconColor} size={24} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Discover"
-        component={DiscoverScreen}
-        options={{
-          tabBarLabel: "Discover",
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="Globe" color={focused ? colors.tint : inactiveIconColor} size={24} />
+            <Chat
+              style={focused ? styles.logoActive : styles.logo}
+              height={logoSize}
+              width={logoSize}
+            />
           ),
         }}
       />
@@ -72,7 +92,11 @@ export function TabNavigator() {
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="User" color={focused ? colors.tint : inactiveIconColor} size={24} />
+            <Settings
+              style={focused ? styles.logoActive : styles.logo}
+              height={logoSize}
+              width={logoSize}
+            />
           ),
         }}
       />
@@ -95,3 +119,31 @@ const $tabBarLabel: TextStyle = {
   lineHeight: 16,
   flex: 1,
 }
+
+const styles = StyleSheet.create({
+  bottomBar: {
+    alignItems: "center",
+    backgroundColor: colors2.bottomBarBackground,
+    borderColor: colors2.bottomBarBorder,
+    borderRadius: 15,
+    borderWidth: 1,
+    flexDirection: "row",
+    height: 60,
+    justifyContent: "space-around",
+    left: "5%",
+    position: "absolute",
+    width: "90%",
+  },
+  container: {
+    backgroundColor: colors.black,
+    flex: 1,
+  },
+  list: {
+    flex: 1,
+    marginTop: 40,
+    paddingHorizontal: 2,
+    paddingVertical: 10,
+  },
+  logo: { color: inactiveIconColor },
+  logoActive: { color: colors.tint },
+})
