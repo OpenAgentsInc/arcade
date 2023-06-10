@@ -1,6 +1,6 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrEvent, NostrPool } from "app/arclib/src"
+import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
 import { arrayToNIP02 } from "app/utils/nip02"
@@ -41,7 +41,7 @@ export const UserStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get getChannels() {
-      const list = self.channels.slice().sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+      const list = self.channels.slice()
       return list
     },
     get getContacts() {
@@ -179,6 +179,8 @@ export const UserStoreModel = types
       const uniqueList = [...new Map(list.map((item) => [item.pubkey, item])).values()]
       for (const item of uniqueList) {
         item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
+        // @ts-ignore
+        item.lastMessageAt = item.created_at
       }
       self.setProp("privMessages", uniqueList)
     },

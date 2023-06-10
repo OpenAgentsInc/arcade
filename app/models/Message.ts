@@ -15,6 +15,7 @@ export const MessageModel = types
     kind: types.maybe(types.number),
     hide: types.optional(types.boolean, false),
     mute: types.optional(types.boolean, false),
+    lastMessageAt: types.maybe(types.number),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
