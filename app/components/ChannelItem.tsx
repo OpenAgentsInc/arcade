@@ -1,21 +1,31 @@
 import React, { useEffect } from "react"
-import { AutoImage, Text } from "app/components"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { AutoImage } from "app/components"
+import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel } from "app/models"
 import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
+import { shortenKey } from "app/utils/shortenKey"
+
+const colors = {
+  borderBottomColor: "#232324",
+  borderColor: "#232324",
+  messageContentAbout: "#7B7C7F",
+  messageContentName: "white",
+  messageContentTime: "#7B7C7F",
+  messageUsername: "white",
+  unreadMessagesBadge: "#666",
+  unreadMessagesText: "#000",
+}
 
 export const ChannelItem = observer(function ChannelItem({
   channelManager,
   channel,
-  manage,
 }: {
   channelManager: ChannelManager
   channel: Channel
-  manage?: boolean
 }) {
   const { navigate } = useNavigation<any>()
   const createdAt = formatCreatedAt(channel.lastMessageAt)
@@ -28,75 +38,92 @@ export const ChannelItem = observer(function ChannelItem({
   }, [channel.name])
 
   return (
-    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={$messageItem}>
+    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
       <AutoImage
         source={{ uri: channel?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
-        style={$messageAvatar}
+        style={styles.$messageAvatar}
       />
-      <View style={$messageContent}>
-        <View style={$messageContentHeading}>
-          <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
-          {!manage && (
-            <Text
-              text={createdAt && createdAt}
-              style={$messageContentTime}
-            />
-          )}
+      <View style={styles.$messageContent}>
+        <View style={styles.$messageContentHeading}>
+          <Text style={styles.$messageContentName}>{channel?.name || "No name"}</Text>
+          <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
-        {manage ? (
-          <Text
-            text={channel?.about || "No about"}
-            size="sm"
-            numberOfLines={1}
-            style={$messageContentAbout}
-          />
-        ) : (
-          <Text
-            text={channel?.lastMessage || channel?.about || "No about"}
-            size="sm"
-            numberOfLines={1}
-            style={$messageContentAbout}
-          />
-        )}
+        <View style={styles.$messageContentRight}>
+          <View style={styles.$unreadMessagesBadge}>
+            <Text style={styles.$unreadMessagesText}>{1}</Text>
+          </View>
+        </View>
+        <Text style={styles.$messageUsername} numberOfLines={1}>
+          {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
+        </Text>
+        <Text style={styles.$messageContentAbout} numberOfLines={1}>
+          {channel?.lastMessage || channel?.about || "No about"}
+        </Text>
+        <View style={styles.$divider} />
       </View>
     </Pressable>
   )
 })
 
-const $messageItem: ViewStyle = {
-  flex: 1,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingVertical: spacing.extraSmall,
-}
-
-const $messageAvatar: ImageStyle = {
-  width: 44,
-  height: 44,
-  borderRadius: 100,
-  marginRight: spacing.small,
-}
-
-const $messageContent: ViewStyle = {
-  flex: 1,
-}
-
-const $messageContentHeading: ViewStyle = {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-}
-
-const $messageContentTime: TextStyle = {
-  color: "rgba(255,255,255,0.5)",
-}
-
-const $messageContentName: TextStyle = {
-  lineHeight: 0,
-}
-
-const $messageContentAbout: TextStyle = {
-  maxWidth: 250,
-  lineHeight: 0,
-  color: "rgba(255,255,255,0.5)",
-}
+const styles = StyleSheet.create({
+  $divider: {
+    borderBottomColor: colors.borderBottomColor,
+    borderBottomWidth: 1,
+    marginVertical: 8,
+  },
+  $messageAvatar: {
+    borderColor: colors.borderColor,
+    borderRadius: 100,
+    borderWidth: 0.6,
+    height: 50,
+    marginRight: spacing.small,
+    marginTop: 2,
+    width: 50,
+  },
+  $messageContent: {
+    flex: 1,
+  },
+  $messageContentAbout: {
+    color: colors.messageContentAbout,
+    marginTop: 1,
+    maxWidth: 250,
+  },
+  $messageContentHeading: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  $messageContentName: {
+    color: colors.messageContentName,
+    fontWeight: "bold",
+  },
+  $messageContentRight: {
+    position: "absolute",
+    right: 0,
+    top: 25,
+  },
+  $messageContentTime: {
+    color: colors.messageContentTime,
+  },
+  $messageItem: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  $messageUsername: {
+    color: colors.messageUsername,
+    marginTop: 2,
+    maxWidth: 250,
+  },
+  $unreadMessagesBadge: {
+    alignItems: "center",
+    backgroundColor: colors.unreadMessagesBadge,
+    borderRadius: 100,
+    justifyContent: "center",
+    minWidth: 20,
+    padding: 3,
+  },
+  $unreadMessagesText: {
+    color: colors.unreadMessagesText,
+    fontSize: 12,
+  },
+})

@@ -8,9 +8,6 @@ import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
-// @ts-ignore
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
-
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
 }
