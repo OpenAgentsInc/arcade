@@ -10,6 +10,7 @@ import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
+import { ActivityIndicator } from "app/components"
 import { NostrEvent } from "app/arclib/src"
 import { Message } from "app/models"
 
@@ -107,7 +108,7 @@ export const AIChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() 
               renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
-                  <Text text="No message..." />
+                  <ActivityIndicator type="large" />
                 </View>
               }
               removeClippedSubviews={true}
@@ -171,4 +172,5 @@ const $emptyState: ViewStyle = {
   alignSelf: "center",
   transform: [{ scaleY: -1 }],
   paddingVertical: spacing.medium,
+  height: 470,
 }
