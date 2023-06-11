@@ -9,7 +9,7 @@ const width = Dimensions.get("window").width
 export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   return (
     <View style={$tabbar}>
-      <Frame color={colors.palette.cyan400} style={$frame} visible={true}>
+      <Frame internalSquareSize={10} color={colors.palette.cyan400} style={$frame} visible={true}>
         <View style={{ flexDirection: "row" }}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key]
