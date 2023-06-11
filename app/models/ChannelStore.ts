@@ -13,18 +13,6 @@ export const ChannelStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     getChannel(id: string) {
-      console.log("trying to getCHannel:", id)
-      if (id === "ai-demo") {
-        return {
-          id: "0",
-          privkey: "",
-          messages: [],
-          fetchMessages: () => {},
-          updateLastMessage: () => {},
-          reset: () => {},
-          back: () => {},
-        } as Channel
-      }
       return resolveIdentifier(ChannelModel, self, id)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
