@@ -117,8 +117,8 @@ const Frame: React.FC<FrameProps> = ({
   })
 
   const highlightedBackgroundOpacity = useComputedValue(() => {
-    return scale.current * highlightedProgress.current
-  }, [highlightedProgress, scale])
+    return Math.max(scale.current * highlightedProgress.current, alwaysShowBackground ? 0.1 : 0)
+  }, [highlightedProgress, alwaysShowBackground, scale])
 
   return (
     <Canvas
@@ -190,7 +190,7 @@ const Frame: React.FC<FrameProps> = ({
         width={containerWidth}
         height={containerHeight}
         color={borderColor}
-        opacity={alwaysShowBackground ? 0.3 : highlightedBackgroundOpacity}
+        opacity={highlightedBackgroundOpacity}
       />
     </Canvas>
   )
