@@ -227,7 +227,7 @@ const Frame: React.FC<FrameProps> = ({
         width={containerWidth}
         height={containerHeight}
         color={colors.palette.almostBlack}
-        opacity={Selector(scale, (s) => s * 0.9)}
+        // opacity={Selector(scale, (s) => s * 0.9)}
       />
       <Rect
         x={offsetWidth}
