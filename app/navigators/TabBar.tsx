@@ -20,7 +20,6 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
         internalSquareSize={10}
         color={colors.palette.cyan400}
         style={$frame}
-        // visible={true}
       >
         <View style={{ flexDirection: "row" }}>
           {state.routes.map((route, index) => {
