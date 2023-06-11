@@ -41,6 +41,7 @@ export function TabNavigator() {
         tabBarHideOnKeyboard: true,
       }}
       tabBar={(props) => <TabBar {...props} />}
+      initialRouteName="Home"
     >
       <Tab.Screen
         name="Contacts"
