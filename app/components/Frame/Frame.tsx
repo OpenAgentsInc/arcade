@@ -2,14 +2,13 @@ import {
   Canvas,
   Rect,
   useComputedValue,
-  Selector,
   useValue,
   runTiming,
   SkiaValue,
   useValueEffect,
 } from "@shopify/react-native-skia"
 
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { CornerType, FrameSquare } from "./FrameSquare"
 import { Scaler } from "./Scaler"
 import { AnimatedRectBorder } from "./AnimatedRectBorder"
@@ -81,6 +80,16 @@ const Frame: React.FC<FrameProps> = ({
   internalSquareSize: maxInternalSquareSize,
   alwaysShowBorder = false,
 }) => {
+  const [isVisible, setIsVisible] = useState(false) // New state to control visibility
+
+  useEffect(() => {
+    setIsVisible(true) // Start the animation when the component mounts
+  }, [])
+
+  useEffect(() => {
+    setIsVisible(visible) // Update visibility based on the "visible" prop
+  }, [visible])
+
   // Default value for highlighted
   const defaultHighlighted = useValue(false)
 
@@ -165,6 +174,11 @@ const Frame: React.FC<FrameProps> = ({
     return Math.max(scale.current * highlightedProgress.current, alwaysShowBackground ? 0.1 : 0)
   }, [highlightedProgress, alwaysShowBackground, scale])
 
+  // Return null if the Frame component is not visible
+  if (!isVisible) {
+    return null
+  }
+
   return (
     <Canvas
       style={{
@@ -227,7 +241,7 @@ const Frame: React.FC<FrameProps> = ({
         width={containerWidth}
         height={containerHeight}
         color={colors.palette.almostBlack}
-        opacity={Selector(scale, (s) => s * 0.9)}
+        // opacity={Selector(scale, (s) => s * 0.9)}
       />
       <Rect
         x={offsetWidth}
