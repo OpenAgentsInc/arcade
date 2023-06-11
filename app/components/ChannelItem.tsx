@@ -59,7 +59,7 @@ export const ChannelItem = observer(function ChannelItem({
           {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
         </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
-          {channel.lastMessage || channel.about || "No about"}
+          {channel.lastMessage || channel.about || ""}
         </Text>
         <View style={styles.$divider} />
       </View>
