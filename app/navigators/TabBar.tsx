@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, TouchableOpacity, ViewStyle, Dimensions } from "react-native"
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated"
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { Frame } from "app/components"
 import { colors } from "app/theme"
@@ -42,18 +43,19 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
             }
 
             return (
-              <TouchableOpacity
+              <Animated.View
                 key={index}
-                onPress={onPress}
+                entering={FadeIn.delay(500 + 50 * index).duration(300)}
                 style={{
                   flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                activeOpacity={0.8}
               >
-                {IconComponent && <IconComponent focused={isFocused} />}
-              </TouchableOpacity>
+                <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+                  {IconComponent && <IconComponent focused={isFocused} />}
+                </TouchableOpacity>
+              </Animated.View>
             )
           })}
         </View>
