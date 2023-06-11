@@ -9,7 +9,7 @@ const ActivityIndicatorScreenDemo: React.FC = () => {
 
   return (
     <DemoContainerScreen>
-      <ActivityIndicator color={colors.palette.cyan400} type={type} />
+      <ActivityIndicator color={colors.tint} type={type} />
       <ExpandedButton
         onPress={() => {
           setType((t) => (t === "large" ? "small" : "large"))
