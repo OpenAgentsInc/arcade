@@ -46,7 +46,7 @@ const ArwesButton: React.FC<ArwesButtonProps> = ({ onPress, onPressIn, ...frameP
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View>
-        <Frame {...frameProps} highlighted={highlighted} />{" "}
+        <Frame {...frameProps} highlighted={highlighted} />
         {/* Render the Frame component with provided props and highlighted status */}
       </Animated.View>
     </GestureDetector>
