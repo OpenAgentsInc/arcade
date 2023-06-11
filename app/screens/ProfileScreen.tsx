@@ -127,42 +127,13 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
               />
               <ListItem
-                text="Frame Demo"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => {
-                  navigation.navigate("FrameDemo")
-                }}
-              />
-              <ListItem
-                text="Button Demo"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => {
-                  navigation.navigate("ButtonDemo")
-                }}
-              />
-              <ListItem
-                text="Text Input Demo"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => {
-                  navigation.navigate("TextInputDemo")
-                }}
-              />
-              <ListItem
-                text="Activity Indicator"
-                leftIcon="Shield"
+                text="Demos"
+                leftIcon="TestTube2"
+                bottomSeparator
                 leftIconColor={colors.palette.cyan500}
                 style={$sectionButton}
                 onPress={() => {
-                  navigation.navigate("ActivityIndicatorDemo")
+                  navigation.navigate("Demos")
                 }}
               />
             </View>
