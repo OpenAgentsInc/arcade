@@ -13,12 +13,6 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
         <View style={{ flexDirection: "row" }}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key]
-            const label =
-              options.tabBarLabel !== undefined
-                ? options.tabBarLabel
-                : options.title !== undefined
-                ? options.title
-                : route.name
 
             const IconComponent = options.tabBarIcon as any
 
