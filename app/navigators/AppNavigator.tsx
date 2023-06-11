@@ -59,6 +59,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
+          <Stack.Screen name="AIChat" component={Screens.AIChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />

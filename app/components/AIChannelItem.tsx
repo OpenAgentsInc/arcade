@@ -25,7 +25,7 @@ export const AIChannelItem = observer(function ChannelItem({ channel }: { channe
   const createdAt = formatCreatedAt(channel.lastMessageAt)
 
   return (
-    <Pressable onPress={() => navigate("Chat", { id: "ai-demo" })} style={styles.$messageItem}>
+    <Pressable onPress={() => navigate("AIChat")} style={styles.$messageItem}>
       <AutoImage
         source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   $messageContentName: {
     color: colors.messageContentName,
     fontWeight: "bold",
+    paddingTop: 2,
   },
   $messageContentRight: {
     position: "absolute",
