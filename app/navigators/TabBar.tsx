@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { View, TouchableOpacity, ViewStyle, Dimensions } from "react-native"
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { Frame } from "app/components"
@@ -7,9 +7,21 @@ import { colors } from "app/theme"
 const width = Dimensions.get("window").width
 
 export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
+  const [tabBarFade, setTabBarFade] = useState(false)
+  useEffect(() => {
+    setTimeout(() => {
+      setTabBarFade(true)
+    }, 250)
+  }, [])
   return (
     <View style={$tabbar}>
-      <Frame internalSquareSize={10} color={colors.palette.cyan400} style={$frame} visible={true}>
+      <Frame
+        visible={tabBarFade}
+        internalSquareSize={10}
+        color={colors.palette.cyan400}
+        style={$frame}
+        // visible={true}
+      >
         <View style={{ flexDirection: "row" }}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key]
