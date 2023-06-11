@@ -1,13 +1,13 @@
+import React from "react"
+import { StyleSheet, TextStyle, ViewStyle } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
-import React from "react"
 import Chat from "app/components/icons/chat.svg"
 import Profile from "app/components/icons/profile.svg"
 import Settings from "app/components/icons/settings.svg"
-import { StyleSheet, TextStyle, ViewStyle } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
-import { colors, spacing, typography } from "../theme"
+import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "app/screens"
+import { colors, spacing, typography } from "app/theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 const logoSize = 30
@@ -22,7 +22,6 @@ export type DemoTabParamList = {
 
 /**
  * Helper for automatically generating navigation prop types for each route.
- *
  * More info: https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScreenProps<
@@ -113,29 +112,6 @@ const $tabBarLabel: TextStyle = {
 }
 
 const styles = StyleSheet.create({
-  // bottomBar: {
-  //   alignItems: "center",
-  //   backgroundColor: colors2.bottomBarBackground,
-  //   borderColor: colors2.bottomBarBorder,
-  //   borderRadius: 15,
-  //   borderWidth: 1,
-  //   flexDirection: "row",
-  //   height: 60,
-  //   justifyContent: "space-around",
-  //   left: "5%",
-  //   position: "absolute",
-  //   width: "90%",
-  // },
-  // container: {
-  //   backgroundColor: colors.black,
-  //   flex: 1,
-  // },
-  // list: {
-  //   flex: 1,
-  //   marginTop: 40,
-  //   paddingHorizontal: 2,
-  //   paddingVertical: 10,
-  // },
   logo: { color: inactiveIconColor },
   logoActive: { color: colors.tint },
 })
