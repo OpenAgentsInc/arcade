@@ -1,13 +1,11 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { AutoImage } from "app/components"
 import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel } from "app/models"
-import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import { shortenKey } from "app/utils/shortenKey"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -20,25 +18,12 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const ChannelItem = observer(function ChannelItem({
-  channelManager,
-  channel,
-}: {
-  channelManager: ChannelManager
-  channel: Channel
-}) {
+export const AIChannelItem = observer(function ChannelItem({ channel }: { channel: Channel }) {
   const { navigate } = useNavigation<any>()
   const createdAt = formatCreatedAt(channel.lastMessageAt)
 
-  useEffect(() => {
-    // only fetch meta if channel name not present
-    if (!channel.name) {
-      channel.fetchMeta(channelManager)
-    }
-  }, [channel.name])
-
   return (
-    <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
+    <Pressable onPress={() => navigate("AIChat")} style={styles.$messageItem}>
       <AutoImage
         source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
@@ -48,18 +33,11 @@ export const ChannelItem = observer(function ChannelItem({
           <Text style={styles.$messageContentName}>{channel.name || "No name"}</Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
-        <View style={styles.$messageContentRight}>
-          {/*
-          <View style={styles.$unreadMessagesBadge}>
-            <Text style={styles.$unreadMessagesText}>{1}</Text>
-          </View>
-          */}
-        </View>
-        <Text style={styles.$messageUsername} numberOfLines={1}>
+        {/* <Text style={styles.$messageUsername} numberOfLines={1}>
           {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
-        </Text>
+        </Text> */}
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
-          {channel.lastMessage || channel.about || ""}
+          {channel.lastMessage || channel.about || "No about"}
         </Text>
         <View style={styles.$divider} />
       </View>
@@ -87,7 +65,8 @@ const styles = StyleSheet.create({
   },
   $messageContentAbout: {
     color: colors.messageContentAbout,
-    marginTop: 1,
+    marginBottom: 6,
+    marginTop: 8,
     maxWidth: 250,
   },
   $messageContentHeading: {
@@ -98,6 +77,7 @@ const styles = StyleSheet.create({
   $messageContentName: {
     color: colors.messageContentName,
     fontWeight: "bold",
+    paddingTop: 2,
   },
   $messageContentRight: {
     position: "absolute",
