@@ -2,7 +2,6 @@ import {
   Canvas,
   Rect,
   useComputedValue,
-  Selector,
   useValue,
   runTiming,
   SkiaValue,

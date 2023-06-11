@@ -1,13 +1,12 @@
 import React from "react"
-import { StyleSheet, TextStyle, ViewStyle } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { StyleSheet } from "react-native"
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
 import Chat from "app/components/icons/chat.svg"
 import Profile from "app/components/icons/profile.svg"
 import Settings from "app/components/icons/settings.svg"
 import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "app/screens"
-import { colors, spacing, typography } from "app/theme"
+import { colors } from "app/theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { TabBar } from "./TabBar"
 
@@ -35,19 +34,11 @@ const Tab = createBottomTabNavigator<DemoTabParamList>()
 const inactiveIconColor = colors.palette.cyan800
 
 export function TabNavigator() {
-  const { bottom } = useSafeAreaInsets()
-
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        // tabBarStyle: [$tabBar, { height: bottom + 70 }],
-        // tabBarActiveTintColor: colors.text,
-        // tabBarInactiveTintColor: colors.text,
-        // tabBarLabelStyle: $tabBarLabel,
-        // tabBarItemStyle: $tabBarItem,
-        // tabBarShowLabel: false,
       }}
       tabBar={(props) => <TabBar {...props} />}
     >
@@ -95,22 +86,6 @@ export function TabNavigator() {
       />
     </Tab.Navigator>
   )
-}
-
-const $tabBar: ViewStyle = {
-  backgroundColor: colors.background,
-  borderTopColor: colors.transparent,
-}
-
-const $tabBarItem: ViewStyle = {
-  paddingTop: spacing.medium,
-}
-
-const $tabBarLabel: TextStyle = {
-  fontSize: 12,
-  fontFamily: typography.primary.medium,
-  lineHeight: 16,
-  flex: 1,
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, TouchableOpacity, ViewStyle, Dimensions } from "react-native"
-import Animated, { FadeIn, FadeInDown } from "react-native-reanimated"
+import Animated, { FadeIn } from "react-native-reanimated"
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { Frame } from "app/components"
 import { colors } from "app/theme"
@@ -22,7 +22,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
         color={colors.palette.cyan400}
         style={$frame}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View style={$row}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key]
 
@@ -46,11 +46,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
               <Animated.View
                 key={index}
                 entering={FadeIn.delay(500 + 50 * index).duration(300)}
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={$tab}
               >
                 <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
                   {IconComponent && <IconComponent focused={isFocused} />}
@@ -75,4 +71,14 @@ const $frame: ViewStyle = {
   width: width - 20,
   height: 65,
   justifyContent: "center",
+}
+
+const $row: ViewStyle = {
+  flexDirection: "row",
+}
+
+const $tab: ViewStyle = {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
 }
