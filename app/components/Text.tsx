@@ -1,6 +1,13 @@
 import i18n from "i18n-js"
 import React from "react"
-import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
+import {
+  StyleProp,
+  Text as RNText,
+  TextInput as RNTextInput,
+  TextProps as RNTextProps,
+  TextStyle,
+  TextInputProps as RNTextInputProps,
+} from "react-native"
 import { isRTL, translate, TxKeyPath } from "../i18n"
 import { colors, typography } from "../theme"
 
@@ -8,7 +15,7 @@ type Sizes = keyof typeof $sizeStyles
 type Weights = keyof typeof typography.primary
 type Presets = keyof typeof $presets
 
-export interface TextProps extends RNTextProps {
+interface CustomTextProps {
   /**
    * Text which is looked up via i18n.
    */
@@ -44,6 +51,7 @@ export interface TextProps extends RNTextProps {
   children?: React.ReactNode
 }
 
+export type TextProps = CustomTextProps & RNTextProps
 /**
  * For your text displaying needs.
  * This component is a HOC over the built-in React Native one.
@@ -70,6 +78,24 @@ export function Text(props: TextProps) {
       {content}
     </RNText>
   )
+}
+
+export type TextInputProps = CustomTextProps & RNTextInputProps
+
+export function TextInput(props: TextInputProps) {
+  const { weight, size, style: $styleOverride } = props
+
+  const preset: Presets = $presets[props.preset] ? props.preset : "default"
+
+  const $styles = [
+    $rtlStyle,
+    $presets[preset],
+    $fontWeightStyles[weight],
+    $sizeStyles[size],
+    $styleOverride,
+  ]
+
+  return <RNTextInput {...props} style={$styles} />
 }
 
 const $sizeStyles = {
