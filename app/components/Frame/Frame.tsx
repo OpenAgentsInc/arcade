@@ -9,26 +9,65 @@ import {
   useValueEffect,
 } from "@shopify/react-native-skia"
 
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { CornerType, FrameSquare } from "./FrameSquare"
 import { Scaler } from "./Scaler"
 import { AnimatedRectBorder } from "./AnimatedRectBorder"
 import { colors } from "app/theme"
 
+/**
+ * Props for the Frame component.
+ */
 type FrameProps = {
+  /**
+   * The height of the frame.
+   */
   height: number
+  /**
+   * The width of the frame.
+   */
   width: number
+  /**
+   * The color of the frame.
+   */
   color?: string
+  /**
+   * The color of the frame border.
+   */
   borderColor?: string
+  /**
+   * The width of the internal square border.
+   */
   internalSquareBorderWidth?: number
+  /**
+   * The width of the frame border.
+   */
   strokeWidth?: number
+  /**
+   * Specifies whether the frame is visible.
+   */
   visible?: boolean
+  /**
+   * A SkiaValue representing whether the frame is highlighted.
+   */
   highlighted?: SkiaValue<boolean>
+  /**
+   * Specifies whether the frame always shows the background.
+   */
   alwaysShowBackground?: boolean
+  /**
+   * Specifies whether the frame always shows the border.
+   */
   alwaysShowBorder?: boolean
+  /**
+   * The size of the internal square.
+   */
   internalSquareSize?: number
 }
 
+/**
+ * Frame component represents a rectangular frame with square corners.
+ */
 const Frame: React.FC<FrameProps> = ({
   height,
   width,
@@ -42,10 +81,14 @@ const Frame: React.FC<FrameProps> = ({
   internalSquareSize: maxInternalSquareSize,
   alwaysShowBorder = false,
 }) => {
+  // Default value for highlighted
   const defaultHighlighted = useValue(false)
+
+  // Computed value for highlighted, taking into account the current value of highlightedParam
   const highlighted = useComputedValue(() => {
     return highlightedParam?.current ?? defaultHighlighted.current
   }, [highlightedParam, defaultHighlighted])
+
   const containerWidth = width - internalSquareBorderWidth * 2
   const containerHeight = height - internalSquareBorderWidth * 2
   const offsetWidth = (width - containerWidth) / 2
@@ -65,10 +108,12 @@ const Frame: React.FC<FrameProps> = ({
     )
   }, [visible])
 
-  const squareSize = (() => {
+  // Calculate the size of the square
+  const squareSize = useMemo(() => {
     return maxInternalSquareSize ?? width * 0.1
-  })()
+  }, [maxInternalSquareSize, width])
 
+  // Get the scale origin based on the corner type
   const getScaleOrigin = useCallback(
     (cornerType: CornerType) => {
       switch (cornerType) {

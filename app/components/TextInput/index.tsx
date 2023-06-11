@@ -5,11 +5,20 @@ import { StyleProp, TextStyle, StyleSheet } from "react-native"
 import { TextInput, TextInputProps } from "../Text"
 import { colors } from "app/theme"
 
+/**
+ * Props for the ArwesTextInput component.
+ */
 type ArwesTextInputProps = Omit<FrameProps, "visible" | "alwaysShowBackground"> &
   Omit<TextInputProps, "style"> & {
+    /**
+     * The style for the text input.
+     */
     textInputStyle?: StyleProp<TextStyle>
   }
 
+/**
+ * ArwesTextInput component represents a text input with Arwes-styled frame.
+ */
 const ArwesTextInput: React.FC<ArwesTextInputProps> = ({
   color,
   borderColor,
