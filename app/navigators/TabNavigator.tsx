@@ -9,6 +9,7 @@ import Settings from "app/components/icons/settings.svg"
 import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "app/screens"
 import { colors, spacing, typography } from "app/theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { TabBar } from "./TabBar"
 
 const logoSize = 30
 
@@ -41,13 +42,14 @@ export function TabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: [$tabBar, { height: bottom + 70 }],
-        tabBarActiveTintColor: colors.text,
-        tabBarInactiveTintColor: colors.text,
-        tabBarLabelStyle: $tabBarLabel,
-        tabBarItemStyle: $tabBarItem,
-        tabBarShowLabel: false,
+        // tabBarStyle: [$tabBar, { height: bottom + 70 }],
+        // tabBarActiveTintColor: colors.text,
+        // tabBarInactiveTintColor: colors.text,
+        // tabBarLabelStyle: $tabBarLabel,
+        // tabBarItemStyle: $tabBarItem,
+        // tabBarShowLabel: false,
       }}
+      tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen
         name="Contacts"
