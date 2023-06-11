@@ -38,9 +38,9 @@ export const AIChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() 
               <Pressable onPress={() => {}}>
                 <UserPlusIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
-              <Pressable onPress={() => console.log("nah")}>
+              {/* <Pressable onPress={() => console.log("nah")}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
-              </Pressable>
+              </Pressable> */}
             </View>
           }
         />
