@@ -11,6 +11,13 @@ import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
 // import { HudNavigator } from "./HudNavigator"
 
+type DemoScreenList = {
+  ActivityIndicatorDemo: undefined
+  FrameDemo: undefined
+  ButtonDemo: undefined
+  TextInputDemo: undefined
+}
+
 export type AppStackParamList = {
   Auth: undefined
   Hud: undefined
@@ -35,7 +42,7 @@ export type AppStackParamList = {
   ChannelManager: undefined
   RelayManager: undefined
   NotificationSetting: undefined
-}
+} & DemoScreenList
 
 const exitRoutes = Config.exitRoutes
 
@@ -71,6 +78,13 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
           <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
+          <Stack.Screen
+            name="ActivityIndicatorDemo"
+            component={Screens.ActivityIndicatorScreenDemo}
+          />
+          <Stack.Screen name="FrameDemo" component={Screens.FrameScreenDemo} />
+          <Stack.Screen name="ButtonDemo" component={Screens.ButtonDemoScreen} />
+          <Stack.Screen name="TextInputDemo" component={Screens.TextInputDemoScreen} />
         </>
       ) : (
         // <Stack.Screen name="Hud" component={HudNavigator} />

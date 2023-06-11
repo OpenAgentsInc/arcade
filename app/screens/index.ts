@@ -20,3 +20,5 @@ export * from "./ContactsScreen"
 export * from "./ChannelManagerScreen"
 export * from "./RelayManagerScreen"
 export * from "./NotificationSettingScreen"
+
+export * from "./DemoScreen"

@@ -123,7 +123,47 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 text="Backup and Security"
                 leftIcon="Shield"
                 leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
                 style={$sectionButton}
+              />
+              <ListItem
+                text="Frame Demo"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => {
+                  navigation.navigate("FrameDemo")
+                }}
+              />
+              <ListItem
+                text="Button Demo"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => {
+                  navigation.navigate("ButtonDemo")
+                }}
+              />
+              <ListItem
+                text="Text Input Demo"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => {
+                  navigation.navigate("TextInputDemo")
+                }}
+              />
+              <ListItem
+                text="Activity Indicator"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                style={$sectionButton}
+                onPress={() => {
+                  navigation.navigate("ActivityIndicatorDemo")
+                }}
               />
             </View>
           </View>
