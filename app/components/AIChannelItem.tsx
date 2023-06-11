@@ -1,13 +1,11 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { AutoImage } from "app/components"
 import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel } from "app/models"
-import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import { shortenKey } from "app/utils/shortenKey"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -67,8 +65,8 @@ const styles = StyleSheet.create({
   },
   $messageContentAbout: {
     color: colors.messageContentAbout,
-    marginTop: 8,
     marginBottom: 6,
+    marginTop: 8,
     maxWidth: 250,
   },
   $messageContentHeading: {

@@ -1,17 +1,15 @@
 import React, { FC, useCallback, useEffect, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, User, ChannelMessageForm } from "app/components"
+import { Header, Screen, User, ChannelMessageForm, ActivityIndicator } from "app/components"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
-import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
-import { ActivityIndicator } from "app/components"
-import { NostrEvent } from "app/arclib/src"
+import { UserPlusIcon } from "lucide-react-native"
 import { Message } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
@@ -35,9 +33,8 @@ export const AIChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() 
           onLeftPress={() => back()}
           RightActionComponent={
             <View style={$headerRightActions}>
-              <Pressable onPress={() => {}}>
-                <UserPlusIcon size={20} color={colors.palette.cyan400} />
-              </Pressable>
+              <UserPlusIcon size={20} color={colors.palette.cyan400} />
+
               {/* <Pressable onPress={() => console.log("nah")}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
               </Pressable> */}
@@ -50,11 +47,6 @@ export const AIChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() 
 
   useFocusEffect(
     useCallback(() => {
-      function handleNewMessage(event: NostrEvent) {
-        console.log("new message", event)
-        // channel.addMessage(event)
-      }
-
       async function subscribe() {
         // console.log("subscribe")
         // return await channelManager.sub({
