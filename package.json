@@ -11,7 +11,7 @@
     "android": "react-native run-android --active-arch-only",
     "compile": "tsc --noEmit -p . --pretty",
     "format": "prettier --write \"app/**/*.{js,jsx,json,md,ts,tsx}\"",
-    "lint": "eslint index.js App.js app test --fix --ext .js,.ts,.tsx && npm run format",
+    "lint": "eslint index.js app test --fix --ext .js,.ts,.tsx && npm run format",
     "patch": "patch-package",
     "postinstall": "node ./bin/postInstall",
     "prepare": "cd node_modules/better-sqlite3 && yarn build-release",
@@ -25,14 +25,6 @@
     "release:android": "cd android && rm -rf app/src/main/res/drawable-* && ./gradlew assembleRelease && cd - && echo 'APK generated in ./android/app/build/outputs/apk/release/app-release.apk'",
     "clean": "npx react-native-clean-project",
     "clean-all": "npx react-native clean-project-auto",
-    "expo:start": "expo start",
-    "expo:android": "expo start --android",
-    "expo:ios": "expo start --ios",
-    "expo:web": "expo start --web",
-    "build:ios": "eas build -p ios",
-    "build:android": "eas build -p android",
-    "build:android:apk": "eas build -p android --profile preview",
-    "submit:ios": "eas submit -p ios",
     "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local",
     "icon:ios": "npx ignite-cli generate app-icon ios",
     "splash": "npx ignite-cli generate splash-screen 000"
@@ -167,7 +159,7 @@
     "ignorePatterns": [
       "**/SkiaDemo/**/*.tsx",
       "**/CascadeDemo/**/*.tsx",
-      "**/arclib/**/*.ts"
+      "**/arclib/**/*"
     ],
     "parser": "@typescript-eslint/parser",
     "extends": [
