@@ -44,19 +44,6 @@
         "backgroundColor": "#000"
       }
     },
-    "web": {
-      "favicon": "./assets/images/app-icon-web-favicon.png",
-      "splash": {
-        "image": "./assets/images/splash-logo-web.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#000"
-      }
-    },
-    "extra": {
-      "eas": {
-        "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
-      }
-    },
     "plugins": [
       "expo-localization",
       [
