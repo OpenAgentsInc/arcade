@@ -11,7 +11,7 @@
     "android": "react-native run-android --active-arch-only",
     "compile": "tsc --noEmit -p . --pretty",
     "format": "prettier --write \"app/**/*.{js,jsx,json,md,ts,tsx}\"",
-    "lint": "eslint index.js App.js app test --fix --ext .js,.ts,.tsx && npm run format",
+    "lint": "eslint index.js app test --fix --ext .js,.ts,.tsx && npm run format",
     "patch": "patch-package",
     "postinstall": "node ./bin/postInstall",
     "prepare": "cd node_modules/better-sqlite3 && yarn build-release",
