@@ -167,7 +167,7 @@
     "ignorePatterns": [
       "**/SkiaDemo/**/*.tsx",
       "**/CascadeDemo/**/*.tsx",
-      "**/arclib/**/*.ts"
+      "**/arclib/**/*"
     ],
     "parser": "@typescript-eslint/parser",
     "extends": [
