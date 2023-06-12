@@ -75,22 +75,22 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             <View style={$sectionHeadingButton}>
               <Text text="Account" preset="bold" style={$sectionHeading} />
               <Pressable onPress={() => navigation.navigate("EditProfile")}>
-                <EditIcon width={20} height={20} color={colors.palette.cyan500} />
+                <EditIcon width={24} height={24} color={colors.palette.cyan500} />
               </Pressable>
             </View>
             <View style={$sectionData}>
-              <View style={$sectionDataItem}>
+              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
                 <Text text={profile?.username || "No username"} />
                 <Text text="Username" size="xs" style={$sectionDataItemSubtitle} />
-              </View>
-              <View style={$sectionDataItem}>
+              </Pressable>
+              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
                 <Text text={profile?.nip05 || "No NIP-05"} />
                 <Text text="NIP-05" size="xs" style={$sectionDataItemSubtitle} />
-              </View>
-              <View style={$sectionDataItem}>
+              </Pressable>
+              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
                 <Text text="Bio" size="xs" style={$sectionDataItemSubtitle} />
                 <Text text={profile?.about || profile?.bio || "No bio"} />
-              </View>
+              </Pressable>
             </View>
           </View>
           <View>

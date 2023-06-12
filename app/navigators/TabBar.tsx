@@ -48,8 +48,8 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
                 entering={FadeIn.delay(500 + 50 * index).duration(300)}
                 style={$tab}
               >
-                <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-                  {IconComponent && <IconComponent focused={isFocused} />}
+                <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={$button}>
+                  {IconComponent && <IconComponent focused={isFocused} style={$button} />}
                 </TouchableOpacity>
               </Animated.View>
             )
@@ -81,4 +81,12 @@ const $tab: ViewStyle = {
   flex: 1,
   justifyContent: "center",
   alignItems: "center",
+  height: 65,
+}
+
+const $button: ViewStyle = {
+  height: 65,
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center'
 }
