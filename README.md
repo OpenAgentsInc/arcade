@@ -7,7 +7,7 @@ Our beta build v0.1.0 is [now live](https://github.com/ArcadeLabsInc/arcade/rele
 ## Status
 
 - We have rebranded from Arc to Arcade.
-- We just launched our first MVP beta build v0.1.0 which is now live.
+- We just launched our first MVP beta build v0.1.0. Release notes and download links [here](https://github.com/ArcadeLabsInc/arcade/releases/tag/v0.1.0-beta)!
 - In Q2 we will be focusing on getting the chat features extremely solid, then launching to app stores.
 - In Q3 we will add various commerce features including an in-app Lightning wallet.
 
