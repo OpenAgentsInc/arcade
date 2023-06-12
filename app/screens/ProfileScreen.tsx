@@ -59,7 +59,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               source={{
                 uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
               }}
-              style={$image}
+              style={[$image, $avatarImage]}
             />
           </View>
           <Text
@@ -197,8 +197,6 @@ const $avatar: ViewStyle = {
   width: 80,
   height: 80,
   borderRadius: 100,
-  borderWidth: 2,
-  borderColor: "#000",
   marginTop: -40,
   overflow: "hidden",
   alignSelf: "center",
@@ -208,6 +206,11 @@ const $image: ImageStyle = {
   width: "100%",
   height: "100%",
   resizeMode: "cover",
+}
+
+const $avatarImage: ImageStyle = {
+  borderWidth: 1,
+  borderColor: colors.separator,
 }
 
 const $userName: TextStyle = {
