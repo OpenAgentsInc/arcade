@@ -173,16 +173,10 @@ const $root: ViewStyle = {
   flex: 1,
 }
 
-// const $header: ViewStyle = {
-//   backgroundColor: "transparent",
-//   position: "absolute",
-//   top: 0,
-//   left: 0,
-// }
-
 const $container: ViewStyle = {
   height: "100%",
   paddingHorizontal: spacing.medium,
+  paddingBottom: 160,
 }
 
 const $cover: ImageStyle = {
