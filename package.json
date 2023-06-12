@@ -158,7 +158,6 @@
   "eslintConfig": {
     "root": true,
     "ignorePatterns": [
-      "**/SkiaDemo/**/*.tsx",
       "**/arclib/**/*"
     ],
     "parser": "@typescript-eslint/parser",
