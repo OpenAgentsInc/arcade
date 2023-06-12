@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle, Alert } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle, Alert, Platform } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, RelayContext, User, ChannelMessageForm } from "app/components"
@@ -149,7 +149,13 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   return (
     <BottomSheetModalProvider>
-      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
+      <Screen
+        style={$root}
+        preset="fixed"
+        safeAreaEdges={["bottom"]}
+        KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+        keyboardOffset={120}
+      >
         <View style={$container}>
           <View style={$main}>
             <FlashList
@@ -163,7 +169,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               }
               removeClippedSubviews={true}
               estimatedItemSize={60}
-              inverted={true}
+              inverted={channel.allMessages.length !== 0}
             />
           </View>
           <View style={$form}>
@@ -220,6 +226,5 @@ const $messageContent: TextStyle = {
 
 const $emptyState: ViewStyle = {
   alignSelf: "center",
-  transform: [{ scaleY: -1 }],
   paddingVertical: spacing.medium,
 }

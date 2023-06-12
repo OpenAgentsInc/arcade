@@ -1,4 +1,4 @@
-import React, { FC, useContext, useLayoutEffect } from "react"
+import React, { FC, useCallback, useContext, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -44,19 +44,23 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     })
   }, [])
 
+  const renderItem = useCallback(({ item }: { item: string }) => {
+    return (
+      <Pressable onPress={() => navigation.navigate("User", { id: item })} style={$item}>
+        <ContactItem pubkey={item} />
+        <Pressable onPress={() => unfollow(item)}>
+          <Text text="Unfollow" size="xs" />
+        </Pressable>
+      </Pressable>
+    )
+  }, [])
+
   return (
     <Screen style={$root} preset="scroll">
       <FlashList
         data={contacts}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <View style={$item}>
-            <ContactItem pubkey={item} />
-            <Pressable onPress={() => unfollow(item)}>
-              <Text text="Unfollow" size="xs" />
-            </Pressable>
-          </View>
-        )}
+        renderItem={renderItem}
         ListEmptyComponent={
           <View style={$emptyState}>
             <Text text="No contacts" style={{ color: colors.palette.gray }} />

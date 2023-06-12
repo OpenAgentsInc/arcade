@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, TouchableOpacity, ViewStyle, Dimensions } from "react-native"
+import { View, TouchableOpacity, ViewStyle, Dimensions, Platform } from "react-native"
 import Animated, { FadeIn } from "react-native-reanimated"
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs"
 import { Frame } from "app/components"
@@ -62,7 +62,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
 
 const $tabbar: ViewStyle = {
   position: "absolute",
-  bottom: 50,
+  bottom: Platform.OS === "ios" ? 30 : 20,
   left: 10,
   right: 10,
 }

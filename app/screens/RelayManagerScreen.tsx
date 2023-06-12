@@ -164,7 +164,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             )}
             renderSectionHeader={({ section: { title, desc } }) => (
               <View style={$heading}>
-                <Text text={title} size="lg" preset="bold" style={$title} />
+                <Text text={title} size="lg" preset="bold" />
                 {desc && <Text text={desc} size="xs" style={$subtitle} />}
               </View>
             )}
@@ -227,10 +227,6 @@ const $emptyState: ViewStyle = {
 const $heading: ViewStyle = {
   marginTop: spacing.medium,
   marginBottom: spacing.small,
-}
-
-const $title: TextStyle = {
-  lineHeight: 0,
 }
 
 const $subtitle: TextStyle = {

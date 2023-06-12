@@ -43,7 +43,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   }, [userStore.pubkey])
 
   return (
-    <Screen style={$root} preset="scroll">
+    <Screen style={$root} preset="scroll" safeAreaEdges={["bottom"]}>
       <View style={$cover}>
         <AutoImage
           source={{
@@ -228,7 +228,7 @@ const $sectionHeadingButton: ViewStyle = {
 
 const $sectionData: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.palette.cyan900, //colors.palette.cyan500,
+  borderColor: colors.palette.cyan900, // colors.palette.cyan500,
   borderRadius: spacing.tiny,
   // backgroundColor: colors.palette.overlay20,
   marginTop: spacing.tiny,
