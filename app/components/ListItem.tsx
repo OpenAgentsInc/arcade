@@ -193,7 +193,7 @@ const $separatorTop: ViewStyle = {
 
 const $separatorBottom: ViewStyle = {
   borderBottomWidth: 1,
-  borderBottomColor: colors.palette.overlay20, // colors.separator,
+  borderBottomColor: colors.separator,
 }
 
 const $textStyle: TextStyle = {

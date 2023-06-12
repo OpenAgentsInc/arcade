@@ -183,6 +183,8 @@ const $cover: ImageStyle = {
   width: "100%",
   height: 200,
   resizeMode: "cover",
+  borderBottomWidth: 1,
+  borderColor: colors.separator,
 }
 
 const $heading: ViewStyle = {
