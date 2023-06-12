@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ScreenWithSidebar, AIChannelItem, ChannelItem, Text, RelayContext } from "app/components"
+import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { ChannelManager, NostrPool } from "app/arclib/src"
@@ -39,21 +39,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       }, []),
     )
 
-    const aiRooms = [
-      {
-        id: " ",
-        name: "Spirit of Satoshi",
-        about: "Awaiting your questions...",
-        kind: 911911,
-        lastMessageAt: Date.now() - 1600000000000,
-        lastMessage: "",
-        lastMessageBy: "",
-        lastMessageByAvatar: "",
-        picture: "https://pbs.twimg.com/profile_images/1655658089989693440/KXx1NU9i_400x400.jpg",
-      },
-    ]
-
-    const data = [...getChannels, ...privMessages, ...aiRooms].sort(
+    const data = [...getChannels, ...privMessages].sort(
       (a: any, b: any) => b.lastMessageAt - a.lastMessageAt,
     )
 
@@ -62,8 +48,6 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
         <Animated.View entering={FadeInDown.delay(100 * index).duration(800)}>
           {item.kind === 4 ? (
             <DirectMessageItem dm={item} pool={pool} />
-          ) : item.kind === 911911 ? (
-            <AIChannelItem channel={item} />
           ) : (
             <ChannelItem channel={item} channelManager={channelManager} />
           )}
