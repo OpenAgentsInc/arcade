@@ -43,12 +43,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   }, [userStore.pubkey])
 
   return (
-    <Screen
-      style={$root}
-      contentContainerStyle={$offset}
-      preset="scroll"
-      safeAreaEdges={["bottom"]}
-    >
+    <Screen style={$root} preset="scroll" safeAreaEdges={["bottom"]}>
       <View style={$cover}>
         <AutoImage
           source={{
@@ -164,10 +159,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
 
 const $root: ViewStyle = {
   flex: 1,
-}
-
-const $offset: ViewStyle = {
-  paddingBottom: 120,
 }
 
 const $container: ViewStyle = {
