@@ -33,7 +33,7 @@ export const ChannelModel = types
       const events = await channel.list({
         channel_id: self.id,
         filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
-        db_only: true,
+        db_only: false,
         privkey: self.privkey,
       })
       self.setProp("messages", events)

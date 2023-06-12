@@ -58,7 +58,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       async function initDMS() {
-        const list = await dms.list({}, true, id)
+        const list = await dms.list({}, false, id)
         // update state
         setData(list)
         // stop loading
