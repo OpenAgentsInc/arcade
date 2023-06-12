@@ -135,7 +135,7 @@ export function ListItem(props: ListItemProps) {
 
   return (
     <View style={$containerStyles}>
-      <TouchableOpacity {...TouchableOpacityProps} style={$touchableStyles}>
+      <TouchableOpacity {...TouchableOpacityProps} style={$touchableStyles} activeOpacity={0.8}>
         <ListItemAction
           side="left"
           size={height}
