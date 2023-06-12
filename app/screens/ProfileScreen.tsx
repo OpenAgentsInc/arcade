@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Linking Pressable, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { ImageStyle, Linking, Pressable, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import * as Clipboard from 'expo-clipboard';
 import { AppStackScreenProps } from "app/navigators"
