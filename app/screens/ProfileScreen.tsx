@@ -115,14 +115,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("RelayManager")}
               />
-              <ListItem
+              {/* <ListItem
                 text="Notifications"
                 leftIcon="Bell"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
                 onPress={() => navigation.navigate("NotificationSetting")}
-              />
+              /> */}
               {/* <ListItem
                 text="Demos"
                 leftIcon="TestTube2"
@@ -229,6 +229,7 @@ const $sections: ViewStyle = {
 
 const $sectionHeading: TextStyle = {
   color: colors.palette.cyan600,
+  marginVertical: 3,
 }
 
 const $sectionHeadingButton: ViewStyle = {

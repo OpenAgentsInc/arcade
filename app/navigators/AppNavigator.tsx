@@ -12,7 +12,6 @@ import { useStores } from "app/models"
 
 export type AppStackParamList = {
   Auth: undefined
-  AIChat: undefined
   Hud: undefined
   Home: undefined
   Login: undefined
@@ -27,7 +26,6 @@ export type AppStackParamList = {
   User: undefined
   Profile: undefined
   EditProfile: undefined
-  CascadeDemo: undefined
   DirectMessage: undefined
   CreateChannel: undefined
   Contacts: undefined
@@ -59,14 +57,12 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
-          <Stack.Screen name="AIChat" component={Screens.AIChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
           <Stack.Screen name="CreateChannel" component={Screens.CreateChannelScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
-          <Stack.Screen name="CascadeDemo" component={Screens.CascadeDemo} />
           <Stack.Screen name="DirectMessage" component={Screens.DirectMessageScreen} />
           <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
           <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
