@@ -153,7 +153,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
       >
         {({ handleChange, handleBlur, submitForm, values }) => (
           <View>
-            <Text text="Update Profile" preset="heading" size="xl" style={$title} />
+            <Text text="Update Profile" preset="subheading" size="xl" style={$title} />
             <TextField
               label="Display Name"
               style={$input}
