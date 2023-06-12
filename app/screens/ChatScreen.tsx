@@ -154,7 +154,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         preset="fixed"
         safeAreaEdges={["bottom"]}
         KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
-        keyboardOffset={Platform.OS === "ios" ? 120 : 90}
+        keyboardOffset={120}
       >
         <View style={$container}>
           <View style={$main}>
