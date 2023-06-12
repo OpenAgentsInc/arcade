@@ -31,7 +31,7 @@ export const ChannelManagerItem = observer(function ChannelItem({
       />
       <View style={$messageContent}>
         <View style={$messageContentHeading}>
-          <Text text={channel?.name || "No name"} preset="bold" style={$messageContentName} />
+          <Text text={channel?.name || "No name"} preset="bold" />
         </View>
         <Text
           text={channel?.about || "No about"}
@@ -68,12 +68,7 @@ const $messageContentHeading: ViewStyle = {
   alignItems: "center",
 }
 
-const $messageContentName: TextStyle = {
-  lineHeight: 0,
-}
-
 const $messageContentAbout: TextStyle = {
   maxWidth: 250,
-  lineHeight: 0,
   color: "rgba(255,255,255,0.5)",
 }

@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app/components"
@@ -94,7 +94,13 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     }, [])
 
     return (
-      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
+      <Screen
+        style={$root}
+        preset="fixed"
+        safeAreaEdges={["bottom"]}
+        KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+        keyboardOffset={120}
+      >
         <View style={$container}>
           <View style={$main}>
             <FlashList
@@ -113,7 +119,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                 )
               }
               estimatedItemSize={100}
-              inverted={true}
+              inverted={data.length !== 0}
             />
           </View>
           <View style={$form}>
@@ -165,6 +171,5 @@ const $messageContentMine: TextStyle = {
 
 const $emptyState: ViewStyle = {
   alignSelf: "center",
-  transform: [{ scaleY: -1 }],
   paddingVertical: spacing.medium,
 }
