@@ -51,7 +51,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
         type: "remove",
         data: [...getRelays],
       },
-      { title: "Suggest relay", desc: "", type: "add", data: [...suggests] },
+      { title: "Suggested relays", desc: "", type: "add", data: [...suggests] },
     ]
 
     const handlePresentModalPress = useCallback(() => {
