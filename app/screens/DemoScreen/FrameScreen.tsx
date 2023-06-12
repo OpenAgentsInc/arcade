@@ -6,7 +6,7 @@ import { colors } from "app/theme"
 import { StyleSheet } from "react-native"
 
 const FrameScreenDemo: React.FC = () => {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
 
   return (
     <DemoContainerScreen>

@@ -2,18 +2,19 @@ import {
   Canvas,
   Rect,
   useComputedValue,
-  Selector,
   useValue,
   runTiming,
   SkiaValue,
   useValueEffect,
+  useSharedValueEffect,
 } from "@shopify/react-native-skia"
 
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import { CornerType, FrameSquare } from "./FrameSquare"
 import { Scaler } from "./Scaler"
 import { AnimatedRectBorder } from "./AnimatedRectBorder"
 import { colors } from "app/theme"
+import { useDerivedValue, withTiming } from "react-native-reanimated"
 
 /**
  * Props for the Frame component.
@@ -94,19 +95,17 @@ const Frame: React.FC<FrameProps> = ({
   const offsetWidth = (width - containerWidth) / 2
   const offsetHeight = (height - containerHeight) / 2
 
-  const progress = useValue(0)
-
-  useEffect(() => {
-    runTiming(
-      progress,
-      {
-        to: visible ? 0 : 1,
-      },
-      {
-        duration: 200,
-      },
-    )
+  const rProgress = useDerivedValue(() => {
+    return withTiming(visible ? 0 : 1, {
+      duration: 200,
+    })
   }, [visible])
+
+  const progress = useValue(visible ? 0 : 1)
+
+  useSharedValueEffect(() => {
+    progress.current = rProgress.value
+  }, rProgress)
 
   // Calculate the size of the square
   const squareSize = useMemo(() => {
