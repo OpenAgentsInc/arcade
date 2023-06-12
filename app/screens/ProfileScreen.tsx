@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Linking, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
@@ -59,7 +59,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               source={{
                 uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
               }}
-              style={$image}
+              style={[$image, $avatarImage]}
             />
           </View>
           <Text
@@ -97,7 +97,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             <Text text="Settings" preset="bold" style={$sectionHeading} />
             <View style={$sectionData}>
               <ListItem
-                text="Relay management"
+                text="Manage Relays"
                 leftIcon="Boxes"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
@@ -112,21 +112,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("NotificationSetting")}
               />
-              <ListItem
-                text="Data and Storage"
-                leftIcon="HardDrive"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-              />
-              <ListItem
-                text="Backup and Security"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-              />
-              <ListItem
+              {/* <ListItem
                 text="Demos"
                 leftIcon="TestTube2"
                 bottomSeparator
@@ -135,25 +121,27 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => {
                   navigation.navigate("Demos")
                 }}
-              />
+              /> */}
             </View>
           </View>
           <View>
-            <Text text="Others" preset="bold" style={$sectionHeading} />
+            <Text text="Resources" preset="bold" style={$sectionHeading} />
             <View style={$sectionData}>
               <ListItem
-                text="Arcade FAQ"
-                leftIcon="Boxes"
+                text="Twitter"
+                leftIcon="Twitter"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => Linking.openURL("https://twitter.com/TheArcadeApp")}
               />
               <ListItem
-                text="Github"
-                leftIcon="Bell"
+                text="GitHub"
+                leftIcon="Github"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => Linking.openURL("https://github.com/ArcadeLabsInc/arcade")}
               />
             </View>
           </View>
@@ -173,22 +161,18 @@ const $root: ViewStyle = {
   flex: 1,
 }
 
-// const $header: ViewStyle = {
-//   backgroundColor: "transparent",
-//   position: "absolute",
-//   top: 0,
-//   left: 0,
-// }
-
 const $container: ViewStyle = {
   height: "100%",
   paddingHorizontal: spacing.medium,
+  paddingBottom: 160,
 }
 
 const $cover: ImageStyle = {
   width: "100%",
   height: 200,
   resizeMode: "cover",
+  borderBottomWidth: 1,
+  borderColor: colors.separator,
 }
 
 const $heading: ViewStyle = {
@@ -201,8 +185,6 @@ const $avatar: ViewStyle = {
   width: 80,
   height: 80,
   borderRadius: 100,
-  borderWidth: 2,
-  borderColor: "#000",
   marginTop: -40,
   overflow: "hidden",
   alignSelf: "center",
@@ -212,6 +194,11 @@ const $image: ImageStyle = {
   width: "100%",
   height: "100%",
   resizeMode: "cover",
+}
+
+const $avatarImage: ImageStyle = {
+  borderWidth: 1,
+  borderColor: colors.separator,
 }
 
 const $userName: TextStyle = {
@@ -241,9 +228,9 @@ const $sectionHeadingButton: ViewStyle = {
 
 const $sectionData: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.palette.cyan500,
+  borderColor: colors.palette.cyan900, //colors.palette.cyan500,
   borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.overlay20,
+  // backgroundColor: colors.palette.overlay20,
   marginTop: spacing.tiny,
 }
 
@@ -251,7 +238,7 @@ const $sectionDataItem: ViewStyle = {
   paddingHorizontal: spacing.small,
   paddingVertical: spacing.small,
   borderBottomWidth: 1,
-  borderBottomColor: colors.palette.cyan800,
+  borderBottomColor: colors.palette.cyan900, // cyan800,
 }
 
 const $sectionDataItemSubtitle: TextStyle = {
@@ -260,6 +247,7 @@ const $sectionDataItemSubtitle: TextStyle = {
 
 const $sectionButton: ViewStyle = {
   paddingHorizontal: spacing.small,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $mainButton: ViewStyle = {
