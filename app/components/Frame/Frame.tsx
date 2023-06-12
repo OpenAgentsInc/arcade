@@ -179,7 +179,6 @@ const Frame: React.FC<FrameProps> = ({
           size={squareSize}
           color={color}
           strokeWidth={internalSquareBorderWidth}
-          innerSquareType={"bottomLeft"}
         />
       </Scaler>
       <Scaler scale={scale} scaleOrigin={getScaleOrigin("topRight")}>
@@ -189,7 +188,6 @@ const Frame: React.FC<FrameProps> = ({
           size={squareSize}
           color={color}
           strokeWidth={internalSquareBorderWidth}
-          innerSquareType={"bottomRight"}
         />
       </Scaler>
       <Scaler scale={scale} scaleOrigin={getScaleOrigin("bottomLeft")}>
@@ -199,7 +197,6 @@ const Frame: React.FC<FrameProps> = ({
           size={squareSize}
           color={color}
           strokeWidth={internalSquareBorderWidth}
-          innerSquareType={"topRight"}
         />
       </Scaler>
       <Scaler scale={scale} scaleOrigin={getScaleOrigin("bottomRight")}>
@@ -209,7 +206,6 @@ const Frame: React.FC<FrameProps> = ({
           size={squareSize}
           color={color}
           strokeWidth={internalSquareBorderWidth}
-          innerSquareType={"topLeft"}
         />
       </Scaler>
       <AnimatedRectBorder
@@ -227,7 +223,6 @@ const Frame: React.FC<FrameProps> = ({
         width={containerWidth}
         height={containerHeight}
         color={colors.palette.almostBlack}
-        opacity={Selector(scale, (s) => s * 0.9)}
       />
       <Rect
         x={offsetWidth}
