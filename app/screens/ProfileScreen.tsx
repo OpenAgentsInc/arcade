@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ImageStyle, Linking, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
@@ -97,7 +97,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             <Text text="Settings" preset="bold" style={$sectionHeading} />
             <View style={$sectionData}>
               <ListItem
-                text="Relay management"
+                text="Manage Relays"
                 leftIcon="Boxes"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
@@ -112,21 +112,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("NotificationSetting")}
               />
-              <ListItem
-                text="Data and Storage"
-                leftIcon="HardDrive"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-              />
-              <ListItem
-                text="Backup and Security"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-              />
-              <ListItem
+              {/* <ListItem
                 text="Demos"
                 leftIcon="TestTube2"
                 bottomSeparator
@@ -135,25 +121,27 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => {
                   navigation.navigate("Demos")
                 }}
-              />
+              /> */}
             </View>
           </View>
           <View>
-            <Text text="Others" preset="bold" style={$sectionHeading} />
+            <Text text="Resources" preset="bold" style={$sectionHeading} />
             <View style={$sectionData}>
               <ListItem
-                text="Arcade FAQ"
-                leftIcon="Boxes"
+                text="Twitter"
+                leftIcon="Twitter"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => Linking.openURL("https://twitter.com/TheArcadeApp")}
               />
               <ListItem
-                text="Github"
-                leftIcon="Bell"
+                text="GitHub"
+                leftIcon="Github"
                 leftIconColor={colors.palette.cyan500}
                 bottomSeparator={true}
                 style={$sectionButton}
+                onPress={() => Linking.openURL("https://github.com/ArcadeLabsInc/arcade")}
               />
             </View>
           </View>
