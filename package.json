@@ -27,6 +27,7 @@
     "clean-all": "npx react-native clean-project-auto",
     "xcode:env": "cd ios && echo \"export NODE_BINARY=$(command -v node)\" >> .xcode.env.local",
     "icon:ios": "npx ignite-cli generate app-icon ios",
+    "icon:android": "npx ignite-cli generate app-icon android",
     "splash": "npx ignite-cli generate splash-screen 000"
   },
   "overrides": {
