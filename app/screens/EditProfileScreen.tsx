@@ -129,10 +129,13 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
   return (
     <Screen
       preset="scroll"
-      contentContainerStyle={$container}
-      safeAreaEdges={["bottom"]}
+      style={$container}
+      KeyboardAvoidingViewProps={{
+        behavior: Platform.OS === "ios" ? "padding" : "height",
+        keyboardVerticalOffset: 120,
+      }}
       keyboardOffset={120}
-      KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+      keyboardShouldPersistTaps="never"
     >
       <Formik
         innerRef={formikRef}
@@ -224,8 +227,6 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
 const $container: ViewStyle = {
   flex: 1,
-  flexDirection: "column",
-  justifyContent: "center",
   paddingHorizontal: spacing.medium,
 }
 
