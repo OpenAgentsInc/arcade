@@ -1,11 +1,11 @@
-import React, { FC, useContext, useEffect, useState } from "react"
+import React, { FC, useCallback, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Linking, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
@@ -27,20 +27,22 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     userStore.logout()
   }
 
-  useEffect(() => {
-    async function fetchProfile() {
-      // fetch user profile
-      const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
-      const latest = list.slice(-1)[0]
-      if (latest) {
-        const content = JSON.parse(latest.content)
-        setProfile(content)
-      } else {
-        alert("relay return nothing")
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchProfile() {
+        // fetch user profile
+        const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
+        const latest = list.slice(-1)[0]
+        if (latest) {
+          const content = JSON.parse(latest.content)
+          setProfile(content)
+        } else {
+          alert("relay return nothing")
+        }
       }
-    }
-    fetchProfile().catch(console.error)
-  }, [userStore.pubkey])
+      fetchProfile().catch(console.error)
+    }, [userStore.pubkey]),
+  )
 
   return (
     <Screen style={$root} preset="scroll" safeAreaEdges={["bottom"]}>
@@ -79,15 +81,24 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               </Pressable>
             </View>
             <View style={$sectionData}>
-              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
+              <Pressable
+                onPress={() => navigation.navigate("EditProfile")}
+                style={$sectionDataItem}
+              >
                 <Text text={profile?.username || "No username"} />
                 <Text text="Username" size="xs" style={$sectionDataItemSubtitle} />
               </Pressable>
-              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
+              <Pressable
+                onPress={() => navigation.navigate("EditProfile")}
+                style={$sectionDataItem}
+              >
                 <Text text={profile?.nip05 || "No NIP-05"} />
                 <Text text="NIP-05" size="xs" style={$sectionDataItemSubtitle} />
               </Pressable>
-              <Pressable onPress={() => navigation.navigate("EditProfile")} style={$sectionDataItem}>
+              <Pressable
+                onPress={() => navigation.navigate("EditProfile")}
+                style={$sectionDataItem}
+              >
                 <Text text="Bio" size="xs" style={$sectionDataItemSubtitle} />
                 <Text text={profile?.about || profile?.bio || "No bio"} />
               </Pressable>
