@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, View } from "react-native"
 import { SplashScreen } from "app/screens/SplashScreen"
-import { NewHomeDemo } from "app/screens/NewHomeDemo"
 import { colors } from "app/theme"
 
+// keeping this for now to show how to transition from initial splash to the splashscreen that blurs out the logo
 export const HudNavigator = () => {
   const [showSplashScreen, setShowSplashScreen] = useState(true)
 
@@ -27,7 +27,7 @@ export const HudNavigator = () => {
     )
   }
 
-  return <NewHomeDemo />
+  return <></>
 }
 
 const styles = StyleSheet.create({
