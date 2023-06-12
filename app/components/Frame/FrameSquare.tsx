@@ -1,5 +1,5 @@
-import { BlurMask, Rect } from "@shopify/react-native-skia"
-import React, { useMemo } from "react"
+import { Rect } from "@shopify/react-native-skia"
+import React from "react"
 
 /**
  * The type of the corners of the inner square.
@@ -30,55 +30,12 @@ type FrameSquareProps = {
    * The y-coordinate of the square.
    */
   y: number
-  /**
-   * The type of the inner square corner.
-   */
-  innerSquareType: CornerType
 }
 
 /**
  * FrameSquare component renders a square frame with an inner square.
  */
-const FrameSquare: React.FC<FrameSquareProps> = ({
-  x,
-  y,
-  size,
-  color,
-  strokeWidth,
-  innerSquareType,
-}) => {
-  /**
-   * Calculate the x-coordinate of the inner square based on the corner type.
-   */
-  const innerX = useMemo(() => {
-    switch (innerSquareType) {
-      case "bottomLeft":
-        return x + strokeWidth / 2
-      case "bottomRight":
-        return x - strokeWidth / 2
-      case "topLeft":
-        return x - strokeWidth / 2
-      case "topRight":
-        return x + strokeWidth / 2
-    }
-  }, [innerSquareType, x, strokeWidth])
-
-  /**
-   * Calculate the y-coordinate of the inner square based on the corner type.
-   */
-  const innerY = useMemo(() => {
-    switch (innerSquareType) {
-      case "bottomLeft":
-        return y + strokeWidth / 2
-      case "bottomRight":
-        return y + strokeWidth / 2
-      case "topLeft":
-        return y - strokeWidth / 2
-      case "topRight":
-        return y - strokeWidth / 2
-    }
-  }, [innerSquareType, y, strokeWidth])
-
+const FrameSquare: React.FC<FrameSquareProps> = ({ x, y, size, color, strokeWidth }) => {
   return (
     <>
       {/* Render the outer square */}
@@ -89,26 +46,6 @@ const FrameSquare: React.FC<FrameSquareProps> = ({
         height={size}
         color={color}
         style={"stroke"}
-        strokeWidth={strokeWidth}
-      />
-      {/* Render the inner square with blur effect */}
-      <Rect
-        x={innerX}
-        y={innerY}
-        width={size}
-        height={size}
-        color={color}
-        strokeWidth={strokeWidth}
-      >
-        <BlurMask style={"solid"} blur={6} />
-      </Rect>
-      {/* Render the inner square */}
-      <Rect
-        x={innerX}
-        y={innerY}
-        width={size}
-        height={size}
-        color={"black"}
         strokeWidth={strokeWidth}
       />
     </>
