@@ -243,9 +243,9 @@ const $itemContainer: ViewStyle = {
 
 const $item: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.palette.cyan500,
+  borderColor: colors.palette.cyan900, // cyan500,
   borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.overlay20,
+  // backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.small,
   marginBottom: spacing.small,
   alignItems: "center",

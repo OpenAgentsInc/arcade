@@ -228,7 +228,7 @@ const $sectionHeadingButton: ViewStyle = {
 
 const $sectionData: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.palette.overlay20, //colors.palette.cyan500,
+  borderColor: colors.palette.cyan900, //colors.palette.cyan500,
   borderRadius: spacing.tiny,
   // backgroundColor: colors.palette.overlay20,
   marginTop: spacing.tiny,
@@ -238,7 +238,7 @@ const $sectionDataItem: ViewStyle = {
   paddingHorizontal: spacing.small,
   paddingVertical: spacing.small,
   borderBottomWidth: 1,
-  borderBottomColor: colors.palette.overlay20, // cyan800,
+  borderBottomColor: colors.palette.cyan900, // cyan800,
 }
 
 const $sectionDataItemSubtitle: TextStyle = {
@@ -247,6 +247,7 @@ const $sectionDataItemSubtitle: TextStyle = {
 
 const $sectionButton: ViewStyle = {
   paddingHorizontal: spacing.small,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $mainButton: ViewStyle = {
