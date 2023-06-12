@@ -114,7 +114,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                   </View>
                 ) : (
                   <View style={$emptyState}>
-                    <Text text="No message..." />
+                    <Text text="No messages" />
                   </View>
                 )
               }

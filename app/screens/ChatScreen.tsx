@@ -164,7 +164,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
-                  <Text text="No message..." />
+                  <Text text="No messages" />
                 </View>
               }
               removeClippedSubviews={true}
