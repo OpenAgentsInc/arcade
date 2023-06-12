@@ -9,10 +9,10 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
-// import { HudNavigator } from "./HudNavigator"
 
 export type AppStackParamList = {
   Auth: undefined
+  AIChat: undefined
   Hud: undefined
   Home: undefined
   Login: undefined
@@ -53,12 +53,13 @@ const AppStack = observer(function AppStack() {
   } = useStores()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "slide_from_right" }}>
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
+          <Stack.Screen name="AIChat" component={Screens.AIChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
           <Stack.Screen name="Channels" component={Screens.ChannelsScreen} />
@@ -75,7 +76,6 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Demos" component={Screens.DemosScreen} />
         </>
       ) : (
-        // <Stack.Screen name="Hud" component={HudNavigator} />
         <Stack.Screen name="Auth" component={AuthNavigator} />
       )}
     </Stack.Navigator>

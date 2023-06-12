@@ -21,7 +21,7 @@ const FrameScreenDemo: React.FC = () => {
   )
 }
 
-const frameScreenStyles = StyleSheet.create({
+export const frameScreenStyles = StyleSheet.create({
   frame: {
     height: 100,
     width: 200,

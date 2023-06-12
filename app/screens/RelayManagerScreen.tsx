@@ -164,7 +164,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             )}
             renderSectionHeader={({ section: { title, desc } }) => (
               <View style={$heading}>
-                <Text text={title} size="lg" preset="bold" style={$title} />
+                <Text text={title} size="lg" preset="bold" />
                 {desc && <Text text={desc} size="xs" style={$subtitle} />}
               </View>
             )}
@@ -229,10 +229,6 @@ const $heading: ViewStyle = {
   marginBottom: spacing.small,
 }
 
-const $title: TextStyle = {
-  lineHeight: 0,
-}
-
 const $subtitle: TextStyle = {
   color: colors.palette.cyan800,
 }
@@ -243,9 +239,9 @@ const $itemContainer: ViewStyle = {
 
 const $item: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.palette.cyan500,
+  borderColor: colors.palette.cyan900, // cyan500,
   borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.overlay20,
+  // backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.small,
   marginBottom: spacing.small,
   alignItems: "center",

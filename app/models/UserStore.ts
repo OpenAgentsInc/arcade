@@ -141,29 +141,26 @@ export const UserStoreModel = types
     addContact(pubkey: string, pool: NostrPool) {
       const index = self.contacts.findIndex((el: any) => el === pubkey)
       if (index === -1) {
-        self.contacts.push(pubkey)
-
         const newFollows = [...self.contacts, pubkey]
         const nip02 = arrayToNIP02(newFollows)
-
         pool.send({
           content: "",
           tags: nip02,
           kind: 3,
         })
+        self.contacts.push(pubkey)
       }
     },
     removeContact(pubkey: string, pool: NostrPool) {
       const index = self.contacts.findIndex((el: any) => el === pubkey)
       if (index !== -1) {
-        self.contacts.splice(index, 1)
         const nip02 = arrayToNIP02(self.contacts)
-
         pool.send({
           content: "",
           tags: nip02,
           kind: 3,
         })
+        self.contacts.splice(index, 1)
       }
     },
     addRelay(url: string) {

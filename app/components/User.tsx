@@ -74,11 +74,9 @@ const $userTitle: ViewStyle = {
 }
 
 const $userName: TextStyle = {
-  lineHeight: 0,
   color: colors.palette.cyan500,
 }
 
 const $createdAt: TextStyle = {
-  lineHeight: 0,
   color: colors.palette.cyan800,
 }

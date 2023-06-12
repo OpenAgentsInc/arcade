@@ -1,65 +1,23 @@
-import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useMemo } from "react"
+import React, { FC, useCallback, useEffect, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle, Alert, Platform } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, RelayContext, User, ChannelMessageForm } from "app/components"
+import { Header, Screen, User, ChannelMessageForm, ActivityIndicator } from "app/components"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import TextWithImage from "app/components/TextWithImage"
-import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
-import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
-import { Channel, Message, useStores } from "app/models"
+import { UserPlusIcon } from "lucide-react-native"
+import { Message } from "app/models"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
-export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
-  route,
-}: {
-  route: any
-}) {
-  // init relaypool
-  const pool = useContext(RelayContext) as NostrPool
-  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
-
-  // Pull in navigation via hook
+export const AIChatScreen: FC<ChatScreenProps> = observer(function ChatScreen() {
   const navigation = useNavigation<any>()
 
-  // Stores
-  const {
-    userStore: { leaveChannel },
-    channelStore: { getChannel },
-  } = useStores()
-
-  // route params
-  const { id } = route.params
-
-  // get channel by using resolver identifier
-  const channel: Channel = useMemo(() => getChannel(id), [id])
-
-  const leaveJoinedChannel = () => {
-    Alert.alert("Confirm leave channel", "Are you sure?", [
-      {
-        text: "Cancel",
-      },
-      {
-        text: "Confirm",
-        onPress: () => {
-          // update state
-          leaveChannel(channel.id)
-          // redirect back
-          navigation.goBack()
-        },
-      },
-    ])
-  }
-
   const back = () => {
-    // update last message
-    channel.updateLastMessage()
-    channel.reset()
     navigation.goBack()
   }
 
@@ -68,29 +26,18 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={channel.name || "No name"}
+          title="Spirit of Satoshi"
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => back()}
           RightActionComponent={
             <View style={$headerRightActions}>
-              {channel.privkey && (
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate("ContactPicker", {
-                      id: channel.id,
-                      name: channel.name,
-                      privkey: channel.privkey,
-                    })
-                  }
-                >
-                  <UserPlusIcon size={20} color={colors.palette.cyan400} />
-                </Pressable>
-              )}
-              <Pressable onPress={() => leaveJoinedChannel()}>
+              <UserPlusIcon size={20} color={colors.palette.cyan400} />
+
+              {/* <Pressable onPress={() => console.log("nah")}>
                 <LogOutIcon size={20} color={colors.palette.cyan400} />
-              </Pressable>
+              </Pressable> */}
             </View>
           }
         />
@@ -100,21 +47,16 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   useFocusEffect(
     useCallback(() => {
-      function handleNewMessage(event: NostrEvent) {
-        console.log("new message", event)
-        channel.addMessage(event)
-      }
-
       async function subscribe() {
-        console.log("subscribe")
-        return await channelManager.sub({
-          channel_id: channel.id,
-          callback: handleNewMessage,
-          filter: {
-            since: Math.floor(Date.now() / 1000),
-          },
-          privkey: channel.privkey,
-        })
+        // console.log("subscribe")
+        // return await channelManager.sub({
+        //   channel_id: channel.id,
+        //   callback: handleNewMessage,
+        //   filter: {
+        //     since: Math.floor(Date.now() / 1000),
+        //   },
+        //   privkey: channel.privkey,
+        // })
       }
 
       // subscribe for new messages
@@ -122,14 +64,14 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
       return () => {
         console.log("unsubscribe")
-        pool.unsub(handleNewMessage)
+        // pool.unsub(handleNewMessage)
       }
     }, []),
   )
 
   useEffect(() => {
     // fetch messages
-    channel.fetchMessages(channelManager)
+    // channel.fetchMessages(channelManager)
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Message }) => {
@@ -149,34 +91,28 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   return (
     <BottomSheetModalProvider>
-      <Screen
-        style={$root}
-        preset="fixed"
-        safeAreaEdges={["bottom"]}
-        KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
-        keyboardOffset={120}
-      >
+      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
         <View style={$container}>
           <View style={$main}>
             <FlashList
-              data={channel.allMessages}
+              data={[]}
               keyExtractor={(item) => item.id}
               renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
-                  <Text text="No messages" />
+                  <ActivityIndicator type="large" />
                 </View>
               }
               removeClippedSubviews={true}
               estimatedItemSize={60}
-              inverted={channel.allMessages.length !== 0}
+              inverted={true}
             />
           </View>
           <View style={$form}>
             <ChannelMessageForm
-              channelManager={channelManager}
-              channelId={channel.id}
-              privkey={channel.privkey}
+              channelManager={null}
+              channelId={"channel.asdfsdfasdfd"}
+              privkey={"asdf"}
             />
           </View>
         </View>
@@ -226,5 +162,7 @@ const $messageContent: TextStyle = {
 
 const $emptyState: ViewStyle = {
   alignSelf: "center",
+  transform: [{ scaleY: -1 }],
   paddingVertical: spacing.medium,
+  height: 470,
 }
