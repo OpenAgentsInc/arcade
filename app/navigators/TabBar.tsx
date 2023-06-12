@@ -86,7 +86,7 @@ const $tab: ViewStyle = {
 
 const $button: ViewStyle = {
   height: 65,
-  width: '100%',
-  alignItems: 'center',
-  justifyContent: 'center'
+  width: "100%",
+  alignItems: "center",
+  justifyContent: "center",
 }
