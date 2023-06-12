@@ -83,8 +83,9 @@ export const UserStoreModel = types
         isNewUser: true,
         metadata: JSON.stringify(meta),
         channels: [
-          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ],
       })
       await secureSet("privkey", privkey)
@@ -104,8 +105,9 @@ export const UserStoreModel = types
         await secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
         self.setProp("channels", [
-          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ])
       } catch (e: any) {
         console.log(e)
