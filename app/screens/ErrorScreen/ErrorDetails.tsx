@@ -60,7 +60,7 @@ const $heading: TextStyle = {
 
 const $errorSection: ViewStyle = {
   flex: 2,
-  backgroundColor: colors.separator,
+  backgroundColor: colors.palette.neutral800,
   marginVertical: spacing.medium,
   borderRadius: 6,
 }
@@ -75,7 +75,7 @@ const $errorContent: TextStyle = {
 
 const $errorBacktrace: TextStyle = {
   marginTop: spacing.medium,
-  color: colors.textDim,
+  color: colors.palette.neutral400,
 }
 
 const $resetButton: ViewStyle = {

@@ -7,7 +7,7 @@ import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
-import { CompassIcon, Contact2Icon, HomeIcon, LayoutListIcon, PlusIcon } from "lucide-react-native"
+import { CompassIcon, LayoutListIcon, PlusIcon } from "lucide-react-native"
 import { useNavigation } from "@react-navigation/native"
 
 interface ScreenWithSidebarProps {
@@ -67,35 +67,36 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
       renderNavigationView={() => (
         <View style={[$drawer, $drawerInsets]}>
           <View style={$pinList}>
-            <Button
+            {/* <Button
               onPress={() => navigate("Home")}
               style={$pinItem}
               LeftAccessory={() => <HomeIcon color="#fff" />}
-            />
+            /> */}
             <Button
-              onPress={() => navigate("Discover")}
+              onPress={() => navigate("Channels")}
+              // onPress={() => navigate("Discover")}
               style={$pinItem}
               LeftAccessory={() => <CompassIcon color="#fff" />}
             />
-            <Button
+            {/* <Button
               onPress={() => navigate("Contacts")}
               style={$pinItem}
               LeftAccessory={() => <Contact2Icon color="#fff" />}
-            />
+            /> */}
             <Button
               onPress={() => navigate("ChannelManager")}
               style={$pinItem}
               LeftAccessory={() => <LayoutListIcon color="#fff" />}
             />
           </View>
-          <View style={$divider} />
+          {/* <View style={$divider} />
           <View style={$channelList}>
             <Button
               onPress={() => navigate("CreateChannel")}
               LeftAccessory={() => <PlusIcon style={{ color: colors.text }} />}
               style={$channelButton}
             />
-          </View>
+          </View> */}
         </View>
       )}
     >
@@ -103,6 +104,7 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
         <Header
           title={title}
           LeftActionComponent={<DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />}
+          titleStyle={{ color: colors.palette.white }}
           RightActionComponent={
             <View style={$headerRightActions}>
               <Pressable onPress={() => navigate("CreateChannel")}>
@@ -147,24 +149,24 @@ const $pinItem: ViewStyle = {
   minHeight: 50,
 }
 
-const $divider: ViewStyle = {
-  width: "50%",
-  height: 2,
-  backgroundColor: colors.palette.cyan500,
-  borderRadius: 2,
-  marginVertical: spacing.small,
-}
+// const $divider: ViewStyle = {
+//   width: "50%",
+//   height: 2,
+//   backgroundColor: colors.palette.cyan500,
+//   borderRadius: 2,
+//   marginVertical: spacing.small,
+// }
 
-const $channelList: ViewStyle = {
-  flex: 1,
-}
+// const $channelList: ViewStyle = {
+//   flex: 1,
+// }
 
-const $channelButton: ViewStyle = {
-  backgroundColor: colors.palette.cyan700,
-  borderWidth: 0,
-  borderRadius: 100,
-  width: 50,
-  height: 50,
-  minHeight: 50,
-  alignSelf: "center",
-}
+// const $channelButton: ViewStyle = {
+//   backgroundColor: colors.palette.cyan700,
+//   borderWidth: 0,
+//   borderRadius: 100,
+//   width: 50,
+//   height: 50,
+//   minHeight: 50,
+//   alignSelf: "center",
+// }

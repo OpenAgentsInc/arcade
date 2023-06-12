@@ -2,6 +2,9 @@
 
 const palette = {
   almostBlack: "#030303",
+  white: "white",
+
+  gray: "#7B7C7F",
 
   neutral100: "#FFFFFF",
   neutral200: "#F4F2F1",
@@ -52,6 +55,7 @@ const palette = {
 } as const
 
 export const colors = {
+  black: "#000000",
   /**
    * The palette is available to use, but prefer using the name.
    * This is only included for rare, one-off cases. Try to use
@@ -81,11 +85,11 @@ export const colors = {
   /**
    * The main tinting color.
    */
-  tint: "cyan", // palette.primary500,
+  tint: "#5BC6E0",
   /**
    * A subtle color used for lines.
    */
-  separator: palette.cyan800,
+  separator: palette.cyan900, // palette.cyan800,
   /**
    * Error messages.
    */

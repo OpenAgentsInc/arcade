@@ -15,6 +15,7 @@ export const ChannelModel = types
     about: types.optional(types.string, ""),
     privkey: types.optional(types.string, ""),
     lastMessage: types.optional(types.string, ""),
+    lastMessagePubkey: types.optional(types.string, ""),
     lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
     messages: types.optional(types.array(MessageModel), []),
   })
@@ -32,7 +33,7 @@ export const ChannelModel = types
       const events = await channel.list({
         channel_id: self.id,
         filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
-        db_only: true,
+        db_only: false,
         privkey: self.privkey,
       })
       self.setProp("messages", events)
@@ -54,6 +55,7 @@ export const ChannelModel = types
       const lastMessage = self.messages.slice(-1)[0]
       if (lastMessage) {
         self.setProp("lastMessage", lastMessage.content)
+        self.setProp("lastMessagePubkey", lastMessage.pubkey)
         self.setProp("lastMessageAt", lastMessage.created_at)
       }
     },

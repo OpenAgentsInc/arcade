@@ -2,7 +2,9 @@ import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-st
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
+import { MessageModel } from "./Message"
 import { arrayToNIP02 } from "app/utils/nip02"
+import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 
@@ -15,9 +17,6 @@ async function secureGet(key) {
 async function secureDel(key) {
   return await SecureStore.deleteItemAsync(key)
 }
-
-// @ts-ignore
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 
 /**
  * Model description here for TypeScript hints.
@@ -32,6 +31,7 @@ export const UserStoreModel = types
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(types.string), []),
+    privMessages: types.optional(types.array(MessageModel), []),
     relays: types.optional(types.array(types.string), [
       "wss://relay.arcade.city",
       "wss://arc1.arcadelabs.co",
@@ -41,7 +41,7 @@ export const UserStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get getChannels() {
-      const list = self.channels.slice().sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+      const list = self.channels.slice()
       return list
     },
     get getContacts() {
@@ -83,8 +83,9 @@ export const UserStoreModel = types
         isNewUser: true,
         metadata: JSON.stringify(meta),
         channels: [
-          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ],
       })
       await secureSet("privkey", privkey)
@@ -104,8 +105,9 @@ export const UserStoreModel = types
         await secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
         self.setProp("channels", [
-          "1abf8948d2fd05dd1836b33b324dca65138b2e80c77b27eeeed4323246efba4d",
-          "d4de13fde818830703539f80ae31ce3419f8f18d39c3043013bee224be341c3b",
+          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ])
       } catch (e: any) {
         console.log(e)
@@ -141,29 +143,26 @@ export const UserStoreModel = types
     addContact(pubkey: string, pool: NostrPool) {
       const index = self.contacts.findIndex((el: any) => el === pubkey)
       if (index === -1) {
-        self.contacts.push(pubkey)
-
         const newFollows = [...self.contacts, pubkey]
         const nip02 = arrayToNIP02(newFollows)
-
         pool.send({
           content: "",
           tags: nip02,
           kind: 3,
         })
+        self.contacts.push(pubkey)
       }
     },
     removeContact(pubkey: string, pool: NostrPool) {
       const index = self.contacts.findIndex((el: any) => el === pubkey)
       if (index !== -1) {
-        self.contacts.splice(index, 1)
         const nip02 = arrayToNIP02(self.contacts)
-
         pool.send({
           content: "",
           tags: nip02,
           kind: 3,
         })
+        self.contacts.splice(index, 1)
       }
     },
     addRelay(url: string) {
@@ -173,6 +172,16 @@ export const UserStoreModel = types
     removeRelay(url: string) {
       const index = self.relays.findIndex((el: any) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
+    },
+    async fetchPrivMessages(pool: NostrPool) {
+      const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
+      const uniqueList = [...new Map(list.map((item) => [item.pubkey, item])).values()]
+      for (const item of uniqueList) {
+        item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
+        // @ts-ignore
+        item.lastMessageAt = item.created_at
+      }
+      self.setProp("privMessages", uniqueList)
     },
     clearNewUser() {
       self.setProp("isNewUser", false)

@@ -12,6 +12,7 @@ import { useStores } from "app/models"
 
 export type AppStackParamList = {
   Auth: undefined
+  Hud: undefined
   Home: undefined
   Login: undefined
   CreateAccount: undefined
@@ -25,7 +26,6 @@ export type AppStackParamList = {
   User: undefined
   Profile: undefined
   EditProfile: undefined
-  CascadeDemo: undefined
   DirectMessage: undefined
   CreateChannel: undefined
   Contacts: undefined
@@ -33,6 +33,7 @@ export type AppStackParamList = {
   ChannelManager: undefined
   RelayManager: undefined
   NotificationSetting: undefined
+  Demos: undefined
 }
 
 const exitRoutes = Config.exitRoutes
@@ -50,10 +51,11 @@ const AppStack = observer(function AppStack() {
   } = useStores()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "slide_from_right" }}>
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
+          <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
           <Stack.Screen name="Listing" component={Screens.ListingScreen} />
           <Stack.Screen name="ListingDetail" component={Screens.ListingDetailScreen} />
@@ -61,13 +63,13 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="CreateChannel" component={Screens.CreateChannelScreen} />
           <Stack.Screen name="User" component={Screens.UserScreen} />
           <Stack.Screen name="EditProfile" component={Screens.EditProfileScreen} />
-          <Stack.Screen name="CascadeDemo" component={Screens.CascadeDemo} />
           <Stack.Screen name="DirectMessage" component={Screens.DirectMessageScreen} />
           <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
           <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
           <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
+          <Stack.Screen name="Demos" component={Screens.DemosScreen} />
         </>
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />

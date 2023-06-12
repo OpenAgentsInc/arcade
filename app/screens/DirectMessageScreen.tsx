@@ -1,6 +1,14 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import React, {
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app/components"
@@ -9,6 +17,7 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import TextWithImage from "app/components/TextWithImage"
 import { PrivateMessageManager } from "app/arclib/src/private"
+import { Message } from "app/models"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -49,9 +58,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       async function initDMS() {
-        const list = await dms.list({}, true, id)
+        const list = await dms.list({}, false, id)
         // update state
-        setData(list.reverse())
+        setData(list)
         // stop loading
         setLoading(false)
       }
@@ -69,24 +78,35 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
+    const renderItem = useCallback(({ item }: { item: Message }) => {
+      return (
+        <View style={$messageItem}>
+          <User pubkey={item.pubkey} createdAt={item.created_at} />
+          <View style={$messageContentWrapper}>
+            <TextWithImage
+              text={item.content || "empty message"}
+              textStyle={item.pubkey === id ? $messageContent : $messageContentMine}
+              imageStyle={undefined}
+            />
+          </View>
+        </View>
+      )
+    }, [])
+
     return (
-      <Screen style={$root} preset="fixed" safeAreaEdges={["bottom"]} keyboardOffset={120}>
+      <Screen
+        style={$root}
+        preset="fixed"
+        safeAreaEdges={["bottom"]}
+        KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+        keyboardOffset={120}
+      >
         <View style={$container}>
           <View style={$main}>
             <FlashList
               data={data}
-              renderItem={({ item }) => (
-                <View style={$messageItem}>
-                  <User pubkey={item.pubkey} />
-                  <View style={$messageContentWrapper}>
-                    <TextWithImage
-                      text={item.content || "empty message"}
-                      textStyle={item.pubkey === id ? $messageContent : $messageContentMine}
-                      imageStyle={undefined}
-                    />
-                  </View>
-                </View>
-              )}
+              keyExtractor={(item: { id: string }) => item.id}
+              renderItem={renderItem}
               ListEmptyComponent={
                 loading ? (
                   <View style={$emptyState}>
@@ -94,12 +114,12 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                   </View>
                 ) : (
                   <View style={$emptyState}>
-                    <Text text="No message..." />
+                    <Text text="No messages" />
                   </View>
                 )
               }
               estimatedItemSize={100}
-              inverted={true}
+              inverted={data.length !== 0}
             />
           </View>
           <View style={$form}>
@@ -151,6 +171,5 @@ const $messageContentMine: TextStyle = {
 
 const $emptyState: ViewStyle = {
   alignSelf: "center",
-  transform: [{ scaleY: -1 }],
   paddingVertical: spacing.medium,
 }

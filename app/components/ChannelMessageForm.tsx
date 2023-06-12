@@ -59,7 +59,7 @@ export function ChannelMessageForm({
         // reset attach offer state
         setAttachOffer(false)
         // log, todo: remove
-        console.log("published event to channel:", channelId)
+        console.log("published event to channel:", message.id)
       }
     } else {
       /*

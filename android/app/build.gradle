@@ -119,7 +119,7 @@ android {
         applicationId "arcade.labs.arc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
+        versionCode 72
         versionName "0.1.0"
     }
 

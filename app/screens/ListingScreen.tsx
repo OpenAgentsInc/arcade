@@ -46,7 +46,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
 
   async function manualRefresh() {
     setRefreshing(true)
-    await Promise.all([channelStore.fetchMessages(channel, groupId, ''), delay(750)])
+    await Promise.all([channelStore.fetchMessages(channel, groupId, ""), delay(750)])
     setRefreshing(false)
   }
 
@@ -54,7 +54,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
     // loading
     setLoading(true)
     // fetch messages
-    channelStore.fetchMessages(channel, groupId, '')
+    channelStore.fetchMessages(channel, groupId, "")
     // done
     setLoading(false)
 

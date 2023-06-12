@@ -59,11 +59,9 @@ const $userAvatar: ImageStyle = {
 }
 
 const $userName: TextStyle = {
-  lineHeight: 0,
   color: colors.palette.cyan500,
 }
 
 const $userRep: TextStyle = {
-  lineHeight: 0,
   color: colors.palette.cyan700,
 }
