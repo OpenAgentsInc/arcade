@@ -227,6 +227,7 @@ const $sections: ViewStyle = {
 
 const $sectionHeading: TextStyle = {
   color: colors.palette.cyan600,
+  marginVertical: 3,
 }
 
 const $sectionHeadingButton: ViewStyle = {
