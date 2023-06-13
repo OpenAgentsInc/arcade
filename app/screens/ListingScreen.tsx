@@ -68,6 +68,7 @@ export const ListingScreen: FC<ListingScreenProps> = observer(function ListingSc
       <View style={[$root, $container]}>
         <View style={$content}>
           <FlashList
+            keyExtractor={item=>item.id}
             data={channelStore.listing}
             renderItem={({ item }) => {
               return (
