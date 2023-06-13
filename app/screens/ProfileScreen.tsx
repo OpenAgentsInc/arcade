@@ -158,6 +158,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             <Text text="Resources" preset="bold" style={$sectionHeading} />
             <View style={$sectionData}>
               <ListItem
+                text="Changelog"
+                leftIcon="List"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => navigation.navigate("Changelog")}
+              />
+              <ListItem
                 text="Twitter"
                 leftIcon="Twitter"
                 leftIconColor={colors.palette.cyan500}
