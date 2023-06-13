@@ -33,8 +33,11 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
   return (
     <Screen contentContainerStyle={$root} preset="fixed" keyboardOffset={50}>
       <View style={$heading}>
-        <Text text={"titlTeste"} size="lg" preset="bold" />
-        <Text text={"dessuppppc"} size="xs" style={$subtitle} />
+        <Text text={"v0.1.1"} size="lg" preset="bold" />
+        <Text text={"13 June 2023"} size="xs" style={$subtitle} />
+        <View style={$divider} />
+        <Text text={"v0.1.0 - Oslo"} size="lg" preset="bold" />
+        <Text text={"12 June 2023"} size="xs" style={$subtitle} />
       </View>
     </Screen>
   )
@@ -52,4 +55,10 @@ const $heading: ViewStyle = {
 
 const $subtitle: TextStyle = {
   color: colors.palette.cyan800,
+}
+
+const $divider: ViewStyle = {
+  borderBottomColor: colors.palette.cyan800,
+  borderBottomWidth: 1,
+  marginVertical: 24,
 }
