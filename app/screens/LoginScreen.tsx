@@ -13,7 +13,7 @@ interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"L
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen() {
   const [nsec, setNsec] = useState("")
-  const [secure, setSecure] = useState(false)
+  const [secure, setSecure] = useState(true)
 
   // Pull in one of our MST stores
   const { userStore, channelStore } = useStores()
