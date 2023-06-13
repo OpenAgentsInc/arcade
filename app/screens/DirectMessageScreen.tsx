@@ -58,10 +58,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       async function initDMS() {
-        const list = await dms.list({}, false, id)
+        const list = await dms.list({}, true, id)
+        const sorted = list.slice().sort((a, b) => b.created_at - a.created_at)
         // update state
-        setData(list)
-        // stop loading
+        setData(sorted)
+        // disable loading
         setLoading(false)
       }
 
