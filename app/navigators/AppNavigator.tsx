@@ -15,6 +15,7 @@ export type AppStackParamList = {
   Hud: undefined
   Home: undefined
   Login: undefined
+  Changelog: undefined
   CreateAccount: undefined
   Tabs: undefined
   HomeMessages: undefined
