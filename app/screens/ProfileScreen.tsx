@@ -1,8 +1,16 @@
 import React, { FC, useCallback, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Linking, Pressable, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import {
+  ImageStyle,
+  Linking,
+  Pressable,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
@@ -72,7 +80,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             style={$userName}
           />
           <TouchableOpacity onPress={async () => await Clipboard.setStringAsync(userStore.pubkey)}>
-          <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
+            <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
           </TouchableOpacity>
         </View>
         <View style={$sections}>
@@ -117,6 +125,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 bottomSeparator={true}
                 style={$sectionButton}
                 onPress={() => navigation.navigate("RelayManager")}
+              />
+              <ListItem
+                text="Backup"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => navigation.navigate("Backup")}
               />
               {/* <ListItem
                 text="Notifications"
