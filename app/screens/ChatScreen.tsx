@@ -6,7 +6,6 @@ import { AppStackScreenProps } from "app/navigators"
 import {
   Header,
   Screen,
-  Text,
   RelayContext,
   User,
   ChannelMessageForm,

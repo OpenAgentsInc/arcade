@@ -8,10 +8,18 @@ import React, {
   useState,
 } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, Platform, TextStyle, View, ViewStyle } from "react-native"
+import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { DirectMessageForm, Header, RelayContext, Screen, Text, User } from "app/components"
+import {
+  ActivityIndicator,
+  DirectMessageForm,
+  Header,
+  RelayContext,
+  Screen,
+  Text,
+  User,
+} from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
@@ -114,7 +122,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               ListEmptyComponent={
                 loading ? (
                   <View style={$emptyState}>
-                    <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+                    <ActivityIndicator type="small" />
                   </View>
                 ) : (
                   <View style={$emptyState}>
