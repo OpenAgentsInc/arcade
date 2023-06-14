@@ -6,6 +6,7 @@ const parseText = (text, textStyle, imageStyle) => {
   return words.map((word, index) => {
     if (word) {
       try {
+        // eslint-disable-next-line no-new
         new URL(word)
         if ([".jpg", ".png", ".jpeg"].some((suff) => word.endsWith(suff))) {
           return <Image key={`im${index}`} style={imageStyle} source={{ uri: word }} />
