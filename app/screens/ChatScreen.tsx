@@ -3,7 +3,14 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle, Alert, Platform } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, RelayContext, User, ChannelMessageForm } from "app/components"
+import {
+  Header,
+  Screen,
+  RelayContext,
+  User,
+  ChannelMessageForm,
+  ActivityIndicator,
+} from "app/components"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
@@ -164,7 +171,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
-                  <Text text="No messages" />
+                  <ActivityIndicator type="small" />
+                  {/* <Text text="No messages" /> */}
                 </View>
               }
               contentContainerStyle={$list}
