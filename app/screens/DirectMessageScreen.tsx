@@ -100,7 +100,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         preset="fixed"
         safeAreaEdges={["bottom"]}
         KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
-        keyboardOffset={120}
+        keyboardOffset={104}
       >
         <View style={$container}>
           <View style={$main}>
@@ -119,8 +119,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                   </View>
                 )
               }
+              contentContainerStyle={$list}
+              removeClippedSubviews={true}
               estimatedItemSize={100}
               inverted={data.length !== 0}
+              keyboardDismissMode="none"
             />
           </View>
           <View style={$form}>
@@ -139,11 +142,14 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   height: "100%",
   justifyContent: "space-between",
-  paddingHorizontal: spacing.medium,
 }
 
 const $main: ViewStyle = {
   flex: 1,
+}
+
+const $list: ViewStyle = {
+  paddingHorizontal: spacing.medium,
 }
 
 const $form: ViewStyle = {
