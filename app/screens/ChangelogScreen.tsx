@@ -32,9 +32,17 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
 
   return (
     <Screen contentContainerStyle={$root} preset="scroll" keyboardOffset={50}>
+      <Text text={"v0.1.2"} size="lg" preset="bold" />
+      <Text text={"14 June 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Added image uploads</Text>
+        <Text style={$changelogText}>- Improved DM reliability</Text>
+      </View>
+
+      <View style={$divider} />
+
       <Text text={"v0.1.1"} size="lg" preset="bold" />
       <Text text={"13 June 2023"} size="xs" style={$subtitle} />
-
       <View style={$changelogContainer}>
         <Text style={$changelogText}>
           - Fixed bug: DM channel wasn't showing recipient's messages
@@ -44,6 +52,7 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
       </View>
 
       <View style={$divider} />
+
       <Text text={"v0.1.0 - Oslo"} size="lg" preset="bold" />
       <Text text={"12 June 2023"} size="xs" style={$subtitle} />
 
