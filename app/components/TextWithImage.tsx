@@ -6,12 +6,13 @@ const parseText = (text, textStyle, imageStyle) => {
   return words.map((word, index) => {
     if (word) {
       try {
-        URL(word)
+        // eslint-disable-next-line no-new
+        new URL(word)
         if ([".jpg", ".png", ".jpeg"].some((suff) => word.endsWith(suff))) {
-          return <Image key={index} style={imageStyle} source={{ uri: word }} />
+          return <Image key={`im${index}`} style={imageStyle} source={{ uri: word }} />
         } else {
           return (
-            <Text key={index} style={textStyle}>
+            <Text key={`tx${index}`} style={textStyle}>
               {word}{" "}
             </Text>
           )
@@ -19,7 +20,7 @@ const parseText = (text, textStyle, imageStyle) => {
       } catch (e) {
         // if an error is thrown, then the word is not a valid URL
         return (
-          <Text key={index} style={textStyle}>
+          <Text key={`tx${index}`} style={textStyle}>
             {word}{" "}
           </Text>
         )
