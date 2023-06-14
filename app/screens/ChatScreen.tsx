@@ -154,7 +154,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         preset="fixed"
         safeAreaEdges={["bottom"]}
         KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
-        keyboardOffset={120}
+        keyboardOffset={104}
       >
         <View style={$container}>
           <View style={$main}>
@@ -167,9 +167,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
                   <Text text="No messages" />
                 </View>
               }
+              contentContainerStyle={$list}
               removeClippedSubviews={true}
               estimatedItemSize={60}
               inverted={channel.allMessages.length !== 0}
+              keyboardDismissMode="none"
             />
           </View>
           <View style={$form}>
@@ -198,11 +200,14 @@ const $headerRightActions: ViewStyle = {
 const $container: ViewStyle = {
   height: "100%",
   justifyContent: "space-between",
-  paddingHorizontal: spacing.medium,
 }
 
 const $main: ViewStyle = {
   flex: 1,
+}
+
+const $list: ViewStyle = {
+  paddingHorizontal: spacing.medium,
 }
 
 const $form: ViewStyle = {
