@@ -6,9 +6,9 @@ const parseText = (text, textStyle, imageStyle) => {
   return words.map((word, index) => {
     if (word) {
       try {
-        URL(word)
+        const url = new URL(word).href
         if ([".jpg", ".png", ".jpeg"].some((suff) => word.endsWith(suff))) {
-          return <Image key={index} style={imageStyle} source={{ uri: word }} />
+          return <Image key={index} style={imageStyle} source={{ uri: url }} />
         } else {
           return (
             <Text key={index} style={textStyle}>

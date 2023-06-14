@@ -1,11 +1,12 @@
 import React, { useRef, useMemo, useCallback, useState } from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, TextField, Text } from "app/components"
-import { SendIcon /* Store */ } from "lucide-react-native"
+import { ImageIcon, SendIcon /* Store */ } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { BottomSheetModal, BottomSheetTextInput, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 import { ChannelManager } from "app/arclib/src"
+import { launchImageLibrary } from "react-native-image-picker"
 
 export function ChannelMessageForm({
   channelManager,
@@ -41,6 +42,40 @@ export function ChannelMessageForm({
     // close bottom sheet
     bottomSheetModalRef.current?.close()
   }, [])
+
+  const imagePicker = async (setFieldValue, content) => {
+    const result = await launchImageLibrary({ mediaType: "photo", selectionLimit: 1 })
+    if (!result.didCancel) {
+      const filename = result.assets[0].fileName
+      const filetype = result.assets[0].type
+
+      const data: any = new FormData()
+      data.append("image", {
+        name: filename,
+        type: filetype,
+        uri:
+          Platform.OS === "ios"
+            ? result.assets[0].uri.replace("file://", "")
+            : result.assets[0].uri,
+      })
+
+      const res = await fetch("https://nostrimg.com/api/upload", {
+        body: data,
+        method: "POST",
+        headers: {
+          accept: "application/json",
+        },
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        if (typeof data?.imageUrl === "string" && data.success) {
+          const url = new URL(data.imageUrl).toString()
+          setFieldValue("content", content + " " + url)
+        }
+      }
+    }
+  }
 
   const createEvent = async (data) => {
     if (data.content === "") return
@@ -104,7 +139,7 @@ export function ChannelMessageForm({
       }}
       onSubmit={(values) => createEvent(values)}
     >
-      {({ handleChange, handleBlur, submitForm, values }) => (
+      {({ handleChange, handleBlur, submitForm, setFieldValue, values }) => (
         <>
           <TextField
             placeholder="Message"
@@ -133,11 +168,18 @@ export function ChannelMessageForm({
             )}
             */
             RightAccessory={() => (
-              <Button
-                onPress={() => submitForm()}
-                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
-                style={$sendButton}
-              />
+              <View style={$rightButtonGroup}>
+                <Button
+                  onPress={() => imagePicker(setFieldValue, values.content)}
+                  LeftAccessory={() => <ImageIcon style={{ color: colors.text }} />}
+                  style={$imageButton}
+                />
+                <Button
+                  onPress={() => submitForm()}
+                  LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+                  style={$sendButton}
+                />
+              </View>
             )}
           />
           <BottomSheetModal
@@ -397,3 +439,19 @@ const $attachedOffer: ViewStyle = {
   backgroundColor: colors.palette.cyan200,
 }
 */
+
+const $imageButton: ViewStyle = {
+  width: 45,
+  height: 45,
+  minHeight: 45,
+  backgroundColor: colors.palette.cyan900,
+  borderRadius: 100,
+  borderWidth: 0,
+  flexShrink: 0,
+}
+
+const $rightButtonGroup: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  gap: spacing.tiny,
+}
