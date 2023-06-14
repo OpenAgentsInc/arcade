@@ -1,3 +1,4 @@
+export * from "./ChangelogScreen"
 export * from "./ChannelsScreen"
 export * from "./ChatScreen"
 export * from "./CreateAccountScreen"

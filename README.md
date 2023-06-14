@@ -2,7 +2,7 @@
 
 A [Nostr](https://github.com/nostr-protocol/nostr) chat & commerce app for Android & iOS.
 
-Our beta build v0.1.0 is [now live](https://github.com/ArcadeLabsInc/arcade/releases/tag/v0.1.0-beta)!
+Our beta build v0.1.0 is [now live](https://github.com/ArcadeLabsInc/arcade/releases)!
 
 ## Status
 
