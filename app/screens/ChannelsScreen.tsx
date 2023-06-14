@@ -71,7 +71,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
       <View style={[$root, $container]}>
         <View style={$content}>
           <FlashList
-            keyExtractor={item=>item.id}
+            keyExtractor={(item) => item.id}
             data={data}
             renderItem={({ item }) => {
               // no name or short channel name, mostly spam
