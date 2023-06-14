@@ -16,7 +16,7 @@ module.exports = {
   setupFiles: ["<rootDir>/test/setup.ts", "@shopify/react-native-skia/jestSetup.js"],
   transformIgnorePatterns: [
     'xnode_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)',
-    'node_modules/better-sqlite3|isomorphic-webcrypto/.*'
+    'node_modules/better-sqlite3/.*'
   ],
   globalSetup: "@shopify/react-native-skia/globalJestSetup.js",
 }

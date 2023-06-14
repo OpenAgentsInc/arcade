@@ -51,11 +51,8 @@ jest.mock(
 );
 
 jest.mock(
-  'isomorphic-webcrypto',
+  'react-native-webview-crypto',
   () => {
-    return jest.requireActual(
-      'isomorphic-webcrypto/src/index.js',
-    );
   },
 );
 
@@ -94,3 +91,6 @@ jest.mock('expo-secure-store', () => {
  }
 });
 
+
+delete global.crypto
+global.crypto = require('crypto').webcrypto
