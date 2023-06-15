@@ -8,9 +8,9 @@ export function formatCreatedAt(time: number) {
 
   const now = dayjs()
   const inputTime = dayjs.unix(time)
-  const diff = now.diff(inputTime, "day")
+  const diff = now.diff(inputTime, "hour")
 
-  if (diff < 1) {
+  if (diff < 12) {
     formatedTime = inputTime.format("HH:mm A")
   } else {
     formatedTime = inputTime.format("MMM DD")

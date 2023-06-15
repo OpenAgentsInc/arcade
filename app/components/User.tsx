@@ -4,12 +4,8 @@ import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
 
-dayjs.extend(relativeTime)
-
-export function User({ pubkey, createdAt }: { pubkey: string; createdAt?: number }) {
+export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean }) {
   const pool: any = useContext(RelayContext)
   const [profile, setProfile] = useState(null)
   const navigation = useNavigation<any>()
@@ -30,35 +26,28 @@ export function User({ pubkey, createdAt }: { pubkey: string; createdAt?: number
   }, [pubkey])
 
   return (
-    <Pressable onPress={() => navigation.navigate("User", { id: pubkey })} style={$user}>
-      <AutoImage
-        source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
-        style={$userAvatar}
-      />
-      <View style={$userTitle}>
+    <>
+      <Pressable onPress={() => navigation.navigate("User", { id: pubkey })} style={$user}>
+        <AutoImage
+          source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
+          style={$userAvatar}
+        />
+      </Pressable>
+      <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
           text={profile?.display_name || shortenKey(pubkey)}
           preset="bold"
           size="xs"
           style={$userName}
-        />
-        <Text
-          text={"· " + dayjs().to(dayjs.unix(createdAt), true)}
-          preset="default"
-          size="xs"
-          style={$createdAt}
+          numberOfLines={1}
         />
       </View>
-    </Pressable>
+    </>
   )
 }
 
 const $user: ViewStyle = {
-  flex: 1,
-  flexDirection: "row",
-  alignItems: "flex-start",
-  gap: spacing.extraSmall,
-  zIndex: 10,
+  flexShrink: 0,
 }
 
 const $userAvatar: ImageStyle = {
@@ -69,14 +58,20 @@ const $userAvatar: ImageStyle = {
 }
 
 const $userTitle: ViewStyle = {
-  flexDirection: "row",
-  gap: spacing.tiny,
+  position: "absolute",
+  left: 61,
+  top: 8,
+  alignSelf: "flex-start",
+}
+
+const $userTitleReverse: ViewStyle = {
+  position: "absolute",
+  right: spacing.small + 1,
+  top: 8,
+  alignSelf: "flex-start",
 }
 
 const $userName: TextStyle = {
-  color: colors.palette.cyan500,
-}
-
-const $createdAt: TextStyle = {
-  color: colors.palette.cyan800,
+  color: colors.palette.cyan400,
+  maxWidth: 200,
 }
