@@ -55,8 +55,8 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title="Invite some people"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            title="Invite"
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
@@ -96,7 +96,12 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
           )}
           ListEmptyComponent={
             <View style={$emptyState}>
-              <Text text="No contacts" />
+              <Text text="You have no contacts on Arcade yet" />
+              <Text text="- Invite friends to try Arcade" style={{ color: colors.palette.gray }} />
+              <Text
+                text="- Search people by public key or npub"
+                style={{ color: colors.palette.gray }}
+              />
             </View>
           }
           estimatedItemSize={50}
