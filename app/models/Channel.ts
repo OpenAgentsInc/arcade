@@ -36,7 +36,10 @@ export const ChannelModel = types
         db_only: false,
         privkey: self.privkey,
       })
-      self.setProp("messages", events)
+      const uniqueEvents = events.filter(
+        (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
+      )
+      self.setProp("messages", uniqueEvents)
     },
     async fetchMeta(channel: ChannelManager) {
       const result = await channel.getMeta(self.id, self.privkey)
