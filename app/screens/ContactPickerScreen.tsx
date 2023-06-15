@@ -138,7 +138,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
             estimatedItemSize={50}
           />
         </Screen>
-        <View>
+        <View style={$floating}>
           <Button
             text="Done"
             style={$formButton}
@@ -266,4 +266,10 @@ const $formButton: ViewStyle = {
 
 const $formButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
+}
+
+const $floating: ViewStyle = {
+  position: "absolute",
+  bottom: spacing.extraLarge,
+  alignSelf: "center",
 }
