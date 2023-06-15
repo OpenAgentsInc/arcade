@@ -29,7 +29,12 @@ export function ContactItem({ pubkey }: { pubkey: string }) {
         style={$itemAvatar}
       />
       <View>
-        <Text text={metadata?.display_name || metadata?.name || "Loading..."} preset="bold" />
+        <Text
+          text={metadata?.display_name || metadata?.name || "Loading..."}
+          preset="bold"
+          numberOfLines={1}
+          style={$itemName}
+        />
         <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
       </View>
     </View>
@@ -48,6 +53,10 @@ const $itemAvatar: ImageStyle = {
   height: 44,
   borderRadius: 100,
   marginRight: spacing.small,
+}
+
+const $itemName: TextStyle = {
+  maxWidth: 250,
 }
 
 const $itemContent: TextStyle = {

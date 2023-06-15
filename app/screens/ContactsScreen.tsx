@@ -35,10 +35,9 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         <Header
           title="Contacts"
           titleStyle={{ color: colors.palette.white }}
-          // rightIcon="Plus"
-          // leftIcon="back"
-          // leftIconColor={colors.palette.cyan400}
-          // onLeftPress={() => navigation.goBack()}
+          rightIcon="Plus"
+          rightIconColor={colors.palette.cyan400}
+          onRightPress={() => navigation.navigate("AddContact")}
         />
       ),
     })
