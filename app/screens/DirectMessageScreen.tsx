@@ -25,7 +25,8 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import TextWithImage from "app/components/TextWithImage"
 import { PrivateMessageManager } from "app/arclib/src/private"
-import { Message } from "app/models"
+import { Message, useStores } from "app/models"
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -39,6 +40,10 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const {
+      userStore: { pubkey },
+    } = useStores()
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -91,18 +96,47 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     }, [id, dms])
 
     const renderItem = useCallback(({ item }: { item: Message }) => {
-      return (
-        <View style={$messageItem}>
-          <User pubkey={item.pubkey} createdAt={item.created_at} />
-          <View style={$messageContentWrapper}>
-            <TextWithImage
-              text={item.content || "empty message"}
-              textStyle={item.pubkey === id ? $messageContent : $messageContentMine}
-              imageStyle={undefined}
-            />
+      const createdAt = formatCreatedAt(item.created_at)
+
+      if (item.pubkey === pubkey) {
+        return (
+          <View style={$messageItemReverse}>
+            <User pubkey={item.pubkey} reverse={true} />
+            <View style={$messageContentWrapperReverse}>
+              <TextWithImage
+                text={item.content || "empty message"}
+                textStyle={$messageContent}
+                imageStyle={undefined}
+              />
+              <Text
+                text={createdAt}
+                preset="default"
+                size="xs"
+                style={[$createdAt, $createdAtText]}
+              />
+            </View>
           </View>
-        </View>
-      )
+        )
+      } else {
+        return (
+          <View style={$messageItem}>
+            <User pubkey={item.pubkey} />
+            <View style={$messageContentWrapper}>
+              <TextWithImage
+                text={item.content || "empty message"}
+                textStyle={$messageContent}
+                imageStyle={undefined}
+              />
+              <Text
+                text={createdAt}
+                preset="default"
+                size="xs"
+                style={[$createdAt, $createdAtText]}
+              />
+            </View>
+          </View>
+        )
+      }
     }, [])
 
     return (
@@ -169,22 +203,50 @@ const $form: ViewStyle = {
 }
 
 const $messageItem: ViewStyle = {
-  flex: 1,
-  paddingVertical: spacing.extraSmall,
+  flexDirection: "row",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+}
+
+const $messageItemReverse: ViewStyle = {
+  flexDirection: "row-reverse",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+  position: "relative",
 }
 
 const $messageContentWrapper: ViewStyle = {
-  paddingLeft: 48,
-  marginTop: -24,
+  flex: 1,
+  backgroundColor: colors.palette.overlay20,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  paddingTop: spacing.extraLarge,
+  paddingBottom: spacing.large,
+  paddingHorizontal: spacing.small,
 }
 
-// from someone else
+const $messageContentWrapperReverse: ViewStyle = {
+  flex: 1,
+  backgroundColor: colors.palette.overlay50,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  paddingTop: spacing.extraLarge,
+  paddingBottom: spacing.large,
+  paddingHorizontal: spacing.small,
+}
+
 const $messageContent: TextStyle = {
   color: "#fff",
 }
 
-const $messageContentMine: TextStyle = {
-  color: colors.palette.cyan400,
+const $createdAt: ViewStyle = {
+  position: "absolute",
+  bottom: 4,
+  right: 4,
+}
+
+const $createdAtText: TextStyle = {
+  color: colors.palette.cyan700,
 }
 
 const $emptyState: ViewStyle = {
