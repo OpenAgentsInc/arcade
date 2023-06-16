@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle, Alert, Platform } from "react-native"
+import { Pressable, View, ViewStyle, Alert, Platform, TextStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -10,15 +10,17 @@ import {
   User,
   ChannelMessageForm,
   ActivityIndicator,
+  Text,
 } from "app/components"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import TextWithImage from "app/components/TextWithImage"
 import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
+import TextWithImage from "app/components/TextWithImage"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -36,7 +38,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   // Stores
   const {
-    userStore: { leaveChannel },
+    userStore: { pubkey, leaveChannel },
     channelStore: { getChannel },
   } = useStores()
 
@@ -140,18 +142,47 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Message }) => {
-    return (
-      <View style={$messageItem}>
-        <User pubkey={item.pubkey} createdAt={item.created_at} />
-        <View style={$messageContentWrapper}>
-          <TextWithImage
-            text={item.content || "empty message"}
-            textStyle={$messageContent}
-            imageStyle={undefined}
-          />
+    const createdAt = formatCreatedAt(item.created_at)
+
+    if (item.pubkey === pubkey) {
+      return (
+        <View style={$messageItemReverse}>
+          <User pubkey={item.pubkey} reverse={true} />
+          <View style={$messageContentWrapperReverse}>
+            <TextWithImage
+              text={item.content || "empty message"}
+              textStyle={$messageContent}
+              imageStyle={undefined}
+            />
+            <Text
+              text={createdAt}
+              preset="default"
+              size="xs"
+              style={[$createdAt, $createdAtText]}
+            />
+          </View>
         </View>
-      </View>
-    )
+      )
+    } else {
+      return (
+        <View style={$messageItem}>
+          <User pubkey={item.pubkey} />
+          <View style={$messageContentWrapper}>
+            <TextWithImage
+              text={item.content || "empty message"}
+              textStyle={$messageContent}
+              imageStyle={undefined}
+            />
+            <Text
+              text={createdAt}
+              preset="default"
+              size="xs"
+              style={[$createdAt, $createdAtText]}
+            />
+          </View>
+        </View>
+      )
+    }
   }, [])
 
   return (
@@ -224,17 +255,50 @@ const $form: ViewStyle = {
 }
 
 const $messageItem: ViewStyle = {
-  flex: 1,
-  paddingVertical: spacing.extraSmall,
+  flexDirection: "row",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+}
+
+const $messageItemReverse: ViewStyle = {
+  flexDirection: "row-reverse",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+  position: "relative",
 }
 
 const $messageContentWrapper: ViewStyle = {
-  paddingLeft: 48,
-  marginTop: -24,
+  flex: 1,
+  backgroundColor: colors.palette.overlay20,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  paddingTop: spacing.extraLarge,
+  paddingBottom: spacing.large,
+  paddingHorizontal: spacing.small,
+}
+
+const $messageContentWrapperReverse: ViewStyle = {
+  flex: 1,
+  backgroundColor: colors.palette.overlay50,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan900,
+  paddingTop: spacing.extraLarge,
+  paddingBottom: spacing.large,
+  paddingHorizontal: spacing.small,
 }
 
 const $messageContent: TextStyle = {
   color: "#fff",
+}
+
+const $createdAt: ViewStyle = {
+  position: "absolute",
+  bottom: 4,
+  right: 4,
+}
+
+const $createdAtText: TextStyle = {
+  color: colors.palette.cyan700,
 }
 
 const $emptyState: ViewStyle = {

@@ -35,10 +35,9 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         <Header
           title="Contacts"
           titleStyle={{ color: colors.palette.white }}
-          // rightIcon="Plus"
-          // leftIcon="back"
-          // leftIconColor={colors.palette.cyan400}
-          // onLeftPress={() => navigation.goBack()}
+          rightIcon="Plus"
+          rightIconColor={colors.palette.cyan400}
+          onRightPress={() => navigation.navigate("AddContact")}
         />
       ),
     })
@@ -63,7 +62,12 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         renderItem={renderItem}
         ListEmptyComponent={
           <View style={$emptyState}>
-            <Text text="No contacts" style={{ color: colors.palette.gray }} />
+            <Text text="You have no contacts on Arcade yet" />
+            <Text text="- Invite friends to try Arcade" style={{ color: colors.palette.gray }} />
+            <Text
+              text="- Search people by public key or npub"
+              style={{ color: colors.palette.gray }}
+            />
           </View>
         }
         estimatedItemSize={50}
