@@ -1,12 +1,7 @@
 import * as SecureStore from "expo-secure-store"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Buffer } from "buffer"
-
-// @ts-ignore
-if (typeof crypto !== 'undefined' && !crypto.subtle && crypto.webcrypto) {
-  // @ts-ignore
-  crypto = crypto.webcrypto
-}
+import "isomorphic-webcrypto"
 
 const utf8Encoder = new TextEncoder()
 const utf8Decoder = new TextDecoder()

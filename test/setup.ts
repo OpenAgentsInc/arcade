@@ -50,12 +50,6 @@ jest.mock(
   },
 );
 
-jest.mock(
-  'react-native-webview-crypto',
-  () => {
-  },
-);
-
 jest.mock('expo-linking', () => {
     const module: typeof import('expo-linking') = {
         ...jest.requireActual('expo-linking'),

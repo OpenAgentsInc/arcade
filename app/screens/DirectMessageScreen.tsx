@@ -71,7 +71,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
 
       async function initDMS() {
-        const list = await dms.list(null, true, id)
+        const list = await dms.list(null, true, id, handleNewMessage)
         const sorted = list
           .slice()
           .sort((a, b) => b.created_at - a.created_at)
@@ -84,10 +84,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
       // fetch direct messages
       initDMS().catch(console.error)
-
-      // subscribe for new messages
-      console.log("subscribing...")
-      dms.sub(handleNewMessage, { since: Math.floor(Date.now() / 1000) }, undefined, id)
 
       return () => {
         console.log("unsubscribing...")
