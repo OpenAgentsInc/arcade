@@ -1,5 +1,9 @@
 import { load, loadString, save, saveString, clear, remove } from "./storage"
 
+delete global.crypto
+global.crypto = require('crypto').webcrypto
+
+
 test("storage: save/load val", async () => {
   await save("some1", { a: 2 })
   const value = await load("some1")
