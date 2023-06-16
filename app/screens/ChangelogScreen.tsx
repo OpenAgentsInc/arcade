@@ -32,13 +32,20 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
 
   return (
     <Screen contentContainerStyle={$root} preset="scroll" keyboardOffset={50}>
+      <Text text={"v0.1.3"} size="lg" preset="bold" />
+      <Text text={"16 June 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Add contact by npub or suggestion from nostr.band</Text>
+        <Text style={$changelogText}>- Redesign chat UI and loading indicators</Text>
+      </View>
+      <View style={$divider} />
+
       <Text text={"v0.1.2"} size="lg" preset="bold" />
       <Text text={"14 June 2023"} size="xs" style={$subtitle} />
       <View style={$changelogContainer}>
         <Text style={$changelogText}>- Added image uploads</Text>
         <Text style={$changelogText}>- Improved DM reliability</Text>
       </View>
-
       <View style={$divider} />
 
       <Text text={"v0.1.1"} size="lg" preset="bold" />
@@ -50,7 +57,6 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
         <Text style={$changelogText}>- Added nsec export to profile screen</Text>
         <Text style={$changelogText}>- Added this changelog</Text>
       </View>
-
       <View style={$divider} />
 
       <Text text={"v0.1.0 - Oslo"} size="lg" preset="bold" />
