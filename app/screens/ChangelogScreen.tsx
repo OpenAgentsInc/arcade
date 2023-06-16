@@ -36,7 +36,7 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
       <Text text={"16 June 2023"} size="xs" style={$subtitle} />
       <View style={$changelogContainer}>
         <Text style={$changelogText}>- Add contact by npub or suggestion from nostr.band</Text>
-        <Text style={$changelogText}>- Add nicer chat UI and loading indicators</Text>
+        <Text style={$changelogText}>- Redesign chat UI and loading indicators</Text>
       </View>
       <View style={$divider} />
 
