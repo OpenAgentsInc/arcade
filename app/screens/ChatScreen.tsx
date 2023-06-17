@@ -193,6 +193,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         safeAreaEdges={["bottom"]}
         KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
         keyboardOffset={104}
+        safeAreaBackgroundColor={colors.palette.overlay20}
       >
         <View style={$container}>
           <View style={$main}>

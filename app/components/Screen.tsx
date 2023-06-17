@@ -37,6 +37,10 @@ interface BaseScreenProps {
    */
   backgroundColor?: string
   /**
+   * Background color of the safe area
+   */
+  safeAreabackgroundColor?: string
+  /**
    * Status bar setting. Defaults to dark.
    */
   statusBarStyle?: "light" | "dark"
