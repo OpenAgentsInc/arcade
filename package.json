@@ -46,7 +46,6 @@
     "@shopify/react-native-skia": "^0.1.193",
     "any-sqlite": "^1.0.4",
     "apisauce": "2.1.5",
-    "arclib": "../arclib",
     "assert": "^1.1.1",
     "date-fns": "^2.29.2",
     "dayjs": "^1.11.7",
