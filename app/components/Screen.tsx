@@ -195,26 +195,33 @@ export function Screen(props: ScreenProps) {
     safeAreaEdges,
     StatusBarProps,
     statusBarStyle = "light",
+    safeAreaBackgroundColor = "black",
   } = props
 
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
-    <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
-      <StatusBar style={statusBarStyle} {...StatusBarProps} />
+    <View style={[$containerStyle, { backgroundColor: "black" }]}>
+      <View style={[$containerInsets, { flex: 1, backgroundColor: safeAreaBackgroundColor }]}>
+        <StatusBar style={statusBarStyle} {...StatusBarProps} />
 
-      <KeyboardAvoidingView
-        behavior={isIos ? "padding" : undefined}
-        keyboardVerticalOffset={keyboardOffset}
-        {...KeyboardAvoidingViewProps}
-        style={[$keyboardAvoidingViewStyle, KeyboardAvoidingViewProps?.style]}
-      >
-        {isNonScrolling(props.preset) ? (
-          <ScreenWithoutScrolling {...props} />
-        ) : (
-          <ScreenWithScrolling {...props} />
-        )}
-      </KeyboardAvoidingView>
+        <KeyboardAvoidingView
+          behavior={isIos ? "padding" : undefined}
+          keyboardVerticalOffset={keyboardOffset}
+          {...KeyboardAvoidingViewProps}
+          style={[
+            $keyboardAvoidingViewStyle,
+            KeyboardAvoidingViewProps?.style,
+            { backgroundColor },
+          ]}
+        >
+          {isNonScrolling(props.preset) ? (
+            <ScreenWithoutScrolling {...props} />
+          ) : (
+            <ScreenWithScrolling {...props} />
+          )}
+        </KeyboardAvoidingView>
+      </View>
     </View>
   )
 }
