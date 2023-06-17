@@ -46,3 +46,9 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
+
+
+ext {
+  hermesEnabled = (findProperty('expo.jsEngine') ?: "hermes") == "hermes"
+}
+

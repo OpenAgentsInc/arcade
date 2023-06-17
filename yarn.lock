@@ -1961,10 +1961,22 @@
   dependencies:
     "@noble/hashes" "1.3.0"
 
+"@noble/curves@^1.0.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.1.0.tgz#f13fc667c89184bc04cccb9b11e8e7bae27d8c3d"
+  integrity sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==
+  dependencies:
+    "@noble/hashes" "1.3.1"
+
 "@noble/hashes@1.3.0", "@noble/hashes@~1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.0.tgz#085fd70f6d7d9d109671090ccae1d3bec62554a1"
   integrity sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==
+
+"@noble/hashes@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.1.tgz#8831ef002114670c603c458ab8b11328406953a9"
+  integrity sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -3411,9 +3423,10 @@ any-promise@^1.0.0:
   resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
   integrity sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==
 
-"any-sqlite@https://github.com/earonesty/any-sqlite":
-  version "1.0.0"
-  resolved "https://github.com/earonesty/any-sqlite#d0a75bdee4cfbd3fdffc4482c1fd408e2167757f"
+any-sqlite@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/any-sqlite/-/any-sqlite-1.0.3.tgz#212baa202d6b0f114a5c727629b255c07f82f93d"
+  integrity sha512-hHrx48I28TApwsuLOoWfo911F2e8SQX3cj57s3cn9wbo+yWafWvUIcr0vGuus9p0Rm53B09RM9UZvZnOt8/b1g==
 
 anymatch@^3.0.3, anymatch@~3.1.2:
   version "3.1.3"
@@ -3439,6 +3452,13 @@ application-config-path@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/application-config-path/-/application-config-path-0.1.1.tgz#8b5ac64ff6afdd9bd70ce69f6f64b6998f5f756e"
   integrity sha512-zy9cHePtMP0YhwG+CfHm0bgwdnga2X3gZexpdCwEj//dpb+TKajtiC8REEUJUSq6Ab4f9cgNy2l8ObXzCXFkEw==
+
+arclib@../arclib:
+  version "0.1.0"
+  dependencies:
+    "@noble/curves" "^1.0.0"
+    isomorphic-unfetch "^4.0.2"
+    nostr-tools "^1.10.1"
 
 arg@4.1.0:
   version "4.1.0"
@@ -4980,6 +5000,11 @@ dag-map@~1.0.0:
   resolved "https://registry.yarnpkg.com/dag-map/-/dag-map-1.0.2.tgz#e8379f041000ed561fc515475c1ed2c85eece8d7"
   integrity sha512-+LSAiGFwQ9dRnRdOeaj7g47ZFJcOUPukAP8J3A3fuZ1g9Y44BG+P1sgApjLXTQPOzC4+7S9Wr8kXsfpINM4jpw==
 
+data-uri-to-buffer@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz#d8feb2b2881e6a4f58c2e08acfd0e2834e26222e"
+  integrity sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==
+
 data-urls@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/data-urls/-/data-urls-3.0.2.tgz#9cf24a477ae22bcef5cd5f6f0bfbc1d2d3be9143"
@@ -6020,6 +6045,11 @@ expo-font@~11.1.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-gradle-ext-vars@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/expo-gradle-ext-vars/-/expo-gradle-ext-vars-0.1.1.tgz#45c68102273b8c3b45e5946947d91d5c5bb767fd"
+  integrity sha512-ORQvSLfEmqMDQU2h02JrapcKCVEWQfM8jh2AGAMXJFxl8h8rwjp03Nx6GIB12cKxq+9lSWdG7NgwpEdCiDT9KQ==
+
 expo-keep-awake@~12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.0.1.tgz#19c5ab55391394ded3f6c262b0707c7140658a11"
@@ -6092,7 +6122,7 @@ expo-secure-store@~12.1.1:
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-12.1.1.tgz#d4992dbb6170882d99d83a440a49864b36904cd1"
   integrity sha512-phD8e8mlJWaESUBCpHq0GjS3OiqZ7g+I6SpTGQpt+xSS0pEE1ZUBXnIF+WR2OvoseKiS9ODzDl85CUlut/eNKw==
 
-expo-splash-screen@~0.18.1:
+expo-splash-screen@~0.18.2:
   version "0.18.2"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.18.2.tgz#dde246204da875785ba40c7143a70013cdefdbb6"
   integrity sha512-fsiKmyn/lbJtV6Uor6wSvl21fScOidFzmB/HHShQJJOu2TBN/vqMvhPu/r0bF5NVk8Wi64r98hiWY1EEsbW03w==
@@ -6105,7 +6135,7 @@ expo-status-bar@~1.4.4:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.4.4.tgz#6874ccfda5a270d66f123a9f220735a76692d114"
   integrity sha512-5DV0hIEWgatSC3UgQuAZBoQeaS9CqeWRZ3vzBR9R/+IUD87Adbi4FGhU10nymRqFXOizGsureButGZIXPs7zEA==
 
-expo@^48.0.15:
+expo@~48.0.18:
   version "48.0.19"
   resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.19.tgz#0f13be65d3cac99922666e5939388fc22b147e6a"
   integrity sha512-Pmz2HEwcDdjWPq5fM3vF++je0hjZIBX9aTZEkm6sBv09Vfhe4+CuiuKDq3iE+N6G9l2+eFYoRCApDwLqcRMiPA==
@@ -6315,6 +6345,14 @@ fbjs@^3.0.0, fbjs@^3.0.4:
     setimmediate "^1.0.5"
     ua-parser-js "^1.0.35"
 
+fetch-blob@^3.1.2, fetch-blob@^3.1.4:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fetch-blob/-/fetch-blob-3.2.0.tgz#f09b8d4bbd45adc6f0c20b7e787e793e309dcce9"
+  integrity sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==
+  dependencies:
+    node-domexception "^1.0.0"
+    web-streams-polyfill "^3.0.3"
+
 fetch-retry@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/fetch-retry/-/fetch-retry-4.1.1.tgz#fafe0bb22b54f4d0a9c788dff6dd7f8673ca63f3"
@@ -6513,6 +6551,13 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+formdata-polyfill@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz#24807c31c9d402e002ab3d8c720144ceb8848423"
+  integrity sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==
+  dependencies:
+    fetch-blob "^3.1.2"
 
 formik@^2.2.9:
   version "2.4.1"
@@ -7736,6 +7781,14 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==
+
+isomorphic-unfetch@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-4.0.2.tgz#5fc04eeb1053b7b702278e2cf7a3f246cb3a9214"
+  integrity sha512-1Yd+CF/7al18/N2BDbsLBcp6RO3tucSW+jcLq24dqdX5MNbCNTw1z4BsGsp4zNmjr/Izm2cs/cEqZPp4kvWSCA==
+  dependencies:
+    node-fetch "^3.2.0"
+    unfetch "^5.0.0"
 
 "isomorphic-webcrypto@https://github.com/earonesty/isomorphic-webcrypto":
   version "2.3.8"
@@ -9732,6 +9785,11 @@ node-dir@^0.1.17:
   dependencies:
     minimatch "^3.0.2"
 
+node-domexception@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
+  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
+
 node-environment-flags@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/node-environment-flags/-/node-environment-flags-1.0.5.tgz#fa930275f5bf5dae188d6192b24b4c8bbac3d76a"
@@ -9746,6 +9804,15 @@ node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.11, nod
   integrity sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-fetch@^3.2.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.1.tgz#b3eea7b54b3a48020e46f4f88b9c5a7430d20b2e"
+  integrity sha512-cRVc/kyto/7E5shrWca1Wsea4y6tL9iYJE5FBCius3JQfb/4P4I295PfhgbJQBLTx6lATE4z+wK0rPM4VS2uow==
+  dependencies:
+    data-uri-to-buffer "^4.0.0"
+    fetch-blob "^3.1.4"
+    formdata-polyfill "^4.0.10"
 
 node-forge@^1, node-forge@^1.2.1, node-forge@^1.3.1:
   version "1.3.1"
@@ -9789,6 +9856,17 @@ normalize-url@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
+
+nostr-tools@^1.10.1:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/nostr-tools/-/nostr-tools-1.12.0.tgz#ec3618fc2298e029941b7db3bbe95187777c488f"
+  integrity sha512-fsIXaNJPKaSrO9MxsCEWbhI4tG4pToQK4D4sgLRD0fRDfZ6ocCg8CLlh9lcNx0o8pVErCMLVASxbJ+w4WNK0MA==
+  dependencies:
+    "@noble/curves" "1.0.0"
+    "@noble/hashes" "1.3.0"
+    "@scure/base" "1.1.1"
+    "@scure/bip32" "1.3.0"
+    "@scure/bip39" "1.2.0"
 
 nostr-tools@^1.11.1:
   version "1.11.1"
@@ -11017,10 +11095,10 @@ react-native-gesture-handler@~2.9.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-gradle-plugin@^0.71.17:
-  version "0.71.18"
-  resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz#20ef199bc85be32e45bb6cc069ec2e7dcb1a74a6"
-  integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
+react-native-gradle-plugin@^0.71.18:
+  version "0.71.19"
+  resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz#3379e28341fcd189bc1f4691cefc84c1a4d7d232"
+  integrity sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ==
 
 react-native-image-picker@^5.4.2:
   version "5.4.2"
@@ -11095,10 +11173,10 @@ react-native-web@~0.18.7:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.2"
 
-react-native@0.71.7:
-  version "0.71.7"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.7.tgz#d0ae409f6ee4fc7e7a876b4ca9d8d28934133228"
-  integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
+react-native@0.71.8:
+  version "0.71.8"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.8.tgz#4314145341c49448cf7465b93ced52a433a5e191"
+  integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.2"
@@ -11125,7 +11203,7 @@ react-native@0.71.7:
     promise "^8.3.0"
     react-devtools-core "^4.26.1"
     react-native-codegen "^0.71.5"
-    react-native-gradle-plugin "^0.71.17"
+    react-native-gradle-plugin "^0.71.18"
     react-refresh "^0.4.0"
     react-shallow-renderer "^16.15.0"
     regenerator-runtime "^0.13.2"
@@ -12895,6 +12973,11 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
+unfetch@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-5.0.0.tgz#8a5b6e5779ebe4dde0049f7d7a81d4a1af99d142"
+  integrity sha512-3xM2c89siXg0nHvlmYsQ2zkLASvVMBisZm5lF3gFDqfF2xonNStDJyMpvaOBe0a1Edxmqrf2E0HBdmy9QyZaeg==
+
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-2.0.0.tgz#301acdc525631670d39f6146e0e77ff6bbdebddc"
@@ -13169,6 +13252,11 @@ wcwidth@^1.0.1:
   integrity sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==
   dependencies:
     defaults "^1.0.3"
+
+web-streams-polyfill@^3.0.3:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz#71c2718c52b45fd49dbeee88634b3a60ceab42a6"
+  integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
 
 webcrypto-core@^1.7.7:
   version "1.7.7"
