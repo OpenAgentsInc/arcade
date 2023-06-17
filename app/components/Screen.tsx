@@ -205,8 +205,14 @@ export function Screen(props: ScreenProps) {
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
-    <View style={[$containerStyle, { backgroundColor: "black" }]}>
-      <View style={[$containerInsets, { flex: 1, backgroundColor: safeAreaBackgroundColor }]}>
+    <View style={[$containerStyle, { backgroundColor: colors.black }]}>
+      <View
+        style={[
+          $containerInsets,
+          $keyboardAvoidingViewStyle,
+          { backgroundColor: safeAreaBackgroundColor },
+        ]}
+      >
         <StatusBar style={statusBarStyle} {...StatusBarProps} />
 
         <KeyboardAvoidingView
