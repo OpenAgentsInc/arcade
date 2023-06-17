@@ -44,7 +44,7 @@
     "@react-navigation/native-stack": "^6.0.2",
     "@shopify/flash-list": "^1.4.3",
     "@shopify/react-native-skia": "^0.1.193",
-    "any-sqlite": "^1.0.3",
+    "any-sqlite": "^1.0.4",
     "apisauce": "2.1.5",
     "arclib": "../arclib",
     "assert": "^1.1.1",
