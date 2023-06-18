@@ -14,10 +14,11 @@ interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
-  function CreateChannelScreen() {
+  function CreateChannelScreen({ route }: { route: any }) {
     const pool: any = useContext(RelayContext)
     const channelManager: ChannelManager = new ChannelManager(pool)
 
+    const { isPrivate } = route.params
     const { userStore, channelStore } = useStores()
     const formikRef = useRef(null)
 
@@ -86,13 +87,18 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             name: "",
             picture: "",
             about: "",
-            is_private: false,
+            is_private: isPrivate,
           }}
           onSubmit={(values) => createChannel(values)}
         >
           {({ handleChange, handleBlur, submitForm, values, setFieldValue }) => (
             <View>
-              <Text text="Create Channel" preset="subheading" size="xl" style={$title} />
+              <Text
+                text={isPrivate ? "New private group" : "New channel"}
+                preset="subheading"
+                size="xl"
+                style={$title}
+              />
               <TextField
                 label="Channel name"
                 style={$input}
