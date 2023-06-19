@@ -142,6 +142,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         safeAreaEdges={["bottom"]}
         KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
         keyboardOffset={104}
+        safeAreaBackgroundColor={colors.palette.overlay20}
       >
         <View style={$container}>
           <View style={$main}>

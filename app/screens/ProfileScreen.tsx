@@ -54,7 +54,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   )
 
   return (
-    <Screen style={$root} preset="scroll" safeAreaEdges={["bottom"]}>
+    <Screen style={$root} preset="scroll">
       <View style={$cover}>
         <AutoImage
           source={{
