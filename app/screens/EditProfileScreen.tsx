@@ -79,6 +79,8 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           setLoading(false)
         }
       }
+    } else {
+      setLoading(false)
     }
   }
 
