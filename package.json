@@ -33,6 +33,9 @@
   "overrides": {
     "react-error-overlay": "6.0.9"
   },
+  "any-sqlite": {
+    "driver": "expo-sqlite"
+  },
   "dependencies": {
     "@expo-google-fonts/space-grotesk": "^0.2.2",
     "@expo/config-plugins": "~6.0.0",

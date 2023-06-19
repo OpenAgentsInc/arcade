@@ -6021,11 +6021,6 @@ expo-font@~11.1.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-gradle-ext-vars@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/expo-gradle-ext-vars/-/expo-gradle-ext-vars-0.1.1.tgz#45c68102273b8c3b45e5946947d91d5c5bb767fd"
-  integrity sha512-ORQvSLfEmqMDQU2h02JrapcKCVEWQfM8jh2AGAMXJFxl8h8rwjp03Nx6GIB12cKxq+9lSWdG7NgwpEdCiDT9KQ==
-
 expo-keep-awake@~12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.0.1.tgz#19c5ab55391394ded3f6c262b0707c7140658a11"

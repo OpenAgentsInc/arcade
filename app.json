@@ -62,8 +62,7 @@
             }
           }
         }
-      ],
-      "expo-gradle-ext-vars"
+      ]
     ]
   }
 }
