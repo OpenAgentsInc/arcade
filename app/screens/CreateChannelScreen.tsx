@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ActivityIndicator, ImageStyle, Platform, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, RelayContext, Screen, TextField, Button, Toggle, AutoImage } from "app/components"
+import { Header, RelayContext, Screen, TextField, Toggle, AutoImage } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
@@ -19,11 +19,10 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
   function CreateChannelScreen({ route }: { route: any }) {
     const pool: any = useContext(RelayContext)
     const channelManager: ChannelManager = new ChannelManager(pool)
+    const formikRef = useRef(null)
 
     const { isPrivate } = route.params
     const { userStore, channelStore } = useStores()
-
-    const formikRef = useRef(null)
 
     const [picture, setPicture] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -115,6 +114,9 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
+            rightIcon="Check"
+            rightIconColor={colors.palette.cyan400}
+            onRightPress={() => formikRef.current.submitForm()}
           />
         ),
       })
@@ -138,57 +140,65 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           }}
           onSubmit={(values) => createChannel(values)}
         >
-          {({ handleChange, handleBlur, submitForm, values, setFieldValue }) => (
+          {({ handleChange, handleBlur, setFieldValue, values }) => (
             <View>
-              <View style={$avatar}>
-                <AutoImage
-                  source={{
-                    uri: picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
-                  }}
-                  style={[$image, $avatarImage]}
-                />
-                {!loading ? (
-                  <Pressable onPress={() => imagePicker()} style={$avatarButton}>
-                    <ImagePlusIcon width={20} height={20} color={colors.palette.white} />
-                  </Pressable>
-                ) : (
-                  <ActivityIndicator
-                    color={colors.palette.white}
-                    animating={loading}
-                    style={$avatarButton}
+              <View style={$inputGroup}>
+                <View style={$avatar}>
+                  <AutoImage
+                    source={{
+                      uri: picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+                    }}
+                    style={[$image, $avatarImage]}
                   />
-                )}
+                  {!loading ? (
+                    <Pressable onPress={() => imagePicker()} style={$avatarButton}>
+                      <ImagePlusIcon width={20} height={20} color={colors.palette.white} />
+                    </Pressable>
+                  ) : (
+                    <ActivityIndicator
+                      color={colors.palette.white}
+                      animating={loading}
+                      style={$avatarButton}
+                    />
+                  )}
+                </View>
+                <View style={$inputGroupItem}>
+                  <TextField
+                    style={$input}
+                    placeholder="Channel name"
+                    placeholderTextColor={colors.palette.cyan500}
+                    inputWrapperStyle={$inputWrapper}
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                    autoCapitalize="none"
+                    autoFocus={false}
+                  />
+                </View>
               </View>
               <TextField
-                label="Channel name"
                 style={$input}
-                inputWrapperStyle={$inputWrapper}
-                onChangeText={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-                autoCapitalize="none"
-                autoFocus={false}
-              />
-              <TextField
-                label="Description"
-                style={$input}
+                placeholder="Description"
+                placeholderTextColor={colors.palette.cyan500}
                 inputWrapperStyle={$inputWrapper}
                 onChangeText={handleChange("about")}
                 onBlur={handleBlur("about")}
                 value={values.about}
                 autoCapitalize="none"
                 autoFocus={false}
+                helper="You can provide an optional description for your channel"
               />
-              <Toggle
-                label="Private channel"
-                inputOuterStyle={$toggle}
-                inputInnerStyle={$toggleInner}
-                inputDetailStyle={$toggleDetail}
-                variant="switch"
-                onPress={() => setFieldValue("is_private", !values.is_private)}
-                value={values.is_private}
-              />
-              <Button text="Create" onPress={() => submitForm()} style={$button} />
+              <View style={$toggleWrapper}>
+                <Toggle
+                  label="Private channel"
+                  inputOuterStyle={$toggle}
+                  inputInnerStyle={$toggleInner}
+                  inputDetailStyle={$toggleDetail}
+                  variant="switch"
+                  onPress={() => setFieldValue("is_private", !values.is_private)}
+                  value={values.is_private}
+                />
+              </View>
             </View>
           )}
         </Formik>
@@ -203,25 +213,36 @@ const $container: ViewStyle = {
   paddingHorizontal: spacing.medium,
 }
 
+const $inputGroup: ViewStyle = {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  alignItems: "center",
+  gap: spacing.small,
+}
+
+const $inputGroupItem: ViewStyle = {
+  flex: 1,
+}
+
 const $inputWrapper: ViewStyle = {
-  padding: 0,
+  alignSelf: "stretch",
   backgroundColor: "transparent",
   borderWidth: 0,
-  marginBottom: spacing.medium,
 }
 
 const $input: ViewStyle = {
   width: "100%",
   height: 50,
-  borderWidth: 1,
+  borderBottomWidth: 2,
   borderColor: colors.palette.cyan900,
-  borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.overlay20,
-  paddingHorizontal: spacing.medium,
   paddingVertical: 0,
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
+}
+
+const $toggleWrapper: ViewStyle = {
+  marginTop: spacing.large,
 }
 
 const $toggle: ViewStyle = {
@@ -240,17 +261,9 @@ const $toggleDetail: any = {
   backgroundColor: colors.palette.cyan500,
 }
 
-const $button: ViewStyle = {
-  backgroundColor: colors.palette.cyan500,
-  borderWidth: 0,
-  width: "100%",
-  marginTop: spacing.large,
-  marginBottom: spacing.small,
-  height: 50,
-  minHeight: 50,
-}
-
 const $avatar: ViewStyle = {
+  width: 60,
+  height: 60,
   flexShrink: 0,
   overflow: "hidden",
   alignSelf: "center",
