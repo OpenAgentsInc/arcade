@@ -37,6 +37,7 @@ export type AppStackParamList = {
   Demos: undefined
   Backup: undefined
   AddContact: undefined
+  NewMessage: undefined
 }
 
 const exitRoutes = Config.exitRoutes
@@ -75,6 +76,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
           <Stack.Screen name="Backup" component={Screens.BackupScreen} />
+          <Stack.Screen name="NewMessage" component={Screens.NewMessageScreen} />
           <Stack.Screen name="Demos" component={Screens.DemosScreen} />
         </>
       ) : (

@@ -52,6 +52,7 @@ const palette = {
 
   overlay20: "rgba(69, 210, 255, 0.11)",
   overlay50: "rgba(69, 210, 255, 0.05)",
+  overlay80: "rgba(0, 0, 0, 0.5)",
 } as const
 
 export const colors = {
