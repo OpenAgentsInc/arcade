@@ -107,7 +107,7 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
           titleStyle={{ color: colors.palette.white }}
           RightActionComponent={
             <View style={$headerRightActions}>
-              <Pressable onPress={() => navigate("CreateChannel")}>
+              <Pressable onPress={() => navigate("NewMessage")}>
                 <PlusIcon size={20} color="#fff" />
               </Pressable>
             </View>
