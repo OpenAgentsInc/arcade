@@ -8,15 +8,17 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { AutoImage, Button, TextField, Text } from "app/components"
+import { AutoImage, Button, TextField, Text, Toggle } from "app/components"
 import { PaperclipIcon, SendIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { launchImageLibrary } from "react-native-image-picker"
+import type { PrivateMessageManager } from "app/arclib/src/private"
 
-export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string }) {
+export function DirectMessageForm({ dms, replyTo }: { dms: PrivateMessageManager; replyTo: string }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
   const [value, setValue] = useState("")
+  const [blinded, setBlinded] = useState(false)
 
   const imagePicker = async () => {
     const result = await launchImageLibrary({ mediaType: "photo", selectionLimit: 1 })
@@ -66,8 +68,11 @@ export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string 
     }
 
     // send message
-    dms.send(replyTo, content)
-
+    if (blinded) {
+      dms.send44X(replyTo, content)
+    } else {
+      dms.send(replyTo, content)
+    }
     // reset state
     setValue("")
   }
@@ -106,6 +111,7 @@ export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string 
         autoCapitalize="none"
         autoCorrect={false}
         LeftAccessory={() => (
+          <View style={{flexDirection: "row", flexWrap: "nowrap", marginTop: "auto"}}>
           <Button
             onPress={() => imagePicker()}
             LeftAccessory={() => (
@@ -113,6 +119,18 @@ export function DirectMessageForm({ dms, replyTo }: { dms: any; replyTo: string 
             )}
             style={$imageButton}
           />
+          <Toggle
+            inputOuterStyle={$toggle}
+            inputInnerStyle={$toggleInner}
+            inputDetailStyle={$toggleDetail}
+            labelStyle={$toggleLabel}
+            variant="checkbox"
+            value={blinded}
+            onPress={() => setBlinded(!blinded)}
+            checkboxIcon="x"
+            label="?"
+          />
+          </View>
         )}
         RightAccessory={() => (
           <Button
@@ -214,4 +232,25 @@ const $attachedRemove: ViewStyle = {
 
 const $attachedIndicator: ViewStyle = {
   alignSelf: "center",
+}
+
+const $toggle: ViewStyle = {
+  borderWidth: 1,
+  marginTop: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.overlay20,
+}
+
+const $toggleInner: ViewStyle = {
+  backgroundColor: colors.palette.cyan800,
+}
+
+const $toggleDetail: any = {
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.cyan500,
+}
+
+const $toggleLabel: any = {
+  color: "yellow",
 }
