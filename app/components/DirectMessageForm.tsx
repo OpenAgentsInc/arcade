@@ -111,7 +111,7 @@ export function DirectMessageForm({ dms, replyTo }: { dms: PrivateMessageManager
         autoCapitalize="none"
         autoCorrect={false}
         LeftAccessory={() => (
-          <View style={{flexDirection: "row", flexWrap: "nowrap", marginTop: "auto"}}>
+          <View style={$leftAccessory}>
           <Button
             onPress={() => imagePicker()}
             LeftAccessory={() => (
@@ -253,4 +253,11 @@ const $toggleDetail: any = {
 
 const $toggleLabel: any = {
   color: "yellow",
+}
+
+
+const $leftAccessory: any = {
+  flexDirection: "row", 
+  flexWrap: "nowrap",
+  marginTop: "auto"
 }
