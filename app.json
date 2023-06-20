@@ -17,7 +17,9 @@
       "fallbackToCacheTimeout": 0
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "userInterfaceStyle": "dark",
     "backgroundColor": "#000000",
     "android": {
@@ -54,12 +56,13 @@
             "compileSdkVersion": 33,
             "targetSdkVersion": 33,
             "packagingOptions": {
-              "pickFirst": ["**/libc++_shared.so"]
+              "pickFirst": [
+                "**/libc++_shared.so"
+              ]
             }
           }
         }
-      ],
-      "@skam22/watermelondb-expo-plugin"
+      ]
     ]
   }
 }

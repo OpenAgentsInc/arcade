@@ -41,15 +41,6 @@ jest.doMock("react-native", () => {
   )
 })
 
-jest.mock(
-  '@nozbe/watermelondb/adapters/sqlite/makeDispatcher/index.native.js',
-  () => {
-    return jest.requireActual(
-      '@nozbe/watermelondb/adapters/sqlite/makeDispatcher/index.js',
-    );
-  },
-);
-
 jest.mock('expo-linking', () => {
     const module: typeof import('expo-linking') = {
         ...jest.requireActual('expo-linking'),
