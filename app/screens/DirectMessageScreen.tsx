@@ -19,6 +19,7 @@ import {
   Screen,
   Text,
   User,
+  AutoImage
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
@@ -64,10 +65,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       const seen = new Set()
 
       async function handleNewMessage(event) {
-        if (seen.has(event.id)) return
-        seen.add(event.id)
-        console.log("dm: new message", event)
-        setData((prev) => [event, ...prev])
+        if (seen.has(event.id)) return;
+        if (!event.content) return;
+        seen.add(event.id);
+        console.log("dm: new message", event);
+        setData((prev) => [event, ...prev]);
       }
 
       async function initDMS() {
@@ -76,7 +78,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             console.log("dm: showing", list.length)
             const sorted = list
               .sort((a, b) => b.created_at - a.created_at)
-              .filter((e) => e)
+              .filter((e) => e?.content)
             
             list.forEach(e=>seen.add(e.id))
             // update state
@@ -105,6 +107,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           <View style={$messageItemReverse}>
             <User pubkey={item.pubkey} reverse={true} />
             <View style={$messageContentWrapperReverse}>
+              {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
               <TextWithImage
                 text={item.content || "empty message"}
                 textStyle={$messageContent}
@@ -122,6 +125,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       } else {
         return (
           <View style={$messageItem}>
+            {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
             <User pubkey={item.pubkey} />
             <View style={$messageContentWrapper}>
               <TextWithImage
@@ -255,4 +259,18 @@ const $createdAtText: TextStyle = {
 const $emptyState: ViewStyle = {
   alignSelf: "center",
   paddingVertical: spacing.medium,
+}
+
+const $blindedIconLeft: TextStyle = {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    fontSize: 20,
+}
+
+const $blindedIconRight: TextStyle = {
+    position: 'absolute',
+    top: 5,
+    right: 15,
+    fontSize: 20,
 }

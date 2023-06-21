@@ -28,7 +28,7 @@ export function ContactPicker() {
   return (
     <FlashList
       data={userStore.contacts.slice()}
-      keyExtractor={(item.id) => item.id}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <Pressable onPress={() => toggleSelect(item)} style={$contact}>
           <ContactItem pubkey={item} />

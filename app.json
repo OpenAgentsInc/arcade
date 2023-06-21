@@ -3,6 +3,7 @@
   "displayName": "Arcade",
   "expo": {
     "name": "Arcade",
+    "owner": "arcadelabs",
     "slug": "arc",
     "scheme": "arcade",
     "version": "0.1.0",

@@ -61,9 +61,8 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       } catch(e) {
         alert("Invalid contact:", e)
       }
-    } else {
     }
-    navigation.navigate("Contacts")
+    navigation.goBack()
   }
 
   const handlePresentModalPress = useCallback(() => {
