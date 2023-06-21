@@ -123,12 +123,9 @@ export function DirectMessageForm({ dms, replyTo }: { dms: PrivateMessageManager
             inputOuterStyle={$toggle}
             inputInnerStyle={$toggleInner}
             inputDetailStyle={$toggleDetail}
-            labelStyle={$toggleLabel}
             variant="checkbox"
             value={blinded}
             onPress={() => setBlinded(!blinded)}
-            checkboxIcon="x"
-            label="?"
           />
           </View>
         )}
@@ -250,11 +247,6 @@ const $toggleDetail: any = {
   borderRadius: spacing.tiny,
   backgroundColor: colors.palette.cyan500,
 }
-
-const $toggleLabel: any = {
-  color: "yellow",
-}
-
 
 const $leftAccessory: any = {
   flexDirection: "row", 
