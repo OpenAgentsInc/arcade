@@ -15,7 +15,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
       alert("Failed to get push token for push notification!")
       return null
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data
+    token = (await Notifications.getExpoPushTokenAsync({projectId: "@acx2/arc"})).data
     console.log(token)
   } else {
     alert("Must use physical device for Push Notifications")

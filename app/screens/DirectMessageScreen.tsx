@@ -66,19 +66,25 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       async function handleNewMessage(event) {
         if (seen.has(event.id)) return
         seen.add(event.id)
-        console.log("new message", event)
+        console.log("dm: new message", event)
         setData((prev) => [event, ...prev])
       }
 
       async function initDMS() {
-        const list = await dms.list(null, true, id, handleNewMessage)
-        const sorted = list
-          .slice()
-          .sort((a, b) => b.created_at - a.created_at)
-          .filter((e) => e)
-        // update state
-        setData(sorted)
-        // disable loading
+        try {
+            const list = await dms.list(null, true, id, handleNewMessage)
+            console.log("dm: showing", list.length)
+            const sorted = list
+              .sort((a, b) => b.created_at - a.created_at)
+              .filter((e) => e)
+            
+            list.forEach(e=>seen.add(e.id))
+            // update state
+            setData(sorted)
+            // disable loading
+        } catch (e) {
+            console.log("dm: error loading messages", e)
+        }
         setLoading(false)
       }
 
@@ -86,7 +92,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       initDMS().catch(console.error)
 
       return () => {
-        console.log("unsubscribing...")
+        console.log("dm: unsubscribing...")
         pool.unsub(handleNewMessage)
       }
     }, [id, dms])
