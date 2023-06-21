@@ -15,6 +15,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
@@ -79,7 +80,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             text={profile?.display_name || "Loading..."}
             style={$userName}
           />
-          <TouchableOpacity onPress={async () => await Clipboard.setStringAsync(userStore.pubkey)}>
+          <TouchableOpacity onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(userStore.pubkey))}>
             <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
           </TouchableOpacity>
         </View>
