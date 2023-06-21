@@ -18,8 +18,7 @@ import {
   RelayContext,
   Screen,
   Text,
-  User,
-  AutoImage
+  User
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
