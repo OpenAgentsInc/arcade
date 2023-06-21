@@ -96,7 +96,6 @@ export const previousIconRegistry = {
   settings: require("../../assets/icons/settings.png"),
   slack: require("../../assets/icons/slack.png"),
   view: require("../../assets/icons/view.png"),
-  sunglasses: require("../../assets/icons/sunglasses.svg"),
   x: require("../../assets/icons/x.png"),
 }
 
