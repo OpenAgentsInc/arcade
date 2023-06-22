@@ -18,7 +18,7 @@ import {
   RelayContext,
   Screen,
   Text,
-  User
+  User,
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
@@ -31,11 +31,14 @@ import { formatCreatedAt } from "app/utils/formatCreatedAt"
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
 
+const seen = new Set()
+
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
     const { id } = route.params
     const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
+
 
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
@@ -61,30 +64,26 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     }, [])
 
     useEffect(() => {
-      const seen = new Set()
-
       async function handleNewMessage(event) {
-        if (seen.has(event.id)) return;
-        if (!event.content) return;
-        seen.add(event.id);
-        console.log("dm: new message", event);
-        setData((prev) => [event, ...prev]);
+        if (seen.has(event.id)) return
+        seen.add(event.id)
+        if (!event.content) return
+        console.log("dm: new message", event)
+        setData((prev) => [event, ...prev])
       }
 
       async function initDMS() {
         try {
-            const list = await dms.list(null, true, id, handleNewMessage)
-            console.log("dm: showing", list.length)
-            const sorted = list
-              .sort((a, b) => b.created_at - a.created_at)
-              .filter((e) => e?.content)
-            
-            list.forEach(e=>seen.add(e.id))
-            // update state
-            setData(sorted)
-            // disable loading
+          const list = await dms.list(null, true, id, handleNewMessage)
+          console.log("dm: showing", list.length)
+          const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
+
+          list.forEach((e) => seen.add(e.id))
+          // update state
+          setData(sorted)
+          // disable loading
         } catch (e) {
-            console.log("dm: error loading messages", e)
+          console.log("dm: error loading messages", e)
         }
         setLoading(false)
       }
@@ -261,15 +260,15 @@ const $emptyState: ViewStyle = {
 }
 
 const $blindedIconLeft: TextStyle = {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    fontSize: 20,
+  position: "absolute",
+  top: 5,
+  right: 5,
+  fontSize: 20,
 }
 
 const $blindedIconRight: TextStyle = {
-    position: 'absolute',
-    top: 5,
-    right: 15,
-    fontSize: 20,
+  position: "absolute",
+  top: 5,
+  right: 15,
+  fontSize: 20,
 }

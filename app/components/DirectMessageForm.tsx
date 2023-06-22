@@ -14,7 +14,13 @@ import { colors, spacing } from "app/theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import type { PrivateMessageManager } from "app/arclib/src/private"
 
-export function DirectMessageForm({ dms, replyTo }: { dms: PrivateMessageManager; replyTo: string }) {
+export function DirectMessageForm({
+  dms,
+  replyTo,
+}: {
+  dms: PrivateMessageManager
+  replyTo: string
+}) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
   const [value, setValue] = useState("")
@@ -112,21 +118,21 @@ export function DirectMessageForm({ dms, replyTo }: { dms: PrivateMessageManager
         autoCorrect={false}
         LeftAccessory={() => (
           <View style={$leftAccessory}>
-          <Button
-            onPress={() => imagePicker()}
-            LeftAccessory={() => (
-              <PaperclipIcon width={24} height={24} style={{ color: colors.palette.cyan700 }} />
-            )}
-            style={$imageButton}
-          />
-          <Toggle
-            inputOuterStyle={$toggle}
-            inputInnerStyle={$toggleInner}
-            inputDetailStyle={$toggleDetail}
-            variant="checkbox"
-            value={blinded}
-            onPress={() => setBlinded(!blinded)}
-          />
+            <Button
+              onPress={() => imagePicker()}
+              LeftAccessory={() => (
+                <PaperclipIcon width={24} height={24} style={{ color: colors.palette.cyan700 }} />
+              )}
+              style={$imageButton}
+            />
+            <Toggle
+              inputOuterStyle={$toggle}
+              inputInnerStyle={$toggleInner}
+              inputDetailStyle={$toggleDetail}
+              variant="checkbox"
+              value={blinded}
+              onPress={() => setBlinded(!blinded)}
+            />
           </View>
         )}
         RightAccessory={() => (
@@ -249,7 +255,7 @@ const $toggleDetail: any = {
 }
 
 const $leftAccessory: any = {
-  flexDirection: "row", 
+  flexDirection: "row",
   flexWrap: "nowrap",
-  marginTop: "auto"
+  marginTop: "auto",
 }

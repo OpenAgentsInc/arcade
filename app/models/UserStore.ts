@@ -65,7 +65,7 @@ export const UserStoreModel = types
       if (sec) {
         self.setProp("privkey", sec)
         const pubkey = await getPublicKey(sec)
-        const meta = storage.load("meta")
+        const meta = await storage.load("meta")
         self.setProp("pubkey", pubkey)
         self.setProp("isLoggedIn", true)
         self.setProp("isNewUser", false)
@@ -128,15 +128,13 @@ export const UserStoreModel = types
     async fetchContacts(pool: NostrPool) {
       if (!self.pubkey) throw new Error("pubkey not found")
 
-      const contacts: string[] = []
-      const result: any = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
+      const result = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
       const latest = result.slice(-1)[0]
 
       if (latest) {
-        for (const item of latest.tags) {
-          contacts.push(item[1])
-        }
-
+        const contacts: Array<string> = Array.from(new Set(
+            latest.tags.map(item=>item[1])
+        ))
         self.setProp("contacts", contacts)
       }
     },
