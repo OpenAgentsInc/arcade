@@ -51,15 +51,18 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const suggestions = data ? data.profiles : []
 
   const addCustomContact = () => {
-    let pubkey: any = customContact
+    let pubkey: any = customContact.trim()
     if (pubkey.substring(0, 4) === "npub") {
       pubkey = nip19.decode(pubkey).data
     }
     if (pubkey && !contacts.includes(pubkey)) {
-      addContact(pubkey, pool)
-    } else {
-      alert("You've followed this person")
+      try {
+        addContact(pubkey, pool)
+      } catch(e) {
+        alert("Invalid contact:", e)
+      }
     }
+    navigation.goBack()
   }
 
   const handlePresentModalPress = useCallback(() => {

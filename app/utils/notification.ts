@@ -15,6 +15,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
       alert("Failed to get push token for push notification!")
       return null
     }
+    // project id is read from app.json/extra/eas/projectId
     token = (await Notifications.getExpoPushTokenAsync()).data
     console.log(token)
   } else {

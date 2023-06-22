@@ -102,3 +102,5 @@ export const previousIconRegistry = {
 const $imageStyle: ImageStyle = {
   resizeMode: "contain",
 }
+
+export const iconRegistry = previousIconRegistry

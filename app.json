@@ -3,6 +3,7 @@
   "displayName": "Arcade",
   "expo": {
     "name": "Arcade",
+    "owner": "arcadelabs",
     "slug": "arc",
     "scheme": "arcade",
     "version": "0.1.0",
@@ -12,6 +13,11 @@
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
       "backgroundColor": "#000"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4d0739d3-08f0-42a8-a886-2d89327949a1"
+       }
     },
     "updates": {
       "fallbackToCacheTimeout": 0
