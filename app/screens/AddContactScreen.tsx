@@ -58,7 +58,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     if (pubkey && !contacts.includes(pubkey)) {
       try {
         addContact(pubkey, pool)
-      } catch(e) {
+      } catch (e) {
         alert("Invalid contact:", e)
       }
     }

@@ -80,7 +80,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             text={profile?.display_name || "Loading..."}
             style={$userName}
           />
-          <TouchableOpacity onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(userStore.pubkey))}>
+          <TouchableOpacity
+            onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(userStore.pubkey))}
+          >
             <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
           </TouchableOpacity>
         </View>
@@ -142,7 +144,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 bottomSeparator={true}
                 style={$sectionButton}
                 onPress={() => navigation.navigate("NotificationSetting")}
-                disabled={Platform.OS === 'ios'}
+                disabled={Platform.OS === "ios"}
               />
               {/* <ListItem
                 text="Demos"
