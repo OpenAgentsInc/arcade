@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/components"
+import { AutoImage, Button, Header, RelayContext, Screen, Text, Toggle } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
@@ -22,6 +22,8 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const [profile, setProfile] = useState(null)
   const [followed, setFollowed] = useState(false)
+  const [legacy, setLegacy] = useState(false)
+  const [privateContact, setPrivateContact] = useState(false)
 
   const {
     userStore: { addContact, removeContact },
@@ -34,13 +36,22 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   const navigation = useNavigation<any>()
 
   const toggleFollow = () => {
-    if (!followed) {
-      addContact(id, pool)
-      setFollowed(true)
-    } else {
+    if (followed) {
       removeContact(id, pool)
-      setFollowed(true)
+    } else {
+      addContact(id, pool)
     }
+    setFollowed(!followed)
+  }
+
+  const toggleLegacy = () => {
+    setLegacy(!legacy)
+    saveContactSettings()
+  }
+
+  const togglePrivate = () => {
+    setPrivateContact(!privateContact)
+    saveContactSettings()
   }
 
   useLayoutEffect(() => {
@@ -113,17 +124,38 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           <View style={$userAbout}>
             <Text preset="default" text={profile?.about || "No bio"} />
           </View>
-        </View>
+       </View>
         <View style={$buttonGroup}>
           <Button
             text="Message"
             style={$profileButton}
-            onPress={() => navigation.navigate("DirectMessage", { id })}
+            onPress={() => navigation.navigate("DirectMessage", { id, legacy })}
           />
           <Button
             text={followed ? "Unfollow" : "Follow"}
             onPress={() => toggleFollow()}
             style={$profileButton}
+          />
+        </View>
+        <View>
+          <Toggle 
+            variant="checkbox"
+            label="Use legacy, unblinded DM's"
+            inputOuterStyle={privateContact ? $toggleDisabled : $toggle}
+            inputInnerStyle={$toggleInner}
+            inputDetailStyle={$toggleDetail}
+            value={legacy && !privateContact}
+            disabled={privateContact}
+            onPress={toggleLegacy}
+          />
+          <Toggle 
+            variant="checkbox"
+            label="Hide this contact (private follow)"
+            inputOuterStyle={$toggle}
+            inputInnerStyle={$toggleInner}
+            inputDetailStyle={$toggleDetail}
+            value={privateContact}
+            onPress={togglePrivate}
           />
         </View>
       </View>
@@ -186,4 +218,27 @@ const $profileButton: ViewStyle = {
   width: "100%",
   backgroundColor: "transparent",
   borderColor: colors.palette.cyan500,
+}
+
+const $toggle: ViewStyle = {
+  borderWidth: 1,
+  marginTop: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.overlay20,
+}
+
+const $toggleDisabled: ViewStyle = {
+  ...$toggle,
+  backgroundColor: colors.palette.cyan800,
+}
+
+
+const $toggleInner: ViewStyle = {
+  backgroundColor: colors.palette.cyan800,
+}
+
+const $toggleDetail: any = {
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.cyan500,
 }

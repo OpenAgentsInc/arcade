@@ -1,6 +1,6 @@
-import React, { FC, useCallback, useContext, useLayoutEffect } from "react"
+import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, View, ViewStyle } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useUserContacts } from "app/utils/useUserContacts"
+import { UserMinus } from "lucide-react-native"
 import { useStores } from "app/models"
 
 interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Contacts">> {}
@@ -48,7 +49,10 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
       <Pressable onPress={() => navigation.navigate("User", { id: item })} style={$item}>
         <ContactItem pubkey={item} />
         <Pressable onPress={() => unfollow(item)}>
-          <Text text="Unfollow" size="xs" />
+          <Text text="🕶️" style={$iconPrivate} />
+        </Pressable>
+        <Pressable onPress={() => unfollow(item)}>
+          <UserMinus style={$iconUnfollow} />
         </Pressable>
       </Pressable>
     )
@@ -89,4 +93,15 @@ const $item: ViewStyle = {
 const $emptyState: ViewStyle = {
   alignSelf: "center",
   paddingVertical: spacing.medium,
+}
+
+const $iconUnfollow: CSSProperties = {
+  width: 20, 
+  height: 20,
+  color: colors.palette.cyan100, 
+  marginLeft: 10
+}
+
+const $iconPrivate: TextStyle = {
+  fontSize: 20
 }

@@ -127,16 +127,18 @@ export const UserStoreModel = types
     },
     async fetchContacts(pool: NostrPool) {
       if (!self.pubkey) throw new Error("pubkey not found")
-
       const result = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
       const latest = result.slice(-1)[0]
-
-      if (latest) {
-        const contacts: Array<string> = Array.from(new Set(
-            latest.tags.map(item=>item[1])
-        ))
-        self.setProp("contacts", contacts)
+      const tags = latest ? latest.tags : []
+      const privres = await pool.list([{ authors: [self.pubkey], kinds: [30003] }])
+      if (privres && privres[0] && privres[0].content) {
+        const privev = JSON.parse(await pool.ident.selfDecrypt(privres[0].content))
+        tags.concat(privev.tags)
       }
+      const contacts: Array<string> = Array.from(new Set(
+          tags.map(item=>item[1])
+      ))
+      self.setProp("contacts", contacts)
     },
     addContact(pubkey: string, pool: NostrPool) {
       const index = self.contacts.findIndex((el: any) => el === pubkey)
