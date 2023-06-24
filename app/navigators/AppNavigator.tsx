@@ -34,6 +34,7 @@ export type AppStackParamList = {
   ChannelManager: undefined
   RelayManager: undefined
   NotificationSetting: undefined
+  PrivacySetting: undefined
   Demos: undefined
   Backup: undefined
   AddContact: undefined
@@ -75,6 +76,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
           <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />
+          <Stack.Screen name="PrivacySetting" component={Screens.PrivacySettingScreen} />
           <Stack.Screen name="Backup" component={Screens.BackupScreen} />
           <Stack.Screen name="NewMessage" component={Screens.NewMessageScreen} />
           <Stack.Screen name="Demos" component={Screens.DemosScreen} />

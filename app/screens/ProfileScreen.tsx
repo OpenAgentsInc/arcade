@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
   Linking,
+  Platform,
   Pressable,
   TextStyle,
   TouchableOpacity,
@@ -145,6 +146,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("NotificationSetting")}
                 disabled={Platform.OS === "ios"}
+              />
+              <ListItem
+                text="Privacy"
+                leftIcon="EyeOff"
+                leftIconColor={colors.palette.cyan500}
+                bottomSeparator={true}
+                style={$sectionButton}
+                onPress={() => navigation.navigate("PrivacySetting")}
               />
               {/* <ListItem
                 text="Demos"
