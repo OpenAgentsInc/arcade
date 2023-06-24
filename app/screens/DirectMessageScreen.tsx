@@ -19,14 +19,15 @@ import {
   Screen,
   Text,
   User,
+  MessageContent,
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import TextWithImage from "app/components/TextWithImage"
 import { PrivateMessageManager } from "app/arclib/src/private"
 import { Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
+import { parser } from "app/utils/parser"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -38,7 +39,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const { id } = route.params
     const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
-
 
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
@@ -99,6 +99,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     const renderItem = useCallback(({ item }: { item: Message }) => {
       const createdAt = formatCreatedAt(item.created_at)
+      const content = parser(item)
 
       if (item.pubkey === pubkey) {
         return (
@@ -106,17 +107,10 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             <User pubkey={item.pubkey} reverse={true} />
             <View style={$messageContentWrapperReverse}>
               {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
-              <TextWithImage
-                text={item.content || "empty message"}
-                textStyle={$messageContent}
-                imageStyle={undefined}
-              />
-              <Text
-                text={createdAt}
-                preset="default"
-                size="xs"
-                style={[$createdAt, $createdAtText]}
-              />
+              <MessageContent content={content} />
+              <View style={$createdAt}>
+                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+              </View>
             </View>
           </View>
         )
@@ -126,17 +120,10 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
             <User pubkey={item.pubkey} />
             <View style={$messageContentWrapper}>
-              <TextWithImage
-                text={item.content || "empty message"}
-                textStyle={$messageContent}
-                imageStyle={undefined}
-              />
-              <Text
-                text={createdAt}
-                preset="default"
-                size="xs"
-                style={[$createdAt, $createdAtText]}
-              />
+              <MessageContent content={content} />
+              <View style={$createdAt}>
+                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+              </View>
             </View>
           </View>
         )
@@ -226,8 +213,6 @@ const $messageContentWrapper: ViewStyle = {
   borderWidth: 1,
   borderColor: colors.palette.cyan900,
   paddingTop: spacing.extraLarge,
-  paddingBottom: spacing.large,
-  paddingHorizontal: spacing.small,
 }
 
 const $messageContentWrapperReverse: ViewStyle = {
@@ -236,22 +221,16 @@ const $messageContentWrapperReverse: ViewStyle = {
   borderWidth: 1,
   borderColor: colors.palette.cyan900,
   paddingTop: spacing.extraLarge,
-  paddingBottom: spacing.large,
-  paddingHorizontal: spacing.small,
-}
-
-const $messageContent: TextStyle = {
-  color: "#fff",
 }
 
 const $createdAt: ViewStyle = {
   position: "absolute",
-  bottom: 4,
-  right: 4,
+  top: 6,
+  right: 12,
 }
 
 const $createdAtText: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan500,
 }
 
 const $emptyState: ViewStyle = {

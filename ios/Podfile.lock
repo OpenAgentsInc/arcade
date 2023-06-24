@@ -109,6 +109,9 @@ PODS:
   - hermes-engine/Pre-built (0.71.8)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
+  - PromisesObjC (2.2.0)
+  - PromisesSwift (2.2.0):
+    - PromisesObjC (= 2.2.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -376,6 +379,12 @@ PODS:
     - React
     - React-callinvoker
     - React-Core
+  - react-native-video (6.0.0-alpha.6):
+    - React-Core
+    - react-native-video/Video (= 6.0.0-alpha.6)
+  - react-native-video/Video (6.0.0-alpha.6):
+    - PromisesSwift
+    - React-Core
   - React-perflogger (0.71.8)
   - React-RCTActionSheet (0.71.8):
     - React-Core/RCTActionSheetHeaders (= 0.71.8)
@@ -569,6 +578,7 @@ DEPENDENCIES:
   - react-native-quick-sqlite (from `../node_modules/react-native-quick-sqlite`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
+  - react-native-video (from `../node_modules/react-native-video`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -606,6 +616,8 @@ SPEC REPOS:
     - fmt
     - libevent
     - OpenSSL-Universal
+    - PromisesObjC
+    - PromisesSwift
     - SocketRocket
     - YogaKit
 
@@ -686,6 +698,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-skia:
     :path: "../node_modules/@shopify/react-native-skia"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -763,6 +777,8 @@ SPEC CHECKSUMS:
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 8af6a32dfc2b65ec82193c2dee6e1011ff22ac2a
   RCTTypeSafety: bee9dd161c175896c680d47ef1d9eaacf2b587f4
@@ -781,6 +797,7 @@ SPEC CHECKSUMS:
   react-native-quick-sqlite: 2b225dadc63b670f027111e58f6f169773f6d755
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
   react-native-skia: e92aaf74c38d71feb315deed516a91d211f90553
+  react-native-video: fee89269ad07556d960721f3b62e39be6ace3c90
   React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
   React-RCTActionSheet: 0151f83ef92d2a7139bba7dfdbc8066632a6d47b
   React-RCTAnimation: 5ec9c0705bb2297549c120fe6473aa3e4a01e215
