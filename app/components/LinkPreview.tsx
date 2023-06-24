@@ -8,7 +8,6 @@ import { colors, spacing } from "app/theme"
 export function LinkPreview({ url }: { url: string }) {
   const domain = new URL(url)
   const [preview, setPreview] = useState(null)
-  console.log(preview)
 
   useEffect(() => {
     getLinkPreview(url).then((data) => setPreview(data))
