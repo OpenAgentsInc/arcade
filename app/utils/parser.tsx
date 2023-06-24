@@ -3,7 +3,8 @@ import { parseReferences } from "nostr-tools"
 import React from "react"
 import extractUrls from "extract-urls"
 import reactStringReplace from "react-string-replace"
-import { Linking } from "react-native"
+import { Linking, TextStyle } from "react-native"
+import { colors } from "app/theme"
 
 export function parser(event: any) {
   const references = parseReferences(event)
@@ -51,7 +52,7 @@ export function parser(event: any) {
         content.parsed = content.parsed.replace(url, "")
       } else {
         content.parsed = reactStringReplace(content.parsed, url, (match, i) => (
-          <Text key={match + i} text={url} onPress={() => Linking.openURL(url)} />
+          <Text key={match + i} text={url} onPress={() => Linking.openURL(url)} style={$link} />
         ))
       }
     }
@@ -67,15 +68,19 @@ export function parser(event: any) {
     }
     if (profile) {
       content.parsed = reactStringReplace(content.parsed, item.text, (match, i) => (
-        <Text key={match + i} text={`#${match}`} />
+        <Text key={match + i} text={`#${match}`} style={$link} />
       ))
     }
   })
 
   // parse hashtag
   content.parsed = reactStringReplace(content.parsed, /#(\w+)/g, (match, i) => (
-    <Text key={match + i} text={`#${match}`} />
+    <Text key={match + i} text={`#${match}`} style={$link} />
   ))
 
   return content
+}
+
+const $link: TextStyle = {
+  color: colors.palette.cyan500,
 }

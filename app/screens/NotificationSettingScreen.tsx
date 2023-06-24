@@ -107,7 +107,7 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
         header: () => (
           <Header
             title="Notifications"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
