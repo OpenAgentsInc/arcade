@@ -1,20 +1,21 @@
-import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect } from "react"
+import React, { CSSProperties, FC, useCallback, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
+import { ContactItem, Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
 import { UserMinus } from "lucide-react-native"
 import { useStores } from "app/models"
+import { Contact } from "app/arclib/src/contacts"
 
 interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Contacts">> {}
 
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
-  const pool: any = useContext(RelayContext)
+  const mgr = useContactManager()
   const contacts = useUserContacts()
 
   // Pull in navigation via hook
@@ -26,7 +27,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   } = useStores()
 
   const unfollow = (pubkey: string) => {
-    removeContact(pubkey, pool)
+    removeContact(pubkey, mgr)
   }
 
   useLayoutEffect(() => {
@@ -44,14 +45,14 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     })
   }, [])
 
-  const renderItem = useCallback(({ item }: { item: string }) => {
+  const renderItem = useCallback(({ item }: { item: Contact }) => {
     return (
-      <Pressable onPress={() => navigation.navigate("User", { id: item })} style={$item}>
-        <ContactItem pubkey={item} />
-        <Pressable onPress={() => unfollow(item)}>
+      <Pressable onPress={() => navigation.navigate("User", { id: item.pubkey })} style={$item}>
+        <ContactItem pubkey={item.pubkey} />
+        <Pressable onPress={() => unfollow(item.pubkey)}>
           <Text text="🕶️" style={$iconPrivate} />
         </Pressable>
-        <Pressable onPress={() => unfollow(item)}>
+        <Pressable onPress={() => unfollow(item.pubkey)}>
           <UserMinus style={$iconUnfollow} />
         </Pressable>
       </Pressable>
@@ -62,7 +63,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     <Screen style={$root} preset="scroll">
       <FlashList
         data={contacts}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.pubkey}
         renderItem={renderItem}
         ListEmptyComponent={
           <View style={$emptyState}>
@@ -96,12 +97,12 @@ const $emptyState: ViewStyle = {
 }
 
 const $iconUnfollow: CSSProperties = {
-  width: 20, 
+  width: 20,
   height: 20,
-  color: colors.palette.cyan100, 
-  marginLeft: 10
+  color: colors.palette.cyan100,
+  marginLeft: 10,
 }
 
 const $iconPrivate: TextStyle = {
-  fontSize: 20
+  fontSize: 20,
 }

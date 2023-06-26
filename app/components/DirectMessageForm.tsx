@@ -19,9 +19,9 @@ export function DirectMessageForm({
   replyTo,
   legacy,
 }: {
-  dms: PrivateMessageManager;
-  replyTo: string;
-  legacy: boolean;
+  dms: PrivateMessageManager
+  replyTo: string
+  legacy: boolean
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)

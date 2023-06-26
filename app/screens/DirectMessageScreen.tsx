@@ -39,7 +39,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
 
-
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
