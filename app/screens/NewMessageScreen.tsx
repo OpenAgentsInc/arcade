@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { useUserContacts } from "app/utils/useUserContacts"
 import { FlashList } from "@shopify/flash-list"
+import { Contact } from "app/arclib/src/contacts"
 
 interface NewMessageScreenProps extends NativeStackScreenProps<AppStackScreenProps<"NewMessage">> {}
 
@@ -30,10 +31,10 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
     })
   }, [])
 
-  const renderItem = useCallback(({ item }: { item: string }) => {
+  const renderItem = useCallback(({ item }: { item: Contact }) => {
     return (
       <Pressable onPress={() => navigation.navigate("DirectMessage", { id: item })} style={$item}>
-        <ContactItem pubkey={item} />
+        <ContactItem pubkey={item.pubkey} />
       </Pressable>
     )
   }, [])
@@ -60,7 +61,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
       </View>
       <FlashList
         data={contacts}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.pubkey}
         renderItem={renderItem}
         contentContainerStyle={$list}
         ListHeaderComponent={
