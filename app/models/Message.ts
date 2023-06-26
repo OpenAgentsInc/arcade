@@ -16,7 +16,7 @@ export const MessageModel = types
     hide: types.optional(types.boolean, false),
     mute: types.optional(types.boolean, false),
     lastMessageAt: types.maybe(types.number),
-    blinded: types.optional(types.boolean, false)
+    blinded: types.optional(types.boolean, false),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -24,7 +24,7 @@ export type AppStackParamList = {
   Listing: undefined
   ListingDetail: undefined
   Channels: undefined
-  User: undefined
+  User: { id: string }
   Profile: undefined
   EditProfile: undefined
   DirectMessage: undefined
