@@ -3,12 +3,13 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, RelayContext, Screen, Text } from "app/components"
+import { AutoImage, Button, Header, RelayContext, Screen, Text, Toggle } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
-import { useUserContacts } from "app/utils/useUserContacts"
 import { useStores } from "app/models"
+import { NostrPool } from "app/arclib/src"
+import { useContactManager } from "app/utils/useUserContacts"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -17,30 +18,40 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 }: {
   route: any
 }) {
-  const pool: any = useContext(RelayContext)
-  const contacts = useUserContacts()
+  // Get route params
+  const { id }: { id: string } = route.params
+  const pool = useContext(RelayContext) as NostrPool
+  const contacts = useContactManager()
 
   const [profile, setProfile] = useState(null)
   const [followed, setFollowed] = useState(false)
+  const [legacy, setLegacy] = useState(false)
+  const [secret, setSecret] = useState(false)
 
   const {
     userStore: { addContact, removeContact },
   } = useStores()
 
-  // Get route params
-  const { id } = route.params
-
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   const toggleFollow = () => {
-    if (!followed) {
-      addContact(id, pool)
-      setFollowed(true)
+    if (followed) {
+      removeContact(id, contacts)
     } else {
-      removeContact(id, pool)
-      setFollowed(true)
+      addContact({ pubkey: id, legacy, secret }, contacts)
     }
+    setFollowed(!followed)
+  }
+
+  const toggleLegacy = () => {
+    addContact({ pubkey: id, legacy: !legacy, secret }, contacts)
+    setLegacy(!legacy)
+  }
+
+  const toggleSecret = () => {
+    addContact({ pubkey: id, legacy, secret: !secret }, contacts)
+    setSecret(!secret)
   }
 
   useLayoutEffect(() => {
@@ -65,12 +76,16 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (latest) {
         const content = JSON.parse(latest.content)
         setProfile(content)
-        if (contacts.includes(id)) {
+        if (contacts.has(id)) {
           setFollowed(true)
         }
       } else {
         alert("relay return nothing")
       }
+
+      const ctx = contacts.contacts.get(id)
+      setLegacy(ctx?.legacy)
+      setSecret(ctx?.secret)
     }
 
     fetchProfile().catch(console.error)
@@ -118,12 +133,35 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           <Button
             text="Message"
             style={$profileButton}
-            onPress={() => navigation.navigate("DirectMessage", { id })}
+            onPress={() => navigation.navigate("DirectMessage", { id, legacy })}
           />
           <Button
             text={followed ? "Unfollow" : "Follow"}
             onPress={() => toggleFollow()}
             style={$profileButton}
+          />
+        </View>
+        <View>
+          <Toggle
+            id="legacy"
+            variant="checkbox"
+            label="Use legacy, unblinded DM's"
+            inputOuterStyle={secret ? $toggleDisabled : $toggle}
+            inputInnerStyle={$toggleInner}
+            inputDetailStyle={$toggleDetail}
+            value={legacy && !secret}
+            disabled={secret}
+            onPress={toggleLegacy}
+          />
+          <Toggle
+            id="secret"
+            variant="checkbox"
+            label="Hide this contact (private follow)"
+            inputOuterStyle={$toggle}
+            inputInnerStyle={$toggleInner}
+            inputDetailStyle={$toggleDetail}
+            value={secret}
+            onPress={toggleSecret}
           />
         </View>
       </View>
@@ -186,4 +224,26 @@ const $profileButton: ViewStyle = {
   width: "100%",
   backgroundColor: "transparent",
   borderColor: colors.palette.cyan500,
+}
+
+const $toggle: ViewStyle = {
+  borderWidth: 1,
+  marginTop: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.overlay20,
+}
+
+const $toggleDisabled: ViewStyle = {
+  ...$toggle,
+  backgroundColor: colors.palette.cyan800,
+}
+
+const $toggleInner: ViewStyle = {
+  backgroundColor: colors.palette.cyan800,
+}
+
+const $toggleDetail: any = {
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.cyan500,
 }

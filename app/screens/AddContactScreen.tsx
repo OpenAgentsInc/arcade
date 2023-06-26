@@ -1,7 +1,6 @@
 import React, {
   FC,
   useCallback,
-  useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -12,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, Button, RelayContext, ContactItem } from "app/components"
+import { Header, Screen, Text, Button, ContactItem } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import {
@@ -21,17 +20,15 @@ import {
   BottomSheetScrollView,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet"
-import { NostrPool } from "app/arclib/src"
 import { useStores } from "app/models"
-import { useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
 import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
 export const AddContactScreen: FC<AddContactScreenProps> = observer(function AddContactScreen() {
-  const pool = useContext(RelayContext) as NostrPool
-
+  const mgr = useContactManager()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["35%", "50%"], [])
 
@@ -57,9 +54,9 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     }
     if (pubkey && !contacts.includes(pubkey)) {
       try {
-        addContact(pubkey, pool)
+        addContact(pubkey, mgr)
       } catch (e) {
-        alert("Invalid contact:", e)
+        alert(`Invalid contact: ${e}`)
       }
     }
     navigation.goBack()
@@ -101,11 +98,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       <View style={$item}>
         <ContactItem pubkey={item.pubkey} />
         {contacts.includes(item.pubkey) ? (
-          <Pressable onPress={() => removeContact(item.pubkey, pool)}>
+          <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
             <Text text="Remove" size="xs" />
           </Pressable>
         ) : (
-          <Pressable onPress={() => addContact(item.pubkey, pool)}>
+          <Pressable onPress={() => addContact(item.pubkey, mgr)}>
             <Text text="Add" size="xs" />
           </Pressable>
         )}

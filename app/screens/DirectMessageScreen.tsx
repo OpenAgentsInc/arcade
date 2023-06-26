@@ -35,10 +35,9 @@ const seen = new Set()
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
-    const { id } = route.params
+    const { id, legacy } = route.params
     const navigation = useNavigation<any>()
     const pool: any = useContext(RelayContext)
-
 
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])
@@ -177,7 +176,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             />
           </View>
           <View style={$form}>
-            <DirectMessageForm dms={dms} replyTo={id} />
+            <DirectMessageForm dms={dms} replyTo={id} legacy={legacy} />
           </View>
         </View>
       </Screen>

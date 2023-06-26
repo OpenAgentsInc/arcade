@@ -3,10 +3,10 @@ import { withSetPropAction } from "./helpers/withSetPropAction"
 import { NostrPool } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { arrayToNIP02 } from "app/utils/nip02"
 import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
+import { ContactManager, Contact } from "app/arclib/src/contacts"
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -30,7 +30,12 @@ export const UserStoreModel = types
     isLoggedIn: false,
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
-    contacts: types.optional(types.array(types.string), []),
+    contacts: types.optional(
+      types.array(
+        types.model({ pubkey: types.string, secret: types.boolean, legacy: types.boolean }),
+      ),
+      [],
+    ),
     privMessages: types.optional(types.array(MessageModel), []),
     relays: types.optional(types.array(types.string), [
       "wss://relay.arcade.city",
@@ -125,43 +130,19 @@ export const UserStoreModel = types
         contacts: [],
       })
     },
-    async fetchContacts(pool: NostrPool) {
+    async fetchContacts(mgr: ContactManager): Promise<Contact[]> {
       if (!self.pubkey) throw new Error("pubkey not found")
-
-      const result = await pool.list([{ authors: [self.pubkey], kinds: [3] }])
-      const latest = result.slice(-1)[0]
-
-      if (latest) {
-        const contacts: Array<string> = Array.from(new Set(
-            latest.tags.map(item=>item[1])
-        ))
-        self.setProp("contacts", contacts)
-      }
+      const res = await mgr.list()
+      self.setProp("contacts", res)
+      return res
     },
-    addContact(pubkey: string, pool: NostrPool) {
-      const index = self.contacts.findIndex((el: any) => el === pubkey)
-      if (index === -1) {
-        const newFollows = [...self.contacts, pubkey]
-        const nip02 = arrayToNIP02(newFollows)
-        pool.send({
-          content: "",
-          tags: nip02,
-          kind: 3,
-        })
-        self.contacts.push(pubkey)
-      }
+    async addContact(contact: Contact, mgr: ContactManager) {
+      await mgr.add(contact)
+      self.setProp("contacts", await mgr.list())
     },
-    removeContact(pubkey: string, pool: NostrPool) {
-      const index = self.contacts.findIndex((el: any) => el === pubkey)
-      if (index !== -1) {
-        const nip02 = arrayToNIP02(self.contacts)
-        pool.send({
-          content: "",
-          tags: nip02,
-          kind: 3,
-        })
-        self.contacts.splice(index, 1)
-      }
+    async removeContact(pubkey: string, mgr: ContactManager) {
+      await mgr.remove(pubkey)
+      self.contacts.replace(mgr.curList())
     },
     addRelay(url: string) {
       const index = self.relays.findIndex((el: any) => el === url)
