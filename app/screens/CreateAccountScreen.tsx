@@ -22,7 +22,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     // Pull in navigation via hook
     const navigation = useNavigation()
 
-    const signup = (data: any) => {
+    const signup = (data: { displayName: string; username: string; about: string }) => {
       channelStore.createDefaultChannels()
       userStore.signup(data.username, data.displayName, data.about)
     }

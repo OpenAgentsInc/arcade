@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { ChannelManager } from "app/arclib/src"
+import { ChannelManager, NostrPool } from "app/arclib/src"
 import { ChannelManagerItem } from "app/components/ChannelManagerItem"
 
 interface ChannelManagerScreenProps
@@ -16,8 +16,8 @@ interface ChannelManagerScreenProps
 
 export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
   function ChannelManagerScreen() {
-    const pool: any = useContext(RelayContext)
-    const channelManager = useMemo(() => new ChannelManager(pool), [pool])
+    const pool = useContext(RelayContext) as NostrPool
+    const channelManager = useMemo(() => new ChannelManager(pool), [pool]) as ChannelManager
 
     // Pull in one of our MST stores
     const {

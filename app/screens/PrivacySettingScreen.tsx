@@ -26,9 +26,9 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
     const { userStore } = useStores()
 
     // Pull in navigation via hook
-    const navigation = useNavigation<any>()
+    const navigation = useNavigation()
 
-    const updateSettings = async (data: any) => {
+    const updateSettings = async (data: { prefersLegacyDMs: boolean }) => {
       try {
         const profileSettings = {
           ...profile,
@@ -97,7 +97,6 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
                       <Toggle
                         inputOuterStyle={$toggle}
                         inputInnerStyle={$toggleInner}
-                        inputDetailStyle={$toggleDetail}
                         variant="switch"
                         onPress={() => setFieldValue("prefersLegacyDMs", !values.prefersLegacyDMs)}
                         value={values.prefersLegacyDMs}
@@ -169,11 +168,6 @@ const $toggle: ViewStyle = {
 
 const $toggleInner: ViewStyle = {
   backgroundColor: colors.palette.cyan800,
-}
-
-const $toggleDetail: any = {
-  borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.cyan500,
 }
 
 const $button: ViewStyle = {

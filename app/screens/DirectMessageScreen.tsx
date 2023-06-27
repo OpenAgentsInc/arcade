@@ -28,6 +28,7 @@ import { PrivateMessageManager } from "app/arclib/src/private"
 import { Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
+import { NostrPool } from "app/arclib/src"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -38,7 +39,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
     const { id, legacy } = route.params
     const navigation = useNavigation<any>()
-    const pool: any = useContext(RelayContext)
+    const pool = useContext(RelayContext) as NostrPool
 
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([])

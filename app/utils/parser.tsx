@@ -5,14 +5,15 @@ import extractUrls from "extract-urls"
 import reactStringReplace from "react-string-replace"
 import { Linking, TextStyle } from "react-native"
 import { colors } from "app/theme"
+import { NostrEvent } from "app/arclib/src"
 
-export function parser(event: any) {
+export function parser(event: NostrEvent) {
   const references = parseReferences(event)
   const urls = extractUrls(event.content, true)
 
   const content: {
     original: string
-    parsed: any
+    parsed: string | React.ReactNode[]
     notes: string[]
     images: string[]
     videos: string[]
@@ -25,12 +26,6 @@ export function parser(event: any) {
     videos: [],
     links: [],
   }
-
-  // remove unnecessary whitespaces
-  content.parsed = content.parsed.replace(/\s{2,}/g, " ")
-
-  // remove unnecessary linebreak
-  content.parsed = content.parsed.replace(/(\r\n|\r|\n){2,}/g, "$1\n")
 
   // parse urls
   urls?.forEach((url: string) => {
@@ -49,7 +44,7 @@ export function parser(event: any) {
         // push to store
         content.links.push(url)
         // remove url from original content
-        content.parsed = content.parsed.replace(url, "")
+        content.parsed = reactStringReplace(content.parsed, url, () => null)
       } else {
         content.parsed = reactStringReplace(content.parsed, url, (match, i) => (
           <Text key={match + i} text={url} onPress={() => Linking.openURL(url)} style={$link} />
@@ -64,11 +59,13 @@ export function parser(event: any) {
     const event = item.event
     if (event) {
       content.notes.push(event.id)
-      content.parsed = content.parsed.replace(item.text, "")
+      content.parsed = reactStringReplace(content.parsed, item.text, (match, i) => (
+        <Text key={match + i} text={match} style={$link} />
+      ))
     }
     if (profile) {
       content.parsed = reactStringReplace(content.parsed, item.text, (match, i) => (
-        <Text key={match + i} text={`#${match}`} style={$link} />
+        <Text key={match + i} text={match} style={$link} />
       ))
     }
   })

@@ -608,10 +608,11 @@ const $switchInner: ViewStyle = {
 }
 
 const $switchDetail: SwitchToggleProps["inputDetailStyle"] = {
-  borderRadius: 12,
   position: "absolute",
   width: 24,
   height: 24,
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.cyan500,
 }
 
 const $helper: TextStyle = {

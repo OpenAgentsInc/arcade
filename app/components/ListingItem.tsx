@@ -3,7 +3,7 @@ import { Text } from "./Text"
 import { TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 
-export function ListingItem({ tags }: { tags: any }) {
+export function ListingItem({ tags }: { tags: string[][] }) {
   const isListing = tags.find((item) => item[0] === "x" && item[1] === "listing")
   const hasData = tags.find((item) => item[0] === "data")
 

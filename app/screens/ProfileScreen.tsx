@@ -20,11 +20,12 @@ import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
+import { NostrPool } from "app/arclib/src"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
-  const pool: any = useContext(RelayContext)
+  const pool = useContext(RelayContext) as NostrPool
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores

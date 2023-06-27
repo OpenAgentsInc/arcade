@@ -58,11 +58,11 @@ export const UserStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el.id === id)
+      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index === -1) self.channels.push(id)
     },
     leaveChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el.id === id)
+      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
     async afterCreate() {
@@ -145,17 +145,17 @@ export const UserStoreModel = types
       self.contacts.replace(mgr.curList())
     },
     addRelay(url: string) {
-      const index = self.relays.findIndex((el: any) => el === url)
+      const index = self.relays.findIndex((el: string) => el === url)
       if (index === -1) self.relays.push(url)
     },
     removeRelay(url: string) {
-      const index = self.relays.findIndex((el: any) => el === url)
+      const index = self.relays.findIndex((el: string) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
     },
     async fetchPrivMessages(pool: NostrPool) {
       const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
       const map = new Map<string, NostrEvent>()
-      list.forEach(ev=>{
+      list.forEach((ev) => {
         const was = map.get(ev.pubkey)
         if (!was || ev.created_at > was.created_at) {
           map.set(ev.pubkey, ev)

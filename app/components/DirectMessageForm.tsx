@@ -230,7 +230,7 @@ const $attachedIndicator: ViewStyle = {
   alignSelf: "center",
 }
 
-const $leftAccessory: any = {
+const $leftAccessory: ViewStyle = {
   flexDirection: "row",
   flexWrap: "nowrap",
   marginTop: "auto",

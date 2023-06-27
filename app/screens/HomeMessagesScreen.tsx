@@ -40,7 +40,8 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     )
 
     const data = [...getChannels, ...privMessages].sort(
-      (a: any, b: any) => b.lastMessageAt - a.lastMessageAt,
+      (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
+        b.lastMessageAt - a.lastMessageAt,
     )
 
     const renderItem = useCallback(({ item, index }) => {
