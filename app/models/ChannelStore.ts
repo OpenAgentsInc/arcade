@@ -1,6 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, types, resolveIdentifier } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { Channel, ChannelModel } from "./Channel"
+import { ChannelModel } from "./Channel"
+import { ChannelInfo } from "app/arclib/src"
 
 /**
  * Model description here for TypeScript hints.
@@ -46,7 +47,7 @@ export const ChannelStoreModel = types
         })
       }
     },
-    create(meta: Channel) {
+    create(meta: ChannelInfo) {
       const item = self.channels.findIndex((el: any) => el.id === meta.id)
       if (item === -1) {
         self.channels.push({

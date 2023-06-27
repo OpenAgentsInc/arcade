@@ -13,6 +13,7 @@ export const ChannelModel = types
     name: types.optional(types.string, ""),
     picture: types.optional(types.string, ""),
     about: types.optional(types.string, ""),
+    is_private: types.optional(types.boolean, false),
     privkey: types.optional(types.string, ""),
     lastMessage: types.optional(types.string, ""),
     lastMessagePubkey: types.optional(types.string, ""),
