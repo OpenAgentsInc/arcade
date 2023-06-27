@@ -33,7 +33,7 @@ export const ChannelModel = types
     async fetchMessages(channel: ChannelManager) {
       const events = await channel.list({
         channel_id: self.id,
-        filter: { since: Math.floor(Date.now() / 1000) - 24 * 3600 },
+        filter: { limit: 300 },
         db_only: false,
         privkey: self.privkey,
       })

@@ -25,7 +25,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const [profile, setProfile] = useState(null)
   const [followed, setFollowed] = useState(false)
-  const [legacy, setLegacy] = useState(false)
+  const [legacy, setLegacy] = useState(true)
   const [secret, setSecret] = useState(false)
 
   const {
