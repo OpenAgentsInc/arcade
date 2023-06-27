@@ -64,15 +64,15 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       })
     }, [])
 
-    useEffect(() => {
-      async function handleNewMessage(event) {
+    async function handleNewMessage(event) {
         if (seen.has(event.id)) return
         seen.add(event.id)
         if (!event.content) return
         console.log("dm: new message", event)
         setData((prev) => [event, ...prev])
-      }
+    }
 
+    useEffect(() => {
       async function initDMS() {
         try {
           const list = await dms.list(null, true, id, handleNewMessage)

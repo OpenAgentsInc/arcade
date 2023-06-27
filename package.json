@@ -75,6 +75,7 @@
     "i18n-js": "3.9.2",
     "isomorphic-webcrypto": "https://github.com/earonesty/isomorphic-webcrypto",
     "link-preview-js": "^3.0.4",
+    "lru-cache": "^10.0.0",
     "lucide-react-native": "0.214.0",
     "mobx": "6.6.0",
     "mobx-react-lite": "3.4.0",
