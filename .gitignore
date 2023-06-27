@@ -88,3 +88,6 @@ web-build/
 
 # vim
 *.swp
+
+
+index.android.bundle
