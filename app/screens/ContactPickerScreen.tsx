@@ -35,13 +35,13 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     const { id, name, privkey } = route.params
 
     const pool = useContext(RelayContext) as NostrPool
-    const encrypted: any = useMemo(() => new EncChannel(pool), [])
+    const encrypted: EncChannel = useMemo(() => new EncChannel(pool), [])
 
     const formikRef = useRef(null)
     const bottomSheetModalRef = useRef<BottomSheetModal>(null)
     const snapPoints = useMemo(() => ["35%", "50%"], [])
 
-    const [selected, setSelected] = useState([])
+    const [selected, setSelected] = useState([] as Array<string>)
     const [custom, setCustom] = useState([])
 
     const navigation = useNavigation<any>()
@@ -65,7 +65,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
           text: "Confirm",
           onPress: async () => {
             // invite
-            await encrypted.invite({ members: selected })
+            await encrypted.invite({ members: selected, id: id, privkey: privkey, name: name, about: "", picture: "" })
             // redirect to channel
             navigation.replace("Chat", { id, name, privkey })
           },
@@ -111,11 +111,11 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
         <Screen preset="scroll" contentContainerStyle={$root}>
           <FlashList
             data={data}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => item.pubkey}
             renderItem={({ item }) => (
-              <Pressable onPress={() => toggleSelect(item)} style={$contact}>
-                <ContactItem pubkey={item} />
-                {selected.includes(item) && (
+              <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
+                <ContactItem pubkey={item.pubkey} />
+                {selected.includes(item.pubkey) && (
                   <View>
                     <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
                   </View>
