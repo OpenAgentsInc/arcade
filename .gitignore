@@ -91,3 +91,4 @@ web-build/
 
 
 index.android.bundle
+*.aab
