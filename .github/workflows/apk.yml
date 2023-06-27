@@ -2,7 +2,7 @@ name: build-apk
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     name: Build, test, apk build
