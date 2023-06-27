@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
-import { ChannelManager } from "app/arclib/src"
+import { ChannelInfo, ChannelManager, NostrPool } from "app/arclib/src"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 
@@ -17,7 +17,7 @@ interface CreateChannelScreenProps
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
   function CreateChannelScreen({ route }: { route: any }) {
-    const pool: any = useContext(RelayContext)
+    const pool = useContext(RelayContext) as NostrPool
     const channelManager: ChannelManager = new ChannelManager(pool)
     const formikRef = useRef(null)
 
@@ -75,9 +75,9 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
         if (!data.name) {
           alert("Channel name is required")
         } else {
-          const fullData = { ...data, picture }
+          const fullData: ChannelInfo = { ...data, picture }
           // broadcast channel to all relays
-          const info: any = await channelManager.create(fullData)
+          const info: ChannelInfo = await channelManager.create(fullData)
           await channelManager.setMeta(info.id, fullData.is_private, fullData)
           console.log("created channel: ", info)
 

@@ -65,7 +65,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
           text: "Confirm",
           onPress: async () => {
             // invite
-            await encrypted.invite({ members: selected, id: id, privkey: privkey, name: name, about: "", picture: "" })
+            await encrypted.invite({ members: selected, id, privkey, name, about: "", picture: "" })
             // redirect to channel
             navigation.replace("Chat", { id, name, privkey })
           },
@@ -74,7 +74,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     }
 
     const addCustomContact = (data) => {
-      let pubkey: any = data.pubkey
+      let pubkey = data.pubkey
       if (pubkey.substring(0, 4) === "npub") {
         pubkey = nip19.decode(pubkey).data
       }

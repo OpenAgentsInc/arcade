@@ -3,9 +3,10 @@ import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
+import { NostrPool } from "app/arclib/src"
 
 export function ContactItem({ pubkey }: { pubkey: string }) {
-  const pool: any = useContext(RelayContext)
+  const pool = useContext(RelayContext) as NostrPool
   const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {

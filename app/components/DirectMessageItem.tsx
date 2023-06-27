@@ -22,10 +22,10 @@ export const DirectMessageItem = observer(function DirectMessageItem({
   dm,
   pool,
 }: {
-  dm: any
+  dm: {content: string, pubkey: string, created_at: number}
   pool: NostrPool
 }) {
-  const { navigate } = useNavigation<any>()
+  const navigation = useNavigation<any>()
   const [profile, setProfile] = useState(null)
   const createdAt = formatCreatedAt(dm.created_at)
 
@@ -46,7 +46,7 @@ export const DirectMessageItem = observer(function DirectMessageItem({
 
   return (
     <Pressable
-      onPress={() => navigate("DirectMessage", { id: dm.pubkey })}
+      onPress={() => navigation.navigate("DirectMessage", { id: dm.pubkey })}
       style={styles.$messageItem}
     >
       <AutoImage

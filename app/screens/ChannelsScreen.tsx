@@ -11,19 +11,19 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import { ChannelInfo, ChannelManager } from "app/arclib/src"
+import { ChannelInfo, ChannelManager, NostrPool } from "app/arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
-  const pool: any = useContext(RelayContext)
+  const pool = useContext(RelayContext) as NostrPool
   const { userStore, channelStore } = useStores()
   const mgr = new ChannelManager(pool)
   const [dat, setData] = useState([])
   const data: ChannelInfo[] = dat
 
   // Pull in navigation via hook
-  const navigation: any = useNavigation()
+  const navigation = useNavigation<any>()
 
   const joinChannel = (item: any) => {
     // create channel in local store

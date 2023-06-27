@@ -4,9 +4,10 @@ import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
+import { NostrPool } from "app/arclib/src"
 
 export function UserOffer({ pubkey }: { pubkey: string }) {
-  const pool: any = useContext(RelayContext)
+  const pool = useContext(RelayContext) as NostrPool
   const [profile, setProfile] = useState(null)
   const navigation = useNavigation<any>()
 

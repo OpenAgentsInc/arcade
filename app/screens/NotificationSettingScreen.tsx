@@ -107,7 +107,7 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
         header: () => (
           <Header
             title="Notifications"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
@@ -156,7 +156,6 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
                       <Toggle
                         inputOuterStyle={$toggle}
                         inputInnerStyle={$toggleInner}
-                        inputDetailStyle={$toggleDetail}
                         variant="switch"
                         onPress={() =>
                           setFieldValue("privchat_push_enabled", !values.privchat_push_enabled)
@@ -174,7 +173,6 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
                       <Toggle
                         inputOuterStyle={$toggle}
                         inputInnerStyle={$toggleInner}
-                        inputDetailStyle={$toggleDetail}
                         variant="switch"
                         onPress={() =>
                           setFieldValue("channel_push_enabled", !values.channel_push_enabled)
@@ -197,7 +195,6 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
                       <Toggle
                         inputOuterStyle={$toggle}
                         inputInnerStyle={$toggleInner}
-                        inputDetailStyle={$toggleDetail}
                         variant="switch"
                         onPress={() =>
                           setFieldValue("buyoffer_push_enabled", !values.buyoffer_push_enabled)
@@ -215,7 +212,6 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
                       <Toggle
                         inputOuterStyle={$toggle}
                         inputInnerStyle={$toggleInner}
-                        inputDetailStyle={$toggleDetail}
                         variant="switch"
                         onPress={() =>
                           setFieldValue("selloffer_push_enabled", !values.selloffer_push_enabled)
@@ -278,11 +274,6 @@ const $toggle: ViewStyle = {
 
 const $toggleInner: ViewStyle = {
   backgroundColor: colors.palette.cyan800,
-}
-
-const $toggleDetail: any = {
-  borderRadius: spacing.tiny,
-  backgroundColor: colors.palette.cyan500,
 }
 
 const $button: ViewStyle = {

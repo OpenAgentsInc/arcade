@@ -1,4 +1,4 @@
-import { ChannelManager } from "app/arclib/src"
+import { ChannelManager, NostrEvent } from "app/arclib/src"
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
@@ -13,6 +13,7 @@ export const ChannelModel = types
     name: types.optional(types.string, ""),
     picture: types.optional(types.string, ""),
     about: types.optional(types.string, ""),
+    is_private: types.optional(types.boolean, false),
     privkey: types.optional(types.string, ""),
     lastMessage: types.optional(types.string, ""),
     lastMessagePubkey: types.optional(types.string, ""),
@@ -51,7 +52,7 @@ export const ChannelModel = types
         alert("Failed to fetch meta")
       }
     },
-    addMessage(event: any) {
+    addMessage(event: NostrEvent) {
       self.messages.unshift(event)
     },
     updateLastMessage() {

@@ -11,6 +11,7 @@ import {
   ChannelMessageForm,
   ActivityIndicator,
   Text,
+  MessageContent,
 } from "app/components"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
@@ -20,7 +21,7 @@ import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
 import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import TextWithImage from "app/components/TextWithImage"
+import { parser } from "app/utils/parser"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -143,23 +144,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   const renderItem = useCallback(({ item }: { item: Message }) => {
     const createdAt = formatCreatedAt(item.created_at)
+    const content = parser(item)
 
     if (item.pubkey === pubkey) {
       return (
         <View style={$messageItemReverse}>
           <User pubkey={item.pubkey} reverse={true} />
           <View style={$messageContentWrapperReverse}>
-            <TextWithImage
-              text={item.content || "empty message"}
-              textStyle={$messageContent}
-              imageStyle={undefined}
-            />
-            <Text
-              text={createdAt}
-              preset="default"
-              size="xs"
-              style={[$createdAt, $createdAtText]}
-            />
+            <MessageContent content={content} />
+            <View style={$createdAt}>
+              <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            </View>
           </View>
         </View>
       )
@@ -168,17 +163,10 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         <View style={$messageItem}>
           <User pubkey={item.pubkey} />
           <View style={$messageContentWrapper}>
-            <TextWithImage
-              text={item.content || "empty message"}
-              textStyle={$messageContent}
-              imageStyle={undefined}
-            />
-            <Text
-              text={createdAt}
-              preset="default"
-              size="xs"
-              style={[$createdAt, $createdAtText]}
-            />
+            <MessageContent content={content} />
+            <View style={$createdAt}>
+              <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            </View>
           </View>
         </View>
       )
@@ -274,8 +262,6 @@ const $messageContentWrapper: ViewStyle = {
   borderWidth: 1,
   borderColor: colors.palette.cyan900,
   paddingTop: spacing.extraLarge,
-  paddingBottom: spacing.large,
-  paddingHorizontal: spacing.small,
 }
 
 const $messageContentWrapperReverse: ViewStyle = {
@@ -284,22 +270,16 @@ const $messageContentWrapperReverse: ViewStyle = {
   borderWidth: 1,
   borderColor: colors.palette.cyan900,
   paddingTop: spacing.extraLarge,
-  paddingBottom: spacing.large,
-  paddingHorizontal: spacing.small,
-}
-
-const $messageContent: TextStyle = {
-  color: "#fff",
 }
 
 const $createdAt: ViewStyle = {
   position: "absolute",
-  bottom: 4,
-  right: 4,
+  top: 6,
+  right: 12,
 }
 
 const $createdAtText: TextStyle = {
-  color: colors.palette.cyan700,
+  color: colors.palette.cyan500,
 }
 
 const $emptyState: ViewStyle = {

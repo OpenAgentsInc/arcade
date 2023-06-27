@@ -119,7 +119,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
         header: () => (
           <Header
             title="Relay Manager"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             rightIcon="Plus"

@@ -35,22 +35,32 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
-  const toggleFollow = () => {
+  const toggleFollow = async () => {
     if (followed) {
-      removeContact(id, contacts)
+      // update mst store
+      removeContact(id)
+      // broadcast to relays
+      await contacts.remove(id)
+      setFollowed(!followed)
     } else {
-      addContact({ pubkey: id, legacy, secret }, contacts)
+      // update mst store
+      addContact({ pubkey: id, legacy, secret })
+      // broadcast to relays
+      await contacts.add({ pubkey: id, legacy, secret }).catch((e) => console.log(e))
+      setFollowed(!followed)
     }
-    setFollowed(!followed)
   }
 
-  const toggleLegacy = () => {
-    addContact({ pubkey: id, legacy: !legacy, secret }, contacts)
+  const toggleLegacy = async () => {
+    // addContact({ pubkey: id, legacy: !legacy, secret })
+    // broadcast to relays
+    await contacts.add({ pubkey: id, legacy: !legacy, secret }).catch((e) => console.log(e))
     setLegacy(!legacy)
   }
 
-  const toggleSecret = () => {
-    addContact({ pubkey: id, legacy, secret: !secret }, contacts)
+  const toggleSecret = async () => {
+    // addContact({ pubkey: id, legacy, secret: !secret })
+    await contacts.add({ pubkey: id, legacy, secret: !secret }).catch((e) => console.log(e))
     setSecret(!secret)
   }
 
@@ -76,16 +86,16 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (latest) {
         const content = JSON.parse(latest.content)
         setProfile(content)
-        if (contacts.has(id)) {
-          setFollowed(true)
-        }
       } else {
         alert("relay return nothing")
       }
 
       const ctx = contacts.contacts.get(id)
-      setLegacy(ctx?.legacy)
-      setSecret(ctx?.secret)
+      if (ctx) {
+        setFollowed(true)
+        setLegacy(ctx.legacy)
+        setSecret(ctx.secret)
+      }
     }
 
     fetchProfile().catch(console.error)

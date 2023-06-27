@@ -7,6 +7,7 @@ import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
+import { ContactModel } from "./Contact"
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -30,12 +31,7 @@ export const UserStoreModel = types
     isLoggedIn: false,
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
-    contacts: types.optional(
-      types.array(
-        types.model({ pubkey: types.string, secret: types.boolean, legacy: types.boolean }),
-      ),
-      [],
-    ),
+    contacts: types.optional(types.array(ContactModel), []),
     privMessages: types.optional(types.array(MessageModel), []),
     relays: types.optional(types.array(types.string), [
       "wss://relay.arcade.city",
@@ -58,11 +54,11 @@ export const UserStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el.id === id)
+      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index === -1) self.channels.push(id)
     },
     leaveChannel(id: string) {
-      const index = self.channels.findIndex((el: any) => el.id === id)
+      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
     },
     async afterCreate() {
@@ -130,32 +126,33 @@ export const UserStoreModel = types
         contacts: [],
       })
     },
-    async fetchContacts(mgr: ContactManager): Promise<Contact[]> {
+    async fetchContacts(mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
       const res = await mgr.list()
       self.setProp("contacts", res)
-      return res
     },
-    async addContact(contact: Contact, mgr: ContactManager) {
-      await mgr.add(contact)
-      self.setProp("contacts", await mgr.list())
+    addContact(contact: Contact) {
+      const index = self.contacts.findIndex(
+        (el: { pubkey: string }) => el.pubkey === contact.pubkey,
+      )
+      if (index === -1) self.contacts.push(contact)
     },
-    async removeContact(pubkey: string, mgr: ContactManager) {
-      await mgr.remove(pubkey)
-      self.contacts.replace(mgr.curList())
+    removeContact(pubkey: string) {
+      const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
+      if (index !== -1) self.contacts.splice(index, 1)
     },
     addRelay(url: string) {
-      const index = self.relays.findIndex((el: any) => el === url)
+      const index = self.relays.findIndex((el: string) => el === url)
       if (index === -1) self.relays.push(url)
     },
     removeRelay(url: string) {
-      const index = self.relays.findIndex((el: any) => el === url)
+      const index = self.relays.findIndex((el: string) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
     },
     async fetchPrivMessages(pool: NostrPool) {
       const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
       const map = new Map<string, NostrEvent>()
-      list.forEach(ev=>{
+      list.forEach((ev) => {
         const was = map.get(ev.pubkey)
         if (!was || ev.created_at > was.created_at) {
           map.set(ev.pubkey, ev)
