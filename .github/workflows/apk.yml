@@ -1,0 +1,39 @@
+name: build-apk
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build, test, apk build
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['16.x']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install yarn
+        run: |
+          corepack enable
+          yarn
+
+      - name: Test
+        run: yarn test --forceExit --coverage --coverageDirectory='coverage'
+      
+      - name: Apk
+        run: yarn release:apk
+
+      - uses: actions/upload-artifact@v2  # upload apk
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/
