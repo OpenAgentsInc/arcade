@@ -10,6 +10,7 @@ export const MessageModel = types
     id: types.identifier,
     pubkey: types.string,
     content: types.string,
+    sig: types.optional(types.string, ""),
     tags: types.optional(types.array(types.array(types.string)), []),
     created_at: types.optional(types.number, Math.floor(Date.now() / 1000)),
     kind: types.maybe(types.number),

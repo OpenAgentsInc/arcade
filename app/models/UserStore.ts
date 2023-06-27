@@ -131,13 +131,19 @@ export const UserStoreModel = types
       const res = await mgr.list()
       self.setProp("contacts", res)
     },
-    addContact(contact: Contact) {
+    addContact(contact: Contact, mgr: ContactManager) {
+      mgr.add(contact)
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,
       )
       if (index === -1) self.contacts.push(contact)
+      else {
+        self.contacts[index].setProp("legacy", contact.legacy)
+        self.contacts[index].setProp("secret", contact.secret)
+      }
     },
-    removeContact(pubkey: string) {
+    removeContact(pubkey: string, mgr: ContactManager) {
+      mgr.remove(pubkey)
       const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
       if (index !== -1) self.contacts.splice(index, 1)
     },

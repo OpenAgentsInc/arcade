@@ -48,13 +48,13 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const suggestions = data ? data.profiles : []
 
   const addCustomContact = () => {
-    let pubkey: any = customContact.trim()
+    let pubkey = customContact.trim()
     if (pubkey.substring(0, 4) === "npub") {
       pubkey = nip19.decode(pubkey).data
     }
-    if (pubkey && !contacts.includes(pubkey)) {
+    if (pubkey && !contacts.find((el)=>el.pubkey==pubkey)) {
       try {
-        addContact(pubkey, mgr)
+        addContact({pubkey, secret: false, legacy: false}, mgr)
       } catch (e) {
         alert(`Invalid contact: ${e}`)
       }
@@ -102,7 +102,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
             <Text text="Remove" size="xs" />
           </Pressable>
         ) : (
-          <Pressable onPress={() => addContact(item.pubkey, mgr)}>
+          <Pressable onPress={() => addContact({pubkey: item.pubkey, legacy: false, secret: false}, mgr)}>
             <Text text="Add" size="xs" />
           </Pressable>
         )}
