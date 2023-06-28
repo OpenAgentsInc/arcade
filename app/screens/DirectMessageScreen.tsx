@@ -28,7 +28,7 @@ import { PrivateMessageManager } from "app/arclib/src/private"
 import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
-import { BlindedEvent, NostrPool, objectId } from "app/arclib/src"
+import { BlindedEvent, NostrPool } from "app/arclib/src"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -64,7 +64,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     useEffect(() => {
       async function handleNewMessage(event) {
         setData((prev) => {
-          if (prev && prev.find(ev=>ev.id==event.id)) return prev;
+          if (prev && prev.find(ev=>ev.id===event.id)) return prev;
           return [event, ...prev]
         })
       }

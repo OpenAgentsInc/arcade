@@ -8,7 +8,6 @@ import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
 import { ContactModel } from "./Contact"
-import { ms } from "date-fns/locale"
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -171,7 +170,7 @@ export const UserStoreModel = types
       list.forEach((ch)=>{
         if (ch.is_private) {
           const idx = self.channels.findIndex((el)=>el.id===ch.id)
-          if (idx != -1) {
+          if (idx !== -1) {
               self.channels[idx].setProp("privkey", ch.privkey)
           }
         }

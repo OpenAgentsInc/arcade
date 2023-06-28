@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { ChannelInfo, ChannelManager, NostrPool } from "app/arclib/src"
+import { ChannelManager, NostrPool } from "app/arclib/src"
 import { ChannelManagerItem } from "app/components/ChannelManagerItem"
 import { UserMinus, UserPlus } from "lucide-react-native"
 

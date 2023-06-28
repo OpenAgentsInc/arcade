@@ -52,7 +52,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     if (pubkey.substring(0, 4) === "npub") {
       pubkey = nip19.decode(pubkey).data
     }
-    if (pubkey && !contacts.find((el)=>el.pubkey==pubkey)) {
+    if (pubkey && !contacts.find((el)=>el.pubkey===pubkey)) {
       try {
         addContact({pubkey, secret: false, legacy: true}, mgr)
       } catch (e) {
