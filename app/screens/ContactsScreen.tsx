@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useCallback, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, Screen, Text } from "app/components"
@@ -49,9 +49,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     return (
       <Pressable onPress={() => navigation.navigate("User", { id: item.pubkey })} style={$item}>
         <ContactItem pubkey={item.pubkey} />
-         {
-          (item.legacy) && <Globe style={$iconUnfollow} />
-         } 
+        {item.legacy && <Globe style={$iconUnfollow} />}
         <Pressable onPress={() => unfollow(item.pubkey)}>
           <UserMinus style={$iconUnfollow} />
         </Pressable>

@@ -36,9 +36,9 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     useFocusEffect(
       useCallback(() => {
         fetchPrivMessages(pool)
-      }, [])
+      }, []),
     )
-      
+
     const data = [...getChannels, ...privMessages].sort(
       (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
         b.lastMessageAt - a.lastMessageAt,

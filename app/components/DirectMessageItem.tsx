@@ -22,7 +22,7 @@ export const DirectMessageItem = observer(function DirectMessageItem({
   dm,
   pool,
 }: {
-  dm: {content: string, pubkey: string, created_at: number}
+  dm: { content: string; pubkey: string; created_at: number }
   pool: NostrPool
 }) {
   const navigation = useNavigation<any>()

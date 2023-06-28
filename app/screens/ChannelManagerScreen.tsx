@@ -33,14 +33,13 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
       leaveChannel(id)
     }
 
-    const invite = (info: {id: string, name: string, privkey: string}) => {
+    const invite = (info: { id: string; name: string; privkey: string }) => {
       navigation.navigate("ContactPicker", {
         id: info.id,
         name: info.name,
         privkey: info.privkey,
       })
     }
-
 
     useLayoutEffect(() => {
       navigation.setOptions({

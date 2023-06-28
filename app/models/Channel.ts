@@ -53,8 +53,7 @@ export const ChannelModel = types
       }
     },
     addMessage(event: NostrEvent) {
-      if (self.messages.find(msg=>msg.id===event.id))
-        return
+      if (self.messages.find((msg) => msg.id === event.id)) return
       self.messages.unshift(event)
     },
     updateLastMessage() {

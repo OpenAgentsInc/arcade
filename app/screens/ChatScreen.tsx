@@ -44,7 +44,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   } = useStores()
 
   // route params
-  let { id } = route.params
+  const { id } = route.params
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => getChannel(id), [id])
