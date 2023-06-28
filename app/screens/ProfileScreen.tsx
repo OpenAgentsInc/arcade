@@ -49,7 +49,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           const content = JSON.parse(latest.content)
           setProfile(content)
         } else {
-          alert("relay return nothing")
+          console.log("relay return nothing")
         }
       }
       fetchProfile().catch(console.error)

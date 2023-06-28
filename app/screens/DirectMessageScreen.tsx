@@ -25,24 +25,21 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { PrivateMessageManager } from "app/arclib/src/private"
-import { Message, useStores } from "app/models"
+import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
-import { NostrPool } from "app/arclib/src"
+import { BlindedEvent, NostrPool, objectId } from "app/arclib/src"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
-
-const seen = new Set()
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
     const { id, legacy } = route.params
     const navigation = useNavigation<any>()
     const pool = useContext(RelayContext) as NostrPool
-
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
-    const [data, setData] = useState([])
+    const [data, setData] = useState([] as BlindedEvent[])
     const [loading, setLoading] = useState(true)
 
     const {
@@ -64,22 +61,20 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       })
     }, [])
 
-    async function handleNewMessage(event) {
-        if (seen.has(event.id)) return
-        seen.add(event.id)
-        if (!event.content) return
-        console.log("dm: new message", event)
-        setData((prev) => [event, ...prev])
-    }
-
     useEffect(() => {
+      async function handleNewMessage(event) {
+          setData((prev) => {
+            if (prev && prev.find(ev=>ev.id==event.id)) return prev;
+            return [event, ...prev]
+          })
+      }
+  
       async function initDMS() {
         try {
           const list = await dms.list(null, true, id, handleNewMessage)
           console.log("dm: showing", list.length)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
 
-          list.forEach((e) => seen.add(e.id))
           // update state
           setData(sorted)
           // disable loading
@@ -98,7 +93,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
-    const renderItem = useCallback(({ item }: { item: Message }) => {
+    const renderItem = useCallback(({ item }: { item: BlindedEvent }) => {
       const createdAt = formatCreatedAt(item.created_at)
       const content = parser(item)
 
@@ -129,7 +124,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           </View>
         )
       }
-    }, [])
+    }, [id])
 
     return (
       <Screen
@@ -144,7 +139,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           <View style={$main}>
             <FlashList
               data={data}
-              keyExtractor={(item: { id: string }) => item.id}
+              keyExtractor={(item) => item.id}
               renderItem={renderItem}
               ListEmptyComponent={
                 loading ? (
@@ -160,7 +155,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               contentContainerStyle={$list}
               removeClippedSubviews={true}
               estimatedItemSize={100}
-              inverted={data.length !== 0}
+              inverted={true}
               keyboardDismissMode="none"
             />
           </View>

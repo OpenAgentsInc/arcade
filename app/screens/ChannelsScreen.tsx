@@ -11,16 +11,22 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import { ChannelInfo, ChannelManager, NostrPool } from "app/arclib/src"
+import { ChannelInfo, ChannelManager, Nip28ChannelInfo, NostrEvent, NostrPool } from "app/arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
+
+interface TopData {
+  ev: NostrEvent,
+  up: NostrEvent[],
+  cnt: number,
+  msg: NostrEvent[],
+}
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
   const pool = useContext(RelayContext) as NostrPool
   const { userStore, channelStore } = useStores()
   const mgr = new ChannelManager(pool)
-  const [dat, setData] = useState([])
-  const data: ChannelInfo[] = dat
+  const [data, setData] = useState([] as ChannelInfo[])
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -57,13 +63,28 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
   }, [])
 
   useEffect(() => {
+    async function initTop() {
+      const dat = await fetch("https://raw.githubusercontent.com/ArcadeLabsInc/arcade-static/main/top.json")
+      const js: Record<string, TopData> = await dat.json()
+      const sugg = Object.values(js).map(el => {
+        try{
+          return {...JSON.parse(el.ev.content) as Nip28ChannelInfo, id:el.ev.id, author:el.ev.pubkey, is_private: false}
+        } catch {
+          return null
+        }
+      }).filter(ev=>ev);
+      setData(sugg)
+    }
+
     async function initChannels() {
       const res = await mgr.listChannels(true)
       console.log("data is ", res)
-      setData(res)
+      setData(prev=>{return Array.from(new Set([...prev, ...res])).sort((a, b)=>+b.is_private - +a.is_private)})
     }
 
-    initChannels().catch(console.error)
+    initTop().then(()=>
+      initChannels().catch(console.error)
+    ).catch(console.error)
   }, [])
 
   return (

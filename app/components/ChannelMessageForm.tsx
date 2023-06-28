@@ -76,7 +76,8 @@ export function ChannelMessageForm({
   }
 
   const createEvent = async (data) => {
-    if (!attached && data.content.length === 0) alert("Message cannot be empty")
+    // no popup here please
+    if (!attached && data.content.length === 0) return;
 
     let content = data.content
     if (attached) {

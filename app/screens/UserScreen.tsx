@@ -25,7 +25,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const [profile, setProfile] = useState(null)
   const [followed, setFollowed] = useState(false)
-  const [legacy, setLegacy] = useState(false)
+  const [legacy, setLegacy] = useState(true)
   const [secret, setSecret] = useState(false)
 
   const {
@@ -38,13 +38,13 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   const toggleFollow = async () => {
     if (followed) {
       // update mst store
-      removeContact(id)
+      removeContact(id, contacts)
       // broadcast to relays
       await contacts.remove(id)
       setFollowed(!followed)
     } else {
       // update mst store
-      addContact({ pubkey: id, legacy, secret })
+      addContact({ pubkey: id, legacy, secret }, contacts)
       // broadcast to relays
       await contacts.add({ pubkey: id, legacy, secret }).catch((e) => console.log(e))
       setFollowed(!followed)
@@ -87,7 +87,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         const content = JSON.parse(latest.content)
         setProfile(content)
       } else {
-        alert("relay return nothing")
+        console.log("relay return nothing")
       }
 
       const ctx = contacts.contacts.get(id)
