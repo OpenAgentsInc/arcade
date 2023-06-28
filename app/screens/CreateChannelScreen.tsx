@@ -21,7 +21,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
     const channelManager: ChannelManager = new ChannelManager(pool)
     const formikRef = useRef(null)
 
-    const { isPrivate } = route.params
+    const isPrivate = false
     const { userStore, channelStore } = useStores()
 
     const [picture, setPicture] = useState(null)
