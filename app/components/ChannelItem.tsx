@@ -33,7 +33,11 @@ export const ChannelItem = observer(function ChannelItem({
   useEffect(() => {
     // only fetch meta if channel name not present
     if (!channel.name) {
-      channel.fetchMeta(channelManager)
+      try {
+        channel.fetchMeta(channelManager)
+      } catch (e) {
+        console.log("failed to fetch channel meta:", channel)
+      }
     }
   }, [channel.name])
 

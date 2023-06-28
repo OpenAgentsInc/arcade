@@ -11,7 +11,7 @@ export const ChannelModel = types
   .props({
     id: types.identifier,
     name: types.optional(types.string, ""),
-    picture: types.optional(types.string, ""),
+    picture: types.union(types.null, types.optional(types.string, "")),
     about: types.optional(types.string, ""),
     is_private: types.optional(types.boolean, false),
     privkey: types.optional(types.string, ""),
@@ -33,7 +33,7 @@ export const ChannelModel = types
     async fetchMessages(channel: ChannelManager) {
       const events = await channel.list({
         channel_id: self.id,
-        filter: { limit: 300 },
+        filter: { limit: 100 },
         db_only: false,
         privkey: self.privkey,
       })
@@ -53,6 +53,7 @@ export const ChannelModel = types
       }
     },
     addMessage(event: NostrEvent) {
+      if (self.messages.find((msg) => msg.id === event.id)) return
       self.messages.unshift(event)
     },
     updateLastMessage() {

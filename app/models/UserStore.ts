@@ -1,9 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrEvent, NostrPool } from "app/arclib/src"
+import {
+  BlindedEvent,
+  ChannelInfo,
+  ChannelManager,
+  NostrEvent,
+  NostrPool,
+  PrivateMessageManager,
+} from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
+import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
@@ -53,9 +60,10 @@ export const UserStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(id: string) {
-      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
-      if (index === -1) self.channels.push(id)
+    joinChannel(info: ChannelInfo) {
+      const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
+
+      if (index === -1) self.channels.push(ChannelModel.create(info))
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
@@ -155,8 +163,51 @@ export const UserStoreModel = types
       const index = self.relays.findIndex((el: string) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
     },
+    addPrivMessage(ev: BlindedEvent) {
+      self.privMessages.push({
+        ...ev,
+        lastMessageAt: ev.created_at,
+      })
+    },
+    async updateChannels(pool: NostrPool) {
+      const mgr = new ChannelManager(pool)
+      const list = await mgr.listChannels(true)
+      list.forEach((ch) => {
+        if (ch.is_private) {
+          const idx = self.channels.findIndex((el) => el.id === ch.id)
+          if (idx !== -1) {
+            self.channels[idx].setProp("privkey", ch.privkey)
+          }
+        }
+      })
+    },
+
     async fetchPrivMessages(pool: NostrPool) {
-      const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
+      const priv = new PrivateMessageManager(pool)
+      const keys = self.contacts.map((c) => c.pubkey)
+      // this doesn't work... you get mobx errors
+      // but we should be able to update the state!
+
+      /*
+      const modifyProp = async (ev: BlindedEvent) => {
+        if (self.privMessages.every(msg=>{
+            if (msg.pubkey === ev.pubkey) {
+              console.log("modding", ev.pubkey)
+              msg.setProp("content", ev.content)
+              msg.setProp("blinded", ev.blinded)
+              msg.setProp("lastMessageAt", ev.created_at)
+              return false
+            }
+           return true
+        })) {
+          // append!
+        }
+      }
+      */
+
+      // this updates the home screen prop when new messages arrive
+      // by passing in all our contact keys, we can decrypt new blinded messages
+      const list = await priv.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -164,12 +215,12 @@ export const UserStoreModel = types
           map.set(ev.pubkey, ev)
         }
       })
-      const uniqueList = [...map.values()]
+      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
+      const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
-        item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
-        // @ts-ignore
         item.lastMessageAt = item.created_at
       }
+      console.log("setting", uniqueList.length)
       self.setProp("privMessages", uniqueList)
     },
     clearNewUser() {
