@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
-import { UserMinus } from "lucide-react-native"
+import { UserMinus, Globe } from "lucide-react-native"
 import { useStores } from "app/models"
 import { Contact } from "app/arclib/src/contacts"
 
@@ -49,9 +49,9 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     return (
       <Pressable onPress={() => navigation.navigate("User", { id: item.pubkey })} style={$item}>
         <ContactItem pubkey={item.pubkey} />
-        <Pressable onPress={() => unfollow(item.pubkey)}>
-          <Text text="🕶️" style={$iconPrivate} />
-        </Pressable>
+         {
+          (item.legacy) && <Globe style={$iconUnfollow} />
+         } 
         <Pressable onPress={() => unfollow(item.pubkey)}>
           <UserMinus style={$iconUnfollow} />
         </Pressable>
