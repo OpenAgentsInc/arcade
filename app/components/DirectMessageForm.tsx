@@ -76,9 +76,15 @@ export function DirectMessageForm({
 
     // send message
     if (legacy) {
-      dms.send(replyTo, content)
+      const ev = await dms.send(replyTo, content)
+      if (!ev.id) {
+        alert("Failed to publish")
+      }
     } else {
-      dms.send44X(replyTo, content)
+      const ev = await dms.send44X(replyTo, content)
+      if (!ev.id) {
+        alert("Failed to publish")
+      }
     }
     // reset state
     setValue("")
@@ -189,6 +195,7 @@ const $imageButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
   marginLeft: spacing.small,
+  marginBottom: spacing.tiny,
 }
 
 const $attached: ViewStyle = {
