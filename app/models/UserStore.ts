@@ -1,9 +1,9 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrEvent, NostrPool } from "app/arclib/src"
+import { NostrEvent, NostrPool, PrivateMessageManager } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
+import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
@@ -156,7 +156,8 @@ export const UserStoreModel = types
       if (index !== -1) self.relays.splice(index, 1)
     },
     async fetchPrivMessages(pool: NostrPool) {
-      const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
+      const priv = new PrivateMessageManager(pool)
+      const list = await priv.list()
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -164,10 +165,9 @@ export const UserStoreModel = types
           map.set(ev.pubkey, ev)
         }
       })
-      const uniqueList = [...map.values()]
+      type ExtendedItem = NostrEvent & {lastMessageAt?: number, name?: string}
+      const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
-        item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
-        // @ts-ignore
         item.lastMessageAt = item.created_at
       }
       self.setProp("privMessages", uniqueList)
