@@ -48,7 +48,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       return (
         <Animated.View entering={FadeInDown.delay(100 * index).duration(800)}>
           {item.kind === 4 ? (
-            <DirectMessageItem dm={item} pool={pool} />
+            <DirectMessageItem dm={item} />
           ) : (
             <ChannelItem channel={item} channelManager={channelManager} />
           )}

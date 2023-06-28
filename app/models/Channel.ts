@@ -34,7 +34,7 @@ export const ChannelModel = types
       const events = await channel.list({
         channel_id: self.id,
         filter: { limit: 300 },
-        db_only: false,
+        db_only: true,
         privkey: self.privkey,
       })
       const uniqueEvents = events.filter(
@@ -43,7 +43,7 @@ export const ChannelModel = types
       self.setProp("messages", uniqueEvents)
     },
     async fetchMeta(channel: ChannelManager) {
-      const result = await channel.getMeta(self.id, self.privkey)
+      const result = await channel.getMeta(self.id, self.privkey, true)
       if (result) {
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)
