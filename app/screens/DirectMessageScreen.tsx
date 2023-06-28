@@ -28,7 +28,7 @@ import { PrivateMessageManager } from "app/arclib/src/private"
 import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
-import { BlindedEvent, NostrPool, objectId } from "app/arclib/src"
+import { BlindedEvent, NostrPool } from "app/arclib/src"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -63,12 +63,13 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     useEffect(() => {
       async function handleNewMessage(event) {
-          setData((prev) => {
-            if (prev && prev.find(ev=>ev.id==event.id)) return prev;
-            return [event, ...prev]
-          })
+        console.log('new message: ', event)
+        setData((prev) => {
+          if (prev && prev.find((ev) => ev.id === event.id)) return prev
+          return [event, ...prev]
+        })
       }
-  
+
       async function initDMS() {
         try {
           const list = await dms.list(null, true, id, handleNewMessage)
@@ -93,38 +94,41 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
-    const renderItem = useCallback(({ item }: { item: BlindedEvent }) => {
-      const createdAt = formatCreatedAt(item.created_at)
-      const content = parser(item)
+    const renderItem = useCallback(
+      ({ item }: { item: BlindedEvent }) => {
+        const createdAt = formatCreatedAt(item.created_at)
+        const content = parser(item)
 
-      if (item.pubkey === pubkey) {
-        return (
-          <View style={$messageItemReverse}>
-            <User pubkey={item.pubkey} reverse={true} />
-            <View style={$messageContentWrapperReverse}>
-              {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
-              <MessageContent content={content} />
-              <View style={$createdAt}>
-                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+        if (item.pubkey === pubkey) {
+          return (
+            <View style={$messageItemReverse}>
+              <User pubkey={item.pubkey} reverse={true} />
+              <View style={$messageContentWrapperReverse}>
+                {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
+                <MessageContent content={content} />
+                <View style={$createdAt}>
+                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                </View>
               </View>
             </View>
-          </View>
-        )
-      } else {
-        return (
-          <View style={$messageItem}>
-            {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
-            <User pubkey={item.pubkey} />
-            <View style={$messageContentWrapper}>
-              <MessageContent content={content} />
-              <View style={$createdAt}>
-                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+          )
+        } else {
+          return (
+            <View style={$messageItem}>
+              {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <MessageContent content={content} />
+                <View style={$createdAt}>
+                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                </View>
               </View>
             </View>
-          </View>
-        )
-      }
-    }, [id])
+          )
+        }
+      },
+      [id],
+    )
 
     return (
       <Screen

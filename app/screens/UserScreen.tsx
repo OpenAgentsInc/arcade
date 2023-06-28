@@ -3,7 +3,16 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, RelayContext, Screen, Text, Toggle } from "app/components"
+import {
+  AutoImage,
+  Button,
+  Header,
+  ListItem,
+  RelayContext,
+  Screen,
+  Text,
+  Toggle,
+} from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
@@ -51,17 +60,16 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
     }
   }
 
+  const togglePrivFollow = async () => {
+    await contacts.add({ pubkey: id, legacy, secret: !secret }).catch((e) => console.log(e))
+    setSecret(!secret)
+  }
+
   const toggleLegacy = async () => {
     // addContact({ pubkey: id, legacy: !legacy, secret })
     // broadcast to relays
     await contacts.add({ pubkey: id, legacy: !legacy, secret }).catch((e) => console.log(e))
     setLegacy(!legacy)
-  }
-
-  const toggleSecret = async () => {
-    // addContact({ pubkey: id, legacy, secret: !secret })
-    await contacts.add({ pubkey: id, legacy, secret: !secret }).catch((e) => console.log(e))
-    setSecret(!secret)
   }
 
   useLayoutEffect(() => {
@@ -85,9 +93,8 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       const latest = list.slice(-1)[0]
       if (latest) {
         const content = JSON.parse(latest.content)
+        console.log(content)
         setProfile(content)
-      } else {
-        console.log("relay return nothing")
       }
 
       const ctx = contacts.contacts.get(id)
@@ -125,7 +132,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="bold"
               size="lg"
-              text={profile?.display_name || "Loading..."}
+              text={profile?.name || profile?.display_name || "No name"}
               style={$userName}
             />
             <Text
@@ -150,29 +157,37 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             onPress={() => toggleFollow()}
             style={$profileButton}
           />
+          <View>
+            <Button
+              text={secret ? "Stop private follow" : "Private follow"}
+              onPress={() => togglePrivFollow()}
+              style={$profileButton}
+            />
+            <Text text="Nobody can't see your private follow" size="xs" style={$note} />
+          </View>
         </View>
-        <View>
-          <Toggle
-            id="legacy"
-            variant="checkbox"
-            label="Use legacy, unblinded DM's"
-            inputOuterStyle={secret ? $toggleDisabled : $toggle}
-            inputInnerStyle={$toggleInner}
-            inputDetailStyle={$toggleDetail}
-            value={legacy && !secret}
-            disabled={secret}
-            onPress={toggleLegacy}
-          />
-          <Toggle
-            id="secret"
-            variant="checkbox"
-            label="Hide this contact (private follow)"
-            inputOuterStyle={$toggle}
-            inputInnerStyle={$toggleInner}
-            inputDetailStyle={$toggleDetail}
-            value={secret}
-            onPress={toggleSecret}
-          />
+        <View style={$section}>
+          <Text text="Contact settings" preset="bold" style={$sectionHeading} />
+          <View style={$sectionData}>
+            <ListItem
+              text="Use legacy, unblinded DM's"
+              bottomSeparator={true}
+              style={$sectionItem}
+              containerStyle={$sectionItemContainer}
+              RightComponent={
+                <Toggle
+                  id="legacy"
+                  inputOuterStyle={$toggle}
+                  inputInnerStyle={$toggleInner}
+                  inputDetailStyle={$toggleDetail}
+                  variant="switch"
+                  value={legacy && !secret}
+                  disabled={secret}
+                  onPress={toggleLegacy}
+                />
+              }
+            />
+          </View>
         </View>
       </View>
     </Screen>
@@ -190,7 +205,7 @@ const $container: ViewStyle = {
 
 const $cover: ImageStyle = {
   width: "100%",
-  height: 200,
+  height: 150,
   resizeMode: "cover",
 }
 
@@ -224,7 +239,7 @@ const $userAbout: ViewStyle = {
 }
 
 const $buttonGroup: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: "column",
   gap: spacing.small,
   marginVertical: spacing.medium,
 }
@@ -232,8 +247,14 @@ const $buttonGroup: ViewStyle = {
 const $profileButton: ViewStyle = {
   flex: 1,
   width: "100%",
-  backgroundColor: "transparent",
+  backgroundColor: colors.palette.overlay20,
   borderColor: colors.palette.cyan500,
+}
+
+const $note: TextStyle = {
+  color: colors.palette.cyan500,
+  textAlign: "center",
+  marginTop: 2,
 }
 
 const $toggle: ViewStyle = {
@@ -244,11 +265,6 @@ const $toggle: ViewStyle = {
   backgroundColor: colors.palette.overlay20,
 }
 
-const $toggleDisabled: ViewStyle = {
-  ...$toggle,
-  backgroundColor: colors.palette.cyan800,
-}
-
 const $toggleInner: ViewStyle = {
   backgroundColor: colors.palette.cyan800,
 }
@@ -256,4 +272,31 @@ const $toggleInner: ViewStyle = {
 const $toggleDetail: any = {
   borderRadius: spacing.tiny,
   backgroundColor: colors.palette.cyan500,
+}
+
+const $section: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+}
+
+const $sectionHeading: TextStyle = {
+  color: colors.palette.cyan600,
+}
+
+const $sectionData: ViewStyle = {
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.overlay20,
+  marginTop: spacing.tiny,
+}
+
+const $sectionItemContainer: ViewStyle = {
+  alignItems: "center",
+  paddingHorizontal: spacing.small,
+}
+
+const $sectionItem: ViewStyle = {
+  alignItems: "center",
 }
