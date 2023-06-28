@@ -102,7 +102,3 @@ const $iconUnfollow: CSSProperties = {
   color: colors.palette.cyan100,
   marginLeft: 10,
 }
-
-const $iconPrivate: TextStyle = {
-  fontSize: 20,
-}
