@@ -31,13 +31,13 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
-  const joinChannel = (item: any) => {
+  const joinChannel = (item: ChannelInfo) => {
     // create channel in local store
     channelStore.create(item)
     // update state
-    userStore.joinChannel(item.id)
+    userStore.joinChannel(item)
     // redirect to channel
-    navigation.navigate("Chat", { id: item.id })
+    navigation.navigate("Chat", item)
   }
 
   useLayoutEffect(() => {
@@ -129,7 +129,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
                       </View>
                     </View>
                   }
-                  style={$itemWrapper}
+                  style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
                 />
               )
             }}
@@ -172,6 +172,17 @@ const $itemWrapper: ViewStyle = {
   backgroundColor: colors.palette.overlay20,
   shadowColor: "transparent",
 }
+
+const $itemWrapperPrivate: ViewStyle = {
+  flex: 1,
+  marginBottom: spacing.medium,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan100,
+  borderRadius: spacing.small / 2,
+  backgroundColor: colors.palette.overlay20,
+  shadowColor: "transparent",
+}
+
 
 const $item: ViewStyle = {
   flexDirection: "column",

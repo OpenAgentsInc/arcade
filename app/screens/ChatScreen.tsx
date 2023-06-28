@@ -44,7 +44,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   } = useStores()
 
   // route params
-  const { id } = route.params
+  let { id } = route.params
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => getChannel(id), [id])
@@ -121,7 +121,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           channel_id: channel.id,
           callback: handleNewMessage,
           filter: {
-            since: Math.floor(Date.now() / 1000),
+            limit: 1,
           },
           privkey: channel.privkey,
         })

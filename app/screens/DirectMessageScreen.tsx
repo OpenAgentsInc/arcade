@@ -63,15 +63,15 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     useEffect(() => {
       async function handleNewMessage(event) {
-          setData((prev) => {
-            if (prev && prev.find(ev=>ev.id==event.id)) return prev;
-            return [event, ...prev]
-          })
+        setData((prev) => {
+          if (prev && prev.find(ev=>ev.id==event.id)) return prev;
+          return [event, ...prev]
+        })
       }
   
       async function initDMS() {
         try {
-          const list = await dms.list(null, true, id, handleNewMessage)
+          const list = await dms.list({limit: 500}, true, id, handleNewMessage)
           console.log("dm: showing", list.length)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
 

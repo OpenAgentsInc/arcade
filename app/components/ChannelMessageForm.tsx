@@ -84,6 +84,8 @@ export function ChannelMessageForm({
       content = data.content + " " + attached
     }
 
+    console.log("call send")
+
     // send message
     const message = await channelManager.send({
       channel_id: channelId,
@@ -101,6 +103,7 @@ export function ChannelMessageForm({
     }
   }
 
+  console.log("return", privkey)
   return (
     <Formik
       innerRef={formikRef}

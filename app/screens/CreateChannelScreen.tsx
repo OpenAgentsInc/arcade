@@ -85,7 +85,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           channelStore.create(info)
 
           // add created channel to user store
-          userStore.joinChannel(info.id)
+          userStore.joinChannel(info)
 
           if (fullData.is_private) {
             // redirect to invite screen

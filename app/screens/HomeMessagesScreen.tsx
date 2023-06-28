@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext } from "react"
+import React, { FC, useCallback, useContext, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -36,9 +36,9 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     useFocusEffect(
       useCallback(() => {
         fetchPrivMessages(pool)
-      }, []),
+      }, [])
     )
-
+      
     const data = [...getChannels, ...privMessages].sort(
       (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
         b.lastMessageAt - a.lastMessageAt,
