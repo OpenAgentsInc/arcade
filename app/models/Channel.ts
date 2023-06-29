@@ -1,5 +1,5 @@
 import { ChannelManager, NostrEvent } from "app/arclib/src"
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, applySnapshot, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 
@@ -31,8 +31,8 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
-    async fetchMessages(channel: ChannelManager) {
-      const events = await channel.list({
+    fetchMessages: flow(function* (channel: ChannelManager) {
+      const events = yield channel.list({
         channel_id: self.id,
         filter: { limit: 100 },
         db_only: false,
@@ -43,17 +43,15 @@ export const ChannelModel = types
       )
       self.setProp("messages", uniqueEvents)
       self.setProp("loading", false)
-    },
-    async fetchMeta(channel: ChannelManager) {
-      const result = await channel.getMeta(self.id, self.privkey, true)
+    }),
+    fetchMeta: flow(function* (channel: ChannelManager) {
+      const result = yield channel.getMeta(self.id, self.privkey, true)
       if (result) {
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)
         self.setProp("about", result.about)
-      } else {
-        alert("Failed to fetch meta")
       }
-    },
+    }),
     addMessage(event: NostrEvent) {
       if (self.messages.find((msg) => msg.id === event.id)) return
       self.messages.unshift(event)
