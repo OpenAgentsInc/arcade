@@ -57,20 +57,51 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     }
 
     const done = () => {
-      Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
-        {
-          text: "Cancel",
-        },
-        {
-          text: "Confirm",
-          onPress: async () => {
-            // invite
-            await encrypted.invite({ members: selected, id, privkey, name, about: "", picture: "" })
-            // redirect to channel
-            navigation.replace("Chat", { id, name, privkey })
+      if (selected.length === 0) {
+        Alert.alert("You're not invite anyone yet", "Are you sure skip this step?", [
+          {
+            text: "Cancel",
           },
-        },
-      ])
+          {
+            text: "Confirm",
+            onPress: async () => {
+              // invite
+              await encrypted.invite({
+                members: selected,
+                id,
+                privkey,
+                name,
+                about: "",
+                picture: "",
+              })
+              // redirect to channel
+              navigation.replace("Chat", { id, name, privkey })
+            },
+          },
+        ])
+      } else {
+        Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
+          {
+            text: "Cancel",
+          },
+          {
+            text: "Confirm",
+            onPress: async () => {
+              // invite
+              await encrypted.invite({
+                members: selected,
+                id,
+                privkey,
+                name,
+                about: "",
+                picture: "",
+              })
+              // redirect to channel
+              navigation.replace("Chat", { id, name, privkey })
+            },
+          },
+        ])
+      }
     }
 
     const addCustomContact = (data) => {

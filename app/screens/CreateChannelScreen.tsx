@@ -16,12 +16,13 @@ interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
-  function CreateChannelScreen() {
+  function CreateChannelScreen({ route }: { route: any }) {
     const pool = useContext(RelayContext) as NostrPool
     const channelManager: ChannelManager = new ChannelManager(pool)
     const formikRef = useRef(null)
 
-    const isPrivate = false
+    // route params
+    const { isPrivate } = route.params
     const { userStore, channelStore } = useStores()
 
     const [picture, setPicture] = useState(null)
