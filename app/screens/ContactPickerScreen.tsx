@@ -146,10 +146,12 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
             renderItem={({ item }) => (
               <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
                 <ContactItem pubkey={item.pubkey} />
-                {selected.includes(item.pubkey) && (
+                {selected.includes(item.pubkey) ? (
                   <View>
                     <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
                   </View>
+                ) : (
+                  <Text text="Add" size="sm" />
                 )}
               </Pressable>
             )}
