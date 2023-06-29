@@ -23,8 +23,12 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     const navigation = useNavigation()
 
     const signup = (data: { displayName: string; username: string; about: string }) => {
-      channelStore.createDefaultChannels()
-      userStore.signup(data.username, data.displayName, data.about)
+      if (!data.displayName) {
+        alert("Display name is required")
+      } else {
+        channelStore.createDefaultChannels()
+        userStore.signup(data.username, data.displayName, data.about)
+      }
     }
 
     useLayoutEffect(() => {
@@ -62,7 +66,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
             <>
               <Text text="Create Account" preset="subheading" size="xl" style={$title} />
               <TextField
-                label="Display Name"
+                label="Display Name *"
                 style={$input}
                 inputWrapperStyle={$inputWrapper}
                 onChangeText={handleChange("displayName")}

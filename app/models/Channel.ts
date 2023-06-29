@@ -18,6 +18,7 @@ export const ChannelModel = types
     lastMessage: types.optional(types.string, ""),
     lastMessagePubkey: types.optional(types.string, ""),
     lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
+    loading: types.optional(types.boolean, true),
     messages: types.optional(types.array(MessageModel), []),
   })
   .actions(withSetPropAction)
@@ -41,6 +42,7 @@ export const ChannelModel = types
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
       self.setProp("messages", uniqueEvents)
+      self.setProp("loading", false)
     },
     async fetchMeta(channel: ChannelManager) {
       const result = await channel.getMeta(self.id, self.privkey, true)
@@ -65,7 +67,7 @@ export const ChannelModel = types
       }
     },
     reset() {
-      applySnapshot(self, { ...self, messages: [] })
+      applySnapshot(self, { ...self, loading: true, messages: [] })
     },
   }))
 

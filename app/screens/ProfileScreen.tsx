@@ -48,8 +48,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         if (latest) {
           const content = JSON.parse(latest.content)
           setProfile(content)
-        } else {
-          console.log("relay return nothing")
         }
       }
       fetchProfile().catch(console.error)
@@ -79,7 +77,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <Text
             preset="bold"
             size="lg"
-            text={profile?.display_name || "Loading..."}
+            text={profile?.display_name || profile?.name || "No name"}
             style={$userName}
           />
           <TouchableOpacity
@@ -104,13 +102,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 <Text text={profile?.username || "No username"} />
                 <Text text="Username" size="xs" style={$sectionDataItemSubtitle} />
               </Pressable>
-              {/* <Pressable
-                onPress={() => navigation.navigate("EditProfile")}
-                style={$sectionDataItem}
-              >
-                <Text text={profile?.nip05 || "No NIP-05"} />
-                <Text text="NIP-05" size="xs" style={$sectionDataItemSubtitle} />
-              </Pressable> */}
               <Pressable
                 onPress={() => navigation.navigate("EditProfile")}
                 style={$sectionDataItem}
