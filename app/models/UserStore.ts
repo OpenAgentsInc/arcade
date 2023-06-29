@@ -1,4 +1,4 @@
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, applySnapshot, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
   BlindedEvent,
@@ -169,9 +169,9 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
-    async updateChannels(pool: NostrPool) {
+    updateChannels: flow(function* (pool: NostrPool) {
       const mgr = new ChannelManager(pool)
-      const list = await mgr.listChannels(true)
+      const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
         if (ch.is_private) {
           const idx = self.channels.findIndex((el) => el.id === ch.id)
@@ -180,9 +180,8 @@ export const UserStoreModel = types
           }
         }
       })
-    },
-
-    async fetchPrivMessages(pool: NostrPool) {
+    }),
+    fetchPrivMessages: flow(function* (pool: NostrPool) {
       const priv = new PrivateMessageManager(pool)
       const keys = self.contacts.map((c) => c.pubkey)
       // this doesn't work... you get mobx errors
@@ -207,7 +206,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = await priv.list({ limit: 500 }, false, keys)
+      const list = yield priv.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -222,7 +221,7 @@ export const UserStoreModel = types
       }
       console.log("setting", uniqueList.length)
       self.setProp("privMessages", uniqueList)
-    },
+    }),
     clearNewUser() {
       self.setProp("isNewUser", false)
     },
