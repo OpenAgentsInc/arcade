@@ -1,6 +1,7 @@
 import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
+  ArcadeIdentity,
   BlindedEvent,
   ChannelInfo,
   ChannelManager,
@@ -15,6 +16,11 @@ import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
 import { ContactModel } from "./Contact"
+import { schnorr } from "@noble/curves/secp256k1"
+import { sha256 } from "@noble/hashes/sha256"
+import { bytesToHex } from "@noble/hashes/utils"
+
+const utf8Encoder = new TextEncoder()
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -24,6 +30,24 @@ async function secureGet(key) {
 }
 async function secureDel(key) {
   return await SecureStore.deleteItemAsync(key)
+}
+
+async function registerNip05(ident: ArcadeIdentity, name: string) {
+  if (name.includes("@")) {
+    // user should log in, not try to attach an existing nip05
+    throw Error("Log in with your private key instead")
+  }
+  const ser = JSON.stringify([0, ident.pubKey, name])
+  const hashB = sha256(utf8Encoder.encode(ser))
+  const hashH = bytesToHex(hashB)
+  const sig = bytesToHex(schnorr.sign(hashH, ident.privKey))
+  const url = `https://uzxdj4za3vfn7czid274iwqvwq0kukze.lambda-url.us-east-2.on.aws/?name=${name}&pubkey=${ident.pubKey}&sig=${sig}`
+  const response = await fetch(url)
+  const js = await response.json()
+  if (js.error) {
+    throw new Error(js.error)
+  }
+  return `${name}@arcade.chat`
 }
 
 /**
@@ -84,6 +108,8 @@ export const UserStoreModel = types
     async signup(username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
+      const id = new ArcadeIdentity(privkey)
+      await registerNip05(id, username)
       const meta = { display_name: displayName, username, about }
       applySnapshot(self, {
         pubkey,
