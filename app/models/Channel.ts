@@ -1,5 +1,13 @@
 import { ChannelManager, NostrEvent } from "app/arclib/src"
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, flow, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  cast,
+  flow,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 
@@ -41,8 +49,8 @@ export const ChannelModel = types
       const uniqueEvents = events.filter(
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
-      self.setProp("messages", uniqueEvents)
       self.setProp("loading", false)
+      self.messages = cast(uniqueEvents)
     }),
     fetchMeta: flow(function* (channel: ChannelManager) {
       const result = yield channel.getMeta(self.id, self.privkey, true)

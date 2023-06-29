@@ -1,4 +1,12 @@
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, flow, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  cast,
+  flow,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
   BlindedEvent,
@@ -219,8 +227,7 @@ export const UserStoreModel = types
       for (const item of uniqueList) {
         item.lastMessageAt = item.created_at
       }
-      console.log("setting", uniqueList.length)
-      self.setProp("privMessages", uniqueList)
+      self.privMessages = cast(uniqueList)
     }),
     clearNewUser() {
       self.setProp("isNewUser", false)

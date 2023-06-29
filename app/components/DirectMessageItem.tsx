@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { memo, useContext, useEffect, useState } from "react"
 import { AutoImage, RelayContext } from "app/components"
 import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
@@ -17,11 +17,10 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export function DirectMessageItem({
+export const DirectMessageItem = memo(function DirectMessageItem({
   dm,
 }: {
   dm: { content: string; pubkey: string; created_at: number }
-  pool: NostrPool
 }) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
@@ -36,11 +35,8 @@ export function DirectMessageItem({
       if (latest) {
         const content = JSON.parse(latest.content)
         setProfile(content)
-      } else {
-        console.log("user profile not found", dm.pubkey)
       }
     }
-
     fetchProfile().catch(console.error)
   }, [dm.pubkey])
 
@@ -66,7 +62,7 @@ export function DirectMessageItem({
       </View>
     </Pressable>
   )
-}
+})
 
 const styles = StyleSheet.create({
   $divider: {
