@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { memo, useContext, useEffect, useState } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
@@ -6,7 +6,12 @@ import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 
-export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean }) {
+interface UserProp {
+  pubkey: string
+  reverse?: boolean
+}
+
+export const User = memo(function User({ pubkey, reverse }: UserProp) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
 
@@ -45,7 +50,7 @@ export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean })
       </View>
     </>
   )
-}
+})
 
 const $user: ViewStyle = {
   flexShrink: 0,

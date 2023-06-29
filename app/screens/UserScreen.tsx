@@ -46,16 +46,10 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const toggleFollow = async () => {
     if (followed) {
-      // update mst store
       removeContact(id, contacts)
-      // broadcast to relays
-      await contacts.remove(id)
       setFollowed(!followed)
     } else {
-      // update mst store
       addContact({ pubkey: id, legacy, secret }, contacts)
-      // broadcast to relays
-      await contacts.add({ pubkey: id, legacy, secret }).catch((e) => console.log(e))
       setFollowed(!followed)
     }
   }

@@ -47,14 +47,14 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 
   const suggestions = data ? data.profiles : []
 
-  const addCustomContact = () => {
-    let pubkey = customContact.trim()
+  const addCustomContact = async () => {
+    let pubkey: string = customContact.trim()
     if (pubkey.substring(0, 4) === "npub") {
-      pubkey = nip19.decode(pubkey).data
+      pubkey = nip19.decode(pubkey).data.toString()
     }
     if (pubkey && !contacts.find((el) => el.pubkey === pubkey)) {
       try {
-        addContact({ pubkey, secret: false, legacy: true }, mgr)
+        addContact({ pubkey, legacy: true, secret: false }, mgr)
       } catch (e) {
         alert(`Invalid contact: ${e}`)
       }
@@ -88,7 +88,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     async function fetchSuggestion() {
       const resp = await fetch(`https://api.nostr.band/v0/trending/profiles`)
       const data = await resp.json()
-      setData(data)
+      if (!data.ok) {
+        setData(data)
+      } else {
+        alert("Can't fetch trending profiles")
+      }
     }
     fetchSuggestion()
   }, [])
