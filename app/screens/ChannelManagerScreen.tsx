@@ -1,4 +1,4 @@
-import React, { FC, useContext, useLayoutEffect, useMemo } from "react"
+import React, { CSSProperties, FC, useContext, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -10,6 +10,7 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { ChannelManager, NostrPool } from "app/arclib/src"
 import { ChannelManagerItem } from "app/components/ChannelManagerItem"
+import { UserMinus, UserPlus } from "lucide-react-native"
 
 interface ChannelManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ChannelManager">> {}
@@ -25,11 +26,19 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
     } = useStores()
 
     // Pull in navigation via hook
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
 
     const leave = (id: string) => {
       console.log("leaving: ", id)
       leaveChannel(id)
+    }
+
+    const invite = (info: { id: string; name: string; privkey: string }) => {
+      navigation.navigate("ContactPicker", {
+        id: info.id,
+        name: info.name,
+        privkey: info.privkey,
+      })
     }
 
     useLayoutEffect(() => {
@@ -55,8 +64,11 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
           renderItem={({ item }) => (
             <View style={$item}>
               <ChannelManagerItem channelManager={channelManager} channel={item} />
+              <Pressable onPress={() => invite(item)}>
+                <UserPlus style={$icon} />
+              </Pressable>
               <Pressable onPress={() => leave(item.id)}>
-                <Text text="Leave" size="xs" />
+                <UserMinus style={$icon} />
               </Pressable>
             </View>
           )}
@@ -85,4 +97,11 @@ const $item: ViewStyle = {
 const $emptyState: ViewStyle = {
   alignSelf: "center",
   paddingVertical: spacing.medium,
+}
+
+const $icon: CSSProperties = {
+  width: 20,
+  height: 20,
+  color: colors.palette.cyan100,
+  marginLeft: 10,
 }

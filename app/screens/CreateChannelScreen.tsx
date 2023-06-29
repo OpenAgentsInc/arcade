@@ -16,12 +16,12 @@ interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
-  function CreateChannelScreen({ route }: { route: any }) {
+  function CreateChannelScreen() {
     const pool = useContext(RelayContext) as NostrPool
     const channelManager: ChannelManager = new ChannelManager(pool)
     const formikRef = useRef(null)
 
-    const { isPrivate } = route.params
+    const isPrivate = false
     const { userStore, channelStore } = useStores()
 
     const [picture, setPicture] = useState(null)
@@ -85,7 +85,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           channelStore.create(info)
 
           // add created channel to user store
-          userStore.joinChannel(info.id)
+          userStore.joinChannel(info)
 
           if (fullData.is_private) {
             // redirect to invite screen

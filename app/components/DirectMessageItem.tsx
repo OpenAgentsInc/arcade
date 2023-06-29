@@ -21,6 +21,7 @@ export function DirectMessageItem({
   dm,
 }: {
   dm: { content: string; pubkey: string; created_at: number }
+  pool: NostrPool
 }) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
