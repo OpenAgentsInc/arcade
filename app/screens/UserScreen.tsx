@@ -93,10 +93,8 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       const latest = list.slice(-1)[0]
       if (latest) {
         const content = JSON.parse(latest.content)
-        console.log(content)
         setProfile(content)
       }
-
       const ctx = contacts.contacts.get(id)
       if (ctx) {
         setFollowed(true)
@@ -104,7 +102,6 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         setSecret(ctx.secret)
       }
     }
-
     fetchProfile().catch(console.error)
   }, [id])
 
@@ -163,7 +160,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
               onPress={() => togglePrivFollow()}
               style={$profileButton}
             />
-            <Text text="Nobody can't see your private follow" size="xs" style={$note} />
+            <Text text="Nobody can see your private follow" size="xs" style={$note} />
           </View>
         </View>
         <View style={$section}>

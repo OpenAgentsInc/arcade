@@ -8,8 +8,9 @@ import { NostrPool } from "app/arclib/src"
 
 export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean }) {
   const pool = useContext(RelayContext) as NostrPool
-  const [profile, setProfile] = useState(null)
   const navigation = useNavigation<any>()
+
+  const [profile, setProfile] = useState(null)
 
   useEffect(() => {
     async function fetchProfile() {
@@ -22,7 +23,6 @@ export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean })
         console.log("user profile not found", pubkey)
       }
     }
-
     fetchProfile().catch(console.error)
   }, [pubkey])
 
@@ -36,7 +36,7 @@ export function User({ pubkey, reverse }: { pubkey: string; reverse?: boolean })
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
-          text={profile?.display_name || shortenKey(pubkey)}
+          text={profile?.display_name || profile?.name || shortenKey(pubkey)}
           preset="bold"
           size="xs"
           style={$userName}

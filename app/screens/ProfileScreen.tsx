@@ -21,11 +21,14 @@ import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
 import { NostrPool } from "app/arclib/src"
+import { ProfileManager } from "app/arclib/src/profile"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const pool = useContext(RelayContext) as NostrPool
+  const pmgr = new ProfileManager(pool) as ProfileManager
+
   const [profile, setProfile] = useState(null)
 
   // Pull in one of our MST stores
@@ -42,12 +45,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   useFocusEffect(
     useCallback(() => {
       async function fetchProfile() {
-        // fetch user profile
-        const list = await pool.list([{ kinds: [0], authors: [userStore.pubkey] }], true)
-        const latest = list.slice(-1)[0]
-        if (latest) {
-          const content = JSON.parse(latest.content)
-          setProfile(content)
+        const res = await pmgr.load()
+        if (res) {
+          setProfile(res)
         }
       }
       fetchProfile().catch(console.error)
