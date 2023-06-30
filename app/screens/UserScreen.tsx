@@ -3,7 +3,16 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, Header, RelayContext, Screen, Text, Toggle } from "app/components"
+import {
+  AutoImage,
+  Button,
+  Header,
+  ListItem,
+  RelayContext,
+  Screen,
+  Text,
+  Toggle,
+} from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
@@ -37,31 +46,36 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const toggleFollow = async () => {
     if (followed) {
-      // update mst store
-      removeContact(id, contacts)
-      // broadcast to relays
-      await contacts.remove(id)
+      await removeContact(id, contacts)
       setFollowed(!followed)
     } else {
-      // update mst store
-      addContact({ pubkey: id, legacy, secret }, contacts)
-      // broadcast to relays
-      await contacts.add({ pubkey: id, legacy, secret }).catch((e) => console.log(e))
+      await addContact({ pubkey: id, legacy, secret }, contacts)
       setFollowed(!followed)
     }
   }
 
-  const toggleLegacy = async () => {
-    // addContact({ pubkey: id, legacy: !legacy, secret })
-    // broadcast to relays
-    await contacts.add({ pubkey: id, legacy: !legacy, secret }).catch((e) => console.log(e))
-    setLegacy(!legacy)
+  const togglePrivFollow = async () => {
+    try {
+      // send to mobx, so the home screen is updated
+      await addContact({ pubkey: id, legacy: legacy && !secret, secret: !secret }, contacts)
+      setSecret(!secret)
+    } catch (e) {
+      // never set user toggle if save failed
+      alert(`Cannot save to network: ${e}`)
+    }
   }
 
-  const toggleSecret = async () => {
-    // addContact({ pubkey: id, legacy, secret: !secret })
-    await contacts.add({ pubkey: id, legacy, secret: !secret }).catch((e) => console.log(e))
-    setSecret(!secret)
+  const toggleLegacy = async () => {
+    if (!secret) {
+      try {
+        // send to mobx, so the home screen is updated
+        await addContact({ pubkey: id, legacy: !legacy && !secret, secret }, contacts)
+        setLegacy(!legacy)
+      } catch (e) {
+        // never set user toggle if save failed
+        alert(`Cannot save to network: ${e}`)
+      }
+    }
   }
 
   useLayoutEffect(() => {
@@ -86,10 +100,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
       if (latest) {
         const content = JSON.parse(latest.content)
         setProfile(content)
-      } else {
-        console.log("relay return nothing")
       }
-
       const ctx = contacts.contacts.get(id)
       if (ctx) {
         setFollowed(true)
@@ -97,7 +108,6 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         setSecret(ctx.secret)
       }
     }
-
     fetchProfile().catch(console.error)
   }, [id])
 
@@ -125,7 +135,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="bold"
               size="lg"
-              text={profile?.display_name || "Loading..."}
+              text={profile?.username || profile?.display_name || "No name"}
               style={$userName}
             />
             <Text
@@ -150,29 +160,55 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             onPress={() => toggleFollow()}
             style={$profileButton}
           />
+          <View>
+            <Button
+              text={secret ? "Stop private follow" : "Private follow"}
+              onPress={() => togglePrivFollow()}
+              style={followed ? $hidden : $profileButton}
+            />
+            <Text text="Nobody can see your private follow" size="xs" style={$note} />
+          </View>
         </View>
-        <View>
-          <Toggle
-            id="legacy"
-            variant="checkbox"
-            label="Use legacy, unblinded DM's"
-            inputOuterStyle={secret ? $toggleDisabled : $toggle}
-            inputInnerStyle={$toggleInner}
-            inputDetailStyle={$toggleDetail}
-            value={legacy && !secret}
-            disabled={secret}
-            onPress={toggleLegacy}
-          />
-          <Toggle
-            id="secret"
-            variant="checkbox"
-            label="Hide this contact (private follow)"
-            inputOuterStyle={$toggle}
-            inputInnerStyle={$toggleInner}
-            inputDetailStyle={$toggleDetail}
-            value={secret}
-            onPress={toggleSecret}
-          />
+        <View style={$section}>
+          <Text text="Contact settings" preset="bold" style={$sectionHeading} />
+          <View style={$sectionData}>
+            <ListItem
+              text="Use legacy, unblinded DM's"
+              bottomSeparator={true}
+              style={$sectionItem}
+              containerStyle={$sectionItemContainer}
+              RightComponent={
+                <Toggle
+                  id="legacy"
+                  inputOuterStyle={secret ? $toggleDisabled : $toggle}
+                  inputInnerStyle={$toggleInner}
+                  inputDetailStyle={$toggleDetail}
+                  variant="switch"
+                  value={legacy && !secret}
+                  disabled={secret}
+                  onPress={toggleLegacy}
+                />
+              }
+            />
+            <ListItem
+              text="Hide this contact (private follow)"
+              bottomSeparator={true}
+              style={followed ? $sectionItem : $hidden}
+              containerStyle={$sectionItemContainer}
+              RightComponent={
+                <Toggle
+                  id="secret"
+                  inputOuterStyle={$toggle}
+                  inputInnerStyle={$toggleInner}
+                  inputDetailStyle={$toggleDetail}
+                  variant="switch"
+                  value={secret}
+                  onPress={togglePrivFollow}
+                />
+              }
+            />
+ 
+          </View>
         </View>
       </View>
     </Screen>
@@ -186,11 +222,12 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   height: "100%",
   paddingHorizontal: spacing.medium,
+  paddingBottom: spacing.massive,
 }
 
 const $cover: ImageStyle = {
   width: "100%",
-  height: 200,
+  height: 150,
   resizeMode: "cover",
 }
 
@@ -224,7 +261,7 @@ const $userAbout: ViewStyle = {
 }
 
 const $buttonGroup: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: "column",
   gap: spacing.small,
   marginVertical: spacing.medium,
 }
@@ -232,8 +269,14 @@ const $buttonGroup: ViewStyle = {
 const $profileButton: ViewStyle = {
   flex: 1,
   width: "100%",
-  backgroundColor: "transparent",
+  backgroundColor: colors.palette.overlay20,
   borderColor: colors.palette.cyan500,
+}
+
+const $note: TextStyle = {
+  color: colors.palette.cyan500,
+  textAlign: "center",
+  marginTop: 2,
 }
 
 const $toggle: ViewStyle = {
@@ -241,11 +284,14 @@ const $toggle: ViewStyle = {
   marginTop: 1,
   borderColor: colors.palette.cyan900,
   borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.overlay20,
+  backgroundColor: colors.palette.overlay80,
 }
 
 const $toggleDisabled: ViewStyle = {
-  ...$toggle,
+  borderWidth: 1,
+  marginTop: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
   backgroundColor: colors.palette.cyan800,
 }
 
@@ -256,4 +302,35 @@ const $toggleInner: ViewStyle = {
 const $toggleDetail: any = {
   borderRadius: spacing.tiny,
   backgroundColor: colors.palette.cyan500,
+}
+
+const $section: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.extraSmall,
+  marginTop: spacing.medium,
+}
+
+const $sectionHeading: TextStyle = {
+  color: colors.palette.cyan600,
+}
+
+const $sectionData: ViewStyle = {
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+  borderRadius: spacing.tiny,
+  backgroundColor: colors.palette.overlay20,
+  marginTop: spacing.tiny,
+}
+
+const $sectionItemContainer: ViewStyle = {
+  alignItems: "center",
+  paddingHorizontal: spacing.small,
+}
+
+const $sectionItem: ViewStyle = {
+  alignItems: "center",
+}
+
+const $hidden: ViewStyle = {
+  display: "none",
 }

@@ -51,6 +51,7 @@ const $container: ViewStyle = {
   flexDirection: "column",
   justifyContent: "space-between",
   paddingHorizontal: spacing.medium,
+  paddingBottom: spacing.medium
 }
 
 const $arcade: TextStyle = {

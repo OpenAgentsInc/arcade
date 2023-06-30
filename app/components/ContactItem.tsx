@@ -15,11 +15,8 @@ export function ContactItem({ pubkey }: { pubkey: string }) {
       if (list.length > 0) {
         const content = JSON.parse(list[0].content)
         setMetadata(content)
-      } else {
-        console.log("channel metadata not found", pubkey)
       }
     }
-
     fetchProfile().catch(console.error)
   }, [pubkey])
 

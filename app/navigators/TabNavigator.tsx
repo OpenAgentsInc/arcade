@@ -4,7 +4,7 @@ import React from "react"
 import Chat from "app/components/icons/chat.svg"
 import Profile from "app/components/icons/profile.svg"
 import Settings from "app/components/icons/settings.svg"
-import { StyleSheet, TextStyle, ViewStyle } from "react-native"
+import { Platform, StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { ContactsScreen, HomeMessagesScreen, ProfileScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
@@ -36,6 +36,7 @@ const inactiveIconColor = colors.palette.cyan800
 
 export function TabNavigator() {
   const { bottom } = useSafeAreaInsets()
+  const offset = Platform.OS === "android" ? 60 : 40
 
   return (
     <Tab.Navigator
@@ -45,7 +46,7 @@ export function TabNavigator() {
         tabBarHideOnKeyboard: true,
         tabBarStyle: [
           $tabBar,
-          { height: bottom + 40, borderTopWidth: 1, borderColor: colors.palette.cyan800 },
+          { height: bottom + offset, borderTopWidth: 1, borderColor: colors.palette.cyan800 },
         ],
         tabBarActiveTintColor: colors.text,
         tabBarInactiveTintColor: colors.text,

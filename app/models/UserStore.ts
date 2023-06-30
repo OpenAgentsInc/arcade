@@ -1,4 +1,12 @@
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  cast,
+  flow,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
   ArcadeIdentity,
@@ -19,6 +27,7 @@ import { ContactModel } from "./Contact"
 import { schnorr } from "@noble/curves/secp256k1"
 import { sha256 } from "@noble/hashes/sha256"
 import { bytesToHex } from "@noble/hashes/utils"
+import { runInAction } from "mobx"
 
 const utf8Encoder = new TextEncoder()
 
@@ -96,13 +105,15 @@ export const UserStoreModel = types
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
-        self.setProp("privkey", sec)
         const pubkey = await getPublicKey(sec)
         const meta = await storage.load("meta")
-        self.setProp("pubkey", pubkey)
-        self.setProp("isLoggedIn", true)
-        self.setProp("isNewUser", false)
-        self.setProp("metadata", JSON.stringify(meta))
+        runInAction(()=>{
+          self.setProp("privkey", sec)
+          self.setProp("pubkey", pubkey)
+          self.setProp("isLoggedIn", true)
+          self.setProp("isNewUser", false)
+          self.setProp("metadata", JSON.stringify(meta))
+        })
       }
     },
     async signup(username: string, displayName: string, about: string) {
@@ -138,12 +149,15 @@ export const UserStoreModel = types
         self.setProp("pubkey", pubkey)
         self.setProp("privkey", privkey)
         await secureSet("privkey", privkey)
+        runInAction(()=>{
+
         self.setProp("isLoggedIn", true)
         self.setProp("channels", [
           "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
           "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ])
+        })
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
@@ -163,23 +177,30 @@ export const UserStoreModel = types
     async fetchContacts(mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
       const res = await mgr.list()
-      self.setProp("contacts", res)
+      runInAction(()=>{
+        self.setProp("contacts", res)
+      })
     },
-    addContact(contact: Contact, mgr: ContactManager) {
-      mgr.add(contact)
-      const index = self.contacts.findIndex(
-        (el: { pubkey: string }) => el.pubkey === contact.pubkey,
-      )
-      if (index === -1) self.contacts.push(contact)
-      else {
-        self.contacts[index].setProp("legacy", contact.legacy)
-        self.contacts[index].setProp("secret", contact.secret)
-      }
+    async addContact(contact: Contact, mgr: ContactManager) {
+      await mgr.add(contact)
+      runInAction(()=>{
+        const index = self.contacts.findIndex(
+          (el: { pubkey: string }) => el.pubkey === contact.pubkey,
+        )
+        if (index === -1) {
+          self.contacts.push(contact)
+        } else {
+          self.contacts[index].setProp("legacy", contact.legacy)
+          self.contacts[index].setProp("secret", contact.secret)
+        }
+      })
     },
-    removeContact(pubkey: string, mgr: ContactManager) {
-      mgr.remove(pubkey)
-      const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
-      if (index !== -1) self.contacts.splice(index, 1)
+    async removeContact(pubkey: string, mgr: ContactManager) {
+      await mgr.remove(pubkey)
+      runInAction(()=>{
+        const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
+        if (index !== -1) self.contacts.splice(index, 1)
+      })
     },
     addRelay(url: string) {
       const index = self.relays.findIndex((el: string) => el === url)
@@ -195,9 +216,9 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
-    async updateChannels(pool: NostrPool) {
+    updateChannels: flow(function* (pool: NostrPool) {
       const mgr = new ChannelManager(pool)
-      const list = await mgr.listChannels(true)
+      const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
         if (ch.is_private) {
           const idx = self.channels.findIndex((el) => el.id === ch.id)
@@ -206,9 +227,8 @@ export const UserStoreModel = types
           }
         }
       })
-    },
-
-    async fetchPrivMessages(pool: NostrPool) {
+    }),
+    fetchPrivMessages: flow(function* (pool: NostrPool) {
       const priv = new PrivateMessageManager(pool)
       const keys = self.contacts.map((c) => c.pubkey)
       // this doesn't work... you get mobx errors
@@ -233,7 +253,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = await priv.list({ limit: 500 }, false, keys)
+      const list = yield priv.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -246,9 +266,8 @@ export const UserStoreModel = types
       for (const item of uniqueList) {
         item.lastMessageAt = item.created_at
       }
-      console.log("setting", uniqueList.length)
-      self.setProp("privMessages", uniqueList)
-    },
+      self.privMessages = cast(uniqueList)
+    }),
     clearNewUser() {
       self.setProp("isNewUser", false)
     },
