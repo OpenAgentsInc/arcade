@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
