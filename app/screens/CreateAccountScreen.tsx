@@ -72,7 +72,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 onBlur={handleBlur("username")}
                 value={values.username}
                 autoCapitalize="none"
-                autoFocus={false}
+                autoFocus={true}
               />
               <TextField
                 label="Display Name"
@@ -82,7 +82,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 onBlur={handleBlur("displayName")}
                 value={values.displayName}
                 autoCapitalize="none"
-                autoFocus={true}
+                autoFocus={false}
               />
               <TextField
                 label="About"
