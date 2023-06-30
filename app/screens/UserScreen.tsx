@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { CSSProperties, FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -55,15 +55,27 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   }
 
   const togglePrivFollow = async () => {
-    await contacts.add({ pubkey: id, legacy, secret: !secret }).catch((e) => console.log(e))
-    setSecret(!secret)
+    try {
+      // send to mobx, so the home screen is updated
+      addContact({ pubkey: id, legacy: legacy, secret: !secret }, contacts)
+      setSecret(!secret)
+    } catch (e) {
+      // never set user toggle if save failed
+      alert(`Cannot save to network: ${e}`)
+    }
   }
 
   const toggleLegacy = async () => {
-    // addContact({ pubkey: id, legacy: !legacy, secret })
-    // broadcast to relays
-    await contacts.add({ pubkey: id, legacy: !legacy, secret }).catch((e) => console.log(e))
-    setLegacy(!legacy)
+    if (!secret) {
+      try {
+        // send to mobx, so the home screen is updated
+        addContact({ pubkey: id, legacy: !legacy, secret }, contacts)
+        setLegacy(!legacy)
+      } catch (e) {
+        // never set user toggle if save failed
+        alert(`Cannot save to network: ${e}`)
+      }
+    }
   }
 
   useLayoutEffect(() => {
@@ -152,7 +164,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Button
               text={secret ? "Stop private follow" : "Private follow"}
               onPress={() => togglePrivFollow()}
-              style={$profileButton}
+              style={followed ? $hidden : $profileButton}
             />
             <Text text="Nobody can see your private follow" size="xs" style={$note} />
           </View>
@@ -168,7 +180,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
               RightComponent={
                 <Toggle
                   id="legacy"
-                  inputOuterStyle={$toggle}
+                  inputOuterStyle={secret ? $toggleDisabled : $toggle}
                   inputInnerStyle={$toggleInner}
                   inputDetailStyle={$toggleDetail}
                   variant="switch"
@@ -178,6 +190,24 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
                 />
               }
             />
+            <ListItem
+              text="Hide this contact (private follow)"
+              bottomSeparator={true}
+              style={followed ? $sectionItem : $hidden}
+              containerStyle={$sectionItemContainer}
+              RightComponent={
+                <Toggle
+                  id="secret"
+                  inputOuterStyle={$toggle}
+                  inputInnerStyle={$toggleInner}
+                  inputDetailStyle={$toggleDetail}
+                  variant="switch"
+                  value={secret}
+                  onPress={togglePrivFollow}
+                />
+              }
+            />
+ 
           </View>
         </View>
       </View>
@@ -254,7 +284,15 @@ const $toggle: ViewStyle = {
   marginTop: 1,
   borderColor: colors.palette.cyan900,
   borderRadius: spacing.extraSmall,
-  backgroundColor: colors.palette.overlay20,
+  backgroundColor: colors.palette.overlay80,
+}
+
+const $toggleDisabled: ViewStyle = {
+  borderWidth: 1,
+  marginTop: 1,
+  borderColor: colors.palette.cyan900,
+  borderRadius: spacing.extraSmall,
+  backgroundColor: colors.palette.cyan800,
 }
 
 const $toggleInner: ViewStyle = {
@@ -291,4 +329,8 @@ const $sectionItemContainer: ViewStyle = {
 
 const $sectionItem: ViewStyle = {
   alignItems: "center",
+}
+
+const $hidden: ViewStyle = {
+  display: "none",
 }
