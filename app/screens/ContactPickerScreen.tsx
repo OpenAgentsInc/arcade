@@ -57,20 +57,51 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     }
 
     const done = () => {
-      Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
-        {
-          text: "Cancel",
-        },
-        {
-          text: "Confirm",
-          onPress: async () => {
-            // invite
-            await encrypted.invite({ members: selected, id, privkey, name, about: "", picture: "" })
-            // redirect to channel
-            navigation.replace("Chat", { id, name, privkey })
+      if (selected.length === 0) {
+        Alert.alert("You have not invited anyone yet", "Are you sure you want to skip this step?", [
+          {
+            text: "Cancel",
           },
-        },
-      ])
+          {
+            text: "Confirm",
+            onPress: async () => {
+              // invite
+              await encrypted.invite({
+                members: selected,
+                id,
+                privkey,
+                name,
+                about: "",
+                picture: "",
+              })
+              // redirect to channel
+              navigation.replace("Chat", { id, name, privkey })
+            },
+          },
+        ])
+      } else {
+        Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
+          {
+            text: "Cancel",
+          },
+          {
+            text: "Confirm",
+            onPress: async () => {
+              // invite
+              await encrypted.invite({
+                members: selected,
+                id,
+                privkey,
+                name,
+                about: "",
+                picture: "",
+              })
+              // redirect to channel
+              navigation.replace("Chat", { id, name, privkey })
+            },
+          },
+        ])
+      }
     }
 
     const addCustomContact = (data) => {
@@ -115,10 +146,12 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
             renderItem={({ item }) => (
               <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
                 <ContactItem pubkey={item.pubkey} />
-                {selected.includes(item.pubkey) && (
+                {selected.includes(item.pubkey) ? (
                   <View>
                     <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
                   </View>
+                ) : (
+                  <Text text="Add" size="sm" />
                 )}
               </Pressable>
             )}

@@ -63,15 +63,15 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
     useEffect(() => {
       async function handleNewMessage(event) {
-          setData((prev) => {
-            if (prev && prev.find(ev=>ev.id===event.id)) return prev;
-            return [event, ...prev]
-          })
+        setData((prev) => {
+          if (prev && prev.find((ev) => ev.id === event.id)) return prev
+          return [event, ...prev]
+        })
       }
-  
+
       async function initDMS() {
         try {
-          const list = await dms.list(null, true, id, handleNewMessage)
+          const list = await dms.list({ limit: 500 }, true, id, handleNewMessage)
           console.log("dm: showing", list.length)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
 
@@ -93,38 +93,41 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
-    const renderItem = useCallback(({ item }: { item: BlindedEvent }) => {
-      const createdAt = formatCreatedAt(item.created_at)
-      const content = parser(item)
+    const renderItem = useCallback(
+      ({ item }: { item: BlindedEvent }) => {
+        const createdAt = formatCreatedAt(item.created_at)
+        const content = parser(item)
 
-      if (item.pubkey === pubkey) {
-        return (
-          <View style={$messageItemReverse}>
-            <User pubkey={item.pubkey} reverse={true} />
-            <View style={$messageContentWrapperReverse}>
-              {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
-              <MessageContent content={content} />
-              <View style={$createdAt}>
-                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+        if (item.pubkey === pubkey) {
+          return (
+            <View style={$messageItemReverse}>
+              <User pubkey={item.pubkey} reverse={true} />
+              <View style={$messageContentWrapperReverse}>
+                {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
+                <MessageContent content={content} />
+                <View style={$createdAt}>
+                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                </View>
               </View>
             </View>
-          </View>
-        )
-      } else {
-        return (
-          <View style={$messageItem}>
-            {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
-            <User pubkey={item.pubkey} />
-            <View style={$messageContentWrapper}>
-              <MessageContent content={content} />
-              <View style={$createdAt}>
-                <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+          )
+        } else {
+          return (
+            <View style={$messageItem}>
+              {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
+              <User pubkey={item.pubkey} />
+              <View style={$messageContentWrapper}>
+                <MessageContent content={content} />
+                <View style={$createdAt}>
+                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                </View>
               </View>
             </View>
-          </View>
-        )
-      }
-    }, [id])
+          )
+        }
+      },
+      [id],
+    )
 
     return (
       <Screen

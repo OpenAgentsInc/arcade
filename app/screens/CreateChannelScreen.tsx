@@ -21,6 +21,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
     const channelManager: ChannelManager = new ChannelManager(pool)
     const formikRef = useRef(null)
 
+    // route params
     const { isPrivate } = route.params
     const { userStore, channelStore } = useStores()
 
@@ -85,7 +86,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           channelStore.create(info)
 
           // add created channel to user store
-          userStore.joinChannel(info.id)
+          userStore.joinChannel(info)
 
           if (fullData.is_private) {
             // redirect to invite screen

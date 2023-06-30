@@ -1,13 +1,29 @@
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  cast,
+  flow,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-import { NostrEvent, NostrPool } from "app/arclib/src"
+import {
+  BlindedEvent,
+  ChannelInfo,
+  ChannelManager,
+  NostrEvent,
+  NostrPool,
+  PrivateMessageManager,
+} from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { generatePrivateKey, getPublicKey, nip04, nip19 } from "nostr-tools"
+import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
 import { ContactModel } from "./Contact"
+import { runInAction } from "mobx"
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -53,9 +69,10 @@ export const UserStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(id: string) {
-      const index = self.channels.findIndex((el: { id: string }) => el.id === id)
-      if (index === -1) self.channels.push(id)
+    joinChannel(info: ChannelInfo) {
+      const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
+
+      if (index === -1) self.channels.push(ChannelModel.create(info))
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
@@ -64,13 +81,15 @@ export const UserStoreModel = types
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
-        self.setProp("privkey", sec)
         const pubkey = await getPublicKey(sec)
         const meta = await storage.load("meta")
-        self.setProp("pubkey", pubkey)
-        self.setProp("isLoggedIn", true)
-        self.setProp("isNewUser", false)
-        self.setProp("metadata", JSON.stringify(meta))
+        runInAction(()=>{
+          self.setProp("privkey", sec)
+          self.setProp("pubkey", pubkey)
+          self.setProp("isLoggedIn", true)
+          self.setProp("isNewUser", false)
+          self.setProp("metadata", JSON.stringify(meta))
+        })
       }
     },
     async signup(username: string, displayName: string, about: string) {
@@ -104,12 +123,15 @@ export const UserStoreModel = types
         self.setProp("pubkey", pubkey)
         self.setProp("privkey", privkey)
         await secureSet("privkey", privkey)
+        runInAction(()=>{
+
         self.setProp("isLoggedIn", true)
         self.setProp("channels", [
           "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
           "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ])
+        })
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
@@ -129,23 +151,30 @@ export const UserStoreModel = types
     async fetchContacts(mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
       const res = await mgr.list()
-      self.setProp("contacts", res)
+      runInAction(()=>{
+        self.setProp("contacts", res)
+      })
     },
-    addContact(contact: Contact, mgr: ContactManager) {
-      mgr.add(contact)
-      const index = self.contacts.findIndex(
-        (el: { pubkey: string }) => el.pubkey === contact.pubkey,
-      )
-      if (index === -1) self.contacts.push(contact)
-      else {
-        self.contacts[index].setProp("legacy", contact.legacy)
-        self.contacts[index].setProp("secret", contact.secret)
-      }
+    async addContact(contact: Contact, mgr: ContactManager) {
+      await mgr.add(contact)
+      runInAction(()=>{
+        const index = self.contacts.findIndex(
+          (el: { pubkey: string }) => el.pubkey === contact.pubkey,
+        )
+        if (index === -1) {
+          self.contacts.push(contact)
+        } else {
+          self.contacts[index].setProp("legacy", contact.legacy)
+          self.contacts[index].setProp("secret", contact.secret)
+        }
+      })
     },
-    removeContact(pubkey: string, mgr: ContactManager) {
-      mgr.remove(pubkey)
-      const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
-      if (index !== -1) self.contacts.splice(index, 1)
+    async removeContact(pubkey: string, mgr: ContactManager) {
+      await mgr.remove(pubkey)
+      runInAction(()=>{
+        const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
+        if (index !== -1) self.contacts.splice(index, 1)
+      })
     },
     addRelay(url: string) {
       const index = self.relays.findIndex((el: string) => el === url)
@@ -155,8 +184,50 @@ export const UserStoreModel = types
       const index = self.relays.findIndex((el: string) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
     },
-    async fetchPrivMessages(pool: NostrPool) {
-      const list = await pool.list([{ kinds: [4], "#p": [self.pubkey] }], true)
+    addPrivMessage(ev: BlindedEvent) {
+      self.privMessages.push({
+        ...ev,
+        lastMessageAt: ev.created_at,
+      })
+    },
+    updateChannels: flow(function* (pool: NostrPool) {
+      const mgr = new ChannelManager(pool)
+      const list = yield mgr.listChannels(true)
+      list.forEach((ch) => {
+        if (ch.is_private) {
+          const idx = self.channels.findIndex((el) => el.id === ch.id)
+          if (idx !== -1) {
+            self.channels[idx].setProp("privkey", ch.privkey)
+          }
+        }
+      })
+    }),
+    fetchPrivMessages: flow(function* (pool: NostrPool) {
+      const priv = new PrivateMessageManager(pool)
+      const keys = self.contacts.map((c) => c.pubkey)
+      // this doesn't work... you get mobx errors
+      // but we should be able to update the state!
+
+      /*
+      const modifyProp = async (ev: BlindedEvent) => {
+        if (self.privMessages.every(msg=>{
+            if (msg.pubkey === ev.pubkey) {
+              console.log("modding", ev.pubkey)
+              msg.setProp("content", ev.content)
+              msg.setProp("blinded", ev.blinded)
+              msg.setProp("lastMessageAt", ev.created_at)
+              return false
+            }
+           return true
+        })) {
+          // append!
+        }
+      }
+      */
+
+      // this updates the home screen prop when new messages arrive
+      // by passing in all our contact keys, we can decrypt new blinded messages
+      const list = yield priv.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -164,14 +235,13 @@ export const UserStoreModel = types
           map.set(ev.pubkey, ev)
         }
       })
-      const uniqueList = [...map.values()]
+      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
+      const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
-        item.content = await nip04.decrypt(self.privkey, item.pubkey, item.content)
-        // @ts-ignore
         item.lastMessageAt = item.created_at
       }
-      self.setProp("privMessages", uniqueList)
-    },
+      self.privMessages = cast(uniqueList)
+    }),
     clearNewUser() {
       self.setProp("isNewUser", false)
     },

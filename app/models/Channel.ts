@@ -1,5 +1,13 @@
 import { ChannelManager, NostrEvent } from "app/arclib/src"
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  cast,
+  flow,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 
@@ -11,13 +19,14 @@ export const ChannelModel = types
   .props({
     id: types.identifier,
     name: types.optional(types.string, ""),
-    picture: types.optional(types.string, ""),
+    picture: types.union(types.null, types.optional(types.string, "")),
     about: types.optional(types.string, ""),
     is_private: types.optional(types.boolean, false),
     privkey: types.optional(types.string, ""),
     lastMessage: types.optional(types.string, ""),
     lastMessagePubkey: types.optional(types.string, ""),
     lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
+    loading: types.optional(types.boolean, true),
     messages: types.optional(types.array(MessageModel), []),
   })
   .actions(withSetPropAction)
@@ -30,29 +39,31 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
-    async fetchMessages(channel: ChannelManager) {
-      const events = await channel.list({
+    fetchMessages: flow(function* (channel: ChannelManager) {
+      const events = yield channel.list({
         channel_id: self.id,
-        filter: { limit: 300 },
+        filter: { limit: 100 },
         db_only: false,
         privkey: self.privkey,
       })
       const uniqueEvents = events.filter(
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
-      self.setProp("messages", uniqueEvents)
-    },
-    async fetchMeta(channel: ChannelManager) {
-      const result = await channel.getMeta(self.id, self.privkey)
+      self.setProp("loading", false)
+      self.messages = cast(uniqueEvents)
+    }),
+    fetchMeta: flow(function* (channel: ChannelManager) {
+      const result = yield channel.getMeta(self.id, self.privkey, true)
       if (result) {
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)
         self.setProp("about", result.about)
       } else {
-        alert("Failed to fetch meta")
+        console.log("Failed to fetch meta")
       }
-    },
+    }),
     addMessage(event: NostrEvent) {
+      if (self.messages.find((msg) => msg.id === event.id)) return
       self.messages.unshift(event)
     },
     updateLastMessage() {
@@ -64,7 +75,7 @@ export const ChannelModel = types
       }
     },
     reset() {
-      applySnapshot(self, { ...self, messages: [] })
+      applySnapshot(self, { ...self, loading: true, messages: [] })
     },
   }))
 

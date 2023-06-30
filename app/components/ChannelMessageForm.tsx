@@ -77,7 +77,7 @@ export function ChannelMessageForm({
 
   const createEvent = async (data) => {
     // no popup here please
-    if (!attached && data.content.length === 0) return;
+    if (!attached && data.content.length === 0) return
 
     let content = data.content
     if (attached) {
@@ -98,6 +98,8 @@ export function ChannelMessageForm({
       setLoading(false)
       // log, todo: remove
       console.log("published event to channel:", message.id)
+    } else {
+      alert("Failed to publish")
     }
   }
 
