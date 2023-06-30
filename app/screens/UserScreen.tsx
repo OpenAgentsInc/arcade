@@ -46,10 +46,10 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 
   const toggleFollow = async () => {
     if (followed) {
-      removeContact(id, contacts)
+      await removeContact(id, contacts)
       setFollowed(!followed)
     } else {
-      addContact({ pubkey: id, legacy, secret }, contacts)
+      await addContact({ pubkey: id, legacy, secret }, contacts)
       setFollowed(!followed)
     }
   }
@@ -57,7 +57,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   const togglePrivFollow = async () => {
     try {
       // send to mobx, so the home screen is updated
-      addContact({ pubkey: id, legacy: legacy, secret: !secret }, contacts)
+      await addContact({ pubkey: id, legacy: legacy && !secret, secret: !secret }, contacts)
       setSecret(!secret)
     } catch (e) {
       // never set user toggle if save failed
@@ -69,7 +69,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
     if (!secret) {
       try {
         // send to mobx, so the home screen is updated
-        addContact({ pubkey: id, legacy: !legacy, secret }, contacts)
+        await addContact({ pubkey: id, legacy: !legacy && !secret, secret }, contacts)
         setLegacy(!legacy)
       } catch (e) {
         // never set user toggle if save failed
