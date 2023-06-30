@@ -58,7 +58,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
-              <Pressable onPress={() => navigation.navigate("CreateChannel")}>
+              <Pressable onPress={() => navigation.navigate("CreateChannel", { isPrivate: false })}>
                 <PlusIcon size={20} color={colors.palette.cyan400} />
               </Pressable>
             </View>

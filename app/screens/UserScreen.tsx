@@ -123,7 +123,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="bold"
               size="lg"
-              text={profile?.name || profile?.display_name || "No name"}
+              text={profile?.username || profile?.display_name || "No name"}
               style={$userName}
             />
             <Text
@@ -192,6 +192,7 @@ const $root: ViewStyle = {
 const $container: ViewStyle = {
   height: "100%",
   paddingHorizontal: spacing.medium,
+  paddingBottom: spacing.massive,
 }
 
 const $cover: ImageStyle = {

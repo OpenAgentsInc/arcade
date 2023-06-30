@@ -41,7 +41,7 @@ export const User = memo(function User({ pubkey, reverse }: UserProp) {
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
-          text={profile?.display_name || profile?.name || shortenKey(pubkey)}
+          text={profile?.username || profile?.display_name || shortenKey(pubkey)}
           preset="bold"
           size="xs"
           style={$userName}

@@ -27,6 +27,15 @@ import { FlashList } from "@shopify/flash-list"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
+interface IProfile {
+  pubkey: string
+}
+
+interface ISuggestions {
+  error: boolean
+  profiles: Array<IProfile>
+}
+
 export const AddContactScreen: FC<AddContactScreenProps> = observer(function AddContactScreen() {
   const mgr = useContactManager()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -43,7 +52,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 
   // States
   const [customContact, setCustomContact] = useState("")
-  const [data, setData]: any = useState([])
+  const [data, setData] = useState<ISuggestions>({ error: false, profiles: [] })
 
   const suggestions = data ? data.profiles : []
 
@@ -89,9 +98,9 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       const resp = await fetch(`https://api.nostr.band/v0/trending/profiles`)
       const data = await resp.json()
       if (!data.ok) {
-        setData(data)
+        setData((prev) => ({ ...prev, profiles: data }))
       } else {
-        alert("Can't fetch trending profiles")
+        setData((prev) => ({ ...prev, error: true }))
       }
     }
     fetchSuggestion()
@@ -122,6 +131,13 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         <View style={$heading}>
           <Text text="Suggestions" size="lg" preset="bold" />
         </View>
+        {data.error && (
+          <Text
+            text="Can't fetch trending profiles, service temporarily unavailable"
+            size="sm"
+            style={$errorText}
+          />
+        )}
         <FlashList
           data={suggestions}
           keyExtractor={(item: { pubkey: string }) => item.pubkey}
@@ -244,4 +260,8 @@ const $formButton: ViewStyle = {
 
 const $formButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
+}
+
+const $errorText: TextStyle = {
+  color: colors.error,
 }

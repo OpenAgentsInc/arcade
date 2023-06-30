@@ -58,6 +58,8 @@ export const ChannelModel = types
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)
         self.setProp("about", result.about)
+      } else {
+        console.log("Failed to fetch meta")
       }
     }),
     addMessage(event: NostrEvent) {
