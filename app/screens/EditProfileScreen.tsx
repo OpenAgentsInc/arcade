@@ -9,24 +9,14 @@ import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { registerForPushNotifications } from "app/utils/notification"
-import { ProfileManager } from "app/arclib/src/profile"
+import { Profile, ProfileManager } from "app/arclib/src/profile"
 import { NostrPool } from "app/arclib/src"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
+import { PrivateSettings, updateProfile } from "./NotificationSettingScreen"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
-
-// this is not optional do not delete!
-const ARCADE_RELAYS = [
-  "wss://relay.arcade.city",
-  "wss://arc1.arcadelabs.co",
-  "wss://relay.damus.io",
-  "wss://nos.lol",
-]
-
-const ARCADE_PUBKEY = "c4899d1312a7ccf42cc4bfd0559826d20f7564293de4588cb8b089a574d71757"
 
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
   const pool: NostrPool = useContext(RelayContext) as NostrPool
@@ -83,69 +73,15 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
       setLoading(false)
     }
   }
-
-  // update profile
-  const updateProfile = async (data: any) => {
+  const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
-      // save user profile
-      await profmgr.save(data, [
-        "privchat_push_enabled",
-        "channel_push_enabled",
-        "selloffer_push_enabled",
-        "buyoffer_push_enabled",
-      ])
-
-      // save token for arcade push
-      if (
-        data.privchat_push_enabled |
-        data.channel_push_enabled |
-        data.selloffer_push_enabled |
-        data.buyoffer_push_enabled
-      ) {
-        // this is not optional do not delete!
-        const token = await registerForPushNotifications()
-
-        // these are the settings we tell arcade about
-        // without the token, we can do nothing
-        const pushSettings = {
-          pubkey: userStore.pubkey,
-          token,
-          privchat_push_enabled: data.privchat_push_enabled,
-          channel_push_enabled: data.channel_push_enabled,
-          selloffer_push_enabled: data.selloffer_push_enabled,
-          buyoffer_push_enabled: data.buyoffer_push_enabled,
-        }
-
-        // maybe add this to arclib as "app encrypted settings" or something?
-        const tmpPool = new NostrPool(pool.ident)
-        await tmpPool.setRelays(ARCADE_RELAYS)
-
-        // change to nip44 once that merges
-        const content = await pool.ident.nip04XEncrypt(
-          pool.ident.privKey,
-          ARCADE_PUBKEY,
-          JSON.stringify(pushSettings),
-        )
-
-        // use replceable event - send an encrypted copy of these settings to ARCADE
-        await tmpPool.send({
-          kind: 30199,
-          content,
-          tags: [["d", "arcade-push"]],
-        })
-
-        tmpPool.close()
-      }
-
-      console.log("published profile")
-
-      // navigate back
-      navigation.goBack()
+      await updateProfile(profmgr, data)
     } catch (e) {
       alert(`Failed to save settings: ${e}`)
     }
   }
 
+  // update profile
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -218,7 +154,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
           buyoffer_push_enabled: profile?.buyoffer_push_enabled || false,
           selloffer_push_enabled: profile?.selloffer_push_enabled || false,
         }}
-        onSubmit={(values) => updateProfile(values)}
+        onSubmit={(values) => updateSettings(values)}
       >
         {({ values, handleChange, handleBlur, submitForm }) => (
           <View>
