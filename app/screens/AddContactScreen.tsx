@@ -27,6 +27,15 @@ import { FlashList } from "@shopify/flash-list"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
+interface IProfile {
+  pubkey: string
+}
+
+interface ISuggestions {
+  error: boolean
+  profiles: Array<IProfile>
+}
+
 export const AddContactScreen: FC<AddContactScreenProps> = observer(function AddContactScreen() {
   const mgr = useContactManager()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -43,18 +52,18 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 
   // States
   const [customContact, setCustomContact] = useState("")
-  const [data, setData]: any = useState([])
+  const [data, setData] = useState<ISuggestions>({ error: false, profiles: [] })
 
   const suggestions = data ? data.profiles : []
 
-  const addCustomContact = () => {
-    let pubkey = customContact.trim()
+  const addCustomContact = async () => {
+    let pubkey: string = customContact.trim()
     if (pubkey.substring(0, 4) === "npub") {
-      pubkey = nip19.decode(pubkey).data
+      pubkey = nip19.decode(pubkey).data.toString()
     }
     if (pubkey && !contacts.find((el) => el.pubkey === pubkey)) {
       try {
-        addContact({ pubkey, secret: false, legacy: true }, mgr)
+        addContact({ pubkey, legacy: true, secret: false }, mgr)
       } catch (e) {
         alert(`Invalid contact: ${e}`)
       }
@@ -88,7 +97,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     async function fetchSuggestion() {
       const resp = await fetch(`https://api.nostr.band/v0/trending/profiles`)
       const data = await resp.json()
-      setData(data)
+      if (!data.ok) {
+        setData((prev) => ({ ...prev, profiles: data }))
+      } else {
+        setData((prev) => ({ ...prev, error: true }))
+      }
     }
     fetchSuggestion()
   }, [])
@@ -118,6 +131,13 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         <View style={$heading}>
           <Text text="Suggestions" size="lg" preset="bold" />
         </View>
+        {data.error && (
+          <Text
+            text="Can't fetch trending profiles, service temporarily unavailable"
+            size="sm"
+            style={$errorText}
+          />
+        )}
         <FlashList
           data={suggestions}
           keyExtractor={(item: { pubkey: string }) => item.pubkey}
@@ -240,4 +260,8 @@ const $formButton: ViewStyle = {
 
 const $formButtonActive: ViewStyle = {
   backgroundColor: colors.palette.cyan600,
+}
+
+const $errorText: TextStyle = {
+  color: colors.error,
 }

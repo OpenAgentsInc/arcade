@@ -17,14 +17,17 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     const formikRef = useRef(null)
 
     // Pull in one of our MST stores
-    const { userStore, channelStore } = useStores()
+    const { userStore } = useStores()
 
     // Pull in navigation via hook
     const navigation = useNavigation()
 
     const signup = (data: { displayName: string; username: string; about: string }) => {
-      channelStore.createDefaultChannels()
-      userStore.signup(data.username, data.displayName, data.about)
+      if (!data.username) {
+        alert("Username is required")
+      } else {
+        userStore.signup(data.username, data.displayName, data.about)
+      }
     }
 
     useLayoutEffect(() => {
@@ -62,22 +65,22 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
             <>
               <Text text="Create Account" preset="subheading" size="xl" style={$title} />
               <TextField
+                label="Username *"
+                style={$input}
+                inputWrapperStyle={$inputWrapper}
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+                value={values.username}
+                autoCapitalize="none"
+                autoFocus={true}
+              />
+              <TextField
                 label="Display Name"
                 style={$input}
                 inputWrapperStyle={$inputWrapper}
                 onChangeText={handleChange("displayName")}
                 onBlur={handleBlur("displayName")}
                 value={values.displayName}
-                autoCapitalize="none"
-                autoFocus={true}
-              />
-              <TextField
-                label="Username"
-                style={$input}
-                inputWrapperStyle={$inputWrapper}
-                onChangeText={handleChange("username")}
-                onBlur={handleBlur("username")}
-                value={values.username}
                 autoCapitalize="none"
                 autoFocus={false}
               />

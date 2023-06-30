@@ -98,6 +98,8 @@ export function ChannelMessageForm({
       setLoading(false)
       // log, todo: remove
       console.log("published event to channel:", message.id)
+    } else {
+      alert("Failed to publish")
     }
   }
 

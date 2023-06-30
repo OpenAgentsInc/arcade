@@ -191,8 +191,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               renderItem={renderItem}
               ListEmptyComponent={
                 <View style={$emptyState}>
-                  <ActivityIndicator type="small" />
-                  {/* <Text text="No messages" /> */}
+                  {channel.loading ? (
+                    <ActivityIndicator type="small" />
+                  ) : (
+                    <Text text="No messages" />
+                  )}
                 </View>
               }
               contentContainerStyle={$list}
