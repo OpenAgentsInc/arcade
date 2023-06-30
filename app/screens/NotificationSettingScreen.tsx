@@ -184,45 +184,6 @@ export const NotificationSettingScreen: FC<NotificationSettingScreenProps> = obs
                 </View>
               </View>
               <View>
-                <Text text="Notifications for listings" preset="bold" style={$sectionHeading} />
-                <View style={$sectionData}>
-                  <ListItem
-                    text="Buy offer"
-                    bottomSeparator={true}
-                    style={$sectionItem}
-                    containerStyle={$sectionItemContainer}
-                    RightComponent={
-                      <Toggle
-                        inputOuterStyle={$toggle}
-                        inputInnerStyle={$toggleInner}
-                        variant="switch"
-                        onPress={() =>
-                          setFieldValue("buyoffer_push_enabled", !values.buyoffer_push_enabled)
-                        }
-                        value={values.buyoffer_push_enabled}
-                      />
-                    }
-                  />
-                  <ListItem
-                    text="Sell offer"
-                    bottomSeparator={true}
-                    style={$sectionItem}
-                    containerStyle={$sectionItemContainer}
-                    RightComponent={
-                      <Toggle
-                        inputOuterStyle={$toggle}
-                        inputInnerStyle={$toggleInner}
-                        variant="switch"
-                        onPress={() =>
-                          setFieldValue("selloffer_push_enabled", !values.selloffer_push_enabled)
-                        }
-                        value={values.selloffer_push_enabled}
-                      />
-                    }
-                  />
-                </View>
-              </View>
-              <View>
                 <Button text="Update" onPress={() => submitForm()} style={$button} />
               </View>
             </View>
