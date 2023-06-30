@@ -21,7 +21,7 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>5</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false />
     <key>LSRequiresIPhoneOS</key>
@@ -39,6 +39,10 @@
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string></string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Microphone is not used; just a dependency of our video library expo-av</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Open photo library</string>
     <key>UILaunchStoryboardName</key>
     <string>BootSplash</string>
     <key>UIRequiredDeviceCapabilities</key>
@@ -53,7 +57,5 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false />
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Open photo library</string>
   </dict>
 </plist>
