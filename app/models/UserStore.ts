@@ -136,7 +136,7 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    async loginWithNsec(nsec: string) {
+    loginWithNsec: flow(function* (nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
       }
@@ -147,20 +147,18 @@ export const UserStoreModel = types
 
         self.setProp("pubkey", pubkey)
         self.setProp("privkey", privkey)
-        await secureSet("privkey", privkey)
-        runInAction(() => {
-          self.setProp("isLoggedIn", true)
-          self.setProp("channels", [
-            "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-            "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-            "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-          ])
-        })
+        yield secureSet("privkey", privkey)
+        self.setProp("isLoggedIn", true)
+        self.setProp("channels", [
+          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
+        ])
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
       }
-    },
+    }),
     async logout() {
       await secureDel("privkey")
       applySnapshot(self, {
