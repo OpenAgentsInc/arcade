@@ -106,6 +106,13 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => navigation.navigate("EditProfile")}
                 style={$sectionDataItem}
               >
+                <Text text={profile?.nip05 || "No nip-05"} />
+                <Text text="NIP-05" size="xs" style={$sectionDataItemSubtitle} />
+              </Pressable>
+              <Pressable
+                onPress={() => navigation.navigate("EditProfile")}
+                style={$sectionDataItem}
+              >
                 <Text text="Bio" size="xs" style={$sectionDataItemSubtitle} />
                 <Text text={profile?.about || profile?.bio || "No bio"} />
               </Pressable>

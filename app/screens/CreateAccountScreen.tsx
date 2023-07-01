@@ -1,6 +1,6 @@
-import React, { FC, useLayoutEffect, useRef } from "react"
+import React, { FC, useLayoutEffect, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TextStyle, ViewStyle } from "react-native"
+import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, TextField, Button } from "app/components"
@@ -15,6 +15,7 @@ interface CreateAccountScreenProps
 export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
   function CreateAccountScreen() {
     const formikRef = useRef(null)
+    const [loading, setLoading] = useState(false)
 
     // Pull in one of our MST stores
     const { userStore } = useStores()
@@ -26,6 +27,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
       if (!data.username) {
         alert("Username is required")
       } else {
+        setLoading(true)
         userStore.signup(data.username, data.displayName, data.about)
       }
     }
@@ -94,12 +96,18 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
                 autoCapitalize="none"
                 autoFocus={false}
               />
-              <Button
-                text="Continue"
-                onPress={() => submitForm()}
-                style={$button}
-                pressedStyle={$button}
-              />
+              <View style={$formButtonGroup}>
+                {loading ? (
+                  <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+                ) : (
+                  <Button
+                    text="Continue"
+                    onPress={() => submitForm()}
+                    style={$button}
+                    pressedStyle={$button}
+                  />
+                )}
+              </View>
             </>
           )}
         </Formik>
@@ -152,6 +160,14 @@ const $button: ViewStyle = {
   borderColor: colors.palette.cyan900,
   width: "100%",
   marginVertical: spacing.medium,
+  height: 50,
+  minHeight: 50,
+}
+
+const $formButtonGroup: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
   height: 50,
   minHeight: 50,
 }

@@ -95,7 +95,6 @@ export const UserStoreModel = types
   .actions((self) => ({
     joinChannel(info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
-
       if (index === -1) self.channels.push(ChannelModel.create(info))
     },
     leaveChannel(id: string) {
@@ -107,7 +106,7 @@ export const UserStoreModel = types
       if (sec) {
         const pubkey = await getPublicKey(sec)
         const meta = await storage.load("meta")
-        runInAction(()=>{
+        runInAction(() => {
           self.setProp("privkey", sec)
           self.setProp("pubkey", pubkey)
           self.setProp("isLoggedIn", true)
@@ -116,12 +115,12 @@ export const UserStoreModel = types
         })
       }
     },
-    async signup(username: string, displayName: string, about: string) {
+    signup: flow(function* (username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
       const id = new ArcadeIdentity(privkey)
-      await registerNip05(id, username)
-      const meta = { display_name: displayName, username, about }
+      const nip05 = yield registerNip05(id, username)
+      const meta = { display_name: displayName, username, about, nip05 }
       applySnapshot(self, {
         pubkey,
         privkey,
@@ -134,10 +133,10 @@ export const UserStoreModel = types
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ],
       })
-      await secureSet("privkey", privkey)
-      await storage.save("meta", meta)
-    },
-    async loginWithNsec(nsec: string) {
+      yield secureSet("privkey", privkey)
+      yield storage.save("meta", meta)
+    }),
+    loginWithNsec: flow(function* (nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
       }
@@ -148,21 +147,18 @@ export const UserStoreModel = types
 
         self.setProp("pubkey", pubkey)
         self.setProp("privkey", privkey)
-        await secureSet("privkey", privkey)
-        runInAction(()=>{
-
+        yield secureSet("privkey", privkey)
         self.setProp("isLoggedIn", true)
         self.setProp("channels", [
           "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
           "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ])
-        })
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
       }
-    },
+    }),
     async logout() {
       await secureDel("privkey")
       applySnapshot(self, {
@@ -177,31 +173,27 @@ export const UserStoreModel = types
     async fetchContacts(mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
       const res = await mgr.list()
-      runInAction(()=>{
+      runInAction(() => {
         self.setProp("contacts", res)
       })
     },
-    async addContact(contact: Contact, mgr: ContactManager) {
-      await mgr.add(contact)
-      runInAction(()=>{
-        const index = self.contacts.findIndex(
-          (el: { pubkey: string }) => el.pubkey === contact.pubkey,
-        )
-        if (index === -1) {
-          self.contacts.push(contact)
-        } else {
-          self.contacts[index].setProp("legacy", contact.legacy)
-          self.contacts[index].setProp("secret", contact.secret)
-        }
-      })
-    },
-    async removeContact(pubkey: string, mgr: ContactManager) {
-      await mgr.remove(pubkey)
-      runInAction(()=>{
-        const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
-        if (index !== -1) self.contacts.splice(index, 1)
-      })
-    },
+    addContact: flow(function* (contact: Contact, mgr: ContactManager) {
+      yield mgr.add(contact)
+      const index = self.contacts.findIndex(
+        (el: { pubkey: string }) => el.pubkey === contact.pubkey,
+      )
+      if (index === -1) {
+        self.contacts.push(contact)
+      } else {
+        self.contacts[index].setProp("legacy", contact.legacy)
+        self.contacts[index].setProp("secret", contact.secret)
+      }
+    }),
+    removeContact: flow(function* (pubkey: string, mgr: ContactManager) {
+      yield mgr.remove(pubkey)
+      const index = self.contacts.findIndex((el: { pubkey: string }) => el.pubkey === pubkey)
+      if (index !== -1) self.contacts.splice(index, 1)
+    }),
     addRelay(url: string) {
       const index = self.relays.findIndex((el: string) => el === url)
       if (index === -1) self.relays.push(url)
