@@ -95,7 +95,6 @@ export const UserStoreModel = types
   .actions((self) => ({
     joinChannel(info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
-
       if (index === -1) self.channels.push(ChannelModel.create(info))
     },
     leaveChannel(id: string) {
@@ -116,12 +115,12 @@ export const UserStoreModel = types
         })
       }
     },
-    async signup(username: string, displayName: string, about: string) {
+    signup: flow(function* (username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
       const id = new ArcadeIdentity(privkey)
-      await registerNip05(id, username)
-      const meta = { display_name: displayName, username, about }
+      const nip05 = yield registerNip05(id, username)
+      const meta = { display_name: displayName, username, about, nip05 }
       applySnapshot(self, {
         pubkey,
         privkey,
@@ -134,9 +133,9 @@ export const UserStoreModel = types
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ],
       })
-      await secureSet("privkey", privkey)
-      await storage.save("meta", meta)
-    },
+      yield secureSet("privkey", privkey)
+      yield storage.save("meta", meta)
+    }),
     async loginWithNsec(nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
