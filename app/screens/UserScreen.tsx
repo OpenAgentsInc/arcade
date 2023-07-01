@@ -161,12 +161,16 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             style={$profileButton}
           />
           <View>
-            <Button
-              text={secret ? "Stop private follow" : "Private follow"}
-              onPress={() => togglePrivFollow()}
-              style={followed ? $hidden : $profileButton}
-            />
-            <Text text="Nobody can see your private follow" size="xs" style={$note} />
+            {!followed && (
+              <>
+                <Button
+                  text={secret ? "Stop private follow" : "Private follow"}
+                  onPress={() => togglePrivFollow()}
+                  style={$profileButton}
+                />
+                <Text text="Nobody can see your private follow" size="xs" style={$note} />
+              </>
+            )}
           </View>
         </View>
         <View style={$section}>
@@ -207,7 +211,6 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
                 />
               }
             />
- 
           </View>
         </View>
       </View>
