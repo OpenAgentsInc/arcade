@@ -1,3 +1,6 @@
+/**
+ * React component for providing a blurred popup menu.
+ */
 import {
   Canvas,
   makeImageFromView,
@@ -23,29 +26,45 @@ import Animated, {
 import { Text } from "../Text"
 import { BlurredPopupContext, PopupAlignment, PopupOptionType } from "./BlurredContext"
 
+/**
+ * Represents the layout properties of the menu.
+ */
 type MenuLayout = {
   backgroundColor?: string
   titleColor?: string
+  listItemHeight?: number
 }
 
+/**
+ * Represents the properties of the BlurredPopupProvider component.
+ */
 type BlurredPopupProviderProps = {
   children?: React.ReactNode
   menuLayout?: MenuLayout
+  maxBlur?: number
 }
 
-const DEFAULT_MENU_LAYOUT: MenuLayout = {
+// Define default menu layout
+const DEFAULT_MENU_LAYOUT: Required<MenuLayout> = {
   backgroundColor: "rgba(255,255,255,0.75)",
   titleColor: "black",
+  listItemHeight: 50,
 }
 
+/**
+ * The `BlurredPopupProvider` component wraps the main content of the application and provides a popup menu functionality with a blurred background effect.
+ * It uses Skia for image manipulation and Reanimated for animations.
+ */
 const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   children,
   menuLayout: menuLayoutProp,
+  maxBlur = 10,
 }) => {
-  const menuLayout = useMemo(() => {
-    return { ...DEFAULT_MENU_LAYOUT, ...menuLayoutProp }
-  }, [])
-
+  // State variables
+  // Image: Skia Image (It's basically a screenshot of the current rendered View)
+  // Node: Is the component that is triggering the Popup (or a custom version of it named "highlightedChildren")
+  // Layout: Node Measured Dimensions
+  // Options: The Popup Menu Options
   const [params, setParams] = useState<{
     image: SkImage
     node: React.ReactNode
@@ -63,8 +82,13 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     return params.options
   }, [params])
 
+  // This Ref is needed in order to apply a ScreenShot to the RenderedView
+  // The following snapshot is going to be a Skia Image (and it will be possible to apply Blur on it through the Skia Thread)
   const mainView = useRef(null)
 
+  /**
+   * Show the popup menu with the provided parameters.
+   */
   const showPopup = useCallback(
     async ({
       node,
@@ -75,82 +99,75 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
       layout: MeasuredDimensions
       options: PopupOptionType[]
     }) => {
+      // Applying the Snapshot and setting the Popup Params
       const skImage = await makeImageFromView(mainView)
       setParams({ image: skImage, node, layout, options })
     },
     [],
   )
 
+  // Defining the CanvasSize Skia Value
+  // The effective Canvas dimension is going to be retrieved through the onSize callback (Canvas component)
   const canvasSize = useValue({ width: 0, height: 0 })
 
+  // Just a Skia Value (The "s" is simply a convention)
   const sBlurValue = useValue(0)
 
+  /**
+   * Close the popup menu.
+   */
   const close = useCallback(() => {
     runTiming(sBlurValue, 0, {
       duration: 200,
     })
   }, [])
 
-  useEffect(() => {
-    if (image) {
-      runTiming(sBlurValue, 10, {
-        duration: 200,
-      })
-    }
-  }, [image])
-
+  // When the blur value is 0, the popup shouldn't be visible anymore
   useValueEffect(sBlurValue, (value) => {
     if (value === 0) {
       setParams(null)
     }
   })
 
+  useEffect(() => {
+    // Animate the blur when the image changes
+    if (image != null) {
+      runTiming(sBlurValue, maxBlur, {
+        duration: 200,
+      })
+    }
+  }, [image])
+
+  // Computed values
   const imageRect = useComputedValue(() => {
     return rect(0, 0, canvasSize.current.width, canvasSize.current.height)
   }, [canvasSize])
 
+  // Recomputes the position of the Node Style (by using the MeasuredDimension)
   const nodeStyle = useMemo(() => {
     if (!params) return {} as any
+    const { pageX, pageY, width, height } = params.layout
     return {
       position: "absolute",
-      top: params.layout.pageY,
-      left: params.layout.pageX,
-      width: params.layout.width,
-      height: params.layout.height,
+      top: pageY,
+      left: pageX,
+      width,
+      height,
       zIndex: -10,
     }
   }, [params])
 
-  const popupItems = options.length
-  const popupItemsHeight = 50
-  const popupHeight = popupItemsHeight * popupItems
-
-  const popupStyle = useMemo(() => {
-    if (!params) return {} as ViewStyle
-    const { pageX, pageY, width, height } = params.layout
-
-    const yAlignment = canvasSize.current.height - pageY - popupHeight < 100 ? "top" : "bottom"
-    const xAlignment = canvasSize.current.width - pageX > 200 ? "left" : "right"
-    const alignment: PopupAlignment = `${yAlignment}-${xAlignment}` as PopupAlignment
-
-    const x = alignment.includes("right") ? width : pageX
-    const y = alignment.includes("bottom") ? pageY + height : pageY - popupHeight
-
-    return {
-      position: "absolute",
-      top: y + 5 * (yAlignment === "top" ? -1 : 1),
-      height: popupHeight,
-      [xAlignment]: x,
-    } as ViewStyle
-  }, [params, popupHeight])
-
   const hasParams = params != null
-  const pointerEventsProps = useAnimatedProps(() => {
+  // The MenuAnimatedProps is responsible for disabling the touch events on the main view
+  // when the popup is visible (and vice versa)
+  const menuAnimatedProps = useAnimatedProps(() => {
     return {
       pointerEvents: hasParams ? "auto" : "none",
     } as Partial<ViewProps>
   }, [hasParams])
 
+  // The CanvasStyle is responsible for hiding the Canvas when the popup is not visible
+  // The Canvas will simply contain the blurred image (and it will be visible only when the popup is visible)
   const canvasStyle = useMemo(() => {
     return {
       ...StyleSheet.absoluteFillObject,
@@ -159,10 +176,42 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     }
   }, [image])
 
+  const menuLayout = useMemo(() => {
+    return { ...DEFAULT_MENU_LAYOUT, ...menuLayoutProp }
+  }, [])
+
+  const popupItems = options.length
+  const popupHeight = menuLayout.listItemHeight * popupItems
+
+  // The PopupStyle is responsible for positioning the Popup Menu
+  const popupStyle = useMemo(() => {
+    if (!params) return {} as ViewStyle
+    const { pageX, pageY, width, height } = params.layout
+
+    // The popup will be positioned on the top or bottom of the Node (depending on the available space)
+    const yAlignment = canvasSize.current.height - pageY - popupHeight < 100 ? "top" : "bottom"
+    // The popup will be positioned on the left or right of the Node (depending on the available space)
+    const xAlignment = canvasSize.current.width - pageX > 200 ? "left" : "right"
+
+    const alignment: PopupAlignment = `${yAlignment}-${xAlignment}` as PopupAlignment
+
+    const x = alignment.includes("right") ? width : pageX
+    const y = alignment.includes("bottom") ? pageY + height : pageY - popupHeight
+    const additionalYSpace = 5 * (yAlignment === "top" ? -1 : 1)
+
+    return {
+      position: "absolute",
+      top: y + additionalYSpace,
+      height: popupHeight,
+      [xAlignment]: x,
+    } as ViewStyle
+  }, [params, popupHeight])
+
+  // Render the component
   return (
     <>
       <BlurredPopupContext.Provider value={{ showPopup }}>
-        <Animated.View animatedProps={pointerEventsProps} style={styles.mainPopupContainerView}>
+        <Animated.View animatedProps={menuAnimatedProps} style={styles.mainPopupContainerView}>
           {params?.image != null && popupItems != null && (
             <Animated.View
               layout={Layout}
@@ -181,7 +230,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
                     key={index}
                     style={[
                       {
-                        height: popupItemsHeight,
+                        height: menuLayout.listItemHeight,
                         backgroundColor: menuLayout.backgroundColor,
                       },
                       styles.popupListItem,
@@ -206,6 +255,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
             </Image>
           )}
         </Canvas>
+        {/* The main content of the application */}
         <View ref={mainView} style={styles.fill}>
           {children}
         </View>
