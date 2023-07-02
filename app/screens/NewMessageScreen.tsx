@@ -21,7 +21,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
       headerShown: true,
       header: () => (
         <Header
-          title="New message"
+          title="New Chat"
           titleStyle={{ color: colors.palette.white }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -53,6 +53,14 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
         <ListItem
           text="New private group"
           leftIcon="FolderLockIcon"
+          leftIconColor={colors.palette.cyan500}
+          bottomSeparator={true}
+          style={$button}
+          onPress={() => navigation.navigate("CreateChannel", { isPrivate: true })}
+        />
+        <ListItem
+          text="New AI channel"
+          leftIcon="Bot"
           leftIconColor={colors.palette.cyan500}
           bottomSeparator={true}
           style={$button}
