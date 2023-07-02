@@ -23,11 +23,29 @@ import Animated, {
 import { Text } from "../Text"
 import { BlurredPopupContext, PopupAlignment, PopupOptionType } from "./BlurredContext"
 
-type BlurredPopupProviderProps = {
-  children?: React.ReactNode
+type MenuLayout = {
+  backgroundColor?: string
+  titleColor?: string
 }
 
-const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({ children }) => {
+type BlurredPopupProviderProps = {
+  children?: React.ReactNode
+  menuLayout?: MenuLayout
+}
+
+const DEFAULT_MENU_LAYOUT: MenuLayout = {
+  backgroundColor: "rgba(255,255,255,0.75)",
+  titleColor: "black",
+}
+
+const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
+  children,
+  menuLayout: menuLayoutProp,
+}) => {
+  const menuLayout = useMemo(() => {
+    return { ...DEFAULT_MENU_LAYOUT, ...menuLayoutProp }
+  }, [])
+
   const [params, setParams] = useState<{
     image: SkImage
     node: React.ReactNode
@@ -112,17 +130,17 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({ children })
     const { pageX, pageY, width, height } = params.layout
 
     const yAlignment = canvasSize.current.height - pageY - popupHeight < 100 ? "top" : "bottom"
-    const xAlignment = canvasSize.current.width - pageX > 200 ? "left" : "left"
+    const xAlignment = canvasSize.current.width - pageX > 200 ? "left" : "right"
     const alignment: PopupAlignment = `${yAlignment}-${xAlignment}` as PopupAlignment
 
-    const x = alignment.includes("right") ? pageX + width : pageX
+    const x = alignment.includes("right") ? width : pageX
     const y = alignment.includes("bottom") ? pageY + height : pageY - popupHeight
 
     return {
       position: "absolute",
-      top: y,
-      left: x,
+      top: y + 5 * (yAlignment === "top" ? -1 : 1),
       height: popupHeight,
+      [xAlignment]: x,
     } as ViewStyle
   }, [params, popupHeight])
 
@@ -157,49 +175,38 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({ children })
                   <TouchableOpacity
                     onPress={() => {
                       close()
-                      onPress()
+                      onPress?.()
                     }}
                     activeOpacity={0.9}
                     key={index}
-                    style={{
-                      height: popupItemsHeight,
-                      backgroundColor: "rgba(255,255,255,0.75)",
-                      alignItems: "center",
-                      paddingHorizontal: 10,
-                      flexDirection: "row",
-                    }}
+                    style={[
+                      {
+                        height: popupItemsHeight,
+                        backgroundColor: menuLayout.backgroundColor,
+                      },
+                      styles.popupListItem,
+                    ]}
                   >
                     {leading}
-                    <Text style={{ color: "black", marginRight: 10, marginLeft: 5 }}>{label}</Text>
+                    <Text style={[{ color: menuLayout.titleColor }, styles.title]}>{label}</Text>
+                    <View style={styles.fill} />
                     {trailing}
                   </TouchableOpacity>
                 )
               })}
             </Animated.View>
           )}
-          <View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              zIndex: -5,
-            }}
-            onTouchEnd={close}
-          />
+          <View style={styles.popupBackground} onTouchEnd={close} />
           <Animated.View style={nodeStyle}>{params?.node}</Animated.View>
         </Animated.View>
-        <Canvas
-          onSize={canvasSize}
-          style={canvasStyle}
-          onTouchEnd={() => {
-            close()
-          }}
-        >
+        <Canvas onSize={canvasSize} style={canvasStyle} onTouchEnd={close}>
           {image && (
             <Image rect={imageRect} image={image}>
               <Blur blur={sBlurValue} />
             </Image>
           )}
         </Canvas>
-        <View ref={mainView} style={styles.container}>
+        <View ref={mainView} style={styles.fill}>
           {children}
         </View>
       </BlurredPopupContext.Provider>
@@ -208,7 +215,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({ children })
 }
 
 const styles = StyleSheet.create({
-  container: {
+  fill: {
     flex: 1,
   },
   mainPopupContainerView: {
@@ -218,6 +225,19 @@ const styles = StyleSheet.create({
   popup: {
     borderRadius: 5,
     overflow: "hidden",
+  },
+  popupBackground: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: -5,
+  },
+  popupListItem: {
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10,
+  },
+  title: {
+    marginLeft: 5,
+    marginRight: 10,
   },
 })
 

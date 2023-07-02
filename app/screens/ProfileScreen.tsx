@@ -19,7 +19,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
-import { EditIcon } from "lucide-react-native"
+import { AxeIcon, EditIcon } from "lucide-react-native"
 import { NostrPool } from "app/arclib/src"
 import { ProfileManager } from "app/arclib/src/profile"
 import { TouchablePopupHandler } from "app/components/BlurredPopup"
@@ -96,40 +96,25 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
               <TouchablePopupHandler
                 options={[
                   {
-                    label: "Backup",
-                    onPress: () => navigation.navigate("Backup"),
+                    label: "Edit Profile",
+                    onPress: () => navigation.navigate("EditProfile"),
                     trailing: (
-                      <EditIcon
-                        width={20}
-                        height={20}
-                        color={colors.palette.almostBlack}
-                        style={{ marginLeft: 5 }}
-                      />
+                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
                     ),
                   },
                   {
-                    label: "Privacy",
-                    onPress: () => navigation.navigate("PrivacySetting"),
-                    trailing: (
-                      <EditIcon
-                        width={20}
-                        height={20}
-                        color={colors.palette.almostBlack}
-                        style={{ marginLeft: 5 }}
-                      />
-                    ),
+                    label: "A Long Long Long String",
+                    trailing: <AxeIcon width={20} height={20} color={colors.palette.almostBlack} />,
                   },
                 ]}
                 onPress={() => {
-                  console.log("onPress")
+                  navigation.navigate("EditProfile")
                 }}
                 highlightedChildren={
                   <EditIcon width={24} height={24} color={colors.palette.white} />
                 }
               >
-                <Pressable onPress={() => navigation.navigate("EditProfile")}>
-                  <EditIcon width={24} height={24} color={colors.palette.cyan500} />
-                </Pressable>
+                <EditIcon width={24} height={24} color={colors.palette.cyan500} />
               </TouchablePopupHandler>
             </View>
             <View style={$sectionData}>
@@ -199,24 +184,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                     label: "Backup",
                     onPress: () => navigation.navigate("Backup"),
                     trailing: (
-                      <EditIcon
-                        width={20}
-                        height={20}
-                        color={colors.palette.almostBlack}
-                        style={{ marginLeft: 5 }}
-                      />
+                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
                     ),
                   },
                   {
                     label: "Privacy",
                     onPress: () => navigation.navigate("PrivacySetting"),
                     trailing: (
-                      <EditIcon
-                        width={20}
-                        height={20}
-                        color={colors.palette.almostBlack}
-                        style={{ marginLeft: 5 }}
-                      />
+                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
                     ),
                   },
                 ]}
@@ -243,16 +218,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                   style={$sectionButton}
                 />
               </TouchablePopupHandler>
-              {/* <ListItem
-                text="Demos"
-                leftIcon="TestTube2"
-                bottomSeparator
-                leftIconColor={colors.palette.cyan500}
-                style={$sectionButton}
-                onPress={() => {
-                  navigation.navigate("Demos")
-                }}
-              /> */}
             </View>
           </View>
           <View>
