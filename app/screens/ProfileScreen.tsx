@@ -22,6 +22,7 @@ import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
 import { NostrPool } from "app/arclib/src"
 import { ProfileManager } from "app/arclib/src/profile"
+import { TouchablePopupHandler } from "app/components/BlurredPopup"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -80,6 +81,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             text={profile?.display_name || profile?.name || "No name"}
             style={$userName}
           />
+
           <TouchableOpacity
             onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(userStore.pubkey))}
           >
@@ -90,9 +92,45 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <View>
             <View style={$sectionHeadingButton}>
               <Text text="Account" preset="bold" style={$sectionHeading} />
-              <Pressable onPress={() => navigation.navigate("EditProfile")}>
-                <EditIcon width={24} height={24} color={colors.palette.cyan500} />
-              </Pressable>
+
+              <TouchablePopupHandler
+                options={[
+                  {
+                    label: "Backup",
+                    onPress: () => navigation.navigate("Backup"),
+                    trailing: (
+                      <EditIcon
+                        width={20}
+                        height={20}
+                        color={colors.palette.almostBlack}
+                        style={{ marginLeft: 5 }}
+                      />
+                    ),
+                  },
+                  {
+                    label: "Privacy",
+                    onPress: () => navigation.navigate("PrivacySetting"),
+                    trailing: (
+                      <EditIcon
+                        width={20}
+                        height={20}
+                        color={colors.palette.almostBlack}
+                        style={{ marginLeft: 5 }}
+                      />
+                    ),
+                  },
+                ]}
+                onPress={() => {
+                  console.log("onPress")
+                }}
+                highlightedChildren={
+                  <EditIcon width={24} height={24} color={colors.palette.white} />
+                }
+              >
+                <Pressable onPress={() => navigation.navigate("EditProfile")}>
+                  <EditIcon width={24} height={24} color={colors.palette.cyan500} />
+                </Pressable>
+              </TouchablePopupHandler>
             </View>
             <View style={$sectionData}>
               <Pressable
@@ -129,14 +167,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("RelayManager")}
               />
-              <ListItem
-                text="Backup"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => navigation.navigate("Backup")}
-              />
+
               <ListItem
                 text="Notifications"
                 leftIcon="Bell"
@@ -154,6 +185,64 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("PrivacySetting")}
               />
+              <ListItem
+                text="Backup"
+                leftIcon="Shield"
+                leftIconColor={colors.palette.cyan500}
+                onPress={() => navigation.navigate("Backup")}
+                bottomSeparator={true}
+                style={$sectionButton}
+              />
+              <TouchablePopupHandler
+                options={[
+                  {
+                    label: "Backup",
+                    onPress: () => navigation.navigate("Backup"),
+                    trailing: (
+                      <EditIcon
+                        width={20}
+                        height={20}
+                        color={colors.palette.almostBlack}
+                        style={{ marginLeft: 5 }}
+                      />
+                    ),
+                  },
+                  {
+                    label: "Privacy",
+                    onPress: () => navigation.navigate("PrivacySetting"),
+                    trailing: (
+                      <EditIcon
+                        width={20}
+                        height={20}
+                        color={colors.palette.almostBlack}
+                        style={{ marginLeft: 5 }}
+                      />
+                    ),
+                  },
+                ]}
+                onPress={() => {
+                  console.log("onPress")
+                }}
+                highlightedChildren={
+                  <ListItem
+                    text="Demo"
+                    leftIcon="DumbbellIcon"
+                    leftIconColor={colors.palette.cyan500}
+                    bottomSeparator={false}
+                    style={{
+                      paddingHorizontal: spacing.small,
+                    }}
+                  />
+                }
+              >
+                <ListItem
+                  text="Demo"
+                  leftIcon="DumbbellIcon"
+                  leftIconColor={colors.palette.cyan500}
+                  bottomSeparator={true}
+                  style={$sectionButton}
+                />
+              </TouchablePopupHandler>
               {/* <ListItem
                 text="Demos"
                 leftIcon="TestTube2"
