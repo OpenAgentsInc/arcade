@@ -11,6 +11,7 @@ import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
 
 export type AppStackParamList = {
+  AIChannel: undefined
   Auth: undefined
   Hud: undefined
   Home: undefined
@@ -60,6 +61,7 @@ const AppStack = observer(function AppStack() {
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
+          <Stack.Screen name="AIChannel" component={Screens.AIChannel} />
           <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
           <Stack.Screen name="Changelog" component={Screens.ChangelogScreen} />

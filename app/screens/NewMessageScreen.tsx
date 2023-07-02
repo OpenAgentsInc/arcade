@@ -21,7 +21,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
       headerShown: true,
       header: () => (
         <Header
-          title="New message"
+          title="New Chat"
           titleStyle={{ color: colors.palette.white }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
@@ -57,6 +57,14 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
           bottomSeparator={true}
           style={$button}
           onPress={() => navigation.navigate("CreateChannel", { isPrivate: true })}
+        />
+        <ListItem
+          text="New AI chat"
+          leftIcon="Bot"
+          leftIconColor={colors.palette.cyan500}
+          bottomSeparator={true}
+          style={$button}
+          onPress={() => navigation.navigate("AIChannel")}
         />
       </View>
       <FlashList
