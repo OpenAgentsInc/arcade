@@ -8,6 +8,7 @@ import Animated, {
   useAnimatedRef,
 } from "react-native-reanimated"
 import { BlurredPopupContext, PopupOptionType } from "./BlurredContext"
+import HapticFeedback from "react-native-haptic-feedback"
 
 type TouchablePopupHandlerProps = {
   /**
@@ -61,6 +62,10 @@ const TouchablePopupHandler: React.FC<TouchablePopupHandlerProps> = ({
     [showPopup, options],
   )
 
+  const runLightFeedback = useCallback(() => {
+    HapticFeedback.trigger("impactLight", { enableVibrateFallback: true })
+  }, [])
+
   // Create a LongPress gesture that triggers the wrappedJsShowPopup function when started.
   const longPressGesture = Gesture.LongPress()
     .minDuration(1000)
@@ -71,6 +76,8 @@ const TouchablePopupHandler: React.FC<TouchablePopupHandlerProps> = ({
 
       // Since the showPopup function is not a Reanimated function, we need to wrap it with runOnJS
       runOnJS(wrappedJsShowPopup)(dimensions)
+      // run smooth feedback on long press
+      runOnJS(runLightFeedback)()
     })
 
   // Create a single tap gesture that triggers the onPress function when the user taps on the node.
