@@ -59,12 +59,12 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
           onPress={() => navigation.navigate("CreateChannel", { isPrivate: true })}
         />
         <ListItem
-          text="New AI channel"
+          text="New AI chat"
           leftIcon="Bot"
           leftIconColor={colors.palette.cyan500}
           bottomSeparator={true}
           style={$button}
-          onPress={() => navigation.navigate("CreateChannel", { isPrivate: true })}
+          onPress={() => navigation.navigate("AIChannel")}
         />
       </View>
       <FlashList
