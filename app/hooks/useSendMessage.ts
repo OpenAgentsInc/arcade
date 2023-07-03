@@ -43,20 +43,13 @@ export function useSendMessage() {
     },
     // When mutate is called:
     onMutate: async (data) => {
-      console.log("onmutaaaate?")
-
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries({
         queryKey: [`conversation-${data.conversationId}`],
       })
 
-      console.log("1")
-
       // Snapshot the previous value
       const previousMessages = queryClient.getQueryData([`conversation-${data.conversationId}`])
-
-      console.log("2")
-      console.log(data)
 
       // Optimistically update to the new value
       try {
@@ -67,8 +60,6 @@ export function useSendMessage() {
       } catch (e) {
         console.log("failed settung query data ")
       }
-
-      console.log("3")
 
       // Return a context object with the snapshotted value
       return { previousMessages }
