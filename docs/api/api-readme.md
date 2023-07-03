@@ -11,5 +11,11 @@ Later we may use the API for other "Nostr layer two" indexing or for other perfo
 
 # How we'll do it
 
-- Client library: `@tanstack/react-query`
-- API: Python/Flask and Postgres via Supabase, hosted on Railway
+- Client library: [@tanstack/react-query](https://tanstack.com/query/latest/docs/react/overview)
+- API server: Python/Flask and Postgres via Supabase, hosted on Railway
+
+# Endpoints
+
+- `POST /message` - Send a message to an AI conversation
+- `GET /conversation/<conversationId>` - Retrieve the 50 latest messages from this conversation
+- `GET /user/<npub>/conversations` - Retrieve conversations from a given npub
