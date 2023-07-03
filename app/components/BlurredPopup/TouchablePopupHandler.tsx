@@ -68,7 +68,7 @@ const TouchablePopupHandler: React.FC<TouchablePopupHandlerProps> = ({
 
   // Create a LongPress gesture that triggers the wrappedJsShowPopup function when started.
   const longPressGesture = Gesture.LongPress()
-    .minDuration(1000)
+    .minDuration(500)
     .onStart(() => {
       // Measure the node dimensions on the UI Thread, thanks to the useAnimatedRef hook
       // The measure function is a Reanimated function that returns a MeasuredDimensions object

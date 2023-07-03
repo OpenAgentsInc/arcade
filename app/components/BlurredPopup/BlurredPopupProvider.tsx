@@ -17,11 +17,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { View, StyleSheet, TouchableOpacity, ViewProps, ViewStyle } from "react-native"
 
 import Animated, {
-  FadeIn,
-  FadeOut,
-  Layout,
   MeasuredDimensions,
   useAnimatedProps,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated"
 import { Text } from "../Text"
 import { BlurredPopupContext, PopupAlignment, PopupOptionType } from "./BlurredContext"
@@ -72,6 +73,11 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     options?: PopupOptionType[]
   } | null>(null)
 
+  const menuVisible = useSharedValue(false)
+  const menuOpacity = useDerivedValue(() => {
+    return withTiming(menuVisible.value ? 1 : 0)
+  })
+
   const image = useMemo(() => {
     if (!params) return null
     return params.image
@@ -102,6 +108,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
       // Applying the Snapshot and setting the Popup Params
       const skImage = await makeImageFromView(mainView)
       setParams({ image: skImage, node, layout, options })
+      menuVisible.value = true
     },
     [],
   )
@@ -113,10 +120,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   // Just a Skia Value (The "s" is simply a convention)
   const sBlurValue = useValue(0)
 
-  /**
-   * Close the popup menu.
-   */
-  const close = useCallback(() => {
+  const dismissBlurredPopup = useCallback(() => {
     runTiming(sBlurValue, 0, {
       duration: 200,
     })
@@ -128,6 +132,16 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
       setParams(null)
     }
   })
+
+  /**
+   * Close the popup menu.
+   */
+  const close = useCallback(() => {
+    menuVisible.value = false
+    setTimeout(() => {
+      dismissBlurredPopup()
+    }, 200)
+  }, [])
 
   useEffect(() => {
     // Animate the blur when the image changes
@@ -145,7 +159,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
 
   // Recomputes the position of the Node Style (by using the MeasuredDimension)
   const nodeStyle = useMemo(() => {
-    if (!params) return {} as any
+    if (!params) return { opacity: 0 } as ViewStyle
     const { pageX, pageY, width, height } = params.layout
     return {
       position: "absolute",
@@ -153,8 +167,8 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
       left: pageX,
       width,
       height,
-      zIndex: -10,
-    }
+      opacity: 1,
+    } as ViewStyle
   }, [params])
 
   const hasParams = params != null
@@ -207,19 +221,24 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     } as ViewStyle
   }, [params, popupHeight])
 
+  const rMenuPopupStyle = useAnimatedStyle(() => {
+    return {
+      opacity: menuOpacity.value,
+    }
+  })
+
   // Render the component
   return (
     <>
       <BlurredPopupContext.Provider value={{ showPopup }}>
         <Animated.View animatedProps={menuAnimatedProps} style={styles.mainPopupContainerView}>
-          {params?.image != null && popupItems != null && (
-            <Animated.View
-              layout={Layout}
-              entering={FadeIn.delay(100)}
-              exiting={FadeOut}
-              style={[popupStyle, styles.popup]}
-            >
-              {options.map(({ leading, trailing, label, onPress }, index) => {
+          <Animated.View style={[popupStyle, styles.popup, rMenuPopupStyle]}>
+            {params?.image == null || popupItems == null ? (
+              // If the image is not available or the popup items are not available, we don't render the popup
+              // But we still need to render the View in order to avoid the Swap of zIndex priorities
+              <></>
+            ) : (
+              options.map(({ leading, trailing, label, onPress }, index) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -242,11 +261,13 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
                     {trailing}
                   </TouchableOpacity>
                 )
-              })}
-            </Animated.View>
-          )}
-          <View style={styles.popupBackground} onTouchEnd={close} />
-          <Animated.View style={nodeStyle}>{params?.node}</Animated.View>
+              })
+            )}
+          </Animated.View>
+          <>
+            <View style={styles.popupBackground} onTouchEnd={close} />
+            <View style={[nodeStyle, styles.nodeZ]}>{Boolean(params?.image) && params?.node}</View>
+          </>
         </Animated.View>
         <Canvas onSize={canvasSize} style={canvasStyle} onTouchEnd={close}>
           {image && (
@@ -272,13 +293,17 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     zIndex: 500,
   },
+  nodeZ: {
+    zIndex: -30,
+  },
   popup: {
     borderRadius: 5,
     overflow: "hidden",
+    zIndex: 20,
   },
   popupBackground: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: -5,
+    zIndex: -20,
   },
   popupListItem: {
     alignItems: "center",
