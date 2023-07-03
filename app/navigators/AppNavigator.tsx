@@ -9,6 +9,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { TabNavigator } from "./TabNavigator"
 import { AuthNavigator } from "./AuthNavigator"
 import { useStores } from "app/models"
+import { BlurredPopupProvider } from "app/components/BlurredPopup"
 
 export type AppStackParamList = {
   AIChannel: undefined
@@ -104,7 +105,9 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      <AppStack />
+      <BlurredPopupProvider>
+        <AppStack />
+      </BlurredPopupProvider>
     </NavigationContainer>
   )
 })
