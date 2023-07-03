@@ -120,6 +120,10 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   // Just a Skia Value (The "s" is simply a convention)
   const sBlurValue = useValue(0)
 
+  const sLightBlurValue = useComputedValue(() => {
+    return sBlurValue.current / 3
+  }, [sBlurValue])
+
   const dismissBlurredPopup = useCallback(() => {
     runTiming(sBlurValue, 0, {
       duration: 200,
@@ -271,9 +275,14 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
         </Animated.View>
         <Canvas onSize={canvasSize} style={canvasStyle} onTouchEnd={close}>
           {image && (
-            <Image rect={imageRect} image={image}>
-              <Blur blur={sBlurValue} />
-            </Image>
+            <>
+              <Image rect={imageRect} image={image}>
+                <Blur blur={sLightBlurValue} />
+              </Image>
+              <Image rect={imageRect} image={image}>
+                <Blur blur={sBlurValue} />
+              </Image>
+            </>
           )}
         </Canvas>
         {/* The main content of the application */}
