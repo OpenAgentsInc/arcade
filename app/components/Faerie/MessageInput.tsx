@@ -1,3 +1,4 @@
+import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
 import { ArrowUpIcon, Send } from "lucide-react-native"
 // import { useUser } from 'lib/hooks'
@@ -9,7 +10,7 @@ import { TextField } from "../TextField"
 // import { Input, XStack } from "tamagui"
 
 export const MessageInput = ({ conversationId, conversationType }) => {
-  // const { mutate } = useSendMessage()
+  const { mutate } = useSendMessage()
   const [text, setText] = useState("")
   const inputBoxRef = useRef<TextInput | null>(null)
   // const { userId } = useUser()
@@ -31,7 +32,9 @@ export const MessageInput = ({ conversationId, conversationType }) => {
 
     // console.log('Sending message:', textToSend)
     if (typeof userId !== "string") return
-    // mutate({ message: textToSend, conversationId, conversationType })
+    console.log("GOT:")
+    console.log({ message: textToSend, conversationId, conversationType })
+    mutate({ message: textToSend, conversationId, conversationType })
   }
   return (
     <View
