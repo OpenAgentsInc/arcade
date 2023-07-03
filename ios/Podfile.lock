@@ -23,6 +23,8 @@ PODS:
     - ExpoModulesCore
   - ExpoDevice (5.2.1):
     - ExpoModulesCore
+  - ExpoHaptics (12.2.1):
+    - ExpoModulesCore
   - ExpoKeepAwake (12.0.1):
     - ExpoModulesCore
   - ExpoLocalization (14.1.1):
@@ -542,6 +544,7 @@ DEPENDENCIES:
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoDevice (from `../node_modules/expo-device/ios`)
+  - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
@@ -664,6 +667,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-crypto/ios"
   ExpoDevice:
     :path: "../node_modules/expo-device/ios"
+  ExpoHaptics:
+    :path: "../node_modules/expo-haptics/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLocalization:
@@ -779,6 +784,7 @@ SPEC CHECKSUMS:
   ExpoClipboard: 9b87df0ad145e3aa841614fab6aea54b7a604850
   ExpoCrypto: 9105610a09cd6290b900bd82fc5d190e489125a3
   ExpoDevice: e0bebf68f978b3d353377ce42e73c20c0a070215
+  ExpoHaptics: 5156bc5160d8e04c170dd6e645a71154951a2ad9
   ExpoKeepAwake: 69f5f627670d62318410392d03e0b5db0f85759a
   ExpoLocalization: f26cd431ad9ea3533c5b08c4fabd879176a794bb
   ExpoModulesCore: 653958063a301098b541ae4dfed1ac0b98db607b
