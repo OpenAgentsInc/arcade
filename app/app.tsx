@@ -24,6 +24,7 @@ import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
 import { RelayProvider } from "./components/RelayProvider"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
@@ -41,6 +42,8 @@ setupReactotron({
 })
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
+
+const queryClient = new QueryClient()
 
 // Web linking configuration
 const prefix = Linking.createURL("/")
@@ -104,21 +107,23 @@ function App(props: AppProps) {
 
   // otherwise, we're ready to render the app
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ErrorBoundary catchErrors={Config.catchErrors}>
-        <RelayProvider>
-          <GestureHandlerRootView
-            style={{ flex: 1 /* eslint-disable-line react-native/no-inline-styles */ }}
-          >
-            <AppNavigator
-              linking={linking}
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-          </GestureHandlerRootView>
-        </RelayProvider>
-      </ErrorBoundary>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <ErrorBoundary catchErrors={Config.catchErrors}>
+          <RelayProvider>
+            <GestureHandlerRootView
+              style={{ flex: 1 /* eslint-disable-line react-native/no-inline-styles */ }}
+            >
+              <AppNavigator
+                linking={linking}
+                initialState={initialNavigationState}
+                onStateChange={onNavigationStateChange}
+              />
+            </GestureHandlerRootView>
+          </RelayProvider>
+        </ErrorBoundary>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   )
 }
 
