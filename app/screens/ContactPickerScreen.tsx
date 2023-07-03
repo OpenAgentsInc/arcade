@@ -26,6 +26,7 @@ import {
 } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 import { nip19 } from "nostr-tools"
+import { resolvePubkey } from "app/arclib/src/contacts"
 
 interface ContactPickerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {}
@@ -104,10 +105,12 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
       }
     }
 
-    const addCustomContact = (data) => {
+    const addCustomContact = async (data) => {
       let pubkey = data.pubkey
-      if (pubkey.substring(0, 4) === "npub") {
-        pubkey = nip19.decode(pubkey).data
+      try {
+        pubkey = await resolvePubkey(pubkey)
+      } catch (e) {
+          alert(`Invalid contact: ${e}`)
       }
       setCustom((prev) => [...prev, pubkey])
       setSelected(pubkey)

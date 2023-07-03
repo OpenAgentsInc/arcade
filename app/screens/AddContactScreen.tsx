@@ -24,6 +24,7 @@ import { useStores } from "app/models"
 import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
 import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
+import { resolvePubkey} from "app/arclib/src/contacts"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
@@ -58,8 +59,10 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 
   const addCustomContact = async () => {
     let pubkey: string = customContact.trim()
-    if (pubkey.substring(0, 4) === "npub") {
-      pubkey = nip19.decode(pubkey).data.toString()
+    try {
+      pubkey = await resolvePubkey(pubkey)
+    } catch (e) {
+        alert(`Invalid contact: ${e}`)
     }
     if (pubkey && !contacts.find((el) => el.pubkey === pubkey)) {
       try {
