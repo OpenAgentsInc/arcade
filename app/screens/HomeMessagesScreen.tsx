@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
+import { ScreenWithSidebar, ChannelItem, Text, RelayContext, AIChannelDetail } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { ChannelManager, NostrPool } from "app/arclib/src"
@@ -29,7 +29,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations, isLoading } = useConversations()
     useEffect(() => {
-      console.log(conversations)
+      // console.log(conversations)
       console.log("isLoading: ", isLoading)
     }, [conversations, isLoading])
     const pool = useContext(RelayContext) as NostrPool
@@ -45,7 +45,8 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       }, []),
     )
 
-    const data = [...getChannels, ...privMessages].sort(
+    // should this be memoized?
+    const data = [...getChannels, ...privMessages, ...conversations].sort(
       (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
         b.lastMessageAt - a.lastMessageAt,
     )
@@ -55,6 +56,8 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
         <Animated.View entering={FadeInDown.delay(100 * index).duration(800)}>
           {item.kind === 4 ? (
             <DirectMessageItem dm={item} />
+          ) : item.kind === 10101010 ? (
+            <AIChannelDetail channel={item} /> // Add your component here
           ) : (
             <ChannelItem channel={item} channelManager={channelManager} />
           )}

@@ -10,13 +10,21 @@ export function useConversations() {
       axios
         .get(`https://api.arcade.chat/user/${npub}/conversations`)
         .then((res) => {
-          console.log(res)
-          console.log(res.data)
+          // console.log(res)
+          // console.log(res.data)
           return res.data
         })
         .then((data) => {
-          console.log("returning conversations: ", data.conversations)
-          return data.conversations
+          return data.conversations.map((conversation) => {
+            const lastMessageTimestamp = conversation.latest_message.timestamp
+            const date = new Date(lastMessageTimestamp)
+            const lastMessageTime = Math.floor(date.getTime() / 1000)
+            return {
+              ...conversation,
+              lastMessageAt: lastMessageTime,
+              kind: 10101010,
+            }
+          })
         }),
 
     // .then((data) => {
