@@ -96,11 +96,11 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
       if (regex.test(url)) {
         addRelay(url)
         setURL("")
+        // close bottom sheet
+        bottomSheetModalRef.current?.close()
       } else {
         alert("Relay URL is not valid, please check again")
       }
-      // close bottom sheet
-      bottomSheetModalRef.current?.close()
     }
 
     const getSuggests = async () => {

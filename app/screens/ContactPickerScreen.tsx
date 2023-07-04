@@ -58,7 +58,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
 
     const done = () => {
       if (selected.length === 0) {
-        Alert.alert("You have not invited anyone yet", "Are you sure you want to skip this step?", [
+        Alert.alert("You have not invited anyone yet.", "Are you sure you want to skip this step?", [
           {
             text: "Cancel",
           },
