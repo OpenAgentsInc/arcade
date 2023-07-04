@@ -1,6 +1,6 @@
 import React from "react"
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
-import { spacing } from "app/theme"
+import { images, spacing } from "app/theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
@@ -28,12 +28,14 @@ const colors = {
 
 export const AIChannelDetail = (props: any) => {
   console.log("PROPS:", props)
-  const { channel, image, lastMessage, lastMessageUsername, unreadCount } = props
-  const name = channel.latest_message.message
+  const { channel, lastMessageUsername, unreadCount } = props
+  const image = images.faerie
+  const name = "AI Chat"
+  const lastMessage = channel.latest_message.message
   const lastMessageTime = channel.lastMessageAt
   return (
     <Pressable style={styles.$messageItem}>
-      <Image source={{ uri: image }} style={styles.$messageAvatar} />
+      <Image source={image} style={styles.$messageAvatar} />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName}>{name}</Text>
@@ -46,12 +48,10 @@ export const AIChannelDetail = (props: any) => {
             <Text style={styles.$unreadMessagesText}>{unreadCount}</Text>
           </View> */}
         </View>
-        <Text style={styles.$messageUsername} numberOfLines={1}>
-          {lastMessageUsername}
-        </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
           {lastMessage}
         </Text>
+        <Text style={styles.$messageContentAbout} numberOfLines={1}></Text>
         <View style={styles.$divider} />
       </View>
     </Pressable>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   $messageContentAbout: {
     color: colors.messageContentAbout,
-    marginTop: 1,
+    marginTop: 3,
     maxWidth: 250,
   },
   $messageContentHeading: {
