@@ -158,7 +158,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               contentContainerStyle={$list}
               removeClippedSubviews={true}
               estimatedItemSize={100}
-              inverted={true}
+              inverted={data.length !== 0}
               keyboardDismissMode="none"
             />
           </View>
