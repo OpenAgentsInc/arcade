@@ -79,6 +79,8 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     const signup = (data: { displayName: string; username: string; about: string }) => {
       if (!data.username) {
         alert("Username is required")
+      } else if (!/^[0-9a-zA-Z_.-]+$/.test(data.username)) {
+        alert("Username is invalid, please check again")
       } else {
         setLoading(true)
         userStore.signup(picture, data.username, data.displayName, data.about)
