@@ -28,11 +28,9 @@ const colors = {
 
 export const AIChannelDetail = (props: any) => {
   console.log("PROPS:", props)
-  const { image, lastMessage, lastMessageUsername, unreadCount } = props
-  const name = props.channel.latest_message.message
-  const lastMessageTimestamp = props.channel.latest_message.timestamp
-  const date = new Date(lastMessageTimestamp)
-  const lastMessageTime = Math.floor(date.getTime() / 1000)
+  const { channel, image, lastMessage, lastMessageUsername, unreadCount } = props
+  const name = channel.latest_message.message
+  const lastMessageTime = channel.lastMessageAt
   return (
     <Pressable style={styles.$messageItem}>
       <Image source={{ uri: image }} style={styles.$messageAvatar} />
@@ -40,14 +38,13 @@ export const AIChannelDetail = (props: any) => {
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName}>{name}</Text>
           <Text style={styles.$messageContentTime}>
-            {/* {lastMessageTime} */}
             {dayjs.unix(lastMessageTime).format("h:mm A")}
           </Text>
         </View>
         <View style={styles.$messageContentRight}>
-          <View style={styles.$unreadMessagesBadge}>
+          {/* <View style={styles.$unreadMessagesBadge}>
             <Text style={styles.$unreadMessagesText}>{unreadCount}</Text>
-          </View>
+          </View> */}
         </View>
         <Text style={styles.$messageUsername} numberOfLines={1}>
           {lastMessageUsername}
