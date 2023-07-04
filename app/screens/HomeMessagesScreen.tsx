@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext } from "react"
+import React, { FC, useCallback, useContext, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -12,6 +12,7 @@ import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
 import Animated, { FadeInDown } from "react-native-reanimated"
+import { useConversations } from "app/hooks/useConversations"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}
@@ -26,6 +27,11 @@ const colors = {
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
+    const { conversations, isLoading } = useConversations()
+    useEffect(() => {
+      console.log(conversations)
+      console.log("isLoading: ", isLoading)
+    }, [conversations, isLoading])
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
 
