@@ -60,13 +60,15 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       if (pubkey.substring(0, 4) === "npub") {
         pubkey = nip19.decode(pubkey).data.toString()
       }
-      if (pubkey && !contacts.find((el) => el.pubkey === pubkey)) {
+      if (/[a-f0-9]{64}/.test(pubkey) && !contacts.find((el) => el.pubkey === pubkey)) {
         try {
           addContact({ pubkey, legacy: true, secret: false }, mgr)
           navigation.goBack()
         } catch (e) {
           alert(`Invalid contact: ${e}`)
         }
+      } else {
+        alert(`Invalid pubkey`)
       }
     } else {
       alert(`npub or pubkey can't be blank`)
