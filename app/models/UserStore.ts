@@ -115,12 +115,12 @@ export const UserStoreModel = types
         })
       }
     },
-    signup: flow(function* (username: string, displayName: string, about: string) {
+    signup: flow(function* (picture: string, username: string, displayName: string, about: string) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
       const id = new ArcadeIdentity(privkey)
       const nip05 = yield registerNip05(id, username)
-      const meta = { display_name: displayName, username, about, nip05 }
+      const meta = { picture, display_name: displayName, username, about, nip05 }
       applySnapshot(self, {
         pubkey,
         privkey,
