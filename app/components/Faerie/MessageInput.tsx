@@ -1,17 +1,22 @@
 import { useSendMessage } from "app/hooks/useSendMessage"
+import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { ArrowUpIcon, Send } from "lucide-react-native"
+import { nip19 } from "nostr-tools"
 // import { useUser } from 'lib/hooks'
 // import { useSendMessage } from 'lib/hooks/useSendMessage'
 import { useRef, useState } from "react"
 import { Alert, TextInput, TouchableOpacity, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
 import { TextField } from "../TextField"
+
 // import { Input, XStack } from "tamagui"
 
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
   const [text, setText] = useState("")
+  const { userStore } = useStores()
+
   const inputBoxRef = useRef<TextInput | null>(null)
   // const { userId } = useUser()
   const userId = "123"
@@ -34,7 +39,9 @@ export const MessageInput = ({ conversationId, conversationType }) => {
     if (typeof userId !== "string") return
     console.log("GOT:")
     console.log({ message: textToSend, conversationId, conversationType })
-    mutate({ message: textToSend, conversationId, conversationType })
+    const npub = nip19.npubEncode(userStore.pubkey)
+    console.log("npub:", npub)
+    mutate({ message: textToSend, conversationId, conversationType, npub })
   }
   return (
     <View

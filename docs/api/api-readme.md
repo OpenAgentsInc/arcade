@@ -20,6 +20,10 @@ Later we may use the API for other "Nostr layer two" indexing or for other perfo
   - `message` - The text to send
   - `userId` - The npub the message is from
   - `conversationId` - The conversation ID
-  - `conversationType` - ?
 - `GET /conversation/<conversationId>` - Retrieve the 50 latest messages from this conversation
 - `GET /user/<npub>/conversations` - Retrieve conversations from a given npub
+
+# Data models
+
+- `Conversation`
+  - `model` - `gpt3.5`, `gpt4`, `claude`
