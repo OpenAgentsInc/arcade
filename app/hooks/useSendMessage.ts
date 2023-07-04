@@ -4,9 +4,6 @@ import axios from "axios"
 import { haptic } from "app/utils/haptics"
 import { Alert } from "react-native"
 
-import { usePlan } from "./usePlan"
-import { randomUUID } from "isomorphic-webcrypto"
-
 export interface UseSendMessageProps {
   conversationId: string
   conversationType: string
@@ -15,9 +12,6 @@ export interface UseSendMessageProps {
 }
 
 export function useSendMessage() {
-  // const { userId } = useUser()
-  const userId = randomUUID()
-  const plan = usePlan()
   const queryClient = useQueryClient()
   const { goBack } = useNavigation()
   const mutation = useMutation({
@@ -29,7 +23,6 @@ export function useSendMessage() {
     }: UseSendMessageProps) => {
       console.log("ATTEMPTING SEND MESSAGE:", { message, conversationId, conversationType, npub })
       haptic()
-      console.log("AND USER ID:", userId)
       return axios
         .post("https://api.arcade.chat/message", {
           message,

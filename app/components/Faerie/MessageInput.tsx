@@ -1,27 +1,20 @@
+import { useNpub } from "app/hooks/useNpub"
 import { useSendMessage } from "app/hooks/useSendMessage"
-import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
-import { ArrowUpIcon, Send } from "lucide-react-native"
-import { nip19 } from "nostr-tools"
-// import { useUser } from 'lib/hooks'
-// import { useSendMessage } from 'lib/hooks/useSendMessage'
+import { ArrowUpIcon } from "lucide-react-native"
 import { useRef, useState } from "react"
-import { Alert, TextInput, TouchableOpacity, View, ViewStyle } from "react-native"
+import { Alert, TextInput, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
 import { TextField } from "../TextField"
-
-// import { Input, XStack } from "tamagui"
 
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
   const [text, setText] = useState("")
-  const { userStore } = useStores()
+  const npub = useNpub()
 
   const inputBoxRef = useRef<TextInput | null>(null)
-  // const { userId } = useUser()
-  const userId = "123"
   const submitInput = (enteredText) => {
-    if (!userId) {
+    if (!npub) {
       Alert.alert("Couldn't find your user ID - try reopening the app")
       return
     }
@@ -35,26 +28,10 @@ export const MessageInput = ({ conversationId, conversationType }) => {
 
     const textToSend = enteredText ?? text
 
-    // console.log('Sending message:', textToSend)
-    if (typeof userId !== "string") return
-    console.log("GOT:")
-    console.log({ message: textToSend, conversationId, conversationType })
-    const npub = nip19.npubEncode(userStore.pubkey)
-    console.log("npub:", npub)
     mutate({ message: textToSend, conversationId, conversationType, npub })
   }
   return (
-    <View
-      style={
-        {
-          // width: 400,
-          // alignItems: "center",
-          // padding: 4,
-          // marginVertical: 4,
-          // backgroundColor: "gray",
-        }
-      }
-    >
+    <View>
       <TextField
         placeholder={
           conversationType === "dialogue" ? `Write your message here` : "Ask your question here"
@@ -63,9 +40,6 @@ export const MessageInput = ({ conversationId, conversationType }) => {
         style={$input}
         inputWrapperStyle={$inputWrapper}
         onChangeText={(text: string) => setText(text)}
-        // onBlur={handleBlur("content")}
-        // onSubmitEditing={() => submitForm()}
-        // value={values.content}
         autoCapitalize="none"
         autoCorrect={true}
         autoComplete="name"
@@ -79,27 +53,6 @@ export const MessageInput = ({ conversationId, conversationType }) => {
           />
         )}
       />
-
-      {/* <Input
-        color="#fff"
-        borderColor="#2A2A2B"
-        backgroundColor="transparent"
-        size="$6"
-        placeholder={
-          conversationType === "dialogue" ? `Write your message here` : "Ask your question here"
-        }
-        placeholderTextColor="$gray9"
-        autoCorrect={false}
-        onChangeText={(text: string) => setText(text)}
-        ref={inputBoxRef}
-        spellCheck={false}
-        fg={1}
-        fs={1}
-      /> */}
-
-      {/* <TouchableOpacity activeOpacity={0.8} onPress={() => submitInput(text)}>
-        <Send color="#43A081" size={34} style={{ marginLeft: 13 }} />
-      </TouchableOpacity> */}
     </View>
   )
 }
@@ -126,8 +79,6 @@ const $input: ViewStyle = {
   paddingVertical: 0,
   marginVertical: 0,
   marginHorizontal: 0,
-  // alignSelf: "center",
-  // flex: 1,
 }
 
 export const $sendButton: ViewStyle = {
