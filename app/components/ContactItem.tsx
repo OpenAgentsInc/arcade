@@ -5,16 +5,21 @@ import { spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { NostrPool } from "app/arclib/src"
 
-export function ContactItem({ pubkey }: { pubkey: string }) {
+export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: string }) {
   const pool = useContext(RelayContext) as NostrPool
   const [metadata, setMetadata] = useState(null)
 
   useEffect(() => {
     async function fetchProfile() {
-      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
-      if (list.length > 0) {
-        const content = JSON.parse(list[0].content)
+      if (fallback) {
+        const content = JSON.parse(fallback)
         setMetadata(content)
+      } else {
+        const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+        if (list.length > 0) {
+          const content = JSON.parse(list[0].content)
+          setMetadata(content)
+        }
       }
     }
     fetchProfile().catch(console.error)
