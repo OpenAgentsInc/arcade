@@ -3,11 +3,12 @@ import { FlashList } from "@shopify/flash-list"
 import { Header, Message, MessageInput, MessageType, Screen, SolidScreen } from "app/components"
 import { useConversationMessages } from "app/hooks/useConversationMessages"
 import { colors, spacing } from "app/theme"
+import { randomUUID } from "isomorphic-webcrypto"
 import { useLayoutEffect } from "react"
 import { ListRenderItemInfo, View, ViewStyle } from "react-native"
 
 export const AIChannel = ({ route }) => {
-  const conversationId = route.params.id
+  const conversationId = route?.params?.id ?? randomUUID() // A new conversationId is generated if none is provided
   const { isLoading, messages } = useConversationMessages(conversationId)
   const navigation = useNavigation<any>()
   const renderItem = (info: ListRenderItemInfo<any>) => <Message {...info} />
