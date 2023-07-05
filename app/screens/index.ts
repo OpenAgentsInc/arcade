@@ -24,5 +24,6 @@ export * from "./BackupScreen"
 export * from "./AddContactScreen"
 export * from "./NewMessageScreen"
 export * from "./PrivacySettingScreen"
+export * from "./ChannelMembersScreen"
 
 export * from "./AI"

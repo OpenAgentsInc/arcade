@@ -68,11 +68,11 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
           if (typeof data?.imageUrl === "string" && data.success) {
             const url = new URL(data.imageUrl).toString()
             setPicture(url)
-            setLoading(false)
+            setPickerLoading(false)
           }
         }
       } else {
-        setLoading(false)
+        setPickerLoading(false)
       }
     }
 

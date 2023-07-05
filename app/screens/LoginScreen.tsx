@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
+import { nip19 } from "nostr-tools"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -23,10 +24,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
 
   // login
   const login = () => {
-    if (!nsec.startsWith("nsec1") || nsec.length < 60) {
-      alert("Invalid nsec")
+    let accessKey = nsec
+    if (!accessKey.startsWith("nsec")) {
+      accessKey = nip19.nsecEncode(accessKey)
     }
-    userStore.loginWithNsec(nsec)
+    userStore.loginWithNsec(accessKey)
   }
 
   useLayoutEffect(() => {
@@ -56,7 +58,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         <View style={$inputGroup}>
           <TextField
             secureTextEntry={secure}
-            placeholder="nsec..."
+            placeholder="nsec or hexstring..."
             placeholderTextColor={colors.palette.cyan500}
             style={$input}
             inputWrapperStyle={$inputWrapper}
