@@ -4,30 +4,29 @@ import axios from "axios"
 import { haptic } from "app/utils/haptics"
 import { Alert } from "react-native"
 
-import { usePlan } from "./usePlan"
-import { useUser } from "./useUser"
-
 export interface UseSendMessageProps {
   conversationId: string
   conversationType: string
   message: string
+  npub: string
 }
 
 export function useSendMessage() {
-  const { userId } = useUser()
-  const plan = usePlan()
   const queryClient = useQueryClient()
   const { goBack } = useNavigation()
   const mutation = useMutation({
-    mutationFn: async ({ message, conversationId, conversationType }: UseSendMessageProps) => {
-      console.log("ATTEMPTING SEND MESSAGE:", message)
+    mutationFn: async ({
+      message,
+      conversationId,
+      conversationType,
+      npub,
+    }: UseSendMessageProps) => {
+      console.log("ATTEMPTING SEND MESSAGE:", { message, conversationId, conversationType, npub })
       haptic()
-
       return axios
         .post("https://api.arcade.chat/message", {
           message,
-          userId,
-          plan: plan ?? "free",
+          npub,
           conversationId,
           conversationType,
         })

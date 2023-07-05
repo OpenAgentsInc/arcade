@@ -1,3 +1,4 @@
+export * from "./AIChannelDetail"
 export * from "./AnimatedTyping"
 export * from "./CopyButton"
 export * from "./Message"

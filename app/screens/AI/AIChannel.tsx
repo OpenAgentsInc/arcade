@@ -1,41 +1,15 @@
 import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { Header, Message, MessageInput, MessageType, Screen, SolidScreen } from "app/components"
+import { useConversationMessages } from "app/hooks/useConversationMessages"
 import { colors, spacing } from "app/theme"
+import { randomUUID } from "isomorphic-webcrypto"
 import { useLayoutEffect } from "react"
-import { ListRenderItemInfo, View, ViewStyle } from "react-native"
+import { ListRenderItemInfo, Platform, View, ViewStyle } from "react-native"
 
-export const AIChannel = () => {
-  const messages: MessageType[] = [
-    {
-      conversationId: "1234",
-      from: "user" as "user",
-      message: "Hello world",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "faerie" as "faerie",
-      message: "sup yo!!!!!",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "user" as "user",
-      message: "gimme ur money",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "faerie" as "faerie",
-      message: "no",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-  ].reverse()
+export const AIChannel = ({ route }) => {
+  const conversationId = route?.params?.id ?? randomUUID() // A new conversationId is generated if none is provided
+  const { isLoading, messages } = useConversationMessages(conversationId)
   const navigation = useNavigation<any>()
   const renderItem = (info: ListRenderItemInfo<any>) => <Message {...info} />
   useLayoutEffect(() => {
@@ -47,23 +21,46 @@ export const AIChannel = () => {
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
-          // rightIcon="Check"
-          // rightIconColor={colors.palette.cyan400}
-          // onRightPress={() => formikRef.current.submitForm()}
         />
       ),
     })
   }, [])
-  // return <Screen contentContainerStyle={$root} preset="fixed"></Screen>
   return (
-    <SolidScreen>
-      <FlashList renderItem={renderItem} estimatedItemSize={150} data={messages} inverted />
-      <MessageInput conversationId={"conversationI1234d"} conversationType={"dialogue"} />
-    </SolidScreen>
+    <Screen
+      style={$root}
+      preset="fixed"
+      safeAreaEdges={["bottom"]}
+      KeyboardAvoidingViewProps={{ behavior: Platform.OS === "ios" ? "padding" : "height" }}
+      keyboardOffset={104}
+      safeAreaBackgroundColor={colors.palette.overlay20}
+    >
+      <View style={$container}>
+        <View style={$main}>
+          <FlashList renderItem={renderItem} estimatedItemSize={150} data={messages} inverted />
+        </View>
+        <View style={$form}>
+          <MessageInput conversationId={conversationId} conversationType={"dialogue"} />
+        </View>
+      </View>
+    </Screen>
   )
 }
 
 const $root: ViewStyle = {
   flex: 1,
-  paddingHorizontal: spacing.medium,
+}
+
+const $container: ViewStyle = {
+  height: "100%",
+  justifyContent: "space-between",
+}
+
+const $main: ViewStyle = {
+  flex: 1,
+  marginBottom: -11,
+}
+
+const $form: ViewStyle = {
+  flexShrink: 0,
+  paddingTop: spacing.small,
 }

@@ -11,37 +11,45 @@ import { images } from "app/theme"
 
 export type MessageType = {
   conversationId: string
-  from: "user" | "faerie"
+  sender: "user" | "faerie"
   message: string
   timestamp: string
   userId: string
 }
 
 export const Message = ({ item, index }: ListRenderItemInfo<MessageType>) => {
-  const fromUser = !item.from || item.from === "user"
+  const fromUser = !item.sender || item.sender === "user"
   const backgroundColor = fromUser ? "transparent" : "#1C1C1D"
   // const img = "https://placekitten.com/200/200"
   const img = fromUser ? images.face : images.faerie
   const loading = item.message === "LOADING"
 
-  // If this message is more than 30 seconds old...
+  // console.log(item)
+
+  // If this message is more than 30 seconds old... (this is messed up now for some reason)
   const timestamp = new Date(item.timestamp)
   const now = new Date()
   const diff = now.getTime() - timestamp.getTime()
   const seconds = diff / 1000
+  // console.log("seconds:", seconds)
 
   const MessageComponent =
-    fromUser || seconds > 10
+    fromUser || seconds > 2
       ? () => (
           <Text style={{ paddingLeft: 20, paddingRight: 28, fontSize: 16, color: "#fff" }}>
             {item.message}
           </Text>
         )
       : () => (
-          <View style={{ width: "100%", flex: 1 }}>
-            <AnimatedTyping text={item.message} />
-          </View>
+          <Text style={{ paddingLeft: 20, paddingRight: 28, fontSize: 16, color: "#fff" }}>
+            {item.message}
+          </Text>
         )
+  // () => (
+  //   <View style={{ width: "100%", flex: 1 }}>
+  //     <AnimatedTyping text={item.message} />
+  //   </View>
+  // )
 
   return (
     <View
