@@ -6,37 +6,38 @@ import { useLayoutEffect } from "react"
 import { ListRenderItemInfo, View, ViewStyle } from "react-native"
 
 export const AIChannel = ({ route }) => {
-  const uuid = route.params.id
-  const messages: MessageType[] = [
-    {
-      conversationId: "1234",
-      from: "user" as "user",
-      message: "Hello world",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "faerie" as "faerie",
-      message: "sup yo!!!!!",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "user" as "user",
-      message: "gimme ur money",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-    {
-      conversationId: "1234",
-      from: "faerie" as "faerie",
-      message: "no",
-      userId: "123",
-      timestamp: new Date().toDateString(),
-    },
-  ].reverse()
+  const conversationId = route.params.id
+  const { isLoading, messages } = useConversationMessages(conversationId)
+  // const messages: MessageType[] = [
+  //   {
+  //     conversationId: "1234",
+  //     from: "user" as "user",
+  //     message: "Hello world",
+  //     userId: "123",
+  //     timestamp: new Date().toDateString(),
+  //   },
+  //   {
+  //     conversationId: "1234",
+  //     from: "faerie" as "faerie",
+  //     message: "sup yo!!!!!",
+  //     userId: "123",
+  //     timestamp: new Date().toDateString(),
+  //   },
+  //   {
+  //     conversationId: "1234",
+  //     from: "user" as "user",
+  //     message: "gimme ur money",
+  //     userId: "123",
+  //     timestamp: new Date().toDateString(),
+  //   },
+  //   {
+  //     conversationId: "1234",
+  //     from: "faerie" as "faerie",
+  //     message: "no",
+  //     userId: "123",
+  //     timestamp: new Date().toDateString(),
+  //   },
+  // ].reverse()
   const navigation = useNavigation<any>()
   const renderItem = (info: ListRenderItemInfo<any>) => <Message {...info} />
   useLayoutEffect(() => {
@@ -59,7 +60,7 @@ export const AIChannel = ({ route }) => {
   return (
     <SolidScreen>
       <FlashList renderItem={renderItem} estimatedItemSize={150} data={messages} inverted />
-      <MessageInput conversationId={uuid} conversationType={"dialogue"} />
+      <MessageInput conversationId={conversationId} conversationType={"dialogue"} />
     </SolidScreen>
   )
 }
