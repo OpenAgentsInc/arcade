@@ -33,6 +33,7 @@ export const MessageInput = ({ conversationId, conversationType }) => {
   return (
     <View>
       <TextField
+        ref={inputBoxRef}
         placeholder={
           conversationType === "dialogue" ? `Write your message here` : "Ask your question here"
         }
