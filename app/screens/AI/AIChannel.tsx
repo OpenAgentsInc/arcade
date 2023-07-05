@@ -2,12 +2,11 @@ import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { Header, Message, MessageInput, MessageType, Screen, SolidScreen } from "app/components"
 import { colors, spacing } from "app/theme"
-import { randomUUID } from "isomorphic-webcrypto"
 import { useLayoutEffect } from "react"
 import { ListRenderItemInfo, View, ViewStyle } from "react-native"
 
-export const AIChannel = () => {
-  const uuid = randomUUID()
+export const AIChannel = ({ route }) => {
+  const uuid = route.params.id
   const messages: MessageType[] = [
     {
       conversationId: "1234",
