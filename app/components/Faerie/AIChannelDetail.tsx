@@ -3,6 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import { images, spacing } from "app/theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { useNavigation } from "@react-navigation/native"
 
 dayjs.extend(relativeTime)
 
@@ -28,13 +29,17 @@ const colors = {
 
 export const AIChannelDetail = (props: any) => {
   console.log("PROPS:", props)
+  const { navigate } = useNavigation<any>()
   const { channel, lastMessageUsername, unreadCount } = props
   const image = images.faerie
   const name = "AI Chat"
   const lastMessage = channel.latest_message.message
   const lastMessageTime = channel.lastMessageAt
   return (
-    <Pressable style={styles.$messageItem}>
+    <Pressable
+      style={styles.$messageItem}
+      onPress={() => navigate("AIChannel", { id: channel.id })}
+    >
       <Image source={image} style={styles.$messageAvatar} />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
