@@ -39,7 +39,7 @@
     "@expo-google-fonts/space-grotesk": "^0.2.2",
     "@expo/config-plugins": "~6.0.0",
     "@expo/webpack-config": "^18.0.1",
-    "@gorhom/bottom-sheet": "^4",
+    "@gorhom/bottom-sheet": "^4.4.7",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.2",
