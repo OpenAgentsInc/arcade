@@ -111,10 +111,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   }, [])
 
   const renderItem = useCallback(({ item }) => {
+    const added = contacts.find((e) => e.pubkey === item.pubkey)
     return (
       <View style={$item}>
         <ContactItem pubkey={item.pubkey} fallback={item.profile.content} />
-        {contacts.find((e) => e.pubkey === item.pubkey) ? (
+        {added ? (
           <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
             <Text text="Remove" size="xs" />
           </Pressable>

@@ -14,7 +14,7 @@
     "lint": "eslint index.js app test --fix --ext .js,.ts,.tsx && npm run format",
     "patch": "patch-package",
     "postinstall": "node ./bin/postInstall",
-    "prepare": "",
+    "prepare": "cd node_modules/better-sqlite3 && yarn build-release",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:maestro": "maestro test .maestro/FavoritePodcast.yaml",
