@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect } from "react"
+import React, { FC, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { TextStyle, View, ViewStyle, TouchableOpacity } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -20,6 +20,9 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
   // Pull in navigation via hook
   const navigation = useNavigation()
 
+  const [copyPrivkey, setCopyPrivkey] = useState(false)
+  const [copyNsec, setCopyNsec] = useState(false)
+
   const nsec = nip19.nsecEncode(userStore.privkey)
 
   useLayoutEffect(() => {
@@ -37,6 +40,16 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
     })
   }, [])
 
+  const pressCopyPrivkey = async () => {
+    await Clipboard.setStringAsync(userStore.privkey)
+    setCopyPrivkey(true)
+  }
+
+  const pressCopyNsec = async () => {
+    await Clipboard.setStringAsync(nsec)
+    setCopyNsec(true)
+  }
+
   return (
     <Screen contentContainerStyle={$root} preset="scroll">
       <View>
@@ -49,11 +62,9 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
             value={userStore.privkey}
             secureTextEntry={true}
           />
-          <TouchableOpacity
-            onPress={async () => await Clipboard.setStringAsync(userStore.privkey)}
-            style={$copyButton}
-          >
+          <TouchableOpacity onPress={() => pressCopyPrivkey()} style={$copyButton}>
             <ClipboardCopyIcon width={20} height={20} color={colors.palette.cyan400} />
+            <Text text={copyPrivkey ? "Copied" : "Copy"} size="xs" />
           </TouchableOpacity>
         </View>
         <View style={$inputGroup}>
@@ -65,18 +76,16 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
             value={nsec}
             secureTextEntry={true}
           />
-          <TouchableOpacity
-            onPress={async () => await Clipboard.setStringAsync(nsec)}
-            style={$copyButton}
-          >
+          <TouchableOpacity onPress={() => pressCopyNsec()} style={$copyButton}>
             <ClipboardCopyIcon width={20} height={20} color={colors.palette.cyan400} />
+            <Text text={copyNsec ? "Copied" : "Copy"} size="xs" />
           </TouchableOpacity>
         </View>
       </View>
       <View style={$content}>
         <Text text="Safety Tips" size="md" preset="bold" style={$title} />
         <Text
-          text="Your account is secured by a secret key. This key gives full access to your account, never share it to anyone"
+          text="Your account is secured by a secret key. This key gives full access to your account, never share it to anyone."
           size="sm"
           style={$desc}
         />
@@ -115,7 +124,7 @@ const $input: ViewStyle = {
   marginHorizontal: 0,
   alignSelf: "center",
   marginBottom: spacing.small,
-  paddingRight: 50,
+  paddingRight: 100,
 }
 
 const $inputText: TextStyle = {
@@ -126,10 +135,13 @@ const $copyButton: ViewStyle = {
   position: "absolute",
   bottom: 12,
   right: 0,
+  flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  width: 50,
+  gap: spacing.tiny,
+  paddingHorizontal: spacing.small,
   height: 50,
+  backgroundColor: colors.palette.overlay50,
 }
 
 const $content: ViewStyle = {

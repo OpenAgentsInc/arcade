@@ -40,7 +40,7 @@ interface ISuggestions {
 export const AddContactScreen: FC<AddContactScreenProps> = observer(function AddContactScreen() {
   const mgr = useContactManager()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ["35%", "50%"], [])
+  const snapPoints = useMemo(() => ["36%", "50%"], [])
 
   const contacts = useUserContacts()
 
@@ -55,8 +55,6 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const [customContact, setCustomContact] = useState("")
   const [data, setData] = useState<ISuggestions>({ error: false, profiles: [] })
 
-  const suggestions = data ? data.profiles : []
-
   const addCustomContact = async () => {
     let pubkey: string = customContact.trim()
     try {
@@ -64,14 +62,12 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     } catch (e) {
         alert(`Invalid contact: ${e}`)
     }
-    if (pubkey && !contacts.find((el) => el.pubkey === pubkey)) {
-      try {
-        addContact({ pubkey, legacy: true, secret: false }, mgr)
-      } catch (e) {
-        alert(`Invalid contact: ${e}`)
-      }
+    try {
+      addContact({ pubkey, legacy: true, secret: false }, mgr)
+      navigation.goBack()
+    } catch (e) {
+      alert(`Invalid contact: ${e}`)
     }
-    navigation.goBack()
   }
 
   const handlePresentModalPress = useCallback(() => {
@@ -101,7 +97,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       const resp = await fetch(`https://api.nostr.band/v0/trending/profiles`)
       const data = await resp.json()
       if (!data.ok) {
-        setData((prev) => ({ ...prev, profiles: data }))
+        setData((prev) => ({ ...prev, profiles: data.profiles }))
       } else {
         setData((prev) => ({ ...prev, error: true }))
       }
@@ -110,10 +106,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   }, [])
 
   const renderItem = useCallback(({ item }) => {
+    const added = contacts.find((e) => e.pubkey === item.pubkey)
     return (
       <View style={$item}>
-        <ContactItem pubkey={item.pubkey} />
-        {contacts.includes(item.pubkey) ? (
+        <ContactItem pubkey={item.pubkey} fallback={item.profile.content} />
+        {added ? (
           <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
             <Text text="Remove" size="xs" />
           </Pressable>
@@ -134,24 +131,25 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         <View style={$heading}>
           <Text text="Suggestions" size="lg" preset="bold" />
         </View>
-        {data.error && (
+        {data.error ? (
           <Text
             text="Can't fetch trending profiles, service temporarily unavailable"
             size="sm"
             style={$errorText}
           />
+        ) : (
+          <FlashList
+            data={data.profiles}
+            keyExtractor={(item: { pubkey: string }) => item.pubkey}
+            renderItem={renderItem}
+            ListEmptyComponent={
+              <View style={$emptyState}>
+                <Text text="Loading..." />
+              </View>
+            }
+            estimatedItemSize={100}
+          />
         )}
-        <FlashList
-          data={suggestions}
-          keyExtractor={(item: { pubkey: string }) => item.pubkey}
-          renderItem={renderItem}
-          ListEmptyComponent={
-            <View style={$emptyState}>
-              <Text text="No data..." />
-            </View>
-          }
-          estimatedItemSize={100}
-        />
       </Screen>
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -218,6 +216,7 @@ const $modal: ViewStyle = {
 
 const $modalHeader: ViewStyle = {
   alignSelf: "center",
+  marginBottom: spacing.small,
 }
 
 const $modalContent: ViewStyle = {

@@ -26,8 +26,6 @@ import {
 interface RelayManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"RelayManager">> {}
 
-const regex = /\b(?:http|ws)s?:\/\/\S*[^\s."]/g
-
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -44,6 +42,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
     const [url, setURL] = useState("")
     const [suggests, setSuggests] = useState([])
 
+    const filtered = suggests.filter((el) => !getRelays.includes(el))
     const data: any = [
       {
         title: "Connected",
@@ -51,7 +50,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
         type: "remove",
         data: [...getRelays],
       },
-      { title: "Suggested relays", desc: "", type: "add", data: [...suggests] },
+      { title: "Suggested relays", desc: "", type: "add", data: [...filtered] },
     ]
 
     const handlePresentModalPress = useCallback(() => {
@@ -93,14 +92,24 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
     }
 
     const addCustomRelay = () => {
-      if (regex.test(url)) {
-        addRelay(url)
+      try {
+        const relay = new URL(url.trim())
+        if (relay.protocol === "wss:" || relay.protocol === "ws:") {
+          if (!getRelays.includes(relay.origin)) {
+            addRelay(relay.origin)
+            setURL("")
+            // close bottom sheet
+            bottomSheetModalRef.current?.close()
+          } else {
+            alert("You're using this relay, please add another")
+          }
+        } else {
+          alert("Relay must be use websocket protocol, please check again")
+        }
+      } catch {
+        alert("Relay is not valid, please check again")
         setURL("")
-      } else {
-        alert("Relay URL is not valid, please check again")
       }
-      // close bottom sheet
-      bottomSheetModalRef.current?.close()
     }
 
     const getSuggests = async () => {

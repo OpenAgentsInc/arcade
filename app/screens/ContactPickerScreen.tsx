@@ -27,6 +27,7 @@ import {
 import { Formik } from "formik"
 import { nip19 } from "nostr-tools"
 import { resolvePubkey } from "app/arclib/src/contacts"
+import { Channel, useStores } from "app/models"
 
 interface ContactPickerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {}
@@ -34,6 +35,14 @@ interface ContactPickerScreenProps
 export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
   function ContactPickerScreen({ route }: { route: any }) {
     const { id, name, privkey } = route.params
+
+    // Stores
+    const {
+      channelStore: { getChannel },
+    } = useStores()
+
+    // get channel by using resolver identifier
+    const channel: Channel = useMemo(() => getChannel(id), [id])
 
     const pool = useContext(RelayContext) as NostrPool
     const encrypted: EncChannel = useMemo(() => new EncChannel(pool), [])
@@ -59,27 +68,31 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
 
     const done = () => {
       if (selected.length === 0) {
-        Alert.alert("You have not invited anyone yet", "Are you sure you want to skip this step?", [
-          {
-            text: "Cancel",
-          },
-          {
-            text: "Confirm",
-            onPress: async () => {
-              // invite
-              await encrypted.invite({
-                members: selected,
-                id,
-                privkey,
-                name,
-                about: "",
-                picture: "",
-              })
-              // redirect to channel
-              navigation.replace("Chat", { id, name, privkey })
+        Alert.alert(
+          "You have not invited anyone yet.",
+          "Are you sure you want to skip this step?",
+          [
+            {
+              text: "Cancel",
             },
-          },
-        ])
+            {
+              text: "Confirm",
+              onPress: async () => {
+                // invite
+                await encrypted.invite({
+                  members: selected,
+                  id,
+                  privkey,
+                  name,
+                  about: "",
+                  picture: "",
+                })
+                // redirect to channel
+                navigation.replace("Chat", { id, name, privkey })
+              },
+            },
+          ],
+        )
       } else {
         Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
           {
@@ -97,6 +110,8 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
                 about: "",
                 picture: "",
               })
+              // add members to local store
+              channel.addMembers(selected)
               // redirect to channel
               navigation.replace("Chat", { id, name, privkey })
             },
@@ -138,7 +153,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
           />
         ),
       })
-    }, [selected])
+    }, [])
 
     return (
       <BottomSheetModalProvider>
@@ -149,12 +164,16 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
             renderItem={({ item }) => (
               <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
                 <ContactItem pubkey={item.pubkey} />
-                {selected.includes(item.pubkey) ? (
-                  <View>
-                    <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
-                  </View>
+                {!channel.members.includes(item.pubkey) ? (
+                  selected.includes(item.pubkey) ? (
+                    <View>
+                      <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
+                    </View>
+                  ) : (
+                    <Text text="Add" size="sm" />
+                  )
                 ) : (
-                  <Text text="Add" size="sm" />
+                  <Text text="Added" size="sm" />
                 )}
               </Pressable>
             )}

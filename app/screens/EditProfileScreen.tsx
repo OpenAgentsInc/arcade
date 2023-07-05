@@ -73,6 +73,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
       setLoading(false)
     }
   }
+
   const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
       await updateProfile(profmgr, data)

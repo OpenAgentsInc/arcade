@@ -27,12 +27,16 @@ export const ChannelModel = types
     lastMessagePubkey: types.optional(types.string, ""),
     lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
     loading: types.optional(types.boolean, true),
+    memberList: types.optional(types.array(types.string), []),
     messages: types.optional(types.array(MessageModel), []),
   })
   .actions(withSetPropAction)
   .views((self) => ({
     get allMessages() {
       return self.messages.slice().sort((a, b) => b.created_at - a.created_at)
+    },
+    get members() {
+      return self.memberList.slice()
     },
     get listing() {
       return self.messages.filter((m) => m.tags.find((t) => t[0] === "x" && t[1] === "listing"))
@@ -73,6 +77,9 @@ export const ChannelModel = types
         self.setProp("lastMessagePubkey", lastMessage.pubkey)
         self.setProp("lastMessageAt", lastMessage.created_at)
       }
+    },
+    addMembers(list: string[]) {
+      self.setProp("memberList", list)
     },
     reset() {
       applySnapshot(self, { ...self, loading: true, messages: [] })
