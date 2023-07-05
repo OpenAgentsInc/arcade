@@ -114,7 +114,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     return (
       <View style={$item}>
         <ContactItem pubkey={item.pubkey} fallback={item.profile.content} />
-        {contacts.includes(item.pubkey) ? (
+        {contacts.find((e) => e.pubkey === item.pubkey) ? (
           <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
             <Text text="Remove" size="xs" />
           </Pressable>

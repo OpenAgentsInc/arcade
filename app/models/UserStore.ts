@@ -82,8 +82,7 @@ export const UserStoreModel = types
   .actions(withSetPropAction)
   .views((self) => ({
     get getChannels() {
-      const list = self.channels.slice()
-      return list
+      return self.channels.slice()
     },
     get getContacts() {
       return self.contacts.slice()

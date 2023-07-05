@@ -17,7 +17,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-import { LogOutIcon, UserPlusIcon } from "lucide-react-native"
+import { LogOutIcon, UsersIcon } from "lucide-react-native"
 import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
@@ -88,14 +88,14 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               {channel.privkey && (
                 <Pressable
                   onPress={() =>
-                    navigation.navigate("ContactPicker", {
+                    navigation.navigate("ChannelMembers", {
                       id: channel.id,
                       name: channel.name,
                       privkey: channel.privkey,
                     })
                   }
                 >
-                  <UserPlusIcon size={20} color={colors.palette.cyan400} />
+                  <UsersIcon size={20} color={colors.palette.cyan400} />
                 </Pressable>
               )}
               <Pressable onPress={() => leaveJoinedChannel()}>
