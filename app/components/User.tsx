@@ -6,13 +6,15 @@ import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 import { useQuery } from "react-query"
+import { VenetianMaskIcon } from "lucide-react-native"
 
 interface UserProp {
   pubkey: string
   reverse?: boolean
+  blinded?: boolean
 }
 
-export const User = memo(function User({ pubkey, reverse }: UserProp) {
+export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
 
@@ -31,6 +33,11 @@ export const User = memo(function User({ pubkey, reverse }: UserProp) {
           source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
           style={$userAvatar}
         />
+        {blinded && (
+          <View style={$blinded}>
+            <VenetianMaskIcon width={20} height={20} color={colors.palette.cyan500} />
+          </View>
+        )}
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
@@ -47,6 +54,12 @@ export const User = memo(function User({ pubkey, reverse }: UserProp) {
 
 const $user: ViewStyle = {
   flexShrink: 0,
+  position: "relative",
+}
+
+const $blinded: ViewStyle = {
+  alignSelf: "center",
+  marginTop: spacing.tiny,
 }
 
 const $userAvatar: ImageStyle = {
