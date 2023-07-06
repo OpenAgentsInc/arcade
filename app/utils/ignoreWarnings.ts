@@ -10,5 +10,6 @@ LogBox.ignoreLogs([
   "FlashList",
   "Cannot read property",
   "nostr-tools:",
-  "[🍉] The writer"
+  "[🍉] The writer",
+  "Possible Unhandled Promise"
 ])
