@@ -132,7 +132,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
           ) : (
             <ActivityIndicator
               color={colors.palette.white}
-              animating={loading}
+              animating={pickerLoading}
               style={$avatarButton}
             />
           )}

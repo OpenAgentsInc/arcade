@@ -28,6 +28,8 @@ import { schnorr } from "@noble/curves/secp256k1"
 import { sha256 } from "@noble/hashes/sha256"
 import { bytesToHex } from "@noble/hashes/utils"
 import { runInAction } from "mobx"
+import { Profile, ProfileManager } from "app/arclib/src/profile"
+import { PrivateSettings, getProfile, updateProfile } from "app/utils/profile"
 
 const utf8Encoder = new TextEncoder()
 
@@ -67,7 +69,20 @@ export const UserStoreModel = types
   .props({
     pubkey: "",
     privkey: "",
-    metadata: "",
+    metadata: types.maybeNull(
+      types.model({
+        picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
+        banner: types.optional(types.string, "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg"),
+        username: types.string,
+        nip05: types.string,
+        display_name: types.optional(types.string, ""),
+        about: types.optional(types.string, ""),
+        privchat_push_enabled: types.optional(types.boolean, false),
+        channel_push_enabled: types.optional(types.boolean, false),
+        buyoffer_push_enabled: types.optional(types.boolean, false),
+        selloffer_push_enabled: types.optional(types.boolean, false),
+      }),
+    ),
     isLoggedIn: false,
     isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
@@ -90,6 +105,9 @@ export const UserStoreModel = types
     get getRelays() {
       return self.relays.slice()
     },
+    get getMetadata() {
+      return self.metadata
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     joinChannel(info: ChannelInfo) {
@@ -110,7 +128,7 @@ export const UserStoreModel = types
           self.setProp("pubkey", pubkey)
           self.setProp("isLoggedIn", true)
           self.setProp("isNewUser", false)
-          self.setProp("metadata", JSON.stringify(meta))
+          self.setProp("metadata", meta)
         })
       }
     },
@@ -118,20 +136,23 @@ export const UserStoreModel = types
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
       const id = new ArcadeIdentity(privkey)
+
       const nip05 = yield registerNip05(id, username)
       const meta = { picture, display_name: displayName, username, about, nip05 }
+
       applySnapshot(self, {
         pubkey,
         privkey,
         isLoggedIn: true,
         isNewUser: true,
-        metadata: JSON.stringify(meta),
+        metadata: meta,
         channels: [
           "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
           "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
           "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
         ],
       })
+
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
@@ -143,16 +164,23 @@ export const UserStoreModel = types
         const { data } = nip19.decode(nsec)
         const privkey = data as string
         const pubkey = getPublicKey(privkey)
+        const ident = new ArcadeIdentity(privkey)
+        const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        self.setProp("pubkey", pubkey)
-        self.setProp("privkey", privkey)
+        applySnapshot(self, {
+          pubkey,
+          privkey,
+          isLoggedIn: true,
+          metadata: profile,
+          contacts,
+          channels: [
+            "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+            "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+            "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
+          ],
+        })
+
         yield secureSet("privkey", privkey)
-        self.setProp("isLoggedIn", true)
-        self.setProp("channels", [
-          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-        ])
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
@@ -258,6 +286,12 @@ export const UserStoreModel = types
         item.lastMessageAt = item.created_at
       }
       self.privMessages = cast(uniqueList)
+    }),
+    updateMetadata: flow(function* (data: Profile & PrivateSettings, profmgr?: ProfileManager) {
+      if (profmgr) {
+        yield updateProfile(profmgr, data)
+      }
+      self.setProp("metadata", data)
     }),
     clearNewUser() {
       self.setProp("isNewUser", false)

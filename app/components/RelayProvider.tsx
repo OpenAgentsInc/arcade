@@ -15,7 +15,7 @@ export const RelayProvider = observer(function RelayProvider({
   if (!db) throw new Error("cannot initialized db")
 
   const {
-    userStore: { getRelays, privkey, metadata, isNewUser, clearNewUser },
+    userStore: { getRelays, privkey, getMetadata, isNewUser, clearNewUser },
   } = useStores()
 
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
@@ -30,7 +30,7 @@ export const RelayProvider = observer(function RelayProvider({
       if (isNewUser) {
         console.log("creating user...")
         const res = await pool.send({
-          content: metadata,
+          content: JSON.stringify(getMetadata),
           tags: [],
           kind: 0,
         })
