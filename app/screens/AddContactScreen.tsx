@@ -119,7 +119,13 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
             </Pressable>
           ) : (
             <Pressable
-              onPress={() => addContact({ pubkey: item.pubkey, legacy: true, secret: false }, mgr)}
+              onPress={() =>
+                addContact(
+                  { pubkey: item.pubkey, legacy: true, secret: false },
+                  mgr,
+                  item.profile.content,
+                )
+              }
             >
               <Text text="Add" size="xs" />
             </Pressable>

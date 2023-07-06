@@ -10,6 +10,7 @@ export const ContactModel = types
     pubkey: types.string,
     secret: types.boolean,
     legacy: types.boolean,
+    metadata: types.maybeNull(types.string),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

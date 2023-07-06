@@ -23,7 +23,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
 
   // Stores
   const {
-    userStore: { contacts, fetchContacts, removeContact },
+    userStore: { getContacts, fetchContacts, removeContact },
   } = useStores()
 
   const unfollow = (pubkey: string) => {
@@ -67,7 +67,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   return (
     <Screen style={$root} preset="scroll">
       <FlashList
-        data={contacts}
+        data={getContacts}
         keyExtractor={(item) => item.pubkey}
         renderItem={renderItem}
         ListEmptyComponent={

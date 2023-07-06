@@ -202,8 +202,13 @@ export const UserStoreModel = types
       const res = yield mgr.list()
       self.setProp("contacts", res)
     }),
-    addContact: flow(function* (contact: Contact, mgr: ContactManager) {
+    addContact: flow(function* (
+      contact: Contact & { metadata?: string },
+      mgr: ContactManager,
+      metadata?: string,
+    ) {
       yield mgr.add(contact)
+      if (metadata) contact.metadata = metadata
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,
       )
