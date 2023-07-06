@@ -22,7 +22,6 @@ import {
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
 import { useContactManager } from "app/utils/useUserContacts"
-import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
 import { resolvePubkey} from "app/arclib/src/contacts"
 

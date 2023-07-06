@@ -25,7 +25,6 @@ import {
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { nip19 } from "nostr-tools"
 import { resolvePubkey } from "app/arclib/src/contacts"
 import { Channel, useStores } from "app/models"
 
