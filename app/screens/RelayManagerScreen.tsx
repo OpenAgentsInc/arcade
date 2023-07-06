@@ -26,6 +26,8 @@ import {
 interface RelayManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"RelayManager">> {}
 
+const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g
+
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -93,8 +95,11 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
 
     const addCustomRelay = () => {
       try {
-        const relay = new URL(url.trim())
-        if (relay.protocol === "wss:" || relay.protocol === "ws:") {
+        const relay = new URL(url.replace(/\s/g, ""))
+        if (
+          (domainRegex.test(relay.origin) && relay.protocol === "wss:") ||
+          relay.protocol === "ws:"
+        ) {
           if (!getRelays.includes(relay.origin)) {
             addRelay(relay.origin)
             setURL("")

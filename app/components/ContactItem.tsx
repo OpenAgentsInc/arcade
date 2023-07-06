@@ -59,7 +59,7 @@ const $itemAvatar: ImageStyle = {
 }
 
 const $itemName: TextStyle = {
-  maxWidth: 250,
+  maxWidth: 200,
 }
 
 const $itemContent: TextStyle = {
