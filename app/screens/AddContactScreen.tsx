@@ -21,7 +21,7 @@ import {
   BottomSheetView,
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
-import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager } from "app/utils/useUserContacts"
 import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
 
@@ -41,10 +41,8 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["36%", "50%"], [])
 
-  const contacts = useUserContacts()
-
   const {
-    userStore: { addContact, removeContact },
+    userStore: { contacts, addContact, removeContact },
   } = useStores()
 
   // Pull in navigation via hook

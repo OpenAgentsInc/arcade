@@ -287,6 +287,11 @@ export const UserStoreModel = types
       }
       self.privMessages = cast(uniqueList)
     }),
+    fetchMetadata: flow(function* () {
+      const ident = new ArcadeIdentity(self.privkey)
+      const { profile } = yield getProfile(ident, self.pubkey)
+      self.setProp("metadata", profile)
+    }),
     updateMetadata: flow(function* (data: Profile & PrivateSettings, profmgr?: ProfileManager) {
       if (profmgr) {
         yield updateProfile(profmgr, data)

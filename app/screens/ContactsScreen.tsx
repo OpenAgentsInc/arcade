@@ -7,7 +7,7 @@ import { ContactItem, Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager } from "app/utils/useUserContacts"
 import { UserMinus, Globe } from "lucide-react-native"
 import { useStores } from "app/models"
 import { Contact } from "app/arclib/src/contacts"
@@ -16,14 +16,14 @@ interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps
 
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
   const mgr = useContactManager()
-  const contacts = useUserContacts()
+  // const contacts = useUserContacts()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   // Stores
   const {
-    userStore: { removeContact },
+    userStore: { contacts, removeContact },
   } = useStores()
 
   const unfollow = (pubkey: string) => {
