@@ -197,13 +197,11 @@ export const UserStoreModel = types
         contacts: [],
       })
     },
-    async fetchContacts(mgr: ContactManager) {
+    fetchContacts: flow(function* (mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
-      const res = await mgr.list()
-      runInAction(() => {
-        self.setProp("contacts", res)
-      })
-    },
+      const res = yield mgr.list()
+      self.setProp("contacts", res)
+    }),
     addContact: flow(function* (contact: Contact, mgr: ContactManager) {
       yield mgr.add(contact)
       const index = self.contacts.findIndex(

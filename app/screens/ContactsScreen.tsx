@@ -23,11 +23,15 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
 
   // Stores
   const {
-    userStore: { contacts, removeContact },
+    userStore: { contacts, fetchContacts, removeContact },
   } = useStores()
 
   const unfollow = (pubkey: string) => {
     removeContact(pubkey, mgr)
+  }
+
+  const refresh = () => {
+    fetchContacts(mgr)
   }
 
   useLayoutEffect(() => {
@@ -37,6 +41,9 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         <Header
           title="Contacts"
           titleStyle={{ color: colors.palette.white }}
+          leftIcon="RefreshCcw"
+          leftIconColor={colors.palette.cyan400}
+          onLeftPress={() => refresh()}
           rightIcon="Plus"
           rightIconColor={colors.palette.cyan400}
           onRightPress={() => navigation.navigate("AddContact")}
