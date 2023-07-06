@@ -1,6 +1,6 @@
 import { NostrPool } from "app/arclib/src"
 import { ContactManager } from "app/arclib/src/contacts"
-import { ChannelManager } from "app/arclib/src/channels"
+import { ChannelManager } from "app/arclib/src/channel"
 import { RelayContext } from "app/components"
 import { useStores } from "app/models"
 import { useContext, useEffect } from "react"
