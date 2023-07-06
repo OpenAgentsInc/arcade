@@ -13,6 +13,7 @@ import { BlurredPopupProvider } from "app/components/BlurredPopup"
 
 export type AppStackParamList = {
   AIChannel: undefined
+  TrainAI: undefined
   Auth: undefined
   Hud: undefined
   Home: undefined
@@ -64,6 +65,7 @@ const AppStack = observer(function AppStack() {
         <>
           <Stack.Screen name="Tabs" component={TabNavigator} />
           <Stack.Screen name="AIChannel" component={Screens.AIChannel} />
+          <Stack.Screen name="TrainAI" component={Screens.TrainAI} />
           <Stack.Screen name="Discover" component={Screens.DiscoverScreen} />
           <Stack.Screen name="Chat" component={Screens.ChatScreen} />
           <Stack.Screen name="Changelog" component={Screens.ChangelogScreen} />
