@@ -12,7 +12,6 @@ import {
   ArcadeIdentity,
   BlindedEvent,
   ChannelInfo,
-  ChannelManager,
   NostrEvent,
   NostrPool,
   PrivateMessageManager,
@@ -22,7 +21,8 @@ import { MessageModel } from "./Message"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
-import { ContactManager, Contact } from "app/arclib/src/contacts"
+import type { ContactManager, Contact } from "app/arclib/src/contacts"
+import { useChannelManager } from "app/utils/useUserContacts"
 import { ContactModel } from "./Contact"
 import { schnorr } from "@noble/curves/secp256k1"
 import { sha256 } from "@noble/hashes/sha256"
@@ -32,6 +32,11 @@ import { Profile, ProfileManager } from "app/arclib/src/profile"
 import { PrivateSettings, getProfile, updateProfile } from "app/utils/profile"
 
 const utf8Encoder = new TextEncoder()
+const DEFAULT_CHANNELS = [
+  "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+  "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+  "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
+]
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -113,10 +118,14 @@ export const UserStoreModel = types
     joinChannel(info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
       if (index === -1) self.channels.push(ChannelModel.create(info))
+      const mgr = useChannelManager()
+      mgr.join(info.id)
     },
     leaveChannel(id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
+      const mgr = useChannelManager()
+      mgr.leave(id)
     },
     async afterCreate() {
       const sec = await secureGet("privkey")
@@ -146,11 +155,7 @@ export const UserStoreModel = types
         isLoggedIn: true,
         isNewUser: true,
         metadata: meta,
-        channels: [
-          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-        ],
+        channels: DEFAULT_CHANNELS,
       })
 
       yield secureSet("privkey", privkey)
@@ -167,17 +172,24 @@ export const UserStoreModel = types
         const ident = new ArcadeIdentity(privkey)
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
+        const mgr = useChannelManager()
+
+        let channels = DEFAULT_CHANNELS
+
+        try {
+          const tmp = yield mgr.listChannels()
+          if (tmp && tmp.length) channels = tmp
+        } catch {
+          // ok, just use default
+        }
+
         applySnapshot(self, {
           pubkey,
           privkey,
           isLoggedIn: true,
           metadata: profile,
           contacts,
-          channels: [
-            "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-            "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-            "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-          ],
+          channels,
         })
 
         yield secureSet("privkey", privkey)
@@ -238,8 +250,8 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
-    updateChannels: flow(function* (pool: NostrPool) {
-      const mgr = new ChannelManager(pool)
+    updateChannels: flow(function* (_pool: NostrPool) {
+      const mgr = useChannelManager()
       const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
         if (ch.is_private) {
