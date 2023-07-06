@@ -17,8 +17,8 @@ import { colors, spacing } from "app/theme"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
   BottomSheetTextInput,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
 import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
@@ -132,7 +132,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 
   return (
     <BottomSheetModalProvider>
-      <Screen contentContainerStyle={$root} preset="fixed" keyboardOffset={50}>
+      <Screen contentContainerStyle={$root} preset="fixed">
         <View style={$heading}>
           <Text text="Suggestions" size="lg" preset="bold" />
         </View>
@@ -162,9 +162,10 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backgroundStyle={$modal}
+        keyboardBehavior="fillParent"
         handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
       >
-        <BottomSheetScrollView style={$modalContent}>
+        <BottomSheetView style={$modalContent}>
           <Text preset="bold" size="lg" text="Add contact" style={$modalHeader} />
           <View style={$modalForm}>
             <View style={$formInputGroup}>
@@ -187,7 +188,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
               onPress={() => addCustomContact()}
             />
           </View>
-        </BottomSheetScrollView>
+        </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )
@@ -227,7 +228,6 @@ const $modalHeader: ViewStyle = {
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
-  marginBottom: spacing.extraLarge,
 }
 
 const $modalForm: ViewStyle = {

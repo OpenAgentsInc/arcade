@@ -19,8 +19,8 @@ import { PlusSquareIcon, XIcon } from "lucide-react-native"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
   BottomSheetTextInput,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet"
 
 interface RelayManagerScreenProps
@@ -29,7 +29,7 @@ interface RelayManagerScreenProps
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-    const snapPoints = useMemo(() => ["35%", "50%"], [])
+    const snapPoints = useMemo(() => ["35%"], [])
 
     // Pull in one of our MST stores
     const {
@@ -146,7 +146,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
 
     return (
       <BottomSheetModalProvider>
-        <Screen contentContainerStyle={$root} preset="fixed" keyboardOffset={50}>
+        <Screen contentContainerStyle={$root} preset="fixed">
           <SectionList
             sections={data}
             extraData={suggests}
@@ -190,9 +190,10 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={$modal}
+            keyboardBehavior="fillParent"
             handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
           >
-            <BottomSheetScrollView style={$modalContent}>
+            <BottomSheetView style={$modalContent}>
               <Text preset="bold" size="lg" text="Add custom relay" style={$modalHeader} />
               <View style={$modalForm}>
                 <View style={$formInputGroup}>
@@ -215,7 +216,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
                   onPress={() => addCustomRelay()}
                 />
               </View>
-            </BottomSheetScrollView>
+            </BottomSheetView>
           </BottomSheetModal>
         </Screen>
       </BottomSheetModalProvider>
@@ -264,12 +265,12 @@ const $modal: ViewStyle = {
 
 const $modalHeader: ViewStyle = {
   alignSelf: "center",
+  marginBottom: spacing.small,
 }
 
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
-  marginBottom: spacing.extraLarge,
 }
 
 const $modalForm: ViewStyle = {
