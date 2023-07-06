@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useState } from "react"
+import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -13,53 +13,37 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
+import { AutoImage, Button, ListItem, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { EditIcon } from "lucide-react-native"
-import { NostrPool } from "app/arclib/src"
-import { ProfileManager } from "app/arclib/src/profile"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
-  const pool = useContext(RelayContext) as NostrPool
-  const pmgr = new ProfileManager(pool) as ProfileManager
-
-  const [profile, setProfile] = useState(null)
-
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const {
+    userStore: { pubkey, metadata, fetchMetadata, logout },
+  } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
-  const logout = () => {
-    // clear user store
-    userStore.logout()
-  }
-
-  useFocusEffect(
-    useCallback(() => {
-      async function fetchProfile() {
-        const res = await pmgr.load()
-        if (res) {
-          setProfile(res)
-        }
-      }
-      fetchProfile().catch(console.error)
-    }, [userStore.pubkey]),
-  )
+  useEffect(() => {
+    if (!metadata) {
+      fetchMetadata()
+    }
+  }, [])
 
   return (
     <Screen style={$root} preset="scroll">
       <View style={$cover}>
         <AutoImage
           source={{
-            uri: profile?.banner || "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg",
+            uri: metadata?.banner,
           }}
           style={$image}
         />
@@ -69,7 +53,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <View style={$avatar}>
             <AutoImage
               source={{
-                uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+                uri: metadata?.picture,
               }}
               style={[$image, $avatarImage]}
             />
@@ -77,13 +61,13 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <Text
             preset="bold"
             size="lg"
-            text={profile?.display_name || profile?.name || "No name"}
+            text={metadata?.display_name || metadata?.username || "No name"}
             style={$userName}
           />
           <TouchableOpacity
-            onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(userStore.pubkey))}
+            onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(pubkey))}
           >
-            <Text size="sm" text={shortenKey(userStore.pubkey)} style={$userNip05} />
+            <Text size="sm" text={shortenKey(pubkey)} style={$userNip05} />
           </TouchableOpacity>
         </View>
         <View style={$sections}>
@@ -99,14 +83,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => navigation.navigate("EditProfile")}
                 style={$sectionDataItem}
               >
-                <Text text={profile?.username || "No username"} />
+                <Text text={metadata?.username || "No username"} />
                 <Text text="Username" size="xs" style={$sectionDataItemSubtitle} />
               </Pressable>
               <Pressable
                 onPress={() => navigation.navigate("EditProfile")}
                 style={$sectionDataItem}
               >
-                <Text text={profile?.nip05 || "No nip-05"} />
+                <Text text={metadata?.nip05 || "No nip-05"} />
                 <Text text="NIP-05" size="xs" style={$sectionDataItemSubtitle} />
               </Pressable>
               <Pressable
@@ -114,7 +98,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionDataItem}
               >
                 <Text text="Bio" size="xs" style={$sectionDataItemSubtitle} />
-                <Text text={profile?.about || profile?.bio || "No bio"} />
+                <Text text={metadata?.about || metadata?.about || "No bio"} />
               </Pressable>
             </View>
           </View>

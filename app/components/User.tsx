@@ -1,35 +1,30 @@
-import React, { memo, useContext, useEffect, useState } from "react"
+import React, { memo, useContext } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
+import { useQuery } from "react-query"
+import { VenetianMaskIcon } from "lucide-react-native"
 
 interface UserProp {
   pubkey: string
   reverse?: boolean
+  blinded?: boolean
 }
 
-export const User = memo(function User({ pubkey, reverse }: UserProp) {
+export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
 
-  const [profile, setProfile] = useState(null)
-
-  useEffect(() => {
-    async function fetchProfile() {
-      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
-      const latest = list.slice(-1)[0]
-      if (latest) {
-        const content = JSON.parse(latest.content)
-        setProfile(content)
-      } else {
-        console.log("user profile not found", pubkey)
-      }
+  const { data: profile } = useQuery(["user", pubkey], async () => {
+    const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+    const latest = list.slice(-1)[0]
+    if (latest) {
+      return JSON.parse(latest.content)
     }
-    fetchProfile().catch(console.error)
-  }, [pubkey])
+  })
 
   return (
     <>
@@ -38,6 +33,11 @@ export const User = memo(function User({ pubkey, reverse }: UserProp) {
           source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
           style={$userAvatar}
         />
+        {blinded && (
+          <View style={$blinded}>
+            <VenetianMaskIcon width={20} height={20} color={colors.palette.cyan500} />
+          </View>
+        )}
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
@@ -54,6 +54,12 @@ export const User = memo(function User({ pubkey, reverse }: UserProp) {
 
 const $user: ViewStyle = {
   flexShrink: 0,
+  position: "relative",
+}
+
+const $blinded: ViewStyle = {
+  alignSelf: "center",
+  marginTop: spacing.tiny,
 }
 
 const $userAvatar: ImageStyle = {

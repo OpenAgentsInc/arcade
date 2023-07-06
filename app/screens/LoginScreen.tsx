@@ -1,6 +1,6 @@
 import React, { FC, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Button, Header, Screen, Text, TextField } from "app/components"
@@ -15,6 +15,7 @@ interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"L
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen() {
   const [nsec, setNsec] = useState("")
   const [secure, setSecure] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   // Pull in one of our MST stores
   const { userStore } = useStores()
@@ -24,11 +25,18 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
 
   // login
   const login = () => {
-    let accessKey = nsec
-    if (!accessKey.startsWith("nsec")) {
-      accessKey = nip19.nsecEncode(accessKey)
+    if (!nsec && nsec.length < 60) {
+      alert("access key as nsec or hexstring is required")
+    } else {
+      setLoading(true)
+
+      let accessKey = nsec
+      if (!accessKey.startsWith("nsec")) {
+        accessKey = nip19.nsecEncode(accessKey)
+      }
+
+      userStore.loginWithNsec(accessKey)
     }
-    userStore.loginWithNsec(accessKey)
   }
 
   useLayoutEffect(() => {
@@ -75,7 +83,13 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
             )}
           </Pressable>
         </View>
-        <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />
+        <View style={$formButtonGroup}>
+          {loading ? (
+            <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+          ) : (
+            <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />
+          )}
+        </View>
       </View>
     </Screen>
   )
@@ -141,4 +155,13 @@ const $button: ViewStyle = {
   marginVertical: spacing.medium,
   height: 50,
   minHeight: 50,
+}
+
+const $formButtonGroup: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  height: 50,
+  minHeight: 50,
+  marginVertical: spacing.medium,
 }

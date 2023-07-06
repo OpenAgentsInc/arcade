@@ -107,7 +107,7 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
               </View>
               <View>
                 <Text
-                  text="Currently, this feature only supported by Arcade and not it compatible with other clients"
+                  text="Currently, this feature only supported by Arcade and not it compatible with other clients."
                   size="sm"
                   style={$desc}
                 />

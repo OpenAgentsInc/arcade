@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, { FC, useContext, useLayoutEffect, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ActivityIndicator, ImageStyle, Platform, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -13,7 +13,7 @@ import { Profile, ProfileManager } from "app/arclib/src/profile"
 import { NostrPool } from "app/arclib/src"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
-import { PrivateSettings, updateProfile } from "./NotificationSettingScreen"
+import { PrivateSettings } from "app/utils/profile"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
@@ -25,11 +25,12 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
   const formikRef = useRef(null)
 
   const [picture, setPicture] = useState(null)
-  const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(false)
 
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const {
+    userStore: { metadata, updateMetadata },
+  } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -76,7 +77,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
-      await updateProfile(profmgr, data)
+      updateMetadata(data, profmgr).then(() => navigation.navigate("Profile"))
     } catch (e) {
       alert(`Failed to save settings: ${e}`)
     }
@@ -97,19 +98,6 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
     })
   }, [])
 
-  useEffect(() => {
-    async function fetchProfile() {
-      const content = await profmgr.load()
-      if (content) {
-        setProfile(content)
-      } else {
-        console.log("user profile not found", userStore.pubkey)
-      }
-    }
-
-    fetchProfile().catch(console.error)
-  }, [userStore.pubkey])
-
   return (
     <Screen
       preset="scroll"
@@ -124,7 +112,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
       <View style={$avatar}>
         <AutoImage
           source={{
-            uri: picture || profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+            uri: picture || metadata.picture,
           }}
           style={[$image, $avatarImage]}
         />
@@ -144,16 +132,16 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
         innerRef={formikRef}
         enableReinitialize={true}
         initialValues={{
-          display_name: profile?.display_name || "",
-          name: profile?.name || "",
-          username: profile?.username || "",
-          picture: picture || profile?.picture,
-          banner: profile?.banner || "",
-          about: profile?.about || "",
-          privchat_push_enabled: profile?.privchat_push_enabled || false,
-          channel_push_enabled: profile?.channel_push_enabled || false,
-          buyoffer_push_enabled: profile?.buyoffer_push_enabled || false,
-          selloffer_push_enabled: profile?.selloffer_push_enabled || false,
+          display_name: metadata.display_name,
+          username: metadata.username,
+          nip05: metadata.nip05,
+          picture: picture || metadata.picture,
+          banner: metadata.banner,
+          about: metadata.about,
+          privchat_push_enabled: metadata.privchat_push_enabled,
+          channel_push_enabled: metadata.channel_push_enabled,
+          buyoffer_push_enabled: metadata.channel_push_enabled,
+          selloffer_push_enabled: metadata.channel_push_enabled,
         }}
         onSubmit={(values) => updateSettings(values)}
       >
@@ -170,22 +158,22 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               autoFocus={false}
             />
             <TextField
-              label="Name"
-              style={$input}
-              inputWrapperStyle={$inputWrapper}
-              onChangeText={handleChange("name")}
-              onBlur={handleBlur("name")}
-              value={values.name}
-              autoCapitalize="none"
-              autoFocus={false}
-            />
-            <TextField
               label="Username"
               style={$input}
               inputWrapperStyle={$inputWrapper}
               onChangeText={handleChange("username")}
               onBlur={handleBlur("username")}
               value={values.username}
+              autoCapitalize="none"
+              autoFocus={false}
+            />
+            <TextField
+              label="NIP-05"
+              style={$input}
+              inputWrapperStyle={$inputWrapper}
+              onChangeText={handleChange("displayName")}
+              onBlur={handleBlur("displayName")}
+              value={values.nip05}
               autoCapitalize="none"
               autoFocus={false}
             />
