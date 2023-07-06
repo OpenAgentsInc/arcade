@@ -2,15 +2,7 @@ import { useNavigation } from "@react-navigation/native"
 import { Header, Screen } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useLayoutEffect, useState } from "react"
-import {
-  Platform,
-  Pressable,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native"
+import { Platform, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 
 export const TrainAI = () => {
   const navigation = useNavigation<any>()
@@ -48,8 +40,9 @@ export const TrainAI = () => {
               <Text style={$settingTitle}>GPT-3.5</Text>
               {model === "GPT-3.5" && <Text style={$checkmark}>✓</Text>}
               <Text style={$settingSubtitle}>The default model of ChatGPT</Text>
-              <View style={$divider} />
+              <Text style={$settingPrice}>Free during beta</Text>
             </TouchableOpacity>
+            <View style={$divider} />
             <TouchableOpacity
               activeOpacity={0.8}
               style={$settingBackground}
@@ -58,6 +51,18 @@ export const TrainAI = () => {
               <Text style={$settingTitle}>GPT-4</Text>
               {model === "GPT-4" && <Text style={$checkmark}>✓</Text>}
               <Text style={$settingSubtitle}>Smarter but slower & more expensive</Text>
+              <Text style={$settingPrice}>Free for this version</Text>
+            </TouchableOpacity>
+            <View style={$divider} />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={$settingBackground}
+              onPress={() => setModel("Claude")}
+            >
+              <Text style={$settingTitle}>Claude</Text>
+              {model === "Claude" && <Text style={$checkmark}>✓</Text>}
+              <Text style={$settingSubtitle}>100K token context; good for long documents</Text>
+              <Text style={$settingPrice}>Free for this version</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -72,7 +77,7 @@ const $checkmark: TextStyle = {
   position: "absolute",
   fontWeight: "bold",
   right: 0,
-  top: 12,
+  top: 22,
 }
 
 const $root: ViewStyle = {
@@ -97,14 +102,20 @@ const $settingTitle: TextStyle = {
 
 const $settingSubtitle: TextStyle = {
   fontSize: 16,
+  color: "white",
+  marginTop: 5,
+}
+
+const $settingPrice: TextStyle = {
+  fontSize: 16,
   color: "#999",
   marginTop: 5,
 }
 
 const $settingContainer: ViewStyle = {
   backgroundColor: "#1c1c1e",
-  paddingVertical: 12,
-  paddingHorizontal: 14,
+  paddingVertical: 16,
+  paddingHorizontal: 16,
   borderRadius: 12,
 }
 
