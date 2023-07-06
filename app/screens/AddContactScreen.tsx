@@ -17,11 +17,11 @@ import { colors, spacing } from "app/theme"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
   BottomSheetTextInput,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
-import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager } from "app/utils/useUserContacts"
 import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
 import { resolvePubkey} from "app/arclib/src/contacts"
@@ -42,10 +42,8 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["36%", "50%"], [])
 
-  const contacts = useUserContacts()
-
   const {
-    userStore: { addContact, removeContact },
+    userStore: { getContacts, addContact, removeContact },
   } = useStores()
 
   // Pull in navigation via hook
@@ -105,29 +103,38 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     fetchSuggestion()
   }, [])
 
-  const renderItem = useCallback(({ item }) => {
-    const added = contacts.find((e) => e.pubkey === item.pubkey)
-    return (
-      <View style={$item}>
-        <ContactItem pubkey={item.pubkey} fallback={item.profile.content} />
-        {added ? (
-          <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
-            <Text text="Remove" size="xs" />
-          </Pressable>
-        ) : (
-          <Pressable
-            onPress={() => addContact({ pubkey: item.pubkey, legacy: true, secret: false }, mgr)}
-          >
-            <Text text="Add" size="xs" />
-          </Pressable>
-        )}
-      </View>
-    )
-  }, [])
+  const renderItem = useCallback(
+    ({ item }) => {
+      const added = getContacts.find((e) => e.pubkey === item.pubkey)
+      return (
+        <View style={$item}>
+          <ContactItem pubkey={item.pubkey} fallback={item.profile.content} />
+          {added ? (
+            <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
+              <Text text="Remove" size="xs" />
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() =>
+                addContact(
+                  { pubkey: item.pubkey, legacy: true, secret: false },
+                  mgr,
+                  item.profile.content,
+                )
+              }
+            >
+              <Text text="Add" size="xs" />
+            </Pressable>
+          )}
+        </View>
+      )
+    },
+    [getContacts],
+  )
 
   return (
     <BottomSheetModalProvider>
-      <Screen contentContainerStyle={$root} preset="fixed" keyboardOffset={50}>
+      <Screen contentContainerStyle={$root} preset="fixed">
         <View style={$heading}>
           <Text text="Suggestions" size="lg" preset="bold" />
         </View>
@@ -140,6 +147,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         ) : (
           <FlashList
             data={data.profiles}
+            extraData={getContacts}
             keyExtractor={(item: { pubkey: string }) => item.pubkey}
             renderItem={renderItem}
             ListEmptyComponent={
@@ -157,9 +165,10 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backgroundStyle={$modal}
+        keyboardBehavior="fillParent"
         handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
       >
-        <BottomSheetScrollView style={$modalContent}>
+        <BottomSheetView style={$modalContent}>
           <Text preset="bold" size="lg" text="Add contact" style={$modalHeader} />
           <View style={$modalForm}>
             <View style={$formInputGroup}>
@@ -182,7 +191,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
               onPress={() => addCustomContact()}
             />
           </View>
-        </BottomSheetScrollView>
+        </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )
@@ -222,7 +231,6 @@ const $modalHeader: ViewStyle = {
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
-  marginBottom: spacing.extraLarge,
 }
 
 const $modalForm: ViewStyle = {

@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useContext, useLayoutEffect, useMemo } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, View, ViewStyle } from "react-native"
+import { Alert, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, RelayContext, Screen, Text } from "app/components"
@@ -29,8 +29,17 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
     const navigation = useNavigation<any>()
 
     const leave = (id: string) => {
-      console.log("leaving: ", id)
-      leaveChannel(id)
+      Alert.alert("Confirm leave channel", "Are you sure?", [
+        {
+          text: "Cancel",
+        },
+        {
+          text: "Confirm",
+          onPress: () => {
+            leaveChannel(id)
+          },
+        },
+      ])
     }
 
     const invite = (info: { id: string; name: string; privkey: string }) => {

@@ -19,17 +19,19 @@ import { PlusSquareIcon, XIcon } from "lucide-react-native"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
   BottomSheetTextInput,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet"
 
 interface RelayManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"RelayManager">> {}
 
+const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g
+
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-    const snapPoints = useMemo(() => ["35%", "50%"], [])
+    const snapPoints = useMemo(() => ["35%"], [])
 
     // Pull in one of our MST stores
     const {
@@ -93,8 +95,11 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
 
     const addCustomRelay = () => {
       try {
-        const relay = new URL(url.trim())
-        if (relay.protocol === "wss:" || relay.protocol === "ws:") {
+        const relay = new URL(url.replace(/\s/g, ""))
+        if (
+          (domainRegex.test(relay.origin) && relay.protocol === "wss:") ||
+          relay.protocol === "ws:"
+        ) {
           if (!getRelays.includes(relay.origin)) {
             addRelay(relay.origin)
             setURL("")
@@ -146,7 +151,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
 
     return (
       <BottomSheetModalProvider>
-        <Screen contentContainerStyle={$root} preset="fixed" keyboardOffset={50}>
+        <Screen contentContainerStyle={$root} preset="fixed">
           <SectionList
             sections={data}
             extraData={suggests}
@@ -190,9 +195,10 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={$modal}
+            keyboardBehavior="fillParent"
             handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
           >
-            <BottomSheetScrollView style={$modalContent}>
+            <BottomSheetView style={$modalContent}>
               <Text preset="bold" size="lg" text="Add custom relay" style={$modalHeader} />
               <View style={$modalForm}>
                 <View style={$formInputGroup}>
@@ -215,7 +221,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
                   onPress={() => addCustomRelay()}
                 />
               </View>
-            </BottomSheetScrollView>
+            </BottomSheetView>
           </BottomSheetModal>
         </Screen>
       </BottomSheetModalProvider>
@@ -264,12 +270,12 @@ const $modal: ViewStyle = {
 
 const $modalHeader: ViewStyle = {
   alignSelf: "center",
+  marginBottom: spacing.small,
 }
 
 const $modalContent: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.large,
-  marginBottom: spacing.extraLarge,
 }
 
 const $modalForm: ViewStyle = {

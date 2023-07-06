@@ -1,39 +1,35 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { NostrPool } from "app/arclib/src"
+import { useQuery } from "react-query"
 
 export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: string }) {
   const pool = useContext(RelayContext) as NostrPool
-  const [metadata, setMetadata] = useState(null)
 
-  useEffect(() => {
-    async function fetchProfile() {
-      if (fallback) {
-        const content = JSON.parse(fallback)
-        setMetadata(content)
-      } else {
-        const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
-        if (list.length > 0) {
-          const content = JSON.parse(list[0].content)
-          setMetadata(content)
-        }
+  const { data: profile } = useQuery(["user", pubkey], async () => {
+    if (fallback) {
+      return JSON.parse(fallback)
+    } else {
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        return JSON.parse(latest.content)
       }
     }
-    fetchProfile().catch(console.error)
-  }, [pubkey])
+  })
 
   return (
     <View style={$item}>
       <AutoImage
-        source={{ uri: metadata?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$itemAvatar}
       />
       <View>
         <Text
-          text={metadata?.display_name || metadata?.name || "Loading..."}
+          text={profile?.display_name || profile?.username || "Loading..."}
           preset="bold"
           numberOfLines={1}
           style={$itemName}
@@ -59,7 +55,7 @@ const $itemAvatar: ImageStyle = {
 }
 
 const $itemName: TextStyle = {
-  maxWidth: 250,
+  maxWidth: 200,
 }
 
 const $itemContent: TextStyle = {

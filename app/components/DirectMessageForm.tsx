@@ -28,6 +28,9 @@ export function DirectMessageForm({
   const [value, setValue] = useState("")
 
   const imagePicker = async () => {
+    // start loading
+    setLoading(true)
+    // open image picker
     const result = await launchImageLibrary({ mediaType: "photo", selectionLimit: 1 })
     if (!result.didCancel) {
       const filename = result.assets[0].fileName
@@ -67,7 +70,10 @@ export function DirectMessageForm({
   }
 
   const submit = async () => {
-    if (!value) return
+    if (!attached && value.length === 0) {
+      alert("Message cannot be empty")
+      return
+    }
 
     let content = value
     if (attached) {
@@ -88,6 +94,8 @@ export function DirectMessageForm({
     }
     // reset state
     setValue("")
+    setAttached(null)
+    setLoading(false)
   }
 
   return (

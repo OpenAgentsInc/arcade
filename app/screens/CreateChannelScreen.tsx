@@ -73,7 +73,8 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     const createChannel = async (data: any) => {
       try {
-        if (!data.name) {
+        const channelName = data.name.trim()
+        if (channelName.length < 1) {
           alert("Channel name is required")
         } else {
           const fullData: ChannelInfo = { ...data, picture }
