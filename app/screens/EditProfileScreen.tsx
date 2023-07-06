@@ -77,7 +77,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
-      updateMetadata(data, profmgr)
+      updateMetadata(data, profmgr).then(() => navigation.navigate("Profile"))
     } catch (e) {
       alert(`Failed to save settings: ${e}`)
     }
