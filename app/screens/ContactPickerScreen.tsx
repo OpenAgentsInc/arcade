@@ -25,7 +25,7 @@ import {
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
-import { nip19 } from "nostr-tools"
+import { resolvePubkey } from "app/arclib/src/contacts"
 import { Channel, useStores } from "app/models"
 
 interface ContactPickerScreenProps
@@ -119,19 +119,17 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
       }
     }
 
-    const addCustomContact = (data) => {
+    const addCustomContact = async (data) => {
       let pubkey = data.pubkey
-      if (/[a-f0-9]{64}/.test(pubkey)) {
-        if (pubkey.substring(0, 4) === "npub") {
-          pubkey = nip19.decode(pubkey).data
-        }
-        setCustom((prev) => [...prev, pubkey])
-        setSelected(pubkey)
-        // reset form
-        formikRef.current?.resetForm()
-      } else {
-        alert(`pubkey/npub is invalid, please check again`)
+      try {
+        pubkey = await resolvePubkey(pubkey)
+      } catch (e) {
+          alert(`Invalid contact: ${e}`)
       }
+      setCustom((prev) => [...prev, pubkey])
+      setSelected(pubkey)
+      // reset form
+      formikRef.current?.resetForm()
     }
 
     const handlePresentModalPress = useCallback(() => {
