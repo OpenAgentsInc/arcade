@@ -22,6 +22,12 @@ import { ImagePlusIcon } from "lucide-react-native"
 interface CreateAccountScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateAccount">> {}
 
+interface ISignup {
+  displayName: string
+  username: string
+  about: string
+}
+
 export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
   function CreateAccountScreen() {
     const formikRef = useRef(null)
@@ -76,14 +82,17 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
       }
     }
 
-    const signup = (data: { displayName: string; username: string; about: string }) => {
+    const signup = async (data: ISignup) => {
       if (!data.username) {
         alert("Username is required")
       } else if (!/^[0-9a-zA-Z_.-]+$/.test(data.username)) {
         alert("Username is invalid, please check again")
       } else {
         setLoading(true)
-        userStore.signup(picture, data.username, data.displayName, data.about)
+        await userStore.signup(picture, data.username, data.displayName, data.about).catch((e) => {
+          alert(e)
+          setLoading(false)
+        })
       }
     }
 
