@@ -12,6 +12,7 @@ import {
   ArcadeIdentity,
   BlindedEvent,
   ChannelInfo,
+  ChannelManager,
   NostrEvent,
   NostrPool,
   PrivateMessageManager,
@@ -22,7 +23,6 @@ import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import type { ContactManager, Contact } from "app/arclib/src/contacts"
-import { useChannelManager } from "app/utils/useUserContacts"
 import { ContactModel } from "./Contact"
 import { schnorr } from "@noble/curves/secp256k1"
 import { sha256 } from "@noble/hashes/sha256"
@@ -115,16 +115,14 @@ export const UserStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(info: ChannelInfo) {
+    joinChannel(mgr: ChannelManager, info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
       if (index === -1) self.channels.push(ChannelModel.create(info))
-      const mgr = useChannelManager()
-      mgr.join(info.id)
+      mgr.joinAll(self.channels.map(el=>el.id))
     },
-    leaveChannel(id: string) {
+    leaveChannel(mgr: ChannelManager, id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
-      const mgr = useChannelManager()
       mgr.leave(id)
     },
     async afterCreate() {
@@ -161,7 +159,7 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    loginWithNsec: flow(function* (nsec: string) {
+    loginWithNsec: flow(function* (mgr: ChannelManager, nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
       }
@@ -172,13 +170,12 @@ export const UserStoreModel = types
         const ident = new ArcadeIdentity(privkey)
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        const mgr = useChannelManager()
-
         let channels = DEFAULT_CHANNELS
 
         try {
           const tmp = yield mgr.listChannels()
-          if (tmp && tmp.length) channels = tmp
+          if (tmp && tmp.length)
+            channels = tmp
         } catch {
           // ok, just use default
         }
@@ -250,8 +247,7 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
-    updateChannels: flow(function* (_pool: NostrPool) {
-      const mgr = useChannelManager()
+    updateChannels: flow(function* (mgr: ChannelManager) {
       const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
         if (ch.is_private) {

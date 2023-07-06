@@ -31,7 +31,7 @@ export const RootStoreModel = types.model("RootStore").props({
       },
     ],
   }),
-  userStore: types.optional(UserStoreModel, {} as any),
+  userStore: types.optional(UserStoreModel, {}),
 })
 
 /**

@@ -8,17 +8,17 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
-import { ChannelInfo, ChannelManager, NostrPool } from "app/arclib/src"
+import { ChannelInfo, NostrPool } from "app/arclib/src"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
+import { useChannelManager } from "app/utils/useUserContacts"
 
 interface CreateChannelScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
   function CreateChannelScreen({ route }: { route: any }) {
-    const pool = useContext(RelayContext) as NostrPool
-    const channelManager: ChannelManager = new ChannelManager(pool)
+    const channelManager = useChannelManager()
     const formikRef = useRef(null)
 
     // route params
@@ -87,7 +87,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           channelStore.create(info)
 
           // add created channel to user store
-          userStore.joinChannel(info)
+          userStore.joinChannel(channelManager, info)
 
           if (fullData.is_private) {
             // redirect to invite screen
