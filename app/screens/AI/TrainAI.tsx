@@ -2,7 +2,15 @@ import { useNavigation } from "@react-navigation/native"
 import { Header, Screen } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useLayoutEffect, useState } from "react"
-import { Platform, Text, TextStyle, View, ViewStyle } from "react-native"
+import {
+  Platform,
+  Pressable,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native"
 
 export const TrainAI = () => {
   const navigation = useNavigation<any>()
@@ -32,20 +40,39 @@ export const TrainAI = () => {
         <View style={$main}>
           <Text style={$settingHeading}>MODEL</Text>
           <View style={$settingContainer}>
-            <View style={$settingBackground}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={$settingBackground}
+              onPress={() => setModel("GPT-3.5")}
+            >
               <Text style={$settingTitle}>GPT-3.5</Text>
+              {model === "GPT-3.5" && <Text style={$checkmark}>✓</Text>}
               <Text style={$settingSubtitle}>The default model of ChatGPT</Text>
               <View style={$divider} />
-            </View>
-            <View style={$settingBackground}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={$settingBackground}
+              onPress={() => setModel("GPT-4")}
+            >
               <Text style={$settingTitle}>GPT-4</Text>
-              <Text style={$settingSubtitle}>Smarter but slower</Text>
-            </View>
+              {model === "GPT-4" && <Text style={$checkmark}>✓</Text>}
+              <Text style={$settingSubtitle}>Smarter but slower & more expensive</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
     </Screen>
   )
+}
+
+const $checkmark: TextStyle = {
+  fontSize: 20,
+  color: "cyan",
+  position: "absolute",
+  fontWeight: "bold",
+  right: 0,
+  top: 12,
 }
 
 const $root: ViewStyle = {
