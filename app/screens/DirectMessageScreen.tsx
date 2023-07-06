@@ -101,9 +101,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         if (item.pubkey === pubkey) {
           return (
             <View style={$messageItemReverse}>
-              <User pubkey={item.pubkey} reverse={true} />
+              <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
               <View style={$messageContentWrapperReverse}>
-                {item.blinded && <Text style={$blindedIconLeft}>🕶️</Text>}
                 <MessageContent content={content} />
                 <View style={$createdAt}>
                   <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
@@ -114,8 +113,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         } else {
           return (
             <View style={$messageItem}>
-              {item.blinded && <Text style={$blindedIconRight}>🕶️</Text>}
-              <User pubkey={item.pubkey} />
+              <User pubkey={item.pubkey} blinded={item.blinded} />
               <View style={$messageContentWrapper}>
                 <MessageContent content={content} />
                 <View style={$createdAt}>
@@ -235,18 +233,4 @@ const $createdAtText: TextStyle = {
 const $emptyState: ViewStyle = {
   alignSelf: "center",
   paddingVertical: spacing.medium,
-}
-
-const $blindedIconLeft: TextStyle = {
-  position: "absolute",
-  top: 5,
-  right: 5,
-  fontSize: 20,
-}
-
-const $blindedIconRight: TextStyle = {
-  position: "absolute",
-  top: 5,
-  right: 15,
-  fontSize: 20,
 }

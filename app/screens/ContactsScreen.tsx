@@ -7,7 +7,7 @@ import { ContactItem, Header, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { useContactManager, useUserContacts } from "app/utils/useUserContacts"
+import { useContactManager } from "app/utils/useUserContacts"
 import { UserMinus, Globe } from "lucide-react-native"
 import { useStores } from "app/models"
 import { Contact } from "app/arclib/src/contacts"
@@ -16,18 +16,22 @@ interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps
 
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
   const mgr = useContactManager()
-  const contacts = useUserContacts()
+  // const contacts = useUserContacts()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   // Stores
   const {
-    userStore: { removeContact },
+    userStore: { getContacts, fetchContacts, removeContact },
   } = useStores()
 
   const unfollow = (pubkey: string) => {
     removeContact(pubkey, mgr)
+  }
+
+  const refresh = () => {
+    fetchContacts(mgr)
   }
 
   useLayoutEffect(() => {
@@ -37,6 +41,9 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         <Header
           title="Contacts"
           titleStyle={{ color: colors.palette.white }}
+          leftIcon="RefreshCcw"
+          leftIconColor={colors.palette.cyan400}
+          onLeftPress={() => refresh()}
           rightIcon="Plus"
           rightIconColor={colors.palette.cyan400}
           onRightPress={() => navigation.navigate("AddContact")}
@@ -60,7 +67,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   return (
     <Screen style={$root} preset="scroll">
       <FlashList
-        data={contacts}
+        data={getContacts}
         keyExtractor={(item) => item.pubkey}
         renderItem={renderItem}
         ListEmptyComponent={

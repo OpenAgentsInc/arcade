@@ -105,11 +105,13 @@ function App(props: AppProps) {
     config,
   }
 
+  const queryClient = new QueryClient()
+
   // otherwise, we're ready to render the app
   return (
-    <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <ErrorBoundary catchErrors={Config.catchErrors}>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ErrorBoundary catchErrors={Config.catchErrors}>
+        <QueryClientProvider client={queryClient}>
           <RelayProvider>
             <GestureHandlerRootView
               style={{ flex: 1 /* eslint-disable-line react-native/no-inline-styles */ }}
@@ -121,9 +123,9 @@ function App(props: AppProps) {
               />
             </GestureHandlerRootView>
           </RelayProvider>
-        </ErrorBoundary>
-      </SafeAreaProvider>
-    </QueryClientProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </SafeAreaProvider>
   )
 }
 
