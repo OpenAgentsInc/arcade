@@ -22,8 +22,8 @@ import {
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
 import { useContactManager } from "app/utils/useUserContacts"
-import { nip19 } from "nostr-tools"
 import { FlashList } from "@shopify/flash-list"
+import { resolvePubkey} from "app/arclib/src/contacts"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
@@ -53,22 +53,17 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   const [data, setData] = useState<ISuggestions>({ error: false, profiles: [] })
 
   const addCustomContact = async () => {
-    if (customContact.length > 4) {
-      let pubkey: string = customContact.trim()
-      if (pubkey.substring(0, 4) === "npub") {
-        pubkey = nip19.decode(pubkey).data.toString()
-      }
-      if (/[a-f0-9]{64}/.test(pubkey) && !getContacts.find((el) => el.pubkey === pubkey)) {
-        try {
-          addContact({ pubkey, legacy: true, secret: false }, mgr)
-        } catch (e) {
-          alert(`Invalid contact: ${e}`)
-        }
-      } else {
-        alert(`Invalid pubkey`)
-      }
-    } else {
-      alert(`npub or pubkey can't be blank`)
+    let pubkey: string = customContact.trim()
+    try {
+      pubkey = await resolvePubkey(pubkey)
+    } catch (e) {
+        alert(`Invalid contact: ${e}`)
+    }
+    try {
+      addContact({ pubkey, legacy: true, secret: false }, mgr)
+      navigation.goBack()
+    } catch (e) {
+      alert(`Invalid contact: ${e}`)
     }
   }
 
