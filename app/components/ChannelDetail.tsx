@@ -1,10 +1,7 @@
 import React from "react"
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import { spacing } from "app/theme"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
-
-dayjs.extend(relativeTime)
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
 
 type ChannelDetailProps = {
   image: string
@@ -34,9 +31,7 @@ export const ChannelDetail = (props: ChannelDetailProps) => {
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName}>{name}</Text>
-          <Text style={styles.$messageContentTime}>
-            {dayjs.unix(lastMessageTime).format("h:mm A")}
-          </Text>
+          <Text style={styles.$messageContentTime}>{formatCreatedAt(lastMessageTime)}</Text>
         </View>
         <View style={styles.$messageContentRight}>
           <View style={styles.$unreadMessagesBadge}>

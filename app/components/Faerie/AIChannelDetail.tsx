@@ -4,6 +4,7 @@ import { images, spacing } from "app/theme"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { useNavigation } from "@react-navigation/native"
+import { formatCreatedAt } from "app/utils/formatCreatedAt"
 
 dayjs.extend(relativeTime)
 
@@ -44,9 +45,7 @@ export const AIChannelDetail = (props: any) => {
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName}>{name}</Text>
-          <Text style={styles.$messageContentTime}>
-            {dayjs.unix(lastMessageTime).format("h:mm A")}
-          </Text>
+          <Text style={styles.$messageContentTime}>{formatCreatedAt(lastMessageTime)}</Text>
         </View>
         <View style={styles.$messageContentRight}>
           {/* <View style={styles.$unreadMessagesBadge}>

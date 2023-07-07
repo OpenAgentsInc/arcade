@@ -21,6 +21,9 @@ export const AIChannel = ({ route }) => {
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => navigation.goBack()}
+          rightIcon="Bot"
+          rightIconColor={colors.palette.cyan400}
+          onRightPress={() => navigation.navigate("TrainAI")}
         />
       ),
     })

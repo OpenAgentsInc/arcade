@@ -5,7 +5,7 @@ import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { VenetianMaskIcon } from "lucide-react-native"
 
 interface UserProp {
