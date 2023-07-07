@@ -32,6 +32,11 @@ import { Profile, ProfileManager } from "app/arclib/src/profile"
 import { PrivateSettings, getProfile, updateProfile } from "app/utils/profile"
 
 const utf8Encoder = new TextEncoder()
+const DEFAULT_CHANNELS = [
+  "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
+  "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
+  "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
+]
 
 async function secureSet(key, value) {
   return await SecureStore.setItemAsync(key, value)
@@ -73,7 +78,7 @@ export const UserStoreModel = types
       types.model({
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
         banner: types.optional(types.string, "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg"),
-        username: types.string,
+        username: types.optional(types.string, "-"),
         nip05: types.optional(types.string, ""),
         display_name: types.optional(types.string, ""),
         about: types.optional(types.string, ""),
@@ -110,13 +115,15 @@ export const UserStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    joinChannel(info: ChannelInfo) {
+    joinChannel(mgr: ChannelManager, info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
       if (index === -1) self.channels.push(ChannelModel.create(info))
+      mgr.joinAll(self.channels.map((el) => el.id))
     },
-    leaveChannel(id: string) {
+    leaveChannel(mgr: ChannelManager, id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
       if (index !== -1) self.channels.splice(index, 1)
+      mgr.leave(id)
     },
     async afterCreate() {
       const sec = await secureGet("privkey")
@@ -146,17 +153,13 @@ export const UserStoreModel = types
         isLoggedIn: true,
         isNewUser: true,
         metadata: meta,
-        channels: [
-          "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-          "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-          "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-        ],
+        channels: DEFAULT_CHANNELS,
       })
 
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    loginWithNsec: flow(function* (nsec: string) {
+    loginWithNsec: flow(function* (mgr: ChannelManager, nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
       }
@@ -165,21 +168,36 @@ export const UserStoreModel = types
         const privkey = data as string
         const pubkey = getPublicKey(privkey)
         const ident = new ArcadeIdentity(privkey)
+        mgr.pool.ident = ident
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        applySnapshot(self, {
-          pubkey,
-          privkey,
-          isLoggedIn: true,
-          metadata: profile,
-          contacts,
-          channels: [
-            "8b28c7374ba5891ea65db9a2d1234ecc369755c35f6db1a54f18424500dea4a0",
-            "5b93e807c4bc055693be881f8cfe65b36d1f7e6d3b473ee58e8275216ff74393",
-            "3ff1f0a932e0a51f8a7d0241d5882f0b26c76de83f83c1b4c1efe42adadb27bd",
-          ],
-        })
-
+        try {
+          throw Error("no way to load mobx references, skipping channel load")
+          /*
+          const tmp = yield mgr.listChannels()
+          const channels = []
+          applySnapshot(self, {
+            pubkey,
+            privkey,
+            isLoggedIn: true,
+            metadata: profile,
+            contacts
+          })
+          tmp.forEach((el: ChannelInfo) => {
+            self.channels.push(ChannelModel.create(el))
+          })
+          */
+        } catch {
+          const channels = DEFAULT_CHANNELS
+          applySnapshot(self, {
+            pubkey,
+            privkey,
+            isLoggedIn: true,
+            metadata: profile,
+            contacts,
+            channels,
+          })
+        }
         yield secureSet("privkey", privkey)
       } catch (e: any) {
         console.log(e)
@@ -238,8 +256,7 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
-    updateChannels: flow(function* (pool: NostrPool) {
-      const mgr = new ChannelManager(pool)
+    updateChannels: flow(function* (mgr: ChannelManager) {
       const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
         if (ch.is_private) {

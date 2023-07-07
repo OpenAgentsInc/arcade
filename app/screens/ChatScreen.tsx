@@ -58,7 +58,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         text: "Confirm",
         onPress: () => {
           // update state
-          leaveChannel(channel.id)
+          leaveChannel(channelManager, channel.id)
           // redirect back
           navigation.goBack()
         },

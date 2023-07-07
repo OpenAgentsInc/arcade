@@ -41,7 +41,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     // create channel in local store
     channelStore.create(item)
     // update state
-    userStore.joinChannel(item)
+    userStore.joinChannel(mgr, item)
     // redirect to channel
     navigation.navigate("Chat", item)
   }
