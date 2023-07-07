@@ -1,20 +1,17 @@
 {
+  // This configuration extends the base TypeScript configuration for Expo projects
+  "extends": "expo/tsconfig.base.json",
+
   "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "jsx": "react-native",
-    "module": "es2015",
-    "moduleResolution": "node",
+    // Allow implicit any
     "noImplicitAny": false,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "sourceMap": true,
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
+
+    // Enable all strict type checking options
+    "strict": true,
+
+    // Enable strict null checks
+    "strictNullChecks": true,
+
     "baseUrl": "./",
     "paths": {
       "@types/*": ["./src/@types/*"],
@@ -31,8 +28,5 @@
       "stores": ["src/stores"],
       "views/*": ["src/views/*"]
     }
-  },
-  "exclude": ["node_modules"],
-  "include": ["index.js", "App.js", "app", "test", "*.js", "*.d.ts"],
-  "extends": "expo/tsconfig.base"
+  }
 }
