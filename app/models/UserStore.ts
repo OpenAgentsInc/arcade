@@ -78,7 +78,7 @@ export const UserStoreModel = types
       types.model({
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
         banner: types.optional(types.string, "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg"),
-        username: types.optional(types.string, ""),
+        username: types.optional(types.string, "-"),
         nip05: types.optional(types.string, ""),
         display_name: types.optional(types.string, ""),
         about: types.optional(types.string, ""),
@@ -181,10 +181,9 @@ export const UserStoreModel = types
             privkey,
             isLoggedIn: true,
             metadata: profile,
-            contacts,
-            channels
+            contacts
           })
-          tmp.forEach((el:ChannelInfo)=>{
+          tmp.forEach((el: ChannelInfo) => {
             self.channels.push(ChannelModel.create(el))
           })
           */
