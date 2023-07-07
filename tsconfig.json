@@ -19,5 +19,21 @@
   },
   "exclude": ["node_modules"],
   "include": ["index.js", "App.js", "app", "test", "*.js", "*.d.ts"],
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "baseUrl": "./",
+  "paths": {
+    "@types/*": ["./src/@types/*"],
+    "arca": ["src/arca"],
+    "arca/*": ["src/arca/*"],
+    "i18n": ["src/i18n"],
+    "i18n/*": ["src/i18n/*"],
+    "lib": ["src/lib"],
+    "lib/*": ["src/lib/*"],
+    "navigation": ["src/navigation"],
+    "navigation/*": ["src/navigation/*"],
+    "services/*": ["src/services/*"],
+    "stores/*": ["src/stores/*"],
+    "stores": ["src/stores"],
+    "views/*": ["src/views/*"]
+  }
 }

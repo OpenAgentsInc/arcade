@@ -1,3 +1,4 @@
+use_modular_headers!
 pod_folder = Pathname.new(__FILE__).dirname.realpath
 
 require File.join(File.dirname(`cd #{pod_folder} && node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
