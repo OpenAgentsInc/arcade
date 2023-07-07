@@ -7041,6 +7041,11 @@ expo-keep-awake@~12.3.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.3.0.tgz#c42449ae19c993274ddc43aafa618792b6aec408"
   integrity sha512-ujiJg1p9EdCOYS05jh5PtUrfiZnK0yyLy+UewzqrjUqIT8eAGMQbkfOn3C3fHE7AKd5AefSMzJnS3lYZcZYHDw==
 
+expo-linear-gradient@~12.3.0:
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.3.0.tgz#7abd8fedbf0138c86805aebbdfbbf5e5fa865f19"
+  integrity sha512-f9e+Oxe5z7fNQarTBZXilMyswlkbYWQHONVfq8MqmiEnW3h9XsxxmVJLG8uVQSQPUsbW+x1UUT/tnU6mkMWeLg==
+
 expo-linking@~5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-5.0.2.tgz#273c9dfec0c5542a13638bd422ef9acbf4638bc5"
@@ -7111,10 +7116,27 @@ expo-pwa@0.0.125:
     commander "2.20.0"
     update-check "1.5.3"
 
+expo-screen-orientation@~6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/expo-screen-orientation/-/expo-screen-orientation-6.0.2.tgz#c5632b46119c76db76b037409625c191fc266680"
+  integrity sha512-roqUjygbEFZUlnPinm/7psY+M9Z/sAqNOrW8HmudRgAouUwKygbbJ43D9bXyXMDyQFneIqlzq1vzXLAEdpfeIw==
+
 expo-secure-store@~12.3.1:
   version "12.3.1"
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-12.3.1.tgz#7e5ba94f6e7374f132108c9feb5cc811568f3db6"
   integrity sha512-XLIgWDiIuiR0c+AA4NCWWibAMHCZUyRcy+lQBU49U6rvG+xmd3YrBJfQjfqAPyLroEqnLPGTWUX57GyRsfDOQw==
+
+expo-sensors@~12.3.0:
+  version "12.3.0"
+  resolved "https://registry.yarnpkg.com/expo-sensors/-/expo-sensors-12.3.0.tgz#a3f0f86f54cf5d06a4e643d6678bc15ff4a446c9"
+  integrity sha512-KYL/WsJNJGTHRzpeCblPleuqaoCCHbIEQHg3NiRVVG1ismlGnisCPI6OBWYVZhfCJ0FjGvK0Z311Ac/KY8JSpA==
+  dependencies:
+    invariant "^2.2.4"
+
+expo-sharing@~11.5.0:
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-11.5.0.tgz#a8cad65874d882b7f75b12856b4ef55ea9b60a2d"
+  integrity sha512-uerM5YH1FKDZXfkP9ORebvlMVOPP/AfoYgYBez6a8G9fztNYHnRCA6mgK+3aQmpnb3ltmjnAZC39kH18bTNcVw==
 
 expo-splash-screen@~0.20.4:
   version "0.20.4"
