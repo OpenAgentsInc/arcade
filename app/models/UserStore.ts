@@ -118,7 +118,7 @@ export const UserStoreModel = types
     joinChannel(mgr: ChannelManager, info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
       if (index === -1) self.channels.push(ChannelModel.create(info))
-      mgr.joinAll(self.channels.map(el=>el.id))
+      mgr.joinAll(self.channels.map((el) => el.id))
     },
     leaveChannel(mgr: ChannelManager, id: string) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === id)
@@ -174,8 +174,7 @@ export const UserStoreModel = types
 
         try {
           const tmp = yield mgr.listChannels()
-          if (tmp && tmp.length)
-            channels = tmp
+          if (tmp && tmp.length) channels = tmp
         } catch {
           // ok, just use default
         }

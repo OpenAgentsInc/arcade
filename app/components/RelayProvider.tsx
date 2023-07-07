@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo } from "react"
+import React, { createContext, useEffect, useMemo, useState } from "react"
 import { useStores } from "app/models"
 import { connectDb, ArcadeIdentity, NostrPool, ArcadeDb } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
@@ -13,13 +13,13 @@ export const RelayProvider = observer(function RelayProvider({
   children: React.ReactNode
 }) {
   if (!db) throw new Error("cannot initialized db")
-  
-  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
-  const [pool, setPool] = useState<NostrPool>()
 
   const {
     userStore: { getRelays, privkey, getMetadata, isNewUser, clearNewUser },
   } = useStores()
+  
+  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
+  const [pool, setPool] = useState<NostrPool>()
 
   useEffect(() => {
     setPool(new NostrPool(ident, db))
@@ -40,8 +40,9 @@ export const RelayProvider = observer(function RelayProvider({
     }
     initRelays().catch(console.error)
 
-    return ()=>{pool.close()}
-
+    return () => {
+      pool.close()
+    }
   }, [ident, getRelays, isNewUser])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
