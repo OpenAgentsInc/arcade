@@ -1,15 +1,26 @@
-import "text-encoding-polyfill"
-import "react-native-url-polyfill/auto"
-import "isomorphic-webcrypto"
-import App from "./app/app.tsx"
-import React from "react"
-import { AppRegistry } from "react-native"
-import RNBootSplash from "react-native-bootsplash"
+import { registerRootComponent } from "expo"
+import { StatusBar } from "expo-status-bar"
+import { StyleSheet, Text, View } from "react-native"
 
-function IgniteApp() {
-  return <App hideSplashScreen={RNBootSplash.hide} />
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Open up App.js to start working on your app!</Text>
+      <StatusBar style="auto" />
+    </View>
+  )
 }
 
-AppRegistry.registerComponent("arcade", () => IgniteApp)
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    color: "white",
+  },
+})
 
-export default App
+registerRootComponent(App)
