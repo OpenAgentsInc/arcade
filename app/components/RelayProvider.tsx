@@ -2,8 +2,6 @@ import React, { createContext, useEffect, useMemo, useState } from "react"
 import { useStores } from "app/models"
 import { connectDb, ArcadeIdentity, NostrPool, ArcadeDb } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
-import { id } from "date-fns/locale"
-
 export const RelayContext = createContext({})
 
 const db: ArcadeDb = connectDb()
@@ -18,9 +16,9 @@ export const RelayProvider = observer(function RelayProvider({
   const {
     userStore: { getRelays, privkey, getMetadata, isNewUser, clearNewUser },
   } = useStores()
-  
+
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
-  const [pool, setPool] = useState<NostrPool>(()=>new NostrPool(ident, db))
+  const [pool, _setPool] = useState<NostrPool>(() => new NostrPool(ident, db))
 
   useEffect(() => {
     pool.ident = ident

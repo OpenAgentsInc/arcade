@@ -172,6 +172,8 @@ export const UserStoreModel = types
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
         try {
+          throw Error("no way to load mobx references, skipping channel load")
+          /*
           const tmp = yield mgr.listChannels()
           const channels = []
           applySnapshot(self, {
@@ -183,7 +185,9 @@ export const UserStoreModel = types
             channels
           })
           tmp.forEach((el:ChannelInfo)=>{
+            self.channels.push(ChannelModel.create(el))
           })
+          */
         } catch {
           const channels = DEFAULT_CHANNELS
           applySnapshot(self, {
