@@ -22,7 +22,7 @@ import { MessageModel } from "./Message"
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
-import type { ContactManager, Contact } from "app/arclib/src/contacts"
+import { ContactManager, Contact } from "app/arclib/src/contacts"
 import { ContactModel } from "./Contact"
 import { schnorr } from "@noble/curves/secp256k1"
 import { sha256 } from "@noble/hashes/sha256"
@@ -175,20 +175,26 @@ export const UserStoreModel = types
 
         try {
           const tmp = yield mgr.listChannels()
-          if (tmp && tmp.length) channels = tmp
+          applySnapshot(self, {
+            pubkey,
+            privkey,
+            isLoggedIn: true,
+            metadata: profile,
+            contacts
+          })
+          tmp.forEach((el:ChannelInfo)=>{
+            self.channels.push(ChannelModel.create(el))
+          })
         } catch {
-          // ok, just use default
+          applySnapshot(self, {
+            pubkey,
+            privkey,
+            isLoggedIn: true,
+            metadata: profile,
+            contacts,
+            channels,
+          })
         }
-
-        applySnapshot(self, {
-          pubkey,
-          privkey,
-          isLoggedIn: true,
-          metadata: profile,
-          contacts,
-          channels,
-        })
-
         yield secureSet("privkey", privkey)
       } catch (e: any) {
         console.log(e)
