@@ -13,16 +13,16 @@ export const RelayProvider = observer(function RelayProvider({
   children: React.ReactNode
 }) {
   if (!db) throw new Error("cannot initialized db")
+  
+  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
+  const [pool, setPool] = useState<NostrPool>()
 
   const {
     userStore: { getRelays, privkey, getMetadata, isNewUser, clearNewUser },
   } = useStores()
 
-  const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
-  const pool = useMemo(() => (ident ? new NostrPool(ident, db) : null), [privkey])
-
   useEffect(() => {
-    if (!pool) return
+    setPool(new NostrPool(ident, db))
 
     async function initRelays() {
       await pool.setRelays(getRelays)
@@ -39,7 +39,10 @@ export const RelayProvider = observer(function RelayProvider({
       }
     }
     initRelays().catch(console.error)
-  }, [pool, getRelays])
+
+    return ()=>{pool.close()}
+
+  }, [ident, getRelays, isNewUser])
 
   return <RelayContext.Provider value={pool}>{children}</RelayContext.Provider>
 })
