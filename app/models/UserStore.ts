@@ -78,7 +78,7 @@ export const UserStoreModel = types
       types.model({
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
         banner: types.optional(types.string, "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg"),
-        username: types.string,
+        username: types.optional(types.string, ""),
         nip05: types.optional(types.string, ""),
         display_name: types.optional(types.string, ""),
         about: types.optional(types.string, ""),
@@ -171,21 +171,21 @@ export const UserStoreModel = types
         mgr.pool.ident = ident
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        let channels = DEFAULT_CHANNELS
-
         try {
           const tmp = yield mgr.listChannels()
+          const channels = []
           applySnapshot(self, {
             pubkey,
             privkey,
             isLoggedIn: true,
             metadata: profile,
-            contacts
+            contacts,
+            channels
           })
           tmp.forEach((el:ChannelInfo)=>{
-            self.channels.push(ChannelModel.create(el))
           })
         } catch {
+          const channels = DEFAULT_CHANNELS
           applySnapshot(self, {
             pubkey,
             privkey,
