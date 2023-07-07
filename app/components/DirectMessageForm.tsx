@@ -71,7 +71,7 @@ export function DirectMessageForm({
 
   const submit = async () => {
     if (!attached && value.length === 0) {
-      alert("Message cannot be empty")
+      // user does not need feedback, they were probably just trying to close the keyboard
       return
     }
 
