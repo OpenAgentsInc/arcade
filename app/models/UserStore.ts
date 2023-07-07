@@ -74,7 +74,7 @@ export const UserStoreModel = types
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
         banner: types.optional(types.string, "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg"),
         username: types.string,
-        nip05: types.string,
+        nip05: types.optional(types.string, ""),
         display_name: types.optional(types.string, ""),
         about: types.optional(types.string, ""),
         privchat_push_enabled: types.optional(types.boolean, false),
