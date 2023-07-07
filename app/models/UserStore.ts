@@ -168,6 +168,7 @@ export const UserStoreModel = types
         const privkey = data as string
         const pubkey = getPublicKey(privkey)
         const ident = new ArcadeIdentity(privkey)
+        mgr.pool.ident = ident
         const { profile, contacts } = yield getProfile(ident, pubkey)
 
         let channels = DEFAULT_CHANNELS
