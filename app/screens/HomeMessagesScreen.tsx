@@ -6,7 +6,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { BlindedEvent, ChannelManager, NostrPool } from "app/arclib/src"
+import { BlindedEvent, ChannelManager, NostrPool, PrivateMessageManager } from "app/arclib/src"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
@@ -28,9 +28,10 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
+    const pmgr = new PrivateMessageManager(pool) as PrivateMessageManager
 
     const {
-      userStore: { pubkey, getChannels, privMessages, addPrivMessage },
+      userStore: { pubkey, getChannels, getPrivMesages, addPrivMessage },
     } = useStores()
 
     useFocusEffect(
@@ -42,10 +43,11 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
         async function subscribe() {
           console.log("subscribe")
-          return await pool.sub(
-            [{ kinds: [4], "#p": [pubkey], since: Math.floor(Date.now() / 1000) }],
-            handleNewMessage,
-          )
+          return await pmgr.sub(handleNewMessage, {
+            kinds: [4],
+            "#p": [pubkey],
+            since: Math.floor(Date.now() / 1000),
+          })
         }
 
         // subscribe for new messages
@@ -58,7 +60,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       }, []),
     )
 
-    const data = [...getChannels, ...privMessages].sort(
+    const data = [...getChannels, ...getPrivMesages].sort(
       (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
         b.lastMessageAt - a.lastMessageAt,
     )

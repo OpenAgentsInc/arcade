@@ -104,6 +104,9 @@ export const UserStoreModel = types
     get getMetadata() {
       return self.metadata
     },
+    get getPrivMesages() {
+      return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
