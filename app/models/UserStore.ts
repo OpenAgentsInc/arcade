@@ -235,34 +235,20 @@ export const UserStoreModel = types
         const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
         // update mobx state, user will redirect to home screen immediately
-        try {
-          /*
-          const tmp = yield mgr.listChannels()
-          tmp.forEach((el: ChannelInfo) => {
-            self.channels.push(ChannelModel.create(el))
-          })
-          const joinedChannels = tmp.map((item: ChannelInfo) => item.id)
-          */
-          applySnapshot(self, {
-            pubkey,
-            privkey,
-            isLoggedIn: true,
-            metadata: profile,
-            contacts,
-            channels: DEFAULT_CHANNELS,
-            privMessages,
-          })
-        } catch {
-          applySnapshot(self, {
-            pubkey,
-            privkey,
-            isLoggedIn: true,
-            metadata: profile,
-            contacts,
-            channels: DEFAULT_CHANNELS,
-            privMessages,
-          })
-        }
+        const tmp = yield mgr.listJoined()
+        tmp.forEach((id: string) => {
+          ChannelModel.create({ id, privkey: "" })
+        })
+        const joinedChannels = DEFAULT_CHANNELS.concat(tmp)
+        applySnapshot(self, {
+          pubkey,
+          privkey,
+          isLoggedIn: true,
+          metadata: profile,
+          contacts,
+          channels: joinedChannels,
+          privMessages,
+        })
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
