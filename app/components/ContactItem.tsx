@@ -29,7 +29,7 @@ export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: s
       />
       <View>
         <Text
-          text={profile?.display_name || profile?.username || "Loading..."}
+          text={profile?.display_name || profile?.username || profile?.name || "Loading..."}
           preset="bold"
           numberOfLines={1}
           style={$itemName}

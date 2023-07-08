@@ -6,12 +6,12 @@ import { AppStackScreenProps } from "app/navigators"
 import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { ChannelManager, NostrPool } from "app/arclib/src"
-import { useFocusEffect } from "@react-navigation/native"
+import { BlindedEvent, ChannelManager, NostrPool } from "app/arclib/src"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
 import Animated, { FadeInDown } from "react-native-reanimated"
+import { useFocusEffect } from "@react-navigation/native"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}
@@ -30,12 +30,31 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     const channelManager = new ChannelManager(pool) as ChannelManager
 
     const {
-      userStore: { getChannels, privMessages, fetchPrivMessages },
+      userStore: { pubkey, getChannels, privMessages, addPrivMessage },
     } = useStores()
 
     useFocusEffect(
       useCallback(() => {
-        fetchPrivMessages(pool)
+        function handleNewMessage(event: BlindedEvent) {
+          console.log("new message", event)
+          addPrivMessage(event)
+        }
+
+        async function subscribe() {
+          console.log("subscribe")
+          return await pool.sub(
+            [{ kinds: [4], "#p": [pubkey], since: Math.floor(Date.now() / 1000) }],
+            handleNewMessage,
+          )
+        }
+
+        // subscribe for new messages
+        subscribe().catch(console.error)
+
+        return () => {
+          console.log("unsubscribe")
+          pool.unsub(handleNewMessage)
+        }
       }, []),
     )
 
