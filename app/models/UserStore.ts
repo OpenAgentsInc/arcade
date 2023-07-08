@@ -239,7 +239,7 @@ export const UserStoreModel = types
         tmp.forEach((id: string) => {
           ChannelModel.create({ id, privkey: "" })
         })
-        const joinedChannels = DEFAULT_CHANNELS.concat(tmp)
+        const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
         applySnapshot(self, {
           pubkey,
           privkey,
