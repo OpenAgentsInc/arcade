@@ -3,9 +3,11 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import React from "react"
 import Animated, {
   runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withSpring,
   withTiming,
 } from "react-native-reanimated"
 import { DonutChart } from "../AnimatedDonut"
@@ -34,7 +36,11 @@ const SwipeableItem: React.FC<{
     return clamp(Math.abs(translateX.value) / scrollableAmount, 0, 1)
   })
 
+  const hasBeenFullySwiped = useSharedValue(false)
+
   const panGesture = Gesture.Pan()
+    // Needed otherwise the PanGesture will conflict with the FlashList
+    .activeOffsetX([-10, 10])
     .onBegin(() => {
       contextX.value = translateX.value
     })
@@ -47,6 +53,19 @@ const SwipeableItem: React.FC<{
       }
       translateX.value = withTiming(0)
     })
+
+  useAnimatedReaction(
+    () => {
+      return progress.value
+    },
+    (value) => {
+      if (value === 0) {
+        hasBeenFullySwiped.value = false
+      } else if (value === 1) {
+        hasBeenFullySwiped.value = true
+      }
+    },
+  )
 
   const rAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -71,6 +90,23 @@ const SwipeableItem: React.FC<{
     percentageComplete.current = progress.value ** 2
   }, progress)
 
+  const rDonutStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withSpring(hasBeenFullySwiped.value ? 0 : 1, {
+        overshootClamping: true,
+        mass: 0.5,
+      }),
+      transform: [
+        {
+          scale: withSpring(hasBeenFullySwiped.value ? 2 : 1, {
+            overshootClamping: true,
+            mass: 0.5,
+          }),
+        },
+      ],
+    }
+  })
+
   return (
     <GestureDetector gesture={panGesture}>
       <Animated.View>
@@ -87,12 +123,21 @@ const SwipeableItem: React.FC<{
             swipeDirection !== "right" ? { right: -20 } : { left: -20 },
           ]}
         >
-          <DonutChart
-            radius={17.5 - 1.5}
-            strokeWidth={3}
-            percentageComplete={percentageComplete}
-            color="white"
-          />
+          <Animated.View
+            style={[
+              {
+                ...StyleSheet.absoluteFillObject,
+              },
+              rDonutStyle,
+            ]}
+          >
+            <DonutChart
+              radius={17.5}
+              strokeWidth={3}
+              percentageComplete={percentageComplete}
+              color="rgba(255,255,255,0.5)"
+            />
+          </Animated.View>
           <View
             style={{
               ...StyleSheet.absoluteFillObject,
@@ -109,6 +154,11 @@ const SwipeableItem: React.FC<{
                 backgroundColor: colors.palette.cyan950,
                 justifyContent: "center",
                 alignItems: "center",
+                transform: [
+                  {
+                    scale: swipeDirection === "left" ? -1 : 1,
+                  },
+                ],
               }}
             >
               <Icon icon="Forward" color="white" size={15} />

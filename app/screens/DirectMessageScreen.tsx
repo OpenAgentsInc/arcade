@@ -165,16 +165,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       [id],
     )
 
-    // useEffect(() => {
-    //   const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-    //     highlightedResponse.value = null
-    //   })
-
-    //   return () => {
-    //     hideSubscription.remove()
-    //   }
-    // }, [])
-
     return (
       <Screen
         style={$root}
@@ -201,6 +191,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                   </View>
                 )
               }
+              ListHeaderComponent={<View style={{ height: spacing.small }} />}
               contentContainerStyle={$list}
               removeClippedSubviews={true}
               estimatedItemSize={100}
@@ -210,7 +201,15 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           </View>
           <DirectMessageReply replyInfo={highlightedResponse} />
           <View style={$form}>
-            <DirectMessageForm dms={dms} replyTo={id} legacy={legacy} textInputRef={textInputRef} />
+            <DirectMessageForm
+              dms={dms}
+              replyTo={id}
+              legacy={legacy}
+              textInputRef={textInputRef}
+              onSubmit={() => {
+                highlightedResponse.value = null
+              }}
+            />
           </View>
         </View>
       </Screen>

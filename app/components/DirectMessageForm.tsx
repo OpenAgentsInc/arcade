@@ -20,11 +20,13 @@ export function DirectMessageForm({
   replyTo,
   legacy,
   textInputRef,
+  onSubmit,
 }: {
   dms: PrivateMessageManager
   replyTo: string
   legacy: boolean
   textInputRef?: React.RefObject<TextInput>
+  onSubmit?: () => void
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
@@ -77,6 +79,8 @@ export function DirectMessageForm({
       // user does not need feedback, they were probably just trying to close the keyboard
       return
     }
+
+    onSubmit?.()
 
     let content = value
     if (attached) {

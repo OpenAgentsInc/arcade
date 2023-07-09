@@ -1,6 +1,11 @@
 import { StyleProp, ViewStyle } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated"
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
 import React from "react"
 
 type TouchableFeedbackProps = {
@@ -32,7 +37,9 @@ const TouchableFeedback: React.FC<TouchableFeedbackProps> = ({
 
   const rAnimatedStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: active.value ? highlightColor : defaultColor,
+      backgroundColor: withTiming(active.value ? highlightColor : defaultColor, {
+        duration: 100,
+      }),
     }
   }, [highlightColor, defaultColor])
 

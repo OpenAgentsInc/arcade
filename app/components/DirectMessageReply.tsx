@@ -1,4 +1,4 @@
-import { colors, spacing } from "app/theme"
+import { colors } from "app/theme"
 import { View, StyleSheet } from "react-native"
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated"
 import { Icon } from "./Icon"
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     borderTopColor: colors.palette.cyan900,
     borderTopWidth: 1,
     flexDirection: "row",
-    marginTop: spacing.small,
     width: "100%",
     zIndex: -10,
   },
