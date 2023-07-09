@@ -4,6 +4,7 @@ import {
   ImageStyle,
   Platform,
   Pressable,
+  TextInput,
   TextStyle,
   View,
   ViewStyle,
@@ -18,10 +19,14 @@ export function DirectMessageForm({
   dms,
   replyTo,
   legacy,
+  textInputRef,
+  onSubmit,
 }: {
   dms: PrivateMessageManager
   replyTo: string
   legacy: boolean
+  textInputRef?: React.RefObject<TextInput>
+  onSubmit?: () => void
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
@@ -75,6 +80,8 @@ export function DirectMessageForm({
       return
     }
 
+    onSubmit?.()
+
     let content = value
     if (attached) {
       content = content + " " + attached
@@ -122,6 +129,7 @@ export function DirectMessageForm({
       )}
       <View style={$borderTop} />
       <TextField
+        ref={textInputRef}
         placeholder="Message"
         placeholderTextColor={colors.palette.cyan500}
         style={$input}
