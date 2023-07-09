@@ -15,7 +15,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { View, StyleSheet, TouchableOpacity, ViewProps, ViewStyle } from "react-native"
 
 import Animated, {
-  Easing,
   MeasuredDimensions,
   runOnJS,
   useAnimatedProps,
@@ -127,7 +126,6 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   const dismissBlurredPopup = useCallback(() => {
     rBlur.value = withTiming(0, {
       duration: 200,
-      easing: Easing.linear,
     })
   }, [])
 
@@ -162,7 +160,6 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     if (image != null) {
       rBlur.value = withTiming(maxBlur, {
         duration: 200,
-        easing: Easing.linear,
       })
     }
   }, [image])
