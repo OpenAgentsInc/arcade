@@ -1,11 +1,13 @@
 import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
-import { Header, Message, MessageInput, MessageType, Screen, SolidScreen } from "app/components"
+import { ActivityIndicator, Header, Message, MessageInput, Screen } from "app/components"
 import { useConversationMessages } from "app/hooks/useConversationMessages"
 import { colors, spacing } from "app/theme"
 import { randomUUID } from "isomorphic-webcrypto"
 import { useEffect, useLayoutEffect, useState } from "react"
-import { ListRenderItemInfo, Platform, View, ViewStyle } from "react-native"
+import { Dimensions, ListRenderItemInfo, Platform, StyleSheet, View, ViewStyle } from "react-native"
+
+const height = Dimensions.get("window").height
 
 export const AIChannel = ({ route }) => {
   const [conversationId, setConversationId] = useState(null)
@@ -19,9 +21,6 @@ export const AIChannel = ({ route }) => {
   // const conversationId = route?.params?.id ?? randomUUID() // A new conversationId is generated if none is provided
   const { isLoading, messages } = useConversationMessages(conversationId)
 
-  useEffect(() => {
-    console.log("Messages length:", messages.length)
-  }, [messages])
   const navigation = useNavigation<any>()
   const renderItem = (info: ListRenderItemInfo<any>) => <Message {...info} />
   useLayoutEffect(() => {
@@ -51,7 +50,19 @@ export const AIChannel = ({ route }) => {
     >
       <View style={$container}>
         <View style={$main}>
-          <FlashList renderItem={renderItem} estimatedItemSize={150} data={messages} inverted />
+          <FlashList
+            renderItem={renderItem}
+            estimatedItemSize={150}
+            data={messages}
+            inverted
+            ListEmptyComponent={() => {
+              return (
+                <View style={[styles.container, styles.centered]}>
+                  {isLoading && <ActivityIndicator type="small" color={colors.palette.cyan500} />}
+                </View>
+              )
+            }}
+          />
         </View>
         <View style={$form}>
           <MessageInput conversationId={conversationId} conversationType={"dialogue"} />
@@ -79,3 +90,14 @@ const $form: ViewStyle = {
   flexShrink: 0,
   paddingTop: spacing.small,
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  container: {
+    backgroundColor: colors.palette.almostBlack,
+    height: height - 100,
+  },
+})
