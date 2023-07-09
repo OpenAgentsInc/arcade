@@ -52,12 +52,15 @@ export function useSendMessage() {
 
       // Optimistically update to the new value
       try {
+        console.log(`attempting to set conversation-${data.conversationId}`)
         queryClient.setQueryData([`conversation-${data.conversationId}`], (old: any) => [
           data,
-          ...old,
+          ...(old || []),
+          // ...old,
         ])
       } catch (e) {
-        console.log("failed settung query data ")
+        console.error(e)
+        alert("failed settung query data ")
       }
 
       // Return a context object with the snapshotted value

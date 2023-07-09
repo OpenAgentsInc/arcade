@@ -14,6 +14,7 @@ export function useConversationMessages(conversationId: string) {
             (a, b) => new Date(b.timestamp) - new Date(a.timestamp),
           )
         }),
+    enabled: !!conversationId,
   })
 
   return {

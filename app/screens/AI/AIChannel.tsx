@@ -4,12 +4,24 @@ import { Header, Message, MessageInput, MessageType, Screen, SolidScreen } from 
 import { useConversationMessages } from "app/hooks/useConversationMessages"
 import { colors, spacing } from "app/theme"
 import { randomUUID } from "isomorphic-webcrypto"
-import { useLayoutEffect } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import { ListRenderItemInfo, Platform, View, ViewStyle } from "react-native"
 
 export const AIChannel = ({ route }) => {
-  const conversationId = route?.params?.id ?? randomUUID() // A new conversationId is generated if none is provided
+  const [conversationId, setConversationId] = useState(null)
+
+  useEffect(() => {
+    if (!conversationId) {
+      setConversationId(route?.params?.id ?? randomUUID())
+    }
+  }, [])
+
+  // const conversationId = route?.params?.id ?? randomUUID() // A new conversationId is generated if none is provided
   const { isLoading, messages } = useConversationMessages(conversationId)
+
+  useEffect(() => {
+    console.log("Messages length:", messages.length)
+  }, [messages])
   const navigation = useNavigation<any>()
   const renderItem = (info: ListRenderItemInfo<any>) => <Message {...info} />
   useLayoutEffect(() => {

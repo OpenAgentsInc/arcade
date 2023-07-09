@@ -29,7 +29,7 @@ const colors = {
 }
 
 export const AIChannelDetail = (props: any) => {
-  console.log("PROPS:", props)
+  // console.log("PROPS:", props)
   const { navigate } = useNavigation<any>()
   const { channel, lastMessageUsername, unreadCount } = props
   const image = images.faerie
