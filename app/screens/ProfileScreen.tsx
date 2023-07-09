@@ -164,46 +164,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 bottomSeparator={true}
                 style={$sectionButton}
               />
-              <TouchablePopupHandler
-                options={[
-                  {
-                    label: "Backup",
-                    onPress: () => navigation.navigate("Backup"),
-                    trailing: (
-                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
-                    ),
-                  },
-                  {
-                    label: "Privacy",
-                    onPress: () => navigation.navigate("PrivacySetting"),
-                    trailing: (
-                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
-                    ),
-                  },
-                ]}
-                onPress={() => {
-                  console.log("onPress")
-                }}
-                highlightedChildren={
-                  <ListItem
-                    text="Demo"
-                    leftIcon="DumbbellIcon"
-                    leftIconColor={colors.palette.cyan500}
-                    bottomSeparator={false}
-                    style={{
-                      paddingHorizontal: spacing.small,
-                    }}
-                  />
-                }
-              >
-                <ListItem
-                  text="Demo"
-                  leftIcon="DumbbellIcon"
-                  leftIconColor={colors.palette.cyan500}
-                  bottomSeparator={true}
-                  style={$sectionButton}
-                />
-              </TouchablePopupHandler>
             </View>
           </View>
           <View>
