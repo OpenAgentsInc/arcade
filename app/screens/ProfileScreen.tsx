@@ -20,8 +20,6 @@ import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { AxeIcon, EditIcon } from "lucide-react-native"
-import { NostrPool } from "app/arclib/src"
-import { ProfileManager } from "app/arclib/src/profile"
 import { TouchablePopupHandler } from "app/components/BlurredPopup"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}

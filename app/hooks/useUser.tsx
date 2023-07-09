@@ -1,6 +1,6 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext } from "react"
 
-import { useAnonUser } from './useAnonUser'
+import { useAnonUser } from "./useAnonUser"
 
 export const UserContext = createContext<{
   userId: string | boolean | null
@@ -12,11 +12,7 @@ export const UserContext = createContext<{
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, loading] = useAnonUser()
-  return (
-    <UserContext.Provider value={{ userId, loading }}>
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ userId, loading }}>{children}</UserContext.Provider>
 }
 
 export const useUser = () => useContext(UserContext)

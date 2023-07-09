@@ -2,6 +2,7 @@
 
 const palette = {
   almostBlack: "#030303",
+  black: "#000000",
   white: "white",
 
   gray: "#7B7C7F",

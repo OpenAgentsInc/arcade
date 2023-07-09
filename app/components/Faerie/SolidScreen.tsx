@@ -1,4 +1,6 @@
-import { KeyboardAvoidingView, Platform, View } from "react-native"
+import { KeyboardAvoidingView, Platform, View, StyleSheet } from "react-native"
+import React from "react"
+import { colors } from "app/theme"
 
 export const SolidScreen = ({
   children,
@@ -8,23 +10,33 @@ export const SolidScreen = ({
   jc?: "space-between" | "flex-start" | "flex-end" | "center"
 }) => {
   return (
-    <View style={{ flex: 1, paddingBottom: 30, backgroundColor: "#000" }}>
+    <View style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1, backgroundColor: "#000" }}
+        style={styles.keyboardAvoidingView}
       >
-        <View
-          style={{
-            backgroundColor: "#000",
-            flex: 1,
-            justifyContent: jc ?? "space-between",
-            paddingTop: 50,
-            width: "100%",
-          }}
-        >
+        <View style={[styles.innerView, { justifyContent: jc || "space-between" }]}>
           {children}
         </View>
       </KeyboardAvoidingView>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.palette.black,
+    flex: 1,
+    paddingBottom: 30,
+  },
+  innerView: {
+    backgroundColor: colors.palette.black,
+    flex: 1,
+    paddingTop: 50,
+    width: "100%",
+  },
+  keyboardAvoidingView: {
+    backgroundColor: colors.palette.black,
+    flex: 1,
+  },
+})

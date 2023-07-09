@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Text } from "../Text"
+import { StyleSheet } from "react-native"
+import { colors } from "app/theme"
 
 export function AnimatedTyping(props) {
   const [text, setText] = useState("")
@@ -76,9 +78,14 @@ export function AnimatedTyping(props) {
   }, [])
 
   return (
-    <Text style={{ paddingLeft: 20, paddingRight: 28, fontSize: 16, color: "#fff" }}>
+    <Text style={styles.textContainer}>
       {text}
-      <Text style={{ fontSize: 16, color: cursorColor }}>|</Text>
+      <Text style={[styles.cursor, { color: cursorColor }]}>|</Text>
     </Text>
   )
 }
+
+const styles = StyleSheet.create({
+  cursor: { fontSize: 16 },
+  textContainer: { color: colors.palette.white, fontSize: 16, paddingLeft: 20, paddingRight: 28 },
+})

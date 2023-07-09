@@ -11,5 +11,5 @@ export function usePlan() {
   //   return 'pro'
   // if (typeof customerInfo.entitlements?.active?.lite !== 'undefined')
   //   return 'lite'
-  return null
+  // return null
 }
