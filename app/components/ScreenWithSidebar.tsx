@@ -124,6 +124,7 @@ const $headerRightActions: ViewStyle = {
   flexDirection: "row",
   gap: spacing.medium,
   paddingRight: spacing.medium,
+  paddingVertical: spacing.small,
 }
 
 const $screenContainer: ViewStyle = {
