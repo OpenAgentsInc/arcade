@@ -21,7 +21,7 @@ export function useSendMessage() {
       conversationType,
       npub,
     }: UseSendMessageProps) => {
-      console.log("ATTEMPTING SEND MESSAGE:", { message, conversationId, conversationType, npub })
+      // console.log("ATTEMPTING SEND MESSAGE:", { message, conversationId, conversationType, npub })
       haptic()
       return axios
         .post("https://api.arcade.chat/message", {
@@ -31,7 +31,7 @@ export function useSendMessage() {
           conversationType,
         })
         .then((res) => {
-          console.log("MESSAGE SENT AND HERES RESPONSE:", res.data)
+          // console.log("MESSAGE SENT AND HERES RESPONSE:", res.data)
           return res.data
         })
         .catch((err) => {
