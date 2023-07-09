@@ -119,8 +119,8 @@ android {
         applicationId "arcade.labs.arc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1035
-        versionName "0.2.1"
+        versionCode 1036
+        versionName "0.2.2"
     }
 
     splits {

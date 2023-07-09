@@ -36,7 +36,7 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
         {
           text: "Confirm",
           onPress: () => {
-            leaveChannel(id)
+            leaveChannel(channelManager, id)
           },
         },
       ])

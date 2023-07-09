@@ -23,7 +23,7 @@ import {
 import { useStores } from "app/models"
 import { useContactManager } from "app/utils/useUserContacts"
 import { FlashList } from "@shopify/flash-list"
-import { resolvePubkey} from "app/arclib/src/contacts"
+import { resolvePubkey } from "app/arclib/src/contacts"
 
 interface AddContactScreenProps extends NativeStackScreenProps<AppStackScreenProps<"AddContact">> {}
 
@@ -57,7 +57,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
     try {
       pubkey = await resolvePubkey(pubkey)
     } catch (e) {
-        alert(`Invalid contact: ${e}`)
+      alert(`Invalid contact: ${e}`)
     }
     try {
       addContact({ pubkey, legacy: true, secret: false }, mgr)

@@ -58,7 +58,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         text: "Confirm",
         onPress: () => {
           // update state
-          leaveChannel(channel.id)
+          leaveChannel(channelManager, channel.id)
           // redirect back
           navigation.goBack()
         },
@@ -121,7 +121,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           channel_id: channel.id,
           callback: handleNewMessage,
           filter: {
-            limit: 1,
+            since: Math.floor(Date.now()/1000),
           },
           privkey: channel.privkey,
         })
