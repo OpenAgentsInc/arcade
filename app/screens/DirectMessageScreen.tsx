@@ -5,10 +5,11 @@ import React, {
   useEffect,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react"
 import { observer } from "mobx-react-lite"
-import { Platform, TextStyle, View, ViewStyle } from "react-native"
+import { Platform, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -29,6 +30,10 @@ import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
 import { BlindedEvent, NostrPool } from "app/arclib/src"
+import { useSharedValue } from "react-native-reanimated"
+import { SwipeableItem } from "app/components/SwipeableItem"
+import { useMutation } from "react-query"
+import { DirectMessageReply } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -93,39 +98,82 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
+    const textInputRef = useRef<TextInput>(null)
+    type HighlightedResponse = {
+      sender: string
+      content: string
+    }
+
+    const highlightedResponse = useSharedValue<HighlightedResponse | null>(null)
+
+    const { mutateAsync: getSenderInfo } = useMutation(["user", pubkey], async () => {
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        return JSON.parse(latest.content)
+      }
+    })
+
     const renderItem = useCallback(
-      ({ item }: { item: BlindedEvent }) => {
+      ({ item, index }: { item: BlindedEvent; index: number }) => {
         const createdAt = formatCreatedAt(item.created_at)
         const content = parser(item)
 
-        if (item.pubkey === pubkey) {
+        const onFullSwipeProgress = async () => {
+          textInputRef.current?.focus()
+
+          // That's almost a preloaded data since it has already been fetched
+          // and cached by React Query
+          const senderInfo = await getSenderInfo()
+
+          highlightedResponse.value = {
+            sender: senderInfo.username,
+            content: content.original,
+          }
+        }
+
+        if (index % 2 === 0) {
           return (
-            <View style={$messageItemReverse}>
-              <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
-              <View style={$messageContentWrapperReverse}>
-                <MessageContent content={content} />
-                <View style={$createdAt}>
-                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            <SwipeableItem swipeDirection="left" onSwipeComplete={onFullSwipeProgress}>
+              <View style={$messageItemReverse}>
+                <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
+                <View style={$messageContentWrapperReverse}>
+                  <MessageContent content={content} />
+                  <View style={$createdAt}>
+                    <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                  </View>
                 </View>
               </View>
-            </View>
+            </SwipeableItem>
           )
         } else {
           return (
-            <View style={$messageItem}>
-              <User pubkey={item.pubkey} blinded={item.blinded} />
-              <View style={$messageContentWrapper}>
-                <MessageContent content={content} />
-                <View style={$createdAt}>
-                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            <SwipeableItem swipeDirection="right" onSwipeComplete={onFullSwipeProgress}>
+              <View style={$messageItem}>
+                <User pubkey={item.pubkey} blinded={item.blinded} />
+                <View style={$messageContentWrapper}>
+                  <MessageContent content={content} />
+                  <View style={$createdAt}>
+                    <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                  </View>
                 </View>
               </View>
-            </View>
+            </SwipeableItem>
           )
         }
       },
       [id],
     )
+
+    // useEffect(() => {
+    //   const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+    //     highlightedResponse.value = null
+    //   })
+
+    //   return () => {
+    //     hideSubscription.remove()
+    //   }
+    // }, [])
 
     return (
       <Screen
@@ -160,8 +208,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               keyboardDismissMode="none"
             />
           </View>
+          <DirectMessageReply replyInfo={highlightedResponse} />
           <View style={$form}>
-            <DirectMessageForm dms={dms} replyTo={id} legacy={legacy} />
+            <DirectMessageForm dms={dms} replyTo={id} legacy={legacy} textInputRef={textInputRef} />
           </View>
         </View>
       </Screen>
@@ -188,7 +237,6 @@ const $list: ViewStyle = {
 
 const $form: ViewStyle = {
   flexShrink: 0,
-  paddingTop: spacing.small,
 }
 
 const $messageItem: ViewStyle = {

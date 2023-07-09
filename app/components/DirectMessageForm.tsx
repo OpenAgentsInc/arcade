@@ -4,6 +4,7 @@ import {
   ImageStyle,
   Platform,
   Pressable,
+  TextInput,
   TextStyle,
   View,
   ViewStyle,
@@ -18,10 +19,12 @@ export function DirectMessageForm({
   dms,
   replyTo,
   legacy,
+  textInputRef,
 }: {
   dms: PrivateMessageManager
   replyTo: string
   legacy: boolean
+  textInputRef?: React.RefObject<TextInput>
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
@@ -122,6 +125,7 @@ export function DirectMessageForm({
       )}
       <View style={$borderTop} />
       <TextField
+        ref={textInputRef}
         placeholder="Message"
         placeholderTextColor={colors.palette.cyan500}
         style={$input}
