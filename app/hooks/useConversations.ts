@@ -45,7 +45,7 @@ export function useConversations() {
     // }),
   })
 
-  const safeData = data ? data : []
+  const safeData = data || []
 
   // const conversationsMap = safeData.reduce((conversationMap, message) => {
   //   const conversationId = message.conversationId

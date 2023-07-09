@@ -43,8 +43,6 @@ setupReactotron({
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
-const queryClient = new QueryClient()
-
 // Web linking configuration
 const prefix = Linking.createURL("/")
 const config = {

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useEffect } from "react"
+import React, { FC, useCallback, useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -27,7 +27,7 @@ const colors = {
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
-    const { conversations, isLoading } = useConversations()
+    const { conversations } = useConversations()
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
 

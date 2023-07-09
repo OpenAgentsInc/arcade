@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import { Header, Screen } from "app/components"
-import { colors, spacing } from "app/theme"
-import { useLayoutEffect, useState } from "react"
+import { colors } from "app/theme"
+import React, { useLayoutEffect, useState } from "react"
 import { Platform, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 
 export const TrainAI = () => {

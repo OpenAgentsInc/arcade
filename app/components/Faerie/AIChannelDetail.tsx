@@ -31,7 +31,7 @@ const colors = {
 export const AIChannelDetail = (props: any) => {
   // console.log("PROPS:", props)
   const { navigate } = useNavigation<any>()
-  const { channel, lastMessageUsername, unreadCount } = props
+  const { channel } = props
   const image = images.faerie
   const name = "AI Chat"
   const lastMessage = channel.latest_message.message
@@ -105,21 +105,5 @@ const styles = StyleSheet.create({
   $messageItem: {
     flex: 1,
     flexDirection: "row",
-  },
-  $messageUsername: {
-    color: colors.messageUsername,
-    marginTop: 2,
-  },
-  $unreadMessagesBadge: {
-    alignItems: "center",
-    backgroundColor: colors.unreadMessagesBadge,
-    borderRadius: 100,
-    justifyContent: "center",
-    minWidth: 20,
-    padding: 3,
-  },
-  $unreadMessagesText: {
-    color: colors.unreadMessagesText,
-    fontSize: 12,
   },
 })

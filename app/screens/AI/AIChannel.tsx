@@ -4,7 +4,7 @@ import { ActivityIndicator, Header, Message, MessageInput, Screen } from "app/co
 import { useConversationMessages } from "app/hooks/useConversationMessages"
 import { colors, spacing } from "app/theme"
 import { randomUUID } from "isomorphic-webcrypto"
-import { useEffect, useLayoutEffect, useState } from "react"
+import React, { useEffect, useLayoutEffect, useState } from "react"
 import { Dimensions, ListRenderItemInfo, Platform, StyleSheet, View, ViewStyle } from "react-native"
 
 const height = Dimensions.get("window").height
