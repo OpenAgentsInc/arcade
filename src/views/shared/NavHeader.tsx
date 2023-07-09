@@ -1,7 +1,7 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { ChevronLeft, Settings } from '@tamagui/lucide-icons'
-import { Platform } from 'react-native'
-import { Button, Paragraph, Stack, XStack, YStack } from 'tamagui'
+import { useNavigation, useRoute } from "@react-navigation/native"
+import { ChevronLeft, Settings } from "@tamagui/lucide-icons"
+import { Platform } from "react-native"
+import { Button, Paragraph, Stack, XStack, YStack } from "tamagui"
 
 export const NavHeader = ({ title, options, ...props }) => {
   const { canGoBack, goBack } = useNavigation()
@@ -11,13 +11,13 @@ export const NavHeader = ({ title, options, ...props }) => {
     <YStack
       elevation="$3"
       px="$3"
-      pt={Platform.OS === 'ios' ? '$8' : '$4'}
+      pt={Platform.OS === "ios" ? "$8" : "$4"}
       bg="$color1"
       borderBottomColor="$color4"
       borderBottomWidth="$1"
     >
       <XStack w="100%" justifyContent="space-between" alignItems="center">
-        {canGoBack() && name !== 'tabs' ? (
+        {canGoBack() && name !== "tabs" ? (
           <Button
             onPress={() => goBack()}
             backgrounded={false}
@@ -25,9 +25,9 @@ export const NavHeader = ({ title, options, ...props }) => {
             w="$3"
             mx={-10}
             outlineStyle={undefined}
-            pressStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
-            hoverStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
-            focusStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
+            pressStyle={{ backgrounded: false, backgroundColor: "transparent" }}
+            hoverStyle={{ backgrounded: false, backgroundColor: "transparent" }}
+            focusStyle={{ backgrounded: false, backgroundColor: "transparent" }}
           >
             <ChevronLeft />
           </Button>
@@ -40,7 +40,7 @@ export const NavHeader = ({ title, options, ...props }) => {
         </Paragraph>
 
         {/* If current title is not Settings */}
-        {name !== 'settifsdfsdngs' ? (
+        {name !== "settifsdfsdngs" ? (
           <Stack w="$1" />
         ) : (
           <Button
@@ -49,9 +49,9 @@ export const NavHeader = ({ title, options, ...props }) => {
             w="$3"
             mx={-10}
             outlineStyle={undefined}
-            pressStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
-            hoverStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
-            focusStyle={{ backgrounded: false, backgroundColor: 'transparent' }}
+            pressStyle={{ backgrounded: false, backgroundColor: "transparent" }}
+            hoverStyle={{ backgrounded: false, backgroundColor: "transparent" }}
+            focusStyle={{ backgrounded: false, backgroundColor: "transparent" }}
           >
             <Settings />
           </Button>

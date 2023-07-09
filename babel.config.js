@@ -1,4 +1,5 @@
 /** @type {import('@babel/core').TransformOptions['plugins']} */
+process.env.TAMAGUI_TARGET = "native"
 const plugins = [
   [
     /** Enables baseUrl: "./" option in tsconfig.json to work @see https://github.com/entwicklerstube/babel-plugin-root-import */
@@ -14,6 +15,21 @@ const plugins = [
           rootPathSuffix: "assets",
         },
       ],
+    },
+  ],
+  [
+    "@tamagui/babel-plugin",
+    {
+      components: ["tamagui"],
+      config: "./src/lib/providers/tamagui.config.ts",
+      logTimings: true,
+      disableExtraction: process.env.NODE_ENV === "development",
+    },
+  ],
+  [
+    "transform-inline-environment-variables",
+    {
+      include: "TAMAGUI_TARGET",
     },
   ],
   [

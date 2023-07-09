@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { useEffect, useRef, useState } from 'react'
-import { Paragraph } from 'tamagui'
+import { useEffect, useRef, useState } from "react"
+import { Paragraph } from "tamagui"
 
 export function AnimatedTyping(props) {
-  const [text, setText] = useState('')
-  const [cursorColor, setCursorColor] = useState('transparent')
+  const [text, setText] = useState("")
+  const [cursorColor, setCursorColor] = useState("transparent")
   const [messageIndex, setMessageIndex] = useState(0)
   const [textIndex, setTextIndex] = useState(0)
   const [timeouts, setTimeouts] = useState({
@@ -31,10 +31,7 @@ export function AnimatedTyping(props) {
 
   const typingAnimation = () => {
     if (textIndexRef.current < props.text[messageIndexRef.current].length) {
-      setText(
-        textRef.current +
-          props.text[messageIndexRef.current].charAt(textIndexRef.current)
-      )
+      setText(textRef.current + props.text[messageIndexRef.current].charAt(textIndexRef.current))
       setTextIndex(textIndexRef.current + 1)
 
       const updatedTimeouts = { ...timeoutsRef.current }
@@ -49,7 +46,7 @@ export function AnimatedTyping(props) {
       setTimeouts(updatedTimeouts)
     } else {
       clearInterval(timeoutsRef.current.cursorTimeout)
-      setCursorColor('transparent')
+      setCursorColor("transparent")
 
       if (props.onComplete) {
         props.onComplete()
@@ -58,10 +55,10 @@ export function AnimatedTyping(props) {
   }
 
   const cursorAnimation = () => {
-    if (cursorColorRef.current === 'transparent') {
-      setCursorColor('#8EA960')
+    if (cursorColorRef.current === "transparent") {
+      setCursorColor("#8EA960")
     } else {
-      setCursorColor('transparent')
+      setCursorColor("transparent")
     }
   }
 

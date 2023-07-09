@@ -1,25 +1,25 @@
-import { createInterFont } from '@tamagui/font-inter'
-import { createMedia } from '@tamagui/react-native-media-driver'
-import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/theme-base'
-import { animations } from 'lib/constants'
-import { createTamagui } from 'tamagui'
+import { createInterFont } from "@tamagui/font-inter"
+import { createMedia } from "@tamagui/react-native-media-driver"
+import { shorthands } from "@tamagui/shorthands"
+import { themes, tokens } from "@tamagui/theme-base"
+import { animations } from "lib/constants"
+import { createTamagui } from "tamagui"
 
 const headingFont = createInterFont({
   size: {
     6: 15,
   },
   transform: {
-    6: 'uppercase',
-    7: 'none',
+    6: "uppercase",
+    7: "none",
   },
   weight: {
-    6: '400',
-    7: '700',
+    6: "400",
+    7: "700",
   },
   color: {
-    6: '$colorFocus',
-    7: '$color',
+    6: "$colorFocus",
+    7: "$color",
   },
   letterSpacing: {
     5: 2,
@@ -33,25 +33,25 @@ const headingFont = createInterFont({
     15: -6,
   },
   face: {
-    700: { normal: 'InterBold' },
+    700: { normal: "InterBold" },
   },
 })
 
 const bodyFont = createInterFont(
   {
     face: {
-      700: { normal: 'InterBold' },
+      700: { normal: "InterBold" },
     },
   },
   {
     sizeSize: (size) => Math.round(size * 1.1),
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
-  }
+  },
 )
 
 const config = createTamagui({
   animations,
-  defaultTheme: 'light',
+  defaultTheme: "light",
   shouldAddPrefersColorThemes: false,
   themeClassNameOnRoot: false,
   shorthands,
@@ -74,14 +74,14 @@ const config = createTamagui({
     gtLg: { minWidth: 1280 + 1 },
     short: { maxHeight: 820 },
     tall: { minHeight: 820 },
-    hoverNone: { hover: 'none' },
-    pointerCoarse: { pointer: 'coarse' },
+    hoverNone: { hover: "none" },
+    pointerCoarse: { pointer: "coarse" },
   }),
 })
 
 export type AppConfig = typeof config
 
-declare module 'tamagui' {
+declare module "tamagui" {
   // overrides TamaguiCustomConfig so your custom types
   // work everywhere you import `tamagui`
   interface TamaguiCustomConfig extends AppConfig {}

@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native'
-import { ArrowLeft } from '@tamagui/lucide-icons'
-import { haptic } from 'lib/utils/haptics'
-import { Button } from 'tamagui'
+import { useNavigation } from "@react-navigation/native"
+import { ArrowLeft } from "@tamagui/lucide-icons"
+import { haptic } from "lib/utils/haptics"
+import { Button } from "tamagui"
 
 export const BackButton = () => {
   const { goBack } = useNavigation()
@@ -9,13 +9,13 @@ export const BackButton = () => {
     <Button
       icon={ArrowLeft}
       onPress={() => {
-        haptic('light')
+        haptic("light")
         goBack()
       }}
       size={70}
       color="#fff"
       backgroundColor="transparent"
-      pressStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.0)' }}
+      pressStyle={{ backgroundColor: "rgba(255, 255, 255, 0.0)" }}
     />
   )
 }
