@@ -33,7 +33,7 @@ import { BlindedEvent, NostrPool } from "app/arclib/src"
 import { useSharedValue } from "react-native-reanimated"
 import { SwipeableItem } from "app/components/SwipeableItem"
 import { useMutation } from "react-query"
-import { DirectMessageReply } from "app/components/DirectMessageReply"
+import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -46,6 +46,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([] as BlindedEvent[])
     const [loading, setLoading] = useState(true)
+
+    const textInputRef = useRef<TextInput>(null)
+    const highlightedReply = useSharedValue<ReplyInfo | null>(null)
 
     const {
       userStore: { pubkey },
@@ -98,14 +101,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
-    const textInputRef = useRef<TextInput>(null)
-    type HighlightedResponse = {
-      sender: string
-      content: string
-    }
-
-    const highlightedResponse = useSharedValue<HighlightedResponse | null>(null)
-
     const { mutateAsync: getSenderInfo } = useMutation(["user", pubkey], async () => {
       const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
       const latest = list.slice(-1)[0]
@@ -115,25 +110,31 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     })
 
     const renderItem = useCallback(
-      ({ item, index }: { item: BlindedEvent; index: number }) => {
+      ({ item }: { item: BlindedEvent }) => {
         const createdAt = formatCreatedAt(item.created_at)
         const content = parser(item)
 
         const onFullSwipeProgress = async () => {
+          // When the user swipes the message, we want to focus the text input
           textInputRef.current?.focus()
 
           // That's almost a preloaded data since it has already been fetched
           // and cached by React Query
           const senderInfo = await getSenderInfo()
 
-          highlightedResponse.value = {
+          // We set the highlightedReply to the value of the message
+          // That will trigger the DirectMessageReply component to show
+          highlightedReply.value = {
             sender: senderInfo.username,
             content: content.original,
           }
         }
 
-        if (index % 2 === 0) {
+        if (item.pubkey === pubkey) {
           return (
+            // We use the SwipeableItem component to wrap the message
+            // It will handle the swipe gesture and the animation
+            // basically we just set the swipeDirection and the onSwipeComplete
             <SwipeableItem swipeDirection="left" onSwipeComplete={onFullSwipeProgress}>
               <View style={$messageItemReverse}>
                 <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
@@ -199,7 +200,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               keyboardDismissMode="none"
             />
           </View>
-          <DirectMessageReply replyInfo={highlightedResponse} />
+          {/* This component will show the highlighted reply */}
+          <DirectMessageReply replyInfo={highlightedReply} />
           <View style={$form}>
             <DirectMessageForm
               dms={dms}
@@ -207,7 +209,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               legacy={legacy}
               textInputRef={textInputRef}
               onSubmit={() => {
-                highlightedResponse.value = null
+                // Setting the value to null will trigger the DirectMessageReply component to hide
+                // It's a kind of "reset"
+                highlightedReply.value = null
               }}
             />
           </View>

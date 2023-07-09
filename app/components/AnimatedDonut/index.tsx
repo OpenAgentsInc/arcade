@@ -15,9 +15,12 @@ interface CircularProgressProps {
   strokeWidth: number
   radius: number
   color: string
+  // value between 0 and 1
   percentageComplete: SkiaMutableValue<number>
 }
 
+// This component is used to display a circular progress bar
+// It will animate the stroke of the circle
 export const DonutChart: FC<CircularProgressProps> = ({
   strokeWidth,
   radius,

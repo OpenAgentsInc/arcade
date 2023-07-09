@@ -16,6 +16,9 @@ type TouchableFeedbackProps = {
   defaultColor?: string
 }
 
+// This component is used to provide a feedback when the user press on a component
+// It will animate the background color of the component.
+// The advantage of this component is that will catch the gesture event on the UI thread
 const TouchableFeedback: React.FC<TouchableFeedbackProps> = ({
   children,
   onPress,
@@ -25,6 +28,7 @@ const TouchableFeedback: React.FC<TouchableFeedbackProps> = ({
 }) => {
   const active = useSharedValue(false)
   const gesture = Gesture.Tap()
+    .maxDuration(4000)
     .onBegin(() => {
       active.value = true
     })

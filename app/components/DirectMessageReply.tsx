@@ -6,7 +6,7 @@ import ReText from "./ReText"
 import React from "react"
 import { TouchableFeedback } from "./TouchableFeedback"
 
-type ReplyInfo = {
+export type ReplyInfo = {
   sender: string
   content: string
 }
@@ -17,6 +17,7 @@ type DirectMessageReplyProps = {
 }
 
 const DirectMessageReply: React.FC<DirectMessageReplyProps> = ({ replyInfo, height = 60 }) => {
+  // This progress will be used to animate all the components inside the reply container
   const progress = useDerivedValue(() => {
     return withTiming(replyInfo.value ? 1 : 0)
   })
@@ -50,6 +51,10 @@ const DirectMessageReply: React.FC<DirectMessageReplyProps> = ({ replyInfo, heig
         <Icon icon="Forward" color={colors.palette.cyan600} size={25} />
       </View>
       <View style={styles.textContainer}>
+        {/* 
+          Using ReText instead of common Text is definitely useful since the TextUpdate 
+          won't rely on the React render cycle but on the Reanimated one.  
+        */}
         <ReText text={senderText} style={styles.title} />
         <ReText text={contentText} style={styles.subtitle} />
       </View>
