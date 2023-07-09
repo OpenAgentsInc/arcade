@@ -1,6 +1,6 @@
 import { useSharedValueEffect, useValue } from "@shopify/react-native-skia"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
-import React from "react"
+import React, { useMemo } from "react"
 import Animated, {
   runOnJS,
   useAnimatedReaction,
@@ -107,22 +107,31 @@ const SwipeableItem: React.FC<{
     }
   })
 
+  const progressIndicatorContainerStyle = useMemo(() => {
+    return [styles.donutContainer, swipeDirection !== "right" ? { right: -20 } : { left: -20 }]
+  }, [])
+
   return (
     <GestureDetector gesture={panGesture}>
       <Animated.View>
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              top: 15,
-              height: "80%",
-              aspectRatio: 1,
-              flex: 1,
-            },
-            rIconContainerStyle,
-            swipeDirection !== "right" ? { right: -20 } : { left: -20 },
-          ]}
-        >
+        <Animated.View style={[progressIndicatorContainerStyle, rIconContainerStyle]}>
+          <View style={styles.absoluteCenter}>
+            <View
+              style={[
+                styles.iconContainer,
+                {
+                  transform: [
+                    {
+                      // flip the icon if the swipe direction is right
+                      scale: swipeDirection === "left" ? -1 : 1,
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Icon icon="Forward" color="white" size={15} />
+            </View>
+          </View>
           <Animated.View
             style={[
               {
@@ -138,37 +147,34 @@ const SwipeableItem: React.FC<{
               color="rgba(255,255,255,0.5)"
             />
           </Animated.View>
-          <View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: -1,
-            }}
-          >
-            <View
-              style={{
-                height: 35,
-                aspectRatio: 1,
-                borderRadius: 20,
-                backgroundColor: colors.palette.cyan950,
-                justifyContent: "center",
-                alignItems: "center",
-                transform: [
-                  {
-                    scale: swipeDirection === "left" ? -1 : 1,
-                  },
-                ],
-              }}
-            >
-              <Icon icon="Forward" color="white" size={15} />
-            </View>
-          </View>
         </Animated.View>
         <Animated.View style={rAnimatedStyle}>{children}</Animated.View>
       </Animated.View>
     </GestureDetector>
   )
 }
+
+const styles = StyleSheet.create({
+  absoluteCenter: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  donutContainer: {
+    aspectRatio: 1,
+    flex: 1,
+    height: "80%",
+    position: "absolute",
+    top: 15,
+  },
+  iconContainer: {
+    alignItems: "center",
+    aspectRatio: 1,
+    backgroundColor: colors.palette.cyan950,
+    borderRadius: 20,
+    height: 35,
+    justifyContent: "center",
+  },
+})
 
 export { SwipeableItem }
