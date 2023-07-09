@@ -28,10 +28,6 @@ const colors = {
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations, isLoading } = useConversations()
-    useEffect(() => {
-      // console.log(conversations)
-      console.log("isLoading: ", isLoading)
-    }, [conversations, isLoading])
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
 
