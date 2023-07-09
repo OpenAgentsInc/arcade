@@ -10,15 +10,16 @@ import {
   rect,
   Blur,
   SkImage,
-  runTiming,
-  useValueEffect,
 } from "@shopify/react-native-skia"
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { View, StyleSheet, TouchableOpacity, ViewProps, ViewStyle } from "react-native"
 
 import Animated, {
+  Easing,
   MeasuredDimensions,
+  runOnJS,
   useAnimatedProps,
+  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -117,25 +118,34 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   // The effective Canvas dimension is going to be retrieved through the onSize callback (Canvas component)
   const canvasSize = useValue({ width: 0, height: 0 })
 
-  // Just a Skia Value (The "s" is simply a convention)
-  const sBlurValue = useValue(0)
+  const rBlur = useSharedValue(0)
 
-  const sLightBlurValue = useComputedValue(() => {
-    return sBlurValue.current / 3
-  }, [sBlurValue])
+  const sLightBlurValue = useDerivedValue(() => {
+    return rBlur.value / 3
+  })
 
   const dismissBlurredPopup = useCallback(() => {
-    runTiming(sBlurValue, 0, {
+    rBlur.value = withTiming(0, {
       duration: 200,
+      easing: Easing.linear,
     })
   }, [])
 
+  const resetParams = useCallback(() => {
+    setParams(null)
+  }, [])
+
   // When the blur value is 0, the popup shouldn't be visible anymore
-  useValueEffect(sBlurValue, (value) => {
-    if (value === 0) {
-      setParams(null)
-    }
-  })
+  useAnimatedReaction(
+    () => {
+      return rBlur.value
+    },
+    (value, prevValue) => {
+      if (value === 0 && prevValue > value) {
+        runOnJS(resetParams)()
+      }
+    },
+  )
 
   /**
    * Close the popup menu.
@@ -150,8 +160,9 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
   useEffect(() => {
     // Animate the blur when the image changes
     if (image != null) {
-      runTiming(sBlurValue, maxBlur, {
+      rBlur.value = withTiming(maxBlur, {
         duration: 200,
+        easing: Easing.linear,
       })
     }
   }, [image])
@@ -231,10 +242,16 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
     }
   })
 
+  const value = useMemo(() => {
+    return {
+      showPopup,
+    }
+  }, [showPopup])
+
   // Render the component
   return (
     <>
-      <BlurredPopupContext.Provider value={{ showPopup }}>
+      <BlurredPopupContext.Provider value={value}>
         <Animated.View animatedProps={menuAnimatedProps} style={styles.mainPopupContainerView}>
           <Animated.View style={[popupStyle, styles.popup, rMenuPopupStyle]}>
             {params?.image == null || popupItems == null ? (
@@ -280,7 +297,7 @@ const BlurredPopupProvider: React.FC<BlurredPopupProviderProps> = ({
                 <Blur blur={sLightBlurValue} />
               </Image>
               <Image rect={imageRect} image={image}>
-                <Blur blur={sBlurValue} />
+                <Blur blur={rBlur} />
               </Image>
             </>
           )}
