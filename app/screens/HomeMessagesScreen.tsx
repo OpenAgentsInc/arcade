@@ -11,7 +11,7 @@ import { useFocusEffect } from "@react-navigation/native"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
-import Animated, { FadeInDown } from "react-native-reanimated"
+import Animated, { FadeIn } from "react-native-reanimated"
 import { useConversations } from "app/hooks/useConversations"
 
 interface HomeMessagesScreenProps
@@ -49,7 +49,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     const renderItem = useCallback(({ item, index }) => {
       return (
-        <Animated.View entering={FadeInDown.delay(100 * index).duration(800)}>
+        <Animated.View entering={FadeIn.delay(100 * index).duration(800)}>
           {item.kind === 4 ? (
             <DirectMessageItem dm={item} />
           ) : item.kind === 10101010 ? (
