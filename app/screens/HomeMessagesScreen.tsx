@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useEffect, useRef, useState } from "react"
+import React, { FC, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { View, StyleSheet, RefreshControl } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -27,6 +27,7 @@ const colors = {
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations } = useConversations()
+
     const now = useRef(Math.floor(Date.now() / 1000))
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
@@ -45,18 +46,13 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       },
     } = useStores()
 
-
-    useFocusEffect(
-      useCallback(() => {
-        fetchPrivMessages(pool)
-      }, []),
-    )
-
-    // should this be memoized?
-    const data = [...getChannels, ...privMessages, ...conversations].sort(
-
-      (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
-        b.lastMessageAt - a.lastMessageAt,
+    const data = useMemo(
+      () =>
+        [...getChannels, ...getPrivMesages, ...conversations].sort(
+          (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
+            b.lastMessageAt - a.lastMessageAt,
+        ),
+      [getChannels, getPrivMesages, conversations],
     )
 
     const refresh = async () => {
