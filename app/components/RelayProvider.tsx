@@ -2,8 +2,8 @@ import React, { createContext, useEffect, useMemo, useState } from "react"
 import { useStores } from "app/models"
 import { connectDb, ArcadeIdentity, NostrPool, ArcadeDb } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
-export const RelayContext = createContext({})
 
+export const RelayContext = createContext({})
 const db: ArcadeDb = connectDb()
 
 export const RelayProvider = observer(function RelayProvider({

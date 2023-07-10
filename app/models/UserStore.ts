@@ -1,4 +1,12 @@
-import { Instance, SnapshotIn, SnapshotOut, applySnapshot, flow, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  applySnapshot,
+  flow,
+  cast,
+  types,
+} from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
   ArcadeIdentity,
@@ -304,6 +312,9 @@ export const UserStoreModel = types
         ...ev,
         lastMessageAt: ev.created_at,
       })
+    },
+    updatePrivMessages(data) {
+      self.privMessages = cast(data)
     },
     updateChannels: flow(function* (mgr: ChannelManager) {
       const list = yield mgr.listChannels(true)
