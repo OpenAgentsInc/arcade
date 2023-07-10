@@ -55,7 +55,7 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
       <View>
         <View style={$inputGroup}>
           <TextField
-            label="Private Key"
+            label="Private Key (Hex)"
             style={[$input, $inputText]}
             inputWrapperStyle={$inputWrapper}
             editable={false}
@@ -69,7 +69,7 @@ export const BackupScreen: FC<BackupScreenProps> = observer(function BackupScree
         </View>
         <View style={$inputGroup}>
           <TextField
-            label="Nsec"
+            label="Private Key (Nsec)"
             style={[$input, $inputText]}
             inputWrapperStyle={$inputWrapper}
             editable={false}

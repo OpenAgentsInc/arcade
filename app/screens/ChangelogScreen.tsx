@@ -32,6 +32,14 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
 
   return (
     <Screen contentContainerStyle={$root} preset="scroll" keyboardOffset={50}>
+      <Text text={"v0.3.0"} size="lg" preset="bold" />
+      <Text text={"10 Jul 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Adds AI chat channels! (GPT3.5)</Text>
+        <Text style={$changelogText}>- Various bugfixes & performance improvements</Text>
+      </View>
+      <View style={$divider} />
+
       <Text text={"v0.2.2"} size="lg" preset="bold" />
       <Text text={"6 Jul 2023"} size="xs" style={$subtitle} />
       <View style={$changelogContainer}>
