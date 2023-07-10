@@ -22,7 +22,7 @@ import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
-import { RelayProvider } from "./components/RelayProvider"
+import { RelayProvider } from "app/components"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { QueryClient, QueryClientProvider } from "react-query"
 

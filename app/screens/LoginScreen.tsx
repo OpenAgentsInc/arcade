@@ -1,15 +1,16 @@
-import React, { FC, useLayoutEffect, useState } from "react"
+import React, { FC, useContext, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ActivityIndicator, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Button, Header, Screen, Text, TextField } from "app/components"
+import { Button, Header, RelayContext, Screen, Text, TextField } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
 import { nip19 } from "nostr-tools"
 import { useChannelManager } from "app/utils/useUserContacts"
+import { NostrPool } from "app/arclib/src"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -21,6 +22,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   // Pull in one of our MST stores
   const { userStore } = useStores()
 
+  const pool = useContext(RelayContext) as NostrPool
   const mgr = useChannelManager()
 
   // Pull in navigation via hook
@@ -38,7 +40,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         accessKey = nip19.nsecEncode(accessKey)
       }
 
-      userStore.loginWithNsec(mgr, accessKey)
+      userStore.loginWithNsec(pool, mgr, accessKey)
     }
   }
 

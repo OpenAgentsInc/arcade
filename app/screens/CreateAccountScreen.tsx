@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useRef, useState } from "react"
+import React, { FC, useContext, useLayoutEffect, useRef, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ActivityIndicator,
@@ -11,13 +11,14 @@ import {
 } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, TextField, Button, AutoImage, Text } from "app/components"
+import { Header, Screen, TextField, Button, AutoImage, Text, RelayContext } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { Formik } from "formik"
 import { launchImageLibrary } from "react-native-image-picker"
 import { ImagePlusIcon } from "lucide-react-native"
+import { NostrPool } from "app/arclib/src"
 
 interface CreateAccountScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateAccount">> {}
@@ -30,6 +31,7 @@ interface ISignup {
 
 export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
   function CreateAccountScreen() {
+    const pool = useContext(RelayContext) as NostrPool
     const formikRef = useRef(null)
 
     const [loading, setLoading] = useState(false)
@@ -89,10 +91,12 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
         alert("Username is invalid, please check again")
       } else {
         setLoading(true)
-        await userStore.signup(picture, data.username, data.displayName, data.about).catch((e) => {
-          alert(e)
-          setLoading(false)
-        })
+        await userStore
+          .signup(pool, picture, data.username, data.displayName, data.about)
+          .catch((e) => {
+            alert(e)
+            setLoading(false)
+          })
       }
     }
 

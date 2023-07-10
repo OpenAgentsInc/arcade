@@ -3,8 +3,8 @@ import {
   SnapshotIn,
   SnapshotOut,
   applySnapshot,
-  cast,
   flow,
+  cast,
   types,
 } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
@@ -89,7 +89,6 @@ export const UserStoreModel = types
       }),
     ),
     isLoggedIn: false,
-    isNewUser: false,
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(ContactModel), []),
     privMessages: types.optional(types.array(MessageModel), []),
@@ -113,7 +112,57 @@ export const UserStoreModel = types
     get getMetadata() {
       return self.metadata
     },
+    get getPrivMesages() {
+      return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions((self) => ({
+    fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
+      const priv = new PrivateMessageManager(pool)
+      let keys: string[]
+      if (contacts) {
+        keys = contacts.map((c) => c.pubkey)
+      } else {
+        keys = self.contacts.map((c) => c.pubkey)
+      }
+      // this doesn't work... you get mobx errors
+      // but we should be able to update the state!
+
+      /*
+      const modifyProp = async (ev: BlindedEvent) => {
+        if (self.privMessages.every(msg=>{
+            if (msg.pubkey === ev.pubkey) {
+              console.log("modding", ev.pubkey)
+              msg.setProp("content", ev.content)
+              msg.setProp("blinded", ev.blinded)
+              msg.setProp("lastMessageAt", ev.created_at)
+              return false
+            }
+           return true
+        })) {
+          // append!
+        }
+      }
+      */
+
+      // this updates the home screen prop when new messages arrive
+      // by passing in all our contact keys, we can decrypt new blinded messages
+      const list = yield priv.list({ limit: 500 }, false, keys)
+      const map = new Map<string, NostrEvent>()
+      list.forEach((ev) => {
+        const was = map.get(ev.pubkey)
+        if (!was || ev.created_at > was.created_at) {
+          map.set(ev.pubkey, ev)
+        }
+      })
+      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
+      const uniqueList: ExtendedItem[] = [...map.values()]
+      for (const item of uniqueList) {
+        item.lastMessageAt = item.created_at
+      }
+      return uniqueList
+    }),
+  }))
   .actions((self) => ({
     joinChannel(mgr: ChannelManager, info: ChannelInfo) {
       const index = self.channels.findIndex((el: { id: string }) => el.id === info.id)
@@ -134,24 +183,40 @@ export const UserStoreModel = types
           self.setProp("privkey", sec)
           self.setProp("pubkey", pubkey)
           self.setProp("isLoggedIn", true)
-          self.setProp("isNewUser", false)
           self.setProp("metadata", meta)
         })
       }
     },
-    signup: flow(function* (picture: string, username: string, displayName: string, about: string) {
+    signup: flow(function* (
+      pool: NostrPool,
+      picture: string,
+      username: string,
+      displayName: string,
+      about: string,
+    ) {
       const privkey = generatePrivateKey()
       const pubkey = getPublicKey(privkey)
-      const id = new ArcadeIdentity(privkey)
 
+      // update pool with ident
+      const id = new ArcadeIdentity(privkey)
+      pool.ident = id
+
+      // register nip-05
       const nip05 = yield registerNip05(id, username)
+
+      // publish user to relay
       const meta = { picture, display_name: displayName, username, about, nip05 }
+      const res = yield pool.send({
+        content: JSON.stringify(meta),
+        tags: [],
+        kind: 0,
+      })
+      console.log("publish user", res)
 
       applySnapshot(self, {
         pubkey,
         privkey,
         isLoggedIn: true,
-        isNewUser: true,
         metadata: meta,
         channels: DEFAULT_CHANNELS,
       })
@@ -159,7 +224,7 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    loginWithNsec: flow(function* (mgr: ChannelManager, nsec: string) {
+    loginWithNsec: flow(function* (pool: NostrPool, mgr: ChannelManager, nsec: string) {
       if (!nsec.startsWith("nsec1") || nsec.length < 60) {
         return
       }
@@ -167,38 +232,31 @@ export const UserStoreModel = types
         const { data } = nip19.decode(nsec)
         const privkey = data as string
         const pubkey = getPublicKey(privkey)
-        const ident = new ArcadeIdentity(privkey)
-        mgr.pool.ident = ident
-        const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        try {
-          throw Error("no way to load mobx references, skipping channel load")
-          /*
-          const tmp = yield mgr.listChannels()
-          const channels = []
-          applySnapshot(self, {
-            pubkey,
-            privkey,
-            isLoggedIn: true,
-            metadata: profile,
-            contacts
-          })
-          tmp.forEach((el: ChannelInfo) => {
-            self.channels.push(ChannelModel.create(el))
-          })
-          */
-        } catch {
-          const channels = DEFAULT_CHANNELS
-          applySnapshot(self, {
-            pubkey,
-            privkey,
-            isLoggedIn: true,
-            metadata: profile,
-            contacts,
-            channels,
-          })
-        }
+        const ident = new ArcadeIdentity(privkey)
+        pool.ident = ident
+
+        const { profile, contacts } = yield getProfile(ident, pubkey)
+        // update secure storage
         yield secureSet("privkey", privkey)
+        // fetch priv messages
+        const privMessages = yield self.fetchPrivMessages(pool, contacts)
+
+        // update mobx state, user will redirect to home screen immediately
+        const tmp = yield mgr.listJoined()
+        tmp.forEach((id: string) => {
+          ChannelModel.create({ id, privkey: "" })
+        })
+        const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
+        applySnapshot(self, {
+          pubkey,
+          privkey,
+          isLoggedIn: true,
+          metadata: profile,
+          contacts,
+          channels: joinedChannels,
+          privMessages,
+        })
       } catch (e: any) {
         console.log(e)
         alert("Invalid key. Did you copy it correctly?")
@@ -210,7 +268,6 @@ export const UserStoreModel = types
         pubkey: "",
         privkey: "",
         isLoggedIn: false,
-        isNewUser: false,
         channels: [],
         contacts: [],
       })
@@ -256,6 +313,9 @@ export const UserStoreModel = types
         lastMessageAt: ev.created_at,
       })
     },
+    updatePrivMessages(data) {
+      self.privMessages = cast(data)
+    },
     updateChannels: flow(function* (mgr: ChannelManager) {
       const list = yield mgr.listChannels(true)
       list.forEach((ch) => {
@@ -266,46 +326,6 @@ export const UserStoreModel = types
           }
         }
       })
-    }),
-    fetchPrivMessages: flow(function* (pool: NostrPool) {
-      const priv = new PrivateMessageManager(pool)
-      const keys = self.contacts.map((c) => c.pubkey)
-      // this doesn't work... you get mobx errors
-      // but we should be able to update the state!
-
-      /*
-      const modifyProp = async (ev: BlindedEvent) => {
-        if (self.privMessages.every(msg=>{
-            if (msg.pubkey === ev.pubkey) {
-              console.log("modding", ev.pubkey)
-              msg.setProp("content", ev.content)
-              msg.setProp("blinded", ev.blinded)
-              msg.setProp("lastMessageAt", ev.created_at)
-              return false
-            }
-           return true
-        })) {
-          // append!
-        }
-      }
-      */
-
-      // this updates the home screen prop when new messages arrive
-      // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield priv.list({ limit: 500 }, false, keys)
-      const map = new Map<string, NostrEvent>()
-      list.forEach((ev) => {
-        const was = map.get(ev.pubkey)
-        if (!was || ev.created_at > was.created_at) {
-          map.set(ev.pubkey, ev)
-        }
-      })
-      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
-      const uniqueList: ExtendedItem[] = [...map.values()]
-      for (const item of uniqueList) {
-        item.lastMessageAt = item.created_at
-      }
-      self.privMessages = cast(uniqueList)
     }),
     fetchMetadata: flow(function* () {
       const ident = new ArcadeIdentity(self.privkey)
@@ -318,9 +338,6 @@ export const UserStoreModel = types
       }
       self.setProp("metadata", data)
     }),
-    clearNewUser() {
-      self.setProp("isNewUser", false)
-    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface UserStore extends Instance<typeof UserStoreModel> {}
