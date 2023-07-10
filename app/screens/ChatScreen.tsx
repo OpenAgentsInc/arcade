@@ -121,7 +121,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           channel_id: channel.id,
           callback: handleNewMessage,
           filter: {
-            since: Math.floor(Date.now()/1000),
+            since: Math.floor(Date.now() / 1000),
           },
           privkey: channel.privkey,
         })

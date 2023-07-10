@@ -18,7 +18,9 @@ export const RelayProvider = observer(function RelayProvider({
   } = useStores()
 
   const ident = useMemo(() => (privkey ? new ArcadeIdentity(privkey, "", "") : null), [privkey])
-  const [pool, _setPool] = useState<NostrPool>(() => new NostrPool(ident, db, {skipVerification: true}))
+  const [pool, _setPool] = useState<NostrPool>(
+    () => new NostrPool(ident, db, { skipVerification: true }),
+  )
 
   useEffect(() => {
     pool.ident = ident

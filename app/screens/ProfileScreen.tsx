@@ -19,7 +19,8 @@ import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
-import { EditIcon } from "lucide-react-native"
+import { AxeIcon, EditIcon } from "lucide-react-native"
+import { TouchablePopupHandler } from "app/components/BlurredPopup"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -86,7 +87,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                     ),
                   },
                   {
-                    label: "A Long Long Long String",
+                    label: "Just a demo",
                     trailing: <AxeIcon width={20} height={20} color={colors.palette.almostBlack} />,
                   },
                 ]}
