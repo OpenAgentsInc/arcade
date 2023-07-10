@@ -19,8 +19,7 @@ import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
-import { AxeIcon, EditIcon } from "lucide-react-native"
-import { TouchablePopupHandler } from "app/components/BlurredPopup"
+import { EditIcon } from "lucide-react-native"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 

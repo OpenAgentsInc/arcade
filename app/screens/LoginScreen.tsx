@@ -9,6 +9,7 @@ import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
 import { nip19 } from "nostr-tools"
+import { useChannelManager } from "app/utils/useUserContacts"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -19,6 +20,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
 
   // Pull in one of our MST stores
   const { userStore } = useStores()
+
+  const mgr = useChannelManager()
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -35,7 +38,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         accessKey = nip19.nsecEncode(accessKey)
       }
 
-      userStore.loginWithNsec(accessKey)
+      userStore.loginWithNsec(mgr, accessKey)
     }
   }
 

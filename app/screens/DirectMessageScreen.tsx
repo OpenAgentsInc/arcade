@@ -5,10 +5,11 @@ import React, {
   useEffect,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react"
 import { observer } from "mobx-react-lite"
-import { Platform, TextStyle, View, ViewStyle } from "react-native"
+import { Platform, TextInput, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -29,6 +30,10 @@ import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
 import { BlindedEvent, NostrPool } from "app/arclib/src"
+import { useSharedValue } from "react-native-reanimated"
+import { SwipeableItem } from "app/components/SwipeableItem"
+import { useMutation } from "react-query"
+import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -41,6 +46,9 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
     const [data, setData] = useState([] as BlindedEvent[])
     const [loading, setLoading] = useState(true)
+
+    const textInputRef = useRef<TextInput>(null)
+    const highlightedReply = useSharedValue<ReplyInfo | null>(null)
 
     const {
       userStore: { pubkey },
@@ -93,34 +101,65 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
+    const { mutateAsync: getSenderInfo } = useMutation(["user", pubkey], async () => {
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        return JSON.parse(latest.content)
+      }
+    })
+
     const renderItem = useCallback(
       ({ item }: { item: BlindedEvent }) => {
         const createdAt = formatCreatedAt(item.created_at)
         const content = parser(item)
 
+        const onFullSwipeProgress = async () => {
+          // When the user swipes the message, we want to focus the text input
+          textInputRef.current?.focus()
+
+          // That's almost a preloaded data since it has already been fetched
+          // and cached by React Query
+          const senderInfo = await getSenderInfo()
+
+          // We set the highlightedReply to the value of the message
+          // That will trigger the DirectMessageReply component to show
+          highlightedReply.value = {
+            sender: senderInfo.username,
+            content: content.original,
+          }
+        }
+
         if (item.pubkey === pubkey) {
           return (
-            <View style={$messageItemReverse}>
-              <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
-              <View style={$messageContentWrapperReverse}>
-                <MessageContent content={content} />
-                <View style={$createdAt}>
-                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            // We use the SwipeableItem component to wrap the message
+            // It will handle the swipe gesture and the animation
+            // basically we just set the swipeDirection and the onSwipeComplete
+            <SwipeableItem swipeDirection="left" onSwipeComplete={onFullSwipeProgress}>
+              <View style={$messageItemReverse}>
+                <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
+                <View style={$messageContentWrapperReverse}>
+                  <MessageContent content={content} />
+                  <View style={$createdAt}>
+                    <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                  </View>
                 </View>
               </View>
-            </View>
+            </SwipeableItem>
           )
         } else {
           return (
-            <View style={$messageItem}>
-              <User pubkey={item.pubkey} blinded={item.blinded} />
-              <View style={$messageContentWrapper}>
-                <MessageContent content={content} />
-                <View style={$createdAt}>
-                  <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+            <SwipeableItem swipeDirection="right" onSwipeComplete={onFullSwipeProgress}>
+              <View style={$messageItem}>
+                <User pubkey={item.pubkey} blinded={item.blinded} />
+                <View style={$messageContentWrapper}>
+                  <MessageContent content={content} />
+                  <View style={$createdAt}>
+                    <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
+                  </View>
                 </View>
               </View>
-            </View>
+            </SwipeableItem>
           )
         }
       },
@@ -153,6 +192,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
                   </View>
                 )
               }
+              ListHeaderComponent={<View style={{ height: spacing.small }} />}
               contentContainerStyle={$list}
               removeClippedSubviews={true}
               estimatedItemSize={100}
@@ -160,8 +200,20 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               keyboardDismissMode="none"
             />
           </View>
+          {/* This component will show the highlighted reply */}
+          <DirectMessageReply replyInfo={highlightedReply} />
           <View style={$form}>
-            <DirectMessageForm dms={dms} replyTo={id} legacy={legacy} />
+            <DirectMessageForm
+              dms={dms}
+              replyTo={id}
+              legacy={legacy}
+              textInputRef={textInputRef}
+              onSubmit={() => {
+                // Setting the value to null will trigger the DirectMessageReply component to hide
+                // It's a kind of "reset"
+                highlightedReply.value = null
+              }}
+            />
           </View>
         </View>
       </Screen>
@@ -188,7 +240,6 @@ const $list: ViewStyle = {
 
 const $form: ViewStyle = {
   flexShrink: 0,
-  paddingTop: spacing.small,
 }
 
 const $messageItem: ViewStyle = {

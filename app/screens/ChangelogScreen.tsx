@@ -32,6 +32,39 @@ export const ChangelogScreen: FC<ChangelogScreenProps> = observer(function Chang
 
   return (
     <Screen contentContainerStyle={$root} preset="scroll" keyboardOffset={50}>
+      <Text text={"v0.2.2"} size="lg" preset="bold" />
+      <Text text={"6 Jul 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Optimize performance in contacts screen</Text>
+        <Text style={$changelogText}>- Improve UX for user's profile screen</Text>
+        <Text style={$changelogText}>- Fixed 20 bugs</Text>
+      </View>
+      <View style={$divider} />
+
+      <Text text={"v0.2.1"} size="lg" preset="bold" />
+      <Text text={"6 Jul 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Add channel's members screen</Text>
+        <Text style={$changelogText}>- Fixed 17 bugs</Text>
+      </View>
+      <View style={$divider} />
+
+      <Text text={"v0.2.0"} size="lg" preset="bold" />
+      <Text text={"4 Jul 2023"} size="xs" style={$subtitle} />
+      <View style={$changelogContainer}>
+        <Text style={$changelogText}>- Blinded DMs</Text>
+        <Text style={$changelogText}>- Avatar upload</Text>
+        <Text style={$changelogText}>- Video player integration</Text>
+        <Text style={$changelogText}>- Link preview</Text>
+        <Text style={$changelogText}>- Privacy settings screen</Text>
+        <Text style={$changelogText}>- NIP-05 names</Text>
+        <Text style={$changelogText}>- Push notifications (android only)</Text>
+        <Text style={$changelogText}>- Secret follows</Text>
+        <Text style={$changelogText}>- Private chat groups</Text>
+        <Text style={$changelogText}>- Performance enhancements</Text>
+      </View>
+      <View style={$divider} />
+
       <Text text={"v0.1.3"} size="lg" preset="bold" />
       <Text text={"16 June 2023"} size="xs" style={$subtitle} />
       <View style={$changelogContainer}>

@@ -1,4 +1,5 @@
 import React, { memo, useContext } from "react"
+import React, { memo, useContext } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
@@ -11,6 +12,7 @@ import { VenetianMaskIcon } from "lucide-react-native"
 interface UserProp {
   pubkey: string
   reverse?: boolean
+  blinded?: boolean
   blinded?: boolean
 }
 

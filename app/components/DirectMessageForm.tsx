@@ -4,6 +4,7 @@ import {
   ImageStyle,
   Platform,
   Pressable,
+  TextInput,
   TextStyle,
   View,
   ViewStyle,
@@ -18,10 +19,14 @@ export function DirectMessageForm({
   dms,
   replyTo,
   legacy,
+  textInputRef,
+  onSubmit,
 }: {
   dms: PrivateMessageManager
   replyTo: string
   legacy: boolean
+  textInputRef?: React.RefObject<TextInput>
+  onSubmit?: () => void
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
@@ -71,9 +76,11 @@ export function DirectMessageForm({
 
   const submit = async () => {
     if (!attached && value.length === 0) {
-      alert("Message cannot be empty")
+      // user does not need feedback, they were probably just trying to close the keyboard
       return
     }
+
+    onSubmit?.()
 
     let content = value
     if (attached) {
@@ -122,6 +129,7 @@ export function DirectMessageForm({
       )}
       <View style={$borderTop} />
       <TextField
+        ref={textInputRef}
         placeholder="Message"
         placeholderTextColor={colors.palette.cyan500}
         style={$input}
