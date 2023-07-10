@@ -11,7 +11,7 @@ export function formatCreatedAt(time: number) {
   const diff = now.diff(inputTime, "hour")
 
   if (diff < 12) {
-    formatedTime = inputTime.format("HH:mm A")
+    formatedTime = inputTime.format("h:mm A")
   } else {
     formatedTime = inputTime.format("MMM DD")
   }

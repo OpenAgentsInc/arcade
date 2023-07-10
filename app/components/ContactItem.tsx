@@ -4,7 +4,7 @@ import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { NostrPool } from "app/arclib/src"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 
 export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: string }) {
   const pool = useContext(RelayContext) as NostrPool

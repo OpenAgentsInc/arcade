@@ -19,7 +19,8 @@ import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
-import { EditIcon } from "lucide-react-native"
+import { AxeIcon, EditIcon } from "lucide-react-native"
+import { TouchablePopupHandler } from "app/components/BlurredPopup"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -64,6 +65,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             text={metadata?.display_name || metadata?.username || "No name"}
             style={$userName}
           />
+
           <TouchableOpacity
             onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(pubkey))}
           >
@@ -74,9 +76,30 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
           <View>
             <View style={$sectionHeadingButton}>
               <Text text="Account" preset="bold" style={$sectionHeading} />
-              <Pressable onPress={() => navigation.navigate("EditProfile")}>
+
+              <TouchablePopupHandler
+                options={[
+                  {
+                    label: "Edit Profile",
+                    onPress: () => navigation.navigate("EditProfile"),
+                    trailing: (
+                      <EditIcon width={20} height={20} color={colors.palette.almostBlack} />
+                    ),
+                  },
+                  {
+                    label: "Just a demo",
+                    trailing: <AxeIcon width={20} height={20} color={colors.palette.almostBlack} />,
+                  },
+                ]}
+                onPress={() => {
+                  navigation.navigate("EditProfile")
+                }}
+                highlightedChildren={
+                  <EditIcon width={24} height={24} color={colors.palette.white} />
+                }
+              >
                 <EditIcon width={24} height={24} color={colors.palette.cyan500} />
-              </Pressable>
+              </TouchablePopupHandler>
             </View>
             <View style={$sectionData}>
               <Pressable
@@ -113,14 +136,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("RelayManager")}
               />
-              <ListItem
-                text="Backup"
-                leftIcon="Shield"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => navigation.navigate("Backup")}
-              />
+
               <ListItem
                 text="Notifications"
                 leftIcon="Bell"
@@ -138,16 +154,14 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("PrivacySetting")}
               />
-              {/* <ListItem
-                text="Demos"
-                leftIcon="TestTube2"
-                bottomSeparator
+              <ListItem
+                text="Backup"
+                leftIcon="Shield"
                 leftIconColor={colors.palette.cyan500}
+                onPress={() => navigation.navigate("Backup")}
+                bottomSeparator={true}
                 style={$sectionButton}
-                onPress={() => {
-                  navigation.navigate("Demos")
-                }}
-              /> */}
+              />
             </View>
           </View>
           <View>

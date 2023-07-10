@@ -3,14 +3,15 @@ import { observer } from "mobx-react-lite"
 import { View, StyleSheet, RefreshControl } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ScreenWithSidebar, ChannelItem, Text, RelayContext } from "app/components"
+import { ScreenWithSidebar, ChannelItem, Text, RelayContext, AIChannelDetail } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
 import { BlindedEvent, ChannelManager, NostrPool, PrivateMessageManager } from "app/arclib/src"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
-import Animated, { FadeInDown } from "react-native-reanimated"
+import Animated, { FadeIn } from "react-native-reanimated"
+import { useConversations } from "app/hooks/useConversations"
 
 interface HomeMessagesScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"HomeMessages">> {}
@@ -25,6 +26,7 @@ const colors = {
 
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
+    const { conversations } = useConversations()
     const now = useRef(Math.floor(Date.now() / 1000))
     const pool = useContext(RelayContext) as NostrPool
     const channelManager = new ChannelManager(pool) as ChannelManager
@@ -43,7 +45,16 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       },
     } = useStores()
 
-    const data = [...getChannels, ...getPrivMesages].sort(
+
+    useFocusEffect(
+      useCallback(() => {
+        fetchPrivMessages(pool)
+      }, []),
+    )
+
+    // should this be memoized?
+    const data = [...getChannels, ...privMessages, ...conversations].sort(
+
       (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
         b.lastMessageAt - a.lastMessageAt,
     )
@@ -83,9 +94,11 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     const renderItem = useCallback(({ item, index }) => {
       return (
-        <Animated.View entering={FadeInDown.delay(100 * index).duration(800)}>
+        <Animated.View entering={FadeIn.delay(100 * index).duration(800)}>
           {item.kind === 4 ? (
             <DirectMessageItem dm={item} />
+          ) : item.kind === 10101010 ? (
+            <AIChannelDetail channel={item} /> // Add your component here
           ) : (
             <ChannelItem channel={item} channelManager={channelManager} />
           )}

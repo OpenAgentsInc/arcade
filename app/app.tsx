@@ -24,7 +24,7 @@ import { setupReactotron } from "./services/reactotron"
 import Config from "./config"
 import { RelayProvider } from "app/components"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { QueryClient, QueryClientProvider } from "react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 // Set up Reactotron, which is a free desktop app for inspecting and debugging
 // React Native apps. Learn more here: https://github.com/infinitered/reactotron
