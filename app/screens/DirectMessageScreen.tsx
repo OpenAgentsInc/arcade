@@ -32,7 +32,7 @@ import { parser } from "app/utils/parser"
 import { BlindedEvent, NostrPool } from "app/arclib/src"
 import { useSharedValue } from "react-native-reanimated"
 import { SwipeableItem } from "app/components/SwipeableItem"
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
