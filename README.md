@@ -1,6 +1,6 @@
 # Arcade
 
-A [Nostr](https://github.com/nostr-protocol/nostr) chat app for Android & iOS.
+A [Nostr](https://github.com/nostr-protocol/nostr) & AI chat app for Android & iOS.
 
 Beta builds available for download [here](https://github.com/ArcadeLabsInc/arcade/releases).
 
