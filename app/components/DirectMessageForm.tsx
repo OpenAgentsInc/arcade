@@ -150,13 +150,19 @@ export function DirectMessageForm({
             />
           </View>
         )}
-        RightAccessory={() => (
-          <Button
-            onPress={() => submit()}
-            LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
-            style={$sendButton}
-          />
-        )}
+        RightAccessory={() => {
+          if (attached || (value.length > 0 && /\S/.test(value))) {
+            return (
+              <Button
+                onPress={() => submit()}
+                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+                style={$sendButton}
+              />
+            )
+          } else {
+            return <View style={$blankButton} />
+          }
+        }}
       />
     </>
   )
@@ -200,6 +206,11 @@ const $sendButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
   marginRight: spacing.small,
+}
+
+const $blankButton: ViewStyle = {
+  width: 5,
+  height: 40,
 }
 
 const $imageButton: ViewStyle = {

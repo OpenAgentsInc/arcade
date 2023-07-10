@@ -76,7 +76,6 @@ export function ChannelMessageForm({
   }
 
   const createEvent = async (data) => {
-    // no popup here please
     if (!attached && data.content.length === 0) {
       // user does not need feedback, they were probably just trying to close the keyboard
       return
@@ -99,10 +98,9 @@ export function ChannelMessageForm({
       formikRef.current?.resetForm()
       setAttached(null)
       setLoading(false)
-      // log, todo: remove
-      console.log("published event to channel:", message.id)
     } else {
-      alert("Failed to publish")
+      // todo: put failed publish event to queue for resend
+      console.log("Failed to publish")
     }
   }
 
@@ -158,15 +156,25 @@ export function ChannelMessageForm({
                 style={$imageButton}
               />
             )}
-            RightAccessory={() => (
-              <Button
-                onPress={() => submitForm()}
-                LeftAccessory={() => (
-                  <ArrowUpIcon width={20} height={20} style={{ color: colors.palette.cyan100 }} />
-                )}
-                style={$sendButton}
-              />
-            )}
+            RightAccessory={() => {
+              if (attached || (values.content.length > 0 && /\S/.test(values.content))) {
+                return (
+                  <Button
+                    onPress={() => submitForm()}
+                    LeftAccessory={() => (
+                      <ArrowUpIcon
+                        width={20}
+                        height={20}
+                        style={{ color: colors.palette.cyan100 }}
+                      />
+                    )}
+                    style={$sendButton}
+                  />
+                )
+              } else {
+                return <View style={$blankButton} />
+              }
+            }}
           />
         </>
       )}
@@ -212,6 +220,11 @@ const $sendButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
   marginRight: spacing.small,
+}
+
+const $blankButton: ViewStyle = {
+  width: 5,
+  height: 40,
 }
 
 const $imageButton: ViewStyle = {
