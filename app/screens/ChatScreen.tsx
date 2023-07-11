@@ -95,7 +95,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={channel.name || "No name"}
+          title={channel.name.substring(0, 16) + "..." || "No name"}
           titleStyle={{ color: colors.palette.cyan400 }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}

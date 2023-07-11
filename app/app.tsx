@@ -109,7 +109,7 @@ function App(props: AppProps) {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient} contextSharing={true}>
           <RelayProvider>
             <GestureHandlerRootView
               style={{ flex: 1 /* eslint-disable-line react-native/no-inline-styles */ }}

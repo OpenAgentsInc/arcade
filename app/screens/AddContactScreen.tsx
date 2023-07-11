@@ -58,6 +58,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       pubkey = await resolvePubkey(pubkey)
     } catch (e) {
       alert(`Invalid contact: ${e}`)
+      return
     }
     try {
       addContact({ pubkey, legacy: true, secret: false }, mgr)

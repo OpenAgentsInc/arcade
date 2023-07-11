@@ -9,7 +9,7 @@ import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
 import { ChannelInfo } from "app/arclib/src"
-import { ImagePlusIcon } from "lucide-react-native"
+import { CheckIcon, ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 import { useChannelManager } from "app/utils/useUserContacts"
 
@@ -27,6 +27,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
     const [picture, setPicture] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [creating, setCreating] = useState(false)
 
     // Pull in navigation via hook
     const navigation = useNavigation<any>()
@@ -72,10 +73,12 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
     }
 
     const createChannel = async (data: any) => {
+      setCreating(true)
       try {
         const channelName = data.name.trim()
         if (channelName.length < 1) {
           alert("Channel name is required")
+          setCreating(false)
         } else {
           const fullData: ChannelInfo = { ...data, picture }
           // broadcast channel to all relays
@@ -102,7 +105,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
           }
         }
       } catch (e) {
-        console.log("error", e)
+        setCreating(false)
         alert(`Error, please check information again: ${e}`)
       }
     }
@@ -116,13 +119,23 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
-            rightIcon="Check"
-            rightIconColor={colors.palette.cyan400}
-            onRightPress={() => formikRef.current.submitForm()}
+            RightActionComponent={
+              creating ? (
+                <ActivityIndicator
+                  color={colors.palette.white}
+                  animating={creating}
+                  style={$avatarButton}
+                />
+              ) : (
+                <Pressable onPress={() => formikRef.current.submitForm()} disabled={creating}>
+                  <CheckIcon color={colors.palette.cyan400} />
+                </Pressable>
+              )
+            }
           />
         ),
       })
-    }, [])
+    }, [creating])
 
     return (
       <Screen

@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
-import { AutoImage, RelayContext, Text } from "app/components"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { RelayContext, Text } from "app/components"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { NostrPool } from "app/arclib/src"
@@ -23,7 +23,7 @@ export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: s
 
   return (
     <View style={$item}>
-      <AutoImage
+      <Image
         source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={$itemAvatar}
       />
