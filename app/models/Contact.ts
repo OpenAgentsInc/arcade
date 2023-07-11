@@ -8,8 +8,8 @@ export const ContactModel = types
   .model("Contact")
   .props({
     pubkey: types.string,
-    secret: types.boolean,
-    legacy: types.boolean,
+    secret: types.optional(types.boolean, false),
+    legacy: types.optional(types.boolean, true),
     metadata: types.maybeNull(types.string),
   })
   .actions(withSetPropAction)

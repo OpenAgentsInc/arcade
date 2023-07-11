@@ -21,6 +21,7 @@ import {
   Text,
   User,
   MessageContent,
+  Reply,
 } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
@@ -113,6 +114,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       ({ item }: { item: BlindedEvent }) => {
         const createdAt = formatCreatedAt(item.created_at)
         const content = parser(item)
+        const reply = item.tags.find((el) => el[0] === "e")?.[1]
 
         const onFullSwipeProgress = async () => {
           // When the user swipes the message, we want to focus the text input
@@ -125,6 +127,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           // We set the highlightedReply to the value of the message
           // That will trigger the DirectMessageReply component to show
           highlightedReply.value = {
+            id: item.id,
             sender: senderInfo.username,
             content: content.original,
           }
@@ -139,6 +142,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               <View style={$messageItemReverse}>
                 <User pubkey={item.pubkey} reverse={true} blinded={item.blinded} />
                 <View style={$messageContentWrapperReverse}>
+                  {reply && <Reply id={reply} />}
                   <MessageContent content={content} />
                   <View style={$createdAt}>
                     <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
@@ -153,6 +157,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               <View style={$messageItem}>
                 <User pubkey={item.pubkey} blinded={item.blinded} />
                 <View style={$messageContentWrapper}>
+                  {reply && <Reply id={reply} />}
                   <MessageContent content={content} />
                   <View style={$createdAt}>
                     <Text text={createdAt} preset="default" size="xs" style={$createdAtText} />
@@ -205,7 +210,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           <View style={$form}>
             <DirectMessageForm
               dms={dms}
-              replyTo={id}
+              recipient={id}
+              replyTo={highlightedReply.value}
               legacy={legacy}
               textInputRef={textInputRef}
               onSubmit={() => {

@@ -103,6 +103,9 @@ export const UserStoreModel = types
     get getChannels() {
       return self.channels.slice()
     },
+    findContact(pubkey: string) {
+      return self.contacts.find((el) => el.pubkey === pubkey)
+    },
     get getContacts() {
       return self.contacts.slice()
     },
