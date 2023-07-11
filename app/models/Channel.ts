@@ -50,6 +50,11 @@ export const ChannelModel = types
         db_only: false,
         privkey: self.privkey,
       })
+      // we need make sure event's content is string (some client allow content as number, ex: coracle)
+      // but this function maybe hurt performance
+      events.forEach((event: NostrEvent) => {
+        if (typeof event.content !== "string") event.content = String(event.content)
+      })
       const uniqueEvents = events.filter(
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
