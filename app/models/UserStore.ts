@@ -103,6 +103,9 @@ export const UserStoreModel = types
     get getChannels() {
       return self.channels.slice()
     },
+    findContact(pubkey: string) {
+      return self.contacts.find((el) => el.pubkey === pubkey)
+    },
     get getContacts() {
       return self.contacts.slice()
     },
@@ -247,7 +250,7 @@ export const UserStoreModel = types
         tmp.forEach((id: string) => {
           ChannelModel.create({ id, privkey: "" })
         })
-        const joinedChannels = DEFAULT_CHANNELS // tmp.length > 0 ? tmp : DEFAULT_CHANNELS
+        const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
 
         applySnapshot(self, {
           pubkey,

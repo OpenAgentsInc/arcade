@@ -7,8 +7,9 @@ import {
   View,
   ViewStyle,
   ActivityIndicator,
+  TextInput,
 } from "react-native"
-import { Button, TextField, Text, AutoImage } from "app/components"
+import { Button, TextField, Text, AutoImage, ReplyInfo } from "app/components"
 import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
@@ -19,10 +20,16 @@ export function ChannelMessageForm({
   channelManager,
   channelId,
   privkey,
+  replyTo,
+  textInputRef,
+  onSubmit,
 }: {
   channelManager: ChannelManager
   channelId: string
   privkey: string
+  replyTo: ReplyInfo
+  textInputRef?: React.RefObject<TextInput>
+  onSubmit?: () => void
 }) {
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
@@ -64,6 +71,9 @@ export function ChannelMessageForm({
           const url = new URL(data.imageUrl).toString()
           setAttached(url)
           setLoading(false)
+        } else {
+          alert(res.statusText)
+          setLoading(false)
         }
       }
     } else {
@@ -90,6 +100,7 @@ export function ChannelMessageForm({
     const message = await channelManager.send({
       channel_id: channelId,
       content,
+      replyTo: replyTo?.id,
       is_private: !!privkey,
     })
 
@@ -98,6 +109,9 @@ export function ChannelMessageForm({
       formikRef.current?.resetForm()
       setAttached(null)
       setLoading(false)
+
+      // reset reply to
+      onSubmit?.()
     } else {
       // todo: put failed publish event to queue for resend
       console.log("Failed to publish")
@@ -136,6 +150,7 @@ export function ChannelMessageForm({
           )}
           <View style={$borderTop} />
           <TextField
+            ref={textInputRef}
             placeholder={attached ? "Caption" : "Message"}
             placeholderTextColor={colors.palette.cyan500}
             style={$input}

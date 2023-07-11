@@ -125,6 +125,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
         pubkey = await resolvePubkey(pubkey)
       } catch (e) {
         alert(`Invalid contact: ${e}`)
+        return
       }
       setCustom((prev) => [...prev, pubkey])
       setSelected(pubkey)

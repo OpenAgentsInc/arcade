@@ -1,10 +1,12 @@
-import React, { memo, useContext, useEffect, useState } from "react"
-import { AutoImage, RelayContext } from "app/components"
-import { StyleSheet, Pressable, View, Text } from "react-native"
+import React, { memo, useContext } from "react"
+import { RelayContext } from "app/components"
+import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
+import { useQuery } from "@tanstack/react-query"
+import { useStores } from "app/models"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -26,26 +28,26 @@ export const DirectMessageItem = memo(function DirectMessageItem({
   const navigation = useNavigation<any>()
   const createdAt = formatCreatedAt(dm.created_at)
 
-  const [profile, setProfile] = useState(null)
+  const {
+    userStore: { findContact },
+  } = useStores()
 
-  useEffect(() => {
-    async function fetchProfile() {
-      const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
-      const latest = list.slice(-1)[0]
-      if (latest) {
-        const content = JSON.parse(latest.content)
-        setProfile(content)
-      }
+  const { data: profile } = useQuery(["user", dm.pubkey], async () => {
+    const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
+    const latest = list.slice(-1)[0]
+    if (latest) {
+      return JSON.parse(latest.content)
     }
-    fetchProfile().catch(console.error)
-  }, [dm.pubkey])
+  })
+
+  const legacy = findContact(dm.pubkey)?.legacy || true
 
   return (
     <Pressable
-      onPress={() => navigation.navigate("DirectMessage", { id: dm.pubkey })}
+      onPress={() => navigation.navigate("DirectMessage", { id: dm.pubkey, legacy })}
       style={styles.$messageItem}
     >
-      <AutoImage
+      <Image
         source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
       />

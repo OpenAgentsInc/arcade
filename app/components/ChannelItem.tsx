@@ -1,6 +1,5 @@
 import React, { useEffect } from "react"
-import { AutoImage } from "app/components"
-import { StyleSheet, Pressable, View, Text } from "react-native"
+import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel } from "app/models"
@@ -43,7 +42,7 @@ export const ChannelItem = observer(function ChannelItem({
 
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
-      <AutoImage
+      <Image
         source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
       />

@@ -29,5 +29,7 @@ export * from "./Frame"
 export * from "./TextInput"
 export * from "./MessageContent"
 export * from "./LinkPreview"
-
+export * from "./DirectMessageReply"
+export * from "./Reply"
+export * from "./ReplyUser"
 export * from "./Faerie"

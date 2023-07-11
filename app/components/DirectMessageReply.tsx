@@ -7,6 +7,7 @@ import React from "react"
 import { TouchableFeedback } from "./TouchableFeedback"
 
 export type ReplyInfo = {
+  id: string
   sender: string
   content: string
 }

@@ -9,21 +9,23 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { AutoImage, Button, TextField, Text } from "app/components"
-import { PaperclipIcon, SendIcon, XIcon } from "lucide-react-native"
+import { AutoImage, Button, TextField, Text, ReplyInfo } from "app/components"
+import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import type { PrivateMessageManager } from "app/arclib/src/private"
 
 export function DirectMessageForm({
   dms,
+  recipient,
   replyTo,
   legacy,
   textInputRef,
   onSubmit,
 }: {
   dms: PrivateMessageManager
-  replyTo: string
+  recipient: string
+  replyTo: ReplyInfo
   legacy: boolean
   textInputRef?: React.RefObject<TextInput>
   onSubmit?: () => void
@@ -66,7 +68,12 @@ export function DirectMessageForm({
           setAttached(url)
           setLoading(false)
         }
+      } else {
+        alert(res.statusText)
+        setLoading(false)
       }
+    } else {
+      setLoading(false)
     }
   }
 
@@ -80,8 +87,6 @@ export function DirectMessageForm({
       return
     }
 
-    onSubmit?.()
-
     let content = value
     if (attached) {
       content = content + " " + attached
@@ -89,20 +94,24 @@ export function DirectMessageForm({
 
     // send message
     if (legacy) {
-      const ev = await dms.send(replyTo, content)
+      const ev = await dms.send(recipient, content, replyTo?.id)
       if (!ev.id) {
-        alert("Failed to publish")
+        console.log("Failed to publish")
       }
     } else {
-      const ev = await dms.send44X(replyTo, content)
+      const ev = await dms.send44X(recipient, content, replyTo?.id)
       if (!ev.id) {
-        alert("Failed to publish")
+        console.log("Failed to publish")
       }
     }
+
     // reset state
     setValue("")
     setAttached(null)
     setLoading(false)
+
+    // reset reply to
+    onSubmit?.()
   }
 
   return (
@@ -155,7 +164,9 @@ export function DirectMessageForm({
             return (
               <Button
                 onPress={() => submit()}
-                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+                LeftAccessory={() => (
+                  <ArrowUpIcon width={20} height={20} style={{ color: colors.palette.cyan100 }} />
+                )}
                 style={$sendButton}
               />
             )
