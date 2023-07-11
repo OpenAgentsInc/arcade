@@ -1,6 +1,6 @@
 import React, { memo, useContext } from "react"
-import { AutoImage, RelayContext } from "app/components"
-import { StyleSheet, Pressable, View, Text } from "react-native"
+import { RelayContext } from "app/components"
+import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
@@ -47,7 +47,7 @@ export const DirectMessageItem = memo(function DirectMessageItem({
       onPress={() => navigation.navigate("DirectMessage", { id: dm.pubkey, legacy })}
       style={styles.$messageItem}
     >
-      <AutoImage
+      <Image
         source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
         style={styles.$messageAvatar}
       />

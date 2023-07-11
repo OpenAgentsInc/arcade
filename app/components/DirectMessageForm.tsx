@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from "react-native"
 import { AutoImage, Button, TextField, Text, ReplyInfo } from "app/components"
-import { PaperclipIcon, SendIcon, XIcon } from "lucide-react-native"
+import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import type { PrivateMessageManager } from "app/arclib/src/private"
@@ -164,7 +164,9 @@ export function DirectMessageForm({
             return (
               <Button
                 onPress={() => submit()}
-                LeftAccessory={() => <SendIcon style={{ color: colors.text }} />}
+                LeftAccessory={() => (
+                  <ArrowUpIcon width={20} height={20} style={{ color: colors.palette.cyan100 }} />
+                )}
                 style={$sendButton}
               />
             )

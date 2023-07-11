@@ -102,8 +102,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       }
     }, [id, dms])
 
-    const { mutateAsync: getSenderInfo } = useMutation(["user", pubkey], async () => {
-      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+    const { mutateAsync: getSenderInfo } = useMutation(["user", id], async () => {
+      const list = await pool.list([{ kinds: [0], authors: [id] }], true)
       const latest = list.slice(-1)[0]
       if (latest) {
         return JSON.parse(latest.content)
@@ -128,7 +128,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           // That will trigger the DirectMessageReply component to show
           highlightedReply.value = {
             id: item.id,
-            sender: senderInfo.username,
+            sender: senderInfo.username || senderInfo.name || senderInfo,
             content: content.original,
           }
         }
