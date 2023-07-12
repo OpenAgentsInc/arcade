@@ -34,7 +34,7 @@ export const ChannelManagerItem = observer(function ChannelItem({
           <Text text={channel?.name || "No name"} preset="bold" />
         </View>
         <Text
-          text={channel?.about || "No about"}
+          text={channel?.about || "No description"}
           size="sm"
           numberOfLines={1}
           style={$messageContentAbout}

@@ -48,7 +48,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
     const data: any = [
       {
         title: "Connected",
-        desc: "You alway need at least one relay to use Arcade",
+        desc: "You always need at least one relay to use Arcade",
         type: "remove",
         data: [...getRelays],
       },

@@ -53,7 +53,9 @@ export const DirectMessageItem = memo(function DirectMessageItem({
       />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
-          <Text style={styles.$messageContentName}>{profile?.name || "No name"}</Text>
+          <Text style={styles.$messageContentName}>
+            {profile?.username || profile?.name || profile?.display_name || "No name"}
+          </Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}></View>

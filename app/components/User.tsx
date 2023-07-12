@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native"
 import { NostrPool } from "app/arclib/src"
 import { useQuery } from "@tanstack/react-query"
 import { VenetianMaskIcon } from "lucide-react-native"
+import { useStores } from "app/models"
 
 interface UserProp {
   pubkey: string
@@ -18,6 +19,8 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
 
+  const { userStore } = useStores()
+
   const { data: profile } = useQuery(["user", pubkey], async () => {
     const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
     const latest = list.slice(-1)[0]
@@ -28,9 +31,17 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     }
   })
 
+  const redirect = () => {
+    if (userStore.pubkey === pubkey) {
+      navigation.navigate("Profile")
+    } else {
+      navigation.navigate("User", { id: pubkey })
+    }
+  }
+
   return (
     <>
-      <Pressable onPress={() => navigation.navigate("User", { id: pubkey })} style={$user}>
+      <Pressable onPress={() => redirect()} style={$user}>
         <AutoImage
           source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
           style={$userAvatar}

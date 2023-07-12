@@ -135,7 +135,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             <Text
               preset="bold"
               size="lg"
-              text={profile?.username || profile?.display_name || "No name"}
+              text={profile?.username || profile?.name || profile?.display_name || "No name"}
               style={$userName}
             />
             <Text
@@ -146,7 +146,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
             />
           </View>
           <View style={$userAbout}>
-            <Text preset="default" text={profile?.about || "No bio"} />
+            <Text preset="default" text={profile?.about || "No about"} />
           </View>
         </View>
         <View style={$buttonGroup}>
@@ -176,24 +176,26 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         <View style={$section}>
           <Text text="Contact settings" preset="bold" style={$sectionHeading} />
           <View style={$sectionData}>
-            <ListItem
-              text="Use legacy, unblinded DM's"
-              bottomSeparator={true}
-              style={$sectionItem}
-              containerStyle={$sectionItemContainer}
-              RightComponent={
-                <Toggle
-                  id="legacy"
-                  inputOuterStyle={secret ? $toggleDisabled : $toggle}
-                  inputInnerStyle={$toggleInner}
-                  inputDetailStyle={$toggleDetail}
-                  variant="switch"
-                  value={legacy && !secret}
-                  disabled={secret}
-                  onPress={toggleLegacy}
-                />
-              }
-            />
+            {!secret && (
+              <ListItem
+                text="Use legacy, unblinded DM's"
+                bottomSeparator={true}
+                style={$sectionItem}
+                containerStyle={$sectionItemContainer}
+                RightComponent={
+                  <Toggle
+                    id="legacy"
+                    inputOuterStyle={secret ? $toggleDisabled : $toggle}
+                    inputInnerStyle={$toggleInner}
+                    inputDetailStyle={$toggleDetail}
+                    variant="switch"
+                    value={legacy && !secret}
+                    disabled={secret}
+                    onPress={toggleLegacy}
+                  />
+                }
+              />
+            )}
             <ListItem
               text="Hide this contact (private follow)"
               bottomSeparator={true}
