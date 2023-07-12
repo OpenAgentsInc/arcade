@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { RelayContext, Text } from "app/components"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { spacing } from "app/theme"
+import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { NostrPool } from "app/arclib/src"
 import { useQuery } from "@tanstack/react-query"
@@ -24,7 +24,9 @@ export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: s
   return (
     <View style={$item}>
       <Image
-        source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{
+          uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+        }}
         style={$itemAvatar}
       />
       <View>
@@ -52,6 +54,7 @@ const $itemAvatar: ImageStyle = {
   height: 44,
   borderRadius: 100,
   marginRight: spacing.small,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $itemName: TextStyle = {

@@ -3,7 +3,7 @@ import { RelayContext } from "app/components"
 import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { NostrPool } from "app/arclib/src"
+import { BlindedEvent, NostrPool } from "app/arclib/src"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
 import { useStores } from "app/models"
@@ -19,21 +19,18 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const DirectMessageItem = memo(function DirectMessageItem({
-  dm,
-}: {
-  dm: { content: string; pubkey: string; created_at: number }
-}) {
+export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: BlindedEvent }) {
   const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
   const createdAt = formatCreatedAt(dm.created_at)
 
   const {
-    userStore: { findContact },
+    userStore: { pubkey, findContact },
   } = useStores()
 
   const { data: profile } = useQuery(["user", dm.pubkey], async () => {
-    const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
+    const sender = pubkey === dm.pubkey ? dm.tags.find((el) => el[0] === "p")[1] : pubkey
+    const list = await pool.list([{ kinds: [0], authors: [sender] }], true)
     const latest = list.slice(-1)[0]
     if (latest) {
       return JSON.parse(latest.content)
@@ -53,7 +50,9 @@ export const DirectMessageItem = memo(function DirectMessageItem({
       />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
-          <Text style={styles.$messageContentName}>{profile?.name || "No name"}</Text>
+          <Text style={styles.$messageContentName} numberOfLines={1}>
+            {profile?.username || profile?.name || profile?.display_name || "No name"}
+          </Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}></View>

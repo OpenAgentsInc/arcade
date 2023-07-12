@@ -19,7 +19,7 @@ import {
 } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
+import { generatePrivateKey, getPublicKey } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
@@ -119,6 +119,12 @@ export const UserStoreModel = types
       return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions(() => ({
+    fetchJoinedChannels: flow(function* (mgr: ChannelManager) {
+      const tmp: string[] = yield mgr.listJoined()
+      return tmp
+    }),
+  }))
   .actions((self) => ({
     fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
       const priv = new PrivateMessageManager(pool)
@@ -227,44 +233,32 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    loginWithNsec: flow(function* (pool: NostrPool, mgr: ChannelManager, nsec: string) {
-      if (!nsec.startsWith("nsec1") || nsec.length < 60) {
-        return
-      }
-      try {
-        const { data } = nip19.decode(nsec)
-        const privkey = data as string
-        const pubkey = getPublicKey(privkey)
 
-        const ident = new ArcadeIdentity(privkey)
-        pool.ident = ident
+    loginWithNsec: flow(function* (
+      pool: NostrPool,
+      ident: ArcadeIdentity,
+      privkey: string,
+      pubkey: string,
+      channels?: string[],
+    ) {
+      const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        const { profile, contacts } = yield getProfile(ident, pubkey)
-        // update secure storage
-        yield secureSet("privkey", privkey)
-        // fetch priv messages
-        const privMessages = yield self.fetchPrivMessages(pool, contacts)
+      // update secure storage
+      yield secureSet("privkey", privkey)
 
-        // update mobx state, user will redirect to home screen immediately
-        const tmp = yield mgr.listJoined()
-        tmp.forEach((id: string) => {
-          ChannelModel.create({ id, privkey: "" })
-        })
-        const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
+      // fetch priv messages
+      const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
-        applySnapshot(self, {
-          pubkey,
-          privkey,
-          isLoggedIn: true,
-          metadata: profile,
-          contacts,
-          channels: joinedChannels,
-          privMessages,
-        })
-      } catch (e: any) {
-        console.log(e)
-        alert("Invalid key. Did you copy it correctly?")
-      }
+      // update mobx state, user will redirect to home screen immediately
+      applySnapshot(self, {
+        pubkey,
+        privkey,
+        isLoggedIn: true,
+        metadata: profile,
+        contacts,
+        channels: channels.length > 0 ? channels : DEFAULT_CHANNELS,
+        privMessages,
+      })
     }),
     async logout() {
       await secureDel("privkey")
@@ -312,10 +306,15 @@ export const UserStoreModel = types
       if (index !== -1) self.relays.splice(index, 1)
     },
     addPrivMessage(ev: BlindedEvent) {
-      self.privMessages.push({
+      /* self.privMessages.push({
         ...ev,
         lastMessageAt: ev.created_at,
-      })
+      }) */
+      // Tip from Claude on MST performance, sounds right to me based on past experience:
+      // "Avoid using array methods like `push`, `unshift`, etc. directly on model arrays.
+      // Instead make a copy, mutate it, and set the prop to the copy.
+      // This triggers minimal observability change tracking."
+      self.privMessages = cast([...self.privMessages, ev])
     },
     updatePrivMessages(data) {
       self.privMessages = cast(data)

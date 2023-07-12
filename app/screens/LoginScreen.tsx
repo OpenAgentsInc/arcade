@@ -8,9 +8,9 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
-import { nip19 } from "nostr-tools"
+import { getPublicKey, nip19 } from "nostr-tools"
 import { useChannelManager } from "app/utils/useUserContacts"
-import { NostrPool } from "app/arclib/src"
+import { ArcadeIdentity, NostrPool } from "app/arclib/src"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -20,7 +20,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   const [loading, setLoading] = useState(false)
 
   // Pull in one of our MST stores
-  const { userStore } = useStores()
+  const { userStore, channelStore } = useStores()
 
   const pool = useContext(RelayContext) as NostrPool
   const mgr = useChannelManager()
@@ -29,18 +29,40 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   const navigation = useNavigation()
 
   // login
-  const login = () => {
-    if (!nsec && nsec.length < 60) {
-      alert("access key as nsec or hexstring is required")
+  const login = async () => {
+    if (nsec.length < 60) {
+      alert("Access key as nsec or hex private key is required")
     } else {
       setLoading(true)
+      try {
+        let privkey = nsec
+        if (privkey.startsWith("nsec1")) {
+          privkey = nip19.decode(privkey).data as string
+        }
+        const pubkey = getPublicKey(privkey)
 
-      let accessKey = nsec
-      if (!accessKey.startsWith("nsec")) {
-        accessKey = nip19.nsecEncode(accessKey)
+        const ident = new ArcadeIdentity(privkey)
+        pool.ident = ident
+
+        const joinedChannels = await userStore.fetchJoinedChannels(mgr)
+        console.log("joined channels: ", joinedChannels)
+        joinedChannels.forEach((item) => {
+          channelStore.create({
+            id: item,
+            author: "",
+            privkey: "",
+            name: "",
+            about: "",
+            picture: "",
+            is_private: false,
+          })
+        })
+
+        userStore.loginWithNsec(pool, ident, privkey, pubkey, joinedChannels)
+      } catch {
+        alert("Invalid key. Did you copy it correctly?")
+        setLoading(false)
       }
-
-      userStore.loginWithNsec(pool, mgr, accessKey)
     }
   }
 
@@ -71,7 +93,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         <View style={$inputGroup}>
           <TextField
             secureTextEntry={secure}
-            placeholder="nsec or hexstring..."
+            placeholder="nsec or hex private key"
             placeholderTextColor={colors.palette.cyan500}
             style={$input}
             inputWrapperStyle={$inputWrapper}

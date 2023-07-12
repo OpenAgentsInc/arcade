@@ -111,6 +111,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           <FlashList
             keyExtractor={(item) => item.id}
             data={data}
+            extraData={userStore.getChannels}
             renderItem={({ item }) => {
               // no name or short channel name, mostly spam
               if (!item.name) {

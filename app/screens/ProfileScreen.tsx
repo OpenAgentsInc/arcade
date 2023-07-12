@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -25,6 +25,8 @@ import { TouchablePopupHandler } from "app/components/BlurredPopup"
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
+  const [npubCopied, setNpubCopied] = useState(false)
+
   // Pull in one of our MST stores
   const {
     userStore: { pubkey, metadata, fetchMetadata, logout },
@@ -32,6 +34,12 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
+
+  const copyNpub = async () => {
+    await Clipboard.setStringAsync(nip19.npubEncode(pubkey))
+    setNpubCopied(true)
+    setTimeout(() => setNpubCopied(false), 500)
+  }
 
   useEffect(() => {
     if (!metadata) {
@@ -66,10 +74,8 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
             style={$userName}
           />
 
-          <TouchableOpacity
-            onPress={async () => await Clipboard.setStringAsync(nip19.npubEncode(pubkey))}
-          >
-            <Text size="sm" text={shortenKey(pubkey)} style={$userNip05} />
+          <TouchableOpacity onPress={async () => copyNpub()}>
+            <Text size="sm" text={npubCopied ? "Copied" : shortenKey(pubkey)} style={$userNip05} />
           </TouchableOpacity>
         </View>
         <View style={$sections}>
@@ -120,8 +126,8 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 onPress={() => navigation.navigate("EditProfile")}
                 style={$sectionDataItem}
               >
-                <Text text="Bio" size="xs" style={$sectionDataItemSubtitle} />
-                <Text text={metadata?.about || metadata?.about || "No bio"} />
+                <Text text="About" size="xs" style={$sectionDataItemSubtitle} />
+                <Text text={metadata?.about || "No about"} />
               </Pressable>
             </View>
           </View>

@@ -178,7 +178,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
               autoFocus={false}
             />
             <TextField
-              label="Bio"
+              label="About"
               style={$input}
               inputWrapperStyle={$inputWrapper}
               onChangeText={handleChange("about")}

@@ -51,7 +51,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
           onPress={() => navigation.navigate("CreateChannel", { isPrivate: false })}
         />
         <ListItem
-          text="New private group"
+          text="New private channel"
           leftIcon="FolderLockIcon"
           leftIconColor={colors.palette.cyan500}
           bottomSeparator={true}

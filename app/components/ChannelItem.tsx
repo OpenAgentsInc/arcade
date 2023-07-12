@@ -48,7 +48,9 @@ export const ChannelItem = observer(function ChannelItem({
       />
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
-          <Text style={styles.$messageContentName}>{channel.name || "No name"}</Text>
+          <Text style={styles.$messageContentName} numberOfLines={1}>
+            {channel.name || "No name"}
+          </Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>
         <View style={styles.$messageContentRight}>
