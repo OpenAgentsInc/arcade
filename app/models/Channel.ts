@@ -73,7 +73,12 @@ export const ChannelModel = types
     }),
     addMessage(event: NostrEvent) {
       if (self.messages.find((msg) => msg.id === event.id)) return
-      self.messages.unshift(event)
+      // self.messages.unshift(event)
+      // Tip from Claude on MST performance, sounds right to me based on past experience:
+      // "Avoid using array methods like `push`, `unshift`, etc. directly on model arrays.
+      // Instead make a copy, mutate it, and set the prop to the copy.
+      // This triggers minimal observability change tracking."
+      self.messages = cast([event, ...self.messages])
     },
     updateLastMessage() {
       const lastMessage = self.messages.slice(-1)[0]

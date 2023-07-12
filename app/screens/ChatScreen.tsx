@@ -293,13 +293,13 @@ const $form: ViewStyle = {
 const $messageItem: ViewStyle = {
   flexDirection: "row",
   gap: spacing.extraSmall,
-  marginTop: spacing.medium,
+  marginBottom: spacing.medium,
 }
 
 const $messageItemReverse: ViewStyle = {
   flexDirection: "row-reverse",
   gap: spacing.extraSmall,
-  marginTop: spacing.medium,
+  marginBottom: spacing.medium,
   position: "relative",
 }
 
