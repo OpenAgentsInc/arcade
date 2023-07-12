@@ -31,7 +31,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   // login
   const login = () => {
     if (nsec.length < 60) {
-      alert("access key as nsec or hexstring is required")
+      alert("Access key as nsec or hex private key is required")
     } else {
       setLoading(true)
       try {

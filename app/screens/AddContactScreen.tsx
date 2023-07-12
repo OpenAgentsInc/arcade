@@ -174,6 +174,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         enablePanDownToClose={true}
         backgroundStyle={$modal}
         keyboardBehavior="fillParent"
+        android_keyboardInputMode="adjustResize"
         handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
       >
         <BottomSheetView style={$modalContent}>

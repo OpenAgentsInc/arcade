@@ -196,6 +196,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             enablePanDownToClose={true}
             backgroundStyle={$modal}
             keyboardBehavior="fillParent"
+            android_keyboardInputMode="adjustResize"
             handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
           >
             <BottomSheetView style={$modalContent}>
