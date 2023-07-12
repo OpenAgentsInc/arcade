@@ -19,7 +19,7 @@ import {
 } from "app/arclib/src"
 import { ChannelModel } from "./Channel"
 import { MessageModel } from "./Message"
-import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools"
+import { generatePrivateKey, getPublicKey } from "nostr-tools"
 import * as SecureStore from "expo-secure-store"
 import * as storage from "../utils/storage"
 import { ContactManager, Contact } from "app/arclib/src/contacts"
@@ -227,44 +227,40 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-    loginWithNsec: flow(function* (pool: NostrPool, mgr: ChannelManager, nsec: string) {
-      if (!nsec.startsWith("nsec1") || nsec.length < 60) {
-        return
-      }
-      try {
-        const { data } = nip19.decode(nsec)
-        const privkey = data as string
-        const pubkey = getPublicKey(privkey)
+    loginWithNsec: flow(function* (
+      pool: NostrPool,
+      mgr: ChannelManager,
+      privkey: string,
+      pubkey: string,
+    ) {
+      const ident = new ArcadeIdentity(privkey)
+      pool.ident = ident
 
-        const ident = new ArcadeIdentity(privkey)
-        pool.ident = ident
+      const { profile, contacts } = yield getProfile(ident, pubkey)
 
-        const { profile, contacts } = yield getProfile(ident, pubkey)
-        // update secure storage
-        yield secureSet("privkey", privkey)
-        // fetch priv messages
-        const privMessages = yield self.fetchPrivMessages(pool, contacts)
+      // update secure storage
+      yield secureSet("privkey", privkey)
 
-        // update mobx state, user will redirect to home screen immediately
-        const tmp = yield mgr.listJoined()
-        tmp.forEach((id: string) => {
-          ChannelModel.create({ id, privkey: "" })
-        })
-        const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
+      // fetch priv messages
+      const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
-        applySnapshot(self, {
-          pubkey,
-          privkey,
-          isLoggedIn: true,
-          metadata: profile,
-          contacts,
-          channels: joinedChannels,
-          privMessages,
-        })
-      } catch (e: any) {
-        console.log(e)
-        alert("Invalid key. Did you copy it correctly?")
-      }
+      // fetch joined channels
+      const tmp = yield mgr.listJoined()
+      tmp.forEach((id: string) => {
+        ChannelModel.create({ id, privkey: "" })
+      })
+      const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
+
+      // update mobx state, user will redirect to home screen immediately
+      applySnapshot(self, {
+        pubkey,
+        privkey,
+        isLoggedIn: true,
+        metadata: profile,
+        contacts,
+        channels: joinedChannels,
+        privMessages,
+      })
     }),
     async logout() {
       await secureDel("privkey")

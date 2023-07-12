@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
-import { nip19 } from "nostr-tools"
+import { getPublicKey, nip19 } from "nostr-tools"
 import { useChannelManager } from "app/utils/useUserContacts"
 import { NostrPool } from "app/arclib/src"
 
@@ -30,17 +30,21 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
 
   // login
   const login = () => {
-    if (!nsec && nsec.length < 60) {
+    if (nsec.length < 60) {
       alert("access key as nsec or hexstring is required")
     } else {
       setLoading(true)
-
-      let accessKey = nsec
-      if (!accessKey.startsWith("nsec")) {
-        accessKey = nip19.nsecEncode(accessKey)
+      try {
+        let privkey = nsec
+        if (privkey.startsWith("nsec1")) {
+          privkey = nip19.decode(privkey).data as string
+        }
+        const pubkey = getPublicKey(privkey)
+        userStore.loginWithNsec(pool, mgr, privkey, pubkey)
+      } catch {
+        alert("Invalid key. Did you copy it correctly?")
+        setLoading(false)
       }
-
-      userStore.loginWithNsec(pool, mgr, accessKey)
     }
   }
 
@@ -71,7 +75,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         <View style={$inputGroup}>
           <TextField
             secureTextEntry={secure}
-            placeholder="nsec or hexstring..."
+            placeholder="nsec or hex private key"
             placeholderTextColor={colors.palette.cyan500}
             style={$input}
             inputWrapperStyle={$inputWrapper}
