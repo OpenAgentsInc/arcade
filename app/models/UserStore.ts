@@ -119,6 +119,12 @@ export const UserStoreModel = types
       return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions(() => ({
+    fetchJoinedChannels: flow(function* (mgr: ChannelManager) {
+      const tmp: string[] = yield mgr.listJoined()
+      return tmp
+    }),
+  }))
   .actions((self) => ({
     fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
       const priv = new PrivateMessageManager(pool)
@@ -227,15 +233,14 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
+
     loginWithNsec: flow(function* (
       pool: NostrPool,
-      mgr: ChannelManager,
+      ident: ArcadeIdentity,
       privkey: string,
       pubkey: string,
+      channels?: string[],
     ) {
-      const ident = new ArcadeIdentity(privkey)
-      pool.ident = ident
-
       const { profile, contacts } = yield getProfile(ident, pubkey)
 
       // update secure storage
@@ -244,13 +249,6 @@ export const UserStoreModel = types
       // fetch priv messages
       const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
-      // fetch joined channels
-      const tmp = yield mgr.listJoined()
-      tmp.forEach((id: string) => {
-        ChannelModel.create({ id, privkey: "" })
-      })
-      const joinedChannels = tmp.length > 0 ? tmp : DEFAULT_CHANNELS
-
       // update mobx state, user will redirect to home screen immediately
       applySnapshot(self, {
         pubkey,
@@ -258,7 +256,7 @@ export const UserStoreModel = types
         isLoggedIn: true,
         metadata: profile,
         contacts,
-        channels: joinedChannels,
+        channels: channels.length > 0 ? channels : DEFAULT_CHANNELS,
         privMessages,
       })
     }),
@@ -308,10 +306,15 @@ export const UserStoreModel = types
       if (index !== -1) self.relays.splice(index, 1)
     },
     addPrivMessage(ev: BlindedEvent) {
-      self.privMessages.push({
+      /* self.privMessages.push({
         ...ev,
         lastMessageAt: ev.created_at,
-      })
+      }) */
+      // Tip from Claude on MST performance, sounds right to me based on past experience:
+      // "Avoid using array methods like `push`, `unshift`, etc. directly on model arrays.
+      // Instead make a copy, mutate it, and set the prop to the copy.
+      // This triggers minimal observability change tracking."
+      self.privMessages = cast([...self.privMessages, ev])
     },
     updatePrivMessages(data) {
       self.privMessages = cast(data)

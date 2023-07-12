@@ -32,7 +32,7 @@ export function MessageContent({ content }) {
             style={[{ width }, $messageVideo]}
           />
         ))}
-      {content.links.length > 0 && <LinkPreview url={content.links[0]} />}
+      {width && content.links.length > 0 && <LinkPreview width={width} url={content.links[0]} />}
     </View>
   )
 }

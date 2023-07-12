@@ -5,7 +5,7 @@ import AutoHeightImage from "react-native-auto-height-image"
 import { Text } from "app/components"
 import { colors, spacing } from "app/theme"
 
-export function LinkPreview({ url }: { url: string }) {
+export function LinkPreview({ width, url }: { width: number; url: string }) {
   const domain = new URL(url)
   const [preview, setPreview] = useState(null)
 
@@ -19,7 +19,9 @@ export function LinkPreview({ url }: { url: string }) {
         <Text text="Loading..." />
       ) : (
         <>
-          <AutoHeightImage width={308} source={{ uri: preview.images[0] }} />
+          {preview.images[0] && (
+            <AutoHeightImage width={width} source={{ uri: preview.images[0] }} />
+          )}
           <View style={$opContent}>
             <Text text={preview.title} preset="bold" size="sm" style={$ogTitle} />
             <Text text={preview.description} size="sm" style={$ogDesc} />
