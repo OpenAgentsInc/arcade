@@ -97,6 +97,7 @@ export const UserStoreModel = types
       "wss://arc1.arcadelabs.co",
       "wss://relay.damus.io",
     ]),
+    replyTo: types.maybeNull(types.string),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -156,7 +157,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield priv.list({ limit: 500 }, false, keys)
+      const list = yield priv.list({ limit: 500 }, true, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -341,6 +342,12 @@ export const UserStoreModel = types
       }
       self.setProp("metadata", data)
     }),
+    addReply(id: string) {
+      self.setProp("replyTo", id)
+    },
+    clearReply() {
+      self.setProp("replyTo", null)
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface UserStore extends Instance<typeof UserStoreModel> {}

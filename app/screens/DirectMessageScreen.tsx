@@ -52,8 +52,13 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
     const highlightedReply = useSharedValue<ReplyInfo | null>(null)
 
     const {
-      userStore: { pubkey },
+      userStore: { pubkey, addReply, clearReply },
     } = useStores()
+
+    const goBack = () => {
+      clearReply()
+      navigation.goBack()
+    }
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -64,7 +69,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             titleStyle={{ color: colors.palette.cyan400 }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
-            onLeftPress={() => navigation.goBack()}
+            onLeftPress={() => goBack()}
           />
         ),
       })
@@ -124,10 +129,12 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           // and cached by React Query
           const senderInfo = await getSenderInfo()
 
+          // add reply id to mst
+          addReply(item.id)
+
           // We set the highlightedReply to the value of the message
           // That will trigger the DirectMessageReply component to show
           highlightedReply.value = {
-            id: item.id,
             sender: senderInfo.username || senderInfo.name || senderInfo,
             content: content.original,
           }
@@ -211,7 +218,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             <DirectMessageForm
               dms={dms}
               recipient={id}
-              replyTo={highlightedReply.value}
               legacy={legacy}
               textInputRef={textInputRef}
               onSubmit={() => {

@@ -52,7 +52,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   // Stores
   const {
-    userStore: { pubkey, leaveChannel },
+    userStore: { pubkey, addReply, clearReply, leaveChannel },
     channelStore: { getChannel },
   } = useStores()
 
@@ -84,7 +84,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }
 
   const back = () => {
-    // update last message
+    clearReply()
     channel.updateLastMessage()
     channel.reset()
     navigation.goBack()
@@ -173,10 +173,12 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       const senderInfo: { username: string; name: string; display_name: string } =
         queryClient.getQueryData(["user", item.pubkey])
 
+      // add reply id to mst
+      addReply(item.id)
+
       // We set the highlightedReply to the value of the message
       // That will trigger the DirectMessageReply component to show
       highlightedReply.value = {
-        id: item.id,
         sender: senderInfo.username || senderInfo.name || senderInfo.display_name,
         content: content.original,
       }
@@ -250,7 +252,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             channelId={channel.id}
             privkey={channel.privkey}
             textInputRef={textInputRef}
-            replyTo={highlightedReply.value}
             onSubmit={() => {
               // Setting the value to null will trigger the DirectMessageReply component to hide
               // It's a kind of "reset"

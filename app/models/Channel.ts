@@ -46,7 +46,7 @@ export const ChannelModel = types
     fetchMessages: flow(function* (channel: ChannelManager) {
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { limit: 100 },
+        filter: { limit: 500 },
         db_only: false,
         privkey: self.privkey,
       })
@@ -81,7 +81,7 @@ export const ChannelModel = types
       self.messages = cast([event, ...self.messages])
     },
     updateLastMessage() {
-      const lastMessage = self.messages.slice(-1)[0]
+      const lastMessage = self.messages[0]
       if (lastMessage) {
         self.setProp("lastMessage", lastMessage.content)
         self.setProp("lastMessagePubkey", lastMessage.pubkey)
