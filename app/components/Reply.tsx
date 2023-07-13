@@ -42,6 +42,6 @@ const $replyItem: ViewStyle = {
   borderLeftColor: colors.palette.cyan500,
   borderRadius: 1,
   paddingHorizontal: spacing.extraSmall,
-  paddingVertical: spacing.tiny,
+  paddingVertical: 2,
   marginLeft: spacing.small,
 }

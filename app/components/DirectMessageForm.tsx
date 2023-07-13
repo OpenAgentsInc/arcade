@@ -92,14 +92,19 @@ export function DirectMessageForm({
       content = content + " " + attached
     }
 
+    let replyId: string | null = null
+    if (replyTo) {
+      replyId = replyTo.id
+    }
+
     // send message
     if (legacy) {
-      const ev = await dms.send(recipient, content, replyTo?.id)
+      const ev = await dms.send(recipient, content, replyId)
       if (!ev.id) {
         console.log("Failed to publish")
       }
     } else {
-      const ev = await dms.send44X(recipient, content, replyTo?.id)
+      const ev = await dms.send44X(recipient, content, replyId)
       if (!ev.id) {
         console.log("Failed to publish")
       }
