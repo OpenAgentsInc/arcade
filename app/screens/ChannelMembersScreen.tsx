@@ -10,10 +10,12 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 
 interface ChannelMembersScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"ChannelMembers">> {}
+  extends NativeStackScreenProps<AppStackScreenProps<"ChannelMembers">> {
+  params: { id: string; name: string; privkey: string }
+}
 
 export const ChannelMembersScreen: FC<ChannelMembersScreenProps> = observer(
-  function ChannelMembersScreen({ route }: { route: any }) {
+  function ChannelMembersScreen(route) {
     const { id, name, privkey } = route.params
 
     // Stores

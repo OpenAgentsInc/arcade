@@ -37,14 +37,18 @@ import { useMutation } from "@tanstack/react-query"
 import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
+  extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {
+  params: { id: string; legacy: boolean }
+}
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
-  function DirectMessageScreen({ route }: { route: any }) {
+  function DirectMessageScreen(route) {
     const { id, legacy } = route.params
+
     const navigation = useNavigation<any>()
     const pool = useContext(RelayContext) as NostrPool
     const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
+
     const [data, setData] = useState([] as BlindedEvent[])
     const [loading, setLoading] = useState(true)
 

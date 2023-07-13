@@ -14,10 +14,12 @@ import { launchImageLibrary } from "react-native-image-picker"
 import { useChannelManager } from "app/utils/useUserContacts"
 
 interface CreateChannelScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {}
+  extends NativeStackScreenProps<AppStackScreenProps<"CreateChannel">> {
+  params: { isPrivate: boolean }
+}
 
 export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
-  function CreateChannelScreen({ route }: { route: any }) {
+  function CreateChannelScreen(route) {
     const channelManager = useChannelManager()
     const formikRef = useRef(null)
 

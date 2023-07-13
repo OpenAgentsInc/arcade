@@ -36,13 +36,14 @@ import { useSharedValue } from "react-native-reanimated"
 import { useQueryClient } from "@tanstack/react-query"
 import { SwipeableItem } from "app/components/SwipeableItem"
 
-interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
+interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {
+  params: { id: string }
+}
 
-export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
-  route,
-}: {
-  route: any
-}) {
+export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen(route) {
+  // route params
+  const { id } = route.params
+
   // init relaypool
   const pool = useContext(RelayContext) as NostrPool
   const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
@@ -55,9 +56,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     userStore: { pubkey, addReply, clearReply, leaveChannel },
     channelStore: { getChannel },
   } = useStores()
-
-  // route params
-  const { id } = route.params
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => getChannel(id), [id])

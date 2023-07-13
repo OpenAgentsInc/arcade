@@ -29,10 +29,12 @@ import { resolvePubkey } from "app/arclib/src/contacts"
 import { Channel, useStores } from "app/models"
 
 interface ContactPickerScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {}
+  extends NativeStackScreenProps<AppStackScreenProps<"ContactPicker">> {
+  params: { id: string; name: string; privkey: string }
+}
 
 export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
-  function ContactPickerScreen({ route }: { route: any }) {
+  function ContactPickerScreen(route) {
     const { id, name, privkey } = route.params
 
     // Stores
