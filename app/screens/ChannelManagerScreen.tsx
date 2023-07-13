@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useContext, useLayoutEffect, useMemo } from "react"
+import React, { CSSProperties, FC, useContext, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Alert, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { ChannelManager, NostrPool } from "app/arclib/src"
 import { ChannelManagerItem } from "app/components/ChannelManagerItem"
 import { UserMinus, UserPlus } from "lucide-react-native"
 
@@ -17,10 +16,7 @@ interface ChannelManagerScreenProps
 
 export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
   function ChannelManagerScreen() {
-    const pool = useContext(RelayContext) as NostrPool
-    const channelManager = useMemo(() => new ChannelManager(pool), [pool]) as ChannelManager
-
-    // Pull in one of our MST stores
+    const { channelManager } = useContext(RelayContext)
     const {
       userStore: { getChannels, leaveChannel },
     } = useStores()

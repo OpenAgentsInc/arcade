@@ -9,8 +9,7 @@ import { useStores } from "app/models"
 import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
 import { getPublicKey, nip19 } from "nostr-tools"
-import { useChannelManager } from "app/utils/useUserContacts"
-import { ArcadeIdentity, NostrPool } from "app/arclib/src"
+import { ArcadeIdentity } from "app/arclib/src"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -22,9 +21,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
 
   // Pull in one of our MST stores
   const { userStore, channelStore } = useStores()
-
-  const pool = useContext(RelayContext) as NostrPool
-  const mgr = useChannelManager()
+  const { pool, channelManager } = useContext(RelayContext)
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -45,12 +42,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         const ident = new ArcadeIdentity(privkey)
         pool.ident = ident
 
-        const joinedChannels = await userStore.fetchJoinedChannels(mgr)
+        const joinedChannels = await userStore.fetchJoinedChannels(channelManager)
         // update state
         setChannels(joinedChannels.length)
         // create channel in mst
         for (const channel of joinedChannels) {
-          const meta = await mgr.getMeta(channel)
+          const meta = await channelManager.getMeta(channel)
           channelStore.create({
             id: channel,
             author: "",

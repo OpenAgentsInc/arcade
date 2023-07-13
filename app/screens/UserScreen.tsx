@@ -17,8 +17,6 @@ import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
 import { useStores } from "app/models"
-import { NostrPool } from "app/arclib/src"
-import { useContactManager } from "app/utils/useUserContacts"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -27,30 +25,26 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
 }: {
   route: any
 }) {
-  // Get route params
   const { id } = route.params
-
-  const pool = useContext(RelayContext) as NostrPool
-  const contacts = useContactManager()
+  const { pool, contactManager } = useContext(RelayContext)
+  const {
+    userStore: { addContact, removeContact },
+  } = useStores()
 
   const [profile, setProfile] = useState(null)
   const [followed, setFollowed] = useState(false)
   const [legacy, setLegacy] = useState(true)
   const [secret, setSecret] = useState(false)
 
-  const {
-    userStore: { addContact, removeContact },
-  } = useStores()
-
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   const toggleFollow = async () => {
     if (followed) {
-      await removeContact(id, contacts)
+      await removeContact(id, contactManager)
       setFollowed(!followed)
     } else {
-      await addContact({ pubkey: id, legacy, secret }, contacts)
+      await addContact({ pubkey: id, legacy, secret }, contactManager)
       setFollowed(!followed)
     }
   }
@@ -58,7 +52,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
   const togglePrivFollow = async () => {
     try {
       // send to mobx, so the home screen is updated
-      await addContact({ pubkey: id, legacy: legacy && !secret, secret: !secret }, contacts)
+      await addContact({ pubkey: id, legacy: legacy && !secret, secret: !secret }, contactManager)
       setSecret(!secret)
     } catch (e) {
       // never set user toggle if save failed
@@ -70,7 +64,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
     if (!secret) {
       try {
         // send to mobx, so the home screen is updated
-        await addContact({ pubkey: id, legacy: !legacy && !secret, secret }, contacts)
+        await addContact({ pubkey: id, legacy: !legacy && !secret, secret }, contactManager)
         setLegacy(!legacy)
       } catch (e) {
         // never set user toggle if save failed
@@ -102,7 +96,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         const content = JSON.parse(latest.content)
         setProfile(content)
       }
-      const ctx = contacts.contacts.get(id)
+      const ctx = contactManager.contacts.get(id)
       if (ctx) {
         setFollowed(true)
         setLegacy(ctx.legacy)

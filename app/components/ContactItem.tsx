@@ -3,12 +3,10 @@ import { RelayContext, Text } from "app/components"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
-import { NostrPool } from "app/arclib/src"
 import { useQuery } from "@tanstack/react-query"
 
 export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: string }) {
-  const pool = useContext(RelayContext) as NostrPool
-
+  const { pool } = useContext(RelayContext)
   const { data: profile } = useQuery(["user", pubkey], async () => {
     if (fallback) {
       return JSON.parse(fallback)

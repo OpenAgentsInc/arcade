@@ -1,6 +1,7 @@
 import React, {
   FC,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -11,7 +12,7 @@ import { observer } from "mobx-react-lite"
 import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Header, Screen, Text, Button, ContactItem } from "app/components"
+import { Header, Screen, Text, Button, ContactItem, RelayContext } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import {
@@ -21,7 +22,6 @@ import {
   BottomSheetView,
 } from "@gorhom/bottom-sheet"
 import { useStores } from "app/models"
-import { useContactManager } from "app/utils/useUserContacts"
 import { FlashList } from "@shopify/flash-list"
 import { resolvePubkey } from "app/arclib/src/contacts"
 import { nip19 } from "nostr-tools"
@@ -38,10 +38,10 @@ interface ISuggestions {
 }
 
 export const AddContactScreen: FC<AddContactScreenProps> = observer(function AddContactScreen() {
-  const mgr = useContactManager()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ["36%", "50%"], [])
 
+  const { contactManager } = useContext(RelayContext)
   const {
     userStore: { getContacts, addContact, removeContact },
   } = useStores()
@@ -69,7 +69,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         alert("Contact has been added")
         return
       }
-      addContact({ pubkey, legacy: true, secret: false }, mgr)
+      addContact({ pubkey, legacy: true, secret: false }, contactManager)
       navigation.goBack()
     } catch (e) {
       alert(`Invalid contact: ${e}`)
@@ -118,7 +118,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         <View style={$item}>
           <ContactItem pubkey={item.pubkey} fallback={item.profile?.content} />
           {added ? (
-            <Pressable onPress={() => removeContact(item.pubkey, mgr)}>
+            <Pressable onPress={() => removeContact(item.pubkey, contactManager)}>
               <Text text="Remove" size="xs" />
             </Pressable>
           ) : (
@@ -126,7 +126,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
               onPress={() =>
                 addContact(
                   { pubkey: item.pubkey, legacy: true, secret: false },
-                  mgr,
+                  contactManager,
                   item.profile?.content,
                 )
               }

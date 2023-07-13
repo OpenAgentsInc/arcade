@@ -18,7 +18,6 @@ import { useStores } from "app/models"
 import { Formik } from "formik"
 import { launchImageLibrary } from "react-native-image-picker"
 import { ImagePlusIcon } from "lucide-react-native"
-import { NostrPool } from "app/arclib/src"
 
 interface CreateAccountScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"CreateAccount">> {}
@@ -31,14 +30,13 @@ interface ISignup {
 
 export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
   function CreateAccountScreen() {
-    const pool = useContext(RelayContext) as NostrPool
     const formikRef = useRef(null)
 
     const [loading, setLoading] = useState(false)
     const [picture, setPicture] = useState("https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg")
     const [pickerLoading, setPickerLoading] = useState(false)
 
-    // Pull in one of our MST stores
+    const { pool } = useContext(RelayContext)
     const { userStore } = useStores()
 
     // Pull in navigation via hook

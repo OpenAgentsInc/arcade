@@ -3,7 +3,7 @@ import { RelayContext } from "app/components"
 import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { BlindedEvent, NostrPool } from "app/arclib/src"
+import { BlindedEvent } from "app/arclib/src"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
 import { useStores } from "app/models"
@@ -20,10 +20,10 @@ const colors = {
 }
 
 export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: BlindedEvent }) {
-  const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
   const createdAt = formatCreatedAt(dm.created_at)
 
+  const { pool } = useContext(RelayContext)
   const {
     userStore: { pubkey, findContact },
   } = useStores()

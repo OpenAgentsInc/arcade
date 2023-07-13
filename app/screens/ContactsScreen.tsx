@@ -1,13 +1,12 @@
-import React, { CSSProperties, FC, useCallback, useLayoutEffect } from "react"
+import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { ContactItem, Header, Screen, Text } from "app/components"
+import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { useContactManager } from "app/utils/useUserContacts"
 import { UserMinus, Globe } from "lucide-react-native"
 import { useStores } from "app/models"
 import { Contact } from "app/arclib/src/contacts"
@@ -15,23 +14,20 @@ import { Contact } from "app/arclib/src/contacts"
 interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Contacts">> {}
 
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
-  const mgr = useContactManager()
-  // const contacts = useUserContacts()
-
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
-  // Stores
+  const { contactManager } = useContext(RelayContext)
   const {
     userStore: { getContacts, fetchContacts, removeContact },
   } = useStores()
 
   const unfollow = (pubkey: string) => {
-    removeContact(pubkey, mgr)
+    removeContact(pubkey, contactManager)
   }
 
   const refresh = () => {
-    fetchContacts(mgr)
+    fetchContacts(contactManager)
   }
 
   useLayoutEffect(() => {

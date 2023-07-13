@@ -28,7 +28,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { LogOutIcon, UsersIcon } from "lucide-react-native"
-import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
+import { NostrEvent } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
@@ -43,21 +43,15 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  // route params
   const { id } = route.params
-
-  // init relaypool
-  const pool = useContext(RelayContext) as NostrPool
-  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
-
-  // Pull in navigation via hook
-  const navigation = useNavigation<any>()
-
-  // Stores
+  const { pool, channelManager } = useContext(RelayContext)
   const {
     userStore: { pubkey, addReply, clearReply, leaveChannel },
     channelStore: { getChannel },
   } = useStores()
+
+  // Pull in navigation via hook
+  const navigation = useNavigation<any>()
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => getChannel(id), [id])

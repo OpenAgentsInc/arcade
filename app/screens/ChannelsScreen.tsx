@@ -11,13 +11,7 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import {
-  ChannelInfo,
-  ChannelManager,
-  Nip28ChannelInfo,
-  NostrEvent,
-  NostrPool,
-} from "app/arclib/src"
+import { ChannelInfo, Nip28ChannelInfo, NostrEvent } from "app/arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
@@ -29,13 +23,10 @@ interface TopData {
 }
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
-  const pool = useContext(RelayContext) as NostrPool
-  const mgr = new ChannelManager(pool)
+  const { channelManager } = useContext(RelayContext)
+  const { userStore, channelStore } = useStores()
 
   const [data, setData] = useState([] as ChannelInfo[])
-
-  // Stores
-  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -44,7 +35,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     // create channel in local store
     channelStore.create(item)
     // update state
-    userStore.joinChannel(mgr, item)
+    userStore.joinChannel(channelManager, item)
     // redirect to channel
     navigation.navigate("Chat", item)
   }
@@ -95,7 +86,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     }
 
     async function initChannels(prev) {
-      const res = await mgr.listChannels(true)
+      const res = await channelManager.listChannels(true)
       const final = Array.from(new Set([...prev, ...res])).sort(
         (a, b) => +b.is_private - +a.is_private,
       )

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query"
-import { NostrPool } from "app/arclib/src"
 import React, { useContext } from "react"
 import { View, ViewStyle } from "react-native"
 import { RelayContext, ReplyUser, Text } from "app/components"
@@ -7,7 +6,7 @@ import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 
 export function Reply({ id }: { id: string }) {
-  const pool = useContext(RelayContext) as NostrPool
+  const { pool } = useContext(RelayContext)
 
   const {
     userStore: { pubkey },

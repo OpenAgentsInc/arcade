@@ -234,7 +234,6 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-
     loginWithNsec: flow(function* (
       pool: NostrPool,
       ident: ArcadeIdentity,

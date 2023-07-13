@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { CheckCircle2Icon } from "lucide-react-native"
-import { EncChannel, NostrPool } from "app/arclib/src"
+import { EncChannel } from "app/arclib/src"
 import { useUserContacts } from "app/utils/useUserContacts"
 import {
   BottomSheetModal,
@@ -34,16 +34,13 @@ interface ContactPickerScreenProps
 export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
   function ContactPickerScreen({ route }: { route: any }) {
     const { id, name, privkey } = route.params
-
-    // Stores
+    const { pool } = useContext(RelayContext)
     const {
       channelStore: { getChannel },
     } = useStores()
 
     // get channel by using resolver identifier
     const channel: Channel = useMemo(() => getChannel(id), [id])
-
-    const pool = useContext(RelayContext) as NostrPool
     const encrypted: EncChannel = useMemo(() => new EncChannel(pool), [])
 
     const formikRef = useRef(null)
