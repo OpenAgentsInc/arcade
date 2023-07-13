@@ -13,6 +13,7 @@ export function ReplyUser({ pubkey }: { pubkey: string }) {
     if (latest) {
       return JSON.parse(latest.content)
     }
+    return null
   })
 
   return (

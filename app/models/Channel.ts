@@ -47,7 +47,7 @@ export const ChannelModel = types
       const events = yield channel.list({
         channel_id: self.id,
         filter: { limit: 500 },
-        db_only: false,
+        db_only: true,
         privkey: self.privkey,
       })
       // we need make sure event's content is string (some client allow content as number, ex: coracle)
@@ -58,6 +58,12 @@ export const ChannelModel = types
       const uniqueEvents = events.filter(
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
+      const lastMessage = uniqueEvents.slice(-1)[0]
+      if (lastMessage) {
+        self.setProp("lastMessage", lastMessage.content)
+        self.setProp("lastMessagePubkey", lastMessage.pubkey)
+        self.setProp("lastMessageAt", lastMessage.created_at)
+      }
       self.setProp("loading", false)
       self.messages = cast(uniqueEvents)
     }),
@@ -79,14 +85,6 @@ export const ChannelModel = types
       // Instead make a copy, mutate it, and set the prop to the copy.
       // This triggers minimal observability change tracking."
       self.messages = cast([event, ...self.messages])
-    },
-    updateLastMessage() {
-      const lastMessage = self.messages[0]
-      if (lastMessage) {
-        self.setProp("lastMessage", lastMessage.content)
-        self.setProp("lastMessagePubkey", lastMessage.pubkey)
-        self.setProp("lastMessageAt", lastMessage.created_at)
-      }
     },
     addMembers(list: string[]) {
       self.setProp("memberList", list)

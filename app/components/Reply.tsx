@@ -24,7 +24,7 @@ export function Reply({ id }: { id: string }) {
       }
       return events[0]
     } else {
-      return events[0]
+      return null
     }
   })
 

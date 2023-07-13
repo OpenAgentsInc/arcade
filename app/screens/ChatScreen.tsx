@@ -79,7 +79,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   const back = () => {
     clearReply()
-    channel.updateLastMessage()
     channel.reset()
     navigation.goBack()
   }
@@ -89,8 +88,12 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       headerShown: true,
       header: () => (
         <Header
-          title={channel.name.substring(0, 16) + "..." || "No name"}
-          titleStyle={{ color: colors.palette.cyan400 }}
+          title={
+            channel.name.length > 20
+              ? channel.name.substring(0, 20) + "..."
+              : channel.name || "No name"
+          }
+          titleStyle={{ color: colors.palette.white }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
           onLeftPress={() => back()}

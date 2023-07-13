@@ -25,9 +25,8 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     const latest = list.slice(-1)[0]
     if (latest) {
       return JSON.parse(latest.content)
-    } else {
-      return JSON.parse(list[0].content)
     }
+    return null
   })
 
   const redirect = () => {
