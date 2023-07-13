@@ -28,8 +28,10 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
     userStore: { pubkey, findContact },
   } = useStores()
 
+  const legacy = findContact(dm.pubkey)?.legacy || true
+  const sender = pubkey === dm.pubkey ? dm.tags.find((el) => el[0] === "p")[1] : pubkey
+
   const { data: profile } = useQuery(["user", dm.pubkey], async () => {
-    const sender = pubkey === dm.pubkey ? dm.tags.find((el) => el[0] === "p")[1] : pubkey
     const list = await pool.list([{ kinds: [0], authors: [sender] }], true)
     const latest = list.slice(-1)[0]
     if (latest) {
@@ -37,11 +39,9 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
     }
   })
 
-  const legacy = findContact(dm.pubkey)?.legacy || true
-
   return (
     <Pressable
-      onPress={() => navigation.navigate("DirectMessage", { id: dm.pubkey, legacy })}
+      onPress={() => navigation.navigate("DirectMessage", { id: sender, legacy })}
       style={styles.$messageItem}
     >
       <Image
