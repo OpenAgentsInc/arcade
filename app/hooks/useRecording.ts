@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Audio } from "expo-av"
 import { Recording } from "expo-av/build/Audio"
+import axios from "axios"
+import * as FileSystem from "expo-file-system"
 
 export const useRecording = () => {
   const [recording, setRecording] = useState<Recording | undefined>()
@@ -70,6 +72,34 @@ export const useRecording = () => {
         const uriParts = uri.split(".")
         const fileType = uriParts[uriParts.length - 1]
         console.log("Got a blob of fileType:", fileType)
+
+        const response = await FileSystem.uploadAsync("https://api.arcade.chat/recording", uri, {
+          fieldName: "audio",
+          httpMethod: "POST",
+          uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+          // headers: {
+          //   "X-RapidAPI-Key": apiKey,
+          //   "X-RapidAPI-Host": "shazam-core.p.rapidapi.com",
+          // },
+        })
+
+        console.log("response:", response)
+
+        // const formData = new FormData()
+        // formData.append("audio", blob, "recording.m4a")
+        // console.log("formData:", formData)
+
+        // try {
+        //   const response = await axios.post("https://api.arcade.chat/recording", formData, {
+        //     headers: {
+        //       "Content-Type": "multipart/form-data",
+        //     },
+        //   })
+        //   console.log("Upload successful!", response)
+        // } catch (error) {
+        //   console.error("Upload failed", error)
+        // }
+
         // firebase
         //   .storage()
         //   .ref()
