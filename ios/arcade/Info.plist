@@ -21,7 +21,7 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>10</string>
+    <string>12</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false />
     <key>LSRequiresIPhoneOS</key>
@@ -40,7 +40,7 @@
     <key>NSLocationWhenInUseUsageDescription</key>
     <string></string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Microphone is not used; just a dependency of our video library expo-av</string>
+    <string>For voice chat with AI</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Open photo library</string>
     <key>UILaunchStoryboardName</key>

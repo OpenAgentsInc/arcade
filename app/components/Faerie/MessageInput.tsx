@@ -1,19 +1,25 @@
 import { useNpub } from "app/hooks/useNpub"
+import { useRecording } from "app/hooks/useRecording"
 import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
-import { ArrowUpIcon } from "lucide-react-native"
-import React, { useRef, useState } from "react"
+import { ArrowUpIcon, Mic } from "lucide-react-native"
+import React, { useCallback, useRef, useState } from "react"
 import { Alert, TextInput, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
 import { TextField } from "../TextField"
 
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
+
+  console.log("HERE WITH CONVERSATION ID:", conversationId)
+
   const [text, setText] = useState("")
   const npub = useNpub()
 
   const inputBoxRef = useRef<TextInput | null>(null)
   const submitInput = (enteredText) => {
+    // if (!conversationId)
+    console.log("Submitting: ", enteredText, "npub: ", npub, "conversationId: ", conversationId)
     if (!npub) {
       Alert.alert("Couldn't find your user ID - try reopening the app")
       return
@@ -30,6 +36,18 @@ export const MessageInput = ({ conversationId, conversationType }) => {
 
     mutate({ message: textToSend, conversationId, conversationType, npub })
   }
+
+  const sendFunction = useCallback(
+    (input) => {
+      // console.log("SENDFUNCTION :)", input)
+      console.log("Sending with conversationId:", conversationId)
+      submitInput(input)
+      // mutate({ message: input, conversationId, conversationType, npub })
+    },
+    [conversationId],
+  )
+  const { recording, toggleRecording } = useRecording(sendFunction)
+
   return (
     <View>
       <TextField
@@ -44,6 +62,19 @@ export const MessageInput = ({ conversationId, conversationType }) => {
         autoCapitalize="none"
         autoCorrect={true}
         autoComplete="name"
+        LeftAccessory={() => (
+          <Button
+            onPress={toggleRecording}
+            pressedStyle={{ backgroundColor: colors.palette.cyan600, opacity: betteropacity }}
+            LeftAccessory={() => (
+              <Mic width={20} height={20} style={{ color: colors.palette.cyan100 }} />
+            )}
+            style={[
+              $audioButton,
+              { backgroundColor: recording ? colors.palette.cyan600 : transparent },
+            ]}
+          />
+        )}
         RightAccessory={() => (
           <Button
             onPress={() => submitInput(text)}
@@ -92,3 +123,13 @@ export const $sendButton: ViewStyle = {
   flexShrink: 0,
   marginRight: spacing.small,
 }
+
+export const $audioButton: ViewStyle = {
+  ...$sendButton,
+  marginRight: 0,
+  marginLeft: spacing.small,
+  backgroundColor: "transparent",
+}
+
+const betteropacity = 0.8
+const transparent = "transparent"
