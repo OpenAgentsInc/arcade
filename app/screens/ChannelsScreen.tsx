@@ -30,9 +30,12 @@ interface TopData {
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
   const pool = useContext(RelayContext) as NostrPool
-  const { userStore, channelStore } = useStores()
   const mgr = new ChannelManager(pool)
+
   const [data, setData] = useState([] as ChannelInfo[])
+
+  // Stores
+  const { userStore, channelStore } = useStores()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -88,19 +91,19 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           }
         })
         .filter((ev) => ev)
-      setData(sugg)
+      return sugg
     }
 
-    async function initChannels() {
+    async function initChannels(prev) {
       const res = await mgr.listChannels(true)
-      console.log("data is ", res)
-      setData((prev) => {
-        return Array.from(new Set([...prev, ...res])).sort((a, b) => +b.is_private - +a.is_private)
-      })
+      const final = Array.from(new Set([...prev, ...res])).sort(
+        (a, b) => +b.is_private - +a.is_private,
+      )
+      setData(final)
     }
 
     initTop()
-      .then(() => initChannels().catch(console.error))
+      .then((prev) => initChannels(prev).catch(console.error))
       .catch(console.error)
   }, [])
 
@@ -111,7 +114,6 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           <FlashList
             keyExtractor={(item) => item.id}
             data={data}
-            extraData={userStore.getChannels}
             renderItem={({ item }) => {
               // no name or short channel name, mostly spam
               if (!item.name) {
