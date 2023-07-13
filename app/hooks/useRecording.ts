@@ -34,6 +34,7 @@ export const useRecording = () => {
     })
     const uri = recording.getURI()
     console.log("Recording stopped and stored at", uri)
+    uploadAudio()
   }
 
   const toggleRecording = () => {
@@ -41,6 +42,50 @@ export const useRecording = () => {
       stopRecording()
     } else {
       startRecording()
+    }
+  }
+
+  const uploadAudio = async () => {
+    const uri = recording.getURI()
+    console.log("Uploading " + uri)
+    try {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.onload = () => {
+          try {
+            resolve(xhr.response)
+          } catch (error) {
+            console.log("error:", error)
+          }
+        }
+        xhr.onerror = (e) => {
+          console.log(e)
+          reject(new TypeError("Network request failed"))
+        }
+        xhr.responseType = "blob"
+        xhr.open("GET", uri, true)
+        xhr.send(null)
+      })
+      if (blob != null) {
+        const uriParts = uri.split(".")
+        const fileType = uriParts[uriParts.length - 1]
+        console.log("Got a blob of fileType:", fileType)
+        // firebase
+        //   .storage()
+        //   .ref()
+        //   .child(`nameOfTheFile.${fileType}`)
+        //   .put(blob, {
+        //     contentType: `audio/${fileType}`,
+        //   })
+        //   .then(() => {
+        //     console.log("Sent!");
+        //   })
+        //   .catch((e) => console.log("error:", e));
+      } else {
+        console.log("erroor with blob")
+      }
+    } catch (error) {
+      console.log("error:", error)
     }
   }
 
