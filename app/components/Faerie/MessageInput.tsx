@@ -11,7 +11,7 @@ import { TextField } from "../TextField"
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
 
-  const { isRecording, setIsRecording, startRecording, toggleRecording } = useRecording()
+  const { recording, toggleRecording } = useRecording()
 
   const [text, setText] = useState("")
   const npub = useNpub()
@@ -57,7 +57,7 @@ export const MessageInput = ({ conversationId, conversationType }) => {
             )}
             style={[
               $audioButton,
-              { backgroundColor: isRecording ? colors.palette.cyan600 : "transparent" },
+              { backgroundColor: recording ? colors.palette.cyan600 : "transparent" },
             ]}
           />
         )}
