@@ -4,7 +4,7 @@ import { Recording } from "expo-av/build/Audio"
 import axios from "axios"
 import * as FileSystem from "expo-file-system"
 
-export const useRecording = () => {
+export const useRecording = (sendFunction) => {
   const [recording, setRecording] = useState<Recording | undefined>()
 
   const startRecording = async () => {
@@ -29,14 +29,16 @@ export const useRecording = () => {
 
   const stopRecording = async () => {
     console.log("Stopping recording..")
-    setRecording(undefined)
     await recording.stopAndUnloadAsync()
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
     })
     const uri = recording.getURI()
+
     console.log("Recording stopped and stored at", uri)
-    uploadAudio()
+    await uploadAudio()
+    console.log("uploaded audio, now setting blank")
+    setRecording(undefined)
   }
 
   const toggleRecording = () => {
@@ -83,7 +85,24 @@ export const useRecording = () => {
           // },
         })
 
-        console.log("response:", response)
+        console.log(response)
+        console.log(response.body)
+        const json = JSON.parse(response.body)
+        console.log("JSON:", json)
+        if (json.success === true) {
+          console.log(json.transcript.text)
+          const transcript = json.transcript.text
+          sendFunction(transcript)
+          alert(transcript)
+        }
+
+        // get json from response body
+        // Property 'json' does not exist on type 'FileSystemUploadResult'.
+        //
+
+        // const responseJson = await response.json()
+
+        // console.log("response:", response)
 
         // const formData = new FormData()
         // formData.append("audio", blob, "recording.m4a")

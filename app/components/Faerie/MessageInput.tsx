@@ -3,7 +3,7 @@ import { useRecording } from "app/hooks/useRecording"
 import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
 import { ArrowUpIcon, Mic, Microscope } from "lucide-react-native"
-import React, { useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { Alert, TextInput, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
 import { TextField } from "../TextField"
@@ -11,13 +11,15 @@ import { TextField } from "../TextField"
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
 
-  const { recording, toggleRecording } = useRecording()
+  console.log("HERE WITH CONVERSATION ID:", conversationId)
 
   const [text, setText] = useState("")
   const npub = useNpub()
 
   const inputBoxRef = useRef<TextInput | null>(null)
   const submitInput = (enteredText) => {
+    // if (!conversationId)
+    console.log("Submitting: ", enteredText, "npub: ", npub, "conversationId: ", conversationId)
     if (!npub) {
       Alert.alert("Couldn't find your user ID - try reopening the app")
       return
@@ -34,6 +36,18 @@ export const MessageInput = ({ conversationId, conversationType }) => {
 
     mutate({ message: textToSend, conversationId, conversationType, npub })
   }
+
+  const sendFunction = useCallback(
+    (input) => {
+      // console.log("SENDFUNCTION :)", input)
+      console.log("Sending with conversationId:", conversationId)
+      submitInput(input)
+      // mutate({ message: input, conversationId, conversationType, npub })
+    },
+    [conversationId],
+  )
+  const { recording, toggleRecording } = useRecording(sendFunction)
+
   return (
     <View>
       <TextField
