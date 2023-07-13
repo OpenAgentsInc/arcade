@@ -23,12 +23,10 @@ import { FlashList } from "@shopify/flash-list"
 import { ArcadeListings, Nip28Channel } from "app/arclib/src"
 
 interface ListingDetailScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"ListingDetail">> {
-  params: { channelId: string; listingId: string; listingDetail: string }
-}
+  extends NativeStackScreenProps<AppStackScreenProps<"ListingDetail">> {}
 
 export const ListingDetailScreen: FC<ListingDetailScreenProps> = observer(
-  function ListingDetailScreen(route) {
+  function ListingDetailScreen({ route }: { route: any }) {
     // Get route params
     const { channelId, listingId, listingDetail } = route.params
 

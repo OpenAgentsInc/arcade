@@ -18,6 +18,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   const [nsec, setNsec] = useState("")
   const [secure, setSecure] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [channels, setChannels] = useState(null)
 
   // Pull in one of our MST stores
   const { userStore, channelStore } = useStores()
@@ -45,18 +46,21 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         pool.ident = ident
 
         const joinedChannels = await userStore.fetchJoinedChannels(mgr)
-        console.log("joined channels: ", joinedChannels)
-        joinedChannels.forEach((item) => {
+        // update state
+        setChannels(joinedChannels.length)
+        // create channel in mst
+        for (const channel of joinedChannels) {
+          const meta = await mgr.getMeta(channel)
           channelStore.create({
-            id: item,
+            id: channel,
             author: "",
             privkey: "",
-            name: "",
-            about: "",
-            picture: "",
+            name: meta.name,
+            about: meta.about,
+            picture: meta.picture,
             is_private: false,
           })
-        })
+        }
 
         userStore.loginWithNsec(pool, ident, privkey, pubkey, joinedChannels)
       } catch {
@@ -112,7 +116,14 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         </View>
         <View style={$formButtonGroup}>
           {loading ? (
-            <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+            <>
+              <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
+              <Text
+                text={channels ? `Found ${channels} joined channels, creating...` : "Loading..."}
+                size="xs"
+                style={$loadingText}
+              />
+            </>
           ) : (
             <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />
           )}
@@ -185,10 +196,15 @@ const $button: ViewStyle = {
 }
 
 const $formButtonGroup: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
+  gap: 2,
   height: 50,
   minHeight: 50,
   marginVertical: spacing.medium,
+}
+
+const $loadingText: TextStyle = {
+  color: colors.palette.cyan600,
 }

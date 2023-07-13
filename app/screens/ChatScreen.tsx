@@ -36,11 +36,13 @@ import { useSharedValue } from "react-native-reanimated"
 import { useQueryClient } from "@tanstack/react-query"
 import { SwipeableItem } from "app/components/SwipeableItem"
 
-interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {
-  params: { id: string }
-}
+interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
-export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen(route) {
+export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
+  route,
+}: {
+  route: any
+}) {
   // route params
   const { id } = route.params
 

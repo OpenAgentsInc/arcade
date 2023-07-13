@@ -37,12 +37,10 @@ import { useMutation } from "@tanstack/react-query"
 import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
 
 interface DirectMessageScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {
-  params: { id: string; legacy: boolean }
-}
+  extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
-  function DirectMessageScreen(route) {
+  function DirectMessageScreen({ route }: { route: any }) {
     const { id, legacy } = route.params
 
     const navigation = useNavigation<any>()

@@ -10,12 +10,10 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 
 interface ChannelMembersScreenProps
-  extends NativeStackScreenProps<AppStackScreenProps<"ChannelMembers">> {
-  params: { id: string; name: string; privkey: string }
-}
+  extends NativeStackScreenProps<AppStackScreenProps<"ChannelMembers">> {}
 
 export const ChannelMembersScreen: FC<ChannelMembersScreenProps> = observer(
-  function ChannelMembersScreen(route) {
+  function ChannelMembersScreen({ route }: { route: any }) {
     const { id, name, privkey } = route.params
 
     // Stores
@@ -65,7 +63,7 @@ export const ChannelMembersScreen: FC<ChannelMembersScreenProps> = observer(
           )}
           ListEmptyComponent={
             <View style={$emptyState}>
-              <Text text="Private group has no members" />
+              <Text text="Private channel has no members" />
               <Text
                 text="- Click Plus button above to invite"
                 style={{ color: colors.palette.gray }}

@@ -20,11 +20,13 @@ import { useStores } from "app/models"
 import { NostrPool } from "app/arclib/src"
 import { useContactManager } from "app/utils/useUserContacts"
 
-interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {
-  params: { id: string }
-}
+interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
-export const UserScreen: FC<UserScreenProps> = observer(function UserScreen(route) {
+export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
+  route,
+}: {
+  route: any
+}) {
   // Get route params
   const { id } = route.params
 
