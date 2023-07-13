@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
     height: "70%",
     justifyContent: "center",
   },
-  subtitle: { color: colors.palette.gray },
+  subtitle: { color: colors.palette.gray, paddingVertical: 0 },
   textContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
   },
-  title: { color: colors.palette.cyan600, fontWeight: "600" },
+  title: { color: colors.palette.cyan600, fontWeight: "600", paddingVertical: 0 },
 })
 
 export { DirectMessageReply }
