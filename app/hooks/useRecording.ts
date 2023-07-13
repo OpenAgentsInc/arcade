@@ -93,7 +93,6 @@ export const useRecording = (sendFunction) => {
           console.log(json.transcript.text)
           const transcript = json.transcript.text
           sendFunction(transcript)
-          alert(transcript)
         }
 
         // get json from response body
