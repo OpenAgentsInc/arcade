@@ -1,7 +1,7 @@
 import { useNpub } from "app/hooks/useNpub"
 import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
-import { ArrowUpIcon } from "lucide-react-native"
+import { ArrowUpIcon, Mic, Microscope } from "lucide-react-native"
 import React, { useRef, useState } from "react"
 import { Alert, TextInput, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
@@ -44,6 +44,15 @@ export const MessageInput = ({ conversationId, conversationType }) => {
         autoCapitalize="none"
         autoCorrect={true}
         autoComplete="name"
+        LeftAccessory={() => (
+          <Button
+            onPress={() => submitInput(text)}
+            LeftAccessory={() => (
+              <Mic width={20} height={20} style={{ color: colors.palette.cyan100 }} />
+            )}
+            style={$audioButton}
+          />
+        )}
         RightAccessory={() => (
           <Button
             onPress={() => submitInput(text)}
@@ -91,4 +100,11 @@ export const $sendButton: ViewStyle = {
   borderWidth: 0,
   flexShrink: 0,
   marginRight: spacing.small,
+}
+
+export const $audioButton: ViewStyle = {
+  ...$sendButton,
+  marginRight: 0,
+  marginLeft: spacing.small,
+  backgroundColor: "transparent",
 }
