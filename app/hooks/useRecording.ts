@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Audio } from "expo-av"
 import { Recording } from "expo-av/build/Audio"
-import axios from "axios"
 import * as FileSystem from "expo-file-system"
 
 export const useRecording = (sendFunction) => {

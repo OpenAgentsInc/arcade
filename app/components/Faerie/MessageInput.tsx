@@ -2,7 +2,7 @@ import { useNpub } from "app/hooks/useNpub"
 import { useRecording } from "app/hooks/useRecording"
 import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
-import { ArrowUpIcon, Mic, Microscope } from "lucide-react-native"
+import { ArrowUpIcon, Mic } from "lucide-react-native"
 import React, { useCallback, useRef, useState } from "react"
 import { Alert, TextInput, View, ViewStyle } from "react-native"
 import { Button } from "../Button"
@@ -65,13 +65,13 @@ export const MessageInput = ({ conversationId, conversationType }) => {
         LeftAccessory={() => (
           <Button
             onPress={toggleRecording}
-            pressedStyle={{ backgroundColor: colors.palette.cyan600, opacity: 0.8 }}
+            pressedStyle={{ backgroundColor: colors.palette.cyan600, opacity: betteropacity }}
             LeftAccessory={() => (
               <Mic width={20} height={20} style={{ color: colors.palette.cyan100 }} />
             )}
             style={[
               $audioButton,
-              { backgroundColor: recording ? colors.palette.cyan600 : "transparent" },
+              { backgroundColor: recording ? colors.palette.cyan600 : transparent },
             ]}
           />
         )}
@@ -130,3 +130,6 @@ export const $audioButton: ViewStyle = {
   marginLeft: spacing.small,
   backgroundColor: "transparent",
 }
+
+const betteropacity = 0.8
+const transparent = "transparent"
