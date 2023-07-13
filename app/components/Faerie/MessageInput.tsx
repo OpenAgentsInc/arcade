@@ -1,4 +1,5 @@
 import { useNpub } from "app/hooks/useNpub"
+import { useRecording } from "app/hooks/useRecording"
 import { useSendMessage } from "app/hooks/useSendMessage"
 import { colors, spacing } from "app/theme"
 import { ArrowUpIcon, Mic, Microscope } from "lucide-react-native"
@@ -9,6 +10,9 @@ import { TextField } from "../TextField"
 
 export const MessageInput = ({ conversationId, conversationType }) => {
   const { mutate } = useSendMessage()
+
+  const { isRecording, setIsRecording, startRecording, toggleRecording } = useRecording()
+
   const [text, setText] = useState("")
   const npub = useNpub()
 
@@ -46,11 +50,15 @@ export const MessageInput = ({ conversationId, conversationType }) => {
         autoComplete="name"
         LeftAccessory={() => (
           <Button
-            onPress={() => submitInput(text)}
+            onPress={toggleRecording}
+            pressedStyle={{ backgroundColor: colors.palette.cyan600, opacity: 0.8 }}
             LeftAccessory={() => (
               <Mic width={20} height={20} style={{ color: colors.palette.cyan100 }} />
             )}
-            style={$audioButton}
+            style={[
+              $audioButton,
+              { backgroundColor: isRecording ? colors.palette.cyan600 : "transparent" },
+            ]}
           />
         )}
         RightAccessory={() => (

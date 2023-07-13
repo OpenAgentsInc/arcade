@@ -13,9 +13,19 @@ export const useRecording = () => {
     setIsRecording(false)
   }
 
+  const toggleRecording = () => {
+    if (isRecording) {
+      stopRecording()
+    } else {
+      startRecording()
+    }
+  }
+
   return {
     isRecording,
+    setIsRecording,
     startRecording,
     stopRecording,
+    toggleRecording,
   }
 }
