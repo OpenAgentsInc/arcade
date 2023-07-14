@@ -11,5 +11,6 @@ LogBox.ignoreLogs([
   "Cannot read property",
   "nostr-tools:",
   "[🍉] The writer",
-  "Possible Unhandled Promise"
+  "Possible Unhandled Promise",
+  "The contextSharing"
 ])
