@@ -77,12 +77,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     ])
   }
 
-  const back = () => {
-    clearReply()
-    channel.reset()
-    navigation.goBack()
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -96,7 +90,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
           titleStyle={{ color: colors.palette.white }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => back()}
+          onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
               {channel.privkey && (
@@ -152,8 +146,13 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   )
 
   useEffect(() => {
-    // fetch messages
-    channel.fetchMessages(channelManager)
+    // fetch messages in 24 hours ago
+    channel.fetchMessages(channelManager, 24)
+    return () => {
+      clearReply()
+      channel.updateLastMessage()
+      channel.reset()
+    }
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Message }) => {

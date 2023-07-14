@@ -53,11 +53,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       userStore: { pubkey, addReply, clearReply },
     } = useStores()
 
-    const goBack = () => {
-      clearReply()
-      navigation.goBack()
-    }
-
     useLayoutEffect(() => {
       navigation.setOptions({
         headerShown: true,
@@ -67,7 +62,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
             titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
-            onLeftPress={() => goBack()}
+            onLeftPress={() => navigation.goBack()}
           />
         ),
       })
@@ -99,6 +94,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       initDMS().catch(console.error)
 
       return () => {
+        clearReply()
         console.log("dm: unsubscribing...")
         pool.unsub(handleNewMessage)
       }

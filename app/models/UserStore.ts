@@ -274,13 +274,8 @@ export const UserStoreModel = types
       const res = yield mgr.list()
       self.setProp("contacts", res)
     }),
-    addContact: flow(function* (
-      contact: Contact & { metadata?: string },
-      mgr: ContactManager,
-      metadata?: string,
-    ) {
+    addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
       yield mgr.add(contact)
-      if (metadata) contact.metadata = metadata
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,
       )
@@ -318,16 +313,8 @@ export const UserStoreModel = types
     updatePrivMessages(data) {
       self.privMessages = cast(data)
     },
-    updateChannels: flow(function* (mgr: ChannelManager) {
-      const list = yield mgr.listChannels(true)
-      list.forEach((ch) => {
-        if (ch.is_private) {
-          const idx = self.channels.findIndex((el) => el.id === ch.id)
-          if (idx !== -1) {
-            self.channels[idx].setProp("privkey", ch.privkey)
-          }
-        }
-      })
+    updateChannels: flow(function* (channels) {
+      self.channels = cast(channels)
     }),
     updateMetadata: flow(function* (data: Profile & PrivateSettings, profmgr?: ProfileManager) {
       if (profmgr) {

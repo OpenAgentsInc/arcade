@@ -11,6 +11,8 @@ import {
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 
+const nHoursAgo = (hrs: number): number => Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
+
 /**
  * Model description here for TypeScript hints.
  */
@@ -43,10 +45,10 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
-    fetchMessages: flow(function* (channel: ChannelManager) {
+    fetchMessages: flow(function* (channel: ChannelManager, hours: number) {
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { limit: 500 },
+        filter: { since: nHoursAgo(hours) },
         db_only: true,
         privkey: self.privkey,
       })
@@ -67,6 +69,14 @@ export const ChannelModel = types
       self.setProp("loading", false)
       self.messages = cast(uniqueEvents)
     }),
+    updateLastMessage() {
+      const lastMessage = self.messages.slice(-1)[0]
+      if (lastMessage) {
+        self.setProp("lastMessage", lastMessage.content)
+        self.setProp("lastMessagePubkey", lastMessage.pubkey)
+        self.setProp("lastMessageAt", lastMessage.created_at)
+      }
+    },
     fetchMeta: flow(function* (channel: ChannelManager) {
       const result = yield channel.getMeta(self.id, self.privkey, true)
       if (result) {
