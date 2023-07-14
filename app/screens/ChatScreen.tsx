@@ -28,13 +28,14 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { LogOutIcon, UsersIcon } from "lucide-react-native"
-import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
+import { NostrEvent } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
 import { useSharedValue } from "react-native-reanimated"
 import { useQueryClient } from "@tanstack/react-query"
 import { SwipeableItem } from "app/components/SwipeableItem"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -43,21 +44,15 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 }: {
   route: any
 }) {
-  // init relaypool
-  const pool = useContext(RelayContext) as NostrPool
-  const channelManager: ChannelManager = useMemo(() => new ChannelManager(pool), [pool])
-
-  // Pull in navigation via hook
-  const navigation = useNavigation<any>()
-
-  // Stores
+  const { id } = route.params
+  const { pool, channelManager } = useContext(RelayContext)
   const {
-    userStore: { pubkey, leaveChannel },
+    userStore: { pubkey, addReply, clearReply, leaveChannel },
     channelStore: { getChannel },
   } = useStores()
 
-  // route params
-  const { id } = route.params
+  // Pull in navigation via hook
+  const navigation = useNavigation<any>()
 
   // get channel by using resolver identifier
   const channel: Channel = useMemo(() => getChannel(id), [id])
@@ -83,23 +78,20 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     ])
   }
 
-  const back = () => {
-    // update last message
-    channel.updateLastMessage()
-    channel.reset()
-    navigation.goBack()
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       header: () => (
         <Header
-          title={channel.name.substring(0, 16) + "..." || "No name"}
-          titleStyle={{ color: colors.palette.cyan400 }}
+          title={
+            channel.name.length > 20
+              ? channel.name.substring(0, 20) + "..."
+              : channel.name || "No name"
+          }
+          titleStyle={{ color: colors.palette.white }}
           leftIcon="back"
           leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => back()}
+          onLeftPress={() => navigation.goBack()}
           RightActionComponent={
             <View style={$headerRightActions}>
               {channel.privkey && (
@@ -155,8 +147,13 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   )
 
   useEffect(() => {
-    // fetch messages
-    channel.fetchMessages(channelManager)
+    // fetch messages in 24 hours ago
+    channel.fetchMessages(channelManager, 24)
+    return () => {
+      clearReply()
+      channel.updateLastMessage()
+      channel.reset()
+    }
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Message }) => {
@@ -173,11 +170,17 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       const senderInfo: { username: string; name: string; display_name: string } =
         queryClient.getQueryData(["user", item.pubkey])
 
+      // add reply id to mst
+      addReply(item.id)
+
       // We set the highlightedReply to the value of the message
       // That will trigger the DirectMessageReply component to show
       highlightedReply.value = {
-        id: item.id,
-        sender: senderInfo.username || senderInfo.name || senderInfo.display_name,
+        sender:
+          senderInfo?.username ||
+          senderInfo?.name ||
+          senderInfo?.display_name ||
+          shortenKey(item.pubkey),
         content: content.original,
       }
     }
@@ -250,7 +253,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
             channelId={channel.id}
             privkey={channel.privkey}
             textInputRef={textInputRef}
-            replyTo={highlightedReply.value}
             onSubmit={() => {
               // Setting the value to null will trigger the DirectMessageReply component to hide
               // It's a kind of "reset"

@@ -4,7 +4,6 @@ import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useNavigation } from "@react-navigation/native"
-import { NostrPool } from "app/arclib/src"
 import { useQuery } from "@tanstack/react-query"
 import { VenetianMaskIcon } from "lucide-react-native"
 import { useStores } from "app/models"
@@ -16,9 +15,9 @@ interface UserProp {
 }
 
 export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
-  const pool = useContext(RelayContext) as NostrPool
   const navigation = useNavigation<any>()
 
+  const { pool } = useContext(RelayContext)
   const { userStore } = useStores()
 
   const { data: profile } = useQuery(["user", pubkey], async () => {
@@ -26,9 +25,8 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     const latest = list.slice(-1)[0]
     if (latest) {
       return JSON.parse(latest.content)
-    } else {
-      return JSON.parse(list[0].content)
     }
+    return null
   })
 
   const redirect = () => {

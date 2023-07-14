@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react"
-import { ContactItem, Text } from "app/components"
+import React, { useContext, useEffect, useState } from "react"
+import { ContactItem, RelayContext, Text } from "app/components"
 import { Pressable, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { useStores } from "app/models"
 import { FlashList } from "@shopify/flash-list"
 import { CheckCircle2Icon } from "lucide-react-native"
-import { useContactManager } from "app/utils/useUserContacts"
 
 export function ContactPicker() {
-  const mgr = useContactManager()
+  const { contactManager } = useContext(RelayContext)
   const { userStore } = useStores()
+
   const [selected, setSelected] = useState([])
 
   const toggleSelect = (pubkey: string) => {
@@ -21,7 +21,7 @@ export function ContactPicker() {
 
   useEffect(() => {
     async function fetchContacts() {
-      userStore.fetchContacts(mgr)
+      userStore.fetchContacts(contactManager)
     }
     fetchContacts().catch(console.error)
   }, [userStore.pubkey])

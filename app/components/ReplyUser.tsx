@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import { NostrPool } from "app/arclib/src"
 import React, { useContext } from "react"
 import { TextStyle, View } from "react-native"
 import { RelayContext, Text } from "app/components"
 import { colors } from "app/theme"
 
 export function ReplyUser({ pubkey }: { pubkey: string }) {
-  const pool = useContext(RelayContext) as NostrPool
+  const { pool } = useContext(RelayContext)
 
   const { data: profile } = useQuery(["user", pubkey], async () => {
     const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
@@ -14,6 +13,7 @@ export function ReplyUser({ pubkey }: { pubkey: string }) {
     if (latest) {
       return JSON.parse(latest.content)
     }
+    return null
   })
 
   return (

@@ -6,6 +6,7 @@ import {
   flow,
   cast,
   types,
+  getSnapshot,
 } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
@@ -29,7 +30,7 @@ import { sha256 } from "@noble/hashes/sha256"
 import { bytesToHex } from "@noble/hashes/utils"
 import { runInAction } from "mobx"
 import { Profile, ProfileManager } from "app/arclib/src/profile"
-import { PrivateSettings, getProfile, updateProfile } from "app/utils/profile"
+import { PrivateSettings, updateProfile } from "app/utils/profile"
 
 const utf8Encoder = new TextEncoder()
 const DEFAULT_CHANNELS = [
@@ -66,14 +67,16 @@ async function registerNip05(ident: ArcadeIdentity, name: string) {
   return `${name}@arcade.chat`
 }
 
+type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
+
 /**
  * Model description here for TypeScript hints.
  */
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    pubkey: "",
-    privkey: "",
+    pubkey: types.maybeNull(types.string),
+    privkey: types.maybeNull(types.string),
     metadata: types.maybeNull(
       types.model({
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
@@ -88,7 +91,7 @@ export const UserStoreModel = types
         selloffer_push_enabled: types.optional(types.boolean, false),
       }),
     ),
-    isLoggedIn: false,
+    isLoggedIn: types.optional(types.boolean, false),
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(ContactModel), []),
     privMessages: types.optional(types.array(MessageModel), []),
@@ -97,6 +100,7 @@ export const UserStoreModel = types
       "wss://arc1.arcadelabs.co",
       "wss://relay.damus.io",
     ]),
+    replyTo: types.maybeNull(types.string),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -115,8 +119,14 @@ export const UserStoreModel = types
     get getMetadata() {
       return self.metadata
     },
-    get getPrivMesages() {
-      return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
+    get getChats() {
+      const chats = getSnapshot(self.privMessages)
+      chats.forEach((chat) => {
+        if (chat.pubkey === self.pubkey) {
+          chat.pubkey = chat.tags.find((el) => el[0] === "p")[1]
+        }
+      })
+      return [...new Map(chats.map((item) => [item.pubkey, item])).values()]
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(() => ({
@@ -126,8 +136,10 @@ export const UserStoreModel = types
     }),
   }))
   .actions((self) => ({
-    fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
-      const priv = new PrivateMessageManager(pool)
+    fetchPrivMessages: flow(function* (
+      privMessageManager: PrivateMessageManager,
+      contacts?: Array<Contact>,
+    ) {
       let keys: string[]
       if (contacts) {
         keys = contacts.map((c) => c.pubkey)
@@ -156,7 +168,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield priv.list({ limit: 500 }, false, keys)
+      const list = yield privMessageManager.list({ limit: 200 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -164,7 +176,6 @@ export const UserStoreModel = types
           map.set(ev.pubkey, ev)
         }
       })
-      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
       const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
         item.lastMessageAt = item.created_at
@@ -233,21 +244,16 @@ export const UserStoreModel = types
       yield secureSet("privkey", privkey)
       yield storage.save("meta", meta)
     }),
-
     loginWithNsec: flow(function* (
-      pool: NostrPool,
-      ident: ArcadeIdentity,
       privkey: string,
       pubkey: string,
+      profile: Profile,
+      contacts: Array<Contact>,
+      privMessages: Array<ExtendedItem>,
       channels?: string[],
     ) {
-      const { profile, contacts } = yield getProfile(ident, pubkey)
-
       // update secure storage
       yield secureSet("privkey", privkey)
-
-      // fetch priv messages
-      const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
       // update mobx state, user will redirect to home screen immediately
       applySnapshot(self, {
@@ -275,13 +281,8 @@ export const UserStoreModel = types
       const res = yield mgr.list()
       self.setProp("contacts", res)
     }),
-    addContact: flow(function* (
-      contact: Contact & { metadata?: string },
-      mgr: ContactManager,
-      metadata?: string,
-    ) {
+    addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
       yield mgr.add(contact)
-      if (metadata) contact.metadata = metadata
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,
       )
@@ -319,21 +320,8 @@ export const UserStoreModel = types
     updatePrivMessages(data) {
       self.privMessages = cast(data)
     },
-    updateChannels: flow(function* (mgr: ChannelManager) {
-      const list = yield mgr.listChannels(true)
-      list.forEach((ch) => {
-        if (ch.is_private) {
-          const idx = self.channels.findIndex((el) => el.id === ch.id)
-          if (idx !== -1) {
-            self.channels[idx].setProp("privkey", ch.privkey)
-          }
-        }
-      })
-    }),
-    fetchMetadata: flow(function* () {
-      const ident = new ArcadeIdentity(self.privkey)
-      const { profile } = yield getProfile(ident, self.pubkey)
-      self.setProp("metadata", profile)
+    updateChannels: flow(function* (channels) {
+      self.channels = cast(channels)
     }),
     updateMetadata: flow(function* (data: Profile & PrivateSettings, profmgr?: ProfileManager) {
       if (profmgr) {
@@ -341,6 +329,12 @@ export const UserStoreModel = types
       }
       self.setProp("metadata", data)
     }),
+    addReply(id: string) {
+      self.setProp("replyTo", id)
+    },
+    clearReply() {
+      self.setProp("replyTo", null)
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface UserStore extends Instance<typeof UserStoreModel> {}

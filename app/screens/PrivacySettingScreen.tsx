@@ -6,8 +6,6 @@ import { AppStackScreenProps } from "app/navigators"
 import { Header, ListItem, RelayContext, Screen, Text, Toggle, Button } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
-import { NostrPool } from "app/arclib/src"
-import { ProfileManager } from "app/arclib/src/profile"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 
@@ -16,13 +14,10 @@ interface PrivacySettingScreenProps
 
 export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
   function PrivacySettingScreen() {
-    const pool: NostrPool = useContext(RelayContext) as NostrPool
-    const profmgr = new ProfileManager(pool)
-
     const formikRef = useRef(null)
     const [profile, setProfile] = useState(null)
 
-    // Pull in one of our MST stores
+    const { profileManager } = useContext(RelayContext)
     const { userStore } = useStores()
 
     // Pull in navigation via hook
@@ -35,7 +30,7 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
           prefersLegacyDMs: data.prefersLegacyDMs,
         }
 
-        await profmgr.save(profileSettings, ["prefersLegacyDMs"])
+        await profileManager.save(profileSettings, ["prefersLegacyDMs"])
 
         console.log("updated privacy settings")
         // navigate back
@@ -62,7 +57,7 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
 
     useEffect(() => {
       async function fetchProfile() {
-        const content = await profmgr.load()
+        const content = await profileManager.load()
         if (content) {
           setProfile(content)
         } else {

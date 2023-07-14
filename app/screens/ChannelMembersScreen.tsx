@@ -63,7 +63,7 @@ export const ChannelMembersScreen: FC<ChannelMembersScreenProps> = observer(
           )}
           ListEmptyComponent={
             <View style={$emptyState}>
-              <Text text="Private group has no members" />
+              <Text text="Private channel has no members" />
               <Text
                 text="- Click Plus button above to invite"
                 style={{ color: colors.palette.gray }}

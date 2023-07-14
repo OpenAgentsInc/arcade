@@ -11,13 +11,7 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
-import {
-  ChannelInfo,
-  ChannelManager,
-  Nip28ChannelInfo,
-  NostrEvent,
-  NostrPool,
-} from "app/arclib/src"
+import { ChannelInfo, Nip28ChannelInfo, NostrEvent } from "app/arclib/src"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
@@ -29,9 +23,9 @@ interface TopData {
 }
 
 export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function ChannelsScreen() {
-  const pool = useContext(RelayContext) as NostrPool
+  const { channelManager } = useContext(RelayContext)
   const { userStore, channelStore } = useStores()
-  const mgr = new ChannelManager(pool)
+
   const [data, setData] = useState([] as ChannelInfo[])
 
   // Pull in navigation via hook
@@ -41,7 +35,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     // create channel in local store
     channelStore.create(item)
     // update state
-    userStore.joinChannel(mgr, item)
+    userStore.joinChannel(channelManager, item)
     // redirect to channel
     navigation.navigate("Chat", item)
   }
@@ -88,19 +82,19 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           }
         })
         .filter((ev) => ev)
-      setData(sugg)
+      return sugg
     }
 
-    async function initChannels() {
-      const res = await mgr.listChannels(true)
-      console.log("data is ", res)
-      setData((prev) => {
-        return Array.from(new Set([...prev, ...res])).sort((a, b) => +b.is_private - +a.is_private)
-      })
+    async function initChannels(prev) {
+      const res = await channelManager.listChannels(true)
+      const final = Array.from(new Set([...prev, ...res])).sort(
+        (a, b) => +b.is_private - +a.is_private,
+      )
+      setData(final)
     }
 
     initTop()
-      .then(() => initChannels().catch(console.error))
+      .then((prev) => initChannels(prev).catch(console.error))
       .catch(console.error)
   }, [])
 

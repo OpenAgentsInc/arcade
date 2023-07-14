@@ -4,7 +4,6 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  useMemo,
   useRef,
   useState,
 } from "react"
@@ -26,33 +25,33 @@ import {
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { PrivateMessageManager } from "app/arclib/src/private"
 import { useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
-import { BlindedEvent, NostrPool } from "app/arclib/src"
+import { BlindedEvent } from "app/arclib/src"
 import { useSharedValue } from "react-native-reanimated"
 import { SwipeableItem } from "app/components/SwipeableItem"
 import { useMutation } from "@tanstack/react-query"
 import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
-    const { id, legacy } = route.params
-    const navigation = useNavigation<any>()
-    const pool = useContext(RelayContext) as NostrPool
-    const dms = useMemo(() => new PrivateMessageManager(pool), [pool])
-    const [data, setData] = useState([] as BlindedEvent[])
-    const [loading, setLoading] = useState(true)
+    const { id, name, legacy } = route.params
+    const { pool, privMessageManager } = useContext(RelayContext)
 
+    const navigation = useNavigation<any>()
     const textInputRef = useRef<TextInput>(null)
     const highlightedReply = useSharedValue<ReplyInfo | null>(null)
 
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
+
     const {
-      userStore: { pubkey },
+      userStore: { pubkey, addReply, clearReply },
     } = useStores()
 
     useLayoutEffect(() => {
@@ -60,8 +59,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title="Direct Message"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            title={name || "Direct Message"}
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
@@ -80,13 +79,12 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
       async function initDMS() {
         try {
-          const list = await dms.list({ limit: 500 }, true, id, handleNewMessage)
+          const list = await privMessageManager.list({ limit: 500 }, true, id, handleNewMessage)
           console.log("dm: showing", list.length)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
 
           // update state
           setData(sorted)
-          // disable loading
         } catch (e) {
           console.log("dm: error loading messages", e)
         }
@@ -97,10 +95,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       initDMS().catch(console.error)
 
       return () => {
+        clearReply()
         console.log("dm: unsubscribing...")
         pool.unsub(handleNewMessage)
       }
-    }, [id, dms])
+    }, [id])
 
     const { mutateAsync: getSenderInfo } = useMutation(["user", id], async () => {
       const list = await pool.list([{ kinds: [0], authors: [id] }], true)
@@ -124,11 +123,17 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           // and cached by React Query
           const senderInfo = await getSenderInfo()
 
+          // add reply id to mst
+          addReply(item.id)
+
           // We set the highlightedReply to the value of the message
           // That will trigger the DirectMessageReply component to show
           highlightedReply.value = {
-            id: item.id,
-            sender: senderInfo.username || senderInfo.name || senderInfo,
+            sender:
+              senderInfo?.username ||
+              senderInfo?.name ||
+              senderInfo?.display_name ||
+              shortenKey(id),
             content: content.original,
           }
         }
@@ -209,9 +214,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           <DirectMessageReply replyInfo={highlightedReply} />
           <View style={$form}>
             <DirectMessageForm
-              dms={dms}
+              dms={privMessageManager}
               recipient={id}
-              replyTo={highlightedReply.value}
               legacy={legacy}
               textInputRef={textInputRef}
               onSubmit={() => {

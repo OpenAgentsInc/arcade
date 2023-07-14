@@ -6,7 +6,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { ScreenWithSidebar, ChannelItem, Text, RelayContext, AIChannelDetail } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { BlindedEvent, ChannelManager, NostrPool, PrivateMessageManager } from "app/arclib/src"
+import { BlindedEvent } from "app/arclib/src"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
@@ -27,37 +27,33 @@ const colors = {
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations } = useConversations()
-
-    const now = useRef(Math.floor(Date.now() / 1000))
-    const pool = useContext(RelayContext) as NostrPool
-    const channelManager = new ChannelManager(pool) as ChannelManager
-    const pmgr = new PrivateMessageManager(pool) as PrivateMessageManager
-
-    const [isRefresh, setIsRefresh] = useState(false)
-
+    const { pool, channelManager, privMessageManager } = useContext(RelayContext)
     const {
       userStore: {
         pubkey,
         getChannels,
-        getPrivMesages,
+        getChats,
         addPrivMessage,
         fetchPrivMessages,
         updatePrivMessages,
       },
     } = useStores()
 
+    const [isRefresh, setIsRefresh] = useState(false)
+
+    const now = useRef(Math.floor(Date.now() / 1000))
     const data = useMemo(
       () =>
-        [...getChannels, ...getPrivMesages, ...conversations].sort(
+        [...getChannels, ...getChats, ...conversations].sort(
           (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
             b.lastMessageAt - a.lastMessageAt,
         ),
-      [getChannels, getPrivMesages, conversations],
+      [isRefresh, getChannels, getChats, conversations],
     )
 
     const refresh = async () => {
       setIsRefresh(true)
-      const messages = await fetchPrivMessages(pool)
+      const messages = await fetchPrivMessages(privMessageManager)
       if (messages) {
         updatePrivMessages(messages)
       }
@@ -71,7 +67,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       }
 
       async function subscribe() {
-        return pmgr.sub(handleNewMessage, {
+        return privMessageManager.sub(handleNewMessage, {
           kinds: [4],
           "#p": [pubkey],
           since: now.current,

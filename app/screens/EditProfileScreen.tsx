@@ -9,8 +9,7 @@ import { useNavigation } from "@react-navigation/native"
 import { Formik } from "formik"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { Profile, ProfileManager } from "app/arclib/src/profile"
-import { NostrPool } from "app/arclib/src"
+import { Profile } from "app/arclib/src/profile"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 import { PrivateSettings } from "app/utils/profile"
@@ -19,18 +18,15 @@ interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
 
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
-  const pool: NostrPool = useContext(RelayContext) as NostrPool
-  const profmgr = new ProfileManager(pool)
-
-  const formikRef = useRef(null)
+  const { profileManager } = useContext(RelayContext)
+  const {
+    userStore: { metadata, updateMetadata },
+  } = useStores()
 
   const [picture, setPicture] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  // Pull in one of our MST stores
-  const {
-    userStore: { metadata, updateMetadata },
-  } = useStores()
+  const formikRef = useRef(null)
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -77,7 +73,7 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
-      updateMetadata(data, profmgr).then(() => navigation.navigate("Profile"))
+      updateMetadata(data, profileManager).then(() => navigation.navigate("Profile"))
     } catch (e) {
       alert(`Failed to save settings: ${e}`)
     }

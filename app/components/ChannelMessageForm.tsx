@@ -9,25 +9,25 @@ import {
   ActivityIndicator,
   TextInput,
 } from "react-native"
-import { Button, TextField, Text, AutoImage, ReplyInfo } from "app/components"
+import { Button, TextField, Text, AutoImage } from "app/components"
 import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { ChannelManager } from "app/arclib/src"
 import { launchImageLibrary } from "react-native-image-picker"
+import { useStores } from "app/models"
+import { observer } from "mobx-react-lite"
 
-export function ChannelMessageForm({
+export const ChannelMessageForm = observer(function ChannelMessageForm({
   channelManager,
   channelId,
   privkey,
-  replyTo,
   textInputRef,
   onSubmit,
 }: {
   channelManager: ChannelManager
   channelId: string
   privkey: string
-  replyTo: ReplyInfo
   textInputRef?: React.RefObject<TextInput>
   onSubmit?: () => void
 }) {
@@ -36,6 +36,10 @@ export function ChannelMessageForm({
 
   // formik
   const formikRef = useRef(null)
+
+  const {
+    userStore: { replyTo, clearReply },
+  } = useStores()
 
   const imagePicker = async () => {
     // start loading
@@ -100,7 +104,7 @@ export function ChannelMessageForm({
     const message = await channelManager.send({
       channel_id: channelId,
       content,
-      replyTo: replyTo?.id,
+      replyTo,
       is_private: !!privkey,
     })
 
@@ -112,6 +116,7 @@ export function ChannelMessageForm({
 
       // reset reply to
       onSubmit?.()
+      clearReply()
     } else {
       // todo: put failed publish event to queue for resend
       console.log("Failed to publish")
@@ -195,7 +200,7 @@ export function ChannelMessageForm({
       )}
     </Formik>
   )
-}
+})
 
 const $borderTop: ViewStyle = {
   width: "100%",

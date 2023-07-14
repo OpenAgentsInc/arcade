@@ -1,7 +1,9 @@
-import { ArcadeIdentity, NostrPool } from "app/arclib/src"
+import { NostrPool } from "app/arclib/src"
 import { ProfileManager, Profile } from "app/arclib/src/profile"
 import { registerForPushNotifications } from "./notification"
 import { Contact } from "app/arclib/src/contacts"
+import { useContext } from "react"
+import { RelayContext } from "app/components"
 
 export type PrivateSettings = {
   privchat_push_enabled: boolean
@@ -21,31 +23,29 @@ const ARCADE_RELAYS = [
 
 const ARCADE_PUBKEY = "c4899d1312a7ccf42cc4bfd0559826d20f7564293de4588cb8b089a574d71757"
 
-export async function getProfile(ident: ArcadeIdentity, pubkey: string) {
-  const tmpPool = new NostrPool(ident)
-  await tmpPool.setRelays(ARCADE_RELAYS)
+export function useProfile() {
+  const { pool } = useContext(RelayContext)
 
-  const contacts: Array<Contact> = []
-  let profile: Profile = {}
-
-  const list = await tmpPool.list([{ kinds: [0, 3], authors: [pubkey] }], true)
-  const metadata = list.filter((el) => el.kind === 0)?.slice(-1)[0]
-  const follows = list.filter((el) => el.kind === 3)?.slice(-1)[0]
-
-  if (metadata) {
-    profile = JSON.parse(metadata.content)
+  const getProfile = async (pubkey: string) => {
+    const list = await pool.list([{ kinds: [0], authors: [pubkey] }], false)
+    const metadata = list.slice(-1)[0]
+    if (metadata) return JSON.parse(metadata.content)
+    return null
   }
 
-  if (follows) {
-    follows.tags.forEach((item) => {
-      contacts.push({ pubkey: item[1], secret: false, legacy: true })
-    })
+  const getContacts = async (pubkey: string) => {
+    const contacts: Array<Contact> = []
+    const list = await pool.list([{ kinds: [3], authors: [pubkey] }], false)
+    const follows = list.slice(-1)[0]
+    if (follows) {
+      follows.tags.forEach((item) => {
+        contacts.push({ pubkey: item[1], secret: false, legacy: true })
+      })
+    }
+    return contacts
   }
 
-  // close tmp pool
-  tmpPool.close()
-
-  return { profile, contacts }
+  return { getProfile, getContacts }
 }
 
 export async function updateProfile(profmgr: ProfileManager, profile: Profile & PrivateSettings) {

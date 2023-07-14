@@ -9,23 +9,23 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { AutoImage, Button, TextField, Text, ReplyInfo } from "app/components"
+import { AutoImage, Button, TextField, Text } from "app/components"
 import { ArrowUpIcon, PaperclipIcon, XIcon } from "lucide-react-native"
 import { colors, spacing } from "app/theme"
 import { launchImageLibrary } from "react-native-image-picker"
 import type { PrivateMessageManager } from "app/arclib/src/private"
+import { useStores } from "app/models"
+import { observer } from "mobx-react-lite"
 
-export function DirectMessageForm({
+export const DirectMessageForm = observer(function DirectMessageForm({
   dms,
   recipient,
-  replyTo,
   legacy,
   textInputRef,
   onSubmit,
 }: {
   dms: PrivateMessageManager
   recipient: string
-  replyTo: ReplyInfo
   legacy: boolean
   textInputRef?: React.RefObject<TextInput>
   onSubmit?: () => void
@@ -33,6 +33,10 @@ export function DirectMessageForm({
   const [loading, setLoading] = useState(false)
   const [attached, setAttached] = useState(null)
   const [value, setValue] = useState("")
+
+  const {
+    userStore: { replyTo, clearReply },
+  } = useStores()
 
   const imagePicker = async () => {
     // start loading
@@ -94,12 +98,12 @@ export function DirectMessageForm({
 
     // send message
     if (legacy) {
-      const ev = await dms.send(recipient, content, replyTo?.id)
+      const ev = await dms.send(recipient, content, replyTo)
       if (!ev.id) {
         console.log("Failed to publish")
       }
     } else {
-      const ev = await dms.send44X(recipient, content, replyTo?.id)
+      const ev = await dms.send44X(recipient, content, replyTo)
       if (!ev.id) {
         console.log("Failed to publish")
       }
@@ -112,6 +116,7 @@ export function DirectMessageForm({
 
     // reset reply to
     onSubmit?.()
+    clearReply()
   }
 
   return (
@@ -177,7 +182,7 @@ export function DirectMessageForm({
       />
     </>
   )
-}
+})
 
 const $borderTop: ViewStyle = {
   width: "100%",

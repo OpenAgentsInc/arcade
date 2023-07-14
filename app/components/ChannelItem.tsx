@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
@@ -6,7 +6,8 @@ import { Channel } from "app/models"
 import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
-import { shortenKey } from "app/utils/shortenKey"
+import { useQuery } from "@tanstack/react-query"
+import { RelayContext } from "./RelayProvider"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -26,8 +27,19 @@ export const ChannelItem = observer(function ChannelItem({
   channelManager: ChannelManager
   channel: Channel
 }) {
+  const { pool } = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
+
   const createdAt = formatCreatedAt(channel.lastMessageAt)
+
+  const { data: profile } = useQuery(["user", channel.lastMessagePubkey], async () => {
+    const list = await pool.list([{ kinds: [0], authors: [channel.lastMessagePubkey] }], true)
+    const latest = list.slice(-1)[0]
+    if (latest) {
+      return JSON.parse(latest.content)
+    }
+    return null
+  })
 
   useEffect(() => {
     // only fetch meta if channel name not present
@@ -61,7 +73,9 @@ export const ChannelItem = observer(function ChannelItem({
           */}
         </View>
         <Text style={styles.$messageUsername} numberOfLines={1}>
-          {channel.lastMessagePubkey ? shortenKey(channel.lastMessagePubkey) : channel.id}
+          {channel.lastMessagePubkey
+            ? profile?.username || profile?.name || profile?.display_name || "No name"
+            : channel.id}
         </Text>
         <Text style={styles.$messageContentAbout} numberOfLines={1}>
           {channel.lastMessage || channel.about || ""}

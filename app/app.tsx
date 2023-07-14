@@ -43,6 +43,9 @@ setupReactotron({
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
+// query client
+const queryClient = new QueryClient()
+
 // Web linking configuration
 const prefix = Linking.createURL("/")
 const config = {
@@ -103,13 +106,11 @@ function App(props: AppProps) {
     config,
   }
 
-  const queryClient = new QueryClient()
-
   // otherwise, we're ready to render the app
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <QueryClientProvider client={queryClient} contextSharing={true}>
+        <QueryClientProvider client={queryClient}>
           <RelayProvider>
             <GestureHandlerRootView
               style={{ flex: 1 /* eslint-disable-line react-native/no-inline-styles */ }}
