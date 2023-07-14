@@ -48,7 +48,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
           (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
             b.lastMessageAt - a.lastMessageAt,
         ),
-      [getChannels, getChats, conversations],
+      [isRefresh, getChannels, getChats, conversations],
     )
 
     const refresh = async () => {

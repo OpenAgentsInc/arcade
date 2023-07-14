@@ -33,6 +33,7 @@ import { useSharedValue } from "react-native-reanimated"
 import { SwipeableItem } from "app/components/SwipeableItem"
 import { useMutation } from "@tanstack/react-query"
 import { DirectMessageReply, ReplyInfo } from "app/components/DirectMessageReply"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface DirectMessageScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"DirectMessage">> {}
@@ -128,7 +129,11 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           // We set the highlightedReply to the value of the message
           // That will trigger the DirectMessageReply component to show
           highlightedReply.value = {
-            sender: senderInfo.username || senderInfo.name || senderInfo,
+            sender:
+              senderInfo?.username ||
+              senderInfo?.name ||
+              senderInfo?.display_name ||
+              shortenKey(id),
             content: content.original,
           }
         }

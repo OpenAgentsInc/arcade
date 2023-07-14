@@ -35,6 +35,7 @@ import { parser } from "app/utils/parser"
 import { useSharedValue } from "react-native-reanimated"
 import { useQueryClient } from "@tanstack/react-query"
 import { SwipeableItem } from "app/components/SwipeableItem"
+import { shortenKey } from "app/utils/shortenKey"
 
 interface ChatScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Chat">> {}
 
@@ -175,7 +176,11 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       // We set the highlightedReply to the value of the message
       // That will trigger the DirectMessageReply component to show
       highlightedReply.value = {
-        sender: senderInfo.username || senderInfo.name || senderInfo.display_name,
+        sender:
+          senderInfo?.username ||
+          senderInfo?.name ||
+          senderInfo?.display_name ||
+          shortenKey(item.pubkey),
         content: content.original,
       }
     }
