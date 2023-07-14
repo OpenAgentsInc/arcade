@@ -21,15 +21,16 @@ import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { AxeIcon, EditIcon } from "lucide-react-native"
 import { TouchablePopupHandler } from "app/components/BlurredPopup"
+import { useProfile } from "app/utils/profile"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const [npubCopied, setNpubCopied] = useState(false)
 
-  // Pull in one of our MST stores
+  const { getProfile } = useProfile()
   const {
-    userStore: { pubkey, metadata, fetchMetadata, logout },
+    userStore: { pubkey, metadata, updateMetadata, logout },
   } = useStores()
 
   // Pull in navigation via hook
@@ -42,8 +43,12 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   }
 
   useEffect(() => {
+    async function refetchProfile() {
+      const profile = await getProfile(pubkey)
+      await updateMetadata(profile)
+    }
     if (!metadata) {
-      fetchMetadata()
+      refetchProfile()
     }
   }, [])
 
@@ -52,7 +57,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
       <View style={$cover}>
         <AutoImage
           source={{
-            uri: metadata?.banner,
+            uri: metadata?.banner || "https://void.cat/d/2qK2KYMPHMjMD9gcG6NZcV.jpg",
           }}
           style={$image}
         />

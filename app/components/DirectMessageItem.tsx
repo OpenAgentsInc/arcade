@@ -29,19 +29,25 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
   } = useStores()
 
   const legacy = findContact(dm.pubkey)?.legacy || true
-  const sender = pubkey === dm.pubkey ? dm.tags.find((el) => el[0] === "p")[1] : pubkey
 
   const { data: profile } = useQuery(["user", dm.pubkey], async () => {
-    const list = await pool.list([{ kinds: [0], authors: [sender] }], true)
+    const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
     const latest = list.slice(-1)[0]
     if (latest) {
       return JSON.parse(latest.content)
     }
+    return null
   })
 
   return (
     <Pressable
-      onPress={() => navigation.navigate("DirectMessage", { id: sender, legacy })}
+      onPress={() =>
+        navigation.navigate("DirectMessage", {
+          id: dm.pubkey,
+          name: profile?.username || profile?.name || profile?.display_name,
+          legacy,
+        })
+      }
       style={styles.$messageItem}
     >
       <Image
@@ -51,7 +57,8 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
       <View style={styles.$messageContent}>
         <View style={styles.$messageContentHeading}>
           <Text style={styles.$messageContentName} numberOfLines={1}>
-            {profile?.username || profile?.name || profile?.display_name || "No name"}
+            {(profile?.username || profile?.name || profile?.display_name || "No name") +
+              (pubkey === dm.pubkey ? " (you)" : "")}
           </Text>
           <Text style={styles.$messageContentTime}>{createdAt}</Text>
         </View>

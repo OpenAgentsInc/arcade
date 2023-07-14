@@ -10,6 +10,7 @@ import { colors, spacing } from "app/theme"
 import { EyeIcon, EyeOffIcon } from "lucide-react-native"
 import { getPublicKey, nip19 } from "nostr-tools"
 import { ArcadeIdentity } from "app/arclib/src"
+import { useProfile } from "app/utils/profile"
 
 interface LoginScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Login">> {}
 
@@ -17,11 +18,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
   const [nsec, setNsec] = useState("")
   const [secure, setSecure] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [channels, setChannels] = useState(null)
+  const [steps, setSteps] = useState({ metadata: false, channels: 0, messages: 0 })
 
   // Pull in one of our MST stores
   const { userStore, channelStore } = useStores()
-  const { pool, channelManager } = useContext(RelayContext)
+  const { pool, channelManager, privMessageManager } = useContext(RelayContext)
+  const { getProfile, getContacts } = useProfile()
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -42,9 +44,13 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         const ident = new ArcadeIdentity(privkey)
         pool.ident = ident
 
+        setSteps((prev) => ({ ...prev, metadata: true }))
+        const profile = await getProfile(pubkey)
+        const contacts = await getContacts(pubkey)
+
+        // fetch joined channels
         const joinedChannels = await userStore.fetchJoinedChannels(channelManager)
-        // update state
-        setChannels(joinedChannels.length)
+        setSteps((prev) => ({ ...prev, metadata: false, channels: joinedChannels.length }))
         // create channel in mst
         for (const channel of joinedChannels) {
           const meta = await channelManager.getMeta(channel)
@@ -59,7 +65,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
           })
         }
 
-        userStore.loginWithNsec(pool, ident, privkey, pubkey, joinedChannels)
+        // fetch priv messages
+        const privMessages = await userStore.fetchPrivMessages(privMessageManager, contacts)
+        setSteps((prev) => ({ ...prev, metadata: false, messages: privMessages.length }))
+
+        // login
+        await userStore.loginWithNsec(
+          privkey,
+          pubkey,
+          profile,
+          contacts,
+          privMessages,
+          joinedChannels,
+        )
       } catch {
         alert("Invalid key. Did you copy it correctly?")
         setLoading(false)
@@ -115,11 +133,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
           {loading ? (
             <>
               <ActivityIndicator color={colors.palette.cyan500} animating={loading} />
-              <Text
-                text={channels ? `Found ${channels} joined channels, creating...` : "Loading..."}
-                size="xs"
-                style={$loadingText}
-              />
+              {steps.metadata ? (
+                <Text text="Fetch user's metadata" size="xs" style={$loadingText} />
+              ) : steps.channels > 0 ? (
+                <Text
+                  text={`Found ${steps.channels} joinded channels. Rejoining...`}
+                  size="xs"
+                  style={$loadingText}
+                />
+              ) : steps.messages > 0 ? (
+                <Text text={`Fetching private messages..`} size="xs" style={$loadingText} />
+              ) : (
+                <Text text="Loading..." size="xs" style={$loadingText} />
+              )}
             </>
           ) : (
             <Button text="Enter" onPress={login} style={$button} pressedStyle={$button} />

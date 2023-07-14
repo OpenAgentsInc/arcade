@@ -53,7 +53,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     const refresh = async () => {
       setIsRefresh(true)
-      const messages = await fetchPrivMessages(pool)
+      const messages = await fetchPrivMessages(privMessageManager)
       if (messages) {
         updatePrivMessages(messages)
       }

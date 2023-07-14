@@ -39,16 +39,15 @@ interface DirectMessageScreenProps
 
 export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
   function DirectMessageScreen({ route }: { route: any }) {
-    const { id, legacy } = route.params
+    const { id, name, legacy } = route.params
     const { pool, privMessageManager } = useContext(RelayContext)
 
     const navigation = useNavigation<any>()
-
-    const [data, setData] = useState([] as BlindedEvent[])
-    const [loading, setLoading] = useState(true)
-
     const textInputRef = useRef<TextInput>(null)
     const highlightedReply = useSharedValue<ReplyInfo | null>(null)
+
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const {
       userStore: { pubkey, addReply, clearReply },
@@ -64,8 +63,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title="Direct Message"
-            titleStyle={{ color: colors.palette.cyan400 }}
+            title={name || "Direct Message"}
+            titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => goBack()}
@@ -90,7 +89,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
           // update state
           setData(sorted)
-          // disable loading
         } catch (e) {
           console.log("dm: error loading messages", e)
         }

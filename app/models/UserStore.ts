@@ -29,7 +29,7 @@ import { sha256 } from "@noble/hashes/sha256"
 import { bytesToHex } from "@noble/hashes/utils"
 import { runInAction } from "mobx"
 import { Profile, ProfileManager } from "app/arclib/src/profile"
-import { PrivateSettings, getProfile, updateProfile } from "app/utils/profile"
+import { PrivateSettings, updateProfile } from "app/utils/profile"
 
 const utf8Encoder = new TextEncoder()
 const DEFAULT_CHANNELS = [
@@ -65,6 +65,8 @@ async function registerNip05(ident: ArcadeIdentity, name: string) {
   }
   return `${name}@arcade.chat`
 }
+
+type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
 
 /**
  * Model description here for TypeScript hints.
@@ -127,8 +129,10 @@ export const UserStoreModel = types
     }),
   }))
   .actions((self) => ({
-    fetchPrivMessages: flow(function* (pool: NostrPool, contacts?: Array<Contact>) {
-      const priv = new PrivateMessageManager(pool)
+    fetchPrivMessages: flow(function* (
+      privMessageManager: PrivateMessageManager,
+      contacts?: Array<Contact>,
+    ) {
       let keys: string[]
       if (contacts) {
         keys = contacts.map((c) => c.pubkey)
@@ -157,7 +161,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield priv.list({ limit: 500 }, true, keys)
+      const list = yield privMessageManager.list({ limit: 200 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -165,7 +169,6 @@ export const UserStoreModel = types
           map.set(ev.pubkey, ev)
         }
       })
-      type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
       const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
         item.lastMessageAt = item.created_at
@@ -235,19 +238,15 @@ export const UserStoreModel = types
       yield storage.save("meta", meta)
     }),
     loginWithNsec: flow(function* (
-      pool: NostrPool,
-      ident: ArcadeIdentity,
       privkey: string,
       pubkey: string,
+      profile: Profile,
+      contacts: Array<Contact>,
+      privMessages: Array<ExtendedItem>,
       channels?: string[],
     ) {
-      const { profile, contacts } = yield getProfile(ident, pubkey)
-
       // update secure storage
       yield secureSet("privkey", privkey)
-
-      // fetch priv messages
-      const privMessages = yield self.fetchPrivMessages(pool, contacts)
 
       // update mobx state, user will redirect to home screen immediately
       applySnapshot(self, {
@@ -329,11 +328,6 @@ export const UserStoreModel = types
           }
         }
       })
-    }),
-    fetchMetadata: flow(function* () {
-      const ident = new ArcadeIdentity(self.privkey)
-      const { profile } = yield getProfile(ident, self.pubkey)
-      self.setProp("metadata", profile)
     }),
     updateMetadata: flow(function* (data: Profile & PrivateSettings, profmgr?: ProfileManager) {
       if (profmgr) {
