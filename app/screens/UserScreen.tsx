@@ -148,7 +148,13 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
           <Button
             text="Message"
             style={$profileButton}
-            onPress={() => navigation.navigate("DirectMessage", { id, legacy })}
+            onPress={() =>
+              navigation.navigate("DirectMessage", {
+                id,
+                name: profile?.username || profile?.name || profile?.display_name,
+                legacy,
+              })
+            }
           />
           <Button
             text={followed ? "Unfollow" : "Follow"}

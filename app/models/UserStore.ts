@@ -6,6 +6,7 @@ import {
   flow,
   cast,
   types,
+  getSnapshot,
 } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
@@ -118,8 +119,14 @@ export const UserStoreModel = types
     get getMetadata() {
       return self.metadata
     },
-    get getPrivMesages() {
-      return [...new Map(self.privMessages.slice().map((item) => [item.pubkey, item])).values()]
+    get getChats() {
+      const chats = getSnapshot(self.privMessages)
+      chats.forEach((chat) => {
+        if (chat.pubkey === self.pubkey) {
+          chat.pubkey = chat.tags.find((el) => el[0] === "p")[1]
+        }
+      })
+      return [...new Map(chats.map((item) => [item.pubkey, item])).values()]
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(() => ({

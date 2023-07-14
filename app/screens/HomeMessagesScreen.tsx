@@ -32,7 +32,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
       userStore: {
         pubkey,
         getChannels,
-        getPrivMesages,
+        getChats,
         addPrivMessage,
         fetchPrivMessages,
         updatePrivMessages,
@@ -44,11 +44,11 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     const now = useRef(Math.floor(Date.now() / 1000))
     const data = useMemo(
       () =>
-        [...getChannels, ...getPrivMesages, ...conversations].sort(
+        [...getChannels, ...getChats, ...conversations].sort(
           (a: { lastMessageAt: number }, b: { lastMessageAt: number }) =>
             b.lastMessageAt - a.lastMessageAt,
         ),
-      [getChannels, getPrivMesages, conversations],
+      [getChannels, getChats, conversations],
     )
 
     const refresh = async () => {
