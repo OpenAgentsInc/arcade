@@ -31,6 +31,7 @@ export const ChannelModel = types
     loading: types.optional(types.boolean, true),
     memberList: types.optional(types.array(types.string), []),
     messages: types.optional(types.array(MessageModel), []),
+    db: types.optional(types.boolean, false),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -49,7 +50,7 @@ export const ChannelModel = types
       const events = yield channel.list({
         channel_id: self.id,
         filter: { since: nHoursAgo(hours) },
-        db_only: true,
+        db_only: self.db,
         privkey: self.privkey,
       })
       // we need make sure event's content is string (some client allow content as number, ex: coracle)
@@ -67,6 +68,7 @@ export const ChannelModel = types
         self.setProp("lastMessageAt", lastMessage.created_at)
       }
       self.setProp("loading", false)
+      self.setProp("db", true)
       self.messages = cast(uniqueEvents)
     }),
     updateLastMessage() {
@@ -78,7 +80,7 @@ export const ChannelModel = types
       }
     },
     fetchMeta: flow(function* (channel: ChannelManager) {
-      const result = yield channel.getMeta(self.id, self.privkey, true)
+      const result = yield channel.getMeta(self.id, self.privkey, false)
       if (result) {
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)

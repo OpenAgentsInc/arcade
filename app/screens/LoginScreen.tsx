@@ -53,14 +53,13 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         setSteps((prev) => ({ ...prev, metadata: false, channels: joinedChannels.length }))
         // create channel in mst
         for (const channel of joinedChannels) {
-          const meta = await channelManager.getMeta(channel)
           channelStore.create({
             id: channel,
             author: "",
             privkey: "",
-            name: meta.name,
-            about: meta.about,
-            picture: meta.picture,
+            name: "",
+            about: "",
+            picture: "",
             is_private: false,
           })
         }

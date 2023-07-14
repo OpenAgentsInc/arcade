@@ -74,8 +74,8 @@ type ExtendedItem = NostrEvent & { lastMessageAt?: number; name?: string }
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    pubkey: "",
-    privkey: "",
+    pubkey: types.maybeNull(types.string),
+    privkey: types.maybeNull(types.string),
     metadata: types.maybeNull(
       types.model({
         picture: types.optional(types.string, "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg"),
@@ -90,7 +90,7 @@ export const UserStoreModel = types
         selloffer_push_enabled: types.optional(types.boolean, false),
       }),
     ),
-    isLoggedIn: false,
+    isLoggedIn: types.optional(types.boolean, false),
     channels: types.array(types.reference(ChannelModel)),
     contacts: types.optional(types.array(ContactModel), []),
     privMessages: types.optional(types.array(MessageModel), []),
