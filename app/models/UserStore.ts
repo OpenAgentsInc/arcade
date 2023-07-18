@@ -266,16 +266,19 @@ export const UserStoreModel = types
         privMessages,
       })
     }),
-    async logout() {
-      await secureDel("privkey")
+    logout: flow(function* (pool: NostrPool) {
+      yield secureDel("privkey")
+      pool.ident = null
       applySnapshot(self, {
         pubkey: "",
         privkey: "",
         isLoggedIn: false,
         channels: [],
         contacts: [],
+        privMessages: [],
+        metadata: null,
       })
-    },
+    }),
     fetchContacts: flow(function* (mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
       const res = yield mgr.list()

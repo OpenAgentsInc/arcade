@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -13,7 +13,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, ListItem, Screen, Text } from "app/components"
+import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
@@ -28,6 +28,7 @@ interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const [npubCopied, setNpubCopied] = useState(false)
 
+  const { pool } = useContext(RelayContext)
   const { getProfile } = useProfile()
   const {
     userStore: { pubkey, metadata, updateMetadata, logout },
@@ -207,7 +208,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         </View>
         <Button
           text="Logout"
-          onPress={() => logout()}
+          onPress={() => logout(pool)}
           style={$mainButton}
           pressedStyle={$mainButton}
         />
