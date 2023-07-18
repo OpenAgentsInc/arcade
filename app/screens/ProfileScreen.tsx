@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react"
+import React, { FC, useCallback, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -15,7 +15,7 @@ import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
@@ -43,15 +43,15 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     setTimeout(() => setNpubCopied(false), 500)
   }
 
-  useEffect(() => {
-    async function refetchProfile() {
-      const profile = await getProfile(pubkey)
-      await updateMetadata(profile)
-    }
-    if (!metadata) {
+  useFocusEffect(
+    useCallback(() => {
+      async function refetchProfile() {
+        const profile = await getProfile(pubkey)
+        await updateMetadata(profile)
+      }
       refetchProfile()
-    }
-  }, [])
+    }, []),
+  )
 
   return (
     <Screen style={$root} preset="scroll">
