@@ -36,7 +36,7 @@ export const PrivacySettingScreen: FC<PrivacySettingScreenProps> = observer(
         // navigate back
         navigation.goBack()
       } catch (e) {
-        alert(`Failed to save settings: ${e}`)
+        alert(`Failed to save settings: ${e}. Please try again later`)
       }
     }
 
