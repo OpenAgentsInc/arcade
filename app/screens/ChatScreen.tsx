@@ -239,8 +239,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               </View>
             }
             contentContainerStyle={$list}
-            removeClippedSubviews={true}
-            estimatedItemSize={60}
+            estimatedItemSize={120}
             inverted={channel.allMessages.length !== 0}
             keyboardDismissMode="none"
           />

@@ -204,8 +204,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
               }
               ListHeaderComponent={<View style={{ height: spacing.small }} />}
               contentContainerStyle={$list}
-              removeClippedSubviews={true}
-              estimatedItemSize={100}
+              estimatedItemSize={120}
               inverted={data.length !== 0}
               keyboardDismissMode="none"
             />
