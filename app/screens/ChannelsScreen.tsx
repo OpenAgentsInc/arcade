@@ -89,13 +89,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
       let res = await channelManager.listChannels(true)
 
       // filter
-      res = res.filter(
-        (el) =>
-          el.name &&
-          isImage(el.picture) &&
-          el.is_private &&
-          !userStore.channels.find((i) => i.id === el.id),
-      )
+      res = res.filter((el) => el.name && isImage(el.picture) && el.is_private)
 
       // final array
       const final = Array.from(new Set([...prev, ...res])).sort(
@@ -128,7 +122,15 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
               </View>
             </View>
             <View style={$itemActions}>
-              <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
+              {!userStore.channels.find((el) => el.id === item.id) ? (
+                <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
+              ) : (
+                <Button
+                  onPress={() => navigation.navigate("Chat", item)}
+                  text="View channel"
+                  style={$itemButton}
+                />
+              )}
             </View>
           </View>
         }
