@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -86,7 +86,18 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     }
 
     async function initChannels(prev) {
-      const res = await channelManager.listChannels(true)
+      let res = await channelManager.listChannels(true)
+
+      // filter
+      res = res.filter(
+        (el) =>
+          el.name &&
+          isImage(el.picture) &&
+          el.is_private &&
+          !userStore.channels.find((i) => i.id === el.id),
+      )
+
+      // final array
       const final = Array.from(new Set([...prev, ...res])).sort(
         (a, b) => +b.is_private - +a.is_private,
       )
@@ -98,6 +109,34 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
       .catch(console.error)
   }, [])
 
+  const renderItem = useCallback(({ item }: { item: ChannelInfo }) => {
+    return (
+      <Card
+        preset="reversed"
+        ContentComponent={
+          <View style={$item}>
+            <View style={$itemContent}>
+              <AutoImage
+                source={{
+                  uri: item.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+                }}
+                style={$itemImage}
+              />
+              <View>
+                <Text text={item.name} preset="bold" />
+                <Text text={item.about} />
+              </View>
+            </View>
+            <View style={$itemActions}>
+              <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
+            </View>
+          </View>
+        }
+        style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
+      />
+    )
+  }, [])
+
   return (
     <Screen style={$root} preset="scroll">
       <View style={[$root, $container]}>
@@ -106,45 +145,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
             keyExtractor={(item) => item.id}
             data={data}
             extraData={userStore.getChannels}
-            renderItem={({ item }) => {
-              // no name or short channel name, mostly spam
-              if (!item.name) {
-                return null
-              }
-              // invalid image url, mark as spam
-              if (!isImage(item.picture) && !item.is_private) {
-                return null
-              }
-              // user joined channel, skip
-              if (userStore.channels.find((el) => el.id === item.id)) {
-                return null
-              }
-              return (
-                <Card
-                  preset="reversed"
-                  ContentComponent={
-                    <View style={$item}>
-                      <View style={$itemContent}>
-                        <AutoImage
-                          source={{
-                            uri: item.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-                          }}
-                          style={$itemImage}
-                        />
-                        <View>
-                          <Text text={item.name} preset="bold" />
-                          <Text text={item.about} />
-                        </View>
-                      </View>
-                      <View style={$itemActions}>
-                        <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
-                      </View>
-                    </View>
-                  }
-                  style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
-                />
-              )
-            }}
+            renderItem={renderItem}
             ListEmptyComponent={<Text text="Loading..." />}
             estimatedItemSize={300}
           />
