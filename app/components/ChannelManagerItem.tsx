@@ -26,7 +26,7 @@ export const ChannelManagerItem = observer(function ChannelItem({
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={$messageItem}>
       <AutoImage
-        source={{ uri: channel?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: channel?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={$messageAvatar}
       />
       <View style={$messageContent}>

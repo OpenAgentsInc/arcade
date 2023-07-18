@@ -55,7 +55,7 @@ export const ChannelItem = observer(function ChannelItem({
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
       <Image
-        source={{ uri: channel.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: channel.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={styles.$messageAvatar}
       />
       <View style={styles.$messageContent}>

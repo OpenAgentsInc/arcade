@@ -23,7 +23,7 @@ export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: s
     <View style={$item}>
       <Image
         source={{
-          uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+          uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
         }}
         style={$itemAvatar}
       />

@@ -13,14 +13,6 @@ import { Contact } from "app/arclib/src/contacts"
 
 interface ContactsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Contacts">> {}
 
-const colors2 = {
-  black: "black",
-  bottomBarBackground: "rgba(0,24,24,0.65)",
-  bottomBarBorder: "rgba(0,48,48,0.85)",
-  logo: "#155e75",
-  logoActive: "cyan",
-}
-
 export const ContactsScreen: FC<ContactsScreenProps> = observer(function ContactsScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -88,8 +80,8 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         estimatedItemSize={50}
         refreshControl={
           <RefreshControl
-            colors={[colors2.logo, colors2.logoActive]}
-            tintColor={colors2.logoActive}
+            colors={["#155e75", "cyan"]}
+            tintColor={"cyan"}
             refreshing={isRefresh}
             onRefresh={refresh}
           />

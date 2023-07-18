@@ -112,7 +112,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
             <View style={$itemContent}>
               <AutoImage
                 source={{
-                  uri: item.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
+                  uri: item.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
                 }}
                 style={$itemImage}
               />
