@@ -34,10 +34,12 @@ export const useRecording = (sendFunction) => {
     })
     const uri = recording.getURI()
 
+    const theRecording = recording
+
     console.log("Recording stopped and stored at", uri)
-    await uploadAudio()
-    console.log("uploaded audio, now setting blank")
     setRecording(undefined)
+    await uploadAudio(theRecording)
+    console.log("uploaded audio, now setting blank")
   }
 
   const toggleRecording = () => {
@@ -48,7 +50,7 @@ export const useRecording = (sendFunction) => {
     }
   }
 
-  const uploadAudio = async () => {
+  const uploadAudio = async (recording) => {
     const uri = recording.getURI()
     console.log("Uploading " + uri)
     try {
