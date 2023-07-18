@@ -266,9 +266,11 @@ export const UserStoreModel = types
         privMessages,
       })
     }),
-    logout: flow(function* (pool: NostrPool) {
-      yield secureDel("privkey")
+    logout: flow(function* (pool: NostrPool, contactManager: ContactManager) {
       pool.ident = null
+      contactManager.contacts = new Map()
+
+      yield secureDel("privkey")
       applySnapshot(self, {
         pubkey: "",
         privkey: "",
@@ -281,8 +283,9 @@ export const UserStoreModel = types
     }),
     fetchContacts: flow(function* (mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
-      const res = yield mgr.list()
-      self.setProp("contacts", res)
+      yield mgr.readContacts()
+      const get = yield mgr.list()
+      self.setProp("contacts", get)
     }),
     addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
       yield mgr.add(contact)
