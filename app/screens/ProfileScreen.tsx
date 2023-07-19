@@ -28,7 +28,7 @@ interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const [npubCopied, setNpubCopied] = useState(false)
 
-  const { pool, contactManager } = useContext(RelayContext)
+  const { pool, contactManager, channelManager } = useContext(RelayContext)
   const { getProfile } = useProfile()
   const {
     userStore: { pubkey, metadata, updateMetadata, logout },
@@ -209,7 +209,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         </View>
         <Button
           text="Logout"
-          onPress={() => logout(pool, contactManager)}
+          onPress={() => logout(pool, contactManager, channelManager)}
           style={$mainButton}
           pressedStyle={$mainButton}
         />

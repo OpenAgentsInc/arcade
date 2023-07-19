@@ -109,7 +109,9 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
             alert("You're using this relay, please add another")
           }
         } else {
-          alert("Relay must be use websocket protocol, please check again")
+          alert(
+            "Relay must use websocket protocol (start with wss:// or ws://), please check again",
+          )
         }
       } catch {
         alert("Relay is not valid, please check again")

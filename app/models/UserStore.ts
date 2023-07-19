@@ -266,9 +266,14 @@ export const UserStoreModel = types
         privMessages,
       })
     }),
-    logout: flow(function* (pool: NostrPool, contactManager: ContactManager) {
+    logout: flow(function* (
+      pool: NostrPool,
+      contactManager: ContactManager,
+      channelManager: ChannelManager,
+    ) {
       pool.ident = null
       contactManager.contacts = new Map()
+      channelManager.joined = new Set()
 
       yield secureDel("privkey")
       applySnapshot(self, {
