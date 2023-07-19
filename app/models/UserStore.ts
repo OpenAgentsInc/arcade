@@ -168,7 +168,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield privMessageManager.list({ limit: 200 }, false, keys)
+      const list = yield privMessageManager.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)

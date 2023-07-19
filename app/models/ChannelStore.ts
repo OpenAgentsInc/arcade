@@ -28,6 +28,7 @@ export const ChannelStoreModel = types
           about: meta.about,
           privkey: meta.privkey,
           lastMessageAt: Math.floor(Date.now() / 1000),
+          is_private: meta.is_private,
         })
       }
     },
