@@ -33,6 +33,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
         pubkey,
         getChannels,
         getChats,
+        fetchInvites,
         addPrivMessage,
         fetchPrivMessages,
         updatePrivMessages,
@@ -53,6 +54,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     const refresh = async () => {
       setIsRefresh(true)
+      await fetchInvites(pool, privMessageManager, pubkey)
       const messages = await fetchPrivMessages(privMessageManager)
       if (messages) {
         updatePrivMessages(messages)
@@ -68,7 +70,6 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
       async function subscribe() {
         return privMessageManager.sub(handleNewMessage, {
-          kinds: [4],
           "#p": [pubkey],
           since: now.current,
         })

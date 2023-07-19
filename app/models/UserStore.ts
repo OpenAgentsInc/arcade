@@ -194,6 +194,20 @@ export const UserStoreModel = types
       if (index !== -1) self.channels.splice(index, 1)
       mgr.leave(id)
     },
+    fetchInvites: flow(function* (
+      pool: NostrPool,
+      privMessageManager: PrivateMessageManager,
+      pubkey: string,
+    ) {
+      const invites = yield pool.list([{ kinds: [99], "#p": [pubkey] }], false)
+      for (const ev of invites) {
+        const invite = yield privMessageManager.decrypt(ev, [ev.pubkey])
+        const channel = JSON.parse(invite.content)
+        // join invite channel
+        const index = self.channels.findIndex((el: { id: string }) => el.id === channel.id)
+        if (index === -1) self.channels.push(ChannelModel.create(channel))
+      }
+    }),
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
