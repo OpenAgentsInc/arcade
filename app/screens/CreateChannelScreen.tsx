@@ -92,7 +92,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
           if (fullData.is_private) {
             // redirect to invite screen
-            navigation.replace("ContactPicker", {
+            navigation.replace("Invite", {
               id: info.id,
               name: info.name,
               privkey: info.privkey,

@@ -33,7 +33,7 @@ export type AppStackParamList = {
   DirectMessage: undefined
   CreateChannel: undefined
   Contacts: undefined
-  ContactPicker: undefined
+  Invite: undefined
   ChannelManager: undefined
   RelayManager: undefined
   NotificationSetting: undefined
@@ -78,7 +78,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="DirectMessage" component={Screens.DirectMessageScreen} />
           <Stack.Screen name="AddContact" component={Screens.AddContactScreen} />
           <Stack.Screen name="Contacts" component={Screens.ContactsScreen} />
-          <Stack.Screen name="ContactPicker" component={Screens.ContactPickerScreen} />
+          <Stack.Screen name="Invite" component={Screens.InviteScreen} />
           <Stack.Screen name="ChannelManager" component={Screens.ChannelManagerScreen} />
           <Stack.Screen name="RelayManager" component={Screens.RelayManagerScreen} />
           <Stack.Screen name="NotificationSetting" component={Screens.NotificationSettingScreen} />

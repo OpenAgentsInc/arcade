@@ -9,7 +9,6 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
 import { ChannelInfo, Nip28ChannelInfo, NostrEvent } from "app/arclib/src"
 
@@ -88,13 +87,12 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     async function initChannels(prev) {
       let res = await channelManager.listChannels(true)
 
-      // filter
-      res = res.filter((el) => el.name && isImage(el.picture) && el.is_private)
+      // remove private channel
+      res = res.filter((el) => !el.is_private)
 
-      // final array
-      const final = Array.from(new Set([...prev, ...res])).sort(
-        (a, b) => +b.is_private - +a.is_private,
-      )
+      // merge array, remove dup
+      const final = [...new Map([...prev, ...res].map((el) => [el.id, el])).values()]
+
       setData(final)
     }
 
