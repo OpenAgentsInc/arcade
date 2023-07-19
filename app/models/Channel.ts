@@ -50,7 +50,7 @@ export const ChannelModel = types
       const events = yield channel.list({
         channel_id: self.id,
         filter: { limit: 500 },
-        db_only: false,
+        db_only: self.db,
         privkey: self.privkey,
       })
       // we need make sure event's content is string (some client allow content as number, ex: coracle)
