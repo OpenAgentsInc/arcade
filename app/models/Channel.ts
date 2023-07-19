@@ -11,7 +11,7 @@ import {
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 
-const nHoursAgo = (hrs: number): number => Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
+// const nHoursAgo = (hrs: number): number => Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
 
 /**
  * Model description here for TypeScript hints.
@@ -46,11 +46,11 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
-    fetchMessages: flow(function* (channel: ChannelManager, hours: number) {
+    fetchMessages: flow(function* (channel: ChannelManager) {
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { since: nHoursAgo(hours) },
-        db_only: self.db,
+        filter: { limit: 500 },
+        db_only: false,
         privkey: self.privkey,
       })
       // we need make sure event's content is string (some client allow content as number, ex: coracle)

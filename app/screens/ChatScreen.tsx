@@ -51,7 +51,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     channelStore: { getChannel },
   } = useStores()
 
-  // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   // get channel by using resolver identifier
@@ -148,7 +147,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   useEffect(() => {
     // fetch messages in 24 hours ago
-    channel.fetchMessages(channelManager, 24)
+    channel.fetchMessages(channelManager)
+
     return () => {
       clearReply()
       channel.updateLastMessage()
