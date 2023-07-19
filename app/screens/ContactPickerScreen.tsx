@@ -15,9 +15,8 @@ import { ContactItem, Header, RelayContext, Screen, Text, Button } from "app/com
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
-import { CheckCircle2Icon } from "lucide-react-native"
+import { ArrowRightIcon, CheckCircle2Icon } from "lucide-react-native"
 import { EncChannel } from "app/arclib/src"
-import { useUserContacts } from "app/utils/useUserContacts"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -36,6 +35,7 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     const { id, name, privkey } = route.params
     const { pool } = useContext(RelayContext)
     const {
+      userStore: { getContacts },
       channelStore: { getChannel },
     } = useStores()
 
@@ -51,9 +51,8 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     const [custom, setCustom] = useState([])
 
     const navigation = useNavigation<any>()
-    const contacts = useUserContacts()
 
-    const data = contacts.concat(custom)
+    const data = custom.concat(getContacts)
 
     const toggleSelect = (pubkey: string) => {
       const arr = selected.includes(pubkey)
@@ -117,17 +116,20 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
     }
 
     const addCustomContact = async (data) => {
-      let pubkey = data.pubkey
+      let pubkey = data.pubkey.trim()
       try {
         pubkey = await resolvePubkey(pubkey)
-      } catch {
+        if (getContacts.find((e) => e.pubkey === pubkey)) {
+          alert("Contact has been added")
+          return
+        }
+        setCustom((prev) => [...prev, { pubkey, secret: false, legacy: true }])
+        setSelected((prev) => [...prev, pubkey])
+        // reset form
+        formikRef.current?.resetForm()
+      } catch (e) {
         alert(`Invalid contact, please make sure you enter valid public key or npub`)
-        return
       }
-      setCustom((prev) => [...prev, pubkey])
-      setSelected(pubkey)
-      // reset form
-      formikRef.current?.resetForm()
     }
 
     const handlePresentModalPress = useCallback(() => {
@@ -152,28 +154,33 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
       })
     }, [])
 
+    const renderItem = useCallback(
+      ({ item }) => {
+        return (
+          <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
+            <ContactItem pubkey={item.pubkey} />
+            {!channel.members.includes(item.pubkey) ? (
+              selected.includes(item.pubkey) && (
+                <View>
+                  <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
+                </View>
+              )
+            ) : (
+              <Text text="Added" size="sm" />
+            )}
+          </Pressable>
+        )
+      },
+      [selected],
+    )
+
     return (
       <BottomSheetModalProvider>
-        <Screen preset="scroll" contentContainerStyle={$root}>
+        <Screen preset="fixed" contentContainerStyle={$root}>
           <FlashList
             data={data}
             keyExtractor={(item) => item.pubkey}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
-                <ContactItem pubkey={item.pubkey} />
-                {!channel.members.includes(item.pubkey) ? (
-                  selected.includes(item.pubkey) ? (
-                    <View>
-                      <CheckCircle2Icon width={16} height={16} color={colors.palette.cyan500} />
-                    </View>
-                  ) : (
-                    <Text text="Add" size="sm" />
-                  )
-                ) : (
-                  <Text text="Added" size="sm" />
-                )}
-              </Pressable>
-            )}
+            renderItem={renderItem}
             ListEmptyComponent={
               <View style={$emptyState}>
                 <Text text="You have no contacts on Arcade yet" />
@@ -188,12 +195,15 @@ export const ContactPickerScreen: FC<ContactPickerScreenProps> = observer(
               </View>
             }
             estimatedItemSize={50}
+            contentContainerStyle={$list}
           />
         </Screen>
         <View style={$floating}>
           <Button
-            text="Done"
-            style={$formButton}
+            LeftAccessory={() => (
+              <ArrowRightIcon width={24} height={24} color={colors.palette.white} />
+            )}
+            style={$formFloatingButton}
             pressedStyle={$formButtonActive}
             onPress={() => done()}
           />
@@ -259,6 +269,10 @@ const $emptyState: ViewStyle = {
   paddingVertical: spacing.medium,
 }
 
+const $list: ViewStyle = {
+  paddingBottom: 100,
+}
+
 const $contact: ViewStyle = {
   flexDirection: "row",
   justifyContent: "space-between",
@@ -322,6 +336,16 @@ const $formButtonActive: ViewStyle = {
 
 const $floating: ViewStyle = {
   position: "absolute",
+  right: spacing.small,
   bottom: spacing.extraLarge,
-  alignSelf: "center",
+  alignSelf: "flex-end",
+}
+
+const $formFloatingButton: ViewStyle = {
+  width: 50,
+  height: 50,
+  minHeight: 50,
+  backgroundColor: colors.palette.cyan500,
+  borderWidth: 0,
+  borderRadius: 50,
 }
