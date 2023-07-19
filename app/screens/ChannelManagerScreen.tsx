@@ -42,7 +42,7 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
     }
 
     const invite = (info: { id: string; name: string; privkey: string }) => {
-      navigation.navigate("ContactPicker", {
+      navigation.navigate("Invite", {
         id: info.id,
         name: info.name,
         privkey: info.privkey,

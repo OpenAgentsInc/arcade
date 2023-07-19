@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
+import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -9,7 +9,6 @@ import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
-import { isImage } from "app/utils/isImage"
 import { PlusIcon } from "lucide-react-native"
 import { ChannelInfo, Nip28ChannelInfo, NostrEvent } from "app/arclib/src"
 
@@ -86,16 +85,56 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
     }
 
     async function initChannels(prev) {
-      const res = await channelManager.listChannels(true)
-      const final = Array.from(new Set([...prev, ...res])).sort(
-        (a, b) => +b.is_private - +a.is_private,
-      )
+      let res = await channelManager.listChannels(true)
+
+      // remove private channel
+      res = res.filter((el) => !el.is_private)
+
+      // merge array, remove dup
+      const final = [...new Map([...prev, ...res].map((el) => [el.id, el])).values()]
+
       setData(final)
     }
 
     initTop()
       .then((prev) => initChannels(prev).catch(console.error))
       .catch(console.error)
+  }, [])
+
+  const renderItem = useCallback(({ item }: { item: ChannelInfo }) => {
+    return (
+      <Card
+        preset="reversed"
+        ContentComponent={
+          <View style={$item}>
+            <View style={$itemContent}>
+              <AutoImage
+                source={{
+                  uri: item.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+                }}
+                style={$itemImage}
+              />
+              <View>
+                <Text text={item.name} preset="bold" />
+                <Text text={item.about} />
+              </View>
+            </View>
+            <View style={$itemActions}>
+              {!userStore.channels.find((el) => el.id === item.id) ? (
+                <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
+              ) : (
+                <Button
+                  onPress={() => navigation.navigate("Chat", item)}
+                  text="View channel"
+                  style={$itemButton}
+                />
+              )}
+            </View>
+          </View>
+        }
+        style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
+      />
+    )
   }, [])
 
   return (
@@ -106,45 +145,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
             keyExtractor={(item) => item.id}
             data={data}
             extraData={userStore.getChannels}
-            renderItem={({ item }) => {
-              // no name or short channel name, mostly spam
-              if (!item.name) {
-                return null
-              }
-              // invalid image url, mark as spam
-              if (!isImage(item.picture) && !item.is_private) {
-                return null
-              }
-              // user joined channel, skip
-              if (userStore.channels.find((el) => el.id === item.id)) {
-                return null
-              }
-              return (
-                <Card
-                  preset="reversed"
-                  ContentComponent={
-                    <View style={$item}>
-                      <View style={$itemContent}>
-                        <AutoImage
-                          source={{
-                            uri: item.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp",
-                          }}
-                          style={$itemImage}
-                        />
-                        <View>
-                          <Text text={item.name} preset="bold" />
-                          <Text text={item.about} />
-                        </View>
-                      </View>
-                      <View style={$itemActions}>
-                        <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
-                      </View>
-                    </View>
-                  }
-                  style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
-                />
-              )
-            }}
+            renderItem={renderItem}
             ListEmptyComponent={<Text text="Loading..." />}
             estimatedItemSize={300}
           />

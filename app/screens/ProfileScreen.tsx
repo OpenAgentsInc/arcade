@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useCallback, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -13,9 +13,9 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
-import { AutoImage, Button, ListItem, Screen, Text } from "app/components"
+import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
@@ -28,6 +28,7 @@ interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<
 export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileScreen() {
   const [npubCopied, setNpubCopied] = useState(false)
 
+  const { pool, contactManager, channelManager } = useContext(RelayContext)
   const { getProfile } = useProfile()
   const {
     userStore: { pubkey, metadata, updateMetadata, logout },
@@ -42,15 +43,15 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     setTimeout(() => setNpubCopied(false), 500)
   }
 
-  useEffect(() => {
-    async function refetchProfile() {
-      const profile = await getProfile(pubkey)
-      await updateMetadata(profile)
-    }
-    if (!metadata) {
+  useFocusEffect(
+    useCallback(() => {
+      async function refetchProfile() {
+        const profile = await getProfile(pubkey)
+        await updateMetadata(profile)
+      }
       refetchProfile()
-    }
-  }, [])
+    }, []),
+  )
 
   return (
     <Screen style={$root} preset="scroll">
@@ -147,16 +148,17 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
                 style={$sectionButton}
                 onPress={() => navigation.navigate("RelayManager")}
               />
+              {Platform.OS !== "ios" && (
+                <ListItem
+                  text="Notifications"
+                  leftIcon="Bell"
+                  leftIconColor={colors.palette.cyan500}
+                  bottomSeparator={true}
+                  style={$sectionButton}
+                  onPress={() => navigation.navigate("NotificationSetting")}
+                />
+              )}
 
-              <ListItem
-                text="Notifications"
-                leftIcon="Bell"
-                leftIconColor={colors.palette.cyan500}
-                bottomSeparator={true}
-                style={$sectionButton}
-                onPress={() => navigation.navigate("NotificationSetting")}
-                disabled={Platform.OS === "ios"}
-              />
               <ListItem
                 text="Privacy"
                 leftIcon="EyeOff"
@@ -207,7 +209,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
         </View>
         <Button
           text="Logout"
-          onPress={() => logout()}
+          onPress={() => logout(pool, contactManager, channelManager)}
           style={$mainButton}
           pressedStyle={$mainButton}
         />

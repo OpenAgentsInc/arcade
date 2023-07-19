@@ -168,7 +168,7 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield privMessageManager.list({ limit: 200 }, false, keys)
+      const list = yield privMessageManager.list({ limit: 500 }, false, keys)
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
         const was = map.get(ev.pubkey)
@@ -194,6 +194,20 @@ export const UserStoreModel = types
       if (index !== -1) self.channels.splice(index, 1)
       mgr.leave(id)
     },
+    fetchInvites: flow(function* (
+      pool: NostrPool,
+      privMessageManager: PrivateMessageManager,
+      pubkey: string,
+    ) {
+      const invites = yield pool.list([{ kinds: [99], "#p": [pubkey] }], false)
+      for (const ev of invites) {
+        const invite = yield privMessageManager.decrypt(ev, [ev.pubkey])
+        const channel = JSON.parse(invite.content)
+        // join invite channel
+        const index = self.channels.findIndex((el: { id: string }) => el.id === channel.id)
+        if (index === -1) self.channels.push(ChannelModel.create(channel))
+      }
+    }),
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
@@ -266,20 +280,31 @@ export const UserStoreModel = types
         privMessages,
       })
     }),
-    async logout() {
-      await secureDel("privkey")
+    logout: flow(function* (
+      pool: NostrPool,
+      contactManager: ContactManager,
+      channelManager: ChannelManager,
+    ) {
+      pool.ident = null
+      contactManager.contacts = new Map()
+      channelManager.joined = new Set()
+
+      yield secureDel("privkey")
       applySnapshot(self, {
         pubkey: "",
         privkey: "",
         isLoggedIn: false,
         channels: [],
         contacts: [],
+        privMessages: [],
+        metadata: null,
       })
-    },
+    }),
     fetchContacts: flow(function* (mgr: ContactManager) {
       if (!self.pubkey) throw new Error("pubkey not found")
-      const res = yield mgr.list()
-      self.setProp("contacts", res)
+      yield mgr.readContacts()
+      const get = yield mgr.list()
+      self.setProp("contacts", get)
     }),
     addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
       yield mgr.add(contact)

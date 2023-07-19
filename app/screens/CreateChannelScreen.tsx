@@ -9,7 +9,7 @@ import { colors, spacing } from "app/theme"
 import { Formik } from "formik"
 import { useStores } from "app/models"
 import { ChannelInfo } from "app/arclib/src"
-import { CheckIcon, ImagePlusIcon } from "lucide-react-native"
+import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 
 interface CreateChannelScreenProps
@@ -92,7 +92,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
 
           if (fullData.is_private) {
             // redirect to invite screen
-            navigation.replace("ContactPicker", {
+            navigation.replace("Invite", {
               id: info.id,
               name: info.name,
               privkey: info.privkey,
@@ -117,19 +117,9 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}
-            RightActionComponent={
-              creating ? (
-                <ActivityIndicator
-                  color={colors.palette.white}
-                  animating={creating}
-                  style={$avatarButton}
-                />
-              ) : (
-                <Pressable onPress={() => formikRef.current.submitForm()} disabled={creating}>
-                  <CheckIcon color={colors.palette.cyan400} />
-                </Pressable>
-              )
-            }
+            rightIcon="check"
+            rightIconColor={colors.palette.cyan400}
+            onRightPress={() => formikRef.current.submitForm()}
           />
         ),
       })

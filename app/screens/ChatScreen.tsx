@@ -51,7 +51,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     channelStore: { getChannel },
   } = useStores()
 
-  // Pull in navigation via hook
   const navigation = useNavigation<any>()
 
   // get channel by using resolver identifier
@@ -148,7 +147,8 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
 
   useEffect(() => {
     // fetch messages in 24 hours ago
-    channel.fetchMessages(channelManager, 24)
+    channel.fetchMessages(channelManager)
+
     return () => {
       clearReply()
       channel.updateLastMessage()
@@ -239,8 +239,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
               </View>
             }
             contentContainerStyle={$list}
-            removeClippedSubviews={true}
-            estimatedItemSize={60}
+            estimatedItemSize={120}
             inverted={channel.allMessages.length !== 0}
             keyboardDismissMode="none"
           />

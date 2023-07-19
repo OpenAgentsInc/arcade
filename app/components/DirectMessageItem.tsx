@@ -51,7 +51,7 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
       style={styles.$messageItem}
     >
       <Image
-        source={{ uri: profile?.picture || "https://void.cat/d/KmypFh2fBdYCEvyJrPiN89.webp" }}
+        source={{ uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={styles.$messageAvatar}
       />
       <View style={styles.$messageContent}>

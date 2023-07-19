@@ -1,6 +1,6 @@
-import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect } from "react"
+import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, View, ViewStyle } from "react-native"
+import { Pressable, RefreshControl, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
@@ -22,12 +22,16 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     userStore: { getContacts, fetchContacts, removeContact },
   } = useStores()
 
+  const [isRefresh, setIsRefresh] = useState(false)
+
   const unfollow = (pubkey: string) => {
     removeContact(pubkey, contactManager)
   }
 
-  const refresh = () => {
-    fetchContacts(contactManager)
+  const refresh = async () => {
+    setIsRefresh(true)
+    await fetchContacts(contactManager)
+    setIsRefresh(false)
   }
 
   useLayoutEffect(() => {
@@ -37,9 +41,6 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
         <Header
           title="Contacts"
           titleStyle={{ color: colors.palette.white }}
-          leftIcon="RefreshCcw"
-          leftIconColor={colors.palette.cyan400}
-          onLeftPress={() => refresh()}
           rightIcon="Plus"
           rightIconColor={colors.palette.cyan400}
           onRightPress={() => navigation.navigate("AddContact")}
@@ -61,7 +62,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   }, [])
 
   return (
-    <Screen style={$root} preset="scroll">
+    <Screen contentContainerStyle={$root} preset="fixed">
       <FlashList
         data={getContacts}
         keyExtractor={(item) => item.pubkey}
@@ -77,6 +78,14 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
           </View>
         }
         estimatedItemSize={50}
+        refreshControl={
+          <RefreshControl
+            colors={["#155e75", "cyan"]}
+            tintColor={"cyan"}
+            refreshing={isRefresh}
+            onRefresh={refresh}
+          />
+        }
       />
     </Screen>
   )

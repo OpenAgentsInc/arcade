@@ -40,7 +40,7 @@ export const ChannelMembersScreen: FC<ChannelMembersScreenProps> = observer(
             rightIcon="Plus"
             rightIconColor={colors.palette.cyan400}
             onRightPress={() =>
-              navigation.navigate("ContactPicker", {
+              navigation.navigate("Invite", {
                 id,
                 name,
                 privkey,
