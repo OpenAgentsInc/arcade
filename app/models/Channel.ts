@@ -1,4 +1,4 @@
-import { ChannelManager, NostrEvent } from "app/arclib/src"
+import { ChannelManager, NostrEvent, NostrPool } from "app/arclib/src"
 import {
   Instance,
   SnapshotIn,
@@ -10,6 +10,7 @@ import {
 } from "mobx-state-tree"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
+import { QueryClient, notifyManager } from "@tanstack/react-query"
 
 // const nHoursAgo = (hrs: number): number => Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
 
@@ -46,12 +47,24 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
-    fetchMessages: flow(function* (channel: ChannelManager) {
+    fetchMessages: flow(function* (
+      queryClient: QueryClient,
+      pool: NostrPool,
+      channel: ChannelManager,
+    ) {
       const events = yield channel.list({
         channel_id: self.id,
         filter: { limit: 500 },
         db_only: self.db,
         privkey: self.privkey,
+      })
+      // batch fetch user's metadata
+      const authors = [...new Set(events.map((ev: NostrEvent) => ev.pubkey))] as string[]
+      const meta: NostrEvent[] = yield pool.list([{ authors, kinds: [0] }], true)
+      notifyManager.batch(() => {
+        meta.forEach((user) =>
+          queryClient.setQueryData(["user", user.pubkey], JSON.parse(user.content)),
+        )
       })
       // we need make sure event's content is string (some client allow content as number, ex: coracle)
       // but this function maybe hurt performance
