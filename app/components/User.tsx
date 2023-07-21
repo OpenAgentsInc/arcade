@@ -31,9 +31,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
       }
       return null
     },
-    initialData: () => {
-      return queryClient.getQueryData(["user", pubkey])
-    },
+    initialData: () => queryClient.getQueryData(["user", pubkey]),
   })
 
   const redirect = () => {

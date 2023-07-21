@@ -78,15 +78,8 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
           })
         }
 
-        // loading finish, subscribe for new message
-        if (!loading) {
-          privMessageManager.sub(
-            handleNewDM,
-            { since: Math.floor(Date.now() / 1000) },
-            undefined,
-            id,
-          )
-        }
+        // subscribe for new message
+        privMessageManager.sub(handleNewDM, { since: Math.floor(Date.now() / 1000) }, undefined, id)
 
         return () => {
           pool.unsub(handleNewDM)
