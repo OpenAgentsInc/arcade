@@ -124,7 +124,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
       }
 
       async function subscribe() {
-        console.log("subscribe")
         return await channelManager.sub({
           channel_id: channel.id,
           callback: handleNewMessage,
@@ -135,19 +134,21 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
         })
       }
 
-      // subscribe for new messages
-      subscribe().catch(console.error)
+      // channel finish loading, subscribe for new messages
+      if (channel.loading === false) {
+        subscribe().catch(console.error)
+      }
 
       return () => {
         console.log("unsubscribe")
         pool.unsub(handleNewMessage)
       }
-    }, []),
+    }, [id, channel.loading]),
   )
 
   useEffect(() => {
     // fetch messages in 24 hours ago
-    channel.fetchMessages(channelManager)
+    channel.fetchMessages(queryClient, pool, channelManager)
 
     return () => {
       clearReply()

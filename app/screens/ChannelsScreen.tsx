@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Card, Header, Screen, Text, Button, AutoImage } from "app/components"
+import { Card, Header, Screen, Text, Button, AutoImage, ActivityIndicator } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
@@ -146,7 +146,11 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
             data={data}
             extraData={userStore.getChannels}
             renderItem={renderItem}
-            ListEmptyComponent={<Text text="Loading..." />}
+            ListEmptyComponent={
+              <View style={$emptyState}>
+                <ActivityIndicator type="small" />
+              </View>
+            }
             estimatedItemSize={300}
           />
         </View>
@@ -232,4 +236,9 @@ const $itemButton: ViewStyle = {
   paddingVertical: 0,
   height: 30,
   minHeight: 30,
+}
+
+const $emptyState: ViewStyle = {
+  alignSelf: "center",
+  paddingVertical: spacing.medium,
 }

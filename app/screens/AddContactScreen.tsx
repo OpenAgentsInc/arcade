@@ -66,7 +66,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         pubkey = nip19.decode(pubkey).data as string
       }
       if (getContacts.find((e) => e.pubkey === pubkey)) {
-        alert("Contact has been added")
+        alert("Contact has been added already")
         return
       }
       addContact({ pubkey, legacy: true, secret: false }, contactManager)

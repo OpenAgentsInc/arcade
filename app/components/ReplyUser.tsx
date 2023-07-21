@@ -1,19 +1,24 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import React, { useContext } from "react"
 import { TextStyle, View } from "react-native"
 import { RelayContext, Text } from "app/components"
 import { colors } from "app/theme"
 
 export function ReplyUser({ pubkey }: { pubkey: string }) {
+  const queryClient = useQueryClient()
   const { pool } = useContext(RelayContext)
 
-  const { data: profile } = useQuery(["user", pubkey], async () => {
-    const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
-    const latest = list.slice(-1)[0]
-    if (latest) {
-      return JSON.parse(latest.content)
-    }
-    return null
+  const { data: profile } = useQuery({
+    queryKey: ["user", pubkey],
+    queryFn: async () => {
+      const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
+      const latest = list.slice(-1)[0]
+      if (latest) {
+        return JSON.parse(latest.content)
+      }
+      return null
+    },
+    initialData: () => queryClient.getQueryData(["user", pubkey]),
   })
 
   return (

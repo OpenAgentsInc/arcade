@@ -1,33 +1,43 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Linking, TextStyle, View, ViewStyle } from "react-native"
 import { getLinkPreview } from "link-preview-js"
 import AutoHeightImage from "react-native-auto-height-image"
 import { Text } from "app/components"
 import { colors, spacing } from "app/theme"
+import { useQuery } from "@tanstack/react-query"
 
 export function LinkPreview({ width, url }: { width: number; url: string }) {
   const domain = new URL(url)
-  const [preview, setPreview] = useState(null)
-
-  useEffect(() => {
-    getLinkPreview(url).then((data) => setPreview(data))
-  }, [url])
+  const { status, data: preview } = useQuery(
+    ["og", url],
+    async () => {
+      return await getLinkPreview(url)
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      staleTime: Infinity,
+    },
+  )
 
   return (
     <View style={$opWrapper}>
-      {!preview ? (
+      {status === "loading" ? (
         <Text text="Loading..." />
+      ) : status === "error" ? (
+        <Text text="Failed to fetch open graph..." />
       ) : (
         <>
-          {preview.images[0] && (
-            <AutoHeightImage width={width} source={{ uri: preview.images[0] }} />
+          {preview?.images?.[0] && (
+            <AutoHeightImage width={width} source={{ uri: preview?.images[0] }} />
           )}
           <View style={$opContent}>
-            <Text text={preview.title} preset="bold" size="sm" style={$ogTitle} />
-            <Text text={preview.description} size="sm" style={$ogDesc} />
+            <Text text={preview?.title} preset="bold" size="sm" style={$ogTitle} />
+            <Text text={preview?.description} size="sm" style={$ogDesc} numberOfLines={3} />
             <Text
               text={domain.hostname}
-              onPress={() => Linking.openURL(preview.url)}
+              onPress={() => Linking.openURL(preview?.url)}
               style={$ogDomain}
             />
           </View>

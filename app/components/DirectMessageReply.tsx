@@ -5,6 +5,7 @@ import { Icon } from "./Icon"
 import ReText from "./ReText"
 import React from "react"
 import { TouchableFeedback } from "./TouchableFeedback"
+import { useStores } from "app/models"
 
 export type ReplyInfo = {
   sender: string
@@ -17,6 +18,10 @@ type DirectMessageReplyProps = {
 }
 
 const DirectMessageReply: React.FC<DirectMessageReplyProps> = ({ replyInfo, height = 60 }) => {
+  const {
+    userStore: { clearReply },
+  } = useStores()
+
   // This progress will be used to animate all the components inside the reply container
   const progress = useDerivedValue(() => {
     return withTiming(replyInfo.value ? 1 : 0)
@@ -62,6 +67,7 @@ const DirectMessageReply: React.FC<DirectMessageReplyProps> = ({ replyInfo, heig
         style={[styles.iconContainer, styles.clearIcon]}
         onPress={() => {
           replyInfo.value = null
+          clearReply()
         }}
       >
         <Icon icon="X" color={colors.palette.cyan600} size={25} />
