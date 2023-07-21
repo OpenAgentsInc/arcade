@@ -1194,17 +1194,17 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
+"@babel/runtime@^7.18.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2":
+  version "7.22.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.6.tgz#57d64b9ae3cff1d67eb067ae117dac087f5bd438"
+  integrity sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==
+  dependencies:
+    regenerator-runtime "^0.13.11"
+
 "@babel/runtime@^7.22.5":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.5.tgz#8564dd588182ce0047d55d7a75e93921107b57ec"
   integrity sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==
-  dependencies:
-    regenerator-runtime "^0.13.11"
-
-"@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2":
-  version "7.22.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.6.tgz#57d64b9ae3cff1d67eb067ae117dac087f5bd438"
-  integrity sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -3982,6 +3982,14 @@ base@^0.11.1:
     isobject "^3.0.1"
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
+
+basil-ws-flipper@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/basil-ws-flipper/-/basil-ws-flipper-1.0.0.tgz#16d4498ccce4ca4241cf13408d7e2c619ae2b00a"
+  integrity sha512-mP4YpxAjx3/XDFuSiM3ZcAcF4XIgMRRYT4FJABn2+LlSve0I8yaCg7irib2CMtHR9ZkXK7b7VaKYn6TUVmXQ3A==
+  dependencies:
+    "@babel/runtime" "^7.18.0"
+    lodash "^4.17.21"
 
 batch@0.6.1:
   version "0.6.1"
@@ -11200,6 +11208,11 @@ react-native-flipper@^0.164.0:
   version "0.164.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"
   integrity sha512-iJhIe3rqx6okuzBp4AJsTa2b8VRAOGzoLRFx/4HGbaGvu8AurZjz8TTQkhJsRma8dsHN2b6KKZPvGGW3wdWzvA==
+
+react-native-flipper@^0.207.0:
+  version "0.207.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.207.0.tgz#a0e5576c2f80fac002dda678dfa431184a3348be"
+  integrity sha512-KG+uy74nCRHiK7t/sxn0oKlJTy7SkaJPnWK8WDaOBv98qRWFPdSlUtxki0guoPjmO7gAV+nZsiGDd+98oZSohg==
 
 react-native-gesture-handler@~2.9.0:
   version "2.9.0"

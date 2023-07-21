@@ -22,7 +22,7 @@ import {
   MessageContent,
   Reply,
 } from "app/components"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
@@ -69,22 +69,40 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       })
     }, [])
 
-    useEffect(() => {
-      async function handleNewMessage(event) {
-        setData((prev) => {
-          if (prev && prev.find((ev) => ev.id === event.id)) return prev
-          return [event, ...prev]
-        })
-      }
+    useFocusEffect(
+      useCallback(() => {
+        function handleNewDM(event) {
+          setData((prev) => {
+            if (prev && prev.find((ev) => ev.id === event.id)) return prev
+            return [event, ...prev]
+          })
+        }
 
+        // loading finish, subscribe for new message
+        if (!loading) {
+          privMessageManager.sub(
+            handleNewDM,
+            { since: Math.floor(Date.now() / 1000) },
+            undefined,
+            id,
+          )
+        }
+
+        return () => {
+          pool.unsub(handleNewDM)
+        }
+      }, [loading]),
+    )
+
+    useEffect(() => {
       async function initDMS() {
         try {
-          const list = await privMessageManager.list({ limit: 500 }, true, id, handleNewMessage)
-          console.log("dm: showing", list.length)
+          const list = await privMessageManager.list({ limit: 500 }, true, id)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
-
+          console.log("dm: showing", list.length)
           // update state
           setData(sorted)
+          setLoading(false)
         } catch (e) {
           console.log("dm: error loading messages", e)
         }
@@ -96,8 +114,6 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
 
       return () => {
         clearReply()
-        console.log("dm: unsubscribing...")
-        pool.unsub(handleNewMessage)
       }
     }, [id])
 
