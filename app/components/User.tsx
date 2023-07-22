@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react"
+import React, { memo, useContext, useEffect } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
@@ -18,8 +18,10 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const queryClient = useQueryClient()
   const navigation = useNavigation<any>()
 
-  const { pool } = useContext(RelayContext)
+  const { pool, social } = useContext(RelayContext)
   const { userStore } = useStores()
+
+  const [reputation, setReputation] = React.useState(null)
 
   const { data: profile } = useQuery({
     queryKey: ["user", pubkey],
@@ -42,6 +44,14 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     }
   }
 
+  useEffect(() => {
+    const getReputation = async () => {
+      const rep = await social.getReputation(pubkey)
+      setReputation(rep)
+    }
+    getReputation()
+  }, [])
+
   return (
     <>
       <Pressable onPress={() => redirect()} style={$user}>
@@ -57,12 +67,12 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text
-          text={profile?.username || profile?.display_name || shortenKey(pubkey)}
           preset="bold"
           size="xs"
           style={$userName}
-          numberOfLines={1}
-        />
+          numberOfLines={1} >
+          {profile?.username || profile?.display_name || shortenKey(pubkey)} { reputation === null ? <Text size="xxs">(loading)</Text> : isNaN(reputation) ? <Text size="xxs">(no reputation)</Text> : <Text size="xs">{(reputation * 100).toFixed(2)}%</Text> }
+        </Text>
       </View>
     </>
   )
