@@ -118,7 +118,10 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
         <View style={$item}>
           <ContactItem pubkey={item.pubkey} fallback={item.profile?.content} />
           {added ? (
-            <Pressable onPress={() => removeContact(item.pubkey, contactManager)}>
+            <Pressable
+              onPress={() => removeContact(item.pubkey, contactManager)}
+              style={$addButton}
+            >
               <Text text="Remove" size="xs" />
             </Pressable>
           ) : (
@@ -126,6 +129,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
               onPress={() =>
                 addContact({ pubkey: item.pubkey, legacy: true, secret: false }, contactManager)
               }
+              style={$addButton}
             >
               <Text text="Add" size="xs" />
             </Pressable>
@@ -279,4 +283,8 @@ const $formButtonActive: ViewStyle = {
 
 const $errorText: TextStyle = {
   color: colors.error,
+}
+
+const $addButton: ViewStyle = {
+  paddingRight: spacing.small,
 }

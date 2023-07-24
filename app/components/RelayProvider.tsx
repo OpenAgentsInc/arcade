@@ -5,7 +5,7 @@ import {
   ArcadeIdentity,
   NostrPool,
   ArcadeDb,
-  ArcadeSocial,
+  // ArcadeSocial,
   ChannelManager,
   PrivateMessageManager,
 } from "app/arclib/src"
@@ -19,7 +19,7 @@ export const RelayContext = createContext({
   contactManager: null as ContactManager,
   profileManager: null as ProfileManager,
   privMessageManager: null as PrivateMessageManager,
-  social: null as ArcadeSocial,
+  // social: null as ArcadeSocial,
 })
 const db: ArcadeDb = connectDb()
 
@@ -38,7 +38,7 @@ export const RelayProvider = observer(function RelayProvider({
   const [pool, _setPool] = useState<NostrPool>(
     () => new NostrPool(ident, db, { skipVerification: true }),
   )
-  const social = useMemo(() => new ArcadeSocial(pool, ident), [pool, ident])
+  // const social = useMemo(() => new ArcadeSocial(pool, ident), [pool, ident])
   const channelManager = useMemo(() => new ChannelManager(pool), [pool])
   const contactManager = useMemo(() => new ContactManager(pool), [pool])
   const profileManager = useMemo(() => new ProfileManager(pool), [pool])
@@ -61,7 +61,7 @@ export const RelayProvider = observer(function RelayProvider({
 
   return (
     <RelayContext.Provider
-      value={{ pool, channelManager, contactManager, profileManager, privMessageManager, social }}
+      value={{ pool, channelManager, contactManager, profileManager, privMessageManager }}
     >
       {children}
     </RelayContext.Provider>

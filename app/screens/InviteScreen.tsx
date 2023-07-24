@@ -87,7 +87,7 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
         },
       ])
     } else {
-      Alert.alert("Confirm choose those selected contacts", "Are you sure?", [
+      Alert.alert("Confirm choosing those selected contacts", "Are you sure?", [
         {
           text: "Cancel",
         },

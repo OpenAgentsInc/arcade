@@ -18,10 +18,10 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const queryClient = useQueryClient()
   const navigation = useNavigation<any>()
 
-  const { pool, social } = useContext(RelayContext)
+  const { pool } = useContext(RelayContext)
   const { userStore } = useStores()
 
-  const [reputation, setReputation] = React.useState(null)
+  const [reputation, setReputation] = React.useState(NaN)
 
   const { data: profile } = useQuery({
     queryKey: ["user", pubkey],
@@ -44,6 +44,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     }
   }
 
+  /*
   useEffect(() => {
     const getReputation = async () => {
       const rep = await social.getReputation(pubkey)
@@ -51,6 +52,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
     }
     getReputation()
   }, [])
+  */
 
   return (
     <>
@@ -66,12 +68,15 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
         )}
       </Pressable>
       <View style={reverse ? $userTitleReverse : $userTitle}>
-        <Text
-          preset="bold"
-          size="xs"
-          style={$userName}
-          numberOfLines={1} >
-          {profile?.username || profile?.display_name || shortenKey(pubkey)} { reputation === null ? <Text size="xxs">(loading)</Text> : isNaN(reputation) ? <Text size="xxs">(no reputation)</Text> : <Text size="xs">{(reputation * 100).toFixed(2)}%</Text> }
+        <Text preset="bold" size="xs" style={$userName} numberOfLines={1}>
+          {profile?.username || profile?.display_name || shortenKey(pubkey)}{" "}
+          {reputation === null ? (
+            <Text size="xxs">(loading)</Text>
+          ) : isNaN(reputation) ? (
+            <Text size="xxs">(no reputation)</Text>
+          ) : (
+            <Text size="xs">{(reputation * 100).toFixed(2)}%</Text>
+          )}
         </Text>
       </View>
     </>

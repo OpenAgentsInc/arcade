@@ -153,6 +153,7 @@ export const DirectMessageForm = observer(function DirectMessageForm({
         value={value}
         autoCapitalize="none"
         autoCorrect={false}
+        multiline={true}
         LeftAccessory={() => (
           <View style={$leftAccessory}>
             <Button
@@ -199,15 +200,16 @@ const $inputWrapper: ViewStyle = {
   paddingVertical: spacing.extraSmall,
   paddingHorizontal: spacing.large,
   gap: spacing.small,
+  minHeight: 40,
 }
 
 const $input: ViewStyle = {
-  height: 40,
+  minHeight: 40,
   borderWidth: 0,
-  borderRadius: 100,
+  borderRadius: 20,
   backgroundColor: colors.palette.overlay20,
   paddingHorizontal: spacing.medium,
-  paddingVertical: 0,
+  paddingVertical: spacing.tiny,
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
