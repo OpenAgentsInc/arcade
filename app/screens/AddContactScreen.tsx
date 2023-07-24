@@ -193,12 +193,14 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
                 style={[$formInput, $formInputText]}
               />
             </View>
-            <Button
-              text="Add"
-              style={$formButton}
-              pressedStyle={$formButtonActive}
-              onPress={() => addCustomContact()}
-            />
+            {customContact.length > 0 && (
+              <Button
+                text="Add"
+                style={$formButton}
+                pressedStyle={$formButtonActive}
+                onPress={() => addCustomContact()}
+              />
+            )}
           </View>
         </BottomSheetView>
       </BottomSheetModal>

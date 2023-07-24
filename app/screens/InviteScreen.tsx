@@ -237,12 +237,14 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
                       value={values.pubkey}
                     />
                   </View>
-                  <Button
-                    onPress={submitForm}
-                    text="Add"
-                    style={$formButton}
-                    pressedStyle={$formButtonActive}
-                  />
+                  {values.pubkey.length > 0 && (
+                    <Button
+                      onPress={submitForm}
+                      text="Add"
+                      style={$formButton}
+                      pressedStyle={$formButtonActive}
+                    />
+                  )}
                 </>
               )}
             </Formik>

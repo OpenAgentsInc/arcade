@@ -123,7 +123,7 @@ export const UserStoreModel = types
       const chats = getSnapshot(self.privMessages)
       chats.forEach((chat) => {
         if (chat.pubkey === self.pubkey) {
-          chat.pubkey = chat.tags.find((el) => el[0] === "p")[1]
+          chat.pubkey = chat.tags.find((el) => el[0] === "p")?.[1] ?? chat.pubkey
         }
       })
       return [...new Map(chats.map((item) => [item.pubkey, item])).values()]
