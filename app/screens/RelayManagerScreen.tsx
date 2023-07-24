@@ -97,8 +97,8 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
       try {
         const relay = new URL(url.replace(/\s/g, ""))
         if (
-          (domainRegex.test(relay.origin) && relay.protocol === "wss:") ||
-          relay.protocol === "ws:"
+          domainRegex.test(relay.host) &&
+          (relay.protocol === "wss:" || relay.protocol === "ws:")
         ) {
           if (!getRelays.includes(relay.origin)) {
             addRelay(relay.origin)
