@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useState } from "react"
+import React, { FC, useContext, useState } from "react"
 import { observer } from "mobx-react-lite"
 import {
   ImageStyle,
@@ -15,13 +15,12 @@ import * as Clipboard from "expo-clipboard"
 import { AppStackScreenProps } from "app/navigators"
 import { AutoImage, Button, ListItem, RelayContext, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { nip19 } from "nostr-tools"
 import { useStores } from "app/models"
 import { shortenKey } from "app/utils/shortenKey"
 import { AxeIcon, EditIcon } from "lucide-react-native"
 import { TouchablePopupHandler } from "app/components/BlurredPopup"
-import { useProfile } from "app/utils/profile"
 
 interface ProfileScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Profile">> {}
 
@@ -29,9 +28,8 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
   const [npubCopied, setNpubCopied] = useState(false)
 
   const { pool, contactManager, channelManager } = useContext(RelayContext)
-  const { getProfile } = useProfile()
   const {
-    userStore: { pubkey, metadata, updateMetadata, logout },
+    userStore: { pubkey, metadata, logout },
   } = useStores()
 
   // Pull in navigation via hook
@@ -42,16 +40,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = observer(function ProfileSc
     setNpubCopied(true)
     setTimeout(() => setNpubCopied(false), 500)
   }
-
-  useFocusEffect(
-    useCallback(() => {
-      async function refetchProfile() {
-        const profile = await getProfile(pubkey)
-        await updateMetadata(profile)
-      }
-      refetchProfile()
-    }, []),
-  )
 
   return (
     <Screen style={$root} preset="scroll">

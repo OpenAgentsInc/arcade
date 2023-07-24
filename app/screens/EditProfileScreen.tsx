@@ -13,6 +13,7 @@ import { Profile } from "app/arclib/src/profile"
 import { ImagePlusIcon } from "lucide-react-native"
 import { launchImageLibrary } from "react-native-image-picker"
 import { PrivateSettings } from "app/utils/profile"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface EditProfileScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"EditProfile">> {}
@@ -20,13 +21,14 @@ interface EditProfileScreenProps
 export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function EditProfileScreen() {
   const { profileManager } = useContext(RelayContext)
   const {
-    userStore: { metadata, updateMetadata },
+    userStore: { pubkey, metadata, updateMetadata },
   } = useStores()
 
   const [picture, setPicture] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const formikRef = useRef(null)
+  const queryClient = useQueryClient()
 
   // Pull in navigation via hook
   const navigation = useNavigation<any>()
@@ -73,7 +75,9 @@ export const EditProfileScreen: FC<EditProfileScreenProps> = observer(function E
 
   const updateSettings = async (data: Profile & PrivateSettings) => {
     try {
-      updateMetadata(data, profileManager).then(() => navigation.navigate("Profile"))
+      await updateMetadata(data, profileManager)
+      queryClient.setQueryData(["user", pubkey], data)
+      navigation.navigate("Profile")
     } catch (e) {
       alert(`Failed to save settings: ${e}`)
     }

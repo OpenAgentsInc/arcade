@@ -54,7 +54,7 @@ export const ChannelModel = types
     ) {
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { since: nHoursAgo(72), limit: 200 },
+        filter: { since: nHoursAgo(72), limit: 500 },
         db_only: self.db,
         privkey: self.privkey,
       })

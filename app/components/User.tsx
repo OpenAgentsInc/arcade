@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect } from "react"
+import React, { memo, useContext /* useEffect */ } from "react"
 import { AutoImage, RelayContext, Text } from "app/components"
 import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
@@ -21,7 +21,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const { pool } = useContext(RelayContext)
   const { userStore } = useStores()
 
-  const [reputation, setReputation] = React.useState(NaN)
+  const [reputation, _setReputation] = React.useState(NaN)
 
   const { data: profile } = useQuery({
     queryKey: ["user", pubkey],
