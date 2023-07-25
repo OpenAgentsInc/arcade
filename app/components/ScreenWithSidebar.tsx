@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react"
+import React, { FC, useCallback, useRef, useState } from "react"
 import { Platform, Pressable, View, ViewStyle } from "react-native"
 import { DrawerLayout, DrawerState } from "react-native-gesture-handler"
 import { useSharedValue, withTiming } from "react-native-reanimated"
@@ -8,7 +8,7 @@ import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { DrawerIconButton } from "./DrawerIconButton"
 import { CompassIcon, LayoutListIcon, PlusIcon } from "lucide-react-native"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 
 interface ScreenWithSidebarProps {
   title: string
@@ -17,21 +17,13 @@ interface ScreenWithSidebarProps {
 
 export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children }) => {
   const [open, setOpen] = useState(false)
+
   const drawerRef = useRef<DrawerLayout>()
-  // const listRef = useRef<SectionList>()
   const progress = useSharedValue(0)
+  const $drawerInsets = useSafeAreaInsetsStyle(["top"])
+  // const listRef = useRef<SectionList>()
 
   const { navigate } = useNavigation<any>()
-
-  const toggleDrawer = () => {
-    if (!open) {
-      setOpen(true)
-      drawerRef.current?.openDrawer({ speed: 2 })
-    } else {
-      setOpen(false)
-      drawerRef.current?.closeDrawer({ speed: 2 })
-    }
-  }
 
   /*
   const handleScroll = (sectionIndex: number, itemIndex = 0) => {
@@ -44,7 +36,17 @@ export const ScreenWithSidebar: FC<ScreenWithSidebarProps> = ({ title, children 
   }
   */
 
-  const $drawerInsets = useSafeAreaInsetsStyle(["top"])
+  const toggleDrawer = () => {
+    if (!open) {
+      setOpen(true)
+      drawerRef.current?.openDrawer({ speed: 2 })
+    } else {
+      setOpen(false)
+      drawerRef.current?.closeDrawer({ speed: 2 })
+    }
+  }
+
+  useFocusEffect(useCallback(() => () => drawerRef.current?.closeDrawer({ speed: 2 }), []))
 
   return (
     <DrawerLayout

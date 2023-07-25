@@ -59,7 +59,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title={name || "Direct Message"}
+            title={name.length > 20 ? name.substring(0, 20) + "..." : name || "Direct Message"}
             titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}

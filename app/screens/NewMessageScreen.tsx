@@ -6,15 +6,18 @@ import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, ListItem, Screen, Text } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
-import { useUserContacts } from "app/utils/useUserContacts"
 import { FlashList } from "@shopify/flash-list"
 import { Contact } from "app/arclib/src/contacts"
+import { useStores } from "app/models"
 
 interface NewMessageScreenProps extends NativeStackScreenProps<AppStackScreenProps<"NewMessage">> {}
 
 export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function NewMessageScreen() {
   const navigation = useNavigation<any>()
-  const contacts = useUserContacts()
+
+  const {
+    userStore: { getContacts },
+  } = useStores()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,7 +36,15 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
 
   const renderItem = useCallback(({ item }: { item: Contact }) => {
     return (
-      <Pressable onPress={() => navigation.navigate("DirectMessage", { id: item })} style={$item}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate("DirectMessage", {
+            id: item.pubkey,
+            legacy: item.legacy,
+          })
+        }
+        style={$item}
+      >
         <ContactItem pubkey={item.pubkey} />
       </Pressable>
     )
@@ -68,7 +79,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
         />
       </View>
       <FlashList
-        data={contacts}
+        data={getContacts}
         keyExtractor={(item) => item.pubkey}
         renderItem={renderItem}
         contentContainerStyle={$list}

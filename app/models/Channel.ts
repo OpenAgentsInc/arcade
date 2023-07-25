@@ -12,8 +12,6 @@ import { withSetPropAction } from "./helpers/withSetPropAction"
 import { MessageModel } from "./Message"
 import { QueryClient } from "@tanstack/react-query"
 
-const nHoursAgo = (hrs: number): number => Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
-
 /**
  * Model description here for TypeScript hints.
  */
@@ -54,7 +52,7 @@ export const ChannelModel = types
     ) {
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { since: nHoursAgo(72), limit: 200 },
+        filter: { limit: 500 },
         db_only: self.db,
         privkey: self.privkey,
       })
@@ -72,18 +70,12 @@ export const ChannelModel = types
       const uniqueEvents = events.filter(
         (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
       )
-      const lastMessage = uniqueEvents.slice(-1)[0]
-      if (lastMessage) {
-        self.setProp("lastMessage", lastMessage.content)
-        self.setProp("lastMessagePubkey", lastMessage.pubkey)
-        self.setProp("lastMessageAt", lastMessage.created_at)
-      }
       self.setProp("loading", false)
       self.setProp("db", true)
       self.messages = cast(uniqueEvents)
     }),
     updateLastMessage() {
-      const lastMessage = self.messages.slice(-1)[0]
+      const lastMessage = self.messages.sort((a, b) => b.created_at - a.created_at)[0]
       if (lastMessage) {
         self.setProp("lastMessage", lastMessage.content)
         self.setProp("lastMessagePubkey", lastMessage.pubkey)

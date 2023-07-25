@@ -125,7 +125,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
               ) : (
                 <Button
                   onPress={() => navigation.navigate("Chat", item)}
-                  text="View channel"
+                  text="Joined"
                   style={$itemButton}
                 />
               )}
