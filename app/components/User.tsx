@@ -21,11 +21,12 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
   const { pool } = useContext(RelayContext)
   const { userStore } = useStores()
 
-  const [reputation, _setReputation] = React.useState(NaN)
+  // const [reputation, setReputation] = React.useState(NaN)
 
   const { data: profile } = useQuery({
     queryKey: ["user", pubkey],
     queryFn: async () => {
+      if (userStore.pubkey === pubkey) return userStore.metadata
       const list = await pool.list([{ kinds: [0], authors: [pubkey] }], true)
       const latest = list.slice(-1)[0]
       if (latest) {
@@ -70,6 +71,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
       <View style={reverse ? $userTitleReverse : $userTitle}>
         <Text preset="bold" size="xs" style={$userName} numberOfLines={1}>
           {profile?.username || profile?.display_name || shortenKey(pubkey)}{" "}
+          {/*
           {reputation === null ? (
             <Text size="xxs">(loading)</Text>
           ) : isNaN(reputation) ? (
@@ -77,6 +79,7 @@ export const User = memo(function User({ pubkey, reverse, blinded }: UserProp) {
           ) : (
             <Text size="xs">{(reputation * 100).toFixed(2)}%</Text>
           )}
+          */}
         </Text>
       </View>
     </>
