@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { Alert, ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -17,6 +17,7 @@ import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { shortenKey } from "app/utils/shortenKey"
 import { useStores } from "app/models"
+import { HelpCircleIcon } from "lucide-react-native"
 
 interface UserScreenProps extends NativeStackScreenProps<AppStackScreenProps<"User">> {}
 
@@ -177,13 +178,13 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
         <View style={$section}>
           <Text text="Contact settings" preset="bold" style={$sectionHeading} />
           <View style={$sectionData}>
-            {!secret && (
-              <ListItem
-                text="Use legacy, unblinded DM's"
-                bottomSeparator={true}
-                style={$sectionItem}
-                containerStyle={$sectionItemContainer}
-                RightComponent={
+            <ListItem
+              text="Use legacy, unblinded DM's"
+              bottomSeparator={true}
+              style={$sectionItem}
+              containerStyle={$sectionItemContainer}
+              RightComponent={
+                !secret ? (
                   <Toggle
                     id="legacy"
                     inputOuterStyle={secret ? $toggleDisabled : $toggle}
@@ -194,9 +195,17 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
                     disabled={secret}
                     onPress={toggleLegacy}
                   />
-                }
-              />
-            )}
+                ) : (
+                  <TouchableOpacity
+                    onPress={() =>
+                      Alert.alert("Blinded DM automatically enabled when you use private follow")
+                    }
+                  >
+                    <HelpCircleIcon width={20} height={20} color={colors.palette.cyan500} />
+                  </TouchableOpacity>
+                )
+              }
+            />
             <ListItem
               text="Hide this contact (private follow)"
               bottomSeparator={true}
