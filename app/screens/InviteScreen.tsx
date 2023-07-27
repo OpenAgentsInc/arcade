@@ -20,8 +20,8 @@ import { EncChannel } from "app/arclib/src"
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-  BottomSheetScrollView,
   BottomSheetTextInput,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet"
 import { Formik } from "formik"
 import { resolvePubkey } from "app/arclib/src/contacts"
@@ -209,9 +209,11 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backgroundStyle={$modal}
+        keyboardBehavior="fillParent"
+        android_keyboardInputMode="adjustResize"
         handleIndicatorStyle={{ backgroundColor: colors.palette.cyan700 }}
       >
-        <BottomSheetScrollView style={$modalContent}>
+        <BottomSheetView style={$modalContent}>
           <Text preset="bold" size="lg" text="Invite by pubkey" style={$modalHeader} />
           <View style={$modalForm}>
             <Formik
@@ -249,7 +251,7 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
               )}
             </Formik>
           </View>
-        </BottomSheetScrollView>
+        </BottomSheetView>
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )
@@ -283,6 +285,7 @@ const $modal: ViewStyle = {
 
 const $modalHeader: ViewStyle = {
   alignSelf: "center",
+  marginBottom: spacing.small,
 }
 
 const $modalContent: ViewStyle = {

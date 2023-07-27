@@ -26,7 +26,7 @@ import {
 interface RelayManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"RelayManager">> {}
 
-const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g
+const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/
 
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
