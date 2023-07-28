@@ -96,7 +96,7 @@ export const ChannelModel = types
       }
     },
     fetchMeta: flow(function* (channel: ChannelManager) {
-      const result = yield channel.getMeta(self.id, self.privkey, false)
+      const result = yield channel.getMeta(self.id, self.privkey, true)
       if (result) {
         self.setProp("name", result.name)
         self.setProp("picture", result.picture)

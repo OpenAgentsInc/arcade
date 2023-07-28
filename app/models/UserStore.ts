@@ -223,6 +223,7 @@ export const UserStoreModel = types
     },
     signup: flow(function* (
       pool: NostrPool,
+      mgr: ChannelManager,
       picture: string,
       username: string,
       displayName: string,
@@ -246,6 +247,9 @@ export const UserStoreModel = types
         kind: 0,
       })
       console.log("publish user", res)
+
+      // join all default channels
+      mgr.joinAll(DEFAULT_CHANNELS)
 
       applySnapshot(self, {
         pubkey,
@@ -306,7 +310,7 @@ export const UserStoreModel = types
       const get = yield mgr.list()
       self.setProp("contacts", get)
     }),
-    addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
+    addContact: flow(function* (contact: Contact, mgr: ContactManager) {
       yield mgr.add(contact)
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,

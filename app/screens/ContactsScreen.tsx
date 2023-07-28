@@ -49,17 +49,20 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     })
   }, [])
 
-  const renderItem = useCallback(({ item }: { item: Contact }) => {
-    return (
-      <View style={$item}>
-        <ContactItem pubkey={item.pubkey} />
-        {item.legacy && <Globe style={$iconUnfollow} />}
-        <Pressable onPress={() => unfollow(item.pubkey)}>
-          <UserMinus style={$iconUnfollow} />
-        </Pressable>
-      </View>
-    )
-  }, [])
+  const renderItem = useCallback(
+    ({ item }: { item: Contact }) => {
+      return (
+        <View style={$item}>
+          <ContactItem pubkey={item.pubkey} />
+          {item.legacy && <Globe style={$iconUnfollow} />}
+          <Pressable onPress={() => unfollow(item.pubkey)}>
+            <UserMinus style={$iconUnfollow} />
+          </Pressable>
+        </View>
+      )
+    },
+    [getContacts],
+  )
 
   return (
     <Screen contentContainerStyle={$root} preset="fixed">

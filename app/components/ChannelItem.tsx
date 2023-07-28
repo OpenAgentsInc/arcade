@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import { StyleSheet, Pressable, View, Text, Image } from "react-native"
+import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel, useStores } from "app/models"
@@ -8,6 +8,7 @@ import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
 import { RelayContext } from "./RelayProvider"
+import FastImage from "react-native-fast-image"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -58,7 +59,7 @@ export const ChannelItem = observer(function ChannelItem({
 
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
-      <Image
+      <FastImage
         source={{ uri: channel.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={styles.$messageAvatar}
       />
