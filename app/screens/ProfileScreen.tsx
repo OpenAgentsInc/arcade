@@ -246,7 +246,7 @@ const $image: ImageStyle = {
 const $avatarImage: ImageStyle = {
   borderWidth: 1,
   borderColor: colors.separator,
-  backgroundColor: colors.palette.overlay50,
+  backgroundColor: colors.palette.cyan900,
   width: 80,
   height: 80,
   borderRadius: 80,

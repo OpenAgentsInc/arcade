@@ -156,7 +156,7 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
     ({ item }) => {
       return (
         <Pressable onPress={() => toggleSelect(item.pubkey)} style={$contact}>
-          <ContactItem pubkey={item.pubkey} />
+          <ContactItem pubkey={item.pubkey} noPress={true} />
           {!channel.members.includes(item.pubkey) ? (
             selected.includes(item.pubkey) && (
               <View>

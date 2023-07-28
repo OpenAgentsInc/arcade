@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, Pressable, View, ViewStyle } from "react-native"
+import { Pressable, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
-import { Card, Header, Screen, Text, Button, AutoImage, ActivityIndicator } from "app/components"
+import { Card, Header, Screen, Text, Button, ActivityIndicator } from "app/components"
 import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
@@ -11,6 +11,7 @@ import { RelayContext } from "app/components/RelayProvider"
 import { useStores } from "app/models"
 import { PlusIcon } from "lucide-react-native"
 import { ChannelInfo, Nip28ChannelInfo, NostrEvent } from "app/arclib/src"
+import FastImage from "react-native-fast-image"
 
 interface ChannelsScreenProps extends NativeStackScreenProps<AppStackScreenProps<"Channels">> {}
 
@@ -109,11 +110,12 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
         ContentComponent={
           <View style={$item}>
             <View style={$itemContent}>
-              <AutoImage
+              <FastImage
                 source={{
                   uri: item.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
                 }}
                 style={$itemImage}
+                resizeMode={FastImage.resizeMode.cover}
               />
               <View>
                 <Text text={item.name} preset="bold" />
@@ -213,10 +215,9 @@ const $itemContent: ViewStyle = {
   gap: spacing.small,
 }
 
-const $itemImage: ImageStyle = {
+const $itemImage: any = {
   width: 60,
   height: 60,
-  resizeMode: "cover",
   backgroundColor: colors.palette.cyan900,
   borderRadius: spacing.tiny,
 }

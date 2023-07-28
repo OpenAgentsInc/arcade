@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react"
 import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { Channel } from "app/models"
+import { Channel, useStores } from "app/models"
 import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
@@ -29,10 +29,14 @@ export const ChannelItem = observer(function ChannelItem({
 }) {
   const { pool } = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
+  const {
+    userStore: { pubkey, metadata },
+  } = useStores()
 
   const createdAt = formatCreatedAt(channel.lastMessageAt)
 
   const { data: profile } = useQuery(["user", channel.lastMessagePubkey], async () => {
+    if (pubkey === channel.lastMessagePubkey) return metadata
     const list = await pool.list([{ kinds: [0], authors: [channel.lastMessagePubkey] }], true)
     const latest = list.slice(-1)[0]
     if (latest) {
