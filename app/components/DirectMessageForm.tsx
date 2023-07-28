@@ -146,7 +146,7 @@ export const DirectMessageForm = observer(function DirectMessageForm({
         ref={textInputRef}
         placeholder="Message"
         placeholderTextColor={colors.palette.cyan500}
-        style={$input}
+        style={[$input, $inputText]}
         inputWrapperStyle={$inputWrapper}
         onChangeText={(text) => setValue(text)}
         onSubmitEditing={() => submit()}
@@ -213,6 +213,10 @@ const $input: ViewStyle = {
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
+}
+
+const $inputText: TextStyle = {
+  lineHeight: 25,
 }
 
 const $sendButton: ViewStyle = {
