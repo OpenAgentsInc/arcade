@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { Header, Screen, Text, Button, ContactItem, RelayContext } from "app/components"
@@ -117,23 +117,25 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
       return (
         <View style={$item}>
           <ContactItem pubkey={item.pubkey} fallback={item.profile?.content} />
-          {added ? (
-            <Pressable
-              onPress={() => removeContact(item.pubkey, contactManager)}
-              style={$addButton}
-            >
-              <Text text="Remove" size="xs" />
-            </Pressable>
-          ) : (
-            <Pressable
-              onPress={() =>
-                addContact({ pubkey: item.pubkey, legacy: true, secret: false }, contactManager)
-              }
-              style={$addButton}
-            >
-              <Text text="Add" size="xs" />
-            </Pressable>
-          )}
+          <View style={$itemMeta}>
+            {added ? (
+              <TouchableOpacity
+                onPress={() => removeContact(item.pubkey, contactManager)}
+                style={$addButton}
+              >
+                <Text text="Remove" size="xs" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() =>
+                  addContact({ pubkey: item.pubkey, legacy: true, secret: false }, contactManager)
+                }
+                style={$addButton}
+              >
+                <Text text="Add" size="xs" />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       )
     },
@@ -143,9 +145,6 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
   return (
     <BottomSheetModalProvider>
       <Screen contentContainerStyle={$root} preset="fixed">
-        <View style={$heading}>
-          <Text text="Suggestions" size="lg" preset="bold" />
-        </View>
         {data.error ? (
           <Text
             text="Can't fetch trending profiles, service temporarily unavailable"
@@ -158,6 +157,11 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
             extraData={getContacts}
             keyExtractor={(item: { pubkey: string }) => item.pubkey}
             renderItem={renderItem}
+            ListHeaderComponent={
+              <View style={$heading}>
+                <Text text="Suggestions" size="lg" preset="bold" />
+              </View>
+            }
             ListEmptyComponent={
               <View style={$emptyState}>
                 <Text text="Loading..." />
@@ -211,6 +215,7 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
 const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.medium,
+  paddingBottom: spacing.large,
 }
 
 const $emptyState: ViewStyle = {
@@ -224,8 +229,18 @@ const $heading: ViewStyle = {
 }
 
 const $item: ViewStyle = {
+  position: "relative",
   flexDirection: "row",
   alignItems: "center",
+  justifyContent: "space-between",
+}
+
+const $itemMeta: ViewStyle = {
+  position: "absolute",
+  right: 0,
+  alignSelf: "center",
+  flexDirection: "row",
+  gap: spacing.small,
 }
 
 const $modal: ViewStyle = {
@@ -288,5 +303,12 @@ const $errorText: TextStyle = {
 }
 
 const $addButton: ViewStyle = {
-  paddingRight: spacing.small,
+  paddingHorizontal: spacing.small,
+  height: 36,
+  backgroundColor: colors.palette.overlay20,
+  borderWidth: 1,
+  borderColor: colors.palette.cyan500,
+  borderRadius: spacing.extraSmall,
+  alignItems: "center",
+  justifyContent: "center",
 }

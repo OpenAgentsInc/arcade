@@ -54,10 +54,12 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
       return (
         <View style={$item}>
           <ContactItem pubkey={item.pubkey} />
-          {item.legacy && <Globe style={$iconUnfollow} />}
-          <Pressable onPress={() => unfollow(item.pubkey)}>
-            <UserMinus style={$iconUnfollow} />
-          </Pressable>
+          <View style={$itemMeta}>
+            {item.legacy && <Globe style={$iconUnfollow} />}
+            <Pressable onPress={() => unfollow(item.pubkey)}>
+              <UserMinus style={$iconUnfollow} />
+            </Pressable>
+          </View>
         </View>
       )
     },
@@ -100,8 +102,18 @@ const $root: ViewStyle = {
 }
 
 const $item: ViewStyle = {
+  position: "relative",
   flexDirection: "row",
   alignItems: "center",
+  justifyContent: "space-between",
+}
+
+const $itemMeta: ViewStyle = {
+  position: "absolute",
+  right: 0,
+  alignSelf: "center",
+  flexDirection: "row",
+  gap: spacing.small,
 }
 
 const $emptyState: ViewStyle = {

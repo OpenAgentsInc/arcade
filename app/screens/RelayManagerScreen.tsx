@@ -184,10 +184,14 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
                 {desc && <Text text={desc} size="xs" style={$subtitle} />}
               </View>
             )}
-            ListEmptyComponent={
-              <View style={$emptyState}>
-                <Text text="Loading..." />
-              </View>
+            renderSectionFooter={({ section: { data } }) =>
+              data.length === 0 ? (
+                <View style={$emptyState}>
+                  <Text text="Loading..." />
+                </View>
+              ) : (
+                <View />
+              )
             }
             stickySectionHeadersEnabled={false}
           />
