@@ -30,7 +30,6 @@ export const ChannelModel = types
     loading: types.optional(types.boolean, true),
     memberList: types.optional(types.array(types.string), []),
     messages: types.optional(types.array(MessageModel), []),
-    db: types.optional(types.boolean, false),
   })
   .actions(withSetPropAction)
   .views((self) => ({
@@ -45,33 +44,47 @@ export const ChannelModel = types
     },
   }))
   .actions((self) => ({
+    handleNewMessage: flow(function* (event: NostrEvent) {
+      if (self.messages.find((msg) => msg.id === event.id)) return
+      self.messages = cast([event, ...self.messages])
+    }),
+  }))
+  .actions((self) => ({
     fetchMessages: flow(function* (
       queryClient: QueryClient,
       pool: NostrPool,
       channel: ChannelManager,
     ) {
+      const nHoursAgo = (hrs: number): number =>
+        Math.floor((Date.now() - hrs * 60 * 60 * 1000) / 1000)
+
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { limit: 500 },
-        db_only: self.db,
+        filter: { since: nHoursAgo(48) },
+        db_only: true,
         privkey: self.privkey,
+        callback: self.handleNewMessage,
       })
+
       // batch fetch user's metadata
       const authors = [...new Set(events.map((ev: NostrEvent) => ev.pubkey))] as string[]
-      const meta: NostrEvent[] = yield pool.list([{ authors, kinds: [0] }], self.db)
+      const meta: NostrEvent[] = yield pool.list([{ authors, kinds: [0] }], false)
       meta.forEach((user) => {
         queryClient.setQueryData(["user", user.pubkey], JSON.parse(user.content))
       })
+
       // we need make sure event's content is string (some client allow content as number, ex: coracle)
       // but this function maybe hurt performance
       events.forEach((event: NostrEvent) => {
         if (typeof event.content !== "string") event.content = String(event.content)
       })
+
       const uniqueEvents = events.filter(
-        (obj, index) => events.findIndex((item) => item.id === obj.id) === index,
+        (obj: NostrEvent, index: number) =>
+          events.findIndex((item: NostrEvent) => item.id === obj.id) === index,
       )
+
       self.setProp("loading", false)
-      self.setProp("db", true)
       self.messages = cast(uniqueEvents)
     }),
     updateLastMessage() {
