@@ -102,6 +102,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
   }, [])
 
   const renderItem = useCallback(({ item }: { item: ChannelInfo }) => {
+    const joined = userStore.channels.find((el) => el.id === item.id)
     return (
       <Card
         preset="reversed"
@@ -120,7 +121,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
               </View>
             </View>
             <View style={$itemActions}>
-              {!userStore.channels.find((el) => el.id === item.id) ? (
+              {!joined ? (
                 <Button onPress={() => joinChannel(item)} text="Join" style={$itemButton} />
               ) : (
                 <Button
@@ -133,6 +134,7 @@ export const ChannelsScreen: FC<ChannelsScreenProps> = observer(function Channel
           </View>
         }
         style={item.privkey ? $itemWrapperPrivate : $itemWrapper}
+        onPress={() => (joined ? navigation.navigate("Chat", item) : {})}
       />
     )
   }, [])

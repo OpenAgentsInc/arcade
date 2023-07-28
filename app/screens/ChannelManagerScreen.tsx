@@ -85,7 +85,7 @@ export const ChannelManagerScreen: FC<ChannelManagerScreenProps> = observer(
     }, [])
 
     return (
-      <Screen style={$root} preset="scroll">
+      <Screen contentContainerStyle={$root} preset="fixed">
         <FlashList
           data={getChannels}
           keyExtractor={(item) => item.id}
