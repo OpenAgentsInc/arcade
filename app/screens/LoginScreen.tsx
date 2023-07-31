@@ -65,18 +65,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen()
         }
 
         // fetch priv messages
-        const privMessages = await userStore.fetchPrivMessages(privMessageManager, contacts)
-        setSteps((prev) => ({ ...prev, metadata: false, messages: privMessages.length }))
+        await userStore.fetchPrivMessages(privMessageManager, contacts)
+        setSteps((prev) => ({ ...prev, metadata: false }))
 
         // login
-        await userStore.loginWithNsec(
-          privkey,
-          pubkey,
-          profile,
-          contacts,
-          privMessages,
-          joinedChannels,
-        )
+        await userStore.loginWithNsec(privkey, pubkey, profile, contacts, joinedChannels)
       } catch {
         alert("Invalid key. Did you copy it correctly?")
         setLoading(false)

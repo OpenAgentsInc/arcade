@@ -168,6 +168,8 @@ export const AddContactScreen: FC<AddContactScreenProps> = observer(function Add
               </View>
             }
             estimatedItemSize={100}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
         )}
       </Screen>

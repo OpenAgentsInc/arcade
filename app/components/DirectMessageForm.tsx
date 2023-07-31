@@ -103,7 +103,7 @@ export const DirectMessageForm = observer(function DirectMessageForm({
         console.log("Failed to publish")
       }
     } else {
-      const ev = await dms.send44X(recipient, content, replyTo)
+      const ev = await dms.send44X(recipient, content, replyTo, [["p", recipient]])
       if (!ev.id) {
         console.log("Failed to publish")
       }

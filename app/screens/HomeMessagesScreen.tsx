@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import React, { FC, useCallback, useContext, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { View, StyleSheet, RefreshControl } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -6,7 +6,6 @@ import { AppStackScreenProps } from "app/navigators"
 import { ScreenWithSidebar, ChannelItem, Text, RelayContext, AIChannelDetail } from "app/components"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
-import { BlindedEvent } from "app/arclib/src"
 import { DirectMessageItem } from "app/components/DirectMessageItem"
 import { StatusBar } from "expo-status-bar"
 import { spacing } from "app/theme"
@@ -27,22 +26,13 @@ const colors = {
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations } = useConversations()
-    const { pool, channelManager, privMessageManager } = useContext(RelayContext)
+    const { channelManager, privMessageManager } = useContext(RelayContext)
     const {
-      userStore: {
-        pubkey,
-        getChannels,
-        getChats,
-        fetchInvites,
-        addPrivMessage,
-        fetchPrivMessages,
-        updatePrivMessages,
-      },
+      userStore: { getChannels, getChats, fetchPrivMessages },
     } = useStores()
 
     const [isRefresh, setIsRefresh] = useState(false)
 
-    const now = useRef(Math.floor(Date.now() / 1000))
     const data = useMemo(
       () =>
         [...getChannels, ...getChats, ...conversations].sort(
@@ -54,36 +44,9 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
 
     const refresh = async () => {
       setIsRefresh(true)
-      await fetchInvites(pool, privMessageManager, pubkey)
-      const messages = await fetchPrivMessages(privMessageManager)
-      if (messages) {
-        updatePrivMessages(messages)
-      }
+      await fetchPrivMessages(privMessageManager)
       setIsRefresh(false)
     }
-
-    useEffect(() => {
-      function handleNewMessage(event: BlindedEvent) {
-        console.log("new message", event)
-        addPrivMessage(event)
-      }
-
-      async function subscribe() {
-        return privMessageManager.sub(handleNewMessage, {
-          "#p": [pubkey],
-          since: now.current,
-        })
-      }
-
-      if (pool.ident) {
-        // subscribe for new messages
-        subscribe().catch(console.error)
-      }
-
-      return () => {
-        pool.unsub(handleNewMessage)
-      }
-    }, [])
 
     const renderItem = useCallback(({ item, index }) => {
       return (

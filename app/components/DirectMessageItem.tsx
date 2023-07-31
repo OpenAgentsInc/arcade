@@ -28,7 +28,7 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
     userStore: { pubkey, findContact },
   } = useStores()
 
-  const legacy = findContact(dm.pubkey)?.legacy || true
+  const legacy = findContact(dm.pubkey)?.legacy ?? true
 
   const { data: profile } = useQuery(["user", dm.pubkey], async () => {
     const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)
