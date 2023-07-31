@@ -6,9 +6,11 @@ import React from "react"
 import { AppRegistry } from "react-native"
 import RNBootSplash from "react-native-bootsplash"
 
+/*
 if (__DEV__) {
   require("basil-ws-flipper").wsDebugPlugin
 }
+*/
 
 function IgniteApp() {
   return <App hideSplashScreen={RNBootSplash.hide} />

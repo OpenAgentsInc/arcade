@@ -28,6 +28,7 @@ export const ChannelModel = types
     lastMessagePubkey: types.optional(types.string, ""),
     lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
     loading: types.optional(types.boolean, true),
+    db: types.optional(types.boolean, false),
     memberList: types.optional(types.array(types.string), []),
     messages: types.optional(types.array(MessageModel), []),
   })
@@ -60,15 +61,15 @@ export const ChannelModel = types
 
       const events = yield channel.list({
         channel_id: self.id,
-        filter: { since: nHoursAgo(48) },
-        db_only: true,
+        filter: { since: nHoursAgo(72) },
+        db_only: self.db,
         privkey: self.privkey,
         callback: self.handleNewMessage,
       })
 
       // batch fetch user's metadata
       const authors = [...new Set(events.map((ev: NostrEvent) => ev.pubkey))] as string[]
-      const meta: NostrEvent[] = yield pool.list([{ authors, kinds: [0] }], false)
+      const meta: NostrEvent[] = yield pool.list([{ authors, kinds: [0] }], self.db)
       meta.forEach((user) => {
         queryClient.setQueryData(["user", user.pubkey], JSON.parse(user.content))
       })
@@ -85,6 +86,7 @@ export const ChannelModel = types
       )
 
       self.setProp("loading", false)
+      self.setProp("db", true)
       self.messages = cast(uniqueEvents)
     }),
     updateLastMessage() {

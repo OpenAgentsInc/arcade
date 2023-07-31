@@ -5470,9 +5470,9 @@ electron-to-chromium@^1.4.431:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.471.tgz#14cb056d0ce4bfa99df57946d57fe46c2330dac3"
   integrity sha512-GpmGRC1vTl60w/k6YpQ18pSiqnmr0j3un//5TV1idPi6aheNfkT1Ye71tMEabWyNDO6sBMgAR+95Eb0eUUr1tA==
 
-"elliptic@git+https://github.com/mahrud/elliptic.git":
+"elliptic@https://github.com/mahrud/elliptic":
   version "6.5.0"
-  resolved "git+https://github.com/mahrud/elliptic.git#75637c76678e83c31682fd967c2fa9ff4761b3fc"
+  resolved "https://github.com/mahrud/elliptic#75637c76678e83c31682fd967c2fa9ff4761b3fc"
   dependencies:
     bn.js "^4.4.0"
     brorand "^1.0.1"
@@ -11308,10 +11308,10 @@ react-native-flipper@^0.164.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"
   integrity sha512-iJhIe3rqx6okuzBp4AJsTa2b8VRAOGzoLRFx/4HGbaGvu8AurZjz8TTQkhJsRma8dsHN2b6KKZPvGGW3wdWzvA==
 
-react-native-flipper@^0.207.0:
-  version "0.207.0"
-  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.207.0.tgz#a0e5576c2f80fac002dda678dfa431184a3348be"
-  integrity sha512-KG+uy74nCRHiK7t/sxn0oKlJTy7SkaJPnWK8WDaOBv98qRWFPdSlUtxki0guoPjmO7gAV+nZsiGDd+98oZSohg==
+react-native-flipper@^0.208.0:
+  version "0.208.0"
+  resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.208.0.tgz#e352506093d81ed2281b5904276c504483b858dc"
+  integrity sha512-BKyPO5ZvxrTgF5KIoJJb5jAl9iWb5AB7wAyL/zWIcA3PiE+HvMIB8yX+cDLBPq6E3g1yHOS+YVNXql2rLkzYng==
 
 react-native-gesture-handler@~2.9.0:
   version "2.9.0"
