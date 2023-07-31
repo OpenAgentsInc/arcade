@@ -10,6 +10,7 @@ export const MessageModel = types
     id: types.identifier,
     pubkey: types.string,
     content: types.string,
+    sig: types.string,
     tags: types.optional(types.array(types.array(types.string)), []),
     kind: types.maybe(types.number),
     blinded: types.optional(types.boolean, false),

@@ -116,7 +116,6 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
   }, [])
 
   useEffect(() => {
-    // fetch messages in 24 hours ago
     channel.fetchMessages(queryClient, pool, channelManager)
 
     return () => {
