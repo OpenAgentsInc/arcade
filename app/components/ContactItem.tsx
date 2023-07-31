@@ -6,8 +6,10 @@ import { shortenKey } from "app/utils/shortenKey"
 import { useQuery } from "@tanstack/react-query"
 import FastImage from "react-native-fast-image"
 import { useNavigation } from "@react-navigation/native"
+import { observer } from "mobx-react-lite"
+import { useStores } from "app/models"
 
-export function ContactItem({
+export const ContactItem = observer(function ContactItem({
   pubkey,
   fallback,
   noPress,
@@ -32,13 +34,18 @@ export function ContactItem({
       }
     }
   })
+  const {
+    userStore: { findContact },
+  } = useStores()
+
+  const legacy = findContact(pubkey)?.legacy ?? true
 
   const navigate = () => {
     if (dm) {
       navigation.navigate("DirectMessage", {
         id: pubkey,
         name: profile?.username || profile?.name || profile?.display_name,
-        legacy: profile?.legacy || true,
+        legacy,
       })
     } else {
       navigation.navigate("User", { id: pubkey })
@@ -88,7 +95,7 @@ export function ContactItem({
       </View>
     </Pressable>
   )
-}
+})
 
 const $item: ViewStyle = {
   flex: 1,

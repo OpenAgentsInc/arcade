@@ -3,7 +3,6 @@ import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel, useStores } from "app/models"
-import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
@@ -21,14 +20,8 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const ChannelItem = observer(function ChannelItem({
-  channelManager,
-  channel,
-}: {
-  channelManager: ChannelManager
-  channel: Channel
-}) {
-  const { pool } = useContext(RelayContext)
+export const ChannelItem = observer(function ChannelItem({ channel }: { channel: Channel }) {
+  const { pool, channelManager } = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
   const {
     userStore: { pubkey, metadata },

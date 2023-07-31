@@ -26,7 +26,7 @@ const colors = {
 export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
   function HomeMessagesScreen() {
     const { conversations } = useConversations()
-    const { channelManager, privMessageManager } = useContext(RelayContext)
+    const { privMessageManager } = useContext(RelayContext)
     const {
       userStore: { getChannels, getChats, fetchPrivMessages },
     } = useStores()
@@ -45,6 +45,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
     const refresh = async () => {
       setIsRefresh(true)
       await fetchPrivMessages(privMessageManager)
+      // await fetchChannelInvite(pool, privMessageManager)
       setIsRefresh(false)
     }
 
@@ -56,7 +57,7 @@ export const HomeMessagesScreen: FC<HomeMessagesScreenProps> = observer(
           ) : item.kind === 10101010 ? (
             <AIChannelDetail channel={item} /> // Add your component here
           ) : (
-            <ChannelItem channel={item} channelManager={channelManager} />
+            <ChannelItem channel={item} />
           )}
         </Animated.View>
       )
