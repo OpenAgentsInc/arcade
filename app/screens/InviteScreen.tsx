@@ -117,7 +117,7 @@ export const InviteScreen: FC<InviteScreenProps> = observer(function InviteScree
     let pubkey = data.pubkey.trim()
     try {
       pubkey = await resolvePubkey(pubkey)
-      if (getContacts.find((e) => e.pubkey === pubkey)) {
+      if (getContacts.find((e) => e.pubkey === pubkey) || custom.find((e) => e.pubkey === pubkey)) {
         alert("User has been added")
         return
       }
