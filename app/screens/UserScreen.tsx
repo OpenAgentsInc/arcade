@@ -153,7 +153,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
               navigation.navigate("DirectMessage", {
                 id,
                 name: profile?.username || profile?.name || profile?.display_name,
-                legacy,
+                legacy: secret ? false : legacy,
               })
             }
           />

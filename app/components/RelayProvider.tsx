@@ -39,7 +39,7 @@ export const RelayProvider = observer(function RelayProvider({
   const [pool, _setPool] = useState<NostrPool>(
     () => new NostrPool(ident, db, { skipVerification: true }),
   )
-  const social = useMemo(() => new ArcadeSocial(pool, ident), [pool, ident])
+  const social = useMemo(() => (ident ? new ArcadeSocial(pool, ident) : null), [pool, ident])
   const channelManager = useMemo(() => new ChannelManager(pool), [pool])
   const contactManager = useMemo(() => new ContactManager(pool), [pool])
   const profileManager = useMemo(() => new ProfileManager(pool), [pool])

@@ -112,9 +112,6 @@ export const UserStoreModel = types
     get getRelays() {
       return self.relays.slice()
     },
-    get getMetadata() {
-      return self.metadata
-    },
     get getChats() {
       const chats = getSnapshot(self.privMessages)
       chats.forEach((chat) => {
