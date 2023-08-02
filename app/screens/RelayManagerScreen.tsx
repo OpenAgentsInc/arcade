@@ -60,7 +60,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
     }, [])
 
     const add = (url: string) => {
-      Alert.alert("Confirm add this relay", "Are you sure?", [
+      Alert.alert("Confirm to add this relay", "Are you sure?", [
         {
           text: "Cancel",
         },

@@ -25,7 +25,7 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   const [isRefresh, setIsRefresh] = useState(false)
 
   const unfollow = (pubkey: string) => {
-    Alert.alert("Confirm remove this contact", "Are you sure?", [
+    Alert.alert("Confirm to remove this contact", "Are you sure?", [
       {
         text: "Cancel",
       },
