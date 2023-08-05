@@ -1,11 +1,27 @@
 import React, { useContext } from "react"
 import { RelayContext, Text } from "app/components"
-import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
 import { colors, spacing } from "app/theme"
 import { shortenKey } from "app/utils/shortenKey"
 import { useQuery } from "@tanstack/react-query"
+import FastImage from "react-native-fast-image"
+import { useNavigation } from "@react-navigation/native"
+import { observer } from "mobx-react-lite"
+import { useStores } from "app/models"
 
-export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: string }) {
+export const ContactItem = observer(function ContactItem({
+  pubkey,
+  fallback,
+  noPress,
+  dm,
+}: {
+  pubkey: string
+  fallback?: string
+  noPress?: boolean
+  dm?: boolean
+}) {
+  const navigation = useNavigation<any>()
+
   const { pool } = useContext(RelayContext)
   const { data: profile } = useQuery(["user", pubkey], async () => {
     if (fallback) {
@@ -18,27 +34,68 @@ export function ContactItem({ pubkey, fallback }: { pubkey: string; fallback?: s
       }
     }
   })
+  const {
+    userStore: { findContact },
+  } = useStores()
+
+  const legacy = findContact(pubkey)?.legacy ?? true
+
+  const navigate = () => {
+    if (dm) {
+      navigation.navigate("DirectMessage", {
+        id: pubkey,
+        name: profile?.username || profile?.name || profile?.display_name,
+        legacy,
+      })
+    } else {
+      navigation.navigate("User", { id: pubkey })
+    }
+  }
+
+  if (noPress) {
+    return (
+      <View style={$item}>
+        <FastImage
+          source={{
+            uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+          }}
+          style={$itemAvatar}
+        />
+        <View>
+          <Text
+            text={profile?.username || profile?.name || profile?.display_name || "No name"}
+            preset="bold"
+            numberOfLines={1}
+            style={$itemName}
+          />
+          <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
+        </View>
+      </View>
+    )
+  }
 
   return (
-    <View style={$item}>
-      <Image
-        source={{
-          uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
-        }}
-        style={$itemAvatar}
-      />
-      <View>
-        <Text
-          text={profile?.username || profile?.name || profile?.display_name || "No name"}
-          preset="bold"
-          numberOfLines={1}
-          style={$itemName}
+    <Pressable onPress={() => navigate()}>
+      <View style={$item}>
+        <FastImage
+          source={{
+            uri: profile?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg",
+          }}
+          style={$itemAvatar}
         />
-        <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
+        <View>
+          <Text
+            text={profile?.username || profile?.name || profile?.display_name || "No name"}
+            preset="bold"
+            numberOfLines={1}
+            style={$itemName}
+          />
+          <Text text={shortenKey(pubkey)} size="xs" numberOfLines={1} style={$itemContent} />
+        </View>
       </View>
-    </View>
+    </Pressable>
   )
-}
+})
 
 const $item: ViewStyle = {
   flex: 1,
@@ -47,10 +104,10 @@ const $item: ViewStyle = {
   paddingVertical: spacing.extraSmall,
 }
 
-const $itemAvatar: ImageStyle = {
+const $itemAvatar: any = {
   width: 44,
   height: 44,
-  borderRadius: 100,
+  borderRadius: 44,
   marginRight: spacing.small,
   backgroundColor: colors.palette.overlay20,
 }

@@ -22,7 +22,7 @@ import {
   MessageContent,
   Reply,
 } from "app/components"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { useStores } from "app/models"
@@ -59,7 +59,7 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title={name.length > 20 ? name.substring(0, 20) + "..." : name || "Direct Message"}
+            title={name?.length > 20 ? name?.substring(0, 20) + "..." : name || "Direct Message"}
             titleStyle={{ color: colors.palette.white }}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
@@ -69,28 +69,17 @@ export const DirectMessageScreen: FC<DirectMessageScreenProps> = observer(
       })
     }, [])
 
-    useFocusEffect(
-      useCallback(() => {
-        function handleNewDM(event) {
-          setData((prev) => {
-            if (prev && prev.find((ev) => ev.id === event.id)) return prev
-            return [event, ...prev]
-          })
-        }
-
-        // subscribe for new message
-        privMessageManager.sub(handleNewDM, { since: Math.floor(Date.now() / 1000) }, undefined, id)
-
-        return () => {
-          pool.unsub(handleNewDM)
-        }
-      }, [loading]),
-    )
-
     useEffect(() => {
+      async function handleNewDM(event) {
+        setData((prev) => {
+          if (prev && prev.find((ev) => ev.id === event.id)) return prev
+          return [event, ...prev]
+        })
+      }
+
       async function initDMS() {
         try {
-          const list = await privMessageManager.list({ limit: 500 }, true, id)
+          const list = await privMessageManager.list({ limit: 100 }, true, id, handleNewDM)
           const sorted = list.sort((a, b) => b.created_at - a.created_at).filter((e) => e?.content)
           console.log("dm: showing", list.length)
           // update state

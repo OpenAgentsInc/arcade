@@ -231,9 +231,6 @@ const $heading: ViewStyle = {
 }
 
 const $avatar: ViewStyle = {
-  width: 80,
-  height: 80,
-  borderRadius: 100,
   marginTop: -40,
   overflow: "hidden",
   alignSelf: "center",
@@ -243,11 +240,16 @@ const $image: ImageStyle = {
   width: "100%",
   height: "100%",
   resizeMode: "cover",
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $avatarImage: ImageStyle = {
   borderWidth: 1,
   borderColor: colors.separator,
+  backgroundColor: colors.palette.cyan900,
+  width: 80,
+  height: 80,
+  borderRadius: 80,
 }
 
 const $userName: TextStyle = {

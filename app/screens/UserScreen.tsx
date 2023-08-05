@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import { ImageStyle, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import {
@@ -153,7 +153,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
               navigation.navigate("DirectMessage", {
                 id,
                 name: profile?.username || profile?.name || profile?.display_name,
-                legacy,
+                legacy: secret ? false : legacy,
               })
             }
           />
@@ -198,7 +198,7 @@ export const UserScreen: FC<UserScreenProps> = observer(function UserScreen({
                 ) : (
                   <TouchableOpacity
                     onPress={() =>
-                      Alert.alert("Blinded DM automatically enabled when you use private follow")
+                      alert("Blinded DM automatically enabled when you use private follow")
                     }
                   >
                     <HelpCircleIcon width={20} height={20} color={colors.palette.cyan500} />

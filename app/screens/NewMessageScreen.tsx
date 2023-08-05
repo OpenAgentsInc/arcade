@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useLayoutEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, ListItem, Screen, Text } from "app/components"
@@ -35,19 +35,7 @@ export const NewMessageScreen: FC<NewMessageScreenProps> = observer(function New
   }, [])
 
   const renderItem = useCallback(({ item }: { item: Contact }) => {
-    return (
-      <Pressable
-        onPress={() =>
-          navigation.navigate("DirectMessage", {
-            id: item.pubkey,
-            legacy: item.legacy,
-          })
-        }
-        style={$item}
-      >
-        <ContactItem pubkey={item.pubkey} />
-      </Pressable>
-    )
+    return <ContactItem pubkey={item.pubkey} dm={true} />
   }, [])
 
   return (
@@ -125,11 +113,6 @@ const $heading: TextStyle = {
 
 const $list: ViewStyle = {
   paddingBottom: spacing.large,
-}
-
-const $item: ViewStyle = {
-  flexDirection: "row",
-  alignItems: "center",
 }
 
 const $emptyState: ViewStyle = {

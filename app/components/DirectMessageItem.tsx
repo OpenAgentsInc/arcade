@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react"
+import React, { useContext } from "react"
 import { RelayContext } from "app/components"
 import { StyleSheet, Pressable, View, Text, Image } from "react-native"
 import { spacing } from "app/theme"
@@ -7,6 +7,7 @@ import { BlindedEvent } from "app/arclib/src"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
 import { useStores } from "app/models"
+import { observer } from "mobx-react-lite"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -19,7 +20,7 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: BlindedEvent }) {
+export const DirectMessageItem = observer(function DirectMessageItem({ dm }: { dm: BlindedEvent }) {
   const navigation = useNavigation<any>()
   const createdAt = formatCreatedAt(dm.created_at)
 
@@ -28,7 +29,7 @@ export const DirectMessageItem = memo(function DirectMessageItem({ dm }: { dm: B
     userStore: { pubkey, findContact },
   } = useStores()
 
-  const legacy = findContact(dm.pubkey)?.legacy || true
+  const legacy = findContact(dm.pubkey)?.legacy ?? true
 
   const { data: profile } = useQuery(["user", dm.pubkey], async () => {
     const list = await pool.list([{ kinds: [0], authors: [dm.pubkey] }], true)

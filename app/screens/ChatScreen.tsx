@@ -24,11 +24,10 @@ import {
   Reply,
   DirectMessageReply,
 } from "app/components"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { colors, spacing } from "app/theme"
 import { FlashList } from "@shopify/flash-list"
 import { LogOutIcon, UsersIcon } from "lucide-react-native"
-import { NostrEvent } from "app/arclib/src"
 import { Channel, Message, useStores } from "app/models"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { parser } from "app/utils/parser"
@@ -116,38 +115,7 @@ export const ChatScreen: FC<ChatScreenProps> = observer(function ChatScreen({
     })
   }, [])
 
-  useFocusEffect(
-    useCallback(() => {
-      function handleNewMessage(event: NostrEvent) {
-        console.log("new message", event)
-        channel.addMessage(event)
-      }
-
-      async function subscribe() {
-        return await channelManager.sub({
-          channel_id: channel.id,
-          callback: handleNewMessage,
-          filter: {
-            since: Math.floor(Date.now() / 1000),
-          },
-          privkey: channel.privkey,
-        })
-      }
-
-      // channel finish loading, subscribe for new messages
-      if (channel.loading === false) {
-        subscribe().catch(console.error)
-      }
-
-      return () => {
-        console.log("unsubscribe")
-        pool.unsub(handleNewMessage)
-      }
-    }, [id, channel.loading]),
-  )
-
   useEffect(() => {
-    // fetch messages in 24 hours ago
     channel.fetchMessages(queryClient, pool, channelManager)
 
     return () => {

@@ -36,7 +36,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
     const [picture, setPicture] = useState("https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg")
     const [pickerLoading, setPickerLoading] = useState(false)
 
-    const { pool } = useContext(RelayContext)
+    const { pool, channelManager } = useContext(RelayContext)
     const { userStore } = useStores()
 
     // Pull in navigation via hook
@@ -90,7 +90,7 @@ export const CreateAccountScreen: FC<CreateAccountScreenProps> = observer(
       } else {
         setLoading(true)
         await userStore
-          .signup(pool, picture, data.username, data.displayName, data.about)
+          .signup(pool, channelManager, picture, data.username, data.displayName, data.about)
           .catch((e) => {
             alert(e)
             setLoading(false)

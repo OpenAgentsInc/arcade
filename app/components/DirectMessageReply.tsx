@@ -60,8 +60,15 @@ const DirectMessageReply: React.FC<DirectMessageReplyProps> = ({ replyInfo, heig
           Using ReText instead of common Text is definitely useful since the TextUpdate 
           won't rely on the React render cycle but on the Reanimated one.  
         */}
-        <ReText text={senderText} style={styles.title} />
-        <ReText text={contentText} style={styles.subtitle} />
+        <ReText text={senderText} style={styles.title} numberOfLines={1} />
+        <ReText
+          text={contentText}
+          style={styles.subtitle}
+          numberOfLines={1}
+          selection={{
+            start: 0,
+          }}
+        />
       </View>
       <TouchableFeedback
         style={[styles.iconContainer, styles.clearIcon]}
@@ -96,7 +103,11 @@ const styles = StyleSheet.create({
     height: "70%",
     justifyContent: "center",
   },
-  subtitle: { color: colors.palette.gray, paddingVertical: 0 },
+  subtitle: {
+    color: colors.palette.gray,
+    paddingVertical: 0,
+    textAlignVertical: "top",
+  },
   textContainer: {
     flex: 1,
     flexDirection: "column",

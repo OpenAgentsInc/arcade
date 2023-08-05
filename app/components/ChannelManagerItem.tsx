@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
-import { AutoImage, Text } from "app/components"
-import { ImageStyle, Pressable, TextStyle, View, ViewStyle } from "react-native"
-import { spacing } from "app/theme"
+import { Text } from "app/components"
+import { Pressable, TextStyle, View, ViewStyle } from "react-native"
+import { colors, spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
 import { Channel } from "app/models"
 import { ChannelManager } from "app/arclib/src"
 import { observer } from "mobx-react-lite"
+import FastImage from "react-native-fast-image"
 
 export const ChannelManagerItem = observer(function ChannelItem({
   channelManager,
@@ -25,7 +26,7 @@ export const ChannelManagerItem = observer(function ChannelItem({
 
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={$messageItem}>
-      <AutoImage
+      <FastImage
         source={{ uri: channel?.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={$messageAvatar}
       />
@@ -51,11 +52,12 @@ const $messageItem: ViewStyle = {
   paddingVertical: spacing.extraSmall,
 }
 
-const $messageAvatar: ImageStyle = {
+const $messageAvatar: any = {
   width: 44,
   height: 44,
   borderRadius: 100,
   marginRight: spacing.small,
+  backgroundColor: colors.palette.overlay20,
 }
 
 const $messageContent: ViewStyle = {

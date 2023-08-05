@@ -103,7 +103,7 @@ export const DirectMessageForm = observer(function DirectMessageForm({
         console.log("Failed to publish")
       }
     } else {
-      const ev = await dms.send44X(recipient, content, replyTo)
+      const ev = await dms.send44X(recipient, content, replyTo, [["p", recipient]])
       if (!ev.id) {
         console.log("Failed to publish")
       }
@@ -146,7 +146,7 @@ export const DirectMessageForm = observer(function DirectMessageForm({
         ref={textInputRef}
         placeholder="Message"
         placeholderTextColor={colors.palette.cyan500}
-        style={$input}
+        style={[$input, $inputText]}
         inputWrapperStyle={$inputWrapper}
         onChangeText={(text) => setValue(text)}
         onSubmitEditing={() => submit()}
@@ -213,6 +213,10 @@ const $input: ViewStyle = {
   marginVertical: 0,
   marginHorizontal: 0,
   alignSelf: "center",
+}
+
+const $inputText: TextStyle = {
+  lineHeight: 25,
 }
 
 const $sendButton: ViewStyle = {

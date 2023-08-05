@@ -11,7 +11,6 @@ import {
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import {
   ArcadeIdentity,
-  BlindedEvent,
   ChannelInfo,
   ChannelManager,
   NostrEvent,
@@ -107,17 +106,11 @@ export const UserStoreModel = types
     get getChannels() {
       return self.channels.slice()
     },
-    findContact(pubkey: string) {
-      return self.contacts.find((el) => el.pubkey === pubkey)
-    },
     get getContacts() {
       return self.contacts.slice()
     },
     get getRelays() {
       return self.relays.slice()
-    },
-    get getMetadata() {
-      return self.metadata
     },
     get getChats() {
       const chats = getSnapshot(self.privMessages)
@@ -128,11 +121,19 @@ export const UserStoreModel = types
       })
       return [...new Map(chats.map((item) => [item.pubkey, item])).values()]
     },
-  })) // eslint-disable-line @typescript-eslint/no-unused-vars
+    findContact(pubkey: string) {
+      return self.contacts.find((el) => el.pubkey === pubkey)
+    },
+  }))
   .actions(() => ({
     fetchJoinedChannels: flow(function* (mgr: ChannelManager) {
       const tmp: string[] = yield mgr.listJoined()
       return tmp
+    }),
+  }))
+  .actions((self) => ({
+    handleNewDM: flow(function* (ev: NostrEvent) {
+      self.privMessages = cast([...self.privMessages, ev])
     }),
   }))
   .actions((self) => ({
@@ -168,19 +169,24 @@ export const UserStoreModel = types
 
       // this updates the home screen prop when new messages arrive
       // by passing in all our contact keys, we can decrypt new blinded messages
-      const list = yield privMessageManager.list({ limit: 500 }, false, keys)
+      const list = yield privMessageManager.list({}, true, keys, self.handleNewDM)
+
+      // display unique sender in home screen
       const map = new Map<string, NostrEvent>()
       list.forEach((ev) => {
-        const was = map.get(ev.pubkey)
+        const sender = ev.tags.find((el) => el[0] === "p")?.[1] ?? ev.pubkey
+        const was = map.get(sender)
         if (!was || ev.created_at > was.created_at) {
-          map.set(ev.pubkey, ev)
+          map.set(sender, ev)
         }
       })
+
       const uniqueList: ExtendedItem[] = [...map.values()]
       for (const item of uniqueList) {
         item.lastMessageAt = item.created_at
       }
-      return uniqueList
+
+      self.privMessages = cast(uniqueList)
     }),
   }))
   .actions((self) => ({
@@ -194,20 +200,6 @@ export const UserStoreModel = types
       if (index !== -1) self.channels.splice(index, 1)
       mgr.leave(id)
     },
-    fetchInvites: flow(function* (
-      pool: NostrPool,
-      privMessageManager: PrivateMessageManager,
-      pubkey: string,
-    ) {
-      const invites = yield pool.list([{ kinds: [99], "#p": [pubkey] }], false)
-      for (const ev of invites) {
-        const invite = yield privMessageManager.decrypt(ev, [ev.pubkey])
-        const channel = JSON.parse(invite.content)
-        // join invite channel
-        const index = self.channels.findIndex((el: { id: string }) => el.id === channel.id)
-        if (index === -1) self.channels.push(ChannelModel.create(channel))
-      }
-    }),
     async afterCreate() {
       const sec = await secureGet("privkey")
       if (sec) {
@@ -223,6 +215,7 @@ export const UserStoreModel = types
     },
     signup: flow(function* (
       pool: NostrPool,
+      mgr: ChannelManager,
       picture: string,
       username: string,
       displayName: string,
@@ -247,6 +240,9 @@ export const UserStoreModel = types
       })
       console.log("publish user", res)
 
+      // join all default channels
+      mgr.joinAll(DEFAULT_CHANNELS)
+
       applySnapshot(self, {
         pubkey,
         privkey,
@@ -263,7 +259,6 @@ export const UserStoreModel = types
       pubkey: string,
       profile: Profile,
       contacts: Array<Contact>,
-      privMessages: Array<ExtendedItem>,
       channels?: string[],
     ) {
       // update secure storage
@@ -277,7 +272,6 @@ export const UserStoreModel = types
         metadata: profile,
         contacts,
         channels: channels.length > 0 ? channels : DEFAULT_CHANNELS,
-        privMessages,
       })
     }),
     logout: flow(function* (
@@ -306,7 +300,7 @@ export const UserStoreModel = types
       const get = yield mgr.list()
       self.setProp("contacts", get)
     }),
-    addContact: flow(function* (contact: Contact & { metadata?: string }, mgr: ContactManager) {
+    addContact: flow(function* (contact: Contact, mgr: ContactManager) {
       yield mgr.add(contact)
       const index = self.contacts.findIndex(
         (el: { pubkey: string }) => el.pubkey === contact.pubkey,
@@ -330,17 +324,6 @@ export const UserStoreModel = types
     removeRelay(url: string) {
       const index = self.relays.findIndex((el: string) => el === url)
       if (index !== -1) self.relays.splice(index, 1)
-    },
-    addPrivMessage(ev: BlindedEvent) {
-      /* self.privMessages.push({
-        ...ev,
-        lastMessageAt: ev.created_at,
-      }) */
-      // Tip from Claude on MST performance, sounds right to me based on past experience:
-      // "Avoid using array methods like `push`, `unshift`, etc. directly on model arrays.
-      // Instead make a copy, mutate it, and set the prop to the copy.
-      // This triggers minimal observability change tracking."
-      self.privMessages = cast([...self.privMessages, ev])
     },
     updatePrivMessages(data) {
       self.privMessages = cast(data)

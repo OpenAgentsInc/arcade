@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useCallback, useContext, useLayoutEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Pressable, RefreshControl, View, ViewStyle } from "react-native"
+import { Alert, Pressable, RefreshControl, TouchableOpacity, View, ViewStyle } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AppStackScreenProps } from "app/navigators"
 import { ContactItem, Header, RelayContext, Screen, Text } from "app/components"
@@ -25,7 +25,17 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
   const [isRefresh, setIsRefresh] = useState(false)
 
   const unfollow = (pubkey: string) => {
-    removeContact(pubkey, contactManager)
+    Alert.alert("Confirm to remove this contact", "Are you sure?", [
+      {
+        text: "Cancel",
+      },
+      {
+        text: "Confirm",
+        onPress: () => {
+          removeContact(pubkey, contactManager)
+        },
+      },
+    ])
   }
 
   const refresh = async () => {
@@ -49,17 +59,33 @@ export const ContactsScreen: FC<ContactsScreenProps> = observer(function Contact
     })
   }, [])
 
-  const renderItem = useCallback(({ item }: { item: Contact }) => {
-    return (
-      <Pressable onPress={() => navigation.navigate("User", { id: item.pubkey })} style={$item}>
-        <ContactItem pubkey={item.pubkey} />
-        {item.legacy && <Globe style={$iconUnfollow} />}
-        <Pressable onPress={() => unfollow(item.pubkey)}>
-          <UserMinus style={$iconUnfollow} />
-        </Pressable>
-      </Pressable>
-    )
-  }, [])
+  const renderItem = useCallback(
+    ({ item }: { item: Contact }) => {
+      return (
+        <View style={$item}>
+          <ContactItem pubkey={item.pubkey} />
+          <View style={$itemMeta}>
+            {item.legacy && (
+              <TouchableOpacity
+                onPress={() =>
+                  Alert.alert(
+                    "Legacy direct message",
+                    "You're using legacy direct message for this contact, all messages are encrypted, but everyone can see you interact with this contact",
+                  )
+                }
+              >
+                <Globe style={$iconUnfollow} />
+              </TouchableOpacity>
+            )}
+            <Pressable onPress={() => unfollow(item.pubkey)}>
+              <UserMinus style={$iconUnfollow} />
+            </Pressable>
+          </View>
+        </View>
+      )
+    },
+    [getContacts],
+  )
 
   return (
     <Screen contentContainerStyle={$root} preset="fixed">
@@ -97,8 +123,20 @@ const $root: ViewStyle = {
 }
 
 const $item: ViewStyle = {
+  position: "relative",
   flexDirection: "row",
   alignItems: "center",
+  justifyContent: "space-between",
+}
+
+const $itemMeta: ViewStyle = {
+  position: "absolute",
+  right: 0,
+  alignSelf: "center",
+  flexDirection: "row",
+  alignItems: "flex-end",
+  justifyContent: "flex-end",
+  gap: spacing.small,
 }
 
 const $emptyState: ViewStyle = {

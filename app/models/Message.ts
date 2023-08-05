@@ -10,14 +10,12 @@ export const MessageModel = types
     id: types.identifier,
     pubkey: types.string,
     content: types.string,
-    sig: types.optional(types.string, ""),
+    sig: types.string,
     tags: types.optional(types.array(types.array(types.string)), []),
-    created_at: types.optional(types.number, Math.floor(Date.now() / 1000)),
     kind: types.maybe(types.number),
-    hide: types.optional(types.boolean, false),
-    mute: types.optional(types.boolean, false),
-    lastMessageAt: types.maybe(types.number),
     blinded: types.optional(types.boolean, false),
+    created_at: types.optional(types.number, Math.floor(Date.now() / 1000)),
+    lastMessageAt: types.optional(types.number, Math.floor(Date.now() / 1000)),
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

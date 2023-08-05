@@ -26,7 +26,7 @@ import {
 interface RelayManagerScreenProps
   extends NativeStackScreenProps<AppStackScreenProps<"RelayManager">> {}
 
-const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/g
+const domainRegex = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/
 
 export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
   function RelayManagerScreen() {
@@ -60,7 +60,7 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
     }, [])
 
     const add = (url: string) => {
-      Alert.alert("Confirm add this relay", "Are you sure?", [
+      Alert.alert("Confirm to add this relay", "Are you sure?", [
         {
           text: "Cancel",
         },
@@ -184,10 +184,14 @@ export const RelayManagerScreen: FC<RelayManagerScreenProps> = observer(
                 {desc && <Text text={desc} size="xs" style={$subtitle} />}
               </View>
             )}
-            ListEmptyComponent={
-              <View style={$emptyState}>
-                <Text text="Loading..." />
-              </View>
+            renderSectionFooter={({ section: { data } }) =>
+              data.length === 0 ? (
+                <View style={$emptyState}>
+                  <Text text="Loading..." />
+                </View>
+              ) : (
+                <View />
+              )
             }
             stickySectionHeadersEnabled={false}
           />

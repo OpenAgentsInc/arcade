@@ -113,7 +113,7 @@ export const CreateChannelScreen: FC<CreateChannelScreenProps> = observer(
         headerShown: true,
         header: () => (
           <Header
-            title={isPrivate ? "New Private Group" : "New Channel"}
+            title={isPrivate ? "New Private Channel" : "New Channel"}
             leftIcon="back"
             leftIconColor={colors.palette.cyan400}
             onLeftPress={() => navigation.goBack()}

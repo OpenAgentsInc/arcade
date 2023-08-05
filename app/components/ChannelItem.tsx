@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from "react"
-import { StyleSheet, Pressable, View, Text, Image } from "react-native"
+import { StyleSheet, Pressable, View, Text } from "react-native"
 import { spacing } from "app/theme"
 import { useNavigation } from "@react-navigation/native"
-import { Channel } from "app/models"
-import { ChannelManager } from "app/arclib/src"
+import { Channel, useStores } from "app/models"
 import { observer } from "mobx-react-lite"
 import { formatCreatedAt } from "app/utils/formatCreatedAt"
 import { useQuery } from "@tanstack/react-query"
 import { RelayContext } from "./RelayProvider"
+import FastImage from "react-native-fast-image"
 
 const colors = {
   borderBottomColor: "#232324",
@@ -20,19 +20,17 @@ const colors = {
   unreadMessagesText: "#000",
 }
 
-export const ChannelItem = observer(function ChannelItem({
-  channelManager,
-  channel,
-}: {
-  channelManager: ChannelManager
-  channel: Channel
-}) {
-  const { pool } = useContext(RelayContext)
+export const ChannelItem = observer(function ChannelItem({ channel }: { channel: Channel }) {
+  const { pool, channelManager } = useContext(RelayContext)
   const { navigate } = useNavigation<any>()
+  const {
+    userStore: { pubkey, metadata },
+  } = useStores()
 
   const createdAt = formatCreatedAt(channel.lastMessageAt)
 
   const { data: profile } = useQuery(["user", channel.lastMessagePubkey], async () => {
+    if (pubkey === channel.lastMessagePubkey) return metadata
     const list = await pool.list([{ kinds: [0], authors: [channel.lastMessagePubkey] }], true)
     const latest = list.slice(-1)[0]
     if (latest) {
@@ -54,7 +52,7 @@ export const ChannelItem = observer(function ChannelItem({
 
   return (
     <Pressable onPress={() => navigate("Chat", { id: channel.id })} style={styles.$messageItem}>
-      <Image
+      <FastImage
         source={{ uri: channel.picture || "https://void.cat/d/HxXbwgU9ChcQohiVxSybCs.jpg" }}
         style={styles.$messageAvatar}
       />
